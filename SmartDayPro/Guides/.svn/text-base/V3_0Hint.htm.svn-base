@@ -1,0 +1,31 @@
+<html>
+<head><style>
+.tab { margin-left: 20px; 
+}
+.style1 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13pt;
+}
+.style2 {
+	color: #333333;
+	font-size: 12pt;
+}
+.style4 {font-family: Arial, Helvetica, sans-serif; color: #FFFFFF;}
+.style5 {
+	color: #87CEFA;
+	font-weight: bold;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="cache-control" content="no-cache" />
+</head>
+<body text="#ffffff" link="#87cefa">
+Welcome to SmartCal 3.0. We have replaced the "show/hide" feature for individual tasks, with a global "show/hide" feature for Calendars/Projects. Also, Projects can now be marked as "List type." List-type projects do not show up in the Tasks folder but can be seen in the Projects folder. For a complete list of new features, go to <a href="http://www.leftcoastlogic.com/blog/smartapps/smartcal/whats-new/">http://leftcoastlogic.com/sc3new/</a>
+</body>
+<script language=javascript>
+document.ontouchmove = function(event){
+event.preventDefault();
+}
+</script>
+</html>

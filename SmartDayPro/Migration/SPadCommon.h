@@ -1,0 +1,431 @@
+//
+//  Common.h
+//  SmartOrganizer
+//
+//  Created by Nang Le Van on 5/12/10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+#define TOOLBAR_HEIGHT		44
+#define TAB_CARD_HIEGHT		30
+#define BUTTON_HEIGHT		40
+#define APPLIATIONBAR_HEIGHT	20
+#define MONTH_CELL_BAR_WIDTH	40
+#define DAY_CELL_BAR_WIDTH	30
+#define CALENDAR_PAGE_MONTH_LANDSCAPE_WIDTH 970
+#define CALENDAR_PAGE_MONTH_LANDSCAPE_BODY_HEIGHT 641
+#define HEADER_PAGE_LINE_HEIGHT	1
+
+#define TIME_LINE_HEIGHT	50
+
+#define TRANSITION_ANIMATION_DURATION_SECONDS 0.75
+#define GROW_ANIMATION_DURATION_SECONDS 0.75 
+#define SHRINK_ANIMATION_DURATION_SECONDS 0.75 
+#define CURVE_ANIMATION_DURATION_SECONDS 0.75
+#define CURVE_CELL_ANIMATION_DURATION_SECONDS 0.3
+
+#define SMALLEST_FONT_SIZE 12
+#define SMALL_FONT_SIZE 14
+#define NORMAL_FONT_SIZE 16
+#define LARGE_FONT_SIZE 18
+#define LARGEST_FONT_SIZE 20
+
+#define LANDSCAPE_MIN_RATIO 37.5
+#define LANDSCAPE_MID_RATIO 62.5
+#define LANDSCAPE_MAX_RATIO 100
+
+#define PORTRAIT_MIN_RATIO 50
+#define PORTRAIT_MAX_RATIO 100
+
+//temporary define this value for testing
+#define PROJECT_NUM 100
+#define LOOP_DURATION 0.1
+
+typedef struct SyncKeyPair {
+	NSInteger key;
+	double syncKey;
+} SyncKeyPair;
+
+typedef enum {
+	SO,
+	GCAL,
+	TD,
+	ICAL,
+    SDW
+} BuiltInType;
+
+typedef enum {
+	TASKS_ALL,
+	TASKS_WITH_DUE_ALL,
+	TASKS_WITH_DUE_2_DAYS
+} BadgeType;	
+
+typedef enum DisplayHPKey{
+	LINKS_FROM_NOTES,
+	LINKS_FROM_LEFT_TASKSEVENTS,
+	LINKS_FROM_RIGHT_TASKSEVENTS
+}DisplayHPKey;
+
+typedef enum recuringChangeType {
+	THIS_ONLY,
+	ALL_SERIRES,
+	ALL_FOLLOWING,
+	NO_CHANGE
+} recuringChangeType;
+
+typedef enum{
+	NONE_TAG,
+	TOODLEDO_SYNC_SUCCES_TAG,
+	TOODLEDO_ERROR_TAG
+}AlertsTags;
+
+typedef enum{
+	LEFT_DAY,
+	RIGHT_DAY,
+	RIGHT_TASKS,
+	MONTH_CELL,
+	WEEK_CELL,
+	PANE_LEFT,
+	PANE_MID,
+	PANE_RIGHT,
+	TOP_SEARCH
+}SubPageType;
+
+typedef enum toodleParseKey {
+	TD_FREE_KEY,
+	TD_GET_TOKEN,
+	TD_GET_FOLDER_KEY,
+	TD_GET_TASK_KEY,
+	TD_GET_DELETED_TASK_KEY,
+	TD_GET_USER_ID,
+	TD_GET_SERVER_INFO,
+	TD_ADD_FOLDER_KEY,
+	TD_ADD_TASK_KEY,
+	TD_EDIT_FOLDER,
+	TD_EDIT_TASK,
+	TD_DELETE_FOLDER,
+	TD_DELETE_TASK,
+	TD_ERROR_KEY
+} toodleParseKey;
+
+typedef enum SDWParseKey {
+	SDW_FREE_KEY,
+	SDW_GET_TOKEN,
+	SDW_GET_CALENDAR_KEY,
+	SDW_GET_TASK_KEY,
+	SDW_GET_DELETED_TASK_KEY,
+	SDW_GET_API_KEY,
+	SDW_GET_SERVER_INFO,
+	SDW_ADD_FOLDER_KEY,
+	SDW_ADD_TASK_KEY,
+	SDW_EDIT_FOLDER,
+	SDW_EDIT_TASK,
+	SDW_DELETE_FOLDER,
+	SDW_DELETE_TASK,
+    SDW_GET_SETTING,
+    SDW_EDIT_SETTING,
+	SDW_ERROR_KEY
+} DSWParseKey;
+
+typedef enum {
+	EDIT_ITEM,
+	ADD_LIST,
+	EDIT_LIST
+}ListEditTypes;
+
+//---------
+typedef enum {
+	START_SUNDAY,
+	START_MONDAY
+}WeekStartDay;
+
+typedef enum infoEditKey {
+	SETTING_HOWLONG,
+	SETTING_TIMESREPEAT,
+	SETTING_ENDDUEDAYS,
+	SETTING_PROJECTDEFAULT,
+	SETTING_PROJECTEDIT,
+	SETTING_REPEATDEFID,
+	SETTING_CONTEXTDEFID,
+	SETTING_IVOSTYLEDEFID,
+	SETTING_DESKTIME,
+	SETTING_HOMETIME,
+	SETTING_TASKMOVE,
+	SETTING_PASSDUEMOVE,
+	SETTING_CLEANOLDDATA,
+	SETTING_SETUPGCALACC,
+	SETTING_BACKUP,
+	SETTING_BADGE,
+	SETTING_GCALPROJMAP,
+	SETTING_PROGCALEVENTMAP,
+	SETTING_PROGCALTASKMAP,
+	SETTING_SYNCTYPE,
+	SETTING_SYNCGUIDE,
+	SETTING_GCALSYNCGUIDE,
+	SETTING_SYNCWINDOWSTART,
+	SETTING_SYNCWINDOWEND,
+	SETTING_WEEK_START_DAY,
+	SETTING_WORKDAYS,
+	SETTING_SNOOZE_DURATION,
+	TASK_EDITTITLE,
+	TASK_EDITPROJECT,
+	TASK_EDITNOTES,
+	TASK_EDITCONTEXT,
+	TASK_EDITHOWLONG,
+	TASK_EDITTIMERTASK,
+	TASK_EDITTIMEREVENT,
+	TIMER_EDITREPEATID,
+	TIMER_EDITREPEATTIMES,
+	TASK_EDITDUE,
+	TASK_EDITSTART	
+} infoEditKey;
+
+typedef enum deadLineType {
+	DEADLINE_TODAY,
+	DEADLINE_TOMORROW,
+	DEADLINE_1_WEEK,
+	DEADLINE_2_WEEKS,
+	DEADLINE_1_MONTH
+} deadLineType;
+
+//--------------
+
+typedef enum Palettes{
+	PRIME,
+	PASTEL,
+	VINTAGE,
+	LUXE
+}Palettes;
+
+typedef enum Prime {
+	PRIME_0,
+	PRIME_1,
+	PRIME_2,
+	PRIME_3,
+	PRIME_4,
+	PRIME_5,
+	PRIME_6,
+	PRIME_7
+}PrimeColors;
+
+/*
+typedef enum BasicColors {
+	//for palette1
+	BASIC_0,
+	BASIC_1,
+	BASIC_2,
+	BASIC_3,
+	BASIC_4,
+	BASIC_5,
+	BASIC_6,
+	BASIC_7,
+	BASIC_8,
+	BASIC_9,
+	BASIC_10,
+	BASIC_11
+}BasicColors;
+*/
+
+typedef enum VintageColors {
+	VINTAGE_0,
+	VINTAGE_1,
+	VINTAGE_2,
+	VINTAGE_3,
+	VINTAGE_4,
+	VINTAGE_5,
+	VINTAGE_6,
+	VINTAGE_7
+}VintageColors;
+
+typedef enum PastelColors {
+	PASTEL_0,
+	PASTEL_1,
+	PASTEL_2,
+	PASTEL_3,
+	PASTEL_4,
+	PASTEL_5,
+	PASTEL_6,
+	PASTEL_7
+}PastelColors;
+
+typedef enum LuxeColors {
+	LUXE_0,
+	LUXE_1,
+	LUXE_2,
+	LUXE_3,
+	LUXE_4,
+	LUXE_5,
+	LUXE_6,
+	LUXE_7
+}LuxeColors;
+
+
+typedef enum changeType{
+	ADD_NEW,
+	EDIT,
+	SELECT,
+	SHOW_HIDE
+}changeType;
+
+typedef enum syncType {
+	MERGE_TYPE,
+	SO_TOODLEDO,
+	TOODLEDO_SO
+} syncType;
+
+
+typedef enum TimeLinePatternType{
+	TOP_PATTERN,
+	MID_PATTERN,
+	BOTTOM_PATTERN
+}TimeLinePatternType;
+
+typedef enum ratioLevel{
+	MIN_RATIO,
+	MID_RATIO,
+	MAX_RATIO
+}ratioLevel;
+
+typedef enum tabControlTag{
+	DAY_LEFT_TAB,
+	WEEK_TAB,
+	MONTH_TAB,
+	DAY_RIGHT_TAB,
+	TASK_TAB,
+	LIST_TAB,
+	NOTES_TAB,
+	SHOPPING_TAB,
+	HISTORY_TAB
+}tabControlTag;
+
+typedef enum repeatTypeKey {
+	REPEAT_NONE,
+	REPEAT_DAILY,
+	REPEAT_WEEKLY,
+	REPEAT_MONTHLY,
+	REPEAT_YEARLY
+}repeatTypeKey;
+
+typedef enum bottomBarStyles{
+	BOTTOM_BAR_DAY,
+	BOTTOM_BAR_MONTH
+}bottomBarStyles;
+
+typedef enum sketchSizeStyles{
+	LARGEST_SIZE,
+	LARGE_SIZE,
+	NORMAL_SIZE,
+	SMALL_SIZE,
+	SMALLEST_SIZE
+}sketchSizeStyles;
+
+typedef enum sketchColorStyles{
+	BLACK_COLOR,
+	LAVENDAR_COLOR,
+	RED_COLOR,
+	GREEN_COLOR,
+	BROWN_COLOR
+}sketchColorStyles;
+
+typedef enum fontStyles{
+	SMALLEST_FONT,
+	SMALL_FONT,
+	NORMAL_FONT,
+	LARGE_FONT,
+	LARGEST_FONT
+}fontStyles;
+
+typedef enum cellTypes{
+	CELL_TYPE_TOP_LEFT,
+	CELL_TYPE_TOP_RIGHT,
+	CELL_TYPE_BOTTOM_LEFT,
+	CELL_TYPE_BOTTOM_RIGHT,
+	CELL_TYPE_TOP,
+	CELL_TYPE_BOTTOM,
+	CELL_TYPE_LEFT,
+	CELL_TYPE_RIGHT,
+	CELL_TYPE_MIDDLE,
+	CELL_TYPE_SINGLE_LEFT,
+	CELL_TYPE_SINGLE_RIGHT,
+	CELL_TYPE_SINGLE_MIDDLE
+}cellTypes;
+
+typedef enum pageTypes{
+	DAY,
+	SMART_LIST,
+	SHOPPING_LIST,
+	HISTORY,
+	HYPER_NOTES,
+	SKETCH,	
+	MONTH
+}pageTypes;
+
+//for demo only
+typedef enum {
+	PROJECT0,
+	PROJECT1,
+	PROJECT2,
+	PROJECT3,
+	PROJECT4,
+	PROJECT5,
+	PROJECT6,
+	PROJECT7,
+	PROJECT8,
+	PROJECT9,
+	PROJECT10,
+	PROJECT11,
+	PROJECT12,
+	PROJECT13,
+	PROJECT14,
+	PROJECT15,
+	PROJECT16,
+	PROJECT17,
+	PROJECT18,
+	PROJECT19,
+	PROJECT20,
+	PROJECT21,
+	OTHER,
+	GROUP,
+	MAXCATEGORY
+} TaskCategory;
+//-------------
+
+typedef enum SettingTypes{
+	GENERAL_SETTING,
+    CATEGORIES_SETTING,
+	CALENDARS_SETTING,
+	TASKS_SETTING,
+	SYNC_SETTING,
+	VIEWS_SETTING
+}SettingTypes;
+
+#pragma mark WeekStartDayViewController
+typedef enum WeekStartType{
+	START_ON_SUN,
+	START_ON_MON,
+	START_ON_TUE,
+	START_ON_WED,
+	START_ON_THU,
+	START_ON_FRI,
+	START_ON_SAT
+}WeekStartType;
+
+#pragma mark ApplicationBadgeForViewController
+typedef enum BadgeTypes{
+	ALL_TASKS,
+	ALL_TASKS_WITH_DUE,
+	ALL_TASK_TO_TOMORROW
+}BadgeTypes;
+
+typedef enum TaskRepeatStyle{
+    FROM_COMPLETION,
+    FROM_DUE
+}TaskRepeatStyle;
+
+@interface SPadCommon : NSObject {
+
+}
+
+@end

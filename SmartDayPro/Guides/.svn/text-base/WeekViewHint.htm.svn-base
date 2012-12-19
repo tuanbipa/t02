@@ -1,0 +1,39 @@
+<html>
+<head><style>
+.tab { margin-left: 20px; 
+}
+.style1 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13pt;
+}
+.style2 {
+	color: #333333;
+	font-size: 12pt;
+}
+.style4 {font-family: Arial, Helvetica, sans-serif; color: #FFFFFF;}
+.style5 {
+	color: #87CEFA;
+	font-weight: bold;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="cache-control" content="no-cache" />
+</head>
+<body text="#ffffff" link="#87cefa">
+<ul class="style2">
+  <li class="style4">Tap a day to expand it</li>
+  <li class="style4">Tap here to view a full Month</li>
+  <img src='switchMonth.png'/>
+  <li class="style4">Tap anywhere on top bar to see extra menus</li>
+  <img src='showMenu.png'/>
+  <li class="style4">Tap on the "Lock" to lock landscape view</li>	
+  <img src='lockScreen.png'/>
+</ul>
+</body>
+<script language=javascript>
+document.ontouchmove = function(event){
+event.preventDefault();
+}
+</script>
+</html>

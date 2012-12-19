@@ -1,0 +1,228 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	line-height: normal;
+	font-weight: normal;
+	/*z-index:1;
+	width:320px;
+	height:1500px;*/
+	background-image:url(Smartapps_bg_640.jpg);
+	background-repeat:no-repeat;
+	margin-top: 0px;
+	padding: 0px;
+}
+#container {
+	width: 620px;
+	height: 1524px;
+	position: relative;
+}
+
+#pageHeader {
+	background-image: url(smartapps_640.png);
+	background-repeat:no-repeat;
+	width: 620px;
+	height: 160px;
+	position: static;
+}
+
+.style41 {color: #666666; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; }
+.style14 {
+	font-size: 12pt;
+	font-weight: bold;
+}
+.style13 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+}
+.style39 {color: #666666; font-size: 10pt; font-style: italic; }
+
+#break {
+	width:620px;
+	height:2px;
+	background-image:url(l_640.png);
+	background-repeat:no-repeat;
+}
+
+
+#ST {
+	width: 620px;
+	height: 230px;
+}
+#ST_80 {
+	background-image: url(ST_80.png);
+	width: 80px;
+	height: 80px;
+	top: 245px;
+	position: absolute;
+	left: 30px;
+	background-repeat:no-repeat;
+}
+#ST_text {
+	left: 150px;
+	position:absolute;
+	top:210px;
+	width: 270px;
+}
+#ST_long_text{
+	left: 150px;
+	position:absolute;
+	top:260px;
+	width: 450px;
+}
+
+#SCal {
+	width: 620px;
+	height: 230px;
+}
+#SCal_80 {
+	background-image: url(SCal_80.png);
+	width: 80px;
+	height: 80px;
+	top: 465px;
+	position: absolute;
+	left: 30px;
+	background-repeat:no-repeat;
+}
+#SCal_text {
+	left: 150px;
+	position:absolute;
+	top:415px;
+	width: 220px;
+}
+#SCal_long_text{
+	left: 150px;
+	position:absolute;
+	top:485px;
+	width: 437px;
+}
+
+#SNotes {
+	width: 620px;
+	height: 230px;
+}
+#SNotes_80 {
+	background-image: url(SN_80.png);
+	width: 80px;
+	height: 80px;
+	top: 690px;
+	position: absolute;
+	left: 30px;
+	background-repeat:no-repeat;
+}
+#SNotes_text {
+	left: 150px;
+	position:absolute;
+	top:651px;
+}
+#SNotes_long_text{
+	left: 150px;
+	position:absolute;
+	top:721px;
+	width: 438px;
+}
+
+#SPlans {
+	width: 620px;
+	height: 230px;
+}
+#SPlans_80 {
+	background-image: url(SP_80.png);
+	width: 80px;
+	height: 80px;
+	top: 920px;
+	position: absolute;
+	left: 30px;
+	background-repeat:no-repeat;
+}
+#SPlans_text {
+	left: 150px;
+	position:absolute;
+	top:880px;
+}
+#SPlans_long_text{
+	left: 150px;
+	position:absolute;
+	top:940px;
+	width: 441px;
+	height: 130px;
+}
+
+#STunes {
+	width: 620px;
+	height: 230px;
+}
+#STunes_80 {
+	background-image: url(STu_80.png);
+	width: 80px;
+	height: 80px;
+	top: 1150px;
+	position: absolute;
+	left: 30px;
+	background-repeat:no-repeat;
+}
+#STunes_text {
+	left: 150px;
+	position:absolute;
+	top:1120px;
+	width: 329px;
+}
+#STunes_long_text{
+	left: 150px;
+	position:absolute;
+	top:1170px;
+	width: 451px;
+	height: 130px;
+}
+
+#S2Q {
+	width: 620px;
+	height: 230px;
+}
+#S2Q_80 {
+	background-image: url(S2Q_80.png);
+	width: 80px;
+	height: 80px;
+	top: 1380px;
+	position: absolute;
+	left: 30px;
+	background-repeat:no-repeat;
+}
+#S2Q_text {
+	left: 150px;
+	position:absolute;
+	top:1340px;
+	width: 365px;
+}
+#S2Q_long_text{
+	left: 150px;
+	position:absolute;
+	top:1390px;
+	width: 444px;
+}
+
+#FF {
+	width: 620px;
+	height: 230px;
+}
+#FF_80 {
+	background-image: url(FF_80.png);
+	width: 80px;
+	height: 80px;
+	top: 1610px;
+	position: absolute;
+	left: 30px;
+	background-repeat:no-repeat;
+}
+#FF_text {
+	left: 150px;
+	position:absolute;
+	top:1590px;
+	width: 399px;
+}
+#FF_long_text{
+	left: 150px;
+	position:absolute;
+	top:1640px;
+	width: 453px;
+}
