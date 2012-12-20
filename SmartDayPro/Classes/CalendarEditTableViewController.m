@@ -210,7 +210,8 @@
 - (void) addCalendar:(id) sender
 {
 	Project *project = [[Project alloc] init];
-	project.name = _newCalendarText;
+	//project.name = _newCalendarText;
+    project.name = _newProjectText;
 	project.type = TYPE_PLAN;
 	
 	//[self.projectList addObject:project];

@@ -375,6 +375,8 @@
 "_icalSyncingText" = "iPhone Cal Syncing...";
 "_toodledoSyncingText" = "Toodledo Syncing...";
 "_editText" = "Edit";
+
+"_newProjectText" = "New Project";
 "_projectDeleteText" = "Are you sure you want to delete the project and all associated Tasks and Events?";
 "_projectDoneText" = "Are you sure you want to mark done all Tasks in the project?";
 "_projectText" = "Project";

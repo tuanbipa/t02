@@ -229,6 +229,11 @@ extern SmartDayViewController *_sdViewCtrler;
     
 	//[[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
 	
+    if ([Common daysBetween:dt andDate:tm.today] != 0)
+    {
+        [tm initCalendarData:dt];
+    }
+    
 	[self.calView initCalendar:dt];
 	
 	[headerView setNeedsDisplay];
@@ -245,9 +250,12 @@ extern SmartDayViewController *_sdViewCtrler;
 	
     NSInteger mode = [headerView getMWMode];
     
-	//NSDate *dt = [[[TaskManager getInstance] today] copy];
-    
     NSDate *dt = (mode==1?tm.today:[Common getFirstMonthDate:tm.today]);
+    
+    if ([Common daysBetween:dt andDate:tm.today] != 0)
+    {
+        [tm initCalendarData:dt];
+    }
     
 	//[[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
 	
@@ -272,14 +280,15 @@ extern SmartDayViewController *_sdViewCtrler;
     TaskManager *tm = [TaskManager getInstance];
 		
     [tm initMiniMonth:NO];
-    
+
     NSInteger mode = [headerView getMWMode];
-    
+
     NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:tm.today]);
-    
+    /*
     [self.calView changeWeekPlanner:7 weeks:weeks];
     
     [self.calView highlightCellOnDate:tm.today];
+    */
 	
     CGRect frm = CGRectMake(0, 0, self.frame.size.width, 40*weeks + MINI_MONTH_HEADER_HEIGHT + 6);
     
@@ -300,7 +309,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
     [tm initCalendarData:date];
 	
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
 }
 
 - (void) switchView:(NSInteger)mode
@@ -316,6 +325,8 @@ extern SmartDayViewController *_sdViewCtrler;
     [self.calView changeWeekPlanner:7 weeks:weeks]; //change to refresh busy/dots for entire month
     
     [self.calView initCalendar:calDate];
+    
+    [self jumpToDate:calDate];
     
     [[_sdViewCtrler getCalendarViewController] focusNow];
     

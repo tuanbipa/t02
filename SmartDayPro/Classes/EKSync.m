@@ -92,7 +92,7 @@ extern BOOL _syncMatchHintShown;
 	
 	NSInteger wkOptions[7] = {ON_SUNDAY, ON_MONDAY, ON_TUESDAY, ON_WEDNESDAY, ON_THURSDAY, ON_FRIDAY, ON_SATURDAY};
     
-    ////printf("daysOfWeek count: %d\n", rrule.daysOfTheWeek.count);
+    printf("daysOfWeek count: %d\n", rrule.daysOfTheWeek.count);
 
 	for (EKRecurrenceDayOfWeek *dow in rrule.daysOfTheWeek)
 	{
@@ -113,7 +113,7 @@ extern BOOL _syncMatchHintShown;
         ret.weekOption = wkOptions[day-1];        
     }
     
-    //printf("*** parse RE %s - Week Option: %d\n", [event.name UTF8String], ret.weekOption);
+    printf("*** parse RE %s - Week Option: %d\n", [event.name UTF8String], ret.weekOption);
 	
 	if (rrule.daysOfTheWeek != nil && rrule.daysOfTheWeek.count > 0)
 	{
@@ -137,7 +137,7 @@ extern BOOL _syncMatchHintShown;
 		else
 		{
 			ret.until = rrule.recurrenceEnd.endDate;
-            //printf("EK re %s - until: %s\n", [event.name UTF8String], [[ret.until description] UTF8String]);
+            printf("EK re %s - until: %s\n", [event.name UTF8String], [[ret.until description] UTF8String]);
 		}
 	}
 	
@@ -235,18 +235,18 @@ extern BOOL _syncMatchHintShown;
 		scEvent.type = TYPE_ADE;
 		//scEvent.endTime = [Common getEndDate:ekEvent.endDate]; //EK returns 11:59pm instead of 12:00am
         
-        //printf("ADE from iCal: %s - start: %s, end: %s\n", [scEvent.name UTF8String], [[scEvent.startTime description] UTF8String], [[scEvent.endTime description] UTF8String]);
+        printf("ADE from iCal: %s - start: %s, end: %s\n", [scEvent.name UTF8String], [[scEvent.startTime description] UTF8String], [[scEvent.endTime description] UTF8String]);
 	}
     
     if (ekEvent.recurrenceRules.count > 0)
     {
-        ////printf("EK recurrence count: %d\n", ekEvent.recurrenceRules.count);
+        printf("EK recurrence count: %d\n", ekEvent.recurrenceRules.count);
 
         EKRecurrenceRule *rrule = [ekEvent.recurrenceRules objectAtIndex:0];
         
 		scEvent.repeatData = [self parseRRule:rrule event:scEvent];
 		
-		//printf("RE %s - until: %s\n", [scEvent.name UTF8String], [[scEvent.repeatData.until description] UTF8String]);
+		printf("RE %s - until: %s\n", [scEvent.name UTF8String], [[scEvent.repeatData.until description] UTF8String]);
         
     }
     else
@@ -261,7 +261,7 @@ extern BOOL _syncMatchHintShown;
 	
 	for (EKAlarm *alarm in ekEvent.alarms)
 	{
-		////printf("EK %s alarm time: %s, offset: %f", [ekEvent.title UTF8String], [[alarm.absoluteDate description] UTF8String], alarm.relativeOffset);
+		printf("EK %s alarm time: %s, offset: %f", [ekEvent.title UTF8String], [[alarm.absoluteDate description] UTF8String], alarm.relativeOffset);
 		
 		if (alarm.absoluteDate == nil)
 		{
@@ -370,7 +370,7 @@ extern BOOL _syncMatchHintShown;
 	
 	[scEvent insertIntoDB:[[DBManager getInstance] getDatabase]];
     
-    //printf("Create EK->SC: %s - ekStart: %s - ekEnd:%s - ekId:%s - update Time:%s\n", [scEvent.name UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.endDate description] UTF8String], [ekEvent.eventIdentifier UTF8String], [[scEvent.updateTime description] UTF8String]);
+    printf("Create EK->SC: %s - ekStart: %s - ekEnd:%s - ekId:%s - update Time:%s\n", [scEvent.name UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.endDate description] UTF8String], [ekEvent.eventIdentifier UTF8String], [[scEvent.updateTime description] UTF8String]);
     
 	
 	if (scEvent.repeatData != nil)
@@ -515,7 +515,7 @@ extern BOOL _syncMatchHintShown;
 			}
             else if ([Common compareDate:scEvent.updateTime withDate:ekEvent.lastModifiedDate] == NSOrderedAscending) //change in iCal
 			{
-                ////printf("change from iCal\n");
+                printf("change from iCal\n");
 				RepeatData *recurringData = [scEvent.repeatData retain];
 				
 				if ([prjKey intValue] != scEvent.project) // project change 
@@ -525,14 +525,14 @@ extern BOOL _syncMatchHintShown;
                 
 				[self updateSCEvent:scEvent withEKEvent:ekEvent];
 				
-				//printf("Update EK->SC: ");
+				printf("Update EK->SC: ");
 				[scEvent print];
 				
 				BOOL recurringSame = [RepeatData isEqual:recurringData toAnother:scEvent.repeatData];
 				
 				if (scEvent.groupKey == -1 && recurringData != nil && !recurringSame)
 				{
-                    //printf("recurring data change %s -> delete all exceptions\n", [scEvent.name UTF8String]);
+                    printf("recurring data change %s -> delete all exceptions\n", [scEvent.name UTF8String]);
                     
 					[dbm deleteTasksInGroup:scEvent.primaryKey];
 					scEvent.exceptions = nil;
@@ -546,7 +546,7 @@ extern BOOL _syncMatchHintShown;
 			{
 				[self updateEKEvent:ekEvent withSCEvent:scEvent];
 				
-				//printf("Update SC->EK: %s - ekStart: %s - ekEnd:%s - ekId:%s - isDetached:%s\n", [scEvent.name UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.endDate description] UTF8String], [ekEvent.eventIdentifier UTF8String], ekEvent.isDetached?"Yes":"NO");
+				printf("Update SC->EK: %s - ekStart: %s - ekEnd:%s - ekId:%s - isDetached:%s\n", [scEvent.name UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.endDate description] UTF8String], [ekEvent.eventIdentifier UTF8String], ekEvent.isDetached?"Yes":"NO");
 				[scEvent print];
 				
 				BOOL deleteFromEK = NO;
@@ -588,7 +588,7 @@ extern BOOL _syncMatchHintShown;
 			}
             else
             {
-                //printf("Event %s no change - EK modify time: %s - SD update time: %s\n", [scEvent.name UTF8String], [[ekEvent.lastModifiedDate description] UTF8String], [[scEvent.updateTime description] UTF8String]);
+                printf("Event %s no change - EK modify time: %s - SD update time: %s\n", [scEvent.name UTF8String], [[ekEvent.lastModifiedDate description] UTF8String], [[scEvent.updateTime description] UTF8String]);
             }
 			
 			[eventList removeObject:scEvent];
@@ -612,7 +612,7 @@ extern BOOL _syncMatchHintShown;
                     
                     if (duplicated)
                     {
-                        //printf("event %s is duplication suspected\n", [event.name UTF8String]);
+                        printf("event %s is duplication suspected\n", [event.name UTF8String]);
                         
                         event.syncId = ekEvent.eventIdentifier;
                         [event updateSyncIDIntoDB:[dbm getDatabase]];
@@ -628,13 +628,13 @@ extern BOOL _syncMatchHintShown;
             {
 				if (ekEvent.isDetached) //RE exception
 				{
-					////printf("detached ek %s - id: %s\n",[ekEvent.title UTF8String], [ekEvent.eventIdentifier UTF8String]);
+					printf("detached ek %s - id: %s\n",[ekEvent.title UTF8String], [ekEvent.eventIdentifier UTF8String]);
 					
 					[ekREExceptions addObject:ekEvent];
 				}		
 				else 
 				{
-					//printf("new from EK: %s - id: %s - start time:%s - modify time:%s\n",[ekEvent.title UTF8String], [ekEvent.eventIdentifier UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.lastModifiedDate description] UTF8String]);
+					printf("new from EK: %s - id: %s - start time:%s - modify time:%s\n",[ekEvent.title UTF8String], [ekEvent.eventIdentifier UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.lastModifiedDate description] UTF8String]);
                                         
 					[self importEvent:ekEvent scEventDict:scEventDict];
 					
@@ -664,7 +664,7 @@ extern BOOL _syncMatchHintShown;
 			
 			[tm createREException:instance originalTime:ekEvent.startDate];
 			
-			////printf("create RE exception: %s - start: %s - end: %s\n", [instance.name UTF8String], [[instance.startTime description] UTF8String], [[instance.endTime description] UTF8String]);
+			printf("create RE exception: %s - start: %s - end: %s\n", [instance.name UTF8String], [[instance.startTime description] UTF8String], [[instance.endTime description] UTF8String]);
 			
 			[instance release];
 			
@@ -675,26 +675,32 @@ extern BOOL _syncMatchHintShown;
 	for (Task *scEvent in eventList) //new Events from SC
 	{
         BOOL outsideSyncWindow = NO;
-        //if ([Common compareDate:scEvent.endTime withDate:startTime] != NSOrderedDescending ||
-        //    [Common compareDate:scEvent.startTime withDate:endTime] != NSOrderedAscending)
-        if ([self checkOutTimeRange4Event:scEvent startTime:startTime endTime:endTime])
-		{
+        //if ([self checkOutTimeRange4Event:scEvent startTime:startTime endTime:endTime])
+		//{
 			//out of sync window
             
             if ([scEvent isRE])
             {
+                /*
                 Task *task = [tm findRTInstance:scEvent fromDate:startTime];
                 
                 if ([self checkOutTimeRange4Event:task startTime:startTime endTime:endTime])
                 {
                     outsideSyncWindow = YES;
+                }*/
+                
+                NSMutableArray *reInstances = [tm expandRE:scEvent fromDate:startTime toDate:endTime excludeException:NO];
+        
+                if (reInstances.count == 0)
+                {
+                    outsideSyncWindow = YES;
                 }
             }
-            else
+            else if ([self checkOutTimeRange4Event:scEvent startTime:startTime endTime:endTime])
             {
                 outsideSyncWindow = YES;
             }
-		}
+		//}
         
         if (outsideSyncWindow)
         {
@@ -707,22 +713,30 @@ extern BOOL _syncMatchHintShown;
 		{
 			if (![scEvent.syncId isEqualToString:@""]) //Event was deleted from iCal
 			{
-				//printf("Event was deleted from iCal:%s\n", [scEvent.name UTF8String]);
-				
-				//[scEvent cleanFromDatabase:[[DBManager getInstance] getDatabase]];
+                EKEvent *ekEvent = [self.eventStore eventWithIdentifier:scEvent.syncId];
                 
-                scEvent.syncId = @"";
-                [scEvent updateSyncIDIntoDB:[dbm getDatabase]];
-                
-                [scEvent deleteFromDatabase:[dbm getDatabase]];
-				
-				refreshData = YES;
+                if (ekEvent == nil)
+                {
+                    printf("Event was deleted from iCal:%s\n", [scEvent.name UTF8String]);
+                    
+                    scEvent.syncId = @"";
+                    [scEvent updateSyncIDIntoDB:[dbm getDatabase]];
+                    
+                    [scEvent deleteFromDatabase:[dbm getDatabase]];
+                    
+                    refreshData = YES;
+                    
+                }
+                else
+                {
+                    printf("Event %s existing in iCal\n", [ekEvent.title UTF8String]);
+                }
 			}
 			else
 			{
 				if (scEvent.groupKey == -1)
 				{
-					////printf("new from SC: %s - start time:%s\n",[scEvent.name UTF8String], [[scEvent.startTime description] UTF8String]);
+					printf("new from SC: %s - start time:%s\n",[scEvent.name UTF8String], [[scEvent.startTime description] UTF8String]);
 					
 					EKEvent *ekEvent  = [EKEvent eventWithEventStore:eventStore];
 					[self updateEKEvent:ekEvent withSCEvent:scEvent];
@@ -732,7 +746,7 @@ extern BOOL _syncMatchHintShown;
 					
 					if (err != nil)
 					{
-						////printf("error: %s\n", [[err localizedDescription] UTF8String]);
+						printf("error: %s\n", [[err localizedDescription] UTF8String]);
 					}
 					else 
 					{
@@ -747,7 +761,7 @@ extern BOOL _syncMatchHintShown;
 							//unable to sync RE exceptions from SC because EK does not support
 						}
 						
-						//printf("Create SC->EK: [ek update time: %s]", [[ekEvent.lastModifiedDate description] UTF8String]);
+						printf("Create SC->EK: [ek update time: %s]", [[ekEvent.lastModifiedDate description] UTF8String]);
 						[scEvent print];
 					}					
 				}
@@ -769,7 +783,7 @@ extern BOOL _syncMatchHintShown;
         
         if (dupCal != nil)
         {
-            //printf("duplicated cal title: %s\n", [cal.title UTF8String]);
+            printf("duplicated cal title: %s\n", [cal.title UTF8String]);
             
             return cal.title;
         }
@@ -829,7 +843,7 @@ extern BOOL _syncMatchHintShown;
             [listBySource addObject:cal];
         }
         
-        //printf("calendar %s has %d sources\n", [name UTF8String], bySourceDict.allKeys.count);
+        printf("calendar %s has %d sources\n", [name UTF8String], bySourceDict.allKeys.count);
         
         BOOL needChangeName = (bySourceDict.allKeys.count > 1);
         
@@ -858,7 +872,7 @@ extern BOOL _syncMatchHintShown;
                 
                 NSString *resolvedName = (i==0? (isLocal?[NSString stringWithFormat:@"%@", cal.title]:[NSString stringWithFormat:@"%@ %@", cal.source.title, cal.title]):(isLocal?[NSString stringWithFormat:@"%@ %d", cal.title, i]:[NSString stringWithFormat:@"%@ %@ %d", cal.source.title, cal.title, i]));
                 
-                //printf("change title for calendar: %s\n", [resolvedName UTF8String]);
+                printf("change title for calendar: %s\n", [resolvedName UTF8String]);
                 
                 cal.title = resolvedName;
                 
@@ -866,7 +880,7 @@ extern BOOL _syncMatchHintShown;
                 
                 if (err != nil)
                 {
-                    //printf("cannot change title %s - error: %s\n", [resolvedName UTF8String], [err.localizedDescription UTF8String]);
+                    printf("cannot change title %s - error: %s\n", [resolvedName UTF8String], [err.localizedDescription UTF8String]);
                 }
             }
         }
@@ -879,7 +893,7 @@ extern BOOL _syncMatchHintShown;
     
     if (err != nil)
     {
-        //printf("cannot save EK - error: %s\n", [err.localizedDescription UTF8String]);
+        printf("cannot save EK - error: %s\n", [err.localizedDescription UTF8String]);
     }
     
 }
@@ -935,23 +949,26 @@ extern BOOL _syncMatchHintShown;
     
     for (EKSource *ekSource in eventStore.sources)
     {
-        //printf("source: %s, %d\n", [ekSource.title UTF8String], ekSource.sourceType);
+        printf("source: %s, %d\n", [ekSource.title UTF8String], ekSource.sourceType);
         if (ekSource.sourceType == EKSourceTypeLocal)
         {
-            //printf("source local found\n");
+            printf("source local found\n");
             ekSourceDefault = ekSource;
+            
+            break;
         }
-        else if (ekSource.sourceType == 2 && [[ekSource.title uppercaseString] isEqualToString:@"ICLOUD"])
+        /*else if (ekSource.sourceType == 2 && [[ekSource.title uppercaseString] isEqualToString:@"ICLOUD"])
         {
-            //printf("iCloud source FOUND\n");
+            printf("iCloud source FOUND\n");
             ekSourceiCloud = ekSource;
-        }
+        }*/
     }
     
+    /*
     if (ekSourceiCloud != nil)
     {
         ekSourceDefault = ekSourceiCloud;
-    }
+    }*/
     
     NSMutableArray *prjList = [NSMutableArray arrayWithArray: pm.projectList];
     
@@ -971,7 +988,7 @@ extern BOOL _syncMatchHintShown;
     
 	for (EKCalendar *cal in ekCalList)
 	{
-		//printf("EK title: %s\n", [cal.title UTF8String]);
+		printf("EK title: %s\n", [cal.title UTF8String]);
 		
 		Project *prj = [prjSyncDict objectForKey:cal.calendarIdentifier];
         
@@ -992,7 +1009,7 @@ extern BOOL _syncMatchHintShown;
                 
                 if (err != nil)
                 {
-                    //printf("change calendar name error: %s\n", [[err localizedDescription] UTF8String]); 
+                    printf("change calendar name error: %s\n", [[err localizedDescription] UTF8String]); 
                 }
             }
             
@@ -1030,7 +1047,7 @@ extern BOOL _syncMatchHintShown;
                 
                 [prj release];
                 
-                //printf("create calendar %s in SC\n", [cal.title UTF8String]);                    
+                printf("create calendar %s in SC\n", [cal.title UTF8String]);                    
             }
             
             [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInt:prj.primaryKey]];
@@ -1101,7 +1118,7 @@ extern BOOL _syncMatchHintShown;
 	
 	for (Project *prj in delList)
 	{
-        //printf("EK sync - delete project: %s\n", [prj.name UTF8String]);
+        printf("EK sync - delete project: %s\n", [prj.name UTF8String]);
         
         prj.ekId = @"";
         [prj updateEKIDIntoDB:[dbm getDatabase]];
@@ -1196,7 +1213,7 @@ extern BOOL _syncMatchHintShown;
 
 -(void)initBackgroundSync
 {
-	////printf("init sync background\n");
+	printf("init sync background\n");
 	
 	[[BusyController getInstance] setBusy:YES withCode:BUSY_EK_SYNC];
     
@@ -1219,7 +1236,7 @@ extern BOOL _syncMatchHintShown;
 
 -(void)initBackgroundAuto2WaySync
 {
-	////printf("init sync background\n");
+	printf("init sync background\n");
 	
 	[[BusyController getInstance] setBusy:YES withCode:BUSY_EK_SYNC];
     
@@ -1248,7 +1265,7 @@ extern BOOL _syncMatchHintShown;
 	
 	for (Task *scEvent in eventList) //new Events from SC
 	{
-        //printf("SC Event for 1-way sync: %s - start: %s - end:%s\n", [scEvent.name UTF8String], [[scEvent.startTime description] UTF8String], [[scEvent.endTime description] UTF8String]);
+        printf("SC Event for 1-way sync: %s - start: %s - end:%s\n", [scEvent.name UTF8String], [[scEvent.startTime description] UTF8String], [[scEvent.endTime description] UTF8String]);
         
 		EKCalendar *cal = [self.scEKMappingDict objectForKey:[NSNumber numberWithInt:scEvent.project]];
 		
@@ -1262,7 +1279,7 @@ extern BOOL _syncMatchHintShown;
 				{
 					if (scEvent.status == TASK_STATUS_DELETED)
 					{
-						////printf("Delete SC->EK: %s\n", [scEvent.name UTF8String]);
+						printf("Delete SC->EK: %s\n", [scEvent.name UTF8String]);
 						
 						NSError *err;
 						
@@ -1276,11 +1293,11 @@ extern BOOL _syncMatchHintShown;
 					//else if ([scEvent.updateTime compare:ekEvent.lastModifiedDate] == NSOrderedDescending)
                     else if ([Common compareDate:scEvent.updateTime withDate:ekEvent.lastModifiedDate] == NSOrderedDescending)
 					{
-						////printf("Update SC->EK: %s\n", [scEvent.name UTF8String]);
+						printf("Update SC->EK: %s\n", [scEvent.name UTF8String]);
 						
 						[self updateEKEvent:ekEvent withSCEvent:scEvent];
                         
-                        //printf("1 way Update SC->EK: %s - ekStart: %s - ekEnd:%s - ekID: %s\n", [scEvent.name UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.endDate description] UTF8String], [ekEvent.eventIdentifier UTF8String]);
+                        printf("1 way Update SC->EK: %s - ekStart: %s - ekEnd:%s - ekID: %s\n", [scEvent.name UTF8String], [[ekEvent.startDate description] UTF8String], [[ekEvent.endDate description] UTF8String], [ekEvent.eventIdentifier UTF8String]);
                         
                         [ekEvent setCalendar:cal];
 						
@@ -1296,13 +1313,37 @@ extern BOOL _syncMatchHintShown;
 							scEvent.updateTime = ekEvent.lastModifiedDate;
 							[scEvent modifyUpdateTimeIntoDB:[dbm getDatabase]];	
 							
-							//printf("1-way EK Sync update SD time: %s for event:%s - now: %s\n", [[scEvent.updateTime description] UTF8String], [scEvent.name UTF8String], [[[NSDate date] description] UTF8String]);
+							printf("1-way EK Sync update SD time: %s for event:%s - now: %s\n", [[scEvent.updateTime description] UTF8String], [scEvent.name UTF8String], [[[NSDate date] description] UTF8String]);
 						}
 					}
 				}				
 			}
 			else
 			{
+                TaskManager *tm = [TaskManager getInstance];
+                
+                BOOL outsideSyncWindow = NO;
+                if ([scEvent isRE])
+                {
+                    NSMutableArray *reInstances = [tm expandRE:scEvent fromDate:startTime toDate:endTime excludeException:NO];
+                    
+                    if (reInstances.count == 0)
+                    {
+                        outsideSyncWindow = YES;
+                    }
+                }
+                else if ([self checkOutTimeRange4Event:scEvent startTime:startTime endTime:endTime])
+                {
+                    outsideSyncWindow = YES;
+                }
+                
+                if (outsideSyncWindow)
+                {
+                    printf("1-way sync: Event %s is out of window\n", [scEvent.name UTF8String]);
+                    
+                    continue;
+                }
+                
 				EKEvent *ekEvent  = [EKEvent eventWithEventStore:eventStore];
 				[self updateEKEvent:ekEvent withSCEvent:scEvent];
 				
@@ -1321,7 +1362,7 @@ extern BOOL _syncMatchHintShown;
                     [scEvent enableExternalUpdate];
                     [scEvent modifyUpdateTimeIntoDB:[dbm getDatabase]];
 					
-					//printf("Create SC->EK: %s - update time: %s\n", [scEvent.name UTF8String], [[scEvent.updateTime description] UTF8String]);
+					printf("Create SC->EK: %s - update time: %s\n", [scEvent.name UTF8String], [[scEvent.updateTime description] UTF8String]);
 					//[scEvent print];
 				}					
 			}

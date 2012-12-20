@@ -377,6 +377,8 @@
 #define _toodledoSyncingText NSLocalizedString(@"_toodledoSyncingText", "")
 #define _icalSyncingText NSLocalizedString(@"_icalSyncingText", "")
 #define _editText NSLocalizedString(@"_editText", "")
+
+#define _newProjectText NSLocalizedString(@"_newProjectText" , "")
 #define _projectDeleteText NSLocalizedString(@"_projectDeleteText", "")
 #define _projectDoneText NSLocalizedString(@"_projectDoneText", "")
 #define _projectText NSLocalizedString(@"_projectText", "")

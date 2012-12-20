@@ -628,7 +628,7 @@ extern BOOL _gtdoTabHintShown;
     
     [miniMonthView initCalendar];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];    
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
     
     self.activeViewCtrler.view.userInteractionEnabled = YES;
 }
@@ -1652,7 +1652,8 @@ extern BOOL _gtdoTabHintShown;
 - (void) addCategory:(id) sender
 {
 	Project *project = [[Project alloc] init];
-	project.name = _newCalendarText;
+	//project.name = _newCalendarText;
+    project.name = _newProjectText;
 	project.type = TYPE_PLAN;
 	
     [self editCategory:project];

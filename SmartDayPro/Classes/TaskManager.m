@@ -461,6 +461,8 @@ TaskManager *_sctmSingleton = nil;
 	////printf("*** Pure Event List from: %s - to: %s\n", [[fromDate description] UTF8String], [[toDate description] UTF8String]);
 	//[self print:eventList];
 	
+    @synchronized(self)
+    {
 	NSMutableArray *reList = [self filterList:self.REList];
     
     //NSLog(@"get Event List- 4");
@@ -479,6 +481,7 @@ TaskManager *_sctmSingleton = nil;
             [eventList addObjectsFromArray:reInstanceList];
         }
 	}
+    }
     
     //NSLog(@"get Event List- 5");
 	
@@ -638,6 +641,8 @@ TaskManager *_sctmSingleton = nil;
 	
         self.today = date;
 	}
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
 
 	//[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayResetNotification" object:nil];
 }
@@ -735,7 +740,7 @@ TaskManager *_sctmSingleton = nil;
     
     if ([re isEvent] && re.repeatData.until != nil && [Common compareDateNoTime:re.repeatData.until withDate:toDate] == NSOrderedAscending)
     {
-        until = re.repeatData.until;
+        until = [Common getEndDate:re.repeatData.until];
     }
     
     if ([fromDate compare:until] == NSOrderedAscending)

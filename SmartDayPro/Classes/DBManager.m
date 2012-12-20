@@ -1656,25 +1656,15 @@ static sqlite3_stmt *_top_task_statement = nil;
     
     NSString *invisibleProjectListStr = [[ProjectManager getInstance] stringOfInvisibleProjectList];    
 	
-    /*
-	const char *sql = invisibleProjectListStr== nil?"SELECT Task_ID FROM TaskTable WHERE \
-	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
-	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?))":
-    "SELECT Task_ID FROM TaskTable WHERE \
-	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
-	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_ProjectID NOT IN (?)";
-    */
-	
+
 	NSString *sql = invisibleProjectListStr== nil?@"SELECT Task_ID FROM TaskTable WHERE \
-	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
-	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?))":
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND (Task_RepeatData <> '' OR \
+	(Task_RepeatData = '' AND ((Task_StartTime >= ? AND Task_StartTime < ?) OR \
+	(Task_StartTime < ? AND Task_EndTime > ?))))":
     @"SELECT Task_ID FROM TaskTable WHERE \
-	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
-	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)";
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND (Task_RepeatData <> '' OR \
+	(Task_RepeatData = '' AND ((Task_StartTime >= ? AND Task_StartTime < ?) OR \
+	(Task_StartTime < ? AND Task_EndTime > ?)))) AND Task_ProjectID NOT IN (_PROJECT_LIST)";
     
     if (invisibleProjectListStr != nil)
     {
