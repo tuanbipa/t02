@@ -209,18 +209,9 @@ extern SmartDayViewController *_sdViewCtrler;
 	[calView refresh];
 }
 
+/*
 - (void) refreshCalendar
 {
-    /*
-	NSDate *dt = [[[TaskManager getInstance] today] copy];
-	
-	[calView refreshCalendar:dt];
-	
-	[dt release];
-	
-	[headerView setNeedsDisplay];
-    */
-    
     TaskManager *tm = [TaskManager getInstance];
 	
     NSInteger mode = [headerView getMWMode];
@@ -239,6 +230,36 @@ extern SmartDayViewController *_sdViewCtrler;
 	[headerView setNeedsDisplay];
     
 }
+*/
+
+- (void) initCalendar:(NSDate *)date
+{
+    [_sdViewCtrler deselect];
+    
+    TaskManager *tm = [TaskManager getInstance];
+
+    [tm initCalendarData:date];
+	
+    NSInteger mode = [headerView getMWMode];
+    
+    NSDate *dt = (mode==1?date:[Common getFirstMonthDate:date]);
+    
+    if ([Common getMonth:dt] != [Common getMonth:date])
+    {
+        NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:date]);
+        
+        [self.calView changeWeekPlanner:7 weeks:weeks];
+    }
+    
+    [self.calView initCalendar:dt];
+    
+    if ([Common daysBetween:dt andDate:date] != 0)
+    {
+        [self.calView highlightCellOnDate:date];
+    }
+	
+	[headerView setNeedsDisplay];
+}
 
 - (void) initCalendar
 {
@@ -252,16 +273,16 @@ extern SmartDayViewController *_sdViewCtrler;
     
     NSDate *dt = (mode==1?tm.today:[Common getFirstMonthDate:tm.today]);
     
-    if ([Common daysBetween:dt andDate:tm.today] != 0)
-    {
-        [tm initCalendarData:dt];
-    }
-    
 	//[[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
 	
 	//[self.calView performSelectorInBackground:@selector(initCalendar:) withObject:dt];
     [self.calView initCalendar:dt];
-	
+
+    if ([Common daysBetween:dt andDate:tm.today] != 0)
+    {
+        [tm initCalendarData:dt];
+    }
+    	
 	//[dt release];
 	
 	[headerView setNeedsDisplay];
@@ -326,7 +347,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [self.calView initCalendar:calDate];
     
-    [self jumpToDate:calDate];
+    //[self jumpToDate:calDate];
     
     [[_sdViewCtrler getCalendarViewController] focusNow];
     
@@ -354,9 +375,10 @@ extern SmartDayViewController *_sdViewCtrler;
     dt = (mwMode == 0? [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt]:[Common dateByAddNumDay:(mode == 0?-7:7) toDate:dt]);
     
     //[self.calView initCalendar:dt];
-    [self jumpToDate:dt];
+    //[self jumpToDate:dt];
     
-    [self switchView:mwMode];
+    //[self switchView:mwMode];
+    [_sdViewCtrler jumpToDate:dt];
     
     CATransition *animation = [CATransition animation];
     [animation setDuration:0.4];

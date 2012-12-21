@@ -391,6 +391,7 @@
 //"_projectDetailHintText" = "Checked tasks in the Projects list will also be shown in the Task List. The top-most task in each Project is always shown in the Task List.";
 "_projectDetailHintText" = "Tap the icon on the left side of Task to enable/disable showing in the 'Tasks' tab. The top-most active task in each Project (indicated with a Flag) is always shown in the 'Tasks' view.";
 "_cannotDeleteDefaultProjectText" = "This Project is set as default project for Task in settings. You cannot delete it.";
+"_cannotDeleteExternalProjectText" = "This project is from external source and you cannot delete it in SmartDay for data safety. Please delete it from the external source.";
 "_closeText" = "Close";
 "_showText" = "Show";
 "_hideText" = "Hide";

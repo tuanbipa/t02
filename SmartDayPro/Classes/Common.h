@@ -483,6 +483,7 @@ typedef struct
 + (NSDate *)getEndWeekDate:(NSDate *)startTime withWeeks:(NSInteger)weeks mondayAsWeekStart:(BOOL)mondayAsWeekStart;
 + (NSDate *)getFirstMonthDate:(NSDate *)startTime;
 + (NSDate *)getEndMonthDate:(NSDate *)startTime withMonths:(NSInteger) months;
++ (NSInteger)getMonth:(NSDate *)date;
 + (NSInteger)getDay:(NSDate *)date;
 + (NSInteger)getHour:(NSDate *)date;
 + (NSInteger)getMinute:(NSDate *)date;

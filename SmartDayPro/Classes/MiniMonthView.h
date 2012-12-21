@@ -33,8 +33,9 @@
 //- (void) scrollDay;
 - (void) changeSkin;
 - (void) initCalendar;
+- (void) initCalendar:(NSDate *)date;
 - (void) showCalendar;
-- (void) refreshCalendar;
+//- (void) refreshCalendar;
 - (void) refresh;
 - (void) moveToPoint:(CGPoint) point;
 - (void) jumpToDate:(NSDate *)date;

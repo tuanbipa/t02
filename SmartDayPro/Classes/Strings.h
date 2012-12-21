@@ -392,6 +392,7 @@
 #define _quickAddNewTask NSLocalizedString(@"_quickAddNewTask", "")
 #define _projectDetailHintText NSLocalizedString(@"_projectDetailHintText", "")
 #define _cannotDeleteDefaultProjectText NSLocalizedString(@"_cannotDeleteDefaultProjectText", "")
+#define _cannotDeleteExternalProjectText NSLocalizedString(@"_cannotDeleteExternalProjectText", "")
 #define _closeText NSLocalizedString(@"_closeText", "")
 #define _showText NSLocalizedString(@"_showText", "")
 #define _hideText NSLocalizedString(@"_hideText", "")

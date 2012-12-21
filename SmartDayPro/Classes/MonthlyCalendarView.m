@@ -90,7 +90,7 @@ extern CalendarViewController *_sc2ViewCtrler;
 {
 	nDays = days;
 	nWeeks = weeks;
-	
+
 	BOOL weekStartOnMonday = [[Settings getInstance] isMondayAsWeekStart];
 	
 	CGFloat yoffset = 0;
@@ -316,34 +316,8 @@ extern CalendarViewController *_sc2ViewCtrler;
     //NSLog(@"*** end update busy time");
 }
 
-- (void)refreshBackground
-{
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    
-    MonthlyCellView *firstCell = [[self subviews] objectAtIndex:0];
-    MonthlyCellView *lastCell = [[self subviews] objectAtIndex:7*nWeeks-1];
-    
-    NSDate *fromDate = [firstCell getCellDate];
-    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
-    
-	[self updateBusyTimeFromDate:fromDate toDate:toDate];
-	
-	[adeView setStartDate:fromDate endDate:toDate];
-    
-    [self refreshDot];
-    
-    [[BusyController getInstance] setBusy:NO withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
-
-    [pool release];
-}
-
 - (void)showWeekCalendar:(NSDate *)date
 {
-    if ([[BusyController getInstance] checkMMBusy])
-    {
-        return;
-    }
-    
 	////NSLog(@"begin show week calendar");
 	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
@@ -420,10 +394,6 @@ extern CalendarViewController *_sc2ViewCtrler;
     [self refreshDot];
     */
     
-    [[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
-    
-    [self performSelectorInBackground:@selector(refreshBackground) withObject:nil];
-
 	////NSLog(@"end show week calendar");
 	//[pool release];
 }
@@ -524,6 +494,7 @@ extern CalendarViewController *_sc2ViewCtrler;
     [adeView setStartDate:fromDate endDate:toDate];
 }
 
+/*
 - (void) refreshDot
 {
 	MonthlyCellView *cell = [[self subviews] objectAtIndex:0];
@@ -533,18 +504,10 @@ extern CalendarViewController *_sc2ViewCtrler;
 	cell = [[self subviews] objectAtIndex:41];
 	
 	NSDate *toDate = [cell getCellDate];
-
-    /*
-    if (nDays > 0 && nWeeks > 0)
-    {
-        NSInteger days = nWeeks*nDays;
-        
-        toDate = [Common getEndDate:[Common dateByAddNumDay:days toDate:fromDate]];
-    }    
-    */
     
     [self updateDotFromDate:fromDate toDate:toDate];
 }
+*/
 
 - (void) refreshCellByDate:(NSDate *)date
 {
@@ -589,28 +552,52 @@ extern CalendarViewController *_sc2ViewCtrler;
 - (void) refresh
 {
 	//////NSLog(@"begin refresh all cells");
-	MonthlyCellView *cell = [[self subviews] objectAtIndex:0];
+	/*
+    MonthlyCellView *cell = [[self subviews] objectAtIndex:0];
 	
 	NSDate *fromDate = [cell getCellDate];
 	
 	cell = [[self subviews] objectAtIndex:41];
 	
-	NSDate *toDate = [cell getCellDate];
-
-    /*
-    if (nDays > 0 && nWeeks > 0)
-    {
-        NSInteger days = nWeeks*nDays;
-        
-        toDate = [Common getEndDate:[Common dateByAddNumDay:days toDate:fromDate]];
-    }  
-	*/
+	NSDate *toDate = [Common dateByAddNumDay:1 toDate:[cell getCellDate]];
+    */
     
+    MonthlyCellView *firstCell = [[self subviews] objectAtIndex:0];
+    MonthlyCellView *lastCell = [[self subviews] objectAtIndex:7*nWeeks-1];
+    
+    NSDate *fromDate = [firstCell getCellDate];
+    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];    
+
 	[self updateBusyTimeFromDate:fromDate toDate:toDate];
 	[self updateDotFromDate:fromDate toDate:toDate];
 	[adeView setStartDate:fromDate endDate:toDate];
 	
 	//////NSLog(@"end refresh all cells");
+}
+
+- (void)refreshBackground
+{
+	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    
+    /*
+    MonthlyCellView *firstCell = [[self subviews] objectAtIndex:0];
+    MonthlyCellView *lastCell = [[self subviews] objectAtIndex:7*nWeeks-1];
+    
+    NSDate *fromDate = [firstCell getCellDate];
+    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
+    
+	[self updateBusyTimeFromDate:fromDate toDate:toDate];
+	
+	[adeView setStartDate:fromDate endDate:toDate];
+    
+    [self refreshDot];
+    */
+    
+    [self refresh];
+    
+    [[BusyController getInstance] setBusy:NO withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
+    
+    [pool release];
 }
 
 /*
@@ -631,42 +618,6 @@ extern CalendarViewController *_sc2ViewCtrler;
 	}
 }
 
-/*
-- (void) scrollDay:(NSDate *)date
-{
-	MonthlyCellView *foundCell = [self findCellByDate:date];
-	
-	MonthlyCellView *firstCell = [self.subviews objectAtIndex:0];
-	MonthlyCellView *lastCell = [self.subviews objectAtIndex:34];
-	
-	NSDate *firstDate = [firstCell getCellDate];
-	NSDate *lastDate = [lastCell getCellDate];
-	
-	NSDate *tmp = nil;
-	
-	if ([Common compareDateNoTime:date withDate:firstDate] == NSOrderedAscending)
-	{
-		tmp = date;
-	}
-	else if ([Common compareDateNoTime:date withDate:lastDate] == NSOrderedDescending)
-	{
-		tmp = [Common dateByAddNumDay:7 toDate:firstDate];
-	}
-	
-	if (tmp != nil)
-	{
-		[self showWeekCalendar:tmp];
-		[self refreshDot];
-	}
-	
-	foundCell = [self findCellByDate:date];
-	
-	if (foundCell)
-	{
-		[self highlightCell:foundCell];
-	}
-}
-*/
 
 - (void) refreshCalendar:(NSDate *)date
 {
@@ -697,8 +648,8 @@ extern CalendarViewController *_sc2ViewCtrler;
 	
 	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
-	//[self showWeekCalendar:date];
-    [self performSelector:@selector(showWeekCalendar:) withObject:date afterDelay:0];
+	[self showWeekCalendar:date];
+    //[self performSelector:@selector(showWeekCalendar:) withObject:date afterDelay:0];
 	
 	//[self refreshDot];
 	
@@ -710,6 +661,13 @@ extern CalendarViewController *_sc2ViewCtrler;
 		
 		[plannerView finishInitCalendar];
 	}
+    
+    if (![[BusyController getInstance] checkMMBusy])
+    {
+        [[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
+        
+        [self performSelectorInBackground:@selector(refreshBackground) withObject:nil];
+    }
 	
 	//[[BusyController getInstance] setBusy:NO withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
 	

@@ -945,7 +945,7 @@ extern BOOL _syncMatchHintShown;
     
     EKSource *ekSourceDefault = nil;
     
-    EKSource *ekSourceiCloud = nil;
+    //EKSource *ekSourceiCloud = nil;
     
     for (EKSource *ekSource in eventStore.sources)
     {
@@ -1024,10 +1024,11 @@ extern BOOL _syncMatchHintShown;
             
             if (prj != nil) //match Project name
             {
-                //[self resolveDataDuplicationAndRemap:cal project:prj];
                 prj.ekId = cal.calendarIdentifier;
+                prj.source = CATEGORY_SOURCE_ICAL;
                 
-                [prj updateEKIDIntoDB:[dbm getDatabase]];
+                //[prj updateEKIDIntoDB:[dbm getDatabase]];
+                [prj updateIntoDB:[dbm getDatabase]];
                 
                 [self.dupCategoryList addObject:prj];
                 
@@ -1084,7 +1085,7 @@ extern BOOL _syncMatchHintShown;
             
             prj.ekId = @"";
         }
-        else
+        else //comment out to don't sync Local project to iCal 
         {
             //create calendar in EK
             EKCalendar *cal = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")?[EKCalendar calendarForEntityType:EKEntityTypeEvent eventStore:self.eventStore]:[EKCalendar calendarWithEventStore:self.eventStore];
@@ -1095,15 +1096,6 @@ extern BOOL _syncMatchHintShown;
             NSError *err = nil;
             [eventStore saveCalendar:cal commit:YES error:&err];
             
-            /*if (err != nil)
-            {
-                printf("create calendar error: %s\n", [[err localizedDescription] UTF8String]); 
-            }
-            else
-            {
-                printf("create calendar %s successfully in EK\n", [cal.title UTF8String]);
-            }
-            */
             if (err != nil)
             {
                 [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInt:prj.primaryKey]];

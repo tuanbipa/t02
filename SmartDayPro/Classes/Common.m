@@ -906,6 +906,15 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return [Common dateByAddNumSecond:-1 toDate:dt];	
 }
 
++ (NSInteger)getMonth:(NSDate *)date
+{
+	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+	
+	NSDateComponents *dtcomps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:date];
+	
+	return dtcomps.month;
+}
+
 + (NSInteger)getDay:(NSDate *)date
 {
 	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];

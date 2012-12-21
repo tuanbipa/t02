@@ -624,9 +624,9 @@ extern BOOL _gtdoTabHintShown;
 {
     [self deselect];
     
-    [[TaskManager getInstance] initCalendarData:date];
+    //[[TaskManager getInstance] initCalendarData:date];
     
-    [miniMonthView initCalendar];
+    [miniMonthView initCalendar:date];
     
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
     
@@ -994,7 +994,14 @@ extern BOOL _gtdoTabHintShown;
 			[alertView show];
 			[alertView release];			
 		}
-		else 
+        /*else if (project.source == CATEGORY_SOURCE_ICAL)
+        {
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_deleteWarningText message:_cannotDeleteExternalProjectText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+			
+			[alertView show];
+			[alertView release];            
+        }*/
+		else
 		{
             UIActionSheet *deleteActionSheet = [[UIActionSheet alloc] initWithTitle:_deleteCategoryWarningText delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:_deleteText otherButtonTitles: nil];
             
@@ -3744,7 +3751,10 @@ extern BOOL _gtdoTabHintShown;
     if (mode == SYNC_AUTO_1WAY)
     {
         [tm refreshSyncID4AllItems];
-
+        
+        CalendarViewController *ctrler = [self getCalendarViewController];
+        
+        [ctrler.calendarLayoutController refreshSyncID4AllItems];
         return;
     }
     
@@ -3824,6 +3834,10 @@ extern BOOL _gtdoTabHintShown;
     else 
     {
         [tm refreshSyncID4AllItems];
+        
+        CalendarViewController *ctrler = [self getCalendarViewController];
+        
+        [ctrler.calendarLayoutController refreshSyncID4AllItems];
     }
 }
 

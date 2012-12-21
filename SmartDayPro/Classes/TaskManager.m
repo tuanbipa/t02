@@ -505,7 +505,9 @@ TaskManager *_sctmSingleton = nil;
 - (NSMutableArray *) getADEListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
 {
 	NSMutableArray *adeList = [[DBManager getInstance] getADEsFromDate:fromDate toDate:toDate];
-	
+
+    @synchronized(self)
+    {
 	adeList = [self filterList:adeList];
 	
 	NSMutableArray *radeList = [self filterList:self.RADEList];
@@ -520,6 +522,7 @@ TaskManager *_sctmSingleton = nil;
 			[adeList addObject:reInstance];
 		}
 	}
+    }
 	
 	//if (self.filterData != nil)
 	//{

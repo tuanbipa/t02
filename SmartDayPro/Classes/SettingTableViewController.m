@@ -718,8 +718,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	
 	if (weekStartChange && !mustDoDaysChange)
 	{
-        //[_sdViewCtrler.miniMonthView initCalendar];
-        [_sdViewCtrler.miniMonthView refreshCalendar];
+        [_sdViewCtrler.miniMonthView initCalendar];
 	}
 	
 	[[TagDictionary getInstance] saveDict];

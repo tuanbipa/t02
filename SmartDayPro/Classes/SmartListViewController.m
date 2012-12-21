@@ -1213,6 +1213,7 @@ SmartListViewController *_smartListViewCtrler;
 	//[self.navigationController pushViewController:ctrler animated:YES];
 	//[ctrler release];				
 
+    quickAddTextField.text = @"";
     [quickAddTextField resignFirstResponder];
     
     [_sdViewCtrler editTask:task];
