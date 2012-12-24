@@ -42,5 +42,6 @@
 - (void) finishInitCalendar;
 - (void) switchView:(NSInteger)mode;
 - (void) shiftTime:(NSInteger)mode;
+- (void) highlight:(NSDate *)date;
 
 @end

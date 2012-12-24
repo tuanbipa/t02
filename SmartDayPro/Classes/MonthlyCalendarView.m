@@ -761,6 +761,11 @@ extern CalendarViewController *_sc2ViewCtrler;
     return [firstCell getCellDate];
 }
 
+- (NSDate *) getLastDate
+{
+    return [Common dateByAddNumDay:7*nWeeks toDate:[self getFirstDate]];
+}
+
 - (void)dealloc {
 	
 	[adeView release];

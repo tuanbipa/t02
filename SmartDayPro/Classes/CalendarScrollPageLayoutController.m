@@ -82,7 +82,7 @@ extern SmartDayViewController *_sdViewCtrler;
         dt = [Common dateByAddNumDay:1 toDate:dt];
     }
     
-    //printf("get object list for page: %d, date: %s\n", page, [[dt description] UTF8String]);
+    printf("get object list for page: %d, date: %s\n", page, [[dt description] UTF8String]);
     
     NSDate *start = [Common clearTimeForDate:dt];
     NSDate *end = [Common getEndDate:dt];
@@ -119,6 +119,7 @@ extern SmartDayViewController *_sdViewCtrler;
     return list;
 }
 
+/*
 - (NSMutableArray *) getObjectList
 {
     NSMutableArray *ret = [NSMutableArray arrayWithArray:objectLists[0]];
@@ -128,6 +129,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     return ret;
 }
+*/
 
 - (void) initContentOffset
 {

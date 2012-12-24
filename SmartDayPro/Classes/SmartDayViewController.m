@@ -641,7 +641,9 @@ extern BOOL _gtdoTabHintShown;
     
     tm.today = date;
     
-    [miniMonthView initCalendar];
+    //[miniMonthView initCalendar];
+    
+    [miniMonthView highlight:date];
     
     CalendarViewController *ctrler = [self getCalendarViewController];
     

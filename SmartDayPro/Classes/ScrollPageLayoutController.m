@@ -274,8 +274,8 @@
 		
 		self.previousPage = nil;
 		
-		//[self refreshPage:page needFree:NO];
-        [self bgRefreshPage:page];
+		[self refreshPage:page needFree:NO];
+        //[self bgRefreshPage:page];
 	}
 	
 	if (page == 2) //scroll to left
@@ -305,11 +305,11 @@
 		
 		self.nextPage = nil;
 
-		//[self refreshPage:page needFree:NO];
-        [self bgRefreshPage:page];
+		[self refreshPage:page needFree:NO];
+        //[self bgRefreshPage:page];
 	}
 	
-	//[self freeReusableViews];
+	[self freeReusableViews];
 	
 	[self updateContentOffset];
 }
@@ -340,7 +340,7 @@
 	
 	if (pages[page].count > 0)
 	{
-		//////printf("refresh page %d - %d objects\n", page, pages[page].count);
+		printf("refresh page %d - %d objects\n", page, pages[page].count);
 		for (UIView *view in pages[page])
 		{
 			CGRect frm = CGRectOffset(view.frame, page*self.viewContainer.frame.size.width, 0);

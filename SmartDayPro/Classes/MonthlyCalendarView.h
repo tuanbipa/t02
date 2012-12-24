@@ -46,6 +46,7 @@
 - (void) changeSkin;
 - (void) showWeekCalendar:(NSDate *)date;
 - (NSDate *) getFirstDate;
+- (NSDate *) getLastDate;
 - (void) initCalendar:(NSDate *)date;
 - (void) refreshCalendar:(NSDate *)date;
 

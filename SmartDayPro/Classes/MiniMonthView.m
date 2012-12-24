@@ -238,7 +238,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     TaskManager *tm = [TaskManager getInstance];
 
-    [tm initCalendarData:date];
+    [tm initCalendarData:date]; // trigger calendar layout
 	
     NSInteger mode = [headerView getMWMode];
     
@@ -265,29 +265,45 @@ extern SmartDayViewController *_sdViewCtrler;
 {
 	////NSLog(@"begin WeekPlanner initCalendar");
 	
-	//initCalBGInProgress = YES;
-    
     TaskManager *tm = [TaskManager getInstance];
 	
     NSInteger mode = [headerView getMWMode];
     
     NSDate *dt = (mode==1?tm.today:[Common getFirstMonthDate:tm.today]);
     
-	//[[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
-	
-	//[self.calView performSelectorInBackground:@selector(initCalendar:) withObject:dt];
     [self.calView initCalendar:dt];
 
     if ([Common daysBetween:dt andDate:tm.today] != 0)
     {
         [tm initCalendarData:dt];
     }
-    	
-	//[dt release];
 	
 	[headerView setNeedsDisplay];
 	
 	////NSLog(@"end WeekPlanner initCalendar");	
+}
+
+- (void) highlight:(NSDate *)date
+{
+    //use for scrolling in Calendar view
+    
+    NSDate *firstDate = [self.calView getFirstDate];
+    NSDate *lastDate = [self.calView getLastDate];
+    
+    if ([Common compareDate:firstDate withDate:date] == NSOrderedDescending ||
+     [Common compareDate:lastDate withDate:date] == NSOrderedAscending)
+    {
+        NSInteger mode = [headerView getMWMode];
+        
+        NSDate *dt = (mode==1?date:[Common getFirstMonthDate:date]);
+        
+        [self.calView initCalendar:dt];
+        
+        [headerView setNeedsDisplay];
+    }
+    
+    [self.calView highlightCellOnDate:date];
+    
 }
 
 - (void) finishInitCalendar
