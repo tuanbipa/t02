@@ -647,10 +647,6 @@ extern SmartDayViewController *_sdViewCtrler;
 	
 	BOOL weekStartChange = (settings.weekStart != self.settingCopy.weekStart);
 	
-	//BOOL toodledoAccountChange = ![settings.tdEmail isEqualToString:@""] && (![settings.tdEmail isEqualToString:self.settingCopy.tdEmail] || ![settings.tdPassword isEqualToString:self.settingCopy.tdPassword]);
-
-	//BOOL sdwAccountChange = ![settings.sdwEmail isEqualToString:@""] && (![settings.sdwEmail isEqualToString:self.settingCopy.sdwEmail] || ![settings.sdwPassword isEqualToString:self.settingCopy.sdwPassword]);
-    
 	BOOL tabBarChanged = (settings.tabBarAutoHide != self.settingCopy.tabBarAutoHide);
 
 	BOOL ekAutoSyncChange = (settings.ekAutoSyncEnabled != self.settingCopy.ekAutoSyncEnabled);
@@ -661,7 +657,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     BOOL defaultCatChange = (settings.taskDefaultProject != self.settingCopy.taskDefaultProject);
     
-    
+    BOOL ekSyncWindowChange = (settings.syncWindowStart != self.settingCopy.syncWindowStart) || (settings.syncWindowEnd != self.settingCopy.syncWindowEnd);
 	
 	if (settings.taskDuration != self.settingCopy.taskDuration)
 	{
@@ -727,7 +723,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
     BOOL sdwAccountValid = ![settings.sdwEmail isEqualToString:@""] && ![settings.sdwEmail isEqualToString:@""] && settings.sdwVerified;
     
-	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && ekAutoSyncChange;
+	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && (ekAutoSyncChange || ekSyncWindowChange);
 	BOOL tdAutoSyncON = (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) && tdAutoSyncChange;
 	BOOL sdwAutoSyncON = (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled) && sdwAutoSyncChange;
     
@@ -735,12 +731,10 @@ extern SmartDayViewController *_sdViewCtrler;
 	{
 		[[EKSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
 	}
-	//else if (toodledoAccountValid && (tdAutoSyncON || toodledoAccountChange))
     else if (toodledoAccountValid && tdAutoSyncON)
 	{
 		[[TDSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
 	}
-	//else if (sdwAccountValid && (sdwAutoSyncON || sdwAccountChange))
     else if (sdwAccountValid && sdwAutoSyncON)
 	{
 		[[SDWSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
