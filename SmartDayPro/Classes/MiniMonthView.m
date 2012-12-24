@@ -341,23 +341,9 @@ extern SmartDayViewController *_sdViewCtrler;
     
     NSDate *calDate = (mode == 1?tm.today:[Common getFirstMonthDate:tm.today]);
     
-    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
-    
-    [self.calView changeWeekPlanner:7 weeks:weeks]; //change to refresh busy/dots for entire month
-    
-    [self.calView initCalendar:calDate];
-    
-    //[self jumpToDate:calDate];
+    [self initCalendar:calDate];
     
     [[_sdViewCtrler getCalendarViewController] focusNow];
-    
-    //[self.calView highlightCellOnDate:tm.today];
-    
-    //CGRect frm = CGRectMake(0, 0, self.frame.size.width, 40*weeks + MINI_MONTH_HEADER_HEIGHT + 6);
-    
-    //[self changeFrame:frm];
-    
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:self];
 }
 
 - (void) shiftTime:(NSInteger)mode
