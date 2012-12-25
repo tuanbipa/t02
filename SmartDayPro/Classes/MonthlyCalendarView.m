@@ -597,6 +597,9 @@ extern CalendarViewController *_sc2ViewCtrler;
     
     [[BusyController getInstance] setBusy:NO withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
     
+    TaskManager *tm = [TaskManager getInstance];
+    [tm initMiniMonth:NO]; //trigger auto-sync
+    
     [pool release];
 }
 
@@ -638,7 +641,7 @@ extern CalendarViewController *_sc2ViewCtrler;
 		
 		[plannerView finishInitCalendar];
 	}    
-	
+    
 	[pool release];
 }
 
@@ -654,7 +657,7 @@ extern CalendarViewController *_sc2ViewCtrler;
 	//[self refreshDot];
 	
 	[self highlightCellOnDate:date];
-		
+
 	if ([self.superview isKindOfClass:[MiniMonthView class]])
 	{
 		MiniMonthView *plannerView = (MiniMonthView *) self.superview;

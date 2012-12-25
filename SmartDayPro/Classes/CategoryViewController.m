@@ -238,8 +238,6 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     NSInteger prjKey = task.project;
     
-    //[[TaskManager getInstance] garbage:task];
-        
     if (![task isRT])
     {
         [list removeObject:task];

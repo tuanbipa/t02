@@ -109,8 +109,6 @@ extern SmartDayViewController *_sdViewCtrler;
 
     if (objectLists[page] != nil)
     {
-        //[tm garbage:objectLists[page]];
-        
         [objectLists[page] release];
     }
     
@@ -119,17 +117,12 @@ extern SmartDayViewController *_sdViewCtrler;
     return list;
 }
 
-/*
-- (NSMutableArray *) getObjectList
+- (void) beginReuse:(TaskView *)view
 {
-    NSMutableArray *ret = [NSMutableArray arrayWithArray:objectLists[0]];
+    TaskManager *tm = [TaskManager getInstance];
     
-    [ret addObjectsFromArray:objectLists[1]];
-    [ret addObjectsFromArray:objectLists[2]];
-    
-    return ret;
+    view.task = tm.taskDummy;
 }
-*/
 
 - (void) initContentOffset
 {

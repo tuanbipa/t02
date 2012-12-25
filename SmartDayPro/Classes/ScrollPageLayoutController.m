@@ -44,6 +44,11 @@
 	container.delegate = self;
 }
 
+- (void) beginReuse:(MovableView *)view
+{
+    
+}
+
 - (void) reuseViews:(NSMutableArray *)views
 {
 	if (self.reusableViews == nil)
@@ -55,7 +60,7 @@
 	{
 		if ([view isKindOfClass:[MovableView class]]) //exclude un-reusable views (for example, linked lines)
 		{
-			view.tag = nil;
+			[self beginReuse:(MovableView *)view];
 			
 			[self.reusableViews addObject:view];
 		}

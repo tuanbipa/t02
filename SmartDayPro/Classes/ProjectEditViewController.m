@@ -502,7 +502,7 @@ extern SmartDayViewController *_sdViewCtrler;
             
 			[tm initSmartListData];
 			
-			[_sdViewCtrler.miniMonthView initCalendar];
+			[_sdViewCtrler.miniMonthView initCalendar:tm.today];
 			
 			[dt release];
 		}

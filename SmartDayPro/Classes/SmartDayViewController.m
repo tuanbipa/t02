@@ -624,7 +624,7 @@ extern BOOL _gtdoTabHintShown;
 {
     [self deselect];
     
-    //[[TaskManager getInstance] initCalendarData:date];
+    [[TaskManager getInstance] initCalendarData:date];
     
     [miniMonthView initCalendar:date];
     
@@ -663,7 +663,7 @@ extern BOOL _gtdoTabHintShown;
     
     [dt release];
     
-    [miniMonthView initCalendar];
+    [miniMonthView initCalendar:tm.today];
     
     NoteViewController *noteCtrler = [self getNoteViewController];
     [noteCtrler loadAndShowList];
@@ -698,7 +698,9 @@ extern BOOL _gtdoTabHintShown;
         [ctrler loadAndShowList];
     }
     
-    [self.miniMonthView initCalendar];
+    TaskManager *tm = [TaskManager getInstance];
+    
+    [self.miniMonthView initCalendar:tm.today];
     
     CalendarViewController *ctrler = [self getCalendarViewController];
     [ctrler refreshADEPane];
@@ -965,10 +967,12 @@ extern BOOL _gtdoTabHintShown;
     
 	if (plan != nil)
 	{
+        TaskManager *tm = [TaskManager getInstance];
+        
 		[[ProjectManager getInstance] deleteProject:plan cleanFromDB:cleanFromDB];
-		[[TaskManager getInstance] initData];
+		[tm initData];
 		
-		[self.miniMonthView initCalendar];
+		[self.miniMonthView initCalendar:tm.today];
 		
 		CategoryViewController *ctrler = self.activeViewCtrler;
         
@@ -1860,7 +1864,6 @@ extern BOOL _gtdoTabHintShown;
     [self deselect];
     
     CalendarViewController *ctrler = [self getCalendarViewController];
-    //[ctrler garbageADEList];
     
     Settings *settings = [Settings getInstance];
     
@@ -3590,14 +3593,6 @@ extern BOOL _gtdoTabHintShown;
                          completion:^(BOOL finished){
                          }];        
     }
-    
-    /*
-    BusyController *ctrler = [BusyController getInstance];
-    
-    if ([ctrler getBusyFlag] == 0)
-    {
-        [[TaskManager getInstance] cleanupGarbage];
-    }*/
 }
 
 - (void)tabBarModeChanged:(NSNotification *)notification
@@ -3671,7 +3666,6 @@ extern BOOL _gtdoTabHintShown;
 - (void)eventChanged:(NSNotification *)notification
 {
     CalendarViewController *ctrler = [self getCalendarViewController];
-    //[ctrler garbageADEList];
     
     Settings *settings = [Settings getInstance];
     

@@ -403,8 +403,6 @@
 - (NSMutableArray *) getObjectList
 {
 	TaskManager *tm = [TaskManager getInstance];
-    
-    //[tm garbage:self.taskList];
 	
 	NSMutableArray *list = [tm getDisplayList];
 	

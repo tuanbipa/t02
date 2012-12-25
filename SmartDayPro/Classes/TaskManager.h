@@ -21,7 +21,7 @@
 	//calendar day data
 	//NSMutableArray *todayEventList;
     
-    NSMutableArray *garbageList;
+    //NSMutableArray *garbageList;
 	
 	NSDate *today;
 	
@@ -60,7 +60,7 @@
 
 //@property (nonatomic, retain) NSMutableArray *todayEventList;
 
-@property (nonatomic, retain) NSMutableArray *garbageList;
+//@property (nonatomic, retain) NSMutableArray *garbageList;
 
 @property (nonatomic, copy) NSDate *today;
 
@@ -89,6 +89,7 @@
 + (NSDictionary *) getTaskDictionaryByName:(NSArray *)taskList;
 + (NSDictionary *) getTaskDictBySDWID:(NSArray *)taskList;
 
+- (void) initMiniMonth:(BOOL)inProgress;
 - (void) initData;
 - (void) initRE;
 - (void) reset;

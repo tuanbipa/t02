@@ -50,7 +50,7 @@ TaskManager *_sctmSingleton = nil;
 
 //@synthesize todayEventList;
 
-@synthesize garbageList;
+//@synthesize garbageList;
 
 @synthesize today;
 
@@ -180,7 +180,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	[self initCalendarData: self.today];
 
-	//[self initMiniMonth:YES];
+	[self initMiniMonth:YES];
 	
 	[self initSmartListData];	
 }
@@ -200,10 +200,8 @@ TaskManager *_sctmSingleton = nil;
 	self.taskList = nil;
     self.mustDoTaskList = nil;
 	self.scheduledTaskList = nil;
-	
-	//self.todayEventList = nil;
-    
-    self.garbageList = [NSMutableArray arrayWithCapacity:5];
+	    
+    //self.garbageList = [NSMutableArray arrayWithCapacity:5];
 	
 	self.today = nil;
 	
@@ -632,22 +630,14 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) initCalendarData:(NSDate *) date
 {
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayResetNotification" object:nil];
-
-    //[self garbage:self.todayEventList];
-    
 	@synchronized(self)
 	{
-        //self.todayEventList = [self getEventListOnDate:date];
-
         [[AlertManager getInstance] generateAlerts];
 	
         self.today = date;
 	}
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
-
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayResetNotification" object:nil];
 }
 
 - (TaskProgress *) getEventSegment:(Task *)task onDate:(NSDate *)onDate
@@ -1217,9 +1207,6 @@ TaskManager *_sctmSingleton = nil;
 {
 	if ((self.mustDoTaskList.count == 0 && self.taskList.count == 0) || self.taskTypeFilter == TASK_FILTER_DONE)
 	{
-		//[[NSNotificationCenter defaultCenter] postNotificationName:@"ScheduleListResetNotification" object:nil];
-        //[self garbage:self.scheduledTaskList];
-		
 		self.scheduledTaskList = [NSMutableArray arrayWithCapacity:0];
         
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
@@ -1237,8 +1224,6 @@ TaskManager *_sctmSingleton = nil;
     
 	@synchronized(self)
 	{
-        //[self garbage:self.scheduledTaskList];
-        
         self.scheduledTaskList = [NSMutableArray arrayWithCapacity:list.count];
         
         NSMutableArray *segments = [NSMutableArray arrayWithCapacity:20];
@@ -2023,9 +2008,6 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) resetTabAllWithList:(NSMutableArray *)allList
 {
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListResetNotification" object:nil];
-    //[self garbage:self.taskList];
-	
 	self.taskList = [self filterList: allList];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
@@ -2035,9 +2017,6 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) filterTaskList
 {
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListResetNotification" object:nil];
-    //[self garbage:self.taskList];
-	
 	refreshGTD = YES;
     
     DBManager *dbm = [DBManager getInstance];
@@ -2099,8 +2078,6 @@ TaskManager *_sctmSingleton = nil;
 	
 	sortBGInProgress = NO;
 	scheduleBGInProgress = NO;
-    
-    //[self garbage:self.mustDoTaskList];
     
     self.mustDoTaskList = [self filterList: [[DBManager getInstance] getMustDoTasks]];
 	
@@ -2495,7 +2472,6 @@ TaskManager *_sctmSingleton = nil;
 	
 	if (original != nil)
 	{
-        //[self garbage:original];
         [self removeTask:original status:-1];
     }
     
@@ -3051,8 +3027,6 @@ TaskManager *_sctmSingleton = nil;
         
         if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo))
         {
-            //[self garbage:slTask];
-            
             [self removeTask:slTask status:-1];
         }
         else if ([slTask isRE])
@@ -3943,9 +3917,6 @@ TaskManager *_sctmSingleton = nil;
 	
 	if (taskFound)
 	{
-		//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListResetNotification" object:nil];
-		//[self garbage:taskFound];
-        
         if ([taskFound checkMustDo])
         {
             [self.mustDoTaskList removeObject:taskFound];
@@ -3977,13 +3948,6 @@ TaskManager *_sctmSingleton = nil;
 			[removeList addObject:found];
 		}
 	}
-	
-    /*
-	if (removeList.count > 0)
-	{
-		//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListResetNotification" object:nil];
-		[self garbage:removeList];
-	}*/
 	
 	for (Task *task in removeList)
 	{
@@ -4019,8 +3983,6 @@ TaskManager *_sctmSingleton = nil;
 			tmp = task.original;
 		}
 		
-        //[self garbage:tmp];
-        
         if (self.taskTypeFilter == TASK_FILTER_DONE)
         {
             [self.taskList removeObject:tmp];
@@ -4445,8 +4407,6 @@ TaskManager *_sctmSingleton = nil;
 			event.syncId = event.original.syncId;
             event.links = event.original.links;
 			
-            //[self garbage:event.original];
-            
             [self removeTask:event.original status:-1];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];

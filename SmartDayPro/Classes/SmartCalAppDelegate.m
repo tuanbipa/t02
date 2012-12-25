@@ -193,7 +193,7 @@ BOOL _fromBackground = NO;
     
     [self performSelectorInBackground:@selector(check2AutoSync) withObject:nil]; 
     
-    [_sdViewCtrler.miniMonthView performSelector:@selector(initCalendar) withObject:nil afterDelay:0];
+    [_sdViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
     
     //[_sdViewCtrler performSelector:@selector(showFocusView) withObject:nil afterDelay:0];
 	
@@ -223,7 +223,7 @@ BOOL _fromBackground = NO;
     
     [self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
     
-    [_sdViewCtrler.miniMonthView performSelector:@selector(highlight:) withObject:[NSDate date] afterDelay:0];
+    [_sdViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
     [_sdViewCtrler performSelector:@selector(popupHint) withObject:nil afterDelay:0];
 	
 	//[self hideProgress];
@@ -281,7 +281,7 @@ BOOL _fromBackground = NO;
     
     TaskManager *tm = [TaskManager getInstance];
     
-    //[tm wait4ThumbPlannerInitComplete];
+    [tm wait4ThumbPlannerInitComplete];
     
     [tm wait4SortComplete];
     

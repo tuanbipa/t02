@@ -238,7 +238,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     TaskManager *tm = [TaskManager getInstance];
 
-    [tm initCalendarData:date]; // trigger calendar layout
+    //[tm initCalendarData:date]; // trigger calendar layout
 	
     NSInteger mode = [headerView getMWMode];
     
@@ -253,14 +253,17 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [self.calView initCalendar:dt];
     
-    if ([Common daysBetween:dt andDate:date] != 0)
+    /*if ([Common daysBetween:dt andDate:date] != 0)
     {
         [self.calView highlightCellOnDate:date];
-    }
+    }*/
+    
+    [self.calView highlightCellOnDate:tm.today];    
 	
 	[headerView setNeedsDisplay];
 }
 
+/*
 - (void) initCalendar
 {
 	////NSLog(@"begin WeekPlanner initCalendar");
@@ -271,17 +274,18 @@ extern SmartDayViewController *_sdViewCtrler;
     
     NSDate *dt = (mode==1?tm.today:[Common getFirstMonthDate:tm.today]);
     
-    [self.calView initCalendar:dt];
-
     if ([Common daysBetween:dt andDate:tm.today] != 0)
     {
         [tm initCalendarData:dt];
     }
-	
+
+    [self.calView initCalendar:dt];
+    	
 	[headerView setNeedsDisplay];
 	
 	////NSLog(@"end WeekPlanner initCalendar");	
 }
+*/
 
 - (void) highlight:(NSDate *)date
 {
@@ -380,10 +384,6 @@ extern SmartDayViewController *_sdViewCtrler;
     
     dt = (mwMode == 0? [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt]:[Common dateByAddNumDay:(mode == 0?-7:7) toDate:dt]);
     
-    //[self.calView initCalendar:dt];
-    //[self jumpToDate:dt];
-    
-    //[self switchView:mwMode];
     [_sdViewCtrler jumpToDate:dt];
     
     CATransition *animation = [CATransition animation];
@@ -398,6 +398,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
 #pragma mark Actions
 
+/*
 - (void) goPrevious:(id) sender
 {
     Settings *settings = [Settings getInstance];
@@ -429,6 +430,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [calView initCalendar:dt];    
 }
+*/
 
 /*
 #pragma mark Touch 
