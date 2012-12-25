@@ -281,7 +281,7 @@ BOOL _fromBackground = NO;
     
     TaskManager *tm = [TaskManager getInstance];
     
-    [tm wait4ThumbPlannerInitComplete];
+    //[tm wait4ThumbPlannerInitComplete];
     
     [tm wait4SortComplete];
     

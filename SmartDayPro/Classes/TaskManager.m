@@ -180,7 +180,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	[self initCalendarData: self.today];
 
-	[self initMiniMonth:YES]; 
+	//[self initMiniMonth:YES];
 	
 	[self initSmartListData];	
 }

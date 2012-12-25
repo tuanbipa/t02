@@ -316,7 +316,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     TaskManager *tm = [TaskManager getInstance];
 		
-    [tm initMiniMonth:NO];
+    //[tm initMiniMonth:NO];
 
     NSInteger mode = [headerView getMWMode];
 
