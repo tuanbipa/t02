@@ -91,7 +91,10 @@
 {
 	for (UIView *view in self.reusableViews)
 	{
-		[view removeFromSuperview];
+        if ([view superview])
+        {
+            [view removeFromSuperview];
+        }
 	}
 	
 	self.reusableViews = nil;
