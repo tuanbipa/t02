@@ -223,7 +223,7 @@ BOOL _fromBackground = NO;
     
     [self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
     
-    [_sdViewCtrler.miniMonthView performSelector:@selector(initCalendar) withObject:nil afterDelay:0];
+    [_sdViewCtrler.miniMonthView performSelector:@selector(highlight:) withObject:[NSDate date] afterDelay:0];
     [_sdViewCtrler performSelector:@selector(popupHint) withObject:nil afterDelay:0];
 	
 	//[self hideProgress];

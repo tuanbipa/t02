@@ -357,6 +357,10 @@ extern SmartDayViewController *_sdViewCtrler;
     
     NSDate *calDate = (mode == 1?tm.today:[Common getFirstMonthDate:tm.today]);
     
+    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
+    
+    [self.calView changeWeekPlanner:7 weeks:weeks];
+    
     [self initCalendar:calDate];
     
     [[_sdViewCtrler getCalendarViewController] focusNow];
