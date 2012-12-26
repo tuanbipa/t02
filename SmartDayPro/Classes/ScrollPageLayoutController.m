@@ -196,10 +196,9 @@
 {
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     
-    [self refreshPage:[pageNum intValue] needFree:NO];
-
     @synchronized(self)
     {
+        [self refreshPage:[pageNum intValue] needFree:NO];
         bgCount --;
     }
     

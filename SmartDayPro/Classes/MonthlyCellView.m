@@ -66,15 +66,15 @@
 		{
 			color = [UIColor colorWithRed:196.0/255 green:191.0/255 blue:204.0/255 alpha:1];
 		}
-		else if (freeRatio <= 0.25)
+		else if (freeRatio < 0.25)
 		{
 			color = [UIColor colorWithRed:176.0/255 green:171.0/255 blue:184.0/255 alpha:1];
 		}
-		else if (freeRatio <= 0.5)
+		else if (freeRatio < 0.5)
 		{
 			color = [UIColor colorWithRed:156.0/255 green:151.0/255 blue:164.0/255 alpha:1];
 		}
-		else if (freeRatio <= 0.75)
+		else if (freeRatio < 0.75)
 		{
 			color = [UIColor colorWithRed:136.0/255 green:131.0/255 blue:144.0/255 alpha:1];
 		}
@@ -89,15 +89,15 @@
 		{
 			color = [UIColor colorWithRed:100.0/255 green:100.0/255 blue:100.0/255 alpha:1];				
 		}
-		else if (freeRatio <= 0.25)
+		else if (freeRatio < 0.25)
 		{
 			color = [UIColor colorWithRed:80.0/255 green:80.0/255 blue:80.0/255 alpha:1];
 		}
-		else if (freeRatio <= 0.5)
+		else if (freeRatio < 0.5)
 		{
 			color = [UIColor colorWithRed:60.0/255 green:60.0/255 blue:60.0/255 alpha:1];				
 		}
-		else if (freeRatio <= 0.75)
+		else if (freeRatio < 0.75)
 		{
 			color = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:40.0/255 alpha:1];
 		}
@@ -114,6 +114,8 @@
 -(void)setFreeRatio:(CGFloat)ratio
 {
 	freeRatio = ratio;
+    
+    //printf("cell [%d, %d] - busy:%f \n", self.day, self.month, freeRatio);
 	
 	[self changeBusyColor];
 	

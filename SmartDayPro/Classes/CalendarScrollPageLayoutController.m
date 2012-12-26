@@ -67,6 +67,18 @@ extern SmartDayViewController *_sdViewCtrler;
     }    
 }
 
+- (NSMutableArray *) getObjectList
+{
+    //for links reconcile
+    NSMutableArray *ret = [NSMutableArray arrayWithArray:objectLists[0]];
+    
+    [ret addObjectsFromArray:objectLists[1]];
+    [ret addObjectsFromArray:objectLists[2]];
+    
+    return ret;
+}
+
+
 - (NSMutableArray *) getObjectListForPage:(NSInteger) page
 {
     TaskManager *tm = [TaskManager getInstance];
@@ -82,7 +94,7 @@ extern SmartDayViewController *_sdViewCtrler;
         dt = [Common dateByAddNumDay:1 toDate:dt];
     }
     
-    printf("get object list for page: %d, date: %s\n", page, [[dt description] UTF8String]);
+    //printf("get object list for page: %d, date: %s\n", page, [[dt description] UTF8String]);
     
     NSDate *start = [Common clearTimeForDate:dt];
     NSDate *end = [Common getEndDate:dt];
@@ -240,7 +252,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
 	taskView.touchHoldEnable = YES;
 	
-	if (task.type == TYPE_EVENT)
+	if ([task isEvent])
 	{
 		//BOOL overlapping = (slotObjects[slotIdx].count > 0);
 		
