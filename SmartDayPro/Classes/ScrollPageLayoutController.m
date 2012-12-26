@@ -200,11 +200,11 @@
     {
         [self refreshPage:[pageNum intValue] needFree:NO];
         bgCount --;
-    }
-    
-    if (bgCount == 0)
-    {        
-        [self freeReusableViews];
+
+        if (bgCount == 0)
+        {
+            [self freeReusableViews];
+        }
     }
     
     [pool release];

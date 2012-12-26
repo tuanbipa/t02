@@ -595,3 +595,6 @@
 #define _goText NSLocalizedString(@"_goText", "")
 #define _msdSyncFailed NSLocalizedString(@"_msdSyncFailed", "")
 
+#define _ekFatalError NSLocalizedString(@"_ekFatalError", "")
+
+

@@ -940,7 +940,7 @@ extern BOOL _syncMatchHintShown;
     [self.eventStore commit:&err];
 }
 
-- (void) syncProjects
+- (BOOL) syncProjects
 {
 	ProjectManager *pm = [ProjectManager getInstance];
 	DBManager *dbm = [DBManager getInstance];
@@ -983,7 +983,6 @@ extern BOOL _syncMatchHintShown;
     NSDictionary *prjSyncDict = [ProjectManager getProjectDictByEventSyncID:prjList];
 	
 	NSMutableArray *delList = [dbm getDeletedPlans];
-    //NSDictionary *delDict = [ProjectManager getProjectDictByEventSyncID:delList];
 	
 	self.scEKMappingDict = [NSMutableDictionary dictionaryWithCapacity:12];
 	self.ekSCMappingDict = [NSMutableDictionary dictionaryWithCapacity:12];
@@ -992,6 +991,11 @@ extern BOOL _syncMatchHintShown;
     
     NSArray *ekCalList = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")?[self.eventStore calendarsForEntityType:EKEntityTypeEvent]:self.eventStore.calendars;
     
+    if (ekCalList.count == 0)
+    {
+        return NO;
+    }
+
 	for (EKCalendar *cal in ekCalList)
 	{
 		printf("EK title: %s\n", [cal.title UTF8String]);
@@ -1078,18 +1082,23 @@ extern BOOL _syncMatchHintShown;
         
         if (![prj.ekId isEqualToString:@""]) //already synced and calendar is deleted from iCal
         {
-            NSInteger countTask = [dbm getTaskCountForProject:prj.primaryKey];
+            EKCalendar *ekCal = [self.eventStore calendarWithIdentifier:prj.ekId];
             
-            if (countTask == 0 && prj.primaryKey != defaultPrjKey)
+            if (ekCal == nil)
             {
-                [delList addObject:prj];
+                NSInteger countTask = [dbm getTaskCountForProject:prj.primaryKey];
+                
+                if (countTask == 0 && prj.primaryKey != defaultPrjKey)
+                {
+                    [delList addObject:prj];
+                }
+                else
+                {
+                    [dbm cleanAllEventsForProject:prj.primaryKey];
+                }
+                
+                prj.ekId = @"";
             }
-            else
-            {
-                [dbm cleanAllEventsForProject:prj.primaryKey];
-            }                    
-            
-            prj.ekId = @"";
         }
         else //comment out to don't sync Local project to iCal 
         {
@@ -1122,32 +1131,40 @@ extern BOOL _syncMatchHintShown;
         [prj updateEKIDIntoDB:[dbm getDatabase]];
         
 		[pm deleteProject:prj cleanFromDB:NO];
-	}    
+	}
+    
+    return YES;
 }
 
 - (void) performSync
 {    
-    [self syncProjects];
-	
-    if (self.syncMode == SYNC_AUTO_1WAY)
+    if ([self syncProjects])
     {
-        [self sync1way];
+        if (self.syncMode == SYNC_AUTO_1WAY)
+        {
+            [self sync1way];
+        }
+        else
+        {
+            [self syncEvents];
+        }
+        
+        Settings *settings = [Settings getInstance];
+        
+        settings.ekLastSyncTime = [NSDate date];
+        
+        [self reset];
+        
+        [settings saveEKSync];
     }
-    else
+	else
     {
-        [self syncEvents];
-    }  
-    
-    Settings *settings = [Settings getInstance];
-    
-	settings.ekLastSyncTime = [NSDate date];
-	
-	[self reset];
-    
-	[settings saveEKSync];
-	
-	[self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];    
-    
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText  message:_ekFatalError delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+        [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+        [alertView release];
+    }
+
+    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];    
 }
 
 - (void) initSync:(NSInteger)mode
@@ -1345,7 +1362,7 @@ extern BOOL _syncMatchHintShown;
 				EKEvent *ekEvent  = [EKEvent eventWithEventStore:eventStore];
 				[self updateEKEvent:ekEvent withSCEvent:scEvent];
 				
-				NSError *err;
+				NSError *err = nil;
 				[ekEvent setCalendar:cal];
 				BOOL ret = [eventStore saveEvent:ekEvent span:(ekEvent.isDetached?EKSpanThisEvent:EKSpanFutureEvents) commit:YES error:&err];
 				
@@ -1362,7 +1379,11 @@ extern BOOL _syncMatchHintShown;
 					
 					printf("Create SC->EK: %s - update time: %s\n", [scEvent.name UTF8String], [[scEvent.updateTime description] UTF8String]);
 					//[scEvent print];
-				}					
+				}
+                else if (err != nil)
+                {
+                    printf("Create SC->EK: %s - error: %s\n", [scEvent.name UTF8String], [err.localizedDescription UTF8String]);
+                }
 			}
 		}
 	}

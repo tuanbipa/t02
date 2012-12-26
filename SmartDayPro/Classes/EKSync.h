@@ -41,7 +41,7 @@
 -(void)initBackgroundAuto1WaySync;
 -(void)initBackgroundAuto2WaySync;
 
--(void) syncProjects;
+- (BOOL) syncProjects;
 
 +(BOOL) checkEKAccessEnabled;
 

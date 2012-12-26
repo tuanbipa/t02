@@ -600,3 +600,5 @@
 "_syncWizardText" = "Sync Wizard";
 "_goText" = "Go";
 "_msdSyncFailed" = "mySmartDay sync failed!";
+
+"_ekFatalError" = "EventKit returns empty calendar list. This could be a fatal error in iOS Cal. You may need to restore your device to recover iCal App.";
