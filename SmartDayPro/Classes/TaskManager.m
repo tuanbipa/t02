@@ -22,6 +22,7 @@
 #import "TaskProgress.h"
 #import "FilterData.h"
 #import "AlertData.h"
+#import "Link.h"
 
 #import "BusyController.h"
 
@@ -3018,9 +3019,12 @@ TaskManager *_sctmSingleton = nil;
         }
         
         BOOL taskReset = NO;
+        NSMutableArray *links = nil;
         
         if (taskChange && (![slTask.syncId isEqualToString:@""] || ![slTask.sdwId isEqualToString:@""])) //already synced
         {
+            links = [tlm getLinks4Task:taskEdit.primaryKey];
+            
             [slTask deleteFromDatabase:[dbm getDatabase]];
             taskReset = YES;
         }		
@@ -3131,10 +3135,11 @@ TaskManager *_sctmSingleton = nil;
             [self populateEvent:slTask];
         }
         
-        if (taskReset)
+        if (taskReset && links != nil)
         {
             //recover links for converted item with new primary key
             
+            /*
             slTask.links = [NSMutableArray arrayWithCapacity:task.links.count];
             
             for (NSNumber *linkNum in task.links)
@@ -3142,6 +3147,20 @@ TaskManager *_sctmSingleton = nil;
                 NSInteger linkTarget = [tlm getLinkedId4Task:task.primaryKey linkId:[linkNum intValue]];
                 
                 [tlm createLink:slTask.primaryKey destId:linkTarget];                
+            }*/
+            
+            for (Link *link in links)
+            {
+                if (link.srcId == task.primaryKey)
+                {
+                    link.srcId = slTask.primaryKey;
+                }
+                else if (link.destId == task.primaryKey)
+                {
+                    link.destId = slTask.primaryKey;
+                }
+                
+                [tlm createLink:link.srcId destId:link.destId];
             }
         }
         
