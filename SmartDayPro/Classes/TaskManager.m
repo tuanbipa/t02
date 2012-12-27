@@ -923,7 +923,7 @@ TaskManager *_sctmSingleton = nil;
         }
     }
 	
-	//[Common sortList:ret byKey:@"startTime" ascending:YES];
+	[Common sortList:ret byKey:@"startTime" ascending:YES]; // need to sort because week option could be before the day RE starts
 	
 	return ret;	
 }

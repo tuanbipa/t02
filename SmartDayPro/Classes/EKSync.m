@@ -174,6 +174,8 @@ extern BOOL _syncMatchHintShown;
 					[daysOfWeek addObject:dow];
 				}
 			}
+            
+            daysOfMonth = nil;
 		}
 			break;
 		case REPEAT_MONTHLY:
@@ -1153,8 +1155,6 @@ extern BOOL _syncMatchHintShown;
         
         settings.ekLastSyncTime = [NSDate date];
         
-        [self reset];
-        
         [settings saveEKSync];
     }
 	else
@@ -1163,8 +1163,10 @@ extern BOOL _syncMatchHintShown;
         [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
         [alertView release];
     }
+    
+    [self reset];
 
-    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];    
+    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];
 }
 
 - (void) initSync:(NSInteger)mode
