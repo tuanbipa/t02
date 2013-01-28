@@ -1,0 +1,38 @@
+<html>
+<head><style>
+.tab { margin-left: 20px; 
+}
+.style1 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13pt;
+}
+.style2 {
+	color: #333333;
+	font-size: 12pt;
+}
+.style4 {font-family: Arial, Helvetica, sans-serif; color: #FFFFFF;}
+.style5 {
+	color: #87CEFA;
+	font-weight: bold;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="cache-control" content="no-cache" />
+</head>
+<body text="#ffffff" link="#87cefa">
+<p class="style1">Easy Mapping</p>
+<ol class="style2">
+  <li class="style4">Before you start, create your calendars in iCal</li>
+  <li class="style4">Move iCal calendars on the right side with your fingertips to map</li>
+	<img src='moveCal.png' width='250px' height='70px'/>
+  <li class="style4">Tap calendars on the left side to map/unmap. Background highlight indicates an active mapping</li>
+    <img src='mapCal.png' width='250px' height='70px'/>
+</ol>
+</body>
+<script language=javascript>
+document.ontouchmove = function(event){
+event.preventDefault();
+}
+</script>
+</html>

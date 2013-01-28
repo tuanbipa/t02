@@ -1,0 +1,1433 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes
+END
+AlertSelectionTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/AlertSelectionTableViewController.m
+END
+SettingTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/658/SmartDayPro/SmartDayPro/Classes/SettingTableViewController.m
+END
+MFMailComposeViewController+Rotate.m
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/leftcoastlogic_sc/!svn/ver/604/SmartDayPro/SmartDayPro/Classes/MFMailComposeViewController+Rotate.m
+END
+MonthlyCellView.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/MonthlyCellView.m
+END
+ContactManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/ContactManager.m
+END
+CalendarScrollPageLayoutController.m
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/CalendarScrollPageLayoutController.m
+END
+TaskManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/leftcoastlogic_sc/!svn/ver/612/SmartDayPro/SmartDayPro/Classes/TaskManager.h
+END
+multiOn@2x.png
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/multiOn@2x.png
+END
+AlertData.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/AlertData.h
+END
+TaskManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/leftcoastlogic_sc/!svn/ver/658/SmartDayPro/SmartDayPro/Classes/TaskManager.m
+END
+CGRectObj.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CGRectObj.h
+END
+ContentView.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ContentView.h
+END
+Project.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/Project.h
+END
+AlertData.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/AlertData.m
+END
+CGRectObj.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CGRectObj.m
+END
+CalendarViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/590/SmartDayPro/SmartDayPro/Classes/CalendarViewController.h
+END
+CalendarDayLayoutController.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CalendarDayLayoutController.h
+END
+HourPickerViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/HourPickerViewController.h
+END
+ContentView.m
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/ContentView.m
+END
+Project.m
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/Project.m
+END
+MiniMonthMovableController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/MiniMonthMovableController.h
+END
+CalendarViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/CalendarViewController.m
+END
+CalendarDayLayoutController.m
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/CalendarDayLayoutController.m
+END
+HourPickerViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/HourPickerViewController.m
+END
+FilterView.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/FilterView.h
+END
+MiniMonthMovableController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/611/SmartDayPro/SmartDayPro/Classes/MiniMonthMovableController.m
+END
+SmartListLayoutController.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SmartListLayoutController.h
+END
+ToodledoAccountViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ToodledoAccountViewController.h
+END
+FilterView.m
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/645/SmartDayPro/SmartDayPro/Classes/FilterView.m
+END
+TaskProgress.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskProgress.h
+END
+SmartListLayoutController.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/646/SmartDayPro/SmartDayPro/Classes/SmartListLayoutController.m
+END
+DefaultDurationViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/DefaultDurationViewController.h
+END
+ToodledoAccountViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ToodledoAccountViewController.m
+END
+TaskProgress.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskProgress.m
+END
+TaskOutlineView.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskOutlineView.h
+END
+ScrollPageLayoutController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/590/SmartDayPro/SmartDayPro/Classes/ScrollPageLayoutController.h
+END
+DefaultDurationViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/584/SmartDayPro/SmartDayPro/Classes/DefaultDurationViewController.m
+END
+TagDictionary.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/637/SmartDayPro/SmartDayPro/Classes/TagDictionary.h
+END
+Colors.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/Colors.h
+END
+ScrollPageLayoutController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/ScrollPageLayoutController.m
+END
+TaskOutlineView.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskOutlineView.m
+END
+TagDictionary.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/645/SmartDayPro/SmartDayPro/Classes/TagDictionary.m
+END
+TagListViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TagListViewController.h
+END
+Colors.m
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/Colors.m
+END
+LocationViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/LocationViewController.h
+END
+TagListViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/leftcoastlogic_sc/!svn/ver/637/SmartDayPro/SmartDayPro/Classes/TagListViewController.m
+END
+ProjectEditViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProjectEditViewController.h
+END
+LocationViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/LocationViewController.m
+END
+ContentTableView.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ContentTableView.h
+END
+ProjectEditViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/645/SmartDayPro/SmartDayPro/Classes/ProjectEditViewController.m
+END
+LayoutController.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/LayoutController.h
+END
+StartEndPickerViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/StartEndPickerViewController.h
+END
+multiOff.png
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/multiOff.png
+END
+ContentTableView.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ContentTableView.m
+END
+LayoutController.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/leftcoastlogic_sc/!svn/ver/650/SmartDayPro/SmartDayPro/Classes/LayoutController.m
+END
+StartEndPickerViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/586/SmartDayPro/SmartDayPro/Classes/StartEndPickerViewController.m
+END
+MovableController.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/MovableController.h
+END
+Strings.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/leftcoastlogic_sc/!svn/ver/656/SmartDayPro/SmartDayPro/Classes/Strings.h
+END
+WeekViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/589/SmartDayPro/SmartDayPro/Classes/WeekViewController.h
+END
+WWWTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/584/SmartDayPro/SmartDayPro/Classes/WWWTableViewController.h
+END
+LinkViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/LinkViewController.h
+END
+ProgressIndicatorView.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProgressIndicatorView.h
+END
+MovableController.m
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/leftcoastlogic_sc/!svn/ver/617/SmartDayPro/SmartDayPro/Classes/MovableController.m
+END
+WeekViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/612/SmartDayPro/SmartDayPro/Classes/WeekViewController.m
+END
+MonthlyADEView.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/MonthlyADEView.h
+END
+WWWTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/WWWTableViewController.m
+END
+LinkViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/LinkViewController.m
+END
+ProgressIndicatorView.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/ProgressIndicatorView.m
+END
+SmartCalAppDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SmartCalAppDelegate.h
+END
+DateJumpView.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/DateJumpView.h
+END
+NoteViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/NoteViewController.h
+END
+MonthlyADEView.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/MonthlyADEView.m
+END
+SmartCalAppDelegate.m
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/leftcoastlogic_sc/!svn/ver/656/SmartDayPro/SmartDayPro/Classes/SmartCalAppDelegate.m
+END
+DateJumpView.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/591/SmartDayPro/SmartDayPro/Classes/DateJumpView.m
+END
+NoteViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/NoteViewController.m
+END
+ProgressEditViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProgressEditViewController.h
+END
+TaskLinkManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/TaskLinkManager.h
+END
+ProgressEditViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProgressEditViewController.m
+END
+MenuMakerView.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/MenuMakerView.h
+END
+TaskLinkManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/639/SmartDayPro/SmartDayPro/Classes/TaskLinkManager.m
+END
+SmartListViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/648/SmartDayPro/SmartDayPro/Classes/SmartListViewController.h
+END
+MenuMakerView.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/MenuMakerView.m
+END
+ContentScrollView.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/leftcoastlogic_sc/!svn/ver/590/SmartDayPro/SmartDayPro/Classes/ContentScrollView.h
+END
+UIViewController+Transitions.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/UIViewController+Transitions.h
+END
+GTMDefines.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/617/SmartDayPro/SmartDayPro/Classes/GTMDefines.h
+END
+SmartListViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/650/SmartDayPro/SmartDayPro/Classes/SmartListViewController.m
+END
+ScheduleView.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/589/SmartDayPro/SmartDayPro/Classes/ScheduleView.h
+END
+Common.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/leftcoastlogic_sc/!svn/ver/637/SmartDayPro/SmartDayPro/Classes/Common.h
+END
+ContentScrollView.m
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/leftcoastlogic_sc/!svn/ver/648/SmartDayPro/SmartDayPro/Classes/ContentScrollView.m
+END
+UIViewController+Transitions.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/UIViewController+Transitions.m
+END
+ScheduleView.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/ScheduleView.m
+END
+TaskDetailTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/593/SmartDayPro/SmartDayPro/Classes/TaskDetailTableViewController.h
+END
+Common.m
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/Common.m
+END
+NoteView.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/608/SmartDayPro/SmartDayPro/Classes/NoteView.h
+END
+TaskDetailTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/653/SmartDayPro/SmartDayPro/Classes/TaskDetailTableViewController.m
+END
+AlertListViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/AlertListViewController.h
+END
+AlertManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/AlertManager.h
+END
+NoteView.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/644/SmartDayPro/SmartDayPro/Classes/NoteView.m
+END
+TaskSyncTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskSyncTableViewController.h
+END
+AlertListViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/584/SmartDayPro/SmartDayPro/Classes/AlertListViewController.m
+END
+AlertManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/AlertManager.m
+END
+TaskSyncTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskSyncTableViewController.m
+END
+CategoryViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CategoryViewController.h
+END
+MonthlyCalendarView.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/MonthlyCalendarView.h
+END
+NoteInfoViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/NoteInfoViewController.h
+END
+CategoryViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/CategoryViewController.m
+END
+MonthlyCalendarView.m
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/MonthlyCalendarView.m
+END
+NoteInfoViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/645/SmartDayPro/SmartDayPro/Classes/NoteInfoViewController.m
+END
+WorkingTime7ViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/WorkingTime7ViewController.h
+END
+BusyController.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/596/SmartDayPro/SmartDayPro/Classes/BusyController.h
+END
+TaskNoteViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskNoteViewController.h
+END
+WorkingTime7ViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/WorkingTime7ViewController.m
+END
+SDNavigationController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/575/SmartDayPro/SmartDayPro/Classes/SDNavigationController.h
+END
+BusyController.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/634/SmartDayPro/SmartDayPro/Classes/BusyController.m
+END
+SmartListMovableController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SmartListMovableController.h
+END
+GTMBase64.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/GTMBase64.h
+END
+EKSync.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/EKSync.h
+END
+TaskNoteViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskNoteViewController.m
+END
+SDNavigationController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/598/SmartDayPro/SmartDayPro/Classes/SDNavigationController.m
+END
+Settings.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/608/SmartDayPro/SmartDayPro/Classes/Settings.h
+END
+SmartListMovableController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/616/SmartDayPro/SmartDayPro/Classes/SmartListMovableController.m
+END
+GTMBase64.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/GTMBase64.m
+END
+EKSync.m
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/leftcoastlogic_sc/!svn/ver/655/SmartDayPro/SmartDayPro/Classes/EKSync.m
+END
+CategoryNoteViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CategoryNoteViewController.h
+END
+SimpleCoreTextView.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/575/SmartDayPro/SmartDayPro/Classes/SimpleCoreTextView.h
+END
+Settings.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/Settings.m
+END
+MiniMonthHeaderView.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/leftcoastlogic_sc/!svn/ver/612/SmartDayPro/SmartDayPro/Classes/MiniMonthHeaderView.h
+END
+CategoryNoteViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/575/SmartDayPro/SmartDayPro/Classes/CategoryNoteViewController.m
+END
+SimpleCoreTextView.m
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/625/SmartDayPro/SmartDayPro/Classes/SimpleCoreTextView.m
+END
+CustomTextView.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/608/SmartDayPro/SmartDayPro/Classes/CustomTextView.h
+END
+CalendarLayoutController.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/590/SmartDayPro/SmartDayPro/Classes/CalendarLayoutController.h
+END
+MiniMonthHeaderView.m
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/leftcoastlogic_sc/!svn/ver/612/SmartDayPro/SmartDayPro/Classes/MiniMonthHeaderView.m
+END
+Contacts.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/Contacts.h
+END
+CustomTextView.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/CustomTextView.m
+END
+CalendarLayoutController.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/CalendarLayoutController.m
+END
+MovableView.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/leftcoastlogic_sc/!svn/ver/584/SmartDayPro/SmartDayPro/Classes/MovableView.h
+END
+DayHeaderView.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/DayHeaderView.h
+END
+Contacts.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/Contacts.m
+END
+MovableView.m
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/MovableView.m
+END
+GuideWebView.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/GuideWebView.h
+END
+DayHeaderView.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/DayHeaderView.m
+END
+RepeatTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/RepeatTableViewController.h
+END
+SDApplication.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SDApplication.h
+END
+TimeSlotView.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TimeSlotView.h
+END
+GuideWebView.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/GuideWebView.m
+END
+multiOff@2x.png
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/multiOff@2x.png
+END
+RepeatTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/607/SmartDayPro/SmartDayPro/Classes/RepeatTableViewController.m
+END
+SyncWindow2TableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SyncWindow2TableViewController.h
+END
+SDApplication.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/617/SmartDayPro/SmartDayPro/Classes/SDApplication.m
+END
+PageAbstractViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/PageAbstractViewController.h
+END
+TimeSlotView.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/TimeSlotView.m
+END
+SyncWindow2TableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/leftcoastlogic_sc/!svn/ver/601/SmartDayPro/SmartDayPro/Classes/SyncWindow2TableViewController.m
+END
+HighlightView.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/HighlightView.h
+END
+PageAbstractViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/617/SmartDayPro/SmartDayPro/Classes/PageAbstractViewController.m
+END
+HighlightView.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/HighlightView.m
+END
+GrowingTextView.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/604/SmartDayPro/SmartDayPro/Classes/GrowingTextView.h
+END
+ImageManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ImageManager.h
+END
+DBManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/601/SmartDayPro/SmartDayPro/Classes/DBManager.h
+END
+GrowingTextView.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/604/SmartDayPro/SmartDayPro/Classes/GrowingTextView.m
+END
+LinkSearchViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/LinkSearchViewController.h
+END
+ImageManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/ImageManager.m
+END
+ProjectSelectionTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProjectSelectionTableViewController.h
+END
+TransparentToolbar.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TransparentToolbar.h
+END
+PlanView.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/PlanView.h
+END
+DBManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/651/SmartDayPro/SmartDayPro/Classes/DBManager.m
+END
+LinkSearchViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/LinkSearchViewController.m
+END
+CategoryMovableController.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CategoryMovableController.h
+END
+ProjectSelectionTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/ProjectSelectionTableViewController.m
+END
+TransparentToolbar.m
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TransparentToolbar.m
+END
+PlanView.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/PlanView.m
+END
+CategoryMovableController.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/616/SmartDayPro/SmartDayPro/Classes/CategoryMovableController.m
+END
+MiniMonthView.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/612/SmartDayPro/SmartDayPro/Classes/MiniMonthView.h
+END
+TaskView.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/611/SmartDayPro/SmartDayPro/Classes/TaskView.h
+END
+ProjectManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProjectManager.h
+END
+MiniMonthView.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/633/SmartDayPro/SmartDayPro/Classes/MiniMonthView.m
+END
+Task.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/Task.h
+END
+TaskView.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/leftcoastlogic_sc/!svn/ver/625/SmartDayPro/SmartDayPro/Classes/TaskView.m
+END
+LinkInfo2Sort.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/575/SmartDayPro/SmartDayPro/Classes/LinkInfo2Sort.h
+END
+QuickColorPickerView.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/QuickColorPickerView.h
+END
+ProjectManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/ProjectManager.m
+END
+Task.m
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/leftcoastlogic_sc/!svn/ver/651/SmartDayPro/SmartDayPro/Classes/Task.m
+END
+LinkInfo2Sort.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/leftcoastlogic_sc/!svn/ver/575/SmartDayPro/SmartDayPro/Classes/LinkInfo2Sort.m
+END
+QuickColorPickerView.m
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/QuickColorPickerView.m
+END
+DatePickerViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/DatePickerViewController.h
+END
+RepeatData.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/RepeatData.h
+END
+ProjectIconView.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProjectIconView.h
+END
+TaskLinkView.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskLinkView.h
+END
+ColorPickerViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ColorPickerViewController.h
+END
+HintModalViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/HintModalViewController.h
+END
+DatePickerViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/619/SmartDayPro/SmartDayPro/Classes/DatePickerViewController.m
+END
+RepeatData.m
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/654/SmartDayPro/SmartDayPro/Classes/RepeatData.m
+END
+ProjectIconView.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/ProjectIconView.m
+END
+FilterData.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/FilterData.h
+END
+TaskLinkView.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TaskLinkView.m
+END
+ColorPickerViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/586/SmartDayPro/SmartDayPro/Classes/ColorPickerViewController.m
+END
+CalendarMovableController.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CalendarMovableController.h
+END
+HintModalViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/615/SmartDayPro/SmartDayPro/Classes/HintModalViewController.m
+END
+SyncDirectionTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SyncDirectionTableViewController.h
+END
+FilterData.m
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/FilterData.m
+END
+multiOn.png
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/multiOn.png
+END
+CalendarEditTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CalendarEditTableViewController.h
+END
+CalendarSelectionTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CalendarSelectionTableViewController.h
+END
+CalendarMovableController.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/620/SmartDayPro/SmartDayPro/Classes/CalendarMovableController.m
+END
+TodayLine.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TodayLine.h
+END
+SyncDirectionTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SyncDirectionTableViewController.m
+END
+CalendarEditTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/leftcoastlogic_sc/!svn/ver/575/SmartDayPro/SmartDayPro/Classes/CalendarEditTableViewController.m
+END
+CalendarSelectionTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/leftcoastlogic_sc/!svn/ver/613/SmartDayPro/SmartDayPro/Classes/CalendarSelectionTableViewController.m
+END
+Link.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/Link.h
+END
+TodayLine.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/TodayLine.m
+END
+ToodledoSignupViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ToodledoSignupViewController.h
+END
+NoteDetailTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/575/SmartDayPro/SmartDayPro/Classes/NoteDetailTableViewController.h
+END
+Link.m
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/Link.m
+END
+LinkPreviewPane.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/633/SmartDayPro/SmartDayPro/Classes/LinkPreviewPane.h
+END
+ToodledoSignupViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ToodledoSignupViewController.m
+END
+NoteDetailTableViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/leftcoastlogic_sc/!svn/ver/633/SmartDayPro/SmartDayPro/Classes/NoteDetailTableViewController.m
+END
+NumberInputViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/NumberInputViewController.h
+END
+LinkPreviewPane.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/638/SmartDayPro/SmartDayPro/Classes/LinkPreviewPane.m
+END
+NumberInputViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/leftcoastlogic_sc/!svn/ver/586/SmartDayPro/SmartDayPro/Classes/NumberInputViewController.m
+END
+CalendarADEView.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/599/SmartDayPro/SmartDayPro/Classes/CalendarADEView.h
+END
+CategoryLayoutController.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/CategoryLayoutController.h
+END
+ProjectColorPaletteView.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProjectColorPaletteView.h
+END
+NSDataBase64.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/NSDataBase64.h
+END
+TagEditViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/TagEditViewController.h
+END
+DurationPickerViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/DurationPickerViewController.h
+END
+CalendarADEView.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/653/SmartDayPro/SmartDayPro/Classes/CalendarADEView.m
+END
+SmartDayViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/644/SmartDayPro/SmartDayPro/Classes/SmartDayViewController.h
+END
+ProjectColorPaletteView.m
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ProjectColorPaletteView.m
+END
+CategoryLayoutController.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/leftcoastlogic_sc/!svn/ver/611/SmartDayPro/SmartDayPro/Classes/CategoryLayoutController.m
+END
+SettingTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/SettingTableViewController.h
+END
+NSDataBase64.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/NSDataBase64.m
+END
+AlertSelectionTableViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/AlertSelectionTableViewController.h
+END
+MFMailComposeViewController+Rotate.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/leftcoastlogic_sc/!svn/ver/604/SmartDayPro/SmartDayPro/Classes/MFMailComposeViewController+Rotate.h
+END
+TagEditViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/leftcoastlogic_sc/!svn/ver/588/SmartDayPro/SmartDayPro/Classes/TagEditViewController.m
+END
+MonthlyCellView.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/MonthlyCellView.h
+END
+ContactManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/ContactManager.h
+END
+DurationPickerViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/leftcoastlogic_sc/!svn/ver/572/SmartDayPro/SmartDayPro/Classes/DurationPickerViewController.m
+END
+CalendarScrollPageLayoutController.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/leftcoastlogic_sc/!svn/ver/613/SmartDayPro/SmartDayPro/Classes/CalendarScrollPageLayoutController.h
+END
+SmartDayViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/leftcoastlogic_sc/!svn/ver/657/SmartDayPro/SmartDayPro/Classes/SmartDayViewController.m
+END

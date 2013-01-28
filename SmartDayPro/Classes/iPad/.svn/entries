@@ -1,0 +1,98 @@
+10
+
+dir
+0
+http://leftcoastlogic.unfuddle.com/svn/leftcoastlogic_sc/SmartDayPro/SmartDayPro/Classes/iPad
+http://leftcoastlogic.unfuddle.com/svn/leftcoastlogic_sc
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7e693509-8da4-4703-896f-bed27e240a02
+
+AbstractSDViewController.h
+file
+
+
+
+add
+
+FocusView.h
+file
+
+
+
+add
+
+AbstractSDViewController.m
+file
+
+
+
+add
+
+PlannerViewController.h
+file
+
+
+
+add
+
+FocusView.m
+file
+
+
+
+add
+
+PreviewViewController.h
+file
+
+
+
+add
+
+iPadSmartDayViewController.h
+file
+
+
+
+add
+
+PlannerViewController.m
+file
+
+
+
+add
+
+PreviewViewController.m
+file
+
+
+
+add
+
+iPadSmartDayViewController.m
+file
+
+
+
+add
+

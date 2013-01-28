@@ -1,0 +1,24 @@
+//
+//  FocusView.h
+//  SmartDayPro
+//
+//  Created by Left Coast Logic on 12/12/12.
+//  Copyright (c) 2012 Left Coast Logic. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface FocusView : UIView
+{
+    UIScrollView *contentView;
+    
+    UILabel *titleLabel;
+    UIButton *zoomButton;
+}
+
+@property (nonatomic, retain) NSMutableArray *adeList;
+@property (nonatomic, retain) NSMutableArray *dueList;
+
+- (void) refreshData;
+
+@end

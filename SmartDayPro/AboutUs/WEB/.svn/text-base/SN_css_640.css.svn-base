@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	background-image: url(SN_bg_640.jpg);
+	background-repeat:no-repeat;
+	margin-top: 0px;
+	padding: 0px;
+}
+#container {
+	/*margin: 0px, 20px;*/
+	width: 610px;
+	height: 830px;
+	/*padding: 10px 10px;*/
+	position: relative;
+	left: 0px;
+}
+#sn_info{
+	margin: 5px;
+	width: 510px;
+	height: 450px;
+	position: absolute;
+	left: 50px;
+	top: 215px;
+}
+
+#sn_more{
+	margin: 5px;
+	width: 510px;
+	height: 25px;
+	position: absolute;
+	left: 50px;
+	top: 630px;
+}
+#sn_help{
+	margin: 5px;
+	width: 510px;
+	height: 25px;
+	position: absolute;
+	left: 50px;
+	top: 730px;
+}

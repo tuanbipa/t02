@@ -1,0 +1,44 @@
+<html>
+<head><style>
+.tab { margin-left: 20px; 
+}
+.style1 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	font-weight: bold;
+}
+.style2 {
+	color: #333333;
+	font-size: 11pt;
+}
+.style4 {font-family: Arial, Helvetica, sans-serif; color: #FFFFFF;}
+.style5 {
+	color: #87CEFA;
+	font-weight: bold;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="cache-control" content="no-cache" />
+</head>
+<body text="#ffffff" link="#87cefa">
+<p class="style1">Calendar View - Helpful Hints</p>
+<ul class="style2">
+  <li class="style4">Tap on the date bar to drop down a Mini Week view, then</li>
+  <li class="style4">Tap on the -> <- icon to toggle Mini Month view.</li>
+  <li class="style4">In either view, tap any date to navigate.</li>
+  <li class="style4">“Heat Map” shows busy days as dark.</li>
+  <li class="style4">Drag any Event into the Mini Month to reschedule.</li>
+  <li class="style4">Drag any Task into the Mini Month to change its deadline.</li>
+  <li class="style4">Drag the shaded box on either end of the calendar to change your working hours (graphic).</li>      
+  <li class="style4">Tap any item to view its Notes, or to start typing or dictating.</li>
+  <li class="style4">Tap/Hold the time-line to create a new Event.</li>
+  <li class="style4">Select any item then drag its edges to change its duration.</li>
+</ul>
+</body>
+<!-- script language=javascript>
+document.ontouchmove = function(event){
+event.preventDefault();
+}
+</script -->
+</html>

@@ -1,0 +1,40 @@
+<html>
+<head><style>
+.tab { margin-left: 20px; 
+}
+.style1 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13pt;
+}
+.style2 {
+	color: #333333;
+	font-size: 12pt;
+}
+.style4 {font-family: Arial, Helvetica, sans-serif; color: #FFFFFF;}
+.style5 {
+	color: #87CEFA;
+	font-weight: bold;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="cache-control" content="no-cache" />
+</head>
+<body text="#000000" link="#87cefa">
+<img src='event_icon.png'/> Contains Events <br/>
+<img src='task_icon.png'/> Contains Tasks <br/>
+<img src='list_icon.png'/> Contains Lists <br/>
+<dl>
+  <li>Events are shown in Calendar view only.</li>
+  <li>Tasks are shown in Projects view, Tasks view, and optionally in Calendar view as well.</li>
+  <li>Lists are only shown in Projects view inside List-type Projects.</li>
+</dl>
+Warning:<br/>
+Deleting a Category (either from this page, or from the Projects view) will delete all Events, Tasks and Lists associated with that Category. It will also delete any iPhone calendars or Toodledo folders that you have sync'd to that Category, and may delete 3rd party calendars as well.
+</body>
+<script language=javascript>
+document.ontouchmove = function(event){
+event.preventDefault();
+}
+</script>
+</html>
