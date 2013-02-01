@@ -611,6 +611,7 @@
 #define _dontSyncNewCalendars NSLocalizedString(@"_dontSyncNewCalendars", "")
 #define _ekFatalError NSLocalizedString(@"_ekFatalError", "")
 #define _contactLCLHelp NSLocalizedString(@"_contactLCLHelp", "")
+#define _chooseSyncSourceText NSLocalizedString(@"_chooseSyncSourceText", "")
 
 #define _hideFutureTasks NSLocalizedString(@"_hideFutureTasks", "")
 

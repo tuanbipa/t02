@@ -609,21 +609,21 @@
 "_pushChanges" = "Auto Push Update";
 "_dataRecovery" = "Data Recovery";
 "_dataRecoveryHint" = "Replace Data from one source to another normally performed under these purposes:\n- Install new SmartDay app.\n- Incorrect data from one source";
-
-//"_multiSourceWarningText" = "SmartDay has detected multiple calendar sources on your iOS calendar. Please go to your Calendar settings and confirm the source that you wish to connect with, then select that source from this screen. Note: if you select a source that is not showing, your calendars will become duplicated.";
-"_multiSourceWarningText" = "SmartDay has detected multiple calendar sources on your iOS calendar. To confirm: \
+"_multiSourceWarningText" = "SmartDay has detected multiple calendar sources on your iOS calendar. To avoid duplication, you must select only one:\
 1) Go to your iOS Calendar. \
-2) Tap on 'Calendars' \
-3) Check to see the source(s) of the calendars you wish to connect to. \
-4) Confirm those sources on SmartDay by selecting from here. \
+2) Tap on the 'Calendars' button to open your calendar list. \
+3) Check to see which calendar source(s) are visible. \
+4) Go back to SmartDay and press 'Sync' again to see this message. \
+5) Confirm your iOS Calendar source on SmartPlans by selecting one of the buttons shown below. \
 Note: If you select a source that is not showing in your iOS Calendar, your calendars will become duplicated.";
 
 "_noSourceFoundText" = "You must have at least one calendar source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Cal to have that.";
-"_sourceLocalText" = "From My iPhone, iPad, etc.";
+"_sourceLocalText" = "Local (From My iPhone/iPad)";
 "_sourceiCloudText" = "iCloud";
 "_dontSyncNewCalendars" = "Don't sync new calendars";
 "_ekFatalError" = "EventKit returns empty calendar list. This could be a fatal error in iOS Cal. You may need to restore your device to recover iCal App.";
 "_contactLCLHelp" = "Contact LCL Help";
+"_chooseSyncSourceText" = "Choose iOS Sync Source";
 
 "_hideFutureTasks" = "Hide Future Tasks";
 

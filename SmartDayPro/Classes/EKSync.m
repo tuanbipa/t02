@@ -1150,7 +1150,7 @@ extern BOOL _syncMatchHintShown;
     {
         if (ekSourceiCloud != nil && ekSourceLocal != nil)
         {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_iOSCalSyncText  message:_multiSourceWarningText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_sourceLocalText, _sourceiCloudText, _contactLCLHelp, nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_chooseSyncSourceText  message:_multiSourceWarningText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_sourceLocalText, _sourceiCloudText, nil];
         
             alertView.tag = -11000;
         
@@ -1352,11 +1352,12 @@ extern BOOL _syncMatchHintShown;
                 [self proceedSync:ekSourceiCloud];
             }
                 break;
-            case 3:
+            /*case 3:
             {
                 [self performSelectorOnMainThread:@selector(email2HelpDesk) withObject:nil waitUntilDone:NO];
             }
                 break;
+            */
         }
     }
 }
