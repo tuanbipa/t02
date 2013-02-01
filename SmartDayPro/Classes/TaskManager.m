@@ -759,7 +759,14 @@ TaskManager *_sctmSingleton = nil;
         
         if (re.repeatData.type == REPEAT_DAILY && re.repeatData.interval == 1)
         {
-            reStartTime = [Common copyTimeFromDate:re.startTime toDate:fromDate];
+            if ([fromDate compare:re.startTime] == NSOrderedAscending)
+            {
+                reStartTime = re.startTime;
+            }
+            else
+            {
+                reStartTime = [Common copyTimeFromDate:re.startTime toDate:fromDate];
+            }
         }
         
         int wkday = [Common getWeekday:reStartTime];
@@ -2783,6 +2790,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	DBManager *dbm = [DBManager getInstance];
 	TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
 	
 	NSInteger taskPlacement = [[Settings getInstance] newTaskPlacement];
     
@@ -2797,17 +2805,6 @@ TaskManager *_sctmSingleton = nil;
 		task.sequenceNo = [dbm getTaskMaxSortSeqNo] + 1;
 	}
 	
-    /*
-	if (isOfCheckList)
-	{
-		task.type = TYPE_SHOPPING_ITEM;
-	}
-	else 
-	{
-		task.type = TYPE_TASK;
-	}
-    */
-	
 	if (task.primaryKey == -1)
 	{
 		[task insertIntoDB:[dbm getDatabase]];
@@ -2821,6 +2818,11 @@ TaskManager *_sctmSingleton = nil;
 		[task updateIntoDB:[dbm getDatabase]];
 	}
     
+    if (settings.hideFutureTasks && task.startTime != nil && [Common daysBetween:task.startTime andDate:[NSDate date]] >= 1)
+    {
+        //future tasks
+        return reSchedule;
+    }
     
     if ([task checkMustDo] && ![task isDone])
     {
@@ -2919,28 +2921,6 @@ TaskManager *_sctmSingleton = nil;
 			else if ([task isNREvent])
 			{
 				[self populateEvent:task];
-				
-                /*
-				if (self.scheduledTaskList.count > 0)
-				{
-					Task *firstTask = [self.scheduledTaskList objectAtIndex:0];
-					
-					NSDate *smartStart = firstTask.smartTime;
-					NSDate *smartEnd = [Common dateByAddNumSecond:firstTask.duration toDate:smartStart];
-					
-					if (self.scheduledTaskList.count > 1)
-					{
-						Task *lastTask = [self.scheduledTaskList lastObject];
-						smartEnd = [Common dateByAddNumSecond:lastTask.duration toDate:lastTask.smartTime];
-					}
-					
-					if (([task.startTime compare:smartStart] != NSOrderedAscending && [task.startTime compare:smartEnd] == NSOrderedAscending) ||
-						([task.startTime compare:smartStart] == NSOrderedAscending && [task.endTime compare:smartStart] == NSOrderedDescending))
-					{
-						reSchedule = YES;
-					}
-				}
-                */
 			}
             
             reSchedule = [task isNormalEvent];

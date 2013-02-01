@@ -610,6 +610,12 @@
 #define _sourceiCloudText NSLocalizedString(@"_sourceiCloudText", "")
 #define _dontSyncNewCalendars NSLocalizedString(@"_dontSyncNewCalendars", "")
 #define _ekFatalError NSLocalizedString(@"_ekFatalError", "")
+#define _contactLCLHelp NSLocalizedString(@"_contactLCLHelp", "")
+
+#define _hideFutureTasks NSLocalizedString(@"_hideFutureTasks", "")
+
+
+
 
 
 

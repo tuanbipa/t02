@@ -7,6 +7,9 @@
 //
 #import <EventKit/EventKit.h>
 
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+
 #import "Common.h"
 #import "EKSync.h"
 
@@ -27,7 +30,7 @@
 #import "SmartListViewController.h"
 #import "CalendarViewController.h"
 #import "SmartCalAppDelegate.h"
-//#import "SCTabBarController.h"
+#import "AbstractSDViewController.h"
 
 EKSync *_ekSyncSingleton;
 
@@ -36,6 +39,7 @@ extern SmartCalAppDelegate *_appDelegate;
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 
 extern BOOL _syncMatchHintShown;
 
@@ -1146,7 +1150,7 @@ extern BOOL _syncMatchHintShown;
     {
         if (ekSourceiCloud != nil && ekSourceLocal != nil)
         {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_iOSCalSyncText  message:_multiSourceWarningText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_sourceLocalText, _sourceiCloudText, nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_iOSCalSyncText  message:_multiSourceWarningText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_sourceLocalText, _sourceiCloudText, _contactLCLHelp, nil];
         
             alertView.tag = -11000;
         
@@ -1281,6 +1285,34 @@ extern BOOL _syncMatchHintShown;
 	////NSLog(@"end EK sync");	
 }
 
+- (void) email2HelpDesk
+{
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    
+    if (picker != nil)
+    {
+        picker.mailComposeDelegate = self;
+        
+        [picker setSubject:@"SmartDay Sync New Calendars - Help"];
+        
+        // Set up recipients
+        NSArray *toRecipients = [NSArray arrayWithObject:@"support@leftcoastlogic.com"];
+        //NSArray *ccRecipients = [NSArray arrayWithObjects:@"second@example.com", @"third@example.com", nil];
+        //NSArray *bccRecipients = [NSArray arrayWithObject:@"fourth@example.com"];
+        
+        [picker setToRecipients:toRecipients];
+        [picker setCcRecipients:nil];
+        [picker setBccRecipients:nil];
+        
+        if (_abstractViewCtrler != nil)
+        {
+            [_abstractViewCtrler presentModalViewController:picker animated:YES];
+        }
+        
+        [picker release];
+    }
+}
+
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertVw.tag == -10000 && buttonIndex == 1)
@@ -1320,9 +1352,21 @@ extern BOOL _syncMatchHintShown;
                 [self proceedSync:ekSourceiCloud];
             }
                 break;
-                
+            case 3:
+            {
+                [self performSelectorOnMainThread:@selector(email2HelpDesk) withObject:nil waitUntilDone:NO];
+            }
+                break;
         }
     }
+}
+
+// Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+	[controller dismissModalViewControllerAnimated:YES];
+    
+    [self syncComplete];
 }
 
 #pragma mark Auto Sync

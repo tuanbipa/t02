@@ -18,6 +18,7 @@
 #import "BusyController.h"
 #import "TaskLinkManager.h"
 #import "ImageManager.h"
+#import "DBManager.h"
 
 #import "TDSync.h"
 #import "SDWSync.h"
@@ -183,6 +184,26 @@ BOOL _autoPushPending = NO;
 - (CategoryViewController *) getCategoryViewController
 {
     return (CategoryViewController *)viewCtrlers[3];
+}
+
+- (void) refreshData
+{
+    
+}
+
+- (void) resetAllData
+{
+    TaskManager *tm = [TaskManager getInstance];
+    ProjectManager *pm = [ProjectManager getInstance];
+    DBManager *dbm = [DBManager getInstance];
+    
+    [pm initProjectList:[dbm getProjects]];
+    
+    [tm initData];
+    
+    [self refreshData];
+    
+    self.task2Link = nil;
 }
 
 - (void) scrollToDate:(NSDate *)date

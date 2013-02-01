@@ -13,6 +13,8 @@
 #import "DBManager.h"
 #import "SDWSync.h"
 
+#import "SettingTableViewController.h"
+
 @interface DataRecoveryViewController ()
 
 @end
@@ -31,6 +33,15 @@
 
 - (void) sync1way2SDW
 {
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    
+    if ([ctrler isKindOfClass:[SettingTableViewController class]])
+    {
+        SettingTableViewController *settingCtrler = (SettingTableViewController *) ctrler;
+        
+        [settingCtrler save:nil];
+    }
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
     
     [[SDWSync getInstance] initBackground1WayPush];
@@ -38,6 +49,15 @@
 
 - (void) sync1way2SD
 {
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    
+    if ([ctrler isKindOfClass:[SettingTableViewController class]])
+    {
+        SettingTableViewController *settingCtrler = (SettingTableViewController *) ctrler;
+        
+        [settingCtrler save];
+    }
+        
     [self.navigationController popToRootViewControllerAnimated:YES];
     
     [[DBManager getInstance] cleanDB];

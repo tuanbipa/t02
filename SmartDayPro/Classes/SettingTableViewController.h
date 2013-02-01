@@ -11,7 +11,8 @@
 @class Settings;
 @class GuideWebView;
 
-@interface SettingTableViewController : UITableViewController {
+@interface SettingTableViewController : UITableViewController
+{
 	Settings *settingCopy;
 	
 	UITableView *settingTableView;
@@ -24,6 +25,7 @@
 @property BOOL tdAccountChange;
 
 - (void) tabBarChanged:(BOOL)mini;
-- (void)refreshMustDoCell;
+- (void) refreshMustDoCell;
+- (void) save;
 
 @end

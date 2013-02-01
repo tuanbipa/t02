@@ -215,11 +215,20 @@ extern BOOL _isiPad;
     
     NSDate *dt = (mode==1?date:[Common getFirstMonthDate:date]);
     
+    /*
     if ([Common getMonth:dt] != [Common getMonth:date])
     {
         NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:date]);
         
         [self.calView changeWeekPlanner:7 weeks:weeks];
+    }
+    */
+    
+    if (mode == 0)
+    {
+        NSInteger weeks = [Common getWeeksInMonth:date];
+        
+        [self.calView changeWeekPlanner:7 weeks:weeks];        
     }
     
     [self.calView initCalendar:dt];
@@ -303,13 +312,15 @@ extern BOOL _isiPad;
 		
     //[tm initMiniMonth:NO];
     
-    NSInteger mode = [headerView getMWMode];
+    //NSInteger mode = [headerView getMWMode];
     
-    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:tm.today]);
+    //NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:tm.today]);
     
     //[self.calView changeWeekPlanner:7 weeks:weeks];
     
     //[self.calView highlightCellOnDate:tm.today];
+    
+    NSInteger weeks = self.calView.nWeeks;
 	
     CGRect frm = CGRectMake(_isiPad?10:0, _isiPad?10:0, self.frame.size.width, (_isiPad?48:40)*weeks + MINI_MONTH_HEADER_HEIGHT + 6);
     
@@ -361,17 +372,11 @@ extern BOOL _isiPad;
         dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
     }
 
-    
     dt = (mwMode == 0? [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt]:[Common dateByAddNumDay:(mode == 0?-7:7) toDate:dt]);
     
-    //[_sdViewCtrler jumpToDate:dt];
-    //[_abstractViewCtrler jumpToDate:dt];
-
     [self initCalendar:dt]; //must init calendar first then jump
     
     [self jumpToDate:dt];
-    
-    //[self initCalendar:dt];
     
     CATransition *animation = [CATransition animation];
     [animation setDuration:0.4];

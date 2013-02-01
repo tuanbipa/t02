@@ -31,6 +31,8 @@
 @property (nonatomic, readonly) HighlightView *highlightView;
 @property NSInteger skinStyle;
 
+@property NSInteger nWeeks;
+
 - (void) changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks;
 - (void) refreshCellByDate:(NSDate *)date;
 - (void) refresh;

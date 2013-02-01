@@ -56,6 +56,7 @@ extern BOOL _scFreeVersion;
 @synthesize movableAsEvent;
 @synthesize newTaskPlacement;
 @synthesize minimumSplitSize;
+@synthesize hideFutureTasks;
 
 @synthesize weekdayStartTime;
 @synthesize weekdayEndTime;
@@ -172,6 +173,7 @@ extern BOOL _scFreeVersion;
 		//self.newTaskPlacement = 0; //0:on top - 1: at bottom
         self.newTaskPlacement = 1;
 		self.minimumSplitSize = 15*60;
+        self.hideFutureTasks = NO;
 		
 		self.weekdayStartTime = @"08:00";
 		self.weekdayEndTime = @"18:00";		
@@ -330,6 +332,13 @@ extern BOOL _scFreeVersion;
 		if (eventCombinationSetting != nil)
 		{
 			self.eventCombination = [eventCombinationSetting intValue];
+		}
+
+		NSNumber *hideFutureTasksSetting = [self.settingDict objectForKey:@"HideFutureTasks"];
+		
+		if (hideFutureTasksSetting != nil)
+		{
+			self.hideFutureTasks = [hideFutureTasksSetting boolValue];
 		}
 		
         //v4.0: allow to Task move as Event
@@ -980,6 +989,7 @@ extern BOOL _scFreeVersion;
 	copy.movableAsEvent = movableAsEvent;
 	copy.minimumSplitSize = minimumSplitSize;
     copy.mustDoDays = mustDoDays;
+    copy.hideFutureTasks = hideFutureTasks;
 	
 	copy.weekdayStartTime = weekdayStartTime;
 	copy.weekdayEndTime = weekdayEndTime;
@@ -1050,6 +1060,7 @@ extern BOOL _scFreeVersion;
 	self.newTaskPlacement = settings.newTaskPlacement;
 	self.minimumSplitSize = settings.minimumSplitSize;
     self.mustDoDays = settings.mustDoDays;
+    self.hideFutureTasks = settings.hideFutureTasks;
 	
 	self.weekdayStartTime = settings.weekdayStartTime;
 	self.weekdayEndTime = settings.weekdayEndTime;
@@ -1133,6 +1144,9 @@ extern BOOL _scFreeVersion;
 
 	NSNumber *mustDoDaysSetting = [NSNumber numberWithInt:self.mustDoDays];
 	[settingDict setValue:mustDoDaysSetting forKey:@"MustDoDays"];
+    
+	NSNumber *hideFutureTasksSetting = [NSNumber numberWithBool:self.hideFutureTasks];
+	[settingDict setValue:hideFutureTasksSetting forKey:@"HideFutureTasks"];  
 	
 	[settingDict setValue:self.weekdayStartTime forKey:@"WeekdayStartTime"];	
 	[settingDict setValue:self.weekdayEndTime forKey:@"WeekdayEndTime"];	

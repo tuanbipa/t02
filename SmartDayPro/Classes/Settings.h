@@ -26,6 +26,7 @@
 	NSInteger movableAsEvent;
 	NSInteger newTaskPlacement; //at top or at bottom of list
 	NSInteger minimumSplitSize; //smallest free time slot to split task
+    BOOL hideFutureTasks;
 	
 	//working time - no more use in v3.0 (WeekPlanner)
 	NSString *weekdayStartTime;
@@ -142,6 +143,7 @@
 @property NSInteger movableAsEvent;
 @property NSInteger newTaskPlacement;
 @property NSInteger minimumSplitSize;
+@property BOOL hideFutureTasks;
 
 @property (nonatomic, copy) NSString *weekdayStartTime;
 @property (nonatomic, copy) NSString *weekdayEndTime;

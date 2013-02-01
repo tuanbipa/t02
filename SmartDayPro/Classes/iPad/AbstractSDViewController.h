@@ -50,6 +50,8 @@
 - (NoteViewController *) getNoteViewController;
 - (CategoryViewController *) getCategoryViewController;
 
+- (void) resetAllData;
+- (void) refreshData;
 - (void) hideDropDownMenu;
 - (void) hidePopover;
 - (void) deselect;

@@ -31,6 +31,8 @@ extern BOOL _isiPad;
 @synthesize highlightView;
 @synthesize skinStyle;
 
+@synthesize nWeeks;
+
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Initialization code

@@ -487,12 +487,12 @@
 "_signupText" = "Sign Up";
 "_sdwSyncingText" = "mySmartDay.com Sync'ing ...";
 "_sdwAccountValidText" = "Verified! Your mySmartDay account is valid.";
-"_sdwAccountInvalidText" = "mySmartDay acccount is invalid. Please specify another one.";
+"_sdwAccountInvalidText" = "Your account with mySmartDay.com appears to be invalid. Please check your user name and password. If you cannot remember your password, you can recover it by loging in to mySmartDay.com from any computer browser.";
 //"_sdwSignupSuccessText" = "Your account has been successfully registered to mySmartDay, please check the email to activate the account";
 "_sdwSignupSuccessText" = "Congratulations!\nPlease check your email to activate your account. If you do not receive an email within 1 hour, please contact support@leftcoastlogic.com.";
 "_sdwSignupFailedText" = "Account registration is failed.";
 "_sdwSyncFailedText" = "mySmartDay.com sync has failed. Please try again later.";
-"_emailInvalidText" = "Email format is invalid. Please specify another one."; 
+"_emailInvalidText" = "Email format is invalid. Please specify another one.";
 "_wifiConnectionOffText" = "Could not connect to server. Please check your WIFI connection.";
 
 "_notePlaceHolderText" = "Type your notes here";
@@ -604,17 +604,27 @@
 "_mySmartDayDotCom" = "mySmartDay.com";
 "_others" = "Others";
 
-"_syncAtStartUp" = "Sync at Start up";
-"_syncAtStartUpHint" = "You can also sync at any time by tapping the 'Sync' button from the main menu.";
-"_pushChanges" = "Push Changes";
+"_syncAtStartUp" = "Sync When Open SmartDay";
+"_syncAtStartUpHint" = "This will update both SmartDay and mySmartDay.com.  You can also perform this from the 'Sync' button on the main menu.";
+"_pushChanges" = "Auto Push Update";
 "_dataRecovery" = "Data Recovery";
 "_dataRecoveryHint" = "Replace Data from one source to another normally performed under these purposes:\n- Install new SmartDay app.\n- Incorrect data from one source";
 
-"_multiSourceWarningText" = "Please select your calendar source before syncing with SmartDay. Note that if you change sources after syncing with SmartDay, that may create duplicated projects. To avoid, please disable sync before changing your sync source.";
+//"_multiSourceWarningText" = "SmartDay has detected multiple calendar sources on your iOS calendar. Please go to your Calendar settings and confirm the source that you wish to connect with, then select that source from this screen. Note: if you select a source that is not showing, your calendars will become duplicated.";
+"_multiSourceWarningText" = "SmartDay has detected multiple calendar sources on your iOS calendar. To confirm: \
+1) Go to your iOS Calendar. \
+2) Tap on 'Calendars' \
+3) Check to see the source(s) of the calendars you wish to connect to. \
+4) Confirm those sources on SmartDay by selecting from here. \
+Note: If you select a source that is not showing in your iOS Calendar, your calendars will become duplicated.";
+
 "_noSourceFoundText" = "You must have at least one calendar source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Cal to have that.";
 "_sourceLocalText" = "From My iPhone, iPad, etc.";
 "_sourceiCloudText" = "iCloud";
 "_dontSyncNewCalendars" = "Don't sync new calendars";
 "_ekFatalError" = "EventKit returns empty calendar list. This could be a fatal error in iOS Cal. You may need to restore your device to recover iCal App.";
+"_contactLCLHelp" = "Contact LCL Help";
+
+"_hideFutureTasks" = "Hide Future Tasks";
 
 

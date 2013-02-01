@@ -703,6 +703,7 @@ extern BOOL _gtdoTabHintShown;
     [ctrler refreshADEPane];
 }
 
+/*
 - (void) resetAllData
 {
     TaskManager *tm = [TaskManager getInstance];
@@ -717,6 +718,7 @@ extern BOOL _gtdoTabHintShown;
     
     self.task2Link = nil;
 }
+*/
 
 - (void) expandPreview
 {
@@ -959,6 +961,7 @@ extern BOOL _gtdoTabHintShown;
     [plan release];
 }
 
+/*
 - (void) deleteCategory
 {
     //Project *project = [self.activeViewCtrler getSelectedCategory];
@@ -991,6 +994,7 @@ extern BOOL _gtdoTabHintShown;
 		}
     }
 }
+*/
 
 - (void) showHideCategory: (id) sender
 {

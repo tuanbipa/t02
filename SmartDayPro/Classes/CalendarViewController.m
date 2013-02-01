@@ -246,7 +246,7 @@ CalendarViewController *_sc2ViewCtrler;
     BOOL adeVisible = adeView.adeList != nil && adeView.adeList.count > 0 && _isiPad?NO:miniMonthView.hidden;
     
     CGFloat mmH = miniMonthView.hidden?0:miniMonthView.frame.origin.y+miniMonthView.frame.size.height;
-    CGFloat focusH = focusView.hidden?0:focusView.bounds.size.height + 10;
+    CGFloat focusH = _isiPad?(focusView.hidden?0:focusView.bounds.size.height):0;
     CGFloat adeH = adeVisible?adeView.bounds.size.height:0;
     
     /*CGSize sz = [Common getScreenSize];

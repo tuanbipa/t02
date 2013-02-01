@@ -58,11 +58,13 @@
 #import "DataRecoveryViewController.h"
 
 #import "SmartDayViewController.h"
+#import "AbstractSDViewController.h"
 
 //extern SCTabBarController *_tabBarCtrler;
 extern BOOL _scFreeVersion;
 
 extern SmartDayViewController *_sdViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation SettingTableViewController
 
@@ -171,7 +173,136 @@ extern SmartDayViewController *_sdViewCtrler;
     
     ctrler.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     */
+    
     [self presentViewController:ctrler animated:YES completion:NULL];
+}
+
+- (void) save
+{
+	TaskManager *tm = [TaskManager getInstance];
+    DBManager *dbm = [DBManager getInstance];
+    ProjectManager *pm = [ProjectManager getInstance];
+	
+	Settings *settings = [Settings getInstance];
+    
+    BOOL hideFutureTaskChange = settings.hideFutureTasks != self.settingCopy.hideFutureTasks;
+	
+	BOOL reSchedule = (settings.eventCombination != self.settingCopy.eventCombination || settings.minimumSplitSize != self.settingCopy.minimumSplitSize || [settings checkWorkingTimeChange:self.settingCopy]);
+	
+	BOOL changeSkin = (settings.skinStyle != self.settingCopy.skinStyle);
+	
+	BOOL weekStartChange = (settings.weekStart != self.settingCopy.weekStart);
+	
+	BOOL tabBarChanged = (settings.tabBarAutoHide != self.settingCopy.tabBarAutoHide);
+    
+	BOOL ekAutoSyncChange = (settings.ekAutoSyncEnabled != self.settingCopy.ekAutoSyncEnabled);
+	BOOL tdAutoSyncChange = (settings.tdAutoSyncEnabled != self.settingCopy.tdAutoSyncEnabled);
+	BOOL sdwAutoSyncChange = (settings.sdwAutoSyncEnabled != self.settingCopy.sdwAutoSyncEnabled);
+    
+    BOOL mustDoDaysChange = (settings.mustDoDays != self.settingCopy.mustDoDays);
+    
+    BOOL defaultCatChange = (settings.taskDefaultProject != self.settingCopy.taskDefaultProject);
+    
+    BOOL ekSyncWindowChange = (settings.syncWindowStart != self.settingCopy.syncWindowStart) || (settings.syncWindowEnd != self.settingCopy.syncWindowEnd);
+	
+	if (settings.taskDuration != self.settingCopy.taskDuration)
+	{
+		tm.lastTaskDuration = self.settingCopy.taskDuration;
+	}
+	
+	if (settings.taskDefaultProject != self.settingCopy.taskDefaultProject)
+	{
+		tm.lastTaskProjectKey = self.settingCopy.taskDefaultProject;
+	}
+	
+    if (self.tdAccountChange)
+	{
+		[settings resetToodledoSync];
+		
+		[dbm resetToodledoIds];
+        [pm resetToodledoIds];
+        
+        [[TDSync getInstance] resetSyncSection];
+	}
+    
+    if (self.sdwAccountChange)
+	{
+		[settings resetSDWSync];
+		
+		[dbm resetSDWIds];
+        [pm resetSDWIds];
+        
+        [[SDWSync getInstance] resetSyncSection];
+	}
+    
+	[settings updateSettings:self.settingCopy];
+    
+    if (tabBarChanged)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TabBarModeChangeNotification" object:nil];
+    }
+	
+	if (reSchedule && !mustDoDaysChange)
+	{
+		[tm scheduleTasks];
+	}
+	
+	if (changeSkin)
+	{
+		for (UIViewController *ctrler in self.navigationController.viewControllers)
+		{
+			if ([ctrler respondsToSelector:@selector(changeSkin)])
+			{
+				[ctrler changeSkin];
+			}
+		}
+	}
+	
+	if (weekStartChange && !mustDoDaysChange)
+	{
+        [_abstractViewCtrler.miniMonthView initCalendar:tm.today];
+	}
+	
+	[[TagDictionary getInstance] saveDict];
+    
+    BOOL toodledoAccountValid = ![settings.tdEmail isEqualToString:@""] && ![settings.tdPassword isEqualToString:@""] && settings.tdVerified;
+    
+    BOOL sdwAccountValid = ![settings.sdwEmail isEqualToString:@""] && ![settings.sdwEmail isEqualToString:@""] && settings.sdwVerified;
+    
+	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && (ekAutoSyncChange || ekSyncWindowChange);
+	BOOL tdAutoSyncON = (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) && tdAutoSyncChange;
+	BOOL sdwAutoSyncON = (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled) && sdwAutoSyncChange;
+    
+	if (ekAutoSyncON)
+	{
+		[[EKSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+	}
+    else if (toodledoAccountValid && tdAutoSyncON)
+	{
+		[[TDSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+	}
+    else if (sdwAccountValid && sdwAutoSyncON)
+	{
+		[[SDWSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+	}
+    
+    if (hideFutureTaskChange || mustDoDaysChange)
+    {
+        [_abstractViewCtrler resetAllData];
+    }
+	
+    if (defaultCatChange)
+    {
+        [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
+    }
+    
+    Project *prj = [pm getProjectByKey:settings.taskDefaultProject];
+    
+    if (prj != nil)
+    {
+        // to refresh visibility in mySD if it was hidden in mySD before
+        [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
+    }    
 }
 
 /*
@@ -566,6 +697,13 @@ extern SmartDayViewController *_sdViewCtrler;
     */
 }
 
+- (void) hideFutureTasks: (id) sender
+{
+	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
+	
+	self.settingCopy.hideFutureTasks = (segmentedStyleControl.selectedSegmentIndex == 0);
+}
+
 - (void) changeTaskMovable: (id) sender
 {
 	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
@@ -663,129 +801,8 @@ extern SmartDayViewController *_sdViewCtrler;
 
 -(void) save:(id) sender
 {
-	TaskManager *tm = [TaskManager getInstance];
-    DBManager *dbm = [DBManager getInstance];
-    ProjectManager *pm = [ProjectManager getInstance];
-	
-	Settings *settings = [Settings getInstance];
-	
-	BOOL reSchedule = (settings.eventCombination != self.settingCopy.eventCombination || settings.minimumSplitSize != self.settingCopy.minimumSplitSize || [settings checkWorkingTimeChange:self.settingCopy]) ;
-	
-	BOOL changeSkin = (settings.skinStyle != self.settingCopy.skinStyle);
-	
-	BOOL weekStartChange = (settings.weekStart != self.settingCopy.weekStart);
-	
-	BOOL tabBarChanged = (settings.tabBarAutoHide != self.settingCopy.tabBarAutoHide);
+    [self save];
     
-	BOOL ekAutoSyncChange = (settings.ekAutoSyncEnabled != self.settingCopy.ekAutoSyncEnabled);
-	BOOL tdAutoSyncChange = (settings.tdAutoSyncEnabled != self.settingCopy.tdAutoSyncEnabled);
-	BOOL sdwAutoSyncChange = (settings.sdwAutoSyncEnabled != self.settingCopy.sdwAutoSyncEnabled);
-    
-    BOOL mustDoDaysChange = (settings.mustDoDays != self.settingCopy.mustDoDays);
-    
-    BOOL defaultCatChange = (settings.taskDefaultProject != self.settingCopy.taskDefaultProject);
-    
-    BOOL ekSyncWindowChange = (settings.syncWindowStart != self.settingCopy.syncWindowStart) || (settings.syncWindowEnd != self.settingCopy.syncWindowEnd);
-	
-	if (settings.taskDuration != self.settingCopy.taskDuration)
-	{
-		tm.lastTaskDuration = self.settingCopy.taskDuration;
-	}
-	
-	if (settings.taskDefaultProject != self.settingCopy.taskDefaultProject)
-	{
-		tm.lastTaskProjectKey = self.settingCopy.taskDefaultProject;
-	}
-	
-    if (self.tdAccountChange)
-	{
-		[settings resetToodledoSync];
-		
-		[dbm resetToodledoIds];
-        [pm resetToodledoIds];
-        
-        [[TDSync getInstance] resetSyncSection];
-	}
-    
-    if (self.sdwAccountChange)
-	{
-		[settings resetSDWSync];
-		
-		[dbm resetSDWIds];
-        [pm resetSDWIds];
-        
-        [[SDWSync getInstance] resetSyncSection];
-	}
-    
-	[settings updateSettings:self.settingCopy];
-    
-    if (tabBarChanged)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"TabBarModeChangeNotification" object:nil];
-    }
-	
-	if (reSchedule && !mustDoDaysChange)
-	{
-		[tm scheduleTasks];
-	}
-	
-	if (changeSkin)
-	{
-		for (UIViewController *ctrler in self.navigationController.viewControllers)
-		{
-			if ([ctrler respondsToSelector:@selector(changeSkin)])
-			{
-				[ctrler changeSkin];
-			}
-		}
-	}
-	
-	if (weekStartChange && !mustDoDaysChange)
-	{
-        [_sdViewCtrler.miniMonthView initCalendar:tm.today];
-	}
-	
-	[[TagDictionary getInstance] saveDict];
-    
-    BOOL toodledoAccountValid = ![settings.tdEmail isEqualToString:@""] && ![settings.tdPassword isEqualToString:@""] && settings.tdVerified;
-    
-    BOOL sdwAccountValid = ![settings.sdwEmail isEqualToString:@""] && ![settings.sdwEmail isEqualToString:@""] && settings.sdwVerified;
-    
-	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && (ekAutoSyncChange || ekSyncWindowChange);
-	BOOL tdAutoSyncON = (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) && tdAutoSyncChange;
-	BOOL sdwAutoSyncON = (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled) && sdwAutoSyncChange;
-    
-	if (ekAutoSyncON)
-	{
-		[[EKSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
-	}
-    else if (toodledoAccountValid && tdAutoSyncON)
-	{
-		[[TDSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
-	}
-    else if (sdwAccountValid && sdwAutoSyncON)
-	{
-		[[SDWSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
-	}
-    
-    if (mustDoDaysChange)
-    {
-        [_sdViewCtrler resetAllData];
-    }
-	
-    if (defaultCatChange)
-    {
-        [[_sdViewCtrler getCategoryViewController] loadAndShowList];
-    }
-    
-    Project *prj = [pm getProjectByKey:settings.taskDefaultProject];
-    
-    if (prj != nil)
-    {
-        // to refresh visibility in mySD if it was hidden in mySD before
-        [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
-    }
-	
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -846,6 +863,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     if (!self.settingCopy.syncEnabled)
     {
+        self.settingCopy.autoSyncEnabled = NO;
         self.settingCopy.tdSyncEnabled = NO;
         self.settingCopy.ekSyncEnabled = NO;
         self.settingCopy.sdwSyncEnabled = NO;
@@ -870,6 +888,14 @@ extern SmartDayViewController *_sdViewCtrler;
     self.settingCopy.autoSyncEnabled = (segmentedControl.selectedSegmentIndex == 0);
     
     [settingTableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    if (self.settingCopy.autoSyncEnabled)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_synchronizationText message:_syncAtStartUpHint delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+        
+        [alertView show];
+        [alertView release];
+    }
 }
 
 - (void) enableAutoPush:(id)sender
@@ -1148,6 +1174,22 @@ extern SmartDayViewController *_sdViewCtrler;
 	
 	[cell.contentView addSubview:segmentedStyleControl];
 	[segmentedStyleControl release];		
+}
+
+- (void) createHideFutureTasksCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.textLabel.text = _hideFutureTasks;
+	
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	[segmentedStyleControl addTarget:self action:@selector(hideFutureTasks:) forControlEvents:UIControlEventValueChanged];
+	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.hideFutureTasks?0:1;
+	segmentedStyleControl.tag = baseTag;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];
 }
 
 - (void) createMovableAsEventCell:(UITableViewCell *)cell
@@ -1451,7 +1493,8 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) createSyncAtStartUpCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 150, 30)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
+    titleLabel.numberOfLines = 2;
     titleLabel.font = [UIFont boldSystemFontOfSize:16];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textColor = [UIColor blackColor];
@@ -1472,6 +1515,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	[cell.contentView addSubview:segmentedStyleControl];
 	[segmentedStyleControl release];
     
+    /*
     UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 280, 40)];
     hintLabel.font = [UIFont italicSystemFontOfSize:14];
     hintLabel.numberOfLines = 0;
@@ -1482,6 +1526,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [cell.contentView addSubview:hintLabel];
     [hintLabel release];
+    */
 }
 
 - (void) createAutoPushCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1807,7 +1852,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		case 1: //General
 			return 7;
 		case 2: //Task
-			return 3;
+			return 4;
 		case 3: //Calendar
 			return 2;
         case 4: //Syncronization
@@ -1845,14 +1890,14 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
+    /*if (indexPath.section == 4)
     {
         if (indexPath.row == 1)
         {
             return 80;
         }
     }
-    else if (indexPath.section == 5)
+    else*/ if (indexPath.section == 5)
     {
         /*if (indexPath.row == 0 && !self.settingCopy.sdwSyncEnabled)
         {
@@ -1977,7 +2022,8 @@ extern SmartDayViewController *_sdViewCtrler;
 					break;
 				case 3:
 				{
-					[self createNewTaskPlacementCell:cell baseTag:12030];
+					//[self createNewTaskPlacementCell:cell baseTag:12030];
+                    [self createHideFutureTasksCell:cell baseTag:12030];
 				}
 					break;					
 			}
