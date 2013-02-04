@@ -914,6 +914,7 @@ extern BOOL _gtdoTabHintShown;
     }
 }
 
+/*
 - (void) copyCategory
 {
     //Project *plan = [self.activeViewCtrler getSelectedCategory];
@@ -930,6 +931,7 @@ extern BOOL _gtdoTabHintShown;
         [self editCategory:planCopy];        
 	}
 }
+*/
 
 - (void) doDeleteCategory:(BOOL) cleanFromDB
 {

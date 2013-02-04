@@ -99,6 +99,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
     [ctrler.todayScheduleView unhighlight];
+    
+    [self enableScroll:YES container:ctrler.calendarView];
 }
 
 - (void) changeTime

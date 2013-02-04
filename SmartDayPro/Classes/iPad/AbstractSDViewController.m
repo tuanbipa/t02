@@ -946,6 +946,8 @@ BOOL _autoPushPending = NO;
         
         planCopy.name = [NSString stringWithFormat:@"%@ (copy)", plan.name];
         planCopy.primaryKey = -1;
+        planCopy.ekId = @"";
+        planCopy.tdId = @"";
         
         [self editProject:planCopy inView:activeView];
 	}

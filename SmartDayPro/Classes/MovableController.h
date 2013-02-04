@@ -47,5 +47,6 @@
 - (BOOL)checkSeparate:(MovableView *)view;
 - (void)separate: (MovableView *) rightView fromLeft:(MovableView *) leftView;
 - (void)unseparate;
+-(void) enableScroll:(BOOL)enable container:(UIView *)container;
 
 @end

@@ -614,7 +614,7 @@
 2) Tap on the 'Calendars' button to open your calendar list. \
 3) Check to see which calendar source(s) are visible. \
 4) Go back to SmartDay and press 'Sync' again to see this message. \
-5) Confirm your iOS Calendar source on SmartPlans by selecting one of the buttons shown below. \
+5) Confirm your iOS Calendar source on SmartDay by selecting one of the buttons shown below. \
 Note: If you select a source that is not showing in your iOS Calendar, your calendars will become duplicated.";
 
 "_noSourceFoundText" = "You must have at least one calendar source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Cal to have that.";

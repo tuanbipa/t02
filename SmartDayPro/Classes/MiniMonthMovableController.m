@@ -283,7 +283,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         dummyView = nil;
     }
-        
+            
     //[super endMove:view];
 }
 
