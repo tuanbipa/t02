@@ -631,6 +631,8 @@ NSInteger _sdwColor[32] = {
     
     ret.eventCombination = ([[dict objectForKey:@"show_task"] intValue] == 1?0:1);
     
+    ret.hideFutureTasks = ([[dict objectForKey:@"hide_future_task"] intValue] == 1?YES:NO);
+    
     //NSInteger dt = [[dict objectForKey:@"last_update"] intValue];
     NSDictionary *lastUpdateDict = [dict objectForKey:@"last_updates"];
     
@@ -656,6 +658,7 @@ NSInteger _sdwColor[32] = {
                              [self.scSDWMappingDict objectForKey:[NSNumber numberWithInt:settings.taskDefaultProject]], @"default_category_id",
                              [NSNumber numberWithInt:settings.taskDuration/60], @"default_task_dur",
                              [NSNumber numberWithInt:(settings.eventCombination == 0?1:0)], @"show_task",
+                             [NSNumber numberWithInt:settings.hideFutureTasks?1:0], @"hide_future_task",
                              nil];
     
     return catDict;
