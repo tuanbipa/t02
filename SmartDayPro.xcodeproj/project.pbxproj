@@ -13,6 +13,7 @@
 		6746802116670FCA00E5E08A /* replace_SDtomSD.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746801F16670FCA00E5E08A /* replace_SDtomSD.png */; };
 		674680251667114A00E5E08A /* replace_mSDtoSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */; };
 		674680261667114A00E5E08A /* replace_SDtomSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680241667114A00E5E08A /* replace_SDtomSD@2x.png */; };
+		677A4D4916BFBB690082330A /* filter_star.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A4D4816BFBB690082330A /* filter_star.png */; };
 		678579EF16B0F6260079A1C2 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */; };
 		67A98154161C26B400DBDAD3 /* SDNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A98153161C26B400DBDAD3 /* SDNavigationController.m */; };
 		67B41508166C5A5A00AB3B5C /* iPadSmartDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */; };
@@ -633,6 +634,7 @@
 		6746801F16670FCA00E5E08A /* replace_SDtomSD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replace_SDtomSD.png; sourceTree = "<group>"; };
 		674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_mSDtoSD@2x.png"; sourceTree = "<group>"; };
 		674680241667114A00E5E08A /* replace_SDtomSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_SDtomSD@2x.png"; sourceTree = "<group>"; };
+		677A4D4816BFBB690082330A /* filter_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_star.png; sourceTree = "<group>"; };
 		678579ED16B0F6260079A1C2 /* NSData+CommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CommonCrypto.h"; sourceTree = "<group>"; };
 		678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
 		67A98152161C26B400DBDAD3 /* SDNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDNavigationController.h; sourceTree = "<group>"; };
@@ -2007,6 +2009,7 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				677A4D4816BFBB690082330A /* filter_star.png */,
 				67EFEEF516A53B410096360B /* module_add.png */,
 				67EFEEF216A535FC0096360B /* arrow_down.png */,
 				674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */,
@@ -2887,6 +2890,7 @@
 				674680261667114A00E5E08A /* replace_SDtomSD@2x.png in Resources */,
 				67EFEEF316A535FC0096360B /* arrow_down.png in Resources */,
 				67EFEEF616A53B410096360B /* module_add.png in Resources */,
+				677A4D4916BFBB690082330A /* filter_star.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
