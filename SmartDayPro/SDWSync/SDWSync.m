@@ -1299,7 +1299,8 @@ NSInteger _sdwColor[32] = {
             prj.sdwId = @"";
             [prj updateSDWIDIntoDB:[dbm getDatabase]];
             
-            [pm deleteProject:prj cleanFromDB:NO];
+            //[pm deleteProject:prj cleanFromDB:NO];
+            [pm deleteProject:prj cleanFromDB:YES];
         } 
         
         for (Project *prj in hiddenList)

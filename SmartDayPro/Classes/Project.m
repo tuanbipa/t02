@@ -1299,9 +1299,6 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	DBManager *dbm = [DBManager getInstance];
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
 	
-	//[dbm cleanAllTasksForProject:self.primaryKey];
-    
-	//NSMutableArray *taskList = [dbm getTasksForPlan:self.primaryKey];
     NSMutableArray *itemList = [dbm getAllItemsForPlan:self.primaryKey];
 	
 	for (Task *item in itemList)
@@ -1315,13 +1312,13 @@ static sqlite3_stmt *prj_delete_statement = nil;
         
         for (Link *link in links)
         {
-            [link deleteFromDatabase:[dbm getDatabase]];
+            //[link deleteFromDatabase:[dbm getDatabase]];
+            [link cleanFromDatabase:[dbm getDatabase]];
         }
         
-        [item deleteFromDatabase:[dbm getDatabase]];
+        //[item deleteFromDatabase:[dbm getDatabase]];
+        [item cleanFromDatabase:[dbm getDatabase]];
 	}   
-    
-    //[dbm cleanAllItemsForProject:self.primaryKey];
     
     // Compile the delete statement if needed.
 	sqlite3_stmt *statement = nil;

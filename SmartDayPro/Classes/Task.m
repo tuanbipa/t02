@@ -1674,7 +1674,8 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void)cleanFromDatabase:(sqlite3 *)database 
 {
-	if (self.primaryKey == -1 || ![self checkCleanable])
+	//if (self.primaryKey == -1 || ![self checkCleanable])
+    if (self.primaryKey == -1)
 	{
 		return;
 	}

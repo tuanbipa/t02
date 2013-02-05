@@ -954,6 +954,28 @@ extern BOOL _syncMatchHintShown;
     [self.eventStore commit:&err];
 }
 
+-(void)deleteProjectBySync:(Project *)prj
+{
+    DBManager *dbm = [DBManager getInstance];
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+    prj.ekId = @"";
+    [prj updateEKIDIntoDB:[dbm getDatabase]];
+    
+    NSInteger taskCount = [dbm getTaskCountForProject:prj.primaryKey];
+    
+	NSInteger defaultPrjKey = [[Settings getInstance] taskDefaultProject];
+	
+	if (taskCount > 0 || prj.primaryKey == defaultPrjKey)
+	{
+		[dbm cleanAllEventsForProject:prj.primaryKey];
+	}
+	else
+	{
+        [pm deleteProject:prj cleanFromDB:YES];
+	}
+}
+
 - (void) syncProjects
 {
 	ProjectManager *pm = [ProjectManager getInstance];
@@ -1081,7 +1103,7 @@ extern BOOL _syncMatchHintShown;
     
     //prjList = [pm getVisibleProjectList];
     
-    NSInteger defaultPrjKey = [[Settings getInstance] taskDefaultProject];
+    //NSInteger defaultPrjKey = [[Settings getInstance] taskDefaultProject];
 	
 	for (Project *prj in prjList)
 	{
@@ -1096,7 +1118,7 @@ extern BOOL _syncMatchHintShown;
             
             if (ekCal == nil)
             {
-                NSInteger countTask = [dbm getTaskCountForProject:prj.primaryKey];
+                /*NSInteger countTask = [dbm getTaskCountForProject:prj.primaryKey];
                 
                 if (countTask == 0 && prj.primaryKey != defaultPrjKey)
                 {
@@ -1110,6 +1132,9 @@ extern BOOL _syncMatchHintShown;
                 prj.ekId = @"";
                 
                 [prj updateEKIDIntoDB:[dbm getDatabase]];
+                */
+                
+                [delList addObject:prj];
             }
         }
         else //comment out to don't sync Local project to iCal 
@@ -1140,10 +1165,14 @@ extern BOOL _syncMatchHintShown;
 	{
         printf("EK sync - delete project: %s\n", [prj.name UTF8String]);
         
+        /*
         prj.ekId = @"";
         [prj updateEKIDIntoDB:[dbm getDatabase]];
         
 		[pm deleteProject:prj cleanFromDB:NO];
+        */
+        
+        [self deleteProjectBySync:prj];
 	}
     
     if (createList.count > 0)

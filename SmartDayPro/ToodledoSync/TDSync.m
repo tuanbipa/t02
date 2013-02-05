@@ -1062,11 +1062,14 @@ TDSync *_tdSyncSingleton;
 	}
 	else 
 	{
+        /*
 		[pm.cascadeDictionary removeObjectForKey:[NSNumber numberWithInt:prj.primaryKey]];
         
 		[prj deleteFromDatabase];
 		
 		[pm.projectList removeObject:prj];	
+        */
+        [pm deleteProject:prj cleanFromDB:YES];
 	}
 }
 
