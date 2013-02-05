@@ -151,11 +151,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     dummyView.frame = frm;    
 }
 
-- (void) changeTaskDeadline
+- (void) changeTaskDeadline:(Task *)task
 {
     DBManager *dbm = [DBManager getInstance];
     
-    Task *task = ((TaskView *) self.activeMovableView).task;
+    //Task *task = ((TaskView *) self.activeMovableView).task;
     
     if (task.original != nil)
     {
@@ -193,9 +193,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 }
 
-- (void) changeEventDate
+- (void) changeEventDate:(Task *)task
 {
-    Task *task = ((TaskView *) self.activeMovableView).task;
+    //Task *task = ((TaskView *) self.activeMovableView).task;
     
     NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     
@@ -238,7 +238,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_visitText, _editText, _okText, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
         
         alertView.tag = -10001;
         
@@ -266,6 +266,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
     self.activeMovableView.hidden = NO;
     
+    [self enableScroll:YES container:self.activeMovableView.superview];
+    
     dummyView.hidden = YES;
     
     if (dummyView != nil && [dummyView superview])
@@ -289,7 +291,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    Task *task = ((TaskView *) self.activeMovableView).task;
+    Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+    
+    [super endMove:self.activeMovableView];
     
     NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     
@@ -303,14 +307,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
         {
             case 0: //Edit
             {
-                [self changeTaskDeadline];
+                [self changeTaskDeadline:task];
                 
                 needEdit = YES;
             }
                 break;
                 
             case 1: //OK
-                [self changeTaskDeadline];
+                [self changeTaskDeadline:task];
                 break;
         }
         
@@ -319,23 +323,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	{
         switch (buttonIndex) 
         {
-            case 0: //Visit
+            /*case 0: //Visit
             {
-                [self changeEventDate];
+                [self changeEventDate:task];
                 
                 visitDate = [[task.startTime copy] autorelease];
                 
             }
-                break;
-            case 1: //Edit
+                break;*/
+            case 0: //Edit
             {
-                [self changeEventDate];
+                [self changeEventDate:task];
                 
                 needEdit = YES;
             }
                 break;
-            case 2: //OK
-                [self changeEventDate];
+            case 1: //OK
+                [self changeEventDate:task];
                 break;
         }
         
@@ -367,13 +371,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (moveInMM)
     {
-        [super endMove:self.activeMovableView];
+        //[super endMove:self.activeMovableView];
         
         [_abstractViewCtrler.miniMonthView jumpToDate:(visitDate != nil?visitDate:calDate)];
         
         if (visitDate != nil)
         {
-            [_sdViewCtrler showCalendarView];            
+            [_sdViewCtrler showCalendarView];    
         }
         
         if (needEdit)

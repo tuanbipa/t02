@@ -40,9 +40,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 #pragma mark Support Methods
-- (void) convertRE2Task:(NSInteger)option
+- (void) convertRE2Task:(NSInteger)option task:(Task *)task
 {
-    Task *task =  ((TaskView *)self.activeMovableView).task;
+    //Task *task =  ((TaskView *)self.activeMovableView).task;
     
     TaskManager *tm = [TaskManager getInstance];
     
@@ -52,9 +52,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [_abstractViewCtrler.miniMonthView refresh];
 }
 
-- (void) convert2Task
+- (void) convert2Task:(Task *)task
 {
-    Task *task =  ((TaskView *)self.activeMovableView).task;
+    //Task *task =  ((TaskView *)self.activeMovableView).task;
     
     NSDate *sDate = [[task.startTime copy] autorelease];
     
@@ -100,31 +100,31 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [ctrler.todayScheduleView unhighlight];
     
-    [self enableScroll:YES container:ctrler.calendarView];
+    //[self enableScroll:YES container:ctrler.calendarView];
 }
 
-- (void) changeTime
+- (void) changeTime:(Task *)task time:(NSDate *)time
 {
-    Task *task =  ((TaskView *)self.activeMovableView).task;
+    //Task *task =  ((TaskView *)self.activeMovableView).task;
     
     //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
-    NSDate *timeslot = [ctrler.todayScheduleView getTimeSlot];
+    //NSDate *timeslot = [ctrler.todayScheduleView getTimeSlot];
     
     TaskManager *tm = [TaskManager getInstance];
     
     NSDate *sDate = [task.startTime copy];
     NSDate *dDate = [task.deadline copy];
     
-    [tm moveTime:[Common copyTimeFromDate:timeslot toDate:tm.today] forEvent:task];
+    [tm moveTime:[Common copyTimeFromDate:time toDate:tm.today] forEvent:task];
     
     if ([task isRE])
     {
         //[_sdViewCtrler.miniMonthView refresh];
         [_abstractViewCtrler.miniMonthView refresh];
     }
-    else 
+    else
     {
         if (sDate != nil)
         {
@@ -148,34 +148,37 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    Task *task =  [[((TaskView *)self.activeMovableView).task retain] autorelease];
+    NSDate *time = [[_abstractViewCtrler getCalendarViewController].todayScheduleView getTimeSlot];
+    
 	if (alertVw.tag == -11000)
-	{
+	{                
+        [self doneMove];
+        
         if (buttonIndex == 1)
         {
-            [self convert2Task];
+            [self convert2Task:task];
         }
-        
-        [self doneMove];
 	}
 	else if (alertVw.tag == -11001)
 	{
+        [self doneMove];
+        
         if (buttonIndex == 1)
         {
-            [self changeTime];
-        }    
-        
-        [self doneMove];
+            [self changeTime:task time:time];
+        }
 	}
 	else if (alertVw.tag == -11002)
 	{
+        [self doneMove];
+        
         if (buttonIndex != 0)
         {
-            [self convertRE2Task:buttonIndex];
+            [self convertRE2Task:buttonIndex task:task];
         }
-        
-        [self doneMove];
     }
-    else 
+    else
     {
         //to handle MiniMonth actions
         [super alertView:alertVw clickedButtonAtIndex:buttonIndex];
@@ -273,8 +276,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
                 return;
 
             }
+            
+            NSDate *time = [ctrler.todayScheduleView getTimeSlot];
 
-            [self changeTime];
+            [self changeTime:task time:time];
             
         }
         else 
