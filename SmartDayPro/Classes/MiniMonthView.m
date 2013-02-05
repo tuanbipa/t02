@@ -235,7 +235,7 @@ extern BOOL _isiPad;
     
     [self.calView highlightCellOnDate:tm.today];
     
-    /*if ([Common daysBetween:dt andDate:date] != 0)
+    /*if ([Common daysBetween:dt sinceDate:date] != 0)
     {
         [self.calView highlightCellOnDate:date];
     }*/
@@ -258,7 +258,7 @@ extern BOOL _isiPad;
     
     NSDate *dt = (mode==1?tm.today:[Common getFirstMonthDate:tm.today]);
     
-    if ([Common daysBetween:dt andDate:tm.today] != 0)
+    if ([Common daysBetween:dt sinceDate:tm.today] != 0)
     {
         [tm initCalendarData:dt];
     }

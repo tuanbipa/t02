@@ -788,8 +788,9 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return [localDate dateByAddingTimeInterval:dstOffset];
 }
 
-+ (NSInteger)daysBetween:(NSDate *)dt1 andDate:(NSDate *)dt2 
++ (NSInteger)daysBetween:(NSDate *)dt1 sinceDate:(NSDate *)dt2 
 {
+    //dt2: since Date
     NSDate *minDate = [dt1 compare:dt2]==NSOrderedAscending?dt1:dt2;
     
     NSDate *endDate = (minDate == dt1?[Common clearTimeForDate:dt1]:[Common getEndDate:dt1]);

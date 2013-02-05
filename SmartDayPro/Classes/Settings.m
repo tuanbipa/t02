@@ -290,8 +290,10 @@ extern BOOL _scFreeVersion;
 		if (weekStartSetting != nil)
 		{
 			self.weekStart = [weekStartSetting intValue];
-		}		
-
+		}
+        
+        [[NSCalendar currentCalendar] setFirstWeekday:self.weekStart==0?1:2];
+        
 		NSNumber *landscapeModeEnableSetting = [self.settingDict objectForKey:@"LandscapeModeEnable"];
 		
 		if (landscapeModeEnableSetting != nil)

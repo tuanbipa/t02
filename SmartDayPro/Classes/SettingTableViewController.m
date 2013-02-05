@@ -204,7 +204,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     BOOL defaultCatChange = (settings.taskDefaultProject != self.settingCopy.taskDefaultProject);
     
     BOOL ekSyncWindowChange = (settings.syncWindowStart != self.settingCopy.syncWindowStart) || (settings.syncWindowEnd != self.settingCopy.syncWindowEnd);
-	
+    	
 	if (settings.taskDuration != self.settingCopy.taskDuration)
 	{
 		tm.lastTaskDuration = self.settingCopy.taskDuration;
@@ -236,6 +236,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	}
     
 	[settings updateSettings:self.settingCopy];
+    
+    if (weekStartChange)
+    {
+        [[NSCalendar currentCalendar] setFirstWeekday:settings.weekStart==0?1:2];
+    }    
     
     if (tabBarChanged)
     {

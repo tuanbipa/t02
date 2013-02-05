@@ -604,7 +604,7 @@ extern BOOL _syncMatchHintShown;
             {
                 printf("Event %s no change - EK modify time: %s - SD update time: %s\n", [scEvent.name UTF8String], [[ekEvent.lastModifiedDate description] UTF8String], [[scEvent.updateTime description] UTF8String]);
                 
-                if ([scEvent isRE] && [Common daysBetween:scEvent.startTime andDate:ekEvent.startDate] != 0)
+                if ([scEvent isRE] && [Common daysBetween:scEvent.startTime sinceDate:ekEvent.startDate] != 0)
                 {
                     //sync window was changed -> Update EK->SD
                     [self updateSCEvent:scEvent withEKEvent:ekEvent];

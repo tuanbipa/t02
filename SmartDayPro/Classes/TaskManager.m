@@ -2818,7 +2818,7 @@ TaskManager *_sctmSingleton = nil;
 		[task updateIntoDB:[dbm getDatabase]];
 	}
     
-    if (settings.hideFutureTasks && task.startTime != nil && [Common daysBetween:task.startTime andDate:[NSDate date]] >= 1)
+    if (settings.hideFutureTasks && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1)
     {
         //future tasks
         return reSchedule;
@@ -2990,6 +2990,7 @@ TaskManager *_sctmSingleton = nil;
         DBManager *dbm = [DBManager getInstance];
         ProjectManager *pm = [ProjectManager getInstance];
         TaskLinkManager *tlm = [TaskLinkManager getInstance];
+        Settings *settings = [Settings getInstance];
         
         Project *originalProject = [pm getProjectByKey:slTask.project];
         Project *newProject = [pm getProjectByKey:task.project];
@@ -3033,9 +3034,13 @@ TaskManager *_sctmSingleton = nil;
         BOOL becomeMustDo = [task checkMustDo]; // to fix bug: move a non due task to MM then choose Edit -> assign a Due date but it is still non-due list -> must remove from the list
         BOOL mustDoChange = ([slTask checkMustDo] && [task checkMustDo] && [Common compareDateNoTime:slTask.deadline withDate:task.deadline] != NSOrderedSame);
         
+        NSInteger days = [Common daysBetween:task.startTime sinceDate:[NSDate date]];
+        
+        BOOL futureChange = settings.hideFutureTasks && slTask.startTime != nil && [Common daysBetween:slTask.startTime sinceDate:[NSDate date]] <= 0 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1;
+        
         //reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || dueChange || mustDoLost || becomeMustDo || mustDoChange || projectStatusChange;
         
-        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || dueChange || mustDoLost || becomeMustDo || mustDoChange || transChange;
+        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || dueChange || mustDoLost || becomeMustDo || mustDoChange || transChange || futureChange;
         
         if ([slTask isRE] && [task isNREvent])
         {
@@ -3054,7 +3059,7 @@ TaskManager *_sctmSingleton = nil;
             taskReset = YES;
         }		
         
-        if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo))
+        if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo || futureChange))
         {
             //[self garbage:slTask];
             
@@ -3281,7 +3286,7 @@ TaskManager *_sctmSingleton = nil;
     
     if ([self checkFirstInstance:instance rootRE:rootRE])
     {
-        NSInteger days = [Common daysBetween:rootRE.endTime andDate:rootRE.startTime];
+        NSInteger days = [Common daysBetween:rootRE.endTime sinceDate:rootRE.startTime];
         
         Task *nextInstance = [self findRTInstance:rootRE fromDate:[Common dateByAddNumDay:days+1 toDate:instance.startTime]];
         
@@ -3669,7 +3674,7 @@ TaskManager *_sctmSingleton = nil;
             if ([self checkFirstInstance:instance rootRE:rootRE])
             {
                 //delete first instance -> shift start date of root RE
-                NSInteger days = [Common daysBetween:rootRE.endTime andDate:rootRE.startTime];
+                NSInteger days = [Common daysBetween:rootRE.endTime sinceDate:rootRE.startTime];
                 
                 Task *nextInstance = [self findRTInstance:rootRE fromDate:[Common dateByAddNumDay:days+1 toDate: instance.startTime]];
                 
@@ -3805,7 +3810,7 @@ TaskManager *_sctmSingleton = nil;
             if ([self checkFirstInstance:instance rootRE:rootRE])
             {
                 //convert first instance -> shift start date of root RE
-                NSInteger days = [Common daysBetween:rootRE.endTime andDate:rootRE.startTime];
+                NSInteger days = [Common daysBetween:rootRE.endTime sinceDate:rootRE.startTime];
 
                 Task *nextInstance = [self findRTInstance:rootRE fromDate:[Common dateByAddNumDay:days+1 toDate:instance.startTime]];
                 
@@ -4087,14 +4092,14 @@ TaskManager *_sctmSingleton = nil;
 	
 	if (rt.repeatData.repeatFrom == REPEAT_FROM_COMPLETION)
 	{
-        //NSInteger days = [Common daysBetween:rt.deadline andDate:rt.startTime];
+        //NSInteger days = [Common daysBetween:rt.deadline sinceDate:rt.startTime];
 
 		//nextInstance = [self findRTInstance:rt fromDate:[Common dateByAddNumDay:days+1 toDate:[NSDate date]]];
         nextInstance = [self findRTInstance:rt fromDate:[Common dateByAddNumDay:1 toDate:[NSDate date]]];
 	}
 	else // repeat from Due 
 	{
-        //NSInteger days = [Common daysBetween:rt.deadline andDate:rt.startTime];
+        //NSInteger days = [Common daysBetween:rt.deadline sinceDate:rt.startTime];
         
 		if (rt.deadline == nil)
 		{

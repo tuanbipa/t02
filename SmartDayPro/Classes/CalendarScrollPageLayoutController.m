@@ -357,7 +357,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		Task *lastTask = lastViewParam.task;
 		Task *task = view.task;
 		
-        if ([task isTask] && task.original != nil && lastTask.original == task.original && [Common daysBetween:lastTask.smartTime andDate:task.smartTime] == 0)
+        if ([task isTask] && task.original != nil && lastTask.original == task.original && [Common daysBetween:lastTask.smartTime sinceDate:task.smartTime] == 0)
 		{
             lastTask.isSplitted = YES;
             task.isSplitted = YES;

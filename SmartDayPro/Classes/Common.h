@@ -478,7 +478,7 @@ typedef struct
 + (NSDate *)dateNoDST:(NSDate *)date;
 + (NSDate *)toDBDate:(NSDate *)localDate;
 + (NSDate *)fromDBDate:(NSDate *)dbDate;
-+ (NSInteger)daysBetween:(NSDate *)dt1 andDate:(NSDate *)dt2;
++ (NSInteger)daysBetween:(NSDate *)dt1 sinceDate:(NSDate *)dt2;
 + (NSInteger)timeIntervalNoDST:(NSDate *)date sinceDate:(NSDate *)sinceDate;
 + (NSDate *)getFirstWeekDate:(NSDate *)date mondayAsWeekStart:(BOOL)mondayAsWeekStart;
 + (NSDate *)getLastWeekDate:(NSDate *)date mondayAsWeekStart:(BOOL)mondayAsWeekStart;

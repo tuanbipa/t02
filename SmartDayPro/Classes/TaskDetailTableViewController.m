@@ -1195,7 +1195,7 @@ extern BOOL _isiPad;
 	
 	firstIconPeriod.selected = (self.taskCopy.deadline != nil && 
 								//[Common compareDateNoTime:self.taskCopy.deadline withDate:[NSDate date]] == NSOrderedSame);
-                                [Common daysBetween:self.taskCopy.deadline andDate:[NSDate date]] == 0);
+                                [Common daysBetween:self.taskCopy.deadline sinceDate:[NSDate date]] == 0);
     
 	[deadlineButtonView addSubview:firstIconPeriod];
 	
@@ -1212,7 +1212,7 @@ extern BOOL _isiPad;
 	
 	secondIconPeriod.selected = (self.taskCopy.deadline != nil && 
 								 //[Common compareDateNoTime:self.taskCopy.deadline withDate:[Common dateByAddNumDay:1 toDate:[NSDate date]]] == NSOrderedSame);
-                                 [Common daysBetween:self.taskCopy.deadline andDate:[NSDate date]] == 1);
+                                 [Common daysBetween:self.taskCopy.deadline sinceDate:[NSDate date]] == 1);
 	
 	[deadlineButtonView addSubview:secondIconPeriod];
 	
@@ -1229,7 +1229,7 @@ extern BOOL _isiPad;
 	
 	thirdIconPeriod.selected = (self.taskCopy.deadline != nil && 
 								//[Common compareDateNoTime:self.taskCopy.deadline withDate:[Common dateByAddNumDay:7 toDate:[NSDate date]]] == NSOrderedSame);
-                                [Common daysBetween:self.taskCopy.deadline andDate:[NSDate date]] == 7);
+                                [Common daysBetween:self.taskCopy.deadline sinceDate:[NSDate date]] == 7);
 	
 	[deadlineButtonView addSubview:thirdIconPeriod];
 	
@@ -1246,7 +1246,7 @@ extern BOOL _isiPad;
 	
 	fourthIconPeriod.selected = (self.taskCopy.deadline != nil &&
 								//[Common compareDateNoTime:self.taskCopy.deadline withDate:[Common dateByAddNumDay:7 toDate:[NSDate date]]] == NSOrderedSame);
-                                [Common daysBetween:self.taskCopy.deadline andDate:[NSDate date]] == 30);
+                                [Common daysBetween:self.taskCopy.deadline sinceDate:[NSDate date]] == 30);
 	
 	[deadlineButtonView addSubview:fourthIconPeriod];
     
@@ -1438,7 +1438,7 @@ extern BOOL _isiPad;
 	
 	firstIconPeriod.selected = (self.taskCopy.startTime != nil && 
 								//[Common compareDateNoTime:self.taskCopy.startTime withDate:[NSDate date]] == NSOrderedSame);
-                                [Common daysBetween:self.taskCopy.startTime andDate:[NSDate date]] == 0);
+                                [Common daysBetween:self.taskCopy.startTime sinceDate:[NSDate date]] == 0);
 	
 	[startButtonView addSubview:firstIconPeriod];
 	
@@ -1455,7 +1455,7 @@ extern BOOL _isiPad;
 	
 	secondIconPeriod.selected = (self.taskCopy.startTime != nil && 				
 								 //[Common compareDateNoTime:self.taskCopy.startTime withDate:[Common dateByAddNumDay:1 toDate:[NSDate date]]] == NSOrderedSame);
-                                 [Common daysBetween:self.taskCopy.startTime andDate:[NSDate date]] == 1);
+                                 [Common daysBetween:self.taskCopy.startTime sinceDate:[NSDate date]] == 1);
 	
 	[startButtonView addSubview:secondIconPeriod];
 	
@@ -1472,7 +1472,7 @@ extern BOOL _isiPad;
     
 	thirdIconPeriod.selected = (self.taskCopy.startTime != nil && 
 								//[Common compareDateNoTime:self.taskCopy.startTime withDate:[Common dateByAddNumDay:7 toDate:[NSDate date]]] == NSOrderedSame);
-                                [Common daysBetween:self.taskCopy.startTime andDate:[NSDate date]] == 7);
+                                [Common daysBetween:self.taskCopy.startTime sinceDate:[NSDate date]] == 7);
 	
 	[startButtonView addSubview:thirdIconPeriod];
     
@@ -1487,7 +1487,7 @@ extern BOOL _isiPad;
 	fourthIconPeriod.tag = baseTag + 7;
 	
 	fourthIconPeriod.selected = (self.taskCopy.startTime != nil &&
-								[Common daysBetween:self.taskCopy.startTime andDate:[NSDate date]] == 30);
+								[Common daysBetween:self.taskCopy.startTime sinceDate:[NSDate date]] == 30);
 	
 	[startButtonView addSubview:fourthIconPeriod];    
 	

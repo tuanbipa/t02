@@ -89,7 +89,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	
 	CGRect frm;
     
-    NSInteger days = [Common daysBetween:startTime andDate:date];
+    NSInteger days = [Common daysBetween:startTime sinceDate:date];
     
     CGFloat pageOffset = (days + 1)*self.viewContainer.bounds.size.width;
     
@@ -351,7 +351,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		Task *lastTask = lastViewParam.task;
 		Task *task = view.task;
         
-        if ([task isTask] && task.original != nil && lastTask.original == task.original && [Common daysBetween:lastTask.smartTime andDate:task.smartTime] == 0)
+        if ([task isTask] && task.original != nil && lastTask.original == task.original && [Common daysBetween:lastTask.smartTime sinceDate:task.smartTime] == 0)
 		{
             lastTask.isSplitted = YES;
             task.isSplitted = YES;

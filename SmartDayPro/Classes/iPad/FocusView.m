@@ -195,7 +195,7 @@ AbstractSDViewController *_abstractViewCtrler;
     {
         self.adeList = [tm getADEListOnDate:tm.today];
         
-        if ([Common daysBetween:tm.today andDate:[NSDate date]] == 0)
+        if ([Common daysBetween:tm.today sinceDate:[NSDate date]] == 0)
         {
             self.dueList = [tm getOverdueTaskList];
             
