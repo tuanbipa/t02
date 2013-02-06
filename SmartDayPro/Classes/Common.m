@@ -790,6 +790,16 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSInteger)daysBetween:(NSDate *)dt1 sinceDate:(NSDate *)dt2 
 {
+    if (dt1 == nil)
+    {
+        dt1 = [NSDate dateWithTimeIntervalSince1970:0];
+    }
+    
+    if (dt2 == nil)
+    {
+        dt2 = [NSDate dateWithTimeIntervalSince1970:0];
+    }
+    
     //dt2: since Date
     NSDate *minDate = [dt1 compare:dt2]==NSOrderedAscending?dt1:dt2;
     

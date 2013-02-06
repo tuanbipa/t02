@@ -3034,13 +3034,13 @@ TaskManager *_sctmSingleton = nil;
         BOOL becomeMustDo = [task checkMustDo]; // to fix bug: move a non due task to MM then choose Edit -> assign a Due date but it is still non-due list -> must remove from the list
         BOOL mustDoChange = ([slTask checkMustDo] && [task checkMustDo] && [Common compareDateNoTime:slTask.deadline withDate:task.deadline] != NSOrderedSame);
         
-        NSInteger days = [Common daysBetween:task.startTime sinceDate:[NSDate date]];
+        BOOL futureLost = settings.hideFutureTasks && ([Common daysBetween:slTask.startTime sinceDate:[NSDate date]] >= 1 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] <= 0);
         
-        BOOL futureChange = settings.hideFutureTasks && slTask.startTime != nil && [Common daysBetween:slTask.startTime sinceDate:[NSDate date]] <= 0 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1;
+        BOOL becomeFuture = settings.hideFutureTasks && ([Common daysBetween:slTask.startTime sinceDate:[NSDate date]] <= 0 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1);
         
         //reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || dueChange || mustDoLost || becomeMustDo || mustDoChange || projectStatusChange;
         
-        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || dueChange || mustDoLost || becomeMustDo || mustDoChange || transChange || futureChange;
+        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || dueChange || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture;
         
         if ([slTask isRE] && [task isNREvent])
         {
@@ -3059,7 +3059,7 @@ TaskManager *_sctmSingleton = nil;
             taskReset = YES;
         }		
         
-        if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo || futureChange))
+        if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo || becomeFuture))
         {
             //[self garbage:slTask];
             
@@ -3135,7 +3135,7 @@ TaskManager *_sctmSingleton = nil;
         
         if ([slTask isTask])
         {
-            if (taskChange || projectChange || becomeDue || becomeMustDo || mustDoLost)
+            if (taskChange || projectChange || becomeDue || becomeMustDo || mustDoLost || futureLost)
             {
                 [self populateTask:slTask];
             }
