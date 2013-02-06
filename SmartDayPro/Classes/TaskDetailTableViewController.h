@@ -18,7 +18,7 @@
 	
 	//UITextField *taskTitleTextField;
     HPGrowingTextView *titleTextView;
-    UITextField *taskLocation;
+    //UITextField *taskLocation;
 	
 	NSInteger keyEdit;
 	

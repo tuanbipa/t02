@@ -25,7 +25,7 @@ body{
 }
 #container {
 	width: 300px;
-	height: 1830px;
+	height: 1230px;
 	z-index:2;
 }
 
@@ -50,21 +50,21 @@ body{
 }
 
 #both{
-	left: 88px;
+	left: 89px;
 	position:absolute;
-	top: 960px;
+	top: 820px;
 	width: 4px;
 	height: 1px;
 }
 #both2{
-	left: 88px;
+	left: 93px;
 	position:absolute;
-	top: 1380px;
+	top: 1216px;
 }
 #both3{
-	left: 88px;
+	left: 91px;
 	position:absolute;
-	top: 1175px;
+	top: 1013px;
 }
 
 
@@ -124,21 +124,21 @@ body{
 	/*background-image: url(SCal_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 590px;
+	top: 519px;
 	position: absolute;
-	left: 5px;
+	left: 7px;
 	background-repeat:no-repeat;
 }
 #SO_text {
-	left: 88px;
+	left: 90px;
 	position:absolute;
-	top:590px;
+	top:519px;
 	width: 220px;
 }
 #SO_long_text{
-	left: 8px;
+	left: 10px;
 	position:absolute;
-	top:675px;
+	top:604px;
 	width: 300px;
 }
 
@@ -151,20 +151,20 @@ body{
 	/*background-image: url(SN_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 900px;
+	top: 760px;
 	position: absolute;
-	left: 5px;
+	left: 6px;
 	background-repeat:no-repeat;
 }
 #SNotes_text {
-	left: 88px;
+	left: 89px;
 	position:absolute;
-	top:900px;
+	top:760px;
 }
 #SNotes_long_text{
-	left: 8px;
+	left: 9px;
 	position:absolute;
-	top:970px;
+	top:830px;
 	width: 300px;
 }
 
@@ -176,20 +176,20 @@ body{
 	/*background-image: url(SP_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 1115px;
+	top: 953px;
 	position: absolute;
-	left: 5px;
+	left: 8px;
 	background-repeat:no-repeat;
 }
 #SPlans_text {
-	left: 88px;
+	left: 91px;
 	position:absolute;
-	top:1115px;
+	top:953px;
 }
 #SPlans_long_text{
-	left: 8px;
+	left: 11px;
 	position:absolute;
-	top:1185px;
+	top:1023px;
 	width: 300px;
 	height: 100px;
 }
@@ -202,23 +202,23 @@ body{
 	/*background-image: url(STu_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 1315px;
+	top: 1151px;
 	position: absolute;
-	left: 5px;
+	left: 10px;
 	background-repeat:no-repeat;
 }
 #STunes_text {
-	left: 88px;
+	left: 93px;
 	position:absolute;
-	top:1315px;
+	top:1151px;
 	width: 220px;
 }
 #STunes_long_text{
-	left: 8px;
+	left: 13px;
 	position:absolute;
-	top:1385px;
+	top:1221px;
 	width: 300px;
-	height: 151px;
+	height: 121px;
 }
 
 #S2Q {

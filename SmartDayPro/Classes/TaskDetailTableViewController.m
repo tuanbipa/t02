@@ -744,7 +744,16 @@ extern BOOL _isiPad;
 - (void)save:(id) sender
 {
     [titleTextView resignFirstResponder];
-    [taskLocation resignFirstResponder];
+    //[taskLocation resignFirstResponder];
+
+    UITableViewCell *cell = [taskTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+                             
+    UITextField *taskLocation = (UITextField * )[cell.contentView viewWithTag:10005];
+    
+    if (taskLocation != nil)
+    {
+        [taskLocation resignFirstResponder];
+    }
     
     TaskManager *tm = [TaskManager getInstance];
     
@@ -994,24 +1003,6 @@ extern BOOL _isiPad;
 - (void) createTitleCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	//task title
-    /*
-	taskTitleTextField=[[UITextField alloc] initWithFrame:CGRectMake(10, 5, 250, 50)];	
-	taskTitleTextField.font=[UIFont systemFontOfSize:16];
-	taskTitleTextField.textColor=[UIColor colorWithRed:49.0/255 green:79.0/255 blue:79.0/255 alpha:1];
-	taskTitleTextField.keyboardType=UIKeyboardTypeDefault;
-	taskTitleTextField.returnKeyType = UIReturnKeyDone;
-	taskTitleTextField.placeholder=_titleGuideText;
-	taskTitleTextField.textAlignment=NSTextAlignmentLeft;
-	taskTitleTextField.backgroundColor=[UIColor clearColor];
-	taskTitleTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
-	taskTitleTextField.delegate=self;
-	taskTitleTextField.tag = baseTag + 1;
-	taskTitleTextField.text = self.taskCopy.name;
-	
-	[cell.contentView addSubview:taskTitleTextField];
-	[taskTitleTextField release];
-    */
-    
     titleTextView.text = self.taskCopy.name;
     [cell.contentView addSubview:titleTextView];
     
@@ -1026,7 +1017,7 @@ extern BOOL _isiPad;
     [cell.contentView addSubview:contactButton];
     
 	//task Location
-	taskLocation=[[UITextField alloc] initWithFrame:CGRectMake(35, y, 300-75, 26)];
+	UITextField *taskLocation=[[UITextField alloc] initWithFrame:CGRectMake(35, y, 300-75, 26)];
 	taskLocation.font=[UIFont systemFontOfSize:16];
 	taskLocation.textColor=[UIColor brownColor];
 	taskLocation.keyboardType=UIKeyboardTypeDefault;
@@ -1037,7 +1028,7 @@ extern BOOL _isiPad;
 	taskLocation.clearButtonMode=UITextFieldViewModeWhileEditing;
 	//taskLocation.enabled=NO;
 	taskLocation.delegate=self;
-	taskLocation.tag = baseTag + 2;
+	taskLocation.tag = baseTag + 5;
 	taskLocation.text = self.taskCopy.location;
     
 	[cell.contentView addSubview:taskLocation];
