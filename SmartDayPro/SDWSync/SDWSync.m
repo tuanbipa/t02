@@ -118,13 +118,18 @@ NSInteger _sdwColor[32] = {
         [self.sdwSection reset];
     }
     
-    if (!self.errorDescription)
+    if (self.errorDescription == nil)
     {
         settings.sdwLastSyncTime = [NSDate date];
     }
     else
     {
-        printf("sync error: %s\n", [self.errorDescription UTF8String]);
+        //printf("sync error: %s\n", [self.errorDescription UTF8String]);
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText message:self.errorDescription delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+        
+        [alertView performSelector:@selector(show) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
+        
+        [alertView release];        
     }
     
     needResetSection = NO;
@@ -194,8 +199,7 @@ NSInteger _sdwColor[32] = {
         
         if (![self backup])
         {
-            self.errorDescription = _msdBackupFailed;
-            
+//           self.errorDescription = _msdBackupFailed;
             return NO;
         }
         else
@@ -207,6 +211,50 @@ NSInteger _sdwColor[32] = {
     }
         
     return YES;
+}
+
+- (void) sync
+{
+    if (self.syncMode == SYNC_MANUAL_1WAY_SD2mSD)
+    {
+        [self push1way];
+    }
+    else if (self.syncMode == SYNC_MANUAL_1WAY_mSD2SD)
+    {
+        [self get1way];
+    }
+    else
+    {
+        [self syncProjects];
+        
+        if (self.errorDescription == nil)
+        {
+            [self syncSetting];
+            
+            [self syncTags];
+            
+            NSDate *lastUpdateTime = [[DBManager getInstance] getLastestTaskUpdateTime];
+            
+            //printf("*** Last Update - sdw: %s - sd: %s\n", [[self.lastTaskUpdateTime description] UTF8String], [[lastUpdateTime description] UTF8String]);
+            
+            NSComparisonResult comp = [Common compareDate:lastUpdateTime withDate:self.lastTaskUpdateTime];
+            
+            if (self.syncMode == SYNC_AUTO_1WAY)
+            {
+                [self sync1way];
+            }
+            else
+            {
+                [self syncTasks];
+                [self syncLinks];
+                
+                if (comp != NSOrderedSame)
+                {
+                    [self syncTaskOrder:(comp == NSOrderedAscending)];
+                }
+            }
+        }
+    }
 }
 
 - (void) initSync:(NSInteger)mode
@@ -223,6 +271,8 @@ NSInteger _sdwColor[32] = {
     
     needResetSection = NO;
     
+    BOOL backupSuccess = YES;
+    
     if ([self.sdwSection checkTokenExpired])
     {
         NSString *token = [self getToken:settings.sdwEmail password:settings.sdwPassword];
@@ -237,78 +287,58 @@ NSInteger _sdwColor[32] = {
         }
     }
     
-    if (self.errorDescription != nil)
+    /*if (self.errorDescription != nil)
     {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText message:self.errorDescription delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
         
         [alertView performSelector:@selector(show) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
         
-        [alertView release];        
+        [alertView release];  
     }
-    else if (self.sdwSection.key != nil)
+    else */
+    
+    if (self.errorDescription == nil)
     {
-        if ([self check2Backup])
+        if (self.sdwSection.key != nil)
         {
-            if (self.syncMode == SYNC_MANUAL_1WAY_SD2mSD)
+            backupSuccess = [self check2Backup];
+            
+            if (backupSuccess)
             {
-                [self push1way];
+                [self sync];
             }
-            else if (self.syncMode == SYNC_MANUAL_1WAY_mSD2SD) 
+            /*else //backup failed
             {
-                [self get1way];
-            }
-            else 
-            {
-                [self syncProjects];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText message:_msdBackupFailed delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
                 
-                if (self.errorDescription == nil)
-                {
-                    [self syncSetting];
-                    
-                    [self syncTags];
-                    
-                    NSDate *lastUpdateTime = [[DBManager getInstance] getLastestTaskUpdateTime];
-                    
-                    //printf("*** Last Update - sdw: %s - sd: %s\n", [[self.lastTaskUpdateTime description] UTF8String], [[lastUpdateTime description] UTF8String]);
-                    
-                    NSComparisonResult comp = [Common compareDate:lastUpdateTime withDate:self.lastTaskUpdateTime];
-                    
-                    if (self.syncMode == SYNC_AUTO_1WAY)
-                    {
-                        [self sync1way];
-                    }
-                    else
-                    {
-                        [self syncTasks];
-                        [self syncLinks];
-                        
-                        if (comp != NSOrderedSame)
-                        {
-                            [self syncTaskOrder:(comp == NSOrderedAscending)];
-                        }                
-                    }
-                }
+                [alertView performSelector:@selector(show) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
+                
+                [alertView release];
             }
+            else
+             {
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:_msdBackupFailed delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_goText, nil];
+             alertView.tag = -11000;
+             
+             [alertView performSelector:@selector(show) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
+             
+             [alertView release];
+             }*/
         }
-        else //backup failed
+        /*else
         {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText message:self.errorDescription delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText message:_msdSyncFailed delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
             
             [alertView performSelector:@selector(show) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
             
-            [alertView release];
-        }
-    }
-    else 
-    {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText message:_msdSyncFailed delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-        
-        [alertView performSelector:@selector(show) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
-        
-        [alertView release];        
+            [alertView release];        
+        }*/
     }
     
-    [self syncComplete];
+    //if (backupSuccess)
+    {
+        [self syncComplete];
+    }
 }
 
 -(void)initBackgroundSync
@@ -681,7 +711,7 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"PUT"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
 	
-	NSError *error; 
+	NSError *error = nil;
 	NSURLResponse *response; 
     
     NSDictionary *dict = [self toSDWSettingsDict:settings];
@@ -694,6 +724,13 @@ NSInteger _sdwColor[32] = {
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData)
     {
@@ -719,10 +756,17 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
 	
-	NSError *error; 
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -774,10 +818,17 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
 	
-	NSError *error; 
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -1113,10 +1164,17 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
 	
-	NSError *error; 
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -1842,7 +1900,7 @@ NSInteger _sdwColor[32] = {
         
     }
     
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwList options:0 error:&error];
@@ -1858,6 +1916,13 @@ NSInteger _sdwColor[32] = {
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -1920,7 +1985,7 @@ NSInteger _sdwColor[32] = {
         
     }
     
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwTaskList options:0 error:&error];
@@ -1936,6 +2001,13 @@ NSInteger _sdwColor[32] = {
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -2120,10 +2192,17 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
 	
-	NSError *error; 
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -2495,7 +2574,7 @@ NSInteger _sdwColor[32] = {
         
     }
     
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwTaskList options:0 error:&error];
@@ -2510,6 +2589,13 @@ NSInteger _sdwColor[32] = {
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -2565,10 +2651,17 @@ NSInteger _sdwColor[32] = {
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
         
-        NSError *error; 
+        NSError *error = nil;
         NSURLResponse *response;
         NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         [request release];
+        
+        if (error != nil)
+        {
+            self.errorDescription = error.localizedDescription;
+            
+            return;
+        }
         
         if (urlData) 
         {
@@ -2706,7 +2799,7 @@ NSInteger _sdwColor[32] = {
         [sdwList addObject:linkDict];
     }
     
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwList options:0 error:&error];
@@ -2716,6 +2809,13 @@ NSInteger _sdwColor[32] = {
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -2774,7 +2874,7 @@ NSInteger _sdwColor[32] = {
         
     }
     
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwLinkList options:0 error:&error];
@@ -2784,6 +2884,13 @@ NSInteger _sdwColor[32] = {
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -2850,11 +2957,18 @@ NSInteger _sdwColor[32] = {
         [request setHTTPMethod:@"DELETE"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         
-        NSError *error; 
+        NSError *error = nil;
         NSURLResponse *response; 
         NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
         [request release];
+        
+        if (error != nil)
+        {
+            self.errorDescription = error.localizedDescription;
+            
+            return;
+        }
         
         if (urlData) 
         {
@@ -2910,11 +3024,18 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
 	
-	NSError *error; 
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -3032,11 +3153,18 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 	
-	NSError *error;
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData)
     {
@@ -3103,14 +3231,21 @@ NSInteger _sdwColor[32] = {
         [request setHTTPMethod:@"DELETE"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         
-        NSError *error;
+        NSError *error = nil;
         NSURLResponse *response;
         
         [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         
-        [tagMgr cleanDeletedTagList];
-        
         [request release];
+        
+        if (error != nil)
+        {
+            self.errorDescription = error.localizedDescription;
+            
+            return;
+        }
+        
+        [tagMgr cleanDeletedTagList];
         
     }    
 }
@@ -3128,11 +3263,18 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 	
-	NSError *error;
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData)
     {
@@ -3227,7 +3369,7 @@ NSInteger _sdwColor[32] = {
         [sdwList addObject:data];
     }
     
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwList options:0 error:&error];
@@ -3240,6 +3382,15 @@ NSInteger _sdwColor[32] = {
     [request setHTTPBody:jsonBody];
     
     NSData *urlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
 	
     if (urlData)
     {
@@ -3271,8 +3422,7 @@ NSInteger _sdwColor[32] = {
         
         [tagMgr saveDict];
     }
-    
-    [request release];
+
 }
 
 - (void) push1wayTags
@@ -3284,11 +3434,18 @@ NSInteger _sdwColor[32] = {
     [request setHTTPMethod:@"DELETE"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData)
     {
@@ -3324,11 +3481,18 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 	
-	NSError *error;
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData)
     {
@@ -3519,11 +3683,18 @@ NSInteger _sdwColor[32] = {
     [request setHTTPMethod:@"DELETE"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
     
-    NSError *error; 
+    NSError *error = nil;
     NSURLResponse *response; 
     NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -3578,10 +3749,17 @@ NSInteger _sdwColor[32] = {
 	[request setHTTPMethod:@"GET"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
 	
-	NSError *error; 
+	NSError *error = nil;
 	NSURLResponse *response;
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
     
     if (urlData) 
     {
@@ -3628,10 +3806,17 @@ NSInteger _sdwColor[32] = {
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"]; 
         
-        NSError *error; 
+        NSError *error = nil;
         NSURLResponse *response;
         NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         [request release];
+        
+        if (error != nil)
+        {
+            self.errorDescription = error.localizedDescription;
+            
+            return;
+        }
         
         if (urlData) 
         {
@@ -3712,6 +3897,15 @@ NSInteger _sdwColor[32] = {
             [settings enableMSDBackupHint:NO];
         }
     }
+    /*else if (alertVw.tag == -11000)
+    {
+        if (buttonIndex == 1)
+        {
+            [self sync];
+        }
+        
+        [self syncComplete];        
+    }*/
 }
 
 #pragma mark Backup
@@ -3732,7 +3926,9 @@ NSInteger _sdwColor[32] = {
     
     if (error != nil)
     {
-        //printf("check validity error: %d - %s\n", error.code, [error.localizedDescription UTF8String]);
+        printf("network error: %d - %s\n", error.code, [error.localizedDescription UTF8String]);
+        
+        self.errorDescription = error.localizedDescription;
         
         return NO;
     }
@@ -3742,13 +3938,17 @@ NSInteger _sdwColor[32] = {
         NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         printf("SDW backup return:\n%s\n", [str UTF8String]);
         
-        NSDictionary *result = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:urlData options:NSJSONReadingMutableLeaves error:&error];
+/*        NSDictionary *result = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:urlData options:NSJSONReadingMutableLeaves error:&error];
         
-        if ([result objectForKey:@"error"])
+        NSString *errMsg = [result objectForKey:@"error"];
+        
+        if (errMsg != nil)
         {
+            printf("SDW backup return error:\n%s\n", [errMsg UTF8String]);
+            
             return NO;
         }
-        
+*/        
     }
     else
     {

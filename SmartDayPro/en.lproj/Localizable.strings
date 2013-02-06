@@ -598,7 +598,7 @@
 "_syncWizardText" = "Sync Wizard";
 //"_goText" = "Go";
 "_msdSyncFailed" = "mySmartDay sync failed!";
-"_msdBackupFailed" = "Cannot backup data on mySmartDay at the moment. Please try synchronization later.";
+"_msdBackupFailed" = "You may have some problems with network so data backup request on mySmartDay is failed. Please try to sync later.";
 "_msdBackupHint" = "mySmartDay automatically backed up your data on its server before performing this sync, and will continue to do so  periodically.  Please check to make sure your data is correct.  If not, you can restore your data from the Settings panel in your mySmartDay account.";
 
 "_mySmartDayDotCom" = "mySmartDay.com";
