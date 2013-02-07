@@ -259,7 +259,7 @@ NSInteger _sdwColor[32] = {
 
 - (void) initSync:(NSInteger)mode
 {
-    NSLog(@"SDW init sync mode: %s\n", (mode == SYNC_AUTO_1WAY?"auto 1 way":(mode == SYNC_MANUAL_2WAY?"2 way manual":"2 way auto")));
+    //NSLog(@"SDW init sync mode: %s\n", (mode == SYNC_AUTO_1WAY?"auto 1 way":(mode == SYNC_MANUAL_2WAY?"2 way manual":"2 way auto")));
     
     Settings *settings = [Settings getInstance];
     
@@ -2263,10 +2263,10 @@ NSInteger _sdwColor[32] = {
             
             Task *sdwTask = [self getSDWTask:dict];
             
-            if ([sdwTask isEvent])
+            /*if ([sdwTask isEvent])
             {
                 printf("mSD Event: %s\n", [sdwTask.name UTF8String]);
-            }
+            }*/
             
             if (sdwTask.project == -1 || sdwTask == nil)
             {
@@ -3913,7 +3913,7 @@ NSInteger _sdwColor[32] = {
 {
     NSString *urlString=[NSString stringWithFormat:@"%@/api/backups.json?keyapi=%@",SDWSite,self.sdwSection.key];
     
-    printf("backup: %s\n", [urlString UTF8String]);
+    //printf("backup: %s\n", [urlString UTF8String]);
     
     NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
     [request setURL:[NSURL URLWithString:urlString]];
@@ -3926,7 +3926,7 @@ NSInteger _sdwColor[32] = {
     
     if (error != nil)
     {
-        printf("network error: %d - %s\n", error.code, [error.localizedDescription UTF8String]);
+        //printf("network error: %d - %s\n", error.code, [error.localizedDescription UTF8String]);
         
         self.errorDescription = error.localizedDescription;
         
@@ -3936,7 +3936,7 @@ NSInteger _sdwColor[32] = {
     if (urlData)
     {
         NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
-        printf("SDW backup return:\n%s\n", [str UTF8String]);
+        //printf("SDW backup return:\n%s\n", [str UTF8String]);
         
 /*        NSDictionary *result = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:urlData options:NSJSONReadingMutableLeaves error:&error];
         

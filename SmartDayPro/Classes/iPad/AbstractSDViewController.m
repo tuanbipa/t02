@@ -570,7 +570,7 @@ BOOL _autoPushPending = NO;
         
         if (settings.autoSyncEnabled && settings.autoPushEnabled)
         {
-            printf("Auto Push ...\n");
+            //printf("Auto Push ...\n");
             
             if (settings.sdwSyncEnabled)
             {

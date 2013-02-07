@@ -373,7 +373,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	{
 		const char *sql = settings.hideFutureTasks?"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND (Task_StartTime = -1 OR (Task_StartTime <> -1 AND Task_StartTime < ?)) ORDER BY Task_SeqNo ASC":"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? ORDER BY Task_SeqNo ASC";
         
-        printf("start time:%f\n", [start timeIntervalSince1970]);
+        //printf("start time:%f\n", [start timeIntervalSince1970]);
 		
 		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)	
 		{
