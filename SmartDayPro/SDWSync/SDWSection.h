@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-//#define SDWSite @"http://mysmartday.com"
-#define SDWSite @"http://50.19.33.18"
+#define SDWSite @"http://mysmartday.com"
+//#define SDWSite @"http://50.19.33.18"
 #define SDWAppRegId @"5c14dff59eec0a9b9431e044e59278ae"
 #define SDP_Alias @"ad944424393cf309efaf0e70f1b125cb"
 

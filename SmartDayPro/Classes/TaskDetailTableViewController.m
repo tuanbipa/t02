@@ -1923,7 +1923,7 @@ extern BOOL _isiPad;
 		editTitleButton.enabled = YES;	
         */
 	}
-	else if (textField.tag == 10002) //edit location
+	else if (textField.tag == 10005) //edit location
     {
 		NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
