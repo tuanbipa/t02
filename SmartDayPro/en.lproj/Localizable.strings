@@ -605,7 +605,7 @@
 "_others" = "Others";
 
 "_syncAtStartUp" = "Sync When Open SmartDay";
-"_syncAtStartUpHint" = "This will update both SmartDay and mySmartDay.com.  You can also perform this from the 'Sync' button on the main menu.";
+"_syncAtStartUpHint" = "This will update both SmartDay and sync source. You can also perform this from the 'Sync' button on the main menu.";
 "_pushChanges" = "Auto Push Update";
 "_dataRecovery" = "Data Recovery";
 "_dataRecoveryHint" = "Replace Data from one source to another normally performed under these purposes:\n- Install new SmartDay app.\n- Incorrect data from one source";
