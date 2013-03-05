@@ -89,7 +89,6 @@ static sqlite3_stmt *task_delete_statement = nil;
 @synthesize hasNoDuration;
 
 @synthesize listSource;
-//@synthesize mustDo;
 
 - (id)init
 {
@@ -158,8 +157,6 @@ static sqlite3_stmt *task_delete_statement = nil;
 		self.hasNoDuration = NO;
         
         self.listSource = SOURCE_SMARTLIST;
-        
-        //self.mustDo = NO;
 	}
 	
 	return self;

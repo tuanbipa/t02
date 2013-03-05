@@ -244,6 +244,7 @@
 #pragma mark SyncWindow2SettingViewController
 #define _syncWindowText NSLocalizedString(@"_syncWindowText" , "Sync Window")
 #define _syncFromToText NSLocalizedString(@"_syncFromToText" , "   Sync From               Sync To")
+#define _syncFromTo4iPadText NSLocalizedString(@"_syncFromTo4iPadText" , "   Sync From                    Sync To")
 
 #define _thisWeekText NSLocalizedString(@"_thisWeekText" , "This Week")
 #define _lastWeekText NSLocalizedString(@"_lastWeekText" , "Last Week")
@@ -615,6 +616,31 @@
 
 #define _hideFutureTasks NSLocalizedString(@"_hideFutureTasks", "")
 
+#define _infoText NSLocalizedString(@"_infoText", "")
+
+#define _seekOrCreate NSLocalizedString(@"_seekOrCreate", "")
+#define _createNew NSLocalizedString(@"_createNew", "")
+#define _searchResult NSLocalizedString(@"_searchResult", "")
+
+#define _inProgressTasksText NSLocalizedString(@"_inProgressTasksText", "")
+#define _activeTasksText NSLocalizedString(@"_activeTasksText", "")
+#define _timerTaskMarkDoneText NSLocalizedString(@"_timerTaskMarkDoneText", "")
+#define _holdAllAndStartText NSLocalizedString(@"_holdAllAndStartText", "")
+#define _propertiesEditText NSLocalizedString(@"_propertiesEditText", "")
+
+#define _timerRecoverTitle NSLocalizedString(@"_timerRecoverTitle", "")
+#define _timerRecoverText NSLocalizedString(@"_timerRecoverText", "")
+#define _timerResumeText NSLocalizedString(@"_timerResumeText", "")
+#define _timerContinueText NSLocalizedString(@"_timerContinueText", "")
+#define _tbdTaskText NSLocalizedString(@"_tbdTaskText", "")
+#define _newPlanText NSLocalizedString(@"_newPlanText", "")
+#define _newItemText NSLocalizedString(@"_newItemText", "")
+
+#define _timerHistoryText NSLocalizedString(@"_timerHistoryText", "")
+#define _totalDurationText NSLocalizedString(@"_totalDurationText", "")
+
+#define _reportSuccess NSLocalizedString(@"_reportSuccess", "")
+#define _reportFailure NSLocalizedString(@"_reportFailure", "")
 
 
 

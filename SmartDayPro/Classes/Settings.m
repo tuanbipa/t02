@@ -41,6 +41,8 @@ BOOL _firstLaunch = NO;
 
 extern BOOL _scFreeVersion;
 
+extern BOOL _isiPad;
+
 @implementation Settings
 
 @synthesize skinStyle;
@@ -492,6 +494,11 @@ extern BOOL _scFreeVersion;
 		{
 			self.updateTime = [NSDate dateWithTimeIntervalSince1970:[updateTimeSetting doubleValue]];
 		}
+        
+        if (_isiPad)
+        {
+            self.tabBarAutoHide = YES;
+        }
 		
 		NSString *version = [self.settingDict objectForKey:@"DBVersion"];
 		

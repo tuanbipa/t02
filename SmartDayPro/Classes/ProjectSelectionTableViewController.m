@@ -17,6 +17,7 @@
 
 //#import "SCTabBarController.h"
 #import "NoteDetailTableViewController.h"
+#import "iPadGeneralSettingViewController.h"
 
 //extern SCTabBarController *_tabBarCtrler;
 
@@ -63,13 +64,20 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
-	//UIView *contentView= [[UIView alloc] initWithFrame:CGRectZero];
-    UIView *contentView= [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor groupTableViewBackgroundColor];
+    if ([ctrler isKindOfClass:[iPadGeneralSettingViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
+    contentView = [[UIView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
 	
-	//projectTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416) style:UITableViewStyleGrouped];
     projectTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
 	projectTableView.delegate = self;
 	projectTableView.dataSource = self;
@@ -77,8 +85,6 @@
 	
 	[contentView addSubview:projectTableView];
 	[projectTableView release];
-	
-	//[self changeTableFrame];
 	
 	self.view = contentView;
 	[contentView release];	
@@ -132,6 +138,10 @@
 	
 	// Release any cached data, images, etc that aren't in use.
 	[ImageManager free];
+}
+
+- (void) viewDidLoad
+{
 }
 
 - (void)viewDidUnload {

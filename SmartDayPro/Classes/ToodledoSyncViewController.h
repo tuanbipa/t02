@@ -13,6 +13,8 @@
 @interface ToodledoSyncViewController : ViewController
 {
     UITableView *settingTableView;
+    
+    UIView *contentView;
 }
 
 @property (nonatomic, assign) Settings *setting;

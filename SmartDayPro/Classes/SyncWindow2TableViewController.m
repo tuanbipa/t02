@@ -15,6 +15,8 @@
 
 extern BOOL _scFreeVersion;
 
+extern BOOL _isiPad;
+
 @implementation SyncWindow2TableViewController
 
 @synthesize setting;
@@ -34,9 +36,18 @@ extern BOOL _scFreeVersion;
 	
     CGRect frm = CGRectZero;
     
-    CGSize sz = [Common getScreenSize];
-    frm.size = sz;
-    frm.size.width /= 2;
+    frm.size = [Common getScreenSize];
+    
+    if (_isiPad)
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
+    frm.size.width = frm.size.width/2;
     
 	self.tableView.sectionFooterHeight = 20;
 	
@@ -148,7 +159,7 @@ extern BOOL _scFreeVersion;
 	
 	if ([tableView isEqual:self.tableView])
 	{
-		return _syncFromToText;//@"   Sync From               Sync To";
+		return _isiPad?_syncFromTo4iPadText:_syncFromToText;//@"   Sync From               Sync To";
 	}
 	
 	return @"";

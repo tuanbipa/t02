@@ -7,12 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6728E5D916DC7441001024DD /* TimerViewController.m */; };
 		672F54A81622779400480BC4 /* LinkPreviewPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54A71622779400480BC4 /* LinkPreviewPane.m */; };
 		672F54AF16227E3400480BC4 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54AE16227E3300480BC4 /* NoteView.m */; };
+		6742B10F16E048E60053EB5F /* timer_done.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10916E048E60053EB5F /* timer_done.png */; };
+		6742B11016E048E60053EB5F /* timer_done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10A16E048E60053EB5F /* timer_done@2x.png */; };
+		6742B11116E048E60053EB5F /* timer_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10B16E048E60053EB5F /* timer_pause.png */; };
+		6742B11216E048E60053EB5F /* timer_pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10C16E048E60053EB5F /* timer_pause@2x.png */; };
+		6742B11316E048E60053EB5F /* timer_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10D16E048E60053EB5F /* timer_play.png */; };
+		6742B11416E048E60053EB5F /* timer_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10E16E048E60053EB5F /* timer_play@2x.png */; };
 		6746802016670FCA00E5E08A /* replace_mSDtoSD.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746801E16670FCA00E5E08A /* replace_mSDtoSD.png */; };
 		6746802116670FCA00E5E08A /* replace_SDtomSD.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746801F16670FCA00E5E08A /* replace_SDtomSD.png */; };
 		674680251667114A00E5E08A /* replace_mSDtoSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */; };
 		674680261667114A00E5E08A /* replace_SDtomSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680241667114A00E5E08A /* replace_SDtomSD@2x.png */; };
+		676C0CCF16D707EB00D1A643 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 676C0CCE16D707EB00D1A643 /* MenuTableViewController.m */; };
 		677A4D4916BFBB690082330A /* filter_star.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A4D4816BFBB690082330A /* filter_star.png */; };
 		678579EF16B0F6260079A1C2 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */; };
 		67A98154161C26B400DBDAD3 /* SDNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A98153161C26B400DBDAD3 /* SDNavigationController.m */; };
@@ -578,6 +586,12 @@
 		67DDEC87164D041A0016527F /* MFMailComposeViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC86164D04180016527F /* MFMailComposeViewController+Rotate.m */; };
 		67DE7352162D09B3004CC26E /* SimpleCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE7351162D09B3004CC26E /* SimpleCoreTextView.m */; };
 		67DE736E162D363A004CC26E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DE736D162D363A004CC26E /* CoreText.framework */; };
+		67E3485116DF02E600AA19EE /* TimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E3485016DF02E600AA19EE /* TimerManager.m */; };
+		67E3485716DF2FED00AA19EE /* pause_yellow_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E3485216DF2FED00AA19EE /* pause_yellow_green@2x.png */; };
+		67E3485816DF2FED00AA19EE /* play_green_yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E3485316DF2FED00AA19EE /* play_green_yellow@2x.png */; };
+		67E3485916DF2FED00AA19EE /* stop_red_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E3485416DF2FED00AA19EE /* stop_red_green@2x.png */; };
+		67E3485A16DF2FED00AA19EE /* stop_red_yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E3485516DF2FED00AA19EE /* stop_red_yellow@2x.png */; };
+		67E3485B16DF2FED00AA19EE /* timer_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E3485616DF2FED00AA19EE /* timer_bg.png */; };
 		67E41958162E84AB0026CFDE /* filter_all.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E41950162E84AB0026CFDE /* filter_all.png */; };
 		67E41959162E84AB0026CFDE /* filter_all@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E41951162E84AB0026CFDE /* filter_all@2x.png */; };
 		67E4195A162E84AB0026CFDE /* filter_due@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E41952162E84AB0026CFDE /* filter_due@2x.png */; };
@@ -617,24 +631,66 @@
 		67E79F2D165A331800FBB0DA /* SC_css_ip5.css in Resources */ = {isa = PBXBuildFile; fileRef = 67E79F2A165A331800FBB0DA /* SC_css_ip5.css */; };
 		67E7B42616AE2BF8009C5F6D /* iOSCalSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E7B42516AE2BF8009C5F6D /* iOSCalSyncViewController.m */; };
 		67E8362B1671928F0024C02A /* MiniMonthWeekHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E8362A1671928F0024C02A /* MiniMonthWeekHeaderView.m */; };
+		67E839D416D5B2DC00155ADE /* iPadSyncSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E839D316D5B2DC00155ADE /* iPadSyncSettingViewController.m */; };
+		67E839D716D6054900155ADE /* iPadAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E839D616D6054900155ADE /* iPadAboutUsViewController.m */; };
+		67E839DA16D6074300155ADE /* settings_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E839D816D6074300155ADE /* settings_info.png */; };
+		67E839DB16D6074300155ADE /* settings_info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E839D916D6074300155ADE /* settings_info@2x.png */; };
+		67E839DF16D609A000155ADE /* LCL_Products_Page_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E839DC16D609A000155ADE /* LCL_Products_Page_768.html */; };
+		67E839E016D609A000155ADE /* SB_205.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E839DD16D609A000155ADE /* SB_205.png */; };
+		67E839E116D609A000155ADE /* SC_aboutUS_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E839DE16D609A000155ADE /* SC_aboutUS_768.html */; };
+		67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E98FF116D47F7D000E0DC6 /* iPadCalendarSettingViewController.m */; };
+		67E98FF516D4BDF5000E0DC6 /* iPadTaskSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E98FF416D4BDF4000E0DC6 /* iPadTaskSettingViewController.m */; };
 		67EBDB02169676C1006DD864 /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EBDB01169676C1006DD864 /* PreviewViewController.m */; };
+		67EC5BD216E4502B006B22F0 /* TimerHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EC5BD116E4502B006B22F0 /* TimerHistoryViewController.m */; };
+		67EC5BD416E45F63006B22F0 /* report@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EC5BD316E45F63006B22F0 /* report@2x.png */; };
+		67EC5BD716E47FDD006B22F0 /* addmore.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EC5BD516E47FDD006B22F0 /* addmore.png */; };
+		67EC5BD816E47FDD006B22F0 /* addmore@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EC5BD616E47FDD006B22F0 /* addmore@2x.png */; };
 		67EC603216AF8CCE00A47744 /* DataRecoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EC603116AF8CCE00A47744 /* DataRecoveryViewController.m */; };
 		67EE9BB716AD1E8400B8BF6A /* ToodledoSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EE9BB616AD1E8400B8BF6A /* ToodledoSyncViewController.m */; };
+		67EEF93116D2096200D0A7D0 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93016D2096200D0A7D0 /* tag.png */; };
+		67EEF93816D20A6000D0A7D0 /* bar_eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93216D20A5F00D0A7D0 /* bar_eye.png */; };
+		67EEF93916D20A6000D0A7D0 /* bar_eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */; };
+		67EEF93A16D20A6000D0A7D0 /* bar_setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93416D20A5F00D0A7D0 /* bar_setting.png */; };
+		67EEF93B16D20A6000D0A7D0 /* bar_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93516D20A5F00D0A7D0 /* bar_setting@2x.png */; };
+		67EEF93C16D20A6000D0A7D0 /* bar_timer.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93616D20A6000D0A7D0 /* bar_timer.png */; };
+		67EEF93D16D20A6000D0A7D0 /* bar_timer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93716D20A6000D0A7D0 /* bar_timer@2x.png */; };
+		67EEF94016D21F3800D0A7D0 /* iPadTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EEF93F16D21F3700D0A7D0 /* iPadTagListViewController.m */; };
 		67EFEEF316A535FC0096360B /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EFEEF216A535FC0096360B /* arrow_down.png */; };
 		67EFEEF616A53B410096360B /* module_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EFEEF516A53B410096360B /* module_add.png */; };
+		67F95E5116DB1A1600B81A42 /* SeekOrCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */; };
+		67FADC2616D3596A009D835D /* iPadSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC2516D3596A009D835D /* iPadSettingViewController.m */; };
+		67FADC2F16D35CF8009D835D /* settings_calendars.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2716D35CF8009D835D /* settings_calendars.png */; };
+		67FADC3016D35CF8009D835D /* settings_calendars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2816D35CF8009D835D /* settings_calendars@2x.png */; };
+		67FADC3116D35CF8009D835D /* settings_general.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2916D35CF8009D835D /* settings_general.png */; };
+		67FADC3216D35CF8009D835D /* settings_general@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2A16D35CF8009D835D /* settings_general@2x.png */; };
+		67FADC3316D35CF8009D835D /* settings_sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2B16D35CF8009D835D /* settings_sync.png */; };
+		67FADC3416D35CF8009D835D /* settings_sync@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2C16D35CF8009D835D /* settings_sync@2x.png */; };
+		67FADC3516D35CF8009D835D /* settings_tasks.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2D16D35CF8009D835D /* settings_tasks.png */; };
+		67FADC3616D35CF8009D835D /* settings_tasks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2E16D35CF8009D835D /* settings_tasks@2x.png */; };
+		67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */; };
 		67FB71BE16781D9E0033C3A1 /* FocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB71BD16781D9E0033C3A1 /* FocusView.m */; };
 		67FB7F251640C9930049DA1A /* MiniMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6728E5D816DC7441001024DD /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
+		6728E5D916DC7441001024DD /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
 		672F54A61622779400480BC4 /* LinkPreviewPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPreviewPane.h; sourceTree = "<group>"; };
 		672F54A71622779400480BC4 /* LinkPreviewPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkPreviewPane.m; sourceTree = "<group>"; };
 		672F54AD16227E3200480BC4 /* NoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteView.h; sourceTree = "<group>"; };
 		672F54AE16227E3300480BC4 /* NoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteView.m; sourceTree = "<group>"; };
+		6742B10916E048E60053EB5F /* timer_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_done.png; sourceTree = "<group>"; };
+		6742B10A16E048E60053EB5F /* timer_done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timer_done@2x.png"; sourceTree = "<group>"; };
+		6742B10B16E048E60053EB5F /* timer_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_pause.png; sourceTree = "<group>"; };
+		6742B10C16E048E60053EB5F /* timer_pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timer_pause@2x.png"; sourceTree = "<group>"; };
+		6742B10D16E048E60053EB5F /* timer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_play.png; sourceTree = "<group>"; };
+		6742B10E16E048E60053EB5F /* timer_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timer_play@2x.png"; sourceTree = "<group>"; };
 		6746801E16670FCA00E5E08A /* replace_mSDtoSD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replace_mSDtoSD.png; sourceTree = "<group>"; };
 		6746801F16670FCA00E5E08A /* replace_SDtomSD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replace_SDtomSD.png; sourceTree = "<group>"; };
 		674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_mSDtoSD@2x.png"; sourceTree = "<group>"; };
 		674680241667114A00E5E08A /* replace_SDtomSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_SDtomSD@2x.png"; sourceTree = "<group>"; };
+		676C0CCD16D707EB00D1A643 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
+		676C0CCE16D707EB00D1A643 /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
 		677A4D4816BFBB690082330A /* filter_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_star.png; sourceTree = "<group>"; };
 		678579ED16B0F6260079A1C2 /* NSData+CommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CommonCrypto.h"; sourceTree = "<group>"; };
 		678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
@@ -1358,6 +1414,13 @@
 		67DE7350162D09B3004CC26E /* SimpleCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCoreTextView.h; sourceTree = "<group>"; };
 		67DE7351162D09B3004CC26E /* SimpleCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleCoreTextView.m; sourceTree = "<group>"; };
 		67DE736D162D363A004CC26E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		67E3484F16DF02E600AA19EE /* TimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerManager.h; sourceTree = "<group>"; };
+		67E3485016DF02E600AA19EE /* TimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerManager.m; sourceTree = "<group>"; };
+		67E3485216DF2FED00AA19EE /* pause_yellow_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause_yellow_green@2x.png"; sourceTree = "<group>"; };
+		67E3485316DF2FED00AA19EE /* play_green_yellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_green_yellow@2x.png"; sourceTree = "<group>"; };
+		67E3485416DF2FED00AA19EE /* stop_red_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop_red_green@2x.png"; sourceTree = "<group>"; };
+		67E3485516DF2FED00AA19EE /* stop_red_yellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop_red_yellow@2x.png"; sourceTree = "<group>"; };
+		67E3485616DF2FED00AA19EE /* timer_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_bg.png; sourceTree = "<group>"; };
 		67E41950162E84AB0026CFDE /* filter_all.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_all.png; sourceTree = "<group>"; };
 		67E41951162E84AB0026CFDE /* filter_all@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_all@2x.png"; sourceTree = "<group>"; };
 		67E41952162E84AB0026CFDE /* filter_due@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_due@2x.png"; sourceTree = "<group>"; };
@@ -1403,14 +1466,55 @@
 		67E7B42516AE2BF8009C5F6D /* iOSCalSyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSCalSyncViewController.m; sourceTree = "<group>"; };
 		67E836291671928F0024C02A /* MiniMonthWeekHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthWeekHeaderView.h; sourceTree = "<group>"; };
 		67E8362A1671928F0024C02A /* MiniMonthWeekHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniMonthWeekHeaderView.m; sourceTree = "<group>"; };
+		67E839D216D5B2DC00155ADE /* iPadSyncSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSyncSettingViewController.h; sourceTree = "<group>"; };
+		67E839D316D5B2DC00155ADE /* iPadSyncSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadSyncSettingViewController.m; sourceTree = "<group>"; };
+		67E839D516D6054900155ADE /* iPadAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadAboutUsViewController.h; sourceTree = "<group>"; };
+		67E839D616D6054900155ADE /* iPadAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadAboutUsViewController.m; sourceTree = "<group>"; };
+		67E839D816D6074300155ADE /* settings_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_info.png; sourceTree = "<group>"; };
+		67E839D916D6074300155ADE /* settings_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_info@2x.png"; sourceTree = "<group>"; };
+		67E839DC16D609A000155ADE /* LCL_Products_Page_768.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LCL_Products_Page_768.html; sourceTree = "<group>"; };
+		67E839DD16D609A000155ADE /* SB_205.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SB_205.png; sourceTree = "<group>"; };
+		67E839DE16D609A000155ADE /* SC_aboutUS_768.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SC_aboutUS_768.html; sourceTree = "<group>"; };
+		67E98FF016D47F7D000E0DC6 /* iPadCalendarSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadCalendarSettingViewController.h; sourceTree = "<group>"; };
+		67E98FF116D47F7D000E0DC6 /* iPadCalendarSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadCalendarSettingViewController.m; sourceTree = "<group>"; };
+		67E98FF316D4BDF4000E0DC6 /* iPadTaskSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadTaskSettingViewController.h; sourceTree = "<group>"; };
+		67E98FF416D4BDF4000E0DC6 /* iPadTaskSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadTaskSettingViewController.m; sourceTree = "<group>"; };
 		67EBDB00169676C1006DD864 /* PreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewViewController.h; sourceTree = "<group>"; };
 		67EBDB01169676C1006DD864 /* PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
+		67EC5BD016E4502B006B22F0 /* TimerHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerHistoryViewController.h; sourceTree = "<group>"; };
+		67EC5BD116E4502B006B22F0 /* TimerHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerHistoryViewController.m; sourceTree = "<group>"; };
+		67EC5BD316E45F63006B22F0 /* report@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "report@2x.png"; sourceTree = "<group>"; };
+		67EC5BD516E47FDD006B22F0 /* addmore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addmore.png; sourceTree = "<group>"; };
+		67EC5BD616E47FDD006B22F0 /* addmore@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addmore@2x.png"; sourceTree = "<group>"; };
 		67EC603016AF8CCD00A47744 /* DataRecoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataRecoveryViewController.h; sourceTree = "<group>"; };
 		67EC603116AF8CCE00A47744 /* DataRecoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataRecoveryViewController.m; sourceTree = "<group>"; };
 		67EE9BB516AD1E8400B8BF6A /* ToodledoSyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToodledoSyncViewController.h; sourceTree = "<group>"; };
 		67EE9BB616AD1E8400B8BF6A /* ToodledoSyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToodledoSyncViewController.m; sourceTree = "<group>"; };
+		67EEF93016D2096200D0A7D0 /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
+		67EEF93216D20A5F00D0A7D0 /* bar_eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_eye.png; sourceTree = "<group>"; };
+		67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_eye@2x.png"; sourceTree = "<group>"; };
+		67EEF93416D20A5F00D0A7D0 /* bar_setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_setting.png; sourceTree = "<group>"; };
+		67EEF93516D20A5F00D0A7D0 /* bar_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_setting@2x.png"; sourceTree = "<group>"; };
+		67EEF93616D20A6000D0A7D0 /* bar_timer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_timer.png; sourceTree = "<group>"; };
+		67EEF93716D20A6000D0A7D0 /* bar_timer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_timer@2x.png"; sourceTree = "<group>"; };
+		67EEF93E16D21F3700D0A7D0 /* iPadTagListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadTagListViewController.h; sourceTree = "<group>"; };
+		67EEF93F16D21F3700D0A7D0 /* iPadTagListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadTagListViewController.m; sourceTree = "<group>"; };
 		67EFEEF216A535FC0096360B /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
 		67EFEEF516A53B410096360B /* module_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = module_add.png; sourceTree = "<group>"; };
+		67F95E4F16DB1A1600B81A42 /* SeekOrCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeekOrCreateViewController.h; sourceTree = "<group>"; };
+		67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeekOrCreateViewController.m; sourceTree = "<group>"; };
+		67FADC2416D35969009D835D /* iPadSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSettingViewController.h; sourceTree = "<group>"; };
+		67FADC2516D3596A009D835D /* iPadSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadSettingViewController.m; sourceTree = "<group>"; };
+		67FADC2716D35CF8009D835D /* settings_calendars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_calendars.png; sourceTree = "<group>"; };
+		67FADC2816D35CF8009D835D /* settings_calendars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_calendars@2x.png"; sourceTree = "<group>"; };
+		67FADC2916D35CF8009D835D /* settings_general.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_general.png; sourceTree = "<group>"; };
+		67FADC2A16D35CF8009D835D /* settings_general@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_general@2x.png"; sourceTree = "<group>"; };
+		67FADC2B16D35CF8009D835D /* settings_sync.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_sync.png; sourceTree = "<group>"; };
+		67FADC2C16D35CF8009D835D /* settings_sync@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_sync@2x.png"; sourceTree = "<group>"; };
+		67FADC2D16D35CF8009D835D /* settings_tasks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_tasks.png; sourceTree = "<group>"; };
+		67FADC2E16D35CF8009D835D /* settings_tasks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_tasks@2x.png"; sourceTree = "<group>"; };
+		67FADC3716D36813009D835D /* iPadGeneralSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadGeneralSettingViewController.h; sourceTree = "<group>"; };
+		67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadGeneralSettingViewController.m; sourceTree = "<group>"; };
 		67FB71BC16781D9E0033C3A1 /* FocusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FocusView.h; sourceTree = "<group>"; };
 		67FB71BD16781D9E0033C3A1 /* FocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusView.m; sourceTree = "<group>"; };
 		67FB7F231640C9920049DA1A /* MiniMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthHeaderView.h; sourceTree = "<group>"; };
@@ -1457,6 +1561,24 @@
 				67EBDB01169676C1006DD864 /* PreviewViewController.m */,
 				67E6BA3216A920AF00F14E12 /* PlannerViewController.h */,
 				67E6BA3316A920AF00F14E12 /* PlannerViewController.m */,
+				67EEF93E16D21F3700D0A7D0 /* iPadTagListViewController.h */,
+				67EEF93F16D21F3700D0A7D0 /* iPadTagListViewController.m */,
+				67FADC2416D35969009D835D /* iPadSettingViewController.h */,
+				67FADC2516D3596A009D835D /* iPadSettingViewController.m */,
+				67FADC3716D36813009D835D /* iPadGeneralSettingViewController.h */,
+				67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */,
+				67E98FF016D47F7D000E0DC6 /* iPadCalendarSettingViewController.h */,
+				67E98FF116D47F7D000E0DC6 /* iPadCalendarSettingViewController.m */,
+				67E98FF316D4BDF4000E0DC6 /* iPadTaskSettingViewController.h */,
+				67E98FF416D4BDF4000E0DC6 /* iPadTaskSettingViewController.m */,
+				67E839D216D5B2DC00155ADE /* iPadSyncSettingViewController.h */,
+				67E839D316D5B2DC00155ADE /* iPadSyncSettingViewController.m */,
+				676C0CCD16D707EB00D1A643 /* MenuTableViewController.h */,
+				676C0CCE16D707EB00D1A643 /* MenuTableViewController.m */,
+				67F95E4F16DB1A1600B81A42 /* SeekOrCreateViewController.h */,
+				67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */,
+				6728E5D816DC7441001024DD /* TimerViewController.h */,
+				6728E5D916DC7441001024DD /* TimerViewController.m */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -1553,6 +1675,8 @@
 		67CF2B4A1619517F001FE1AA /* AboutUs_Classes */ = {
 			isa = PBXGroup;
 			children = (
+				67E839D516D6054900155ADE /* iPadAboutUsViewController.h */,
+				67E839D616D6054900155ADE /* iPadAboutUsViewController.m */,
 				67CF2B4B1619517F001FE1AA /* AboutTableViewController.h */,
 				67CF2B4C1619517F001FE1AA /* AboutTableViewController.m */,
 				67CF2B4D1619517F001FE1AA /* AboutUsViewController.h */,
@@ -1800,6 +1924,10 @@
 				67CF2C5616195196001FE1AA /* TaskSyncTableViewController.m */,
 				67CF2C5716195196001FE1AA /* TaskView.h */,
 				67CF2C5816195196001FE1AA /* TaskView.m */,
+				67EC5BD016E4502B006B22F0 /* TimerHistoryViewController.h */,
+				67EC5BD116E4502B006B22F0 /* TimerHistoryViewController.m */,
+				67E3484F16DF02E600AA19EE /* TimerManager.h */,
+				67E3485016DF02E600AA19EE /* TimerManager.m */,
 				67CF2C5916195196001FE1AA /* TimeSlotView.h */,
 				67CF2C5A16195196001FE1AA /* TimeSlotView.m */,
 				67CF2C5B16195196001FE1AA /* TodayLine.h */,
@@ -2011,6 +2139,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				67EC5BD516E47FDD006B22F0 /* addmore.png */,
+				67EC5BD616E47FDD006B22F0 /* addmore@2x.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
 				67CF2D9D161951B8001FE1AA /* 2-mash-blue.png */,
@@ -2030,6 +2160,12 @@
 				67CF2DAB161951B8001FE1AA /* alert_black@2x.png */,
 				67EFEEF216A535FC0096360B /* arrow_down.png */,
 				67CF2DAC161951B8001FE1AA /* background_button.png */,
+				67EEF93216D20A5F00D0A7D0 /* bar_eye.png */,
+				67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */,
+				67EEF93416D20A5F00D0A7D0 /* bar_setting.png */,
+				67EEF93516D20A5F00D0A7D0 /* bar_setting@2x.png */,
+				67EEF93616D20A6000D0A7D0 /* bar_timer.png */,
+				67EEF93716D20A6000D0A7D0 /* bar_timer@2x.png */,
 				67CF2DAD161951B8001FE1AA /* bell.png */,
 				67CF2DAE161951B8001FE1AA /* bg_pattern.png */,
 				67CF2DAF161951B8001FE1AA /* black_menu.png */,
@@ -2252,10 +2388,12 @@
 				67CF2E5C161951B8001FE1AA /* noteBG.png */,
 				67CF2E5D161951B8001FE1AA /* noteHeaderBG.png */,
 				67CF2E5E161951B8001FE1AA /* pause_yellow_green.png */,
+				67E3485216DF2FED00AA19EE /* pause_yellow_green@2x.png */,
 				67CF2E5F161951B8001FE1AA /* pin.png */,
 				67CF2E60161951B8001FE1AA /* PinOff20.png */,
 				67CF2E61161951B8001FE1AA /* PinOn20.png */,
 				67CF2E62161951B8001FE1AA /* play_green_yellow.png */,
+				67E3485316DF2FED00AA19EE /* play_green_yellow@2x.png */,
 				67CF2E63161951B8001FE1AA /* plus.png */,
 				67CF2E64161951B8001FE1AA /* previous.png */,
 				67CF2E65161951B8001FE1AA /* projects.png */,
@@ -2266,6 +2404,7 @@
 				6746801F16670FCA00E5E08A /* replace_SDtomSD.png */,
 				674680241667114A00E5E08A /* replace_SDtomSD@2x.png */,
 				67CF2E68161951B8001FE1AA /* report.png */,
+				67EC5BD316E45F63006B22F0 /* report@2x.png */,
 				67CF2E69161951B8001FE1AA /* retina4launch.png */,
 				67CF2E6A161951B8001FE1AA /* right_arrow.png */,
 				67CF2E6B161951B8001FE1AA /* SC114.png */,
@@ -2279,6 +2418,16 @@
 				67CF2E73161951B8001FE1AA /* SD_512.png */,
 				67CF2E74161951B8001FE1AA /* SD_57.png */,
 				67CF2E75161951B8001FE1AA /* SD_72.png */,
+				67FADC2716D35CF8009D835D /* settings_calendars.png */,
+				67FADC2816D35CF8009D835D /* settings_calendars@2x.png */,
+				67FADC2916D35CF8009D835D /* settings_general.png */,
+				67FADC2A16D35CF8009D835D /* settings_general@2x.png */,
+				67E839D816D6074300155ADE /* settings_info.png */,
+				67E839D916D6074300155ADE /* settings_info@2x.png */,
+				67FADC2B16D35CF8009D835D /* settings_sync.png */,
+				67FADC2C16D35CF8009D835D /* settings_sync@2x.png */,
+				67FADC2D16D35CF8009D835D /* settings_tasks.png */,
+				67FADC2E16D35CF8009D835D /* settings_tasks@2x.png */,
 				67CF2E76161951B8001FE1AA /* shopping_list.png */,
 				67CF2E77161951B8001FE1AA /* shopping_list@2x.png */,
 				67CF2E78161951B8001FE1AA /* showOff.png */,
@@ -2297,17 +2446,27 @@
 				67CF2E85161951B8001FE1AA /* status_pause.png */,
 				67CF2E86161951B8001FE1AA /* status_play.png */,
 				67CF2E87161951B8001FE1AA /* stop_red_green.png */,
+				67E3485416DF2FED00AA19EE /* stop_red_green@2x.png */,
 				67CF2E88161951B8001FE1AA /* stop_red_yellow.png */,
+				67E3485516DF2FED00AA19EE /* stop_red_yellow@2x.png */,
 				67CF2E89161951B8001FE1AA /* sync.png */,
 				67CF2E8A161951B8001FE1AA /* tab_disable.png */,
 				67CF2E8B161951B8001FE1AA /* tab_disable_blue.png */,
 				67CF2E8C161951B8001FE1AA /* tab_enable.png */,
 				67CF2E8D161951B8001FE1AA /* tab_enable_blue.png */,
+				67EEF93016D2096200D0A7D0 /* tag.png */,
 				67CF2E8E161951B8001FE1AA /* task.png */,
 				67CF2E8F161951B8001FE1AA /* task_lines.png */,
 				67CF2E90161951B8001FE1AA /* tasks.png */,
 				67CF2E91161951B8001FE1AA /* tasks@2x.png */,
 				67CF2E92161951B8001FE1AA /* Timer.png */,
+				67E3485616DF2FED00AA19EE /* timer_bg.png */,
+				6742B10916E048E60053EB5F /* timer_done.png */,
+				6742B10A16E048E60053EB5F /* timer_done@2x.png */,
+				6742B10B16E048E60053EB5F /* timer_pause.png */,
+				6742B10C16E048E60053EB5F /* timer_pause@2x.png */,
+				6742B10D16E048E60053EB5F /* timer_play.png */,
+				6742B10E16E048E60053EB5F /* timer_play@2x.png */,
 				67CF2E93161951B8001FE1AA /* top_bg.png */,
 				67CF2E94161951B8001FE1AA /* top_bg@2x.png */,
 				67CF2E95161951B8001FE1AA /* topbutton_black.png */,
@@ -2347,6 +2506,9 @@
 		67CF2FE3161951C2001FE1AA /* WEB */ = {
 			isa = PBXGroup;
 			children = (
+				67E839DC16D609A000155ADE /* LCL_Products_Page_768.html */,
+				67E839DD16D609A000155ADE /* SB_205.png */,
+				67E839DE16D609A000155ADE /* SC_aboutUS_768.html */,
 				67E79F28165A331800FBB0DA /* SC_aboutUS_320_ip5.html */,
 				67E79F29165A331800FBB0DA /* SC_bg_320_ip5.jpg */,
 				67E79F2A165A331800FBB0DA /* SC_css_ip5.css */,
@@ -2895,6 +3057,40 @@
 				67EFEEF616A53B410096360B /* module_add.png in Resources */,
 				677A4D4916BFBB690082330A /* filter_star.png in Resources */,
 				67E50DAE16C09B070006E180 /* filter_due.png in Resources */,
+				67EEF93116D2096200D0A7D0 /* tag.png in Resources */,
+				67EEF93816D20A6000D0A7D0 /* bar_eye.png in Resources */,
+				67EEF93916D20A6000D0A7D0 /* bar_eye@2x.png in Resources */,
+				67EEF93A16D20A6000D0A7D0 /* bar_setting.png in Resources */,
+				67EEF93B16D20A6000D0A7D0 /* bar_setting@2x.png in Resources */,
+				67EEF93C16D20A6000D0A7D0 /* bar_timer.png in Resources */,
+				67EEF93D16D20A6000D0A7D0 /* bar_timer@2x.png in Resources */,
+				67FADC2F16D35CF8009D835D /* settings_calendars.png in Resources */,
+				67FADC3016D35CF8009D835D /* settings_calendars@2x.png in Resources */,
+				67FADC3116D35CF8009D835D /* settings_general.png in Resources */,
+				67FADC3216D35CF8009D835D /* settings_general@2x.png in Resources */,
+				67FADC3316D35CF8009D835D /* settings_sync.png in Resources */,
+				67FADC3416D35CF8009D835D /* settings_sync@2x.png in Resources */,
+				67FADC3516D35CF8009D835D /* settings_tasks.png in Resources */,
+				67FADC3616D35CF8009D835D /* settings_tasks@2x.png in Resources */,
+				67E839DA16D6074300155ADE /* settings_info.png in Resources */,
+				67E839DB16D6074300155ADE /* settings_info@2x.png in Resources */,
+				67E839DF16D609A000155ADE /* LCL_Products_Page_768.html in Resources */,
+				67E839E016D609A000155ADE /* SB_205.png in Resources */,
+				67E839E116D609A000155ADE /* SC_aboutUS_768.html in Resources */,
+				67E3485716DF2FED00AA19EE /* pause_yellow_green@2x.png in Resources */,
+				67E3485816DF2FED00AA19EE /* play_green_yellow@2x.png in Resources */,
+				67E3485916DF2FED00AA19EE /* stop_red_green@2x.png in Resources */,
+				67E3485A16DF2FED00AA19EE /* stop_red_yellow@2x.png in Resources */,
+				67E3485B16DF2FED00AA19EE /* timer_bg.png in Resources */,
+				6742B10F16E048E60053EB5F /* timer_done.png in Resources */,
+				6742B11016E048E60053EB5F /* timer_done@2x.png in Resources */,
+				6742B11116E048E60053EB5F /* timer_pause.png in Resources */,
+				6742B11216E048E60053EB5F /* timer_pause@2x.png in Resources */,
+				6742B11316E048E60053EB5F /* timer_play.png in Resources */,
+				6742B11416E048E60053EB5F /* timer_play@2x.png in Resources */,
+				67EC5BD416E45F63006B22F0 /* report@2x.png in Resources */,
+				67EC5BD716E47FDD006B22F0 /* addmore.png in Resources */,
+				67EC5BD816E47FDD006B22F0 /* addmore@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3070,6 +3266,18 @@
 				67E7B42616AE2BF8009C5F6D /* iOSCalSyncViewController.m in Sources */,
 				67EC603216AF8CCE00A47744 /* DataRecoveryViewController.m in Sources */,
 				678579EF16B0F6260079A1C2 /* NSData+CommonCrypto.m in Sources */,
+				67EEF94016D21F3800D0A7D0 /* iPadTagListViewController.m in Sources */,
+				67FADC2616D3596A009D835D /* iPadSettingViewController.m in Sources */,
+				67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */,
+				67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */,
+				67E98FF516D4BDF5000E0DC6 /* iPadTaskSettingViewController.m in Sources */,
+				67E839D416D5B2DC00155ADE /* iPadSyncSettingViewController.m in Sources */,
+				67E839D716D6054900155ADE /* iPadAboutUsViewController.m in Sources */,
+				676C0CCF16D707EB00D1A643 /* MenuTableViewController.m in Sources */,
+				67F95E5116DB1A1600B81A42 /* SeekOrCreateViewController.m in Sources */,
+				6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */,
+				67E3485116DF02E600AA19EE /* TimerManager.m in Sources */,
+				67EC5BD216E4502B006B22F0 /* TimerHistoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3149,13 +3357,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDayPro-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3166,13 +3374,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDayPro-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -3209,7 +3417,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDayPro-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
@@ -3219,7 +3427,7 @@
 					"-lz",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Beta;

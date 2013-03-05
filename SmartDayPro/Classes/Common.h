@@ -207,7 +207,8 @@ typedef enum
     SOURCE_NOTE,
     SOURCE_FOCUS,
     SOURCE_PREVIEW,
-    SOURCE_CALENDAR
+    SOURCE_CALENDAR,
+    SOURCE_TIMER
 } TaskListSource;
 
 typedef enum {

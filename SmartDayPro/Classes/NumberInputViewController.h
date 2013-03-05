@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NumberInputViewController : UIViewController {
+@interface NumberInputViewController : UIViewController<UITextFieldDelegate> {
 	UITextField *numTextField;
 }
 

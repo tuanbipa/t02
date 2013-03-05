@@ -94,6 +94,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         taskView.starEnable = [task isTask];
         
         [taskView refreshStarImage];
+        [taskView refreshCheckImage];
         
         [taskView enableMove:ctrler.filterType == TYPE_TASK];
         

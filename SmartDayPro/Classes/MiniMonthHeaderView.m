@@ -15,6 +15,10 @@
 
 #import "MiniMonthView.h"
 
+#import "AbstractSDViewController.h"
+
+extern AbstractSDViewController *_abstractViewCtrler;
+
 extern BOOL _isiPad;
 
 @implementation MiniMonthHeaderView
@@ -49,18 +53,21 @@ extern BOOL _isiPad;
         
         selectedButton = zoomButton;
         selectedButton.selected = NO;
-
+        
+        //CGRect frm = _isiPad?CGRectMake(35, 0, 50, 50):CGRectMake(65, 0, 50, 50);
+        CGRect frm = CGRectMake(35, 0, 50, 50);
+        
         UIButton *prevButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
-                                             //frame:CGRectMake(0, 0, 30, 25)
-                                frame:CGRectMake(65, 0, 50, 50)
+                                //frame:CGRectMake(65, 0, 50, 50)
+                                              frame:frm
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(shiftTime:)
                                   normalStateImage:nil
                                 selectedStateImage:nil];
         
-        prevButton.tag = 0;
+        prevButton.tag = 11000;
         
         prevButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
         
@@ -72,21 +79,22 @@ extern BOOL _isiPad;
         [prevButton addSubview:prevImgView];
         [prevImgView release];
         
+        frm = _isiPad?CGRectMake(self.bounds.size.width-125, 0, 50, 50):CGRectMake(self.bounds.size.width-55, 0, 50, 50);
+        
         UIButton *nextButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
-                                              //frame:CGRectMake(31, 0, 30, 25)
-                                frame:CGRectMake(self.bounds.size.width-55, 0, 50, 50)
+                                //frame:CGRectMake(self.bounds.size.width-55, 0, 50, 50)
+                                              frame: frm
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(shiftTime:)
                                    normalStateImage:nil
                                  selectedStateImage:nil];
         
-        nextButton.tag = 1;
+        nextButton.tag = 11001;
         
         nextButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
         
-        //[pnView addSubview:nextButton];
         [self addSubview:nextButton];
         
         UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
@@ -95,22 +103,21 @@ extern BOOL _isiPad;
         [nextButton addSubview:nextImgView];
         [nextImgView release];
         
-        /*
-        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 5, self.bounds.size.width-50-110, 20)];
-        titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = [UIFont boldSystemFontOfSize:16];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.shadowOffset = CGSizeMake(0, 1);
-        titleLabel.shadowColor = [UIColor grayColor];
-        
-        [self addSubview:titleLabel];
-        [titleLabel release];
-        
-        [self refreshTitle];
-        */
-        
+        if (_isiPad)
+        {
+            UIButton *todayButton = [Common createButton:_todayText
+                                              buttonType:UIButtonTypeCustom
+                                                   frame:CGRectMake(self.bounds.size.width-75, 5, 60, 25)
+                                              titleColor:[UIColor whiteColor]
+                                                  target:self
+                                                selector:@selector(goToday:)
+                                        normalStateImage:@"blue_button.png"
+                                      selectedStateImage:nil];
+            
+            [self addSubview:todayButton];
+        }
     }
+
     return self;
 }
 
@@ -145,8 +152,6 @@ extern BOOL _isiPad;
     selectedButton.selected = !selectedButton.selected;
     
     [self changeMWMode:selectedButton.selected?0:1];
-    
-    //[self refreshTitle];
 }
 
 - (void) shiftTime:(id) sender
@@ -155,29 +160,15 @@ extern BOOL _isiPad;
     
     MiniMonthView *mmView = (MiniMonthView *) self.superview;
     
-    [mmView shiftTime:button.tag];
-    
-    //[self refreshTitle];
+    [mmView shiftTime:button.tag-11000];
     
     [self setNeedsDisplay];
 }
 
-/*
-- (void) refreshTitle
+- (void) goToday:(id) sender
 {
-    NSDate *dt = [[TaskManager getInstance] today];
-    
-    NSString *title = [Common getFullMonthYearString:dt];
-    
-    //if (selectedButton.tag == 1)
-    if (!selectedButton.selected)
-    {
-        title = [NSString stringWithFormat:@"Week #%d, %@", [Common getWeekOfYear:dt], [Common getMonthYearString:dt]];
-    }
-
-    titleLabel.text = title;
+    [_abstractViewCtrler jumpToDate:[NSDate date]];
 }
-*/
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -241,10 +232,15 @@ extern BOOL _isiPad;
         title = [NSString stringWithFormat:@"Week #%d, %@", [Common getWeekOfYear:dt], [Common getMonthYearString:dt]];
     }
     
+    UIButton *prevButton = (UIButton *) [self viewWithTag:11000];
+    UIButton *nextButton = (UIButton *) [self viewWithTag:11001];
+    
     CGRect monRec = CGRectZero;
-    monRec.origin.x = 110;
+    //monRec.origin.x = 110;
+    monRec.origin.x = prevButton.frame.origin.x + 50;
     monRec.origin.y = 5;
-    monRec.size.width = self.bounds.size.width-50-monRec.origin.x;
+    //monRec.size.width = self.bounds.size.width-50-monRec.origin.x;
+    monRec.size.width = nextButton.frame.origin.x - monRec.origin.x;
     monRec.size.height = 20;
     
     [[UIColor grayColor] set];

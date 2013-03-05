@@ -22,6 +22,8 @@
 #import "SettingTableViewController.h"
 #import "ToodledoSyncViewController.h"
 
+extern BOOL _isiPad;
+
 @implementation ToodledoAccountViewController
 
 @synthesize userName;
@@ -45,14 +47,22 @@
 {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    
+    if (_isiPad)
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
 	
     self.userName = setting.tdEmail;
     self.password = setting.tdPassword;
 	
-	//UIView *mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+
     UIView *mainView = [[UIView alloc] initWithFrame:frm];
-	//mainView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    mainView.backgroundColor = [Colors linen];
+    mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
 	
 	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, frm.size.width-20, 25)];
 	emailLabel.backgroundColor = [UIColor clearColor];
@@ -96,7 +106,7 @@
 	
 	UIButton *checkButton=[Common createButton:_checkValidityText
 										buttonType:UIButtonTypeRoundedRect 
-											 frame:CGRectMake(80, 150, 160, 25) 
+											 frame:CGRectMake(frm.size.width/2-80, 150, 160, 25)
 										titleColor:nil 
 											target:self 
 										  selector:@selector(checkValidity:) 

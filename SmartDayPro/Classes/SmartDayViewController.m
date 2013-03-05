@@ -92,11 +92,7 @@ extern BOOL _gtdoTabHintShown;
     {
         self.activeViewCtrler = nil;
         
-        //self.task2Link = nil;
-        
         selectedTabButton = nil;
-        
-        //[self initViewControllers];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(detectTouch:)
@@ -113,24 +109,7 @@ extern BOOL _gtdoTabHintShown;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(calendarDayReady:)
 													 name:@"CalendarDayReadyNotification" object:nil];
-        /*
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(taskChanged:)
-													 name:@"TaskCreatedNotification" object:nil];	
-        
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(taskChanged:)
-													 name:@"TaskChangeNotification" object:nil];		
-		        
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(eventChanged:)
-													 name:@"EventChangeNotification" object:nil];
-        
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(noteChanged:)
-													 name:@"NoteChangeNotification" object:nil];
-        */
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(appBusy:)
 													 name:@"AppBusyNotification" object:nil];
@@ -138,18 +117,6 @@ extern BOOL _gtdoTabHintShown;
 												 selector:@selector(appNoBusy:)
 													 name:@"AppNoBusyNotification" object:nil];
 
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(ekSyncComplete:)
-													 name:@"EKSyncCompleteNotification" object:nil];	        
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(tdSyncComplete:)
-													 name:@"TDSyncCompleteNotification" object:nil];	        
-        
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(sdwSyncComplete:)
-													 name:@"SDWSyncCompleteNotification" object:nil];
-        
     }
     
     return self;
@@ -157,11 +124,9 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
     
     self.activeViewCtrler = nil;
-    
-    //self.task2Link = nil;
     
     for (int i=0; i<TAB_NUM; i++)
     {
@@ -653,6 +618,7 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) applyFilter
 {
+    /*
     TaskManager *tm = [TaskManager getInstance];
     
     NSDate *dt = [tm.today copy];
@@ -669,9 +635,13 @@ extern BOOL _gtdoTabHintShown;
     
     CategoryViewController *catCtrler = [self getCategoryViewController];
     [catCtrler loadAndShowList];
+    */
     
-    filterIndicator.hidden = (tm.filterData == nil);
+    [super applyFilter];
     
+    TaskManager *tm = [TaskManager getInstance];
+    
+    filterIndicator.hidden = (tm.filterData == nil);    
 }
 
 - (void) refreshFilterTag
@@ -1153,6 +1123,7 @@ extern BOOL _gtdoTabHintShown;
     [self editCategory:project];
 }
 
+/*
 - (void) markDoneTaskInView:(TaskView *)view
 {
     //Task *task = (Task *)view.tag;
@@ -1194,6 +1165,7 @@ extern BOOL _gtdoTabHintShown;
     
     [task release];
 }
+*/
 
 - (void) starTaskInView:(TaskView *)taskView
 {
@@ -1860,11 +1832,9 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) sync:(id) sender
 {
-    //[self hideDropDownMenu];
+    [super sync];
+/*
     [self deselect];
-    
-    CalendarViewController *ctrler = [self getCalendarViewController];
-    //[ctrler garbageADEList];
     
     Settings *settings = [Settings getInstance];
     
@@ -1897,6 +1867,7 @@ extern BOOL _gtdoTabHintShown;
         [alertView show];
         [alertView release];        
     }
+*/
 }
 
 - (void) multiEdit:(id) sender
@@ -1933,9 +1904,7 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) backup:(id)sender
 {
-    [self deselect];
-    
-    [SmartCalAppDelegate backupDB];
+    [super backup];
 }
 
 - (NSString *) showProjectWithOption:(id)sender
@@ -3622,14 +3591,6 @@ extern BOOL _gtdoTabHintShown;
                          completion:^(BOOL finished){
                          }];        
     }
-    
-    /*
-    BusyController *ctrler = [BusyController getInstance];
-    
-    if ([ctrler getBusyFlag] == 0)
-    {
-        [[TaskManager getInstance] cleanupGarbage];
-    }*/
 }
 
 - (void)tabBarModeChanged:(NSNotification *)notification
@@ -3649,258 +3610,6 @@ extern BOOL _gtdoTabHintShown;
         NSDate *today = [[TaskManager getInstance] today];
         
         self.navigationItem.title = [Common getCalendarDateString:(today == nil?[NSDate date]:today)];
-    }
-}
-
-/*
-- (void)taskChanged:(NSNotification *)notification
-{
-	TDSync *tdSync = [TDSync getInstance];
-    SDWSync *sdwSync = [SDWSync getInstance];
-    
-    Settings *settings = [Settings getInstance];
-	
-    if (settings.tdSyncEnabled && settings.tdAutoSyncEnabled)
-	{
-        if (settings.tdLastSyncTime == nil) //first sync
-        {
-            [tdSync initBackgroundSync];
-        }
-        else
-        {
-            [tdSync initBackground1WaySync];
-        }
-	}
-    else if (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)
-    {
-        if (settings.sdwLastSyncTime == nil) //first sync
-        {
-            //printf("[1] init sdw sync 2-way\n");
-            [sdwSync initBackgroundSync];
-        }
-        else
-        {
-            //printf("task changed -> init sdw sync 1-way\n");
-            
-            [sdwSync initBackgroundAuto1WaySync];
-        }        
-    }
-}
-
-- (void)eventChanged:(NSNotification *)notification
-{
-    CalendarViewController *ctrler = [self getCalendarViewController];
-    
-    Settings *settings = [Settings getInstance];
-    
-    EKSync *ekSync = [EKSync getInstance];
-    
-    SDWSync *sdwSync = [SDWSync getInstance];
-
-	if (settings.ekSyncEnabled && settings.ekAutoSyncEnabled)
-	{
-        [ekSync initBackgroundAuto1WaySync];
-	}	
-    
-    if (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)
-    {
-        if (settings.sdwLastSyncTime == nil) //first sync
-        {
-            //printf("[2] init sdw sync 2-way\n");
-            [sdwSync initBackgroundSync];
-        }
-        else
-        {
-            //printf("event changed -> init sdw sync 1-way\n");
-            [sdwSync initBackgroundAuto1WaySync];
-        }
-    }
-}
-
-- (void)noteChanged:(NSNotification *)notification
-{
-    Settings *settings = [Settings getInstance];
-    
-    SDWSync *sdwSync = [SDWSync getInstance];
-    
-    if (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)
-    {
-        if (settings.sdwLastSyncTime == nil) //first sync
-        {
-            [sdwSync initBackgroundSync];
-        }
-        else
-        {
-            [sdwSync initBackgroundAuto1WaySync];
-        }
-    }
-}
-*/
-
-- (void)ekSyncComplete:(NSNotification *)notification
-{
-    [self deselect];
-    
-    TaskManager *tm = [TaskManager getInstance];
-    Settings *settings = [Settings getInstance];
-        
-    int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
-    
-    //printf("EK Sync complete - mode: %s\n", (mode == SYNC_AUTO_1WAY?"auto 1 way":"2 way")); 
-    
-    if (mode == SYNC_AUTO_1WAY)
-    {
-        [tm refreshSyncID4AllItems];
-
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        
-        [ctrler.calendarLayoutController refreshSyncID4AllItems];
-        
-        //if (settings.tdSyncEnabled && settings.tdAutoSyncEnabled)
-        if (settings.tdSyncEnabled && settings.autoPushEnabled)
-        {
-            if (settings.tdLastSyncTime == nil) //first sync
-            {
-                [[TDSync getInstance] initBackgroundSync];
-            }
-            else
-            {
-                [[TDSync getInstance] initBackground1WaySync];
-            }
-        }
-        
-        return;
-    }
-    
-    if (mode == SYNC_MANUAL_2WAY_BACK)
-    {
-        [self resetAllData];
-        
-        return;
-    }
-    
-    /*if (settings.sdwSyncEnabled)
-    {
-        if (mode == SYNC_AUTO_2WAY)
-        {
-            if (settings.sdwAutoSyncEnabled)
-            {
-                [[SDWSync getInstance] initBackgroundAuto2WaySync];
-            }
-            else
-            {
-                [self resetAllData];
-            }            
-        }
-        else if (mode == SYNC_MANUAL_2WAY)
-        {
-            [[SDWSync getInstance] initBackgroundSync];
-        }
-        else
-        {
-            [self resetAllData];
-        }
-    }
-    else*/ if (settings.tdSyncEnabled)
-    {
-        if (mode == SYNC_AUTO_2WAY)
-        {
-            if (settings.autoSyncEnabled)
-            {
-                [[TDSync getInstance] initBackgroundAuto2WaySync];
-            }
-            else
-            {
-                [self resetAllData];
-            }            
-        }
-        else if (mode == SYNC_MANUAL_2WAY)
-        {
-            [[TDSync getInstance] initBackgroundSync];
-        }
-        else
-        {
-            [self resetAllData];
-        }
-    }
-    else 
-    {
-        [self resetAllData];
-    }
-    
-}
-
-- (void)tdSyncComplete:(NSNotification *)notification
-{
-    //printf("Toodledo Sync complete\n");
-    [self deselect];
-    
-    TaskManager *tm = [TaskManager getInstance];
-    
-    int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
-    
-    if (mode != SYNC_AUTO_1WAY)
-    {
-        [self resetAllData];
-    }
-    else 
-    {
-        [tm refreshSyncID4AllItems];
-        
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        
-        [ctrler.calendarLayoutController refreshSyncID4AllItems];
-        
-        return;
-    }
-}
-
-- (void)sdwSyncComplete:(NSNotification *)notification
-{
-    [self deselect];
-    
-    TaskManager *tm = [TaskManager getInstance];
-    
-    int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
-    
-    //printf("SDW Sync complete - mode: %s\n", (mode == SYNC_AUTO_1WAY?"auto 1 way":"2 way")); 
-    
-    if (mode == SYNC_MANUAL_1WAY_mSD2SD)
-    {
-        [self resetAllData];
-        
-        return;
-    }
-    
-    if (mode == SYNC_AUTO_1WAY || mode == SYNC_MANUAL_1WAY_SD2mSD)
-    {
-        [tm refreshSyncID4AllItems];
-        
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        
-        [ctrler.calendarLayoutController refreshSyncID4AllItems];
-
-        [self refreshData]; //reload sync IDs in other views such as ADE Pane/Notes/Categories so that delete item will not clean it from DB
-    }
-    else
-    {
-        /*Settings *settings = [Settings getInstance];
-        
-        if (settings.ekSyncEnabled)
-        {
-            if ((mode == SYNC_AUTO_2WAY && settings.ekAutoSyncEnabled) || mode == SYNC_MANUAL_2WAY)
-            {
-                [[EKSync getInstance] initBackgroundSyncBack];
-            }
-            else 
-            {
-                [self resetAllData];
-            }
-        }
-        else*/
-        {
-            [self resetAllData];
-        }
     }
 }
 

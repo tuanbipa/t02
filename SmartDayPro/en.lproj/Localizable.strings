@@ -242,6 +242,7 @@
 //pragma mark SyncWindow2SettingViewController
 "_syncWindowText" = "Sync Window";
 "_syncFromToText" = "   Sync From               Sync To";
+"_syncFromTo4iPadText" = "   Sync From                                 Sync To";
 
 "_thisWeekText" = "This Week";
 "_lastWeekText" = "Last Week";
@@ -626,5 +627,29 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 "_chooseSyncSourceText" = "Choose iOS Sync Source";
 
 "_hideFutureTasks" = "Hide Future Tasks";
+"_infoText" = "Info";
 
+"_seekOrCreate" = "Seek or Create";
+"_createNew" = "Create New";
+"_searchResult" = "Search Result:";
+
+"_inProgressTasksText" = "Timer is PAUSED for ...";
+"_activeTasksText" = "Timer is ON for ...";
+"_timerTaskMarkDoneText" = "Are you sure you want to mark this task as Done? You can also keep it active by Pausing the Timer and resuming it later.";
+"_holdAllAndStartText" = "Hold All and Start";
+"_propertiesEditText" = "You can edit properties later";
+
+"_timerRecoverTitle" = "Timer Recover";
+"_timerRecoverText" = "SmartDay shut down while you were Timing. Please choose:\ \n1. PAUSED from the point of shutdown (use Timer to Resume).\n2. CONTINUE timing as if you had not shut down SmartDay.";
+"_timerResumeText" = "Paused";
+"_timerContinueText" = "Continue";
+"_tbdTaskText" = "TBD Task for ";
+"_newPlanText" = "New Project";
+"_newItemText" = "New Item";
+
+"_timerHistoryText" = "Timer History";
+"_totalDurationText" = "Total Duration";
+
+"_reportSuccess" = "Report has been sent!";
+"_reportFailure" = "Fail to send report. Please try again later!";
 

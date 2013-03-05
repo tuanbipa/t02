@@ -40,7 +40,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
 @synthesize list;
 @synthesize filterType;
-//@synthesize listTableView;
+@synthesize showDone;
 @synthesize listView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -62,6 +62,8 @@ extern SmartDayViewController *_sdViewCtrler;
         
         layoutController = [[CategoryLayoutController alloc] init];
         layoutController.movableController = movableController;
+        
+        self.showDone = NO;
         
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(tabBarModeChanged:)
@@ -145,9 +147,21 @@ extern SmartDayViewController *_sdViewCtrler;
 			if (prj.isExpanded)
 			{
                 Task *topTask = [dbm getTopTaskForPlan:prj.primaryKey];
-
-				NSMutableArray *activeTasks = [dbm getItems:self.filterType inPlan:prj.primaryKey];
                 
+				NSMutableArray *activeTasks = [dbm getItems:self.filterType inPlan:prj.primaryKey];
+
+                if (self.showDone)
+                {
+                    NSMutableArray *doneTasks = [dbm getDoneTasks4Plan:prj.primaryKey];
+                    
+                    if (doneTasks.count > 0)
+                    {
+                        [doneTasks addObjectsFromArray:activeTasks];
+                        
+                        activeTasks = doneTasks;
+                    }
+                }
+                                
                 for (Task *task in activeTasks)
                 {
                     if ([tm checkGlobalFilterIn:task tagDict:tagDict catDict:categoryDict])
@@ -246,6 +260,13 @@ extern SmartDayViewController *_sdViewCtrler;
     
     if (self.filterType == TYPE_TASK)
     {
+        if (self.showDone)
+        {
+            [self loadAndShowList];
+            
+            return;
+        }
+        
         DBManager *dbm = [DBManager getInstance];
         
         Task *topTask = [dbm getTopTaskForPlan:prjKey];

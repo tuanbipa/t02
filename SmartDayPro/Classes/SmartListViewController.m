@@ -122,17 +122,7 @@ SmartListViewController *_smartListViewCtrler;
 	return self;
 	
 }
-/*
-- (void) initData
-{
-	TaskManager *tm = [TaskManager getInstance];
-	
-	if (tm.scheduledTaskList == nil)
-	{
-		[[TaskManager getInstance] initSmartListData];
-	}
-}
-*/
+
 - (void) refreshData
 {
 	[dayManagerView initData];
@@ -416,11 +406,8 @@ SmartListViewController *_smartListViewCtrler;
 {
 	[quickAddTextField resignFirstResponder];
     
-    quickAddEditBarView.hidden = YES;
-    //smartListView.userInteractionEnabled = YES;
+    //quickAddEditBarView.hidden = YES;
     maskView.hidden = YES;
-    //smartListView.scrollEnabled = NO;
-    //contentView.scrollEnabled = YES;
 }
 
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
@@ -1738,13 +1725,8 @@ SmartListViewController *_smartListViewCtrler;
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    //[_sdViewCtrler deselect];
-    
-    quickAddEditBarView.hidden = NO;
-    //smartListView.userInteractionEnabled = NO;
+    //quickAddEditBarView.hidden = NO;
     maskView.hidden = NO;
-    //smartListView.scrollEnabled = NO;
-    //contentView.scrollEnabled = NO;
     
 	return YES;
 }
@@ -1772,6 +1754,8 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void)scheduleFinished:(NSNotification *)notification
 {
+    //printf("smart list schedule finished - refresh layout\n");
+    
 	[self refreshLayout];
 }
 
@@ -1921,14 +1905,7 @@ SmartListViewController *_smartListViewCtrler;
 	frm.origin.y = y;
 	frm.size.height = sz.height - y;
     
-	self.view.frame = frm;
-    
-    /*
-    frm = smartListView.frame;
-    
-    frm.size = self.view.bounds.size;
-    
-    smartListView.frame = frm; */   
+	self.view.frame = frm;  
 }
 
 - (void)appBusy:(NSNotification *)notification
@@ -2204,14 +2181,14 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void) createEditBar
 {
-	editBarPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+	editBarPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, 40)];
 	editBarPlaceHolder.backgroundColor = [UIColor clearColor];
 	editBarPlaceHolder.hidden = YES;
 	
 	[contentView addSubview:editBarPlaceHolder];
 	[editBarPlaceHolder release];
 	
-	UIToolbar *editToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+	editToolbar = [[UIToolbar alloc] initWithFrame:editBarPlaceHolder.bounds];
 	editToolbar.barStyle = UIBarStyleBlack;
 	
 	[editBarPlaceHolder addSubview:editToolbar];
@@ -2615,7 +2592,15 @@ SmartListViewController *_smartListViewCtrler;
     contentView.frame = frm;
     
     smartListView.frame = contentView.bounds;
-    smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    
+    CGRect rec = editBarPlaceHolder.frame;
+    
+    rec.size.width = frm.size.width;
+    
+    editBarPlaceHolder.frame = rec;
+    editToolbar.frame = editBarPlaceHolder.bounds;
+    
+    //smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -2670,11 +2655,22 @@ SmartListViewController *_smartListViewCtrler;
 	[quickAddPlaceHolder addSubview:quickAddTextField];
 	[quickAddTextField release];
 	
+    /*
 	UIButton *quickEditButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     quickEditButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
 	[quickEditButton addTarget:self action:@selector(quickEdit:) forControlEvents:UIControlEventTouchUpInside];
+    */
+    
+	UIButton *moreButton =[Common createButton:@""
+									  buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(frm.size.width-35, 4, 30, 30)
+									  titleColor:nil
+										  target:self
+										selector:@selector(saveAndMore:)
+								normalStateImage:@"addmore.png"
+							  selectedStateImage:nil];
 	
-	[quickAddPlaceHolder addSubview:quickEditButton];
+	[quickAddPlaceHolder addSubview:moreButton];
 	
     timePlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-60, frm.size.width, 20)];
 	timePlaceHolder.backgroundColor = [UIColor clearColor];
@@ -2699,7 +2695,7 @@ SmartListViewController *_smartListViewCtrler;
 	
 	[self createEditBar];
     
-    [self createQuickAddEditBar];
+    //[self createQuickAddEditBar];
 }
 
 - (void) viewDidLoad

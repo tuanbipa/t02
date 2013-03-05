@@ -15,6 +15,8 @@
 
 #import "SettingTableViewController.h"
 
+extern BOOL _isiPad;
+
 @interface DataRecoveryViewController ()
 
 @end
@@ -103,6 +105,15 @@
 {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    
+    if (_isiPad)
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor darkGrayColor];
@@ -193,7 +204,7 @@
             {
                 UIButton *fromSDButton = [Common createButton:@""
                                                    buttonType:UIButtonTypeCustom
-                                                        frame:CGRectMake(80, 5, 135, 60)
+                                                        frame:CGRectMake((settingTableView.bounds.size.width-(_isiPad?70:30)-135)/2, 5, 135, 60)
                                                    titleColor:[UIColor whiteColor]
                                                        target:self
                                                      selector:@selector(confirmSync1way2SDW:)
@@ -211,7 +222,7 @@
             {
                 UIButton *toSDButton = [Common createButton:@""
                                                  buttonType:UIButtonTypeCustom
-                                                      frame:CGRectMake(80, 5, 135, 60)
+                                                      frame:CGRectMake((settingTableView.bounds.size.width-(_isiPad?70:30)-135)/2, 5, 135, 60)
                                                  titleColor:[UIColor whiteColor]
                                                      target:self
                                                    selector:@selector(confirmSync1way2SD:)

@@ -15,6 +15,8 @@
 
 #import "SettingTableViewController.h"
 
+#import "iPadTaskSettingViewController.h"
+
 @implementation NumberInputViewController
 
 @synthesize objectEdit;
@@ -44,14 +46,29 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	
-	UIView *mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];	
-	mainView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-	mainView.backgroundColor = [Colors linen];
+    CGRect frm = CGRectZero;
+    frm.size = [Common getScreenSize];
+    
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    
+    if ([ctrler isKindOfClass:[iPadTaskSettingViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
+	//UIView *mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    UIView *mainView = [[UIView alloc] initWithFrame:frm];
+    
+	mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
 	self.view = mainView;
 	[mainView release];	 
     
-    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 300, 150)];
+    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, frm.size.width - 20, 150)];
     hintLabel.backgroundColor = [UIColor clearColor];
     hintLabel.font = [UIFont systemFontOfSize:15];
     hintLabel.numberOfLines = 0;
@@ -65,10 +82,11 @@
     
     [hintLabel release];
 	
-	numTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 300, 35)];
+	numTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, 35)];
 	numTextField.backgroundColor = [UIColor whiteColor];
     numTextField.textAlignment = NSTextAlignmentRight;
 	numTextField.keyboardType = UIKeyboardTypeNumberPad;
+    numTextField.returnKeyType = UIReturnKeyDone;
 	numTextField.delegate = self;
     numTextField.text = [NSString stringWithFormat:@"%d", (self.keyEdit==SETTING_EDIT_MUSTDO_DAYS?[(Settings *)objectEdit mustDoDays]:0)];
 	
@@ -123,15 +141,8 @@
 
 - (void)done:(id)sender
 {
-    NSInteger number = [numTextField.text isEqualToString:@""]?0:[numTextField.text intValue];
+    [numTextField resignFirstResponder];
     
-    if (self.keyEdit == SETTING_EDIT_MUSTDO_DAYS)
-    {
-        Settings *settings = (Settings *) self.objectEdit;
-    
-        settings.mustDoDays = number;
-    }
-	
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -166,6 +177,26 @@
     	
 	return NO;
 }
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    return NO;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSInteger number = [textField.text isEqualToString:@""]?0:[textField.text intValue];
+    
+    if (self.keyEdit == SETTING_EDIT_MUSTDO_DAYS)
+    {
+        Settings *settings = (Settings *) self.objectEdit;
+        
+        settings.mustDoDays = number;
+    }
+}
+
 
 - (void)dealloc {
     [super dealloc];

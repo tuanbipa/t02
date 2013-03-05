@@ -12,8 +12,18 @@
 
 @interface iPadSmartDayViewController : AbstractSDViewController
 {
+    UIButton *projectShowDoneButton;
+    
+    UIButton *taskMultiEditButton;
 }
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;
+
+- (void) showCategory;
+- (void) showTag;
+- (void) showSeekOrCreate:(NSString *)text;
+- (void) createItem:(NSInteger)index title:(NSString *)title;
+- (void) editItem:(Task *)task;
+- (void) showTimer;
 
 @end

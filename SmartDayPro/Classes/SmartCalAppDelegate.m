@@ -26,6 +26,7 @@
 #import "AlertManager.h"
 #import "ImageManager.h"
 #import "BusyController.h"
+#import "TimerManager.h"
 #import "Task.h"
 
 #import "TagDictionary.h"
@@ -136,6 +137,7 @@ BOOL _fromBackground = NO;
     Settings *settings = [Settings getInstance];
     
 	[TaskManager startup];
+    [TimerManager startup];
 	
 	//autoSyncPending = ((settings.ekSyncEnabled && settings.ekAutoSyncEnabled) || (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) || (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)) && !openByURL;
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
@@ -168,6 +170,8 @@ BOOL _fromBackground = NO;
 	[DBManager startup];
 	
 	[[TaskManager getInstance] recover];
+    
+    [TimerManager startup];
     
 	//autoSyncPending = ((settings.ekSyncEnabled && settings.ekAutoSyncEnabled) || (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) || (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)) && !openByURL;
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
@@ -330,6 +334,8 @@ BOOL _fromBackground = NO;
 	[TagDictionary startup];
 	
 	[ProjectManager startup];
+    
+    [TimerManager startup];
 	
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
 	
@@ -474,6 +480,8 @@ BOOL _fromBackground = NO;
 	[[TagDictionary getInstance] saveDict];
 	
 	[[Settings getInstance] saveDayManager]; //save change of DayManager
+    
+    [[TimerManager getInstance] interrupt];
 
 	UIApplication*	app = [UIApplication sharedApplication];
 	
@@ -531,6 +539,7 @@ BOOL _fromBackground = NO;
 	[Settings free];
 	[DBManager free];
     [TaskLinkManager free];
+    [TimerManager free];
 	
 	[MusicManager free];
 	[AlertManager free];

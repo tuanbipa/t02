@@ -221,10 +221,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 	if (!self.multiSelectionEnable)
 	{
-        if (_sdViewCtrler != nil)
+        /*if (_sdViewCtrler != nil)
         {
             [_sdViewCtrler markDoneTaskInView:self];
-        }	
+        }*/
+        [_abstractViewCtrler markDoneTaskInView:self];
     }
     
     [self refreshCheckImage];

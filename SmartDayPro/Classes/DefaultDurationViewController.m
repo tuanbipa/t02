@@ -11,6 +11,8 @@
 #import "Common.h"
 #import "Settings.h"
 
+#import "iPadTaskSettingViewController.h"
+
 @interface DefaultDurationViewController ()
 
 @end
@@ -30,12 +32,32 @@
 
 - (void) loadView
 {
-    listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416) style:UITableViewStyleGrouped];
+    CGRect frm = CGRectZero;
+    frm.size = [Common getScreenSize];
+    
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    
+    if ([ctrler isKindOfClass:[iPadTaskSettingViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
+    UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    
+    self.view = contentView;
+    [contentView release];
+    
+    listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
     
 	listTableView.delegate = self;
 	listTableView.dataSource = self;
 
-	self.view = listTableView;
+	[contentView addSubview:listTableView];
     
     [listTableView release];
     

@@ -57,11 +57,14 @@
 - (void) deselect;
 - (void) scrollToDate:(NSDate *)date;
 - (void) jumpToDate:(NSDate *)date;
+- (void) applyFilter;
+- (Task *) getActiveTask;
 
 - (void) enableActions:(BOOL)enable onView:(MovableView *)view;
 - (void) enableCategoryActions:(BOOL)enable onView:(PlanView *)view;
 
 - (void) starTaskInView:(TaskView *)taskView;
+- (void) markDoneTaskInView:(TaskView *)view;
 
 - (void) copyLink;
 - (void) pasteLink;
@@ -71,5 +74,7 @@
 - (NSString *) showProjectWithOption:(id)sender;
 
 - (void) autoPush;
+- (void) backup;
+- (void) sync;
 
 @end

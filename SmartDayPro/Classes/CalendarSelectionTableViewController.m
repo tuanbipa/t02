@@ -28,10 +28,15 @@
 #import "SmartDayViewController.h"
 #import "CategoryViewController.h"
 
-//#import "SCTabBarController.h"
-//extern SCTabBarController *_tabBarCtrler;
+#import "iPadSmartDayViewController.h"
+#import "AbstractSDViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
+//extern SmartDayViewController *_sdViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
+
+extern iPadSmartDayViewController *_iPadSDViewCtrler;
+
+extern BOOL _isiPad;
 
 @implementation CalendarSelectionTableViewController
 
@@ -53,6 +58,8 @@ extern SmartDayViewController *_sdViewCtrler;
 	if (self = [super init])
 	{
 		self.calList = [[ProjectManager getInstance] projectList];
+        
+        self.contentSizeForViewInPopover = CGSizeMake(320,416);
 	}
 	
 	return self;
@@ -100,13 +107,35 @@ extern SmartDayViewController *_sdViewCtrler;
     
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    
+    frm.size.width = 320;
+    
+    if (_isiPad)
+    {
+        frm.size.height = 440;
+    }
 	
 	UIView *contentView= [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[Colors linen];
+	contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    
+	self.view = contentView;
+	[contentView release];
+    
+    calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40) style:UITableViewStyleGrouped];
+    
+	calendarTableView.delegate = self;
+	calendarTableView.dataSource = self;
+	calendarTableView.sectionHeaderHeight = 5;
+	
+	[contentView addSubview:calendarTableView];
+	[calendarTableView release];    
+    
+    frm = _isiPad?CGRectMake(10, 5, 100, 30):CGRectMake(40, 5, 100, 30);
 	
 	UIButton *showAllButton = [Common createButton:_showAllText 
 										buttonType:UIButtonTypeCustom
-											 frame:CGRectMake(40, 5, 100, 30) 
+											 //frame:CGRectMake(40, 5, 100, 30)
+                                             frame:frm
 										titleColor:[UIColor whiteColor] 
 											target:self 
 										  selector:@selector(showAllProjects:) 
@@ -114,31 +143,37 @@ extern SmartDayViewController *_sdViewCtrler;
 								selectedStateImage:nil];
 	
 	[contentView addSubview:showAllButton];
+    
+    frm = _isiPad?CGRectMake(130, 5, 100, 30):CGRectMake(180, 5, 100, 30);
 
 	UIButton *hideAllButton = [Common createButton:_hideAllText 
 										buttonType:UIButtonTypeCustom
-											 frame:CGRectMake(180, 5, 100, 30) 
-										titleColor:[UIColor whiteColor] 
+											 //frame:CGRectMake(180, 5, 100, 30)
+                                             frame:frm
+										titleColor:[UIColor whiteColor]
 											target:self 
 										  selector:@selector(hideAllProjects:) 
 								  normalStateImage:@"blue_button.png"
 								selectedStateImage:nil];
 	
 	[contentView addSubview:hideAllButton];
-	
-    calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40) style:UITableViewStyleGrouped];
 
-	calendarTableView.delegate = self;
-	calendarTableView.dataSource = self;
-	calendarTableView.sectionHeaderHeight=5;	
+    if (_isiPad)
+    {
+        frm = CGRectMake(contentView.bounds.size.width-70, 5, 60, 30);
+        UIButton *applyButton = [Common createButton:_applyText
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:frm
+                                            titleColor:[UIColor whiteColor]
+                                                target:self
+                                              selector:@selector(apply:)
+                                      normalStateImage:@"blue_button.png"
+                                    selectedStateImage:nil];
+        
+        [contentView addSubview:applyButton];
+    }
 	
-	[contentView addSubview:calendarTableView];
-	[calendarTableView release];
-	
-	self.view = contentView;
-	[contentView release];	
-	
-	doneButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+	doneButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																			   target:self action:@selector(done:)];
 	self.navigationItem.rightBarButtonItem = doneButton;
 	[doneButton release];	
@@ -268,7 +303,8 @@ extern SmartDayViewController *_sdViewCtrler;
     
 	if (visibilityChange)
 	{
-        [_sdViewCtrler resetAllData];
+        //[_sdViewCtrler resetAllData];
+        [_abstractViewCtrler resetAllData];
 	}
 		
     if (becomeVisible)
@@ -284,6 +320,13 @@ extern SmartDayViewController *_sdViewCtrler;
     
 	[self.navigationController popViewControllerAnimated:YES];
 	
+}
+
+- (void) apply:(id)sender
+{
+    [self done:sender];
+    
+    [_iPadSDViewCtrler hidePopover];
 }
 
 #pragma mark Table view methods

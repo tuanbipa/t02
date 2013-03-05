@@ -15,11 +15,15 @@
 #import "TagDictionary.h"
 #import "Settings.h"
 
+#import "iPadGeneralSettingViewController.h"
+
 //#import "SCTabBarController.h"
 
 //extern SCTabBarController *_tabBarCtrler;
 
 extern BOOL _tagHintShown;
+
+extern BOOL _isiPad;
 
 @implementation TagListViewController
 
@@ -39,6 +43,17 @@ extern BOOL _tagHintShown;
 {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    
+    if ([ctrler isKindOfClass:[iPadGeneralSettingViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
     
 	//UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
 	UIView *contentView = [[UIView alloc] initWithFrame:frm];
@@ -151,6 +166,8 @@ extern BOOL _tagHintShown;
 - (void) createPresetsCell:(UITableViewCell *)cell
 {
 	TagDictionary *dict = [TagDictionary getInstance];
+    
+    CGFloat w = (tagTableView.bounds.size.width - (_isiPad?60:20) - 30)/3;
 	
 	UIButton *presetButtons[9];
 	
@@ -161,7 +178,8 @@ extern BOOL _tagHintShown;
 
 		UIButton *presetButton = [Common createButton:@"" 
 									  buttonType:UIButtonTypeCustom
-										   frame:CGRectMake(mod*100 + 5, div*30 + 5, 90, 25)
+										   //frame:CGRectMake(mod*100 + 5, div*30 + 5, 90, 25)
+                                  frame:CGRectMake(mod*(w+10) + 5, div*30 + 5, w, 25)
 									  titleColor:[UIColor blackColor]
 										  target:self 
 										selector:@selector(selectPreset:) 

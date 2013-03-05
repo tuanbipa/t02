@@ -131,7 +131,6 @@
 @property BOOL isTop;
 @property BOOL isSplitted;
 @property BOOL hasNoDuration;
-//@property BOOL mustDo;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) initialUpdate;

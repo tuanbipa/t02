@@ -46,6 +46,7 @@
 #import "TagEditViewController.h"
 
 #import "LinkViewController.h"
+#import "TimerHistoryViewController.h"
 
 #import "SmartDayViewController.h"
 
@@ -597,6 +598,15 @@ extern BOOL _isiPad;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];		
+}
+
+- (void) showTimerHistory
+{
+	TimerHistoryViewController *ctrler = [[TimerHistoryViewController alloc] init];
+    ctrler.task = self.taskCopy;
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
 }
 
 - (void) scroll
@@ -1647,7 +1657,7 @@ extern BOOL _isiPad;
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {	
-	return 2;
+	return _isiPad?(showMore?3:2):2;
 }
 
 
@@ -1668,7 +1678,7 @@ extern BOOL _isiPad;
         return showMore?5:1;
     }
     
-    return 0;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1834,6 +1844,16 @@ extern BOOL _isiPad;
                 
             }
         }
+            break;
+        case 2:
+        {
+            if (indexPath.row == 0)
+            {
+                cell.textLabel.text = _timerHistoryText;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+        }
+            break;
     }
 	
 	return cell;
@@ -1887,6 +1907,14 @@ extern BOOL _isiPad;
             }
         }
     }
+    else if (indexPath.section == 2)
+    {
+        if (indexPath.row == 0)
+        {
+            [self showTimerHistory];
+        }
+    }
+    
 }
 
 

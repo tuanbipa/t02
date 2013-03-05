@@ -239,7 +239,6 @@ CalendarViewController *_sc2ViewCtrler;
 
 - (void) refreshFrame
 {
-    //Settings *settings = [Settings getInstance];
     MiniMonthView *miniMonthView = _abstractViewCtrler.miniMonthView;
     FocusView *focusView = _abstractViewCtrler.focusView;
     
@@ -249,17 +248,10 @@ CalendarViewController *_sc2ViewCtrler;
     CGFloat focusH = _isiPad?(focusView.hidden?0:focusView.bounds.size.height):0;
     CGFloat adeH = adeVisible?adeView.bounds.size.height:0;
     
-    /*CGSize sz = [Common getScreenSize];
-    
-    CGRect frm = CGRectZero;
-    frm.size = sz;
-    frm.size.width = 320;*/
-    
     CGRect frm = contentView.bounds;
 	
 	frm.origin.y = mmH + adeH + focusH + (_isiPad?10:0);
-	//frm.size.height = sz.height - mmH - adeH - (settings.tabBarAutoHide?0:40);
-    frm.size.height -= mmH + adeH + focusH + (_isiPad?10:0);
+    frm.size.height -= mmH + adeH + focusH + (_isiPad?20:0);
     
     calendarView.frame = frm;
     
@@ -277,36 +269,6 @@ CalendarViewController *_sc2ViewCtrler;
     adeView.hidden = !adeVisible;
     adeSeparatorImgView.hidden = !adeVisible;
 }
-
-/*
-- (void) showADEView:(BOOL)visible
-{
-    CGFloat h = adeView.bounds.size.height;
-    
-    //printf("ade pane height: %f\n", h);
-    
-    if (!adeView.hidden && !visible)
-    {
-        h = -h;
-    }
-    
-    CGRect frm = calendarView.frame;
-    
-    frm.origin.y = h;
-    frm.size.height -= h;
-    
-    calendarView.frame = frm;
-    
-    frm = adeSeparatorImgView.frame;
-    frm.origin.y = h-6;
-    frm.size.height = (h==0?0:6);
-    
-    adeSeparatorImgView.frame = frm;
-    
-    adeView.hidden = !visible;
-    adeSeparatorImgView.hidden = !visible;
-}
-*/
 
 -(void)showSuggestedTime
 {

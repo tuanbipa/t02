@@ -17,6 +17,9 @@
 #import "GuideWebView.h"
 
 #import "SyncWindow2TableViewController.h"
+#import "iPadSyncSettingViewController.h"
+
+extern BOOL _isiPad;
 
 @interface iOSCalSyncViewController ()
 
@@ -74,6 +77,17 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    
+    if ([ctrler isKindOfClass:[iPadSyncSettingViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor darkGrayColor];
     
@@ -107,7 +121,7 @@
 {
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(170, 5, 120, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - (_isiPad?70:30) - 120, 5, 120, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableiOSCalSync:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.setting.ekSyncEnabled?0:1);
@@ -175,13 +189,6 @@
             [self createEKSyncEnableCell:cell baseTag:10000];
         }
             break;
-        /*case 1:
-        {
-            cell.textLabel.text = _autoSyncText;
-            cell.accessoryType = (self.setting.ekAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-        }
-            break;
-        */
         case 1:
         {
             [self createSyncWindowCell:cell baseTag:11000];
@@ -196,15 +203,6 @@
 {
     switch (indexPath.row)
     {
-        /*case 1:
-        {
-            self.setting.ekAutoSyncEnabled = !self.setting.ekAutoSyncEnabled;
-            
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            cell.accessoryType = (self.setting.ekAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-        }
-            break;
-        */
         case 1:
         {
             [self editSyncWindow];

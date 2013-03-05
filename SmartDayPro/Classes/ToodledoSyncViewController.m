@@ -15,6 +15,12 @@
 #import "ToodledoAccountViewController.h"
 
 #import "SettingTableViewController.h"
+#import "iPadSyncSettingViewController.h"
+#import "iPadSettingViewController.h"
+
+extern BOOL _isiPad;
+
+extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 @interface ToodledoSyncViewController ()
 
@@ -81,7 +87,18 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    
+    if ([ctrler isKindOfClass:[iPadSyncSettingViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
+    contentView = [[UIView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor darkGrayColor];
     
     self.view = contentView;
@@ -104,6 +121,13 @@
         SettingTableViewController *ctrler = (SettingTableViewController *) topCtrler;
      
         ctrler.tdAccountChange = self.tdAccountChange;
+    }
+    else if ([topCtrler isKindOfClass:[iPadSyncSettingViewController class]])
+    {
+        if (_iPadSettingViewCtrler != nil)
+        {
+            _iPadSettingViewCtrler.tdAccountChange = self.tdAccountChange;
+        }
     }
 }
 
@@ -136,7 +160,7 @@
     
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *tdSyncSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	tdSyncSegmentedControl.frame = CGRectMake(170, 5, 120, 30);
+	tdSyncSegmentedControl.frame = CGRectMake(settingTableView.bounds.size.width - (_isiPad?70:30) - 120, 5, 120, 30);
 	[tdSyncSegmentedControl addTarget:self action:@selector(enableTDSync:) forControlEvents:UIControlEventValueChanged];
 	tdSyncSegmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	tdSyncSegmentedControl.selectedSegmentIndex = (self.setting.tdSyncEnabled?0:1);
@@ -148,7 +172,7 @@
 
 - (void) createTDAccountCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-    UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 5, 100, 30)];
+    UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - (_isiPad?90:50) - 100, 5, 100, 30)];
     verifiedLabel.backgroundColor = [UIColor clearColor];
     verifiedLabel.textAlignment = NSTextAlignmentRight;
     verifiedLabel.textColor = [Colors darkSteelBlue];

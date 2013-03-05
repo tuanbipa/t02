@@ -15,12 +15,17 @@
 #import "TaskManager.h"
 #import "DBManager.h"
 #import "TaskLinkManager.h"
+#import "TimerManager.h"
 
 #import "ContentView.h"
 #import "NoteView.h"
 
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
+
+#import "iPadSmartDayViewController.h"
+
+extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 @interface PreviewViewController ()
 
@@ -138,7 +143,7 @@
         tapRow -= 1;
     }
     
-    if (tapRow > 0)
+    if (tapRow >= 0)
     {
         Task *item = [self.linkList objectAtIndex:tapRow];
     
@@ -159,7 +164,15 @@
     note.name = [Common getNoteTitle:text];
     
     [note insertIntoDB:[dbm getDatabase]];
-    NSInteger linkId = [tlm createLink:self.item.primaryKey destId:note.primaryKey];
+    
+    NSInteger itemId = self.item.primaryKey;
+    
+    if (self.item.original != nil && ![self.item isREException])
+    {
+        itemId = self.item.original.primaryKey;
+    }
+    
+    NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey];
     
     if (linkId != -1)
     {
@@ -205,15 +218,11 @@
     [self editTask:self.item];
 }
 
-/*
-- (void) editNote:(id) sender
+- (void) showTimer:(id) sender
 {
-    if (noteView.note != nil)
-    {
-        [self editTask:noteView.note];
-    }
+    [_iPadSDViewCtrler showTimer];
 }
-*/
+
 #pragma mark View
 
 - (void) loadView
@@ -221,18 +230,16 @@
     CGRect frm = CGRectMake(0, 0, 320, 416);
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor underPageBackgroundColor];
+    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
     self.view = contentView;
     
     [contentView release];
     
-    frm.size.height = 40;
-    
-	UIButton *nameButton = [Common createButton:self.item.name
+/*	UIButton *nameButton = [Common createButton:self.item.name
 										buttonType:UIButtonTypeCustom
-											 frame:frm
-										titleColor:[UIColor whiteColor]
+											 frame:CGRectMake(10, 0, frm.size.width-40, 40)
+										titleColor:[UIColor blackColor]
 											target:self
 										  selector:@selector(editItem:)
 								  normalStateImage:nil
@@ -240,12 +247,41 @@
     nameButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     
     [contentView addSubview:nameButton];
+*/
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, -2, frm.size.width-40, 40)];
+    nameLabel.backgroundColor = [UIColor clearColor];
+    nameLabel.textColor = [UIColor blackColor];
+    nameLabel.textAlignment = NSTextAlignmentLeft;
+    nameLabel.font = [UIFont boldSystemFontOfSize:18];
+    nameLabel.text = self.item.name;
+    
+    [contentView addSubview:nameLabel];
+    [nameLabel release];
+    
+    UIButton *nextButton = [Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(frm.size.width - 40, -2, 40, 30)
+                                     titleColor:[UIColor blackColor]
+                                         target:self
+                                       selector:@selector(editItem:)
+                               normalStateImage:nil
+                             selectedStateImage:nil];
+    
+    [contentView addSubview:nextButton];
     
     UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
-    detailImgView.frame = CGRectMake(frm.size.width - 30, 5, 25, 30);
     
-    [nameButton addSubview:detailImgView];
+    //detailImgView.frame = CGRectMake(frm.size.width - 40, 5, 25, 30);
+    detailImgView.frame = CGRectMake(10, 5, 25, 30);
+    
+    [nextButton addSubview:detailImgView];
     [detailImgView release];
+    
+    UIImageView *linkBGView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 33, 320, 27)];
+    linkBGView.image = [UIImage imageNamed:@"category_header.png"];
+    
+    [contentView addSubview:linkBGView];
+    [linkBGView release];
 
     UILabel *linkLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 300, 20)];
     linkLabel.backgroundColor = [UIColor clearColor];
@@ -254,6 +290,12 @@
     
     [contentView addSubview:linkLabel];
     [linkLabel release];
+    
+    UIImageView *separatorImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ade_separator.png"]];
+    separatorImgView.frame = CGRectMake(0, linkBGView.frame.origin.y + linkBGView.frame.size.height - 4, 320, 4);
+    
+    [contentView addSubview:separatorImgView];
+    [separatorImgView release];
     
     frm = contentView.bounds;
     
@@ -336,6 +378,36 @@
     }
     
     [linkTableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if ([self.item isTask])
+    {
+        UIButton *timerButton = [Common createButton:@""
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(0, 0, 40, 40)
+                                          titleColor:[UIColor whiteColor]
+                                              target:self
+                                            selector:@selector(showTimer:)
+                                    normalStateImage:@"bar_timer.png"
+                                  selectedStateImage:nil];
+        
+        UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
+        
+        UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                  target:nil
+                                                                                  action:nil];
+        
+        NSArray *items = [NSArray arrayWithObjects:flexItem, timerButtonItem, flexItem, nil];
+        
+        [timerButtonItem release];
+        [flexItem release];
+        
+        self.navigationItem.leftBarButtonItems = items;
+    }
 }
 
 - (void)didReceiveMemoryWarning

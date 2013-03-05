@@ -37,6 +37,8 @@
 #import "NoteViewController.h"
 #import "CategoryViewController.h"
 
+#import "SmartCalAppDelegate.h"
+
 extern BOOL _isiPad;
 
 BOOL _autoPushPending = NO;
@@ -98,6 +100,18 @@ BOOL _autoPushPending = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteChanged:)
                                                  name:@"NoteChangeNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(ekSyncComplete:)
+                                                 name:@"EKSyncCompleteNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tdSyncComplete:)
+                                                 name:@"TDSyncCompleteNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdwSyncComplete:)
+                                                 name:@"SDWSyncCompleteNotification" object:nil];
     
 
     return self;
@@ -606,6 +620,69 @@ BOOL _autoPushPending = NO;
         _autoPushPending = NO;
     }
 }
+
+- (void) applyFilter
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSDate *dt = [tm.today copy];
+    
+    [tm initCalendarData:dt];
+    [tm initSmartListData];
+    
+    [dt release];
+    
+    [miniMonthView initCalendar:tm.today];
+    
+    NoteViewController *noteCtrler = [self getNoteViewController];
+    [noteCtrler loadAndShowList];
+    
+    CategoryViewController *catCtrler = [self getCategoryViewController];
+    [catCtrler loadAndShowList];    
+}
+
+- (void) backup
+{
+    [self deselect];
+    
+    [SmartCalAppDelegate backupDB];
+}
+
+- (void) sync
+{
+    Settings *settings = [Settings getInstance];
+    
+    if (settings.syncEnabled)
+    {
+        if (settings.sdwSyncEnabled)
+        {
+            [[SDWSync getInstance] initBackgroundSync];
+        }
+        else if (settings.ekSyncEnabled)
+        {
+            [[EKSync getInstance] initBackgroundSync];
+        }
+        else if (settings.tdSyncEnabled)
+        {
+            [[TDSync getInstance] initBackgroundSync];
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:_syncOffWarningText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+            
+            [alertView show];
+            [alertView release];
+        }
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:_syncOffWarningText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+        
+        [alertView show];
+        [alertView release];
+    }
+}
+
 #pragma mark Tasks
 
 - (void) changeItem:(Task *)task action:(NSInteger)action
@@ -873,6 +950,60 @@ BOOL _autoPushPending = NO;
     [self deselect];
 }
 
+- (void) markDoneTaskInView:(TaskView *)view
+{
+    //Task *task = (Task *)view.tag;
+    Task *task = view.task;
+    
+    [task retain];
+    
+    [self deselect];
+    
+    NSDate *oldDue = [[task.deadline copy] autorelease];
+    BOOL isRT = [task isRT]; //note: task original could be removed from task list so need to store this information instead of directly call the method after done
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    if ([task isDone])
+    {
+        [tm unDone:task];
+    }
+    else
+    {
+        [tm markDoneTask:task];
+    }
+    
+    [self.miniMonthView.calView refreshCellByDate:oldDue];
+    
+    /*if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
+    {
+        CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
+        
+        //remove done task from list
+        [ctrler markDoneTask:task];
+    }
+    else if (isRT)
+    {
+        [self.miniMonthView.calView refreshCellByDate:task.deadline];
+        
+        [view setNeedsDisplay];
+    }*/
+    
+    CategoryViewController *ctrler = [self getCategoryViewController];
+    
+    //remove done task from list
+    [ctrler markDoneTask:task];
+    
+    if (isRT)
+    {
+        [self.miniMonthView.calView refreshCellByDate:task.deadline];
+        
+        [view setNeedsDisplay];
+    }
+    
+    [task release];
+}
+
 #pragma mark Projects
 - (void) doDeleteCategory:(BOOL) cleanFromDB
 {
@@ -1081,6 +1212,134 @@ BOOL _autoPushPending = NO;
     _autoPushPending = YES;
 }
 
+- (void)ekSyncComplete:(NSNotification *)notification
+{
+    [self deselect];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
+    
+    int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
+    
+    //printf("EK Sync complete - mode: %s\n", (mode == SYNC_AUTO_1WAY?"auto 1 way":"2 way"));
+    
+    if (mode == SYNC_AUTO_1WAY)
+    {
+        [tm refreshSyncID4AllItems];
+        
+        CalendarViewController *ctrler = [self getCalendarViewController];
+        
+        [ctrler.calendarLayoutController refreshSyncID4AllItems];
+        
+        //if (settings.tdSyncEnabled && settings.tdAutoSyncEnabled)
+        if (settings.tdSyncEnabled && settings.autoPushEnabled)
+        {
+            if (settings.tdLastSyncTime == nil) //first sync
+            {
+                [[TDSync getInstance] initBackgroundSync];
+            }
+            else
+            {
+                [[TDSync getInstance] initBackground1WaySync];
+            }
+        }
+        
+        return;
+    }
+    
+    if (mode == SYNC_MANUAL_2WAY_BACK)
+    {
+        [self resetAllData];
+        
+        return;
+    }
+    
+    if (settings.tdSyncEnabled)
+    {
+        if (mode == SYNC_AUTO_2WAY)
+        {
+            if (settings.autoSyncEnabled)
+            {
+                [[TDSync getInstance] initBackgroundAuto2WaySync];
+            }
+            else
+            {
+                [self resetAllData];
+            }
+        }
+        else if (mode == SYNC_MANUAL_2WAY)
+        {
+            [[TDSync getInstance] initBackgroundSync];
+        }
+        else
+        {
+            [self resetAllData];
+        }
+    }
+    else
+    {
+        [self resetAllData];
+    }
+    
+}
+
+- (void)tdSyncComplete:(NSNotification *)notification
+{
+    //printf("Toodledo Sync complete\n");
+    [self deselect];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
+    
+    if (mode != SYNC_AUTO_1WAY)
+    {
+        [self resetAllData];
+    }
+    else
+    {
+        [tm refreshSyncID4AllItems];
+        
+        CalendarViewController *ctrler = [self getCalendarViewController];
+        
+        [ctrler.calendarLayoutController refreshSyncID4AllItems];
+        
+        return;
+    }
+}
+
+- (void)sdwSyncComplete:(NSNotification *)notification
+{
+    [self deselect];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
+    
+    //printf("SDW Sync complete - mode: %s\n", (mode == SYNC_AUTO_1WAY?"auto 1 way":"2 way"));
+    
+    if (mode == SYNC_MANUAL_1WAY_mSD2SD)
+    {
+        [self resetAllData];
+        
+        return;
+    }
+    
+    if (mode == SYNC_AUTO_1WAY || mode == SYNC_MANUAL_1WAY_SD2mSD)
+    {
+        [tm refreshSyncID4AllItems];
+        
+        CalendarViewController *ctrler = [self getCalendarViewController];
+        
+        [ctrler.calendarLayoutController refreshSyncID4AllItems];
+        
+        [self refreshData]; //reload sync IDs in other views such as ADE Pane/Notes/Categories so that delete item will not clean it from DB
+    }
+    else
+    {
+        [self resetAllData];
+    }
+}
 
 #pragma mark View
 

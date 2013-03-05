@@ -10,7 +10,9 @@
 
 #import "Common.h"
 #import "Task.h"
+#import "Settings.h"
 
+#import "TimerManager.h"
 #import "ImageManager.h"
 #import "MenuMakerView.h"
 
@@ -32,11 +34,21 @@
 #import "ProjectEditViewController.h"
 #import "PreviewViewController.h"
 
+#import "CalendarSelectionTableViewController.h"
+#import "iPadTagListViewController.h"
+#import "MenuTableViewController.h"
+#import "SeekOrCreateViewController.h"
+#import "TimerViewController.h"
+
 #import "SDNavigationController.h"
 
 #import "PlannerViewController.h"
 
+#import "iPadViewController.h"
+
 extern BOOL _isiPad;
+
+iPadViewController *_iPadViewCtrler;
 
 @interface iPadSmartDayViewController ()
 
@@ -281,6 +293,8 @@ extern BOOL _isiPad;
     
     self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
     
+    self.popoverCtrler.passthroughViews = [NSArray arrayWithObject:[_iPadViewCtrler getTimerButton]];
+    
     [navController release];
     
     CGRect frm = [view.superview convertRect:view.frame toView:contentView];
@@ -299,12 +313,239 @@ extern BOOL _isiPad;
 {
     [super deselect];
     
+    [_iPadViewCtrler deactivateSearchBar];
+    
     if (self.popoverCtrler != nil)
     {
         [self.popoverCtrler dismissPopoverAnimated:YES];
         
         self.popoverCtrler = nil;
     }
+}
+
+- (void) showCategory
+{
+    [self hidePopover];
+    
+    CalendarSelectionTableViewController *ctrler = [[CalendarSelectionTableViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    
+    CGRect frm = CGRectMake(100, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) showTag
+{
+    [self hidePopover];
+    
+    iPadTagListViewController *ctrler = [[iPadTagListViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(180, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+
+}
+
+- (void) showTimer
+{
+    TimerManager *timer = [TimerManager getInstance];
+
+    Task *task = [self getActiveTask];
+    
+    if (task != nil && [task isTask])
+    {
+        if (![timer checkActivated:task])
+        {
+            timer.taskToActivate = task;
+        }
+        
+        [self deselect];
+    }
+    else
+    {
+        Settings *settings = [Settings getInstance];
+        
+        Task *todo = [[[Task alloc] init] autorelease];
+        
+        todo.project = settings.taskDefaultProject;
+        todo.name = _newItemText;
+        todo.listSource = SOURCE_TIMER;
+        
+        timer.taskToActivate = todo;
+    }
+
+    TimerViewController *ctrler = [[TimerViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(370, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];    
+}
+
+- (void) showMenu
+{
+    MenuTableViewController *ctrler = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+	[self.popoverCtrler setPopoverContentSize:CGSizeMake(250, 210)]; 
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(40, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) applyFilter
+{
+    [super applyFilter];
+    
+    [self hidePopover];
+}
+
+#pragma mark Seek&Create
+- (void) showSeekOrCreate:(NSString *)text
+{
+    if (self.popoverCtrler != nil && ![self.popoverCtrler isPopoverVisible])
+    {
+        [self.popoverCtrler dismissPopoverAnimated:YES];
+        
+        self.popoverCtrler = nil;
+    }
+    
+    if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SeekOrCreateViewController class]])
+    {
+        if ([text isEqualToString:@""])
+        {
+            [self.popoverCtrler dismissPopoverAnimated:YES];
+        }
+        else
+        {
+            SeekOrCreateViewController *ctrler = (SeekOrCreateViewController *) self.popoverCtrler.contentViewController;
+            
+            [ctrler search:text];
+        }
+    }
+    else if (![text isEqualToString:@""])
+    {
+        [self.popoverCtrler dismissPopoverAnimated:NO];
+        
+        SeekOrCreateViewController *ctrler = [[SeekOrCreateViewController alloc] init];
+        
+        [ctrler search:text];
+        
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+        [self.popoverCtrler setPopoverContentSize:CGSizeMake(320, 440)];
+        
+        [ctrler release];
+        
+        CGRect frm = CGRectMake(600, 0, 20, 10);
+        
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+}
+
+- (void) createItem:(NSInteger)index title:(NSString *)title
+{
+    [self.popoverCtrler dismissPopoverAnimated:NO];
+    
+    Task *task = [[[Task alloc] init] autorelease];
+    task.name = title;
+    
+    UIViewController *ctrler = nil;
+    
+    switch (index)
+    {
+        case 0:
+        {
+            task.type = TYPE_TASK;
+            
+            TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
+            taskCtrler.task = task;
+            
+            ctrler = taskCtrler;
+        }
+            break;
+        case 1:
+        {
+            task.type = TYPE_EVENT;
+            
+            TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
+            taskCtrler.task = task;
+            
+            ctrler = taskCtrler;
+        }
+            break;
+        case 2:
+        {
+            task.type = TYPE_NOTE;
+            task.listSource = SOURCE_NOTE;
+            task.note = title;
+            
+            NoteDetailTableViewController *noteCtrler = [[NoteDetailTableViewController alloc] init];
+            noteCtrler.note = task;
+            
+            ctrler = noteCtrler;
+            
+        }
+            break;
+    }
+	
+	SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+	[ctrler release];
+	
+	self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+	
+	[navController release];
+    
+    CGRect frm = CGRectMake(600, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) editItem:(Task *)task
+{
+    [self.popoverCtrler dismissPopoverAnimated:NO];
+    
+    UIViewController *ctrler = nil;
+    
+    if ([task isNote])
+    {
+        NoteDetailTableViewController *noteCtrler = [[NoteDetailTableViewController alloc] init];
+        noteCtrler.note = task;
+        
+        ctrler = noteCtrler;
+    }
+    else
+    {
+        TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
+        taskCtrler.task = task;
+        
+        ctrler = taskCtrler;
+    }
+    
+	SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+	[ctrler release];
+	
+	self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+	
+	[navController release];
+    
+    CGRect frm = CGRectMake(600, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 #pragma mark Actions
@@ -410,6 +651,24 @@ extern BOOL _isiPad;
     optionView.tag = -1;
 }
 
+- (void) showDone:(id) sender
+{
+    projectShowDoneButton.selected = !projectShowDoneButton.selected;
+    
+    CategoryViewController *ctrler = [self getCategoryViewController];
+    
+    ctrler.showDone = projectShowDoneButton.selected;
+    
+    [ctrler loadAndShowList];
+}
+
+- (void) startMultiEdit:(id)sender
+{
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [ctrler multiEdit:YES];
+}
+
 #pragma mark Filter
 - (NSString *) showProjectWithOption:(id)sender
 {
@@ -418,6 +677,11 @@ extern BOOL _isiPad;
     UILabel *filterLabel = (UILabel *)[contentView viewWithTag:24002];
     
     filterLabel.text = title;
+    
+    CategoryViewController *ctrler = [self getCategoryViewController];
+    
+    projectShowDoneButton.hidden = (ctrler.filterType != TYPE_TASK);
+    projectShowDoneButton.selected = ctrler.showDone;
     
     return title;
 }
@@ -937,6 +1201,33 @@ extern BOOL _isiPad;
         
         [headView addSubview:filterLabel];
         [filterLabel release];
+        
+        if (i==0)
+        {
+            taskMultiEditButton = [Common createButton:@"Edit"
+                                              buttonType:UIButtonTypeCustom
+                                                   frame:CGRectMake(160, 10, 60, 20)
+                                              titleColor:[UIColor whiteColor]
+                                                  target:self
+                                                selector:@selector(startMultiEdit:)
+                                        normalStateImage:nil
+                                      selectedStateImage:nil];
+            
+            [headView addSubview:taskMultiEditButton];
+        }
+        else if (i==2)
+        {
+            projectShowDoneButton = [Common createButton:@""
+                                               buttonType:UIButtonTypeCustom
+                                                    frame:CGRectMake(180, 10, 20, 20)
+                                               titleColor:[UIColor whiteColor]
+                                                   target:self
+                                                 selector:@selector(showDone:)
+                                         normalStateImage:@"CheckOff20.png"
+                                       selectedStateImage:@"CheckOn20.png"];
+            
+            [headView addSubview:projectShowDoneButton];
+        }
         
     }
     

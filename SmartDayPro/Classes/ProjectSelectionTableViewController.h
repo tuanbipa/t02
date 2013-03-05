@@ -12,6 +12,7 @@
 
 @interface ProjectSelectionTableViewController : UITableViewController {
 	UITableView *projectTableView;
+    UIView *contentView;
 	
 	NSInteger selectedIndex;
 

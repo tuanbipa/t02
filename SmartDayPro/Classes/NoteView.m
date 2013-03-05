@@ -36,17 +36,10 @@ extern SmartDayViewController *_sdViewCtrler;
     if (self)
     {
         // Initialization code
-        //self.inCheckMode = NO;
         self.checkDict = [NSMutableDictionary dictionaryWithCapacity:10];
         
         self.editEnabled = YES;
         self.touchEnabled = NO;
-        /*
-        CGSize sz = [Common getScreenSize];
-        
-        frame.origin.y = 0;
-        frame.origin.x = 0;
-        frame.size = sz;*/
         
         noteBgScrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         noteBgScrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG.png"]];
@@ -60,7 +53,7 @@ extern SmartDayViewController *_sdViewCtrler;
         frm.size.width -= 20;
         
         noteTextView = [[CustomTextView alloc] initWithFrame:frm];
-        //noteTextView.noteBgScrollView = noteBgScrollView;
+
         noteTextView.delegate = self;
         noteTextView.text = self.note.note;
         
@@ -199,13 +192,6 @@ extern SmartDayViewController *_sdViewCtrler;
     {
         [self.note updateIntoDB:[[DBManager getInstance] getDatabase]];
         
-        /*if ([self.superview isKindOfClass:[LinkPreviewPane class]])
-        {
-            LinkPreviewPane *previewPane = (LinkPreviewPane *) self.superview;
-            
-            [previewPane markNoteChange];
-        }*/
-        
         [_sdViewCtrler.previewPane markNoteChange];
     }
     
@@ -214,8 +200,6 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) changeCheckMode:(BOOL)inCheck
 {
-    //self.inCheckMode = inCheck;
-    
     NSMutableString *text = [NSMutableString stringWithString: noteTextView.text];
     
     NSRange cursorRange = [noteTextView selectedRange];
@@ -248,7 +232,6 @@ extern SmartDayViewController *_sdViewCtrler;
     
     UIButton *btn = [self.checkDict objectForKey:[NSNumber numberWithInt:lineIdx]];
     
-    //if (btn != nil && !self.inCheckMode)
     if (btn != nil && !inCheck)
     {
         //find end line string to assure to remove check character if cursor is in front of it
@@ -303,7 +286,6 @@ extern SmartDayViewController *_sdViewCtrler;
         }
         
     }
-    //else if (btn == nil && self.inCheckMode)
     else if (btn == nil && inCheck)
     {
         //add check
@@ -347,14 +329,7 @@ extern SmartDayViewController *_sdViewCtrler;
     {
         self.note.note = text;
     }
-    /*else if ([self.superview isKindOfClass:[LinkPreviewPane class]] && ![text isEqualToString:@""])
-    {
-        ////printf("edit empty note in preview\n");
-        LinkPreviewPane *previewPane = (LinkPreviewPane *) self.superview;
-        
-        [previewPane createLinkedNote:text];
-    }
-    */
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteFinishEditNotification" object:nil];    
 }
 
@@ -579,20 +554,6 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (NSInteger) getLines:(NSString *)text
 {
-    /*
-    CGSize sz = [text sizeWithFont:noteTextView.font];
-    
-    CGFloat w = noteTextView.bounds.size.width - 12;
-    
-    int lines = sz.width/w;
-    
-    if (sz.width > lines*w)
-    {
-        lines += 1;
-    }
-    
-    return lines;*/
-    
     return [Common countLines:text boundWidth:noteTextView.bounds.size.width withFont:noteTextView.font];
 }
 
@@ -602,23 +563,18 @@ extern SmartDayViewController *_sdViewCtrler;
     
     int count = 0;
     
-    /*for (NSString *str in array)
-    {
-        if ([str isEqualToString:@""])
-        {
-            count += 1;
-        }
-        else
-        {
-            count += [self getLines:str];
-        }
-    }*/
-    
     for (int i=0;i<array.count-1;i++)
     {
         NSString *str = [array objectAtIndex:i];
         
-        count += [self getLines:str];
+        if ([str isEqualToString:@""])
+        {
+            count ++; //empty line (\n)
+        }
+        else
+        {
+            count += [self getLines:str];            
+        }
     }
     
     if (array.count > 0)
@@ -675,17 +631,6 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) done:(id)sender
 {
-    /*self.superview.frame = parentFrame;
-    
-    self.frame = self.superview.bounds;
-    
-    CGRect frm = self.bounds;
-    
-    frm.origin.x += 20;
-    frm.size.width -= 20;
-    
-    noteTextView.frame = frm;*/
-    
     doneBarView.hidden = YES;
     
     [self finishEdit];
@@ -701,35 +646,6 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteBeginEditNotification" object:nil]; //notify observers to resize NoteView
     
-/*
-    parentFrame = self.superview.frame;
-    
-    CGFloat y = parentFrame.size.height - [Common getKeyboardHeight] - 40;
-    
-    CGRect frm = CGRectZero;
-    
-    if (y < 0) // preview pane
-    {
-        frm = parentFrame;
-        
-        frm.origin.y -= [Common getKeyboardHeight] + 40;
-        frm.size.height += 40;
-        
-        self.superview.frame = frm;
-        
-        self.frame = self.superview.bounds;
-    }
-    else
-    {
-        frm = self.bounds;
-        
-        frm.origin.x += 20;
-        frm.size.width -= 20;
-        frm.size.height -= [Common getKeyboardHeight] + 40;
-        
-        noteTextView.frame = frm;
-    }
-*/
     CGRect frm = noteTextView.frame;
     
     frm.size.height -= 40;
@@ -738,7 +654,6 @@ extern SmartDayViewController *_sdViewCtrler;
     
     frm = doneBarView.frame;
     
-    //frm.origin.y = noteTextView.bounds.size.height;
     frm.origin.y = self.bounds.size.height-40;
     doneBarView.frame = frm;
     
@@ -808,8 +723,7 @@ extern SmartDayViewController *_sdViewCtrler;
         textView.text = textStr;
         
         [self removeAllChecks];
-        
-        //[self createCheckButtons:textView.text];
+
         [self createCheckButtons:textStr];
         
         checkRange.location = range.location + text.length;

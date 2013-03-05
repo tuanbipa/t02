@@ -29,6 +29,7 @@
 
 @property (nonatomic, retain) NSMutableArray *list;
 @property NSInteger filterType;
+@property BOOL showDone;
 @property (nonatomic, readonly) ContentScrollView *listView;
 
 -(void)expandProject:(Project *)prj;

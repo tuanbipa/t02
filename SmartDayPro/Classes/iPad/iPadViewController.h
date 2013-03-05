@@ -15,8 +15,14 @@
 @interface iPadViewController : UIViewController
 {
     ContentView *contentView;
+    
+    UISearchBar *searchBar;
+    UIButton *timerButton;
 }
 
 @property (nonatomic, retain) UIViewController *activeViewCtrler;
+
+- (void) deactivateSearchBar;
+- (UIButton *) getTimerButton;
 
 @end

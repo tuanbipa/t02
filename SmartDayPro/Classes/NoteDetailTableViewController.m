@@ -387,9 +387,6 @@ extern BOOL _isiPad;
 	self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];  
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_backText style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-    self.navigationItem.leftBarButtonItem = backButton;
-    [backButton release];    
 }
 
 - (void)viewDidLoad
@@ -400,6 +397,18 @@ extern BOOL _isiPad;
     {
         [noteView startEdit];
     }
+    
+    /*
+    if (self.navigationController.viewControllers.count > 1)
+    {
+        UIViewController *parentCtrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+        if ([parentCtrler isKindOfClass:[NoteViewController class]])
+        {
+            UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_backText style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+            self.navigationItem.leftBarButtonItem = backButton;
+            [backButton release];            
+        }
+    }*/
 }
 
 - (void)viewDidUnload
