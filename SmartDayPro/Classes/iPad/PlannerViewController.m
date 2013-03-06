@@ -11,6 +11,8 @@
 #import "Common.h"
 #import "ContentView.h"
 
+#import "SmartListViewController.h"
+
 @interface PlannerViewController ()
 
 @end
@@ -24,6 +26,23 @@
         // Custom initialization
     }
     return self;
+}
+
+- (id) init
+{
+    if (self = [super init])
+    {
+        smartListViewCtrler = [[SmartListViewController alloc] init];
+    }
+    
+    return self;
+}
+
+- (void) dealloc
+{
+    [smartListViewCtrler release];
+    
+    [super dealloc];
 }
 
 - (void) loadView
@@ -40,12 +59,22 @@
     self.view = contentView;
     
     [contentView release];
+    
+    [contentView addSubview:smartListViewCtrler.view];
+    
+    frm.origin.x = frm.size.width - 320;
+    frm.size.width = 320;
+    
+    [smartListViewCtrler changeFrame:frm];
+
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [smartListViewCtrler refreshLayout];
 }
 
 - (void)didReceiveMemoryWarning

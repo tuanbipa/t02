@@ -269,7 +269,7 @@
 		return;
 	}
 
-	//NSLog(@"smart list begin layout");
+	//printf("smart list begin layout\n");
         
     NSInteger busyLayout = BUSY_TASK_LAYOUT | BUSY_TASK_LAYOUT_SUBSET;
     

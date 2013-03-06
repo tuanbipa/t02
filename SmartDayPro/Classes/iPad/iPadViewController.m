@@ -81,34 +81,40 @@ iPadViewController *_iPadViewCtrler;
     return timerButton;
 }
 
-- (void) createToolbar
+- (void) refreshToolbar
 {
-	UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-																			  target:nil
-																			  action:nil];
-
-	UIBarButtonItem *fixed40Item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-																			   target:nil
-																			   action:nil];
-	fixed40Item.width = 40;
-	
-	UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-																			   target:nil
-																			   action:nil];
-	fixedItem.width = 155;
-    
-	UIButton *settingButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(0, 0, 40, 40)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(showMenu:)
-                                 normalStateImage:@"bar_setting.png"
-                               selectedStateImage:nil];
-	
-	UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
-
-	UIButton *eyeButton = [Common createButton:@""
+    if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
+    {
+        self.navigationItem.leftBarButtonItems = nil;
+    }
+    else if ([self.activeViewCtrler isKindOfClass:[iPadSmartDayViewController class]])
+    {
+        UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                  target:nil
+                                                                                  action:nil];
+        
+        UIBarButtonItem *fixed40Item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                     target:nil
+                                                                                     action:nil];
+        fixed40Item.width = 40;
+        
+        UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                   target:nil
+                                                                                   action:nil];
+        fixedItem.width = 155;
+        
+        UIButton *settingButton = [Common createButton:@""
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:CGRectMake(0, 0, 40, 40)
+                                            titleColor:[UIColor whiteColor]
+                                                target:self
+                                              selector:@selector(showMenu:)
+                                      normalStateImage:@"bar_setting.png"
+                                    selectedStateImage:nil];
+        
+        UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
+        
+        UIButton *eyeButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
                                              frame:CGRectMake(0, 0, 40, 40)
                                         titleColor:[UIColor whiteColor]
@@ -116,52 +122,53 @@ iPadViewController *_iPadViewCtrler;
                                           selector:@selector(showCategory:)
                                   normalStateImage:@"bar_eye.png"
                                 selectedStateImage:nil];
-	
-	UIBarButtonItem *eyeButtonItem = [[UIBarButtonItem alloc] initWithCustomView:eyeButton];
-    
-	UIButton *tagButton = [Common createButton:@""
-                                    buttonType:UIButtonTypeCustom
-                                         frame:CGRectMake(0, 0, 40, 40)
-                                    titleColor:[UIColor whiteColor]
-                                        target:self
-                                      selector:@selector(showTag:)
-                              normalStateImage:@"tag.png"
-                            selectedStateImage:nil];
-	
-	UIBarButtonItem *tagButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tagButton];
-
-	timerButton = [Common createButton:@""
-                                    buttonType:UIButtonTypeCustom
-                                         frame:CGRectMake(0, 0, 40, 40)
-                                    titleColor:[UIColor whiteColor]
-                                        target:self
-                                      selector:@selector(showTimer:)
-                              normalStateImage:@"bar_timer.png"
-                            selectedStateImage:nil];
-	
-	UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
-    
-    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
-    searchBar.placeholder = _seekOrCreate;
-    searchBar.translucent = YES;
-    searchBar.delegate = self;
-
-    UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
-    [searchBar release];
-	
-	NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixedItem, timerButtonItem, flexItem, searchBarItem,nil];
-	//NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, flexItem, searchBarItem,nil];
-	 
-	[flexItem release];
-	[fixedItem release];
-    [fixed40Item release];
-	[timerButtonItem release];
-    [settingButtonItem release];
-    [eyeButtonItem release];
-    [tagButtonItem release];
-    [searchBarItem release];
-    
-    self.navigationItem.leftBarButtonItems = items;
+        
+        UIBarButtonItem *eyeButtonItem = [[UIBarButtonItem alloc] initWithCustomView:eyeButton];
+        
+        UIButton *tagButton = [Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(0, 0, 40, 40)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(showTag:)
+                                  normalStateImage:@"tag.png"
+                                selectedStateImage:nil];
+        
+        UIBarButtonItem *tagButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tagButton];
+        
+        timerButton = [Common createButton:@""
+                                buttonType:UIButtonTypeCustom
+                                     frame:CGRectMake(0, 0, 40, 40)
+                                titleColor:[UIColor whiteColor]
+                                    target:self
+                                  selector:@selector(showTimer:)
+                          normalStateImage:@"bar_timer.png"
+                        selectedStateImage:nil];
+        
+        UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
+        
+        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
+        searchBar.placeholder = _seekOrCreate;
+        searchBar.translucent = YES;
+        searchBar.delegate = self;
+        
+        UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
+        [searchBar release];
+        
+        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixedItem, timerButtonItem, flexItem, searchBarItem,nil];
+        //NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, flexItem, searchBarItem,nil];
+        
+        [flexItem release];
+        [fixedItem release];
+        [fixed40Item release];
+        [timerButtonItem release];
+        [settingButtonItem release];
+        [eyeButtonItem release];
+        [tagButtonItem release];
+        [searchBarItem release];
+        
+        self.navigationItem.leftBarButtonItems = items;
+    }
 }
 
 -(void)changeSkin
@@ -194,6 +201,8 @@ iPadViewController *_iPadViewCtrler;
     [ctrler release];
     
     [contentView addSubview:self.activeViewCtrler.view];
+    
+    [self refreshToolbar];
 }
 
 - (void) showPortraitView
@@ -207,7 +216,9 @@ iPadViewController *_iPadViewCtrler;
     
     self.activeViewCtrler = _iPadSDViewCtrler;
     
-    [contentView addSubview:self.activeViewCtrler.view];    
+    [contentView addSubview:self.activeViewCtrler.view];
+    
+    [self refreshToolbar];
 }
 
 - (void) loadView
@@ -229,7 +240,7 @@ iPadViewController *_iPadViewCtrler;
 	// Do any additional setup after loading the view.
     
     [self changeSkin];
-    [self createToolbar];
+    //[self createToolbar];
 }
 
 -(NSUInteger)supportedInterfaceOrientations

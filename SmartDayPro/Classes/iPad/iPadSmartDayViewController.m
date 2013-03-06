@@ -137,10 +137,16 @@ iPadViewController *_iPadViewCtrler;
         
         y += frm.size.height + 10;
         
-        if (i>=1)
+        if (i==0)
+        {
+            //tasks module
+            [viewCtrlers[i+1] refreshLayout];
+        }
+        else
         {
             [viewCtrlers[i+1] loadAndShowList];
         }
+
     }
 }
 
@@ -1246,6 +1252,11 @@ iPadViewController *_iPadViewCtrler;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 /*

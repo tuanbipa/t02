@@ -9,10 +9,13 @@
 #import "ViewController.h"
 
 @class ContentView;
+@class SmartListViewController;
 
 @interface PlannerViewController : ViewController
 {
     ContentView *contentView;
+    
+    SmartListViewController *smartListViewCtrler;
 }
 
 @end

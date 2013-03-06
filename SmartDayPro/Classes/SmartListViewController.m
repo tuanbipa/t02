@@ -2242,6 +2242,7 @@ SmartListViewController *_smartListViewCtrler;
 	[editToolbar setItems:items animated:NO];
 }
 
+/*
 -(void) createQuickAddEditBar
 {
     CGFloat h = [Common getKeyboardHeight];
@@ -2253,7 +2254,7 @@ SmartListViewController *_smartListViewCtrler;
 	[contentView addSubview:quickAddEditBarView];
 	[quickAddEditBarView release];
 	
-	UIToolbar *editToolbar = [[UIToolbar alloc] initWithFrame:quickAddEditBarView.bounds];
+	editToolbar = [[UIToolbar alloc] initWithFrame:quickAddEditBarView.bounds];
 	editToolbar.barStyle = UIBarStyleBlack;
 	
 	[quickAddEditBarView addSubview:editToolbar];
@@ -2278,7 +2279,7 @@ SmartListViewController *_smartListViewCtrler;
     [spaceItem release];
     [saveAndMoreItem release];
 }
-
+*/
 -(void) createMenuView
 {
 	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 160, 180)];
@@ -2600,7 +2601,11 @@ SmartListViewController *_smartListViewCtrler;
     editBarPlaceHolder.frame = rec;
     editToolbar.frame = editBarPlaceHolder.bounds;
     
-    //smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 40);
+    quickAddTextField.frame = CGRectMake(10, 5, frm.size.width-50, 30);
+    
+    UIButton *moreButton = (UIButton *) [quickAddPlaceHolder viewWithTag:10000];
+    moreButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -2661,7 +2666,7 @@ SmartListViewController *_smartListViewCtrler;
 	[quickEditButton addTarget:self action:@selector(quickEdit:) forControlEvents:UIControlEventTouchUpInside];
     */
     
-	UIButton *moreButton =[Common createButton:@""
+	UIButton *moreButton = [Common createButton:@""
 									  buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(frm.size.width-35, 4, 30, 30)
 									  titleColor:nil
@@ -2669,6 +2674,7 @@ SmartListViewController *_smartListViewCtrler;
 										selector:@selector(saveAndMore:)
 								normalStateImage:@"addmore.png"
 							  selectedStateImage:nil];
+    moreButton.tag = 10000;
 	
 	[quickAddPlaceHolder addSubview:moreButton];
 	
