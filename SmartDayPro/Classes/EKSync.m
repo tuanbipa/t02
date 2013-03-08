@@ -1282,6 +1282,7 @@ extern BOOL _syncMatchHintShown;
 - (void) initSync:(NSInteger)mode
 {
 	////NSLog(@"begin EK sync");
+    // Thuc test commit
 	
 	@synchronized(self)
 	{
