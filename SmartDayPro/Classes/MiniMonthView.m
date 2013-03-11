@@ -100,8 +100,11 @@ extern BOOL _isiPad;
         [self addSubview:separatorImgView];
         [separatorImgView release];
         
+        separatorImgView.hidden = _isiPad;
+        
         self.layer.borderWidth = 1;
-        self.layer.borderColor = [[UIColor grayColor] CGColor];
+        //self.layer.borderColor = [[UIColor grayColor] CGColor];
+        self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
     }
     return self;
 }
@@ -322,7 +325,7 @@ extern BOOL _isiPad;
     
     NSInteger weeks = self.calView.nWeeks;
 	
-    CGRect frm = CGRectMake(_isiPad?10:0, _isiPad?10:0, self.frame.size.width, (_isiPad?48:40)*weeks + MINI_MONTH_HEADER_HEIGHT + 6);
+    CGRect frm = CGRectMake(_isiPad?10:0, _isiPad?10:0, self.frame.size.width, (_isiPad?48:40)*weeks + MINI_MONTH_HEADER_HEIGHT + (_isiPad?0:6));
     
     [self changeFrame:frm];
     

@@ -18,11 +18,14 @@
     
     UISearchBar *searchBar;
     UIButton *timerButton;
+    UIButton *tagButton;
 }
 
 @property (nonatomic, retain) UIViewController *activeViewCtrler;
 
 - (void) deactivateSearchBar;
 - (UIButton *) getTimerButton;
+
+- (void) refreshFilterStatus;
 
 @end

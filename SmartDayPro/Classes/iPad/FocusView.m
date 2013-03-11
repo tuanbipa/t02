@@ -35,7 +35,8 @@ AbstractSDViewController *_abstractViewCtrler;
         // Initialization code
         
         self.layer.borderWidth = 1;
-        self.layer.borderColor = [[UIColor grayColor] CGColor];
+        //self.layer.borderColor = [[UIColor grayColor] CGColor];
+        self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
         
         CGRect frm = self.bounds;
         
@@ -52,7 +53,8 @@ AbstractSDViewController *_abstractViewCtrler;
         
         zoomButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(0, 0, 50, 50)
+                                              //frame:CGRectMake(0, 0, 50, 50)
+                                        frame:frm
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(zoom:)
@@ -61,12 +63,14 @@ AbstractSDViewController *_abstractViewCtrler;
         
         [self addSubview:zoomButton];
         
+        /*
         UIImageView *zoomImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_week.png"]];
         zoomImgView.frame = CGRectMake(5, 3, 30, 30);
         zoomImgView.tag = 10000;
         
         [zoomButton addSubview:zoomImgView];
         [zoomImgView release];
+        */
         
         frm.origin.y = 40;
         frm.size.height = 0;
@@ -79,7 +83,7 @@ AbstractSDViewController *_abstractViewCtrler;
         frm.size.height = 1;
         
         UIView *separatorView = [[UIView alloc] initWithFrame:frm];
-        separatorView.backgroundColor = [UIColor grayColor];
+        separatorView.backgroundColor = [UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1];
         
         [self addSubview:separatorView];
         [separatorView release];
@@ -214,9 +218,11 @@ AbstractSDViewController *_abstractViewCtrler;
 {
     zoomButton.selected = !zoomButton.selected;
     
+    /*
     UIImageView *zoomImgView = (UIImageView *)[zoomButton viewWithTag:10000];
     
     zoomImgView.image = [UIImage imageNamed:zoomButton.selected?@"MM_month.png":@"MM_week.png"];
+    */
     
     [self refreshData];
     

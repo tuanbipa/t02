@@ -5,7 +5,7 @@
 //  Created by Left Coast Logic on 12/3/12.
 //  Copyright (c) 2012 Left Coast Logic. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "iPadSmartDayViewController.h"
 
 #import "Common.h"
@@ -125,6 +125,12 @@ iPadViewController *_iPadViewCtrler;
     
     for (int i=0; i<3; i++)
     {
+        UIView *moduleBorderView = (UIView *)[contentView viewWithTag:18000+i];
+        moduleBorderView.frame = !buttons[i].selected?CGRectZero:CGRectMake(w+20, y+40-5, w-10, moduleHeight + 5);
+        
+        UIImageView *headerImageView = (UIImageView *)[contentView viewWithTag:19000+i];
+        headerImageView.frame = CGRectMake(w+20, y, w-10, 40);
+        
         UIView *headerView = headerViews[i];
         
         headerView.frame = CGRectMake(w+20, y, w-10, 40);
@@ -419,6 +425,8 @@ iPadViewController *_iPadViewCtrler;
     [super applyFilter];
     
     [self hidePopover];
+    
+    [_iPadViewCtrler refreshFilterStatus];
 }
 
 #pragma mark Seek&Create
@@ -1083,19 +1091,21 @@ iPadViewController *_iPadViewCtrler;
     contentView = [[ContentView alloc] initWithFrame:frm];
     
     //contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
-    contentView.backgroundColor = [UIColor darkGrayColor];
+    contentView.backgroundColor = [UIColor clearColor];
     
     self.view = contentView;
 
     CGFloat w = frm.size.width/2-10;
     
-    UIView *leftDecoView = [[UIView alloc] initWithFrame:CGRectMake(5, 5, w, frm.size.height-10)];
-    leftDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    UIImageView *leftDecoView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, w, frm.size.height-10)];
+    leftDecoView.image = [UIImage imageNamed:@"module_bg.png"];
+    //leftDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     [contentView addSubview:leftDecoView];
     [leftDecoView release];
 
-    UIView *rightDecoView = [[UIView alloc] initWithFrame:CGRectMake(w+15, 5, w, frm.size.height-10)];
-    rightDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    UIImageView *rightDecoView = [[UIImageView alloc] initWithFrame:CGRectMake(w+15, 5, w, frm.size.height-10)];
+    //rightDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    rightDecoView.image = [UIImage imageNamed:@"module_bg.png"];
     [contentView addSubview:rightDecoView];
     [rightDecoView release];
 
@@ -1105,7 +1115,9 @@ iPadViewController *_iPadViewCtrler;
     
     [contentView addSubview:ctrler.view];
     
-	miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT + 6)];
+	//miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT + 6)];
+
+	miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT)];
 	
 	[contentView addSubview:miniMonthView];
 	[miniMonthView release];
@@ -1123,8 +1135,26 @@ iPadViewController *_iPadViewCtrler;
     
     for (int i=0; i<3; i++)
     {
+        UIView *moduleBorderView = [[UIView alloc] initWithFrame:CGRectZero];
+        moduleBorderView.layer.borderWidth = 1;
+        moduleBorderView.layer.cornerRadius = 5;
+        moduleBorderView.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
+        moduleBorderView.tag = 18000+i;
+        
+        [contentView addSubview:moduleBorderView];
+        [moduleBorderView release];
+        
+        
+        UIImageView *headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(w+20, 10 + 50*i, w-10, 40)];
+        headerImageView.image = [UIImage imageNamed:@"module_header.png"];
+        headerImageView.tag = 19000+i;
+        
+        [contentView addSubview:headerImageView];
+        [headerImageView release];
+        
         UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 10 + 50*i, w-10, 40)];
-        headView.backgroundColor = [UIColor darkGrayColor];
+        //headView.backgroundColor = [UIColor darkGrayColor];
+        headView.backgroundColor = [UIColor clearColor];
         headView.tag = 20000+i;
         
         [contentView addSubview:headView];
@@ -1192,7 +1222,7 @@ iPadViewController *_iPadViewCtrler;
         [filterImgView release];
         
         UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(headView.bounds.size.width-70, 5, 1, 30)];
-        filterSeparatorView.backgroundColor = [UIColor lightGrayColor];
+        filterSeparatorView.backgroundColor = [UIColor whiteColor];
         
         [headView addSubview:filterSeparatorView];
         [filterSeparatorView release];
@@ -1200,7 +1230,7 @@ iPadViewController *_iPadViewCtrler;
         UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(headView.bounds.size.width-180, 5, 100, 30)];
         filterLabel.backgroundColor = [UIColor clearColor];
         filterLabel.textAlignment =  NSTextAlignmentRight;
-        filterLabel.textColor = [UIColor lightGrayColor];
+        filterLabel.textColor = [UIColor whiteColor];
         filterLabel.font = [UIFont boldSystemFontOfSize:16];
         filterLabel.tag = 24000+i;
         filterLabel.text = filters[i];
@@ -1243,6 +1273,12 @@ iPadViewController *_iPadViewCtrler;
         
         view.frame = CGRectZero;
         view.clipsToBounds = YES;
+        
+        /*
+        view.layer.borderWidth = 1;
+        view.layer.cornerRadius = 5;
+        view.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
+        */
         
         [contentView addSubview:view];
     }

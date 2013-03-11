@@ -25,5 +25,6 @@
 - (void) createItem:(NSInteger)index title:(NSString *)title;
 - (void) editItem:(Task *)task;
 - (void) showTimer;
+- (void) showMenu;
 
 @end

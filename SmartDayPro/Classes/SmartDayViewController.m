@@ -3343,7 +3343,8 @@ extern BOOL _gtdoTabHintShown;
 	//int nRows = [[Settings getInstance] weekPlannerRows];
     int nRows = 1;
     
-	miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width, 40*nRows + MINI_MONTH_HEADER_HEIGHT + 6)];
+	//miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width, 40*nRows + MINI_MONTH_HEADER_HEIGHT + 6)];
+    miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width, 40*nRows + MINI_MONTH_HEADER_HEIGHT)];
 	
 	[contentView addSubview:miniMonthView];
 	[miniMonthView release];

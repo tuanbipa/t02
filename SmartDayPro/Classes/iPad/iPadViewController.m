@@ -9,9 +9,12 @@
 #import "iPadViewController.h"
 
 #import "Common.h"
+#import "FilterData.h"
+
 #import "ContentView.h"
 
 #import "ImageManager.h"
+#import "TaskManager.h"
 
 #import "iPadSmartDayViewController.h"
 #import "PlannerViewController.h"
@@ -68,7 +71,10 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) deactivateSearchBar
 {
-    [searchBar resignFirstResponder];
+    if (searchBar != nil)
+    {
+        [searchBar resignFirstResponder];
+    }
 }
 
 - (void) showMenu:(id) sender
@@ -86,6 +92,10 @@ iPadViewController *_iPadViewCtrler;
     if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
     {
         self.navigationItem.leftBarButtonItems = nil;
+        
+        searchBar = nil;
+        timerButton = nil;
+        tagButton = nil;
     }
     else if ([self.activeViewCtrler isKindOfClass:[iPadSmartDayViewController class]])
     {
@@ -125,13 +135,13 @@ iPadViewController *_iPadViewCtrler;
         
         UIBarButtonItem *eyeButtonItem = [[UIBarButtonItem alloc] initWithCustomView:eyeButton];
         
-        UIButton *tagButton = [Common createButton:@""
+        tagButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
                                              frame:CGRectMake(0, 0, 40, 40)
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(showTag:)
-                                  normalStateImage:@"tag.png"
+                                  normalStateImage:@"bar_tag.png"
                                 selectedStateImage:nil];
         
         UIBarButtonItem *tagButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tagButton];
@@ -168,6 +178,21 @@ iPadViewController *_iPadViewCtrler;
         [searchBarItem release];
         
         self.navigationItem.leftBarButtonItems = items;
+    }
+}
+
+- (void) refreshFilterStatus
+{
+    if (tagButton != nil)
+    {
+        TaskManager *tm = [TaskManager getInstance];
+        
+        [tagButton setImage:[UIImage imageNamed:@"bar_tag.png"] forState:UIControlStateNormal];
+        
+        if (tm.filterData != nil && ![tm.filterData.tag isEqualToString:@""])
+        {
+            [tagButton setImage:[UIImage imageNamed:@"bar_tag_blue.png"] forState:UIControlStateNormal];            
+        }
     }
 }
 
@@ -227,7 +252,8 @@ iPadViewController *_iPadViewCtrler;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     
-    contentView.backgroundColor = [UIColor darkGrayColor];
+    //contentView.backgroundColor = [UIColor darkGrayColor];
+    contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern_dark.png"]];
     
     self.view = contentView;
     

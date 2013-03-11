@@ -136,6 +136,11 @@ BOOL _autoPushPending = NO;
     
 }
 
+- (void) hidePreview //to support change size in calendar view 
+{
+    [self hidePopover];
+}
+
 -(void) deselect
 {
     if (activeView != nil)

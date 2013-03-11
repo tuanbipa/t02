@@ -14,8 +14,12 @@
 #import "CalendarViewController.h"
 #import "SmartDayViewController.h"
 
+#import "AbstractSDViewController.h"
+
 //extern CalendarViewController *_sc2ViewCtrler;
-SmartDayViewController *_sdViewCtrler;
+//SmartDayViewController *_sdViewCtrler;
+
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation TaskOutlineView
 
@@ -175,7 +179,9 @@ SmartDayViewController *_sdViewCtrler;
 	}
     */
     
-    CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
+    //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
+    
+    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
     [ctrler finishResize];
 }

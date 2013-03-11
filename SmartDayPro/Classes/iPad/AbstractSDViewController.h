@@ -54,6 +54,7 @@
 - (void) refreshData;
 - (void) hideDropDownMenu;
 - (void) hidePopover;
+- (void) hidePreview;
 - (void) deselect;
 - (void) scrollToDate:(NSDate *)date;
 - (void) jumpToDate:(NSDate *)date;

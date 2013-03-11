@@ -115,6 +115,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return self;	
 }
 
+- (void) changeFrame:(CGRect)frame
+{
+    [super changeFrame:frame];
+    
+    starView.frame = CGRectMake(frame.size.width - 40, 0, 40, frame.size.height);
+}
+
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -1290,6 +1297,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) touchAndHold
 {
+    /*
     if ([_sdViewCtrler.activeViewCtrler isKindOfClass:[CalendarViewController class]])
     {
         [_sdViewCtrler hidePreview];
@@ -1298,6 +1306,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         [ctrler beginResize:self];
     }
+    */
+    if (self.task.listSource == SOURCE_CALENDAR) //only allow resize in Calendar View
+    {
+        [_abstractViewCtrler hidePreview];
+        
+        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        
+        [ctrler beginResize:self];
+    }
+    
 }
 
 -(BOOL) checkMovable:(NSSet *)touches

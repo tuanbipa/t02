@@ -31,6 +31,7 @@ extern BOOL _isiPad;
         // Initialization code.
         
 		self.backgroundColor = [UIColor lightGrayColor];
+        //self.backgroundColor = [UIColor colorWithRed:100.0/255 green:104.0/255 blue:124.0/255 alpha:1];
         
         UIButton *zoomButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
