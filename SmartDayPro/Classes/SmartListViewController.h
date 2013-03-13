@@ -61,7 +61,7 @@
 	
     UIButton *doneButton;
 	UIView *editBarPlaceHolder;
-    UIToolbar *editToolbar;
+    //UIToolbar *editToolbar;
     UIView *quickAddEditBarView;
     UIBarButtonItem *saveAndMoreItem;
 	

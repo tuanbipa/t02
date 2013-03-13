@@ -14,7 +14,7 @@
 {
     UIButton *projectShowDoneButton;
     
-    UIButton *taskMultiEditButton;
+    //UIButton *taskMultiEditButton;
 }
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;

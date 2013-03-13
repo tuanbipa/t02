@@ -1880,6 +1880,12 @@ extern BOOL _gtdoTabHintShown;
         
         [ctrler multiEdit:YES];
     }
+    else if ([self.activeViewCtrler isKindOfClass:[NoteViewController class]])
+    {
+        NoteViewController *ctrler = (NoteViewController *) self.activeViewCtrler;
+        
+        [ctrler multiEdit:YES];
+    }
 }
 
 - (void) showToday:(id)sender
@@ -2897,11 +2903,11 @@ extern BOOL _gtdoTabHintShown;
         }
             break;
         case 1:
+        case 2:
         {
             [self createTasksMenuView];
             break;
         }
-        case 2:
         case 3:
         {
             [self createCommonMenuView];

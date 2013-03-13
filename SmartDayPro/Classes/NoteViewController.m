@@ -297,6 +297,91 @@ extern AbstractSDViewController *_abstractViewCtrler;
     tapCount = 0;
 }
 
+#pragma mark Multi Edit
+- (void) multiEdit:(BOOL)enabled
+{
+    Settings *settings = [Settings getInstance];
+    
+    for (int i=0; i<self.noteList.count; i++)
+    {
+        UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        
+        TaskView *taskView = (TaskView *) [cell.contentView viewWithTag:10000];
+        [taskView multiSelect:enabled];
+    }
+    
+    editBarPlaceHolder.hidden = !enabled;
+    
+    CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
+    
+    listTableView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
+}
+
+- (void) cancelMultiEdit:(id) sender
+{
+    [self multiEdit:NO];
+}
+
+- (void) multiDelete:(id)sender
+{
+	if ([[Settings getInstance] deleteWarning])
+	{
+		NSString *msg = _itemDeleteText;
+		NSInteger tag = -10000;
+		
+		UIAlertView *taskDeleteAlertView = [[UIAlertView alloc] initWithTitle:_itemDeleteTitle  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
+		
+		taskDeleteAlertView.tag = tag;
+		
+		[taskDeleteAlertView addButtonWithTitle:_okText];
+		[taskDeleteAlertView show];
+		[taskDeleteAlertView release];
+	}
+	else
+	{
+		[self doMultiDeleteTask];
+	}
+}
+
+- (void) doMultiDeleteTask
+{
+    NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
+    
+    for (int i=0; i<self.noteList.count; i++)
+    {
+        UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        
+        TaskView *taskView = (TaskView *) [cell.contentView viewWithTag:10000];
+        
+        if ([taskView isMultiSelected])
+        {
+            [taskList addObject:taskView.task];
+        }
+    }
+    
+    if (taskList.count > 0)
+    {
+        [[TaskManager getInstance] deleteTasks:taskList];
+        
+        for (Task *note in taskList)
+        {
+            [self.noteList removeObject:note];
+        }
+    }
+    
+    [self multiEdit:NO];
+    
+    [listTableView reloadData];
+}
+
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertVw.tag == -10000 && buttonIndex == 1)
+	{
+        [self doMultiDeleteTask];
+	}
+}
+
 #pragma mark Views
 
 - (void) changeFrame:(CGRect)frm
@@ -305,7 +390,68 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     contentView.frame = frm;
     
+    CGRect rec = editBarPlaceHolder.frame;
+    
+    rec.size.width = frm.size.width;
+    
+    editBarPlaceHolder.frame = rec;
+    
+    UIToolbar *editToolbar = (UIToolbar *)[editBarPlaceHolder viewWithTag:10000];
+    editToolbar.frame = editBarPlaceHolder.bounds;
+    
     listTableView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
+}
+
+-(void) createEditBar
+{
+	editBarPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, 40)];
+	editBarPlaceHolder.backgroundColor = [UIColor clearColor];
+	editBarPlaceHolder.hidden = YES;
+	
+	[contentView addSubview:editBarPlaceHolder];
+	[editBarPlaceHolder release];
+	
+	UIToolbar *editToolbar = [[UIToolbar alloc] initWithFrame:editBarPlaceHolder.bounds];
+	editToolbar.barStyle = UIBarStyleBlack;
+    editToolbar.tag = 10000;
+	
+	[editBarPlaceHolder addSubview:editToolbar];
+	[editToolbar release];
+    
+	UIButton *cancelButton = [Common createButton:_cancelText
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(0, 5, 80, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(cancelMultiEdit:)
+                                 normalStateImage:@"hide_btn.png"
+                               selectedStateImage:nil];
+	
+	UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+		
+	UIButton *deleteButton = [Common createButton:_deleteText
+									   buttonType:UIButtonTypeCustom
+											frame:CGRectMake(0, 5, 80, 30)
+									   titleColor:[UIColor whiteColor]
+										   target:self
+										 selector:@selector(multiDelete:)
+								 normalStateImage:@"delete_btn.png"
+							   selectedStateImage:nil];
+	
+	UIBarButtonItem *deleteButtonItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+	
+	UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc]
+								  initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+								  target:nil
+								  action:nil];
+	
+	NSArray *items = [NSArray arrayWithObjects:spaceItem, cancelButtonItem, spaceItem, deleteButtonItem, spaceItem, nil];
+	
+    [cancelButtonItem release];
+	[deleteButtonItem release];
+	[spaceItem release];
+	
+	[editToolbar setItems:items animated:NO];
 }
 
 - (void)loadView
@@ -330,7 +476,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     listTableView.dataSource = self;
     
     [contentView addSubview:listTableView];
-    [listTableView release];    
+    [listTableView release];
+    
+    [self createEditBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -398,7 +546,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     taskView.task = task;
     taskView.listStyle = YES;
     taskView.starEnable = NO;
-    taskView.checkEnable = NO;
+    taskView.checkEnable = YES;
     taskView.showSeparator = NO;
     
     [cell.contentView addSubview:taskView];

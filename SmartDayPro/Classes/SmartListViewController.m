@@ -2188,7 +2188,7 @@ SmartListViewController *_smartListViewCtrler;
 	[contentView addSubview:editBarPlaceHolder];
 	[editBarPlaceHolder release];
 	
-	editToolbar = [[UIToolbar alloc] initWithFrame:editBarPlaceHolder.bounds];
+	UIToolbar *editToolbar = [[UIToolbar alloc] initWithFrame:editBarPlaceHolder.bounds];
 	editToolbar.barStyle = UIBarStyleBlack;
 	
 	[editBarPlaceHolder addSubview:editToolbar];
@@ -2205,7 +2205,7 @@ SmartListViewController *_smartListViewCtrler;
 	
 	UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
 	
-	doneButton = [Common createButton:_doneText 
+	doneButton = [Common createButton:_doneText
 									 buttonType:UIButtonTypeCustom 
 										  frame:CGRectMake(0, 5, 80, 30)
 									 titleColor:[UIColor whiteColor]
@@ -2217,7 +2217,7 @@ SmartListViewController *_smartListViewCtrler;
 	UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithCustomView:doneButton];
 	
 	UIButton *deleteButton = [Common createButton:_deleteText 
-									   buttonType:UIButtonTypeCustom 
+									   buttonType:UIButtonTypeCustom
 											frame:CGRectMake(0, 5, 80, 30)
 									   titleColor:[UIColor whiteColor]
 										   target:self 
@@ -2232,7 +2232,7 @@ SmartListViewController *_smartListViewCtrler;
 								  target:nil
 								  action:nil];
 	
-	NSArray *items = [NSArray arrayWithObjects:cancelButtonItem, spaceItem, doneButtonItem, spaceItem, deleteButtonItem, spaceItem, nil];
+	NSArray *items = [NSArray arrayWithObjects:spaceItem, cancelButtonItem, spaceItem, doneButtonItem, spaceItem, deleteButtonItem, spaceItem, nil];
 	
     [cancelButtonItem release];
 	[doneButtonItem release];
@@ -2599,7 +2599,7 @@ SmartListViewController *_smartListViewCtrler;
     rec.size.width = frm.size.width;
     
     editBarPlaceHolder.frame = rec;
-    editToolbar.frame = editBarPlaceHolder.bounds;
+    //editToolbar.frame = editBarPlaceHolder.bounds;
     
     quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 40);
     quickAddTextField.frame = CGRectMake(10, 5, frm.size.width-50, 30);

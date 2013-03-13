@@ -678,9 +678,22 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) startMultiEdit:(id)sender
 {
-    SmartListViewController *ctrler = [self getSmartListViewController];
+    UIButton *btn = (UIButton *)sender;
     
-    [ctrler multiEdit:YES];
+    int index = btn.tag - 25000;
+    
+    if (index == 0)
+    {
+        SmartListViewController *ctrler = [self getSmartListViewController];
+        
+        [ctrler multiEdit:YES];
+    }
+    else if (index == 1)
+    {
+        NoteViewController *ctrler = [self getNoteViewController];
+        
+        [ctrler multiEdit:YES];
+    }
 }
 
 #pragma mark Filter
@@ -1238,9 +1251,9 @@ iPadViewController *_iPadViewCtrler;
         [headView addSubview:filterLabel];
         [filterLabel release];
         
-        if (i==0)
+        if (i==0 || i==1)
         {
-            taskMultiEditButton = [Common createButton:@"Edit"
+            UIButton *taskMultiEditButton = [Common createButton:@"Edit"
                                               buttonType:UIButtonTypeCustom
                                                    frame:CGRectMake(160, 10, 60, 20)
                                               titleColor:[UIColor whiteColor]
@@ -1248,6 +1261,7 @@ iPadViewController *_iPadViewCtrler;
                                                 selector:@selector(startMultiEdit:)
                                         normalStateImage:nil
                                       selectedStateImage:nil];
+            taskMultiEditButton.tag = 25000+i;
             
             [headView addSubview:taskMultiEditButton];
         }

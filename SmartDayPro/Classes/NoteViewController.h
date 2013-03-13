@@ -19,6 +19,8 @@
     //ContentView *contentView;
     ContentTableView *listTableView;
     
+    UIView *editBarPlaceHolder;
+    
     NSInteger focusIndex;
     BOOL checkFocus;
     
@@ -38,5 +40,6 @@
 //- (void) initData;
 - (void) filter:(NSInteger)type;
 - (void) loadAndShowList;
+- (void) multiEdit:(BOOL)enabled;
 
 @end
