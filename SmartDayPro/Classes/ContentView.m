@@ -11,12 +11,8 @@
 #import "Common.h"
 #import "Task.h"
 
-#import "SmartDayViewController.h"
-//#import "LandscapeViewController.h"
 #import "AbstractSDViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
-//extern LandscapeViewController *_landscapeViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation ContentView
@@ -65,7 +61,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             ////printf("selected primary key: %d\n", pk);
             
-            //if (_sdViewCtrler.task2Link != nil && _sdViewCtrler.task2Link.primaryKey != pk)
             if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
             {
                 return action == @selector(copy:) || 
@@ -93,7 +88,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             ////printf("selected primary key: %d\n", pk);
             
-            //if (_sdViewCtrler.task2Link != nil && _sdViewCtrler.task2Link.primaryKey != pk)
             if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
             {
                 return action == @selector(copy:) ||
@@ -126,12 +120,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) copyLink:(id)sender 
 {
-    /*
-    if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler copyLink];
-    }*/
-    
     if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler copyLink];
@@ -140,12 +128,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) pasteLink:(id)sender
 {
-    /*
-    if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler pasteLink];
-    }*/
-    
     if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler pasteLink];
@@ -159,19 +141,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void)copy:(id)sender {
 	////////printf("copy\n");
 
-    /*
-    if (_sdViewCtrler != nil)
-    {
-        if (self.actionType == ACTION_CATEGORY_EDIT)
-        {
-            [_sdViewCtrler copyCategory];
-        }
-        else
-        {
-            [_sdViewCtrler copyTask];
-        }
-    }*/
-    
     if (_abstractViewCtrler != nil)
     {
         if (self.actionType == ACTION_CATEGORY_EDIT)
@@ -188,19 +157,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)delete:(id)sender
 {    
-/*    if (_sdViewCtrler != nil)
-    {
-        if (self.actionType == ACTION_CATEGORY_EDIT)
-        {
-            [_sdViewCtrler deleteCategory];
-        }
-        else
-        {
-            [_sdViewCtrler deleteTask];
-        }
-    }
-*/
-    
     if (_abstractViewCtrler != nil)
     {
         if (self.actionType == ACTION_CATEGORY_EDIT)
@@ -217,7 +173,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)done:(id)sender
 {
-    [_sdViewCtrler markDoneTask];
+    [_abstractViewCtrler markDoneTask];
 }
 
 
@@ -226,13 +182,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     ////printf("content view touch end\n");
     
 	[super touchesEnded:touches withEvent:event];
-
-    /*
-    if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler deselect];
-    }
-    */
     
     if (_abstractViewCtrler != nil)
     {

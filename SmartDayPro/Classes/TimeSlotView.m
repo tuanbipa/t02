@@ -11,13 +11,10 @@
 #import "Common.h"
 #import "Settings.h"
 #import "TaskManager.h"
-//#import "LandscapeViewController.h"
 #import "CalendarViewController.h"
-#import "SmartDayViewController.h"
+#import "AbstractSDViewController.h"
 
-//extern LandscapeViewController *_landscapeViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
-extern SmartDayViewController *_sdViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -239,14 +236,9 @@ extern BOOL _is24HourFormat;
 {
 	if (gestureRecognizer.state != UIGestureRecognizerStateEnded) 
 	{
-        //if (_sdViewCtrler != nil)
-        if (_abstractViewCtrler != nil)
-        {
-            //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
-            CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-            [ctrler showQuickAdd:self.time];
-        }
-	}			
+        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        [ctrler showQuickAdd:self.time];
+	}
 }
 
 - (void)dealloc {

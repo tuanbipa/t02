@@ -11,9 +11,9 @@
 #import "NoteView.h"
 #import "LinkPreviewPane.h"
 
-#import "SmartDayViewController.h"
+#import "AbstractSDViewController.h"
 
-SmartDayViewController *_sdViewCtrler;
+AbstractSDViewController *_abstractViewCtrler;
 
 @implementation CustomTextView
 
@@ -54,12 +54,6 @@ SmartDayViewController *_sdViewCtrler;
     {
         [(NoteView *)self.superview refreshNoteBackground];
     }
-    
-    /*
-    if (self.noteBgScrollView != nil)
-    {
-        [self.noteBgScrollView setContentOffset:contentOffset];
-    }*/
 }
 
 - (void) setContentSize:(CGSize)contentSize
@@ -70,13 +64,6 @@ SmartDayViewController *_sdViewCtrler;
     {
         [(NoteView *)self.superview refreshNoteBackground];
     }    
-    
-    /*
-    if (self.noteBgScrollView != nil)
-    {
-        [self.noteBgScrollView setContentSize:contentSize];
-    }*/
-    
 }
 
 - (void) singleTouch
@@ -101,7 +88,7 @@ SmartDayViewController *_sdViewCtrler;
     
     if (noteView.note != nil)
     {
-        [_sdViewCtrler editTask:noteView.note];
+        [_abstractViewCtrler editItem:noteView.note];
     }
 }
 

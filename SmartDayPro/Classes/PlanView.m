@@ -17,12 +17,10 @@
 #import "ImageManager.h"
 #import "DBManager.h"
 
-#import "SmartDayViewController.h"
 #import "AbstractSDViewController.h"
 
 #import "CategoryViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation PlanView
@@ -90,13 +88,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) enableActions:(BOOL)enable
 {
-    /*
-    if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler enableCategoryActions:enable onView:self];
-    }
-    */
-    
     if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler enableCategoryActions:enable onView:self];
@@ -112,13 +103,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	[super doubleTouch];
 	
-    /*
-    if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler editCategory:self.project];
-    }
-    */
-    
     if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editProject:self.project inView:self];

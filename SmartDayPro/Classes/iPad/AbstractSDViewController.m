@@ -37,6 +37,9 @@
 #import "NoteViewController.h"
 #import "CategoryViewController.h"
 
+#import "NoteDetailTableViewController.h"
+#import "TaskDetailTableViewController.h"
+
 #import "SmartCalAppDelegate.h"
 
 extern BOOL _isiPad;
@@ -210,6 +213,40 @@ BOOL _autoPushPending = NO;
     
 }
 
+- (void) setNeedsDisplay
+{
+    for (int i=0; i<4; i++)
+    {
+        PageAbstractViewController *ctrler = viewCtrlers[i];
+        
+        [ctrler setNeedsDisplay];
+        
+        if ([ctrler isKindOfClass:[CalendarViewController class]])
+        {
+            CalendarViewController *calCtrler = [self getCalendarViewController];
+            [calCtrler refreshADEPane];
+        }
+    }
+    
+    if (focusView != nil)
+    {
+        [focusView setNeedsDisplay];
+    }
+}
+
+- (void) refreshView
+{
+    for (int i=0; i<4;i++)
+    {
+        UIViewController *ctrler = viewCtrlers[i];
+        
+        if ([ctrler respondsToSelector:@selector(refreshView)])
+        {
+            [ctrler refreshView];
+        }
+    }
+}
+
 - (void) resetAllData
 {
     TaskManager *tm = [TaskManager getInstance];
@@ -264,6 +301,27 @@ BOOL _autoPushPending = NO;
         frm.origin.y = miniMonthView.frame.origin.y + miniMonthView.bounds.size.height + 10;
         
         focusView.frame = frm;
+    }
+}
+
+- (void) editItem:(Task *)item
+{
+    if ([item isNote])
+    {
+        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+        ctrler.note = item;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
+    else
+    {
+        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+        
+        ctrler.task = item;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
     }
 }
 
@@ -955,11 +1013,52 @@ BOOL _autoPushPending = NO;
     [self deselect];
 }
 
+- (void) markDoneTask
+{
+    Task *task = [self getActiveTask];
+    
+    if (task != nil)
+    {
+        [task retain];
+        
+        [self deselect];
+        
+        TaskManager *tm = [TaskManager getInstance];
+        
+        NSDate *oldDeadline = [[task.deadline copy] autorelease];
+        BOOL isRT = [task isRT];
+        
+        //[tm markDoneTask:task];
+        
+        if ([task isDone])
+        {
+            [tm unDone:task];
+        }
+        else
+        {
+            [tm markDoneTask:task];
+        }
+        
+        [self.miniMonthView.calView refreshCellByDate:oldDeadline];
+        
+        CategoryViewController *ctrler = [self getCategoryViewController];
+        
+        //remove done task from list
+        [ctrler markDoneTask:task];        
+        
+        if (isRT)
+        {
+            [self.miniMonthView.calView refreshCellByDate:task.deadline];
+        }
+        
+        [task release];
+    }
+}
+
 - (void) markDoneTaskInView:(TaskView *)view
 {
-    //Task *task = (Task *)view.tag;
     Task *task = view.task;
-    
+
     [task retain];
     
     [self deselect];
@@ -979,20 +1078,6 @@ BOOL _autoPushPending = NO;
     }
     
     [self.miniMonthView.calView refreshCellByDate:oldDue];
-    
-    /*if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-    {
-        CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-        
-        //remove done task from list
-        [ctrler markDoneTask:task];
-    }
-    else if (isRT)
-    {
-        [self.miniMonthView.calView refreshCellByDate:task.deadline];
-        
-        [view setNeedsDisplay];
-    }*/
     
     CategoryViewController *ctrler = [self getCategoryViewController];
     
@@ -1141,6 +1226,13 @@ BOOL _autoPushPending = NO;
         [ctrler reconcileLinks:notification.userInfo];
         
         [ctrler setNeedsDisplay];
+    }
+    
+    if (focusView != nil)
+    {
+        [focusView reconcileLinks:notification.userInfo];
+        
+        [focusView setNeedsDisplay];
     }
 }
 

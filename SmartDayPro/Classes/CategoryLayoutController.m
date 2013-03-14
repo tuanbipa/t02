@@ -18,13 +18,7 @@
 #import "PlanView.h"
 
 #import "CategoryViewController.h"
-#import "SmartDayViewController.h"
-#import "iPadSmartDayViewController.h"
-
-//extern SmartDayViewController *_sdViewCtrler;
-//extern iPadSmartDayViewController *_iPadSDViewCtrler;
-
-//extern BOOL _isiPad;
+#import "AbstractSDViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 

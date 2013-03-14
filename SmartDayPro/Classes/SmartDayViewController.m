@@ -526,6 +526,7 @@ extern BOOL _gtdoTabHintShown;
     
 }
 
+/*
 - (void) refreshView
 {
     for (int i=0; i<TAB_NUM;i++)
@@ -554,7 +555,7 @@ extern BOOL _gtdoTabHintShown;
         }
     }
 }
-
+*/
 /*
 - (void) showBusyIndicator:(BOOL)enable
 {
@@ -1451,6 +1452,7 @@ extern BOOL _gtdoTabHintShown;
     [task release];
 }
 
+/*
 - (void) markDoneTask
 {
     Task *task = [self getActiveTask];
@@ -1478,6 +1480,7 @@ extern BOOL _gtdoTabHintShown;
         [task release];
     }
 }
+*/
 
 - (void) changeItem:(Task *)task action:(NSInteger)action
 {

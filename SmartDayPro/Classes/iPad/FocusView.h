@@ -20,5 +20,7 @@
 @property (nonatomic, retain) NSMutableArray *dueList;
 
 - (void) refreshData;
+-(void) setNeedsDisplay;
+- (void) reconcileLinks:(NSDictionary *)dict;
 
 @end

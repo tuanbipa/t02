@@ -128,8 +128,6 @@ BOOL _fromBackground = NO;
             [busyIndicatorView removeFromSuperview];
         }
 	}
-    
-    //[_focusViewCtrler showBusyIndicator:enable];
 }
 
 - (void)startup
@@ -139,19 +137,11 @@ BOOL _fromBackground = NO;
 	[TaskManager startup];
     [TimerManager startup];
 	
-	//autoSyncPending = ((settings.ekSyncEnabled && settings.ekAutoSyncEnabled) || (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) || (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)) && !openByURL;
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
     
     [self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
     
-    if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
-    }
-    else if (_iPadSDViewCtrler != nil)
-    {
-        [_iPadSDViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
-    }
+    [_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
     
 	_appDidStartup = YES;
 }
@@ -173,14 +163,14 @@ BOOL _fromBackground = NO;
     
     [TimerManager startup];
     
-	//autoSyncPending = ((settings.ekSyncEnabled && settings.ekAutoSyncEnabled) || (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) || (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)) && !openByURL;
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
     
     [self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
+
+    [_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
     
     if (_sdViewCtrler != nil)
     {
-        [_sdViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
         [_sdViewCtrler performSelector:@selector(popupHint) withObject:nil afterDelay:0];
     }
 }
@@ -188,21 +178,6 @@ BOOL _fromBackground = NO;
 - (void) autoSync
 {
     Settings *settings = [Settings getInstance];
-    
-    /*
-    if (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled)
-    {
-        [[SDWSync getInstance] initBackgroundAuto2WaySync];
-    }
-    else if (settings.ekSyncEnabled && settings.ekAutoSyncEnabled)
-    {
-        [[EKSync getInstance] initBackgroundAuto2WaySync];
-    }
-    else if (settings.tdSyncEnabled && settings.tdAutoSyncEnabled)
-    {
-        [[TDSync getInstance] initBackgroundAuto2WaySync];
-    }
-    */
     
     if (settings.autoSyncEnabled)
     {
@@ -220,7 +195,7 @@ BOOL _fromBackground = NO;
         }
     }
     
-    [_sdViewCtrler deselect];
+    [_abstractViewCtrler deselect];
 }
 
 - (void) confirmAutoSync
@@ -374,8 +349,6 @@ BOOL _fromBackground = NO;
 	if ([device respondsToSelector:@selector(isMultitaskingSupported)])
 		backgroundSupported = device.multitaskingSupported;
 	
-	//[self showProgress:_loadingText];
-	
 	[self performSelector:@selector(startup) withObject:nil afterDelay:0];
 	
 	//////NSLog(@"did finish lauching");
@@ -401,8 +374,6 @@ BOOL _fromBackground = NO;
 {
 	//////printf("applicationDidBecomeActive ...");
 		
-	//[self showProgress:_loadingText];
-	
 	callReceived = NO;
 	
 	_is24HourFormat = [self check24HourFormat];
@@ -416,20 +387,10 @@ BOOL _fromBackground = NO;
         
 		_fromBackground = NO;
 		
-		//[self showProgress:_loadingText];
-		
-		//tabBarController.view.userInteractionEnabled = NO;
-        
 		[self performSelector:@selector(recover) withObject:nil afterDelay:0];
 
 	}
     
-    //FocusViewController *ctrler = [[FocusViewController alloc] init];
-    
-    //[_tabBarCtrler presentModalViewController:ctrler withPushDirection:kCATransitionFromBottom];
-    
-    //[ctrler release];
-	
 	//////NSLog(@"did become active");
 	
 }
@@ -441,13 +402,6 @@ BOOL _fromBackground = NO;
 - (void) purge
 {
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	
-	/*
-	if ([[Settings getInstance] ekAutoSyncEnabled])
-	{
-		[[EKSync getInstance] initSync:SYNC_AUTO_1WAY];
-	}
-	*/
 	
 	DBManager *dbm = [DBManager getInstance];
 
@@ -475,7 +429,7 @@ BOOL _fromBackground = NO;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [_sdViewCtrler deselect];
+    [_abstractViewCtrler deselect];
     
 	[[TagDictionary getInstance] saveDict];
 	
@@ -548,18 +502,6 @@ BOOL _fromBackground = NO;
     
     [busyIndicatorView release];
     
-    /*
-    if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler release];
-    }
-    
-    if (_iPadSDViewCtrler != nil)
-    {
-        [_iPadSDViewCtrler release];
-    }
-    */
-    
     if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler release];
@@ -567,7 +509,6 @@ BOOL _fromBackground = NO;
     
     [navController release];
     
-    //[window release];
     self.window = nil;
     
     [super dealloc];

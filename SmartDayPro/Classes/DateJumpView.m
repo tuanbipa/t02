@@ -13,14 +13,7 @@
 
 #import "MiniMonthView.h"
 
-//#import "LandscapeViewController.h"
-//#import "CalendarViewController.h"
 #import "SmartDayViewController.h"
-
-//extern LandscapeViewController *_landscapeViewCtrler;
-//extern CalendarViewController *_sc2ViewCtrler;
-
-//extern SmartDayViewController *_sdViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
 

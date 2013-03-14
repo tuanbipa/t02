@@ -28,16 +28,10 @@
 
 #import "SmartListViewController.h"
 #import "CalendarViewController.h"
-//#import "CheckListViewController.h"
-//#import "SmartDayPageViewController.h"
-//#import "ListAbstractViewController.h"
 #import "SmartDayViewController.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
-//extern CheckListViewController *_checkListViewCtrler;
-//extern SmartDayPageViewController *_smartDayViewCtrler;
-extern SmartDayViewController *_sdViewCtrler;
 
 extern BOOL _rtDoneHintShown;
 
@@ -3251,23 +3245,6 @@ TaskManager *_sctmSingleton = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
         }        
     }    
-    
-    /*
-    if (_smartDayViewCtrler != nil)
-    {
-        ListAbstractViewController *ctrler = [_smartDayViewCtrler getActiveListViewController];
-        
-        [ctrler changeTask:task action:TASK_UPDATE oldStart:taskEdit.startTime oldDue:taskEdit.deadline];
-    }
-    */
-
-    /*
-    if (!reSchedule)
-    {
-        [[_sdViewCtrler getCalendarViewController] refreshTaskView4Key:taskEdit.primaryKey];
-        [[_sdViewCtrler getSmartListViewController] refreshTaskView4Key:taskEdit.primaryKey];
-    }
-	*/
     
     [slTask release];
     

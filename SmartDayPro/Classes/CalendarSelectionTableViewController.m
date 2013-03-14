@@ -25,13 +25,11 @@
 
 #import "SmartListViewController.h"
 #import "CalendarViewController.h"
-#import "SmartDayViewController.h"
 #import "CategoryViewController.h"
 
 #import "iPadSmartDayViewController.h"
 #import "AbstractSDViewController.h"
 
-//extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
@@ -303,7 +301,6 @@ extern BOOL _isiPad;
     
 	if (visibilityChange)
 	{
-        //[_sdViewCtrler resetAllData];
         [_abstractViewCtrler resetAllData];
 	}
 		
@@ -377,12 +374,6 @@ extern BOOL _isiPad;
 	cell.accessoryType = ([flag intValue] == 1?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
 	cell.backgroundColor = ([flag intValue] == 1?[UIColor whiteColor]:[UIColor lightGrayColor]);
 	
-	//cell.text = (self.keyEdit == TASK_MAPPING_EDIT?[[calList objectAtIndex:indexPath.row] name]:[[calList objectAtIndex:indexPath.row] title]);
-
-	//cell.text = [[calList objectAtIndex:indexPath.row] name];
-	
-	//cell.textColor = [Colors steelBlue];
-
 	Project *prj = [self.calList objectAtIndex:indexPath.row];
     
     BOOL isDefault = [prj checkDefault];

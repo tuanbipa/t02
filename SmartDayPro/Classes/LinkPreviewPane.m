@@ -471,7 +471,7 @@ SmartDayViewController *_sdViewCtrler;
     
     Task *item = [self.linkList objectAtIndex:tapRow];
     
-    [_sdViewCtrler editTask:item];
+    [_sdViewCtrler editItem:item];
 }
 
 /*

@@ -22,9 +22,7 @@
 #import "TaskView.h"
 #import "ScheduleView.h"
 
-#import "SmartDayViewController.h"
-
-//extern SmartDayViewController *_sdViewCtrler;
+#import "AbstractSDViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -42,20 +40,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 #pragma mark Support Methods
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task
 {
-    //Task *task =  ((TaskView *)self.activeMovableView).task;
-    
     TaskManager *tm = [TaskManager getInstance];
     
     [tm convertRE2Task:task option:option];
     
-    //[_sdViewCtrler.miniMonthView refresh];
     [_abstractViewCtrler.miniMonthView refresh];
 }
 
 - (void) convert2Task:(Task *)task
 {
-    //Task *task =  ((TaskView *)self.activeMovableView).task;
-    
     NSDate *sDate = [[task.startTime copy] autorelease];
     
     Task *taskCopy = [[task copy] autorelease];
@@ -75,17 +68,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (isRE)
     {
-        //[_sdViewCtrler.miniMonthView refresh];
         [_abstractViewCtrler.miniMonthView refresh];
     } 
     else 
     {
-        //[_sdViewCtrler.miniMonthView.calView refreshCellByDate:sDate];
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:sDate];
         
         if (task.deadline != nil)
         {
-            //[_sdViewCtrler.miniMonthView.calView refreshCellByDate:task.deadline];
             [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:task.deadline];
         }
     }
@@ -95,22 +85,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [super endMove:self.activeMovableView];
     
-    //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
     [ctrler.todayScheduleView unhighlight];
-    
-    //[self enableScroll:YES container:ctrler.calendarView];
 }
 
 - (void) changeTime:(Task *)task time:(NSDate *)time
 {
-    //Task *task =  ((TaskView *)self.activeMovableView).task;
-    
-    //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-    
-    //NSDate *timeslot = [ctrler.todayScheduleView getTimeSlot];
     
     TaskManager *tm = [TaskManager getInstance];
     
@@ -121,26 +103,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if ([task isRE])
     {
-        //[_sdViewCtrler.miniMonthView refresh];
         [_abstractViewCtrler.miniMonthView refresh];
     }
     else
     {
         if (sDate != nil)
         {
-            //[_sdViewCtrler.miniMonthView.calView refreshCellByDate:sDate];
             [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:sDate];
             [sDate release];
         }
         
         if (dDate != nil)
         {
-            //[_sdViewCtrler.miniMonthView.calView refreshCellByDate:dDate];
             [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:dDate];
             [dDate release];
         }
         
-        //[_sdViewCtrler.miniMonthView.calView refreshCellByDate:task.startTime];
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:task.startTime];
     }
     
@@ -188,7 +166,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 #pragma mark MovableController Interface Customization
 - (BOOL)canSeparate
 {
-	//return [(Task *)self.activeMovableView.tag type] == TYPE_TASK;
     return [((TaskView *)self.activeMovableView).task type] == TYPE_TASK;
 }
 
@@ -196,7 +173,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [super move:touches withEvent:event];
     
-    //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
     [ctrler.todayScheduleView highlight:self.activeMovableView.frame];
@@ -204,7 +180,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(void) endMove:(MovableView *)view
 {
-    //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
     self.activeMovableView = view;

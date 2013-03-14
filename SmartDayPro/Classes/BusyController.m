@@ -8,15 +8,9 @@
 
 #import "BusyController.h"
 
-//#import "SCTabBarController.h"
-//extern SCTabBarController *_tabBarCtrler;
-
 #import "Common.h"
 
 #import "SmartCalAppDelegate.h"
-#import "SmartDayViewController.h"
-
-extern SmartDayViewController *_sdViewCtrler;
 
 extern SmartCalAppDelegate *_appDelegate;
 

@@ -19,12 +19,10 @@
 #import "MovableView.h"
 #import "PlanView.h"
 #import "TaskView.h"
-//#import "ContentTableView.h"
 #import "ContentScrollView.h"
-#import "SmartDayViewController.h"
 #import "CategoryViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
+#import "AbstractSDViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -33,30 +31,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 @end
 
 @implementation CategoryMovableController
-
-/*
--(void) enableScroll:(BOOL)enable container:(UIView *)container
-{
-    CategoryViewController *ctrler = [_sdViewCtrler getCategoryViewController];
-    
-    //ctrler.listTableView.scrollEnabled = enable;
-    ctrler.listView.scrollEnabled = enable;
-}
-
--(void)scroll:(NSSet *)touches container:(UIView *)container
-{
-    CategoryViewController *ctrler = [_sdViewCtrler getCategoryViewController];
-    
-    CGPoint location = [[touches anyObject] locationInView:ctrler.listTableView];
-    
-    CGFloat y = ctrler.listTableView.contentOffset.y;
-    
-    if (y + location.y < ctrler.listTableView.contentSize.height - 80)
-    {
-        [super scroll:touches container:ctrler.listTableView];
-    }
-}
-*/
 
 -(void) beginMove:(MovableView *)view
 {
@@ -85,7 +59,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
                 
                 onView = nil;
             }
-            //else if ([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[PlanView class]] && (((TaskView *)self.activeMovableView).task).project != ((Project *)checkView.tag).primaryKey)
             else if ([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[PlanView class]] && (((TaskView *)self.activeMovableView).task).project != ((PlanView *)checkView).project.primaryKey)
             {
                 onView = checkView;
@@ -133,15 +106,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         if (onMovableView != nil && [onMovableView isKindOfClass:[PlanView class]])
         {
-            //[tm changeTask:((TaskView *)self.activeMovableView).task toProject:((Project *)onMovableView.tag).primaryKey];
             [tm changeTask:((TaskView *)self.activeMovableView).task toProject:((PlanView *)onMovableView).project.primaryKey];
             
             refresh = YES;
         }
         else if (rightMovableView != nil)
         {
-            //Task *srcTask = (Task *)self.activeMovableView.tag;
-            //Task *destTask = (Task *)rightMovableView.tag;
             Task *srcTask = ((TaskView *)self.activeMovableView).task;
             Task *destTask = ((TaskView *)rightMovableView).task;
             
@@ -175,8 +145,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         if (rightMovableView != nil && [rightMovableView isKindOfClass:[PlanView class]])
         {
-			//Project *plan1 = (Project *) self.activeMovableView.tag;
-			//Project *plan2 = (Project *) rightMovableView.tag;
 			Project *plan1 = ((PlanView *) self.activeMovableView).project;
 			Project *plan2 = ((PlanView *) rightMovableView).project;
             
@@ -190,10 +158,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (refresh)
     {
-        //CategoryViewController *ctrler = [_sdViewCtrler getCategoryViewController];
-        
-        //[ctrler loadAndShowList];
-
         CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
         [ctrler loadAndShowList];
     }

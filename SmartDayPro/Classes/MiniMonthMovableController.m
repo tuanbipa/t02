@@ -371,8 +371,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (moveInMM)
     {
-        //[super endMove:self.activeMovableView];
-        
         [_abstractViewCtrler.miniMonthView jumpToDate:(visitDate != nil?visitDate:calDate)];
         
         if (visitDate != nil)
@@ -391,7 +389,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             taskCopy.listSource = SOURCE_CATEGORY;
             
-            [_sdViewCtrler editTask:taskCopy];
+            [_abstractViewCtrler editItem:taskCopy];
         }
         else
         {

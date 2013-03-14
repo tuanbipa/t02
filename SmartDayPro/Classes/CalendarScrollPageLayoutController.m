@@ -21,10 +21,8 @@
 #import "TaskManager.h"
 #import "ProjectManager.h"
 
-#import "SmartDayViewController.h"
 #import "CalendarViewController.h"
-
-extern SmartDayViewController *_sdViewCtrler;
+#import "AbstractSDViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -43,7 +41,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) scrollPage:(NSInteger)page
 {
-    //if ([_sdViewCtrler.activeViewCtrler isKindOfClass:[CalendarViewController class]] && page != 1)
     if (page != 1)
     {
         //scroll in Calendar view
@@ -52,7 +49,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         NSDate *dt = [Common dateByAddNumDay:(page==0?-1:1) toDate:tm.today];
         
-        //[_sdViewCtrler scrollToDate:dt];
         [_abstractViewCtrler scrollToDate:dt];
     }
     
@@ -121,8 +117,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
     if (objectLists[page] != nil)
     {
-        //[tm garbage:objectLists[page]];
-        
         [objectLists[page] release];
     }
     
@@ -142,9 +136,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return ret;
 }
 */
+
 - (void) initContentOffset
 {
-	//[[_sdViewCtrler getCalendarViewController] focusNow];
 }
 
 - (void) layout
@@ -157,25 +151,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	[super beginLayout];
     
-    /*
-	for (int i=0; i<48; i++)
-	{
-		slotObjects[i] = [[NSMutableArray alloc] initWithCapacity:3];
-	}
-    */
-    
     self.overlapDict = [NSMutableDictionary dictionaryWithCapacity:5];
 }
 
 - (void) endLayout
 {
 	[super endLayout];
-    
-    /*
-    for (int i=0; i<48; i++)
-    {
-        [slotObjects[i] release];
-    }*/
     
     self.overlapDict = nil;
 }
@@ -191,11 +172,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (UIView *) layoutObject:(NSObject *)obj forPage:(NSInteger)page
 {
     Task *task = (Task *)obj;
-    
-	TaskManager *tm = [TaskManager getInstance];
-	
-	//NSDate *date = tm.today;
-    
+        
     NSDate *startTime = [task isTask]?task.smartTime:task.startTime;
 	
 	CGSize timePaneSize = [TimeSlotView calculateTimePaneSize];
@@ -247,12 +224,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [taskView changeFrame:frm];
 	}
     
-    //task.listSource = SOURCE_SMARTLIST;
     task.listSource = SOURCE_CALENDAR;
     task.isSplitted = NO;
     
     taskView.alpha = 1;
-	//taskView.tag = task;
     taskView.task = task;
     [taskView enableMove:![task checkMustDo]];
     taskView.checkEnable = NO;
@@ -261,10 +236,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	if (task.type == TYPE_EVENT)
 	{
-		//BOOL overlapping = (slotObjects[slotIdx].count > 0);
-		
-		//[slotObjects[slotIdx] addObject:taskView];
-
         NSMutableArray *list = [self.overlapDict objectForKey:[NSNumber numberWithInt:slotIdx]];
 
         BOOL overlapping = (list != nil && list.count > 0);
@@ -280,7 +251,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         		
 		if (overlapping)
 		{
-			//NSInteger count = slotObjects[slotIdx].count;
             NSInteger count = list.count;
 			NSInteger space = 2;
 			
@@ -288,7 +258,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			
 			for (int i=0; i<count; i++)
 			{
-				//TaskView *view = [slotObjects[slotIdx] objectAtIndex:i];
                 TaskView *view = [list objectAtIndex:i];
 				
 				CGRect rect = view.frame;
@@ -320,7 +289,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         {
             TaskView *tskView = (TaskView *)view;
             
-            //Task *task = (Task *)tskView.tag;
             Task *task = tskView.task;
             
             if ([task isEvent])
@@ -352,8 +320,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	if (lastViewParam != nil)
 	{
-		//Task *lastTask = (Task *)lastViewParam.tag;
-		//Task *task = (Task *)view.tag;
 		Task *lastTask = lastViewParam.task;
 		Task *task = view.task;
 		

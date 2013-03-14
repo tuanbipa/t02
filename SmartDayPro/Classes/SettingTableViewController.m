@@ -48,8 +48,6 @@
 
 #import "SmartCalAppDelegate.h"
 
-//#import "SCTabBarController.h"
-
 #import "CalendarViewController.h"
 #import "NumberInputViewController.h"
 
@@ -57,13 +55,10 @@
 #import "iOSCalSyncViewController.h"
 #import "DataRecoveryViewController.h"
 
-#import "SmartDayViewController.h"
 #import "AbstractSDViewController.h"
 
-//extern SCTabBarController *_tabBarCtrler;
 extern BOOL _scFreeVersion;
 
-extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation SettingTableViewController
@@ -985,7 +980,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [[DBManager getInstance] deleteSuspectedDuplication];
     
-    [_sdViewCtrler resetAllData];
+    [_abstractViewCtrler resetAllData];
     
     BOOL syncEnabled = self.settingCopy.syncEnabled && (self.settingCopy.ekSyncEnabled || self.settingCopy.tdSyncEnabled || self.settingCopy.sdwSyncEnabled);
     

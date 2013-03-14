@@ -13,6 +13,7 @@
 #import "Task.h"
 
 #import "TaskManager.h"
+#import "TaskLinkManager.h"
 
 #import "TaskView.h"
 
@@ -35,8 +36,9 @@ AbstractSDViewController *_abstractViewCtrler;
         // Initialization code
         
         self.layer.borderWidth = 1;
-        //self.layer.borderColor = [[UIColor grayColor] CGColor];
+
         self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
+        //self.backgroundColor = [UIColor colorWithRed:100.0/255 green:108.0/255 blue:127.0/255 alpha:1];
         
         CGRect frm = self.bounds;
         
@@ -44,7 +46,7 @@ AbstractSDViewController *_abstractViewCtrler;
         
         titleLabel = [[UILabel alloc] initWithFrame:frm];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textColor = [UIColor grayColor];
+        titleLabel.textColor = [UIColor darkGrayColor];
         titleLabel.font = [UIFont systemFontOfSize:20];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         
@@ -60,6 +62,7 @@ AbstractSDViewController *_abstractViewCtrler;
                                            selector:@selector(zoom:)
                                    normalStateImage:nil
                                  selectedStateImage:nil];
+        zoomButton.selected = YES;
         
         [self addSubview:zoomButton];
         
@@ -212,6 +215,55 @@ AbstractSDViewController *_abstractViewCtrler;
     }
     
     [self refreshView];
+}
+
+-(void)setNeedsDisplay
+{
+	for (UIView *view in contentView.subviews)
+	{
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            [view refresh];
+        }
+	}
+}
+
+- (void) reconcileLinks:(NSDictionary *)dict
+{
+    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    
+    int sourceId = [[dict objectForKey:@"LinkSourceID"] intValue];
+    int destId = [[dict objectForKey:@"LinkDestID"] intValue];
+    
+    for (Task *task in self.adeList)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == sourceId)
+            {
+                task.links = [tlm getLinkIds4Task:sourceId];
+            }
+            else if (task.primaryKey == destId)
+            {
+                task.links = [tlm getLinkIds4Task:destId];
+            }
+        }
+    }
+    
+    for (Task *task in self.dueList)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == sourceId)
+            {
+                task.links = [tlm getLinkIds4Task:sourceId];
+            }
+            else if (task.primaryKey == destId)
+            {
+                task.links = [tlm getLinkIds4Task:destId];
+            }
+        }
+    }
 }
 
 - (void) zoom:(id)sender

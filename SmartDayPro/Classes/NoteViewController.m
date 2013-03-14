@@ -25,8 +25,6 @@
 #import "SmartDayViewController.h"
 #import "AbstractSDViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
-
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @interface NoteViewController ()
@@ -155,13 +153,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) reconcileLinkCopy
 {
-    if (_sdViewCtrler.task2Link != nil && _sdViewCtrler.task2Link.listSource == SOURCE_NOTE)
+    if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.listSource == SOURCE_NOTE)
     {
         for (Task *task in self.noteList)
         {
-            if (_sdViewCtrler.task2Link.primaryKey == task.primaryKey)
+            if (_abstractViewCtrler.task2Link.primaryKey == task.primaryKey)
             {
-                _sdViewCtrler.task2Link = task;
+                _abstractViewCtrler.task2Link = task;
                 
                 break;
             }
@@ -183,7 +181,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
     ctrler.note = task;
     
-    [_sdViewCtrler.navigationController pushViewController:ctrler animated:YES];
+    [_abstractViewCtrler.navigationController pushViewController:ctrler animated:YES];
+    
     [ctrler release];
 }
 
@@ -609,33 +608,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    //Task *task = [self.noteList objectAtIndex:indexPath.row];
-    //[self editNote:task];
-/*
-    tapCount++;
-    tapRow = indexPath.row;
-    
-    switch (tapCount) 
-    {
-        case 1: //single tap
-            [self performSelector:@selector(singleTap) withObject:nil afterDelay: .4];
-            break;
-        case 2: //double tap
-        {
-            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTap) object:nil];
-            
-            [self performSelector:@selector(doubleTap) withObject: nil];
-        }
-            break;
-        default:
-            break;
-    }    
-*/
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [_sdViewCtrler deselect];
+    [_abstractViewCtrler deselect];
 }
 
 #pragma mark Notification

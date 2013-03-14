@@ -123,7 +123,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
         Task *task = [lists[tapSection] objectAtIndex:tapRow];
         
-        [_iPadSDViewCtrler editItem:task];
+        [_iPadSDViewCtrler editItem:task inRect:CGRectMake(600, 0, 20, 10)];
     }
 }
 

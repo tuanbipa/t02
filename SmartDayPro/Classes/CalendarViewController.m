@@ -57,7 +57,6 @@
 #import "NoteDetailTableViewController.h"
 
 #import "SmartCalAppDelegate.h"
-#import "SmartDayViewController.h"
 #import "iPadSmartDayViewController.h"
 
 NSInteger _recoverCount = 1;
@@ -75,7 +74,6 @@ extern BOOL _scFreeVersion;
 extern BOOL _isiPad;
 
 extern SmartCalAppDelegate *_appDelegate;
-extern SmartDayViewController *_sdViewCtrler;
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -923,7 +921,6 @@ CalendarViewController *_sc2ViewCtrler;
 
 -(void)showQuickAdd_old:(NSDate *)timeSlot
 {
-    //MiniMonthView *mm = _sdViewCtrler.miniMonthView;
     MiniMonthView *mm = _abstractViewCtrler.miniMonthView;
     
     if ([mm.headerView getMWMode] == 0 && !_isiPad) //im month mode
@@ -1001,12 +998,9 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	[event release];
 	
-	//[self.weekPlannerView.calView refreshCellByDate:startTime];
-    [_sdViewCtrler.miniMonthView.calView refreshCellByDate:startTime];
+    [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:startTime];
 	
 	[self refreshLayout];	
-	
-	//[calendarLayoutController setContentOffsetForTime:startTime];
 }
 
 #pragma mark Hint 

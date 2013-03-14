@@ -156,6 +156,34 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+- (void) editItem:(Task *)item
+{
+    if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SDNavigationController class]])
+    {
+        if ([item isNote])
+        {
+            NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+            ctrler.note = item;
+            
+            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
+        else
+        {
+            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+            
+            ctrler.task = item;
+            
+            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
+    }
+    else
+    {
+        [super editItem:item];
+    }
+}
+
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
     UIViewController *editCtrler = nil;
@@ -529,7 +557,7 @@ iPadViewController *_iPadViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
-- (void) editItem:(Task *)task
+- (void) editItem:(Task *)task inRect:(CGRect)inRect
 {
     [self.popoverCtrler dismissPopoverAnimated:NO];
     
@@ -557,9 +585,9 @@ iPadViewController *_iPadViewCtrler;
 	
 	[navController release];
     
-    CGRect frm = CGRectMake(600, 0, 20, 10);
+    //CGRect frm = CGRectMake(600, 0, 20, 10);
     
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 #pragma mark Actions

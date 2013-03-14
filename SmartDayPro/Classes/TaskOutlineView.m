@@ -16,9 +16,6 @@
 
 #import "AbstractSDViewController.h"
 
-//extern CalendarViewController *_sc2ViewCtrler;
-//SmartDayViewController *_sdViewCtrler;
-
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation TaskOutlineView
@@ -173,14 +170,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {	
-	/*if (_sc2ViewCtrler != nil)
-	{
-		[_sc2ViewCtrler finishResize];
-	}
-    */
-    
-    //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
-    
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
     [ctrler finishResize];

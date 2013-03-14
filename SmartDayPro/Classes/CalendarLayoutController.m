@@ -18,10 +18,7 @@
 #import "TaskProgress.h"
 #import "TaskLinkView.h"
 
-#import "SmartDayViewController.h"
 #import "CalendarViewController.h"
-
-extern SmartDayViewController *_sdViewCtrler;
 
 @implementation CalendarLayoutController
 
@@ -294,11 +291,6 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) initContentOffset
 {
-    //TaskManager *tm = [TaskManager getInstance];
-    
-	//[self setContentOffsetForTime:tm.today];
-    
-    //[[_sdViewCtrler getCalendarViewController] focusNow];
 }
 
 - (void) refreshTransparentEvents

@@ -23,8 +23,6 @@
 #import "SmartDayViewController.h"
 #import "CalendarViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
-
 extern AbstractSDViewController *_abstractViewCtrler;
 
 extern BOOL _isiPad;
@@ -208,24 +206,13 @@ extern BOOL _isiPad;
 
 - (void) initCalendar:(NSDate *)date
 {
-    [_sdViewCtrler deselect];
+    [_abstractViewCtrler deselect];
     
     TaskManager *tm = [TaskManager getInstance];
     
-    //[tm initCalendarData:date];
-	
     NSInteger mode = [headerView getMWMode];
     
     NSDate *dt = (mode==1?date:[Common getFirstMonthDate:date]);
-    
-    /*
-    if ([Common getMonth:dt] != [Common getMonth:date])
-    {
-        NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:date]);
-        
-        [self.calView changeWeekPlanner:7 weeks:weeks];
-    }
-    */
     
     if (mode == 0)
     {
@@ -237,11 +224,6 @@ extern BOOL _isiPad;
     [self.calView initCalendar:dt];
     
     [self.calView highlightCellOnDate:tm.today];
-    
-    /*if ([Common daysBetween:dt sinceDate:date] != 0)
-    {
-        [self.calView highlightCellOnDate:date];
-    }*/
 	
 	[headerView setNeedsDisplay];
 }
@@ -334,18 +316,7 @@ extern BOOL _isiPad;
 
 - (void) jumpToDate:(NSDate *)date
 {
-    //[_sdViewCtrler deselect];
-    /*
-    [_abstractViewCtrler deselect];
-    
-	TaskManager *tm = [TaskManager getInstance];
-
-    [tm initCalendarData:date];
-    */
-    
     [_abstractViewCtrler jumpToDate:date];
-	
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
 }
 
 - (void) switchView:(NSInteger)mode
@@ -360,7 +331,7 @@ extern BOOL _isiPad;
     
     [self initCalendar:calDate];
     
-    [[_sdViewCtrler getCalendarViewController] focusNow];
+    [[_abstractViewCtrler getCalendarViewController] focusNow];
 }
 
 - (void) shiftTime:(NSInteger)mode

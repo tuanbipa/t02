@@ -25,10 +25,15 @@
     BOOL hasNote;
     
     NoteView *noteView;
+    
+    BOOL noteLinkCreated;
+    BOOL noteChange; //track change when user checks in Note content or modify Note content to sync with mSD
 }
 
 @property (nonatomic, retain) Task *item;
 
 @property (nonatomic, retain) NSMutableArray *linkList;
+
+- (void) markNoteChange;
 
 @end

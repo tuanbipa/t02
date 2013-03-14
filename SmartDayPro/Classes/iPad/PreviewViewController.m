@@ -27,6 +27,8 @@
 
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
+PreviewViewController *_previewCtrler;
+
 @interface PreviewViewController ()
 
 @end
@@ -56,6 +58,9 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
         hasNote = NO;
         
+        noteChange = NO;
+        noteLinkCreated = NO;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteFinishEdit:)
 													 name:@"NoteFinishEditNotification" object:nil];
@@ -79,6 +84,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     [super dealloc];
 }
 
+/*
 - (void) editTask:(Task *)task
 {
     if ([task isNote])
@@ -99,6 +105,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         [ctrler release];
     }
 }
+*/
 
 - (void) singleTap
 {
@@ -134,6 +141,11 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     }
 }
 
+- (void) markNoteChange
+{
+    noteChange = YES;
+}
+
 - (void) doubleTap
 {
     tapCount = 0;
@@ -147,7 +159,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     {
         Task *item = [self.linkList objectAtIndex:tapRow];
     
-        [self editTask:item];
+        //[self editTask:item];
+        [_iPadSDViewCtrler editItem:item];
     }
 }
 
@@ -182,6 +195,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     noteView.note = note;
     
     [note release];
+    
+    noteLinkCreated = YES;
 }
 
 #pragma mark Notification
@@ -201,6 +216,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         DBManager *dbm = [DBManager getInstance];
         
         [noteView.note updateIntoDB:[dbm getDatabase]];
+        
+        [self markNoteChange];
     }
 }
 
@@ -208,14 +225,16 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 {
     if (noteView.note != nil)
     {
-        [self editTask:noteView.note];
+        //[self editTask:noteView.note];
+        [_iPadSDViewCtrler editItem:noteView.note];
     }
 }
 
 #pragma mark Actions
 - (void) editItem:(id) sender
 {
-    [self editTask:self.item];
+    //[self editTask:self.item];
+    [_iPadSDViewCtrler editItem:self.item];
 }
 
 - (void) showTimer:(id) sender
@@ -408,6 +427,27 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
         self.navigationItem.leftBarButtonItems = items;
     }
+    
+    _previewCtrler = self;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    if (noteLinkCreated)
+    {
+        NoteViewController *ctrler = [_iPadSDViewCtrler getNoteViewController];
+        [ctrler loadAndShowList];
+        
+        CategoryViewController *catCtrler = [_iPadSDViewCtrler getCategoryViewController];
+        [catCtrler setNeedsDisplay];
+    }
+    
+    if (noteChange || noteLinkCreated)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil]; //to auto-sync mSD
+    }
+    
+    _previewCtrler = nil;
 }
 
 - (void)didReceiveMemoryWarning

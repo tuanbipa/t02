@@ -17,7 +17,6 @@
 #import "Project.h"
 #import "Settings.h"
 
-//#import "LandscapeViewController.h"
 #import "SmartListViewController.h"
 #import "CalendarViewController.h"
 
@@ -25,13 +24,13 @@
 #import "TagEditViewController.h"
 
 #import "CalendarSelectionTableViewController.h"
-#import "SmartDayViewController.h"
 
-//extern LandscapeViewController *_landscapeViewCtrler;
+#import "AbstractSDViewController.h"
+
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
 
-extern SmartDayViewController *_sdViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation FilterView
 
@@ -186,7 +185,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		//frm = (self.orientation == 0?CGRectMake(215, 50, 90, 30):CGRectMake(390, 10, 90, 30));
         frm = CGRectMake(145, 50, 80, 30);
 		
-		UIButton *taskButton=[Common createButton:_taskText 
+		UIButton *taskButton=[Common createButton:_taskText
                                        buttonType:UIButtonTypeCustom 
                                             frame:frm
                                        titleColor:[UIColor whiteColor]
@@ -506,10 +505,6 @@ extern SmartDayViewController *_sdViewCtrler;
 	{
 		return _sc2ViewCtrler;
 	}
-	/*else if (_landscapeViewCtrler != nil)
-	{
-		return _landscapeViewCtrler;
-	}*/
 	else if (_smartListViewCtrler != nil)
 	{
 		return _smartListViewCtrler;
@@ -524,18 +519,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	
 	ctrler.objectEdit = filterData;
 
-	/*
-    if ([_sdViewCtrler checkFocus])
-    {
-        [_focusViewCtrler.navigationController pushViewController:ctrler animated:YES];
-    }
-    else
-    {
-        [_sdViewCtrler.navigationController pushViewController:ctrler animated:YES];
-    }
-    */
-    
-    [_sdViewCtrler.navigationController  pushViewController:ctrler animated:YES];
+    [_abstractViewCtrler.navigationController pushViewController:ctrler animated:YES];
 
 	[ctrler release];
 }
@@ -812,7 +796,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     ctrler.filterData = self.filterData;
     
-	[_sdViewCtrler.navigationController pushViewController:ctrler animated:YES];
+    [_abstractViewCtrler.navigationController pushViewController:ctrler animated:YES];
      
 	[ctrler release];			
     
@@ -882,7 +866,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	{		
 		tm.filterData = filterData;
 		
-        [_sdViewCtrler applyFilter];
+        [_abstractViewCtrler applyFilter];
 	}
 }
 
@@ -900,7 +884,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
 		[filterData reset];
         
-        [_sdViewCtrler applyFilter];
+        [_abstractViewCtrler applyFilter];
 	}
     
     selectedPresetButton.selected = NO;

@@ -18,12 +18,12 @@
 #import "LinkSearchViewController.h"
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
-#import "SmartDayViewController.h"
 
 #import "SmartListViewController.h"
 #import "CalendarViewController.h"
+#import "AbstractSDViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @interface LinkViewController ()
 
@@ -32,7 +32,6 @@ extern SmartDayViewController *_sdViewCtrler;
 @implementation LinkViewController
 @synthesize task;
 
-//@synthesize linkIds;
 @synthesize saveEnabled;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -48,7 +47,6 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     if (self = [super init])
     {
-        //self.task.linkIds = [NSMutableArray arrayWithCapacity:10];
         self.saveEnabled = NO;
         
         self.contentSizeForViewInPopover = CGSizeMake(320,416);
@@ -59,8 +57,6 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) dealloc
 {
-    //self.task.linkIds = nil;
-    
     [super dealloc];
 }
 
@@ -78,13 +74,11 @@ extern SmartDayViewController *_sdViewCtrler;
     
     frm.size.width = 320;
     
-    //UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
     
     self.view = contentView;
     [contentView release];
     
-	//linkTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416) style:UITableViewStyleGrouped];
     linkTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
 	linkTableView.delegate = self;
 	linkTableView.dataSource = self;
@@ -140,20 +134,9 @@ extern SmartDayViewController *_sdViewCtrler;
     if (linkId != -1)
     {
         //edit in Category view
-        //[self.task.links addObject:[NSNumber numberWithInt:linkId]];
         self.task.links = [tlm getLinkIds4Task:task.primaryKey];
         
         [linkTableView reloadData];
-        
-        /*
-        SmartListViewController *slCtrler = [_sdViewCtrler getSmartListViewController];
-        
-        [slCtrler setNeedsDisplay];
-        
-        CalendarViewController *calCtrler = [_sdViewCtrler getCalendarViewController];
-        
-        [calCtrler setNeedsDisplay];   
-        */
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; //trigger sync for Link
     }
@@ -162,30 +145,10 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void) deleteLinkAtIndex:(NSInteger) index
 {
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
-    //TaskManager *tm = [TaskManager getInstance];
     
     [tlm deleteLink:self.task linkIndex:index reloadLink:YES];
     
-    /*
-    if (task.listSource == SOURCE_CATEGORY)
-    {
-        Task *src = [tm findItemByKey:task.primaryKey];
-        
-        src.links = [tlm getLinkIds4Task:task.primaryKey];
-    }
-    
-    SmartListViewController *slCtrler = [_sdViewCtrler getSmartListViewController];
-    
-    [slCtrler setNeedsDisplay];
-    
-    CalendarViewController *calCtrler = [_sdViewCtrler getCalendarViewController];
-    
-    [calCtrler setNeedsDisplay]; 
-    
-    [calCtrler refreshADEPane]; //refresh ADE for any link removement
-    */
-    
-    [_sdViewCtrler setNeedsDisplay];
+    [_abstractViewCtrler setNeedsDisplay];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; //trigger sync for Link    
 }
@@ -273,8 +236,6 @@ extern SmartDayViewController *_sdViewCtrler;
 {
 	if (editingStyle == UITableViewCellEditingStyleDelete) 
 	{
-        //[_sdViewCtrler deleteLink:self.task linkIndex:indexPath.row - 1];
-        
         [self deleteLinkAtIndex:indexPath.row - 1];
         
         [tableView reloadData];

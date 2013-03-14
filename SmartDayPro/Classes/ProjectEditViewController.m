@@ -24,12 +24,11 @@
 #import "TagDictionary.h"
 
 #import "TagEditViewController.h"
-#import "SmartDayViewController.h"
 #import "CategoryViewController.h"
+#import "AbstractSDViewController.h"
 
 extern BOOL _transparentHintShown;
 
-extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
 extern BOOL _isiPad;
@@ -428,7 +427,6 @@ extern BOOL _isiPad;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; 
         
-        //CategoryViewController *ctrler = [_sdViewCtrler getCategoryViewController];
         CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
         
         [ctrler loadAndShowList];
@@ -489,7 +487,6 @@ extern BOOL _isiPad;
             
 			[tm initSmartListData];
 			
-			//[_sdViewCtrler.miniMonthView initCalendar:tm.today];
             [_abstractViewCtrler.miniMonthView initCalendar:tm.today];
 			
 			[dt release];
@@ -501,26 +498,18 @@ extern BOOL _isiPad;
         
         if (tagChange && tm.filterData != nil)
         {
-            if (_sdViewCtrler != nil)
-            {
-                [_sdViewCtrler resetAllData];
-            }
+            [_abstractViewCtrler resetAllData];
         }
 		else if (needRefresh)
 		{
-            if (_sdViewCtrler != nil)
-            {
-                [_sdViewCtrler refreshView];
-            }
+            [_abstractViewCtrler refreshView];
 		}
         else if (transparentChange)
         {
-            //CategoryViewController *ctrler = [_sdViewCtrler getCategoryViewController];
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
             [ctrler refreshView];
             
-            //CalendarViewController *calCtrler = [_sdViewCtrler getCalendarViewController];
             CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
             
             [calCtrler refreshView];
@@ -528,7 +517,6 @@ extern BOOL _isiPad;
         }
         else if (nameChange)
         {
-            //CategoryViewController *ctrler = [_sdViewCtrler getCategoryViewController];
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
             [ctrler refreshView];

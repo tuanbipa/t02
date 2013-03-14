@@ -19,8 +19,10 @@
 #import "SimpleCoreTextView.h"
 
 #import "SmartDayViewController.h"
+#import "PreviewViewController.h"
 
 extern SmartDayViewController *_sdViewCtrler;
+extern PreviewViewController *_previewCtrler;
 
 @implementation NoteView
 
@@ -192,7 +194,14 @@ extern SmartDayViewController *_sdViewCtrler;
     {
         [self.note updateIntoDB:[[DBManager getInstance] getDatabase]];
         
-        [_sdViewCtrler.previewPane markNoteChange];
+        if (_previewCtrler != nil)
+        {
+            [_previewCtrler markNoteChange];
+        }
+        else if (_sdViewCtrler != nil)
+        {
+            [_sdViewCtrler.previewPane markNoteChange];
+        }
     }
     
     //NSLog(@"text: %@", text);

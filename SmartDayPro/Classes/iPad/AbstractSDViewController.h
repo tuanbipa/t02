@@ -50,6 +50,8 @@
 - (NoteViewController *) getNoteViewController;
 - (CategoryViewController *) getCategoryViewController;
 
+- (void) refreshView;
+- (void) setNeedsDisplay;
 - (void) resetAllData;
 - (void) refreshData;
 - (void) hideDropDownMenu;
@@ -64,8 +66,17 @@
 - (void) enableActions:(BOOL)enable onView:(MovableView *)view;
 - (void) enableCategoryActions:(BOOL)enable onView:(PlanView *)view;
 
+- (void) editItem:(Task *)item;
+- (void) editItem:(Task *)item inView:(TaskView *)inView;
 - (void) starTaskInView:(TaskView *)taskView;
 - (void) markDoneTaskInView:(TaskView *)view;
+
+- (void) deleteTask;
+- (void) copyTask;
+- (void) markDoneTask;
+
+- (void) deleteCategory;
+- (void) copyCategory;
 
 - (void) copyLink;
 - (void) pasteLink;

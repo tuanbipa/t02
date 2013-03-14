@@ -37,21 +37,17 @@
 #import "TDSync.h"
 #import "SDWSync.h"
 
-//#import "LandscapeViewController.h"
-
 #import "CalendarSelectionTableViewController.h"
 
 #import "BusyController.h"
-//#import "SCTabBarController.h"
 #import "CalendarViewController.h"
 #import "SmartDayViewController.h"
 
+#import "AbstractSDViewController.h"
+
 #import "SmartCalAppDelegate.h"
 
-//extern SCTabBarController *_tabBarCtrler;
-//extern LandscapeViewController *_landscapeViewCtrler;
-
-extern SmartDayViewController *_sdViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 
 extern BOOL _smartListHintShown;
 extern BOOL _multiSelectHintShown;
@@ -719,7 +715,7 @@ SmartListViewController *_smartListViewCtrler;
 	
     if (task.deadline != nil)
     {
-        [_sdViewCtrler.miniMonthView.calView refreshCellByDate:task.deadline];
+        [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:task.deadline];
     }
     
 	[task release];
@@ -1202,24 +1198,16 @@ SmartListViewController *_smartListViewCtrler;
 			break;
 	}	
 	
-	//ctrler.task = task;
-	
-	//[task release];
-	
-	//[self.navigationController pushViewController:ctrler animated:YES];
-	//[ctrler release];				
-
     quickAddTextField.text = @"";
     [quickAddTextField resignFirstResponder];
     
-    [_sdViewCtrler editTask:task];
+    [_abstractViewCtrler editItem:task inView:nil];
 }
 
 - (void) sync:(id) sender
 {
 	[self hideDropDownMenu];
 
-	//[self syncToodledo];
     [self syncSDW];
 }
 
@@ -1493,7 +1481,7 @@ SmartListViewController *_smartListViewCtrler;
         
         [[TaskManager getInstance] deleteTasks:taskList];  
         
-        [_sdViewCtrler.miniMonthView.calView refresh]; //refresh red dots
+        [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
     }
     
     [self multiEdit:NO];    
@@ -1581,7 +1569,7 @@ SmartListViewController *_smartListViewCtrler;
     
     [self multiEdit:NO];
     
-    [_sdViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
+    [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
 }
 
 - (void) confirmMultiMarkDone
@@ -1693,10 +1681,9 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-	//[self deselect];
     if (!quickAddTextField.isFirstResponder)
     {
-        [_sdViewCtrler deselect];
+        [_abstractViewCtrler deselect];
     }
 }
 

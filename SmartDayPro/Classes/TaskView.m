@@ -23,11 +23,11 @@
 
 #import "SmartListViewController.h"
 #import "CalendarViewController.h"
-#import "SmartDayViewController.h"
+
+#import "AbstractSDViewController.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
-extern SmartDayViewController *_sdViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -228,10 +228,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 	if (!self.multiSelectionEnable)
 	{
-        /*if (_sdViewCtrler != nil)
-        {
-            [_sdViewCtrler markDoneTaskInView:self];
-        }*/
         [_abstractViewCtrler markDoneTaskInView:self];
     }
     
@@ -242,7 +238,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(void)star:(id)sender
 {
-    //[_sdViewCtrler starTaskInView:self];
     [_abstractViewCtrler starTaskInView:self];
 }
 
@@ -1263,11 +1258,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 #pragma mark MovableView Interface Customization
 - (void) enableActions:(BOOL)enable
 {
-    /*if (_sdViewCtrler != nil && !self.focusStyle)
-    {
-        [_sdViewCtrler enableActions:enable onView:self];
-    }*/
-    
     if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler enableActions:enable onView:self];
@@ -1283,12 +1273,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	[super doubleTouch];
 	
-    /*
-    if (_sdViewCtrler != nil && !self.focusStyle)
-    {
-        [_sdViewCtrler editTask:self.task];
-    }*/
-    
     if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editItem:self.task inView:self];
@@ -1297,16 +1281,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) touchAndHold
 {
-    /*
-    if ([_sdViewCtrler.activeViewCtrler isKindOfClass:[CalendarViewController class]])
-    {
-        [_sdViewCtrler hidePreview];
-        
-        CalendarViewController *ctrler = (CalendarViewController *) _sdViewCtrler.activeViewCtrler;
-        
-        [ctrler beginResize:self];
-    }
-    */
     if (self.task.listSource == SOURCE_CALENDAR) //only allow resize in Calendar View
     {
         [_abstractViewCtrler hidePreview];

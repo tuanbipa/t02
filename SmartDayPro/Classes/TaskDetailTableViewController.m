@@ -52,8 +52,6 @@
 
 #import "HPGrowingTextView.h"
 
-extern SmartDayViewController *_sdViewCtrler;
-
 extern AbstractSDViewController *_abstractViewCtrler;
 
 extern BOOL _isiPad;
@@ -820,8 +818,6 @@ extern BOOL _isiPad;
 
             if (!reSchedule)
             {
-                //[[_sdViewCtrler getCalendarViewController] refreshTaskView4Key:self.taskCopy.primaryKey];
-                //[[_sdViewCtrler getSmartListViewController] refreshTaskView4Key:self.taskCopy.primaryKey];
                 if (_abstractViewCtrler != nil)
                 {
                     [[_abstractViewCtrler getCalendarViewController] refreshTaskView4Key:self.taskCopy.primaryKey];
@@ -832,43 +828,6 @@ extern BOOL _isiPad;
 
         }
     }
-
-	/*
-    if (sDate != nil)
-    {
-        //refresh Calendar cell when convert Task -> Event
-        [_sdViewCtrler.miniMonthView.calView refreshCellByDate:sDate];
-    }
-    
-    if (dDate != nil)
-    {
-        [_sdViewCtrler.miniMonthView.calView refreshCellByDate:dDate];
-    }
-    
-    if (reChange)
-    {
-        [_sdViewCtrler.miniMonthView.calView refresh];
-    }
-    else if ([self.taskCopy isTask])
-    {
-        if (self.taskCopy.deadline != nil)
-        {
-            [_sdViewCtrler.miniMonthView.calView refreshCellByDate:self.taskCopy.deadline];
-        }
-    }
-    else 
-    {
-        [_sdViewCtrler.miniMonthView.calView refreshCellByDate:self.taskCopy.startTime];
-    }
-    
-    if (isADE)
-    {
-        [_sdViewCtrler.miniMonthView.calView refreshADEView];
-        [[_sdViewCtrler getCalendarViewController] refreshADEPane];
-    }
-    
-    [_sdViewCtrler changeItem:task action:action];
-    */
     
     if (_abstractViewCtrler != nil)
     {
@@ -939,12 +898,10 @@ extern BOOL _isiPad;
     
     [tm updateTask:self.task withTask:self.taskCopy];
         
-    //[_sdViewCtrler.miniMonthView refresh];
     [_abstractViewCtrler.miniMonthView refresh];
     
     if (isADE)
     {
-        //CalendarViewController *ctrler = [_sdViewCtrler getCalendarViewController];
         CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
         
         [ctrler refreshADEPane];
@@ -963,8 +920,6 @@ extern BOOL _isiPad;
 		if (buttonIndex > 0)
 		{
             BOOL isADE = ([self.task isADE] || [self.taskCopy isADE]);
-            //BOOL typeChange = (self.task.type != self.taskCopy.type);
-            //NSDate *oldDue = [[self.task.deadline copy] autorelease];
             
             if (buttonIndex == 2) //all series
             {
@@ -978,16 +933,12 @@ extern BOOL _isiPad;
 			[[TaskManager getInstance] updateREInstance:self.task withRE:self.taskCopy updateOption:buttonIndex];	
             if (isADE)
             {
-                //[_sdViewCtrler.miniMonthView.calView refreshADEView];
-                //[[_sdViewCtrler getCalendarViewController] refreshADEPane];
-                
                 [_abstractViewCtrler.miniMonthView.calView refreshADEView];
                 
                 CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
                 [ctrler refreshADEPane];
             }
             
-            //[_sdViewCtrler.miniMonthView refresh];
             [_abstractViewCtrler.miniMonthView refresh];
 		}
         

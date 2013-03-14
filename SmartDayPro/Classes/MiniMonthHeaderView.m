@@ -222,7 +222,7 @@ extern BOOL _isiPad;
 		[dayName drawInRect:dayRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 	}
     
-    font = [UIFont boldSystemFontOfSize:16];
+    font = [UIFont boldSystemFontOfSize:18];
 
     NSDate *dt = [[TaskManager getInstance] today];
     

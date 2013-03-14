@@ -36,7 +36,6 @@
 
 #import "SmartDayViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
 extern BOOL _isiPad;
@@ -199,8 +198,6 @@ extern BOOL _isiPad;
         [self.note updateIntoDB:[dbm getDatabase]];
     }
     
-    //[_sdViewCtrler changeItem:self.note action:action];
-    
     [_abstractViewCtrler changeItem:self.note action:action];
     
     [_abstractViewCtrler hidePopover];
@@ -212,14 +209,7 @@ extern BOOL _isiPad;
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-/*
-- (void) checkModeChanged:(NSNotification *)notification
-{
-    checkButton.selected = [[[notification userInfo] valueForKey:@"inCheck"] boolValue];
 
-    checkButton.tag = [[[notification userInfo] valueForKey:@"lineIndex"] intValue];
-}
-*/
 - (void) noteChanged:(NSNotification *)notification
 {
     self.navigationItem.title = self.noteCopy.name;

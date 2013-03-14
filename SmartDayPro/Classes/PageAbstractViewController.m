@@ -17,9 +17,9 @@
 #import "Task.h"
 #import "Project.h"
 
-#import "SmartDayViewController.h"
+#import "AbstractSDViewController.h"
 
-SmartDayViewController *_sdViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @interface PageAbstractViewController ()
 
@@ -106,10 +106,9 @@ SmartDayViewController *_sdViewCtrler;
 {
     //NSLog(@"ctrler touch end");
     
-    //[_sdViewCtrler hideDropDownMenu];
-    if (_sdViewCtrler != nil)
+    if (_abstractViewCtrler != nil)
     {
-        [_sdViewCtrler deselect];
+        [_abstractViewCtrler deselect];
     }
     
 }

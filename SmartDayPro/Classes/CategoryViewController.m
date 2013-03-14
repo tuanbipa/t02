@@ -18,7 +18,6 @@
 #import "Project.h"
 
 #import "ContentView.h"
-//#import "ContentTableView.h"
 #import "ContentScrollView.h"
 #import "TaskView.h"
 #import "PlanView.h"
@@ -28,9 +27,9 @@
 
 #import "ProjectEditViewController.h"
 
-#import "SmartDayViewController.h"
+#import "AbstractSDViewController.h"
 
-extern SmartDayViewController *_sdViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @interface CategoryViewController ()
 
@@ -94,25 +93,26 @@ extern SmartDayViewController *_sdViewCtrler;
 {
 	prj.isExpanded = !prj.isExpanded;
     
-    [_sdViewCtrler deselect];
+    [_abstractViewCtrler deselect];
     
     [self loadAndShowList];
 }
 
 - (void) reconcileLinkCopy
 {
-    if (_sdViewCtrler.task2Link != nil && _sdViewCtrler.task2Link.listSource == SOURCE_CATEGORY)
+    if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.listSource == SOURCE_CATEGORY)
     {
         for (NSObject *obj in self.list)
         {
-            if ([obj isKindOfClass:[Task class]] && _sdViewCtrler.task2Link.primaryKey == [obj primaryKey])
+            if ([obj isKindOfClass:[Task class]] && _abstractViewCtrler.task2Link.primaryKey == [obj primaryKey])
             {
-                _sdViewCtrler.task2Link = obj;
+                _abstractViewCtrler.task2Link = obj;
                 
                 break;
             }
         }
     }
+    
 }
 
 - (void) loadAndShowList
@@ -393,8 +393,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-	//[self deselect];
-    [_sdViewCtrler deselect];
+    [_abstractViewCtrler deselect];
 }
 
 @end
