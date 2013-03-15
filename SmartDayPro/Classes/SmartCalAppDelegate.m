@@ -130,6 +130,34 @@ BOOL _fromBackground = NO;
 	}
 }
 
+- (void) testSound
+{
+	NSError *error = nil;
+	
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"close" ofType:@"mp3"];
+    
+	// Initialize the AVAudioPlayer
+	AVAudioPlayer *player = [[[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error] autorelease];
+    //player.delegate = self;
+    
+    if (error != nil)
+    {
+        NSLog(@"error: %@", error.localizedDescription);
+    }
+    
+    [player prepareToPlay];
+    
+	// Set the number of times this music should repeat.  -1 means never stop until its asked to stop
+	[player setNumberOfLoops:0];
+	
+	float backgroundMusicVolume = 1.0f;
+	// Set the volume of the music
+	[player setVolume:backgroundMusicVolume];
+	
+	// Play the music
+	[player play];
+}
+
 - (void)startup
 {
     Settings *settings = [Settings getInstance];
@@ -277,6 +305,8 @@ BOOL _fromBackground = NO;
 //- (void)applicationDidFinishLaunching:(UIApplication *)application
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //[self testSound];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
     //[self test];

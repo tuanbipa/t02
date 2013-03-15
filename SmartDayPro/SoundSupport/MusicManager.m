@@ -78,6 +78,8 @@ MusicManager *_musicManagerSingleton = nil;
 	//self.backgroundMusicPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error] autorelease];
 	self.backgroundMusicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
 	[self.backgroundMusicPlayer release];
+    
+    [self.backgroundMusicPlayer prepareToPlay];
 	
 	// If the backgroundMusicPlayer object is nil then there was an error
 	if(!self.backgroundMusicPlayer) {
@@ -111,11 +113,9 @@ MusicManager *_musicManagerSingleton = nil;
 	switch (sound)
 	{
 		case SOUND_TIMER_ON:
-			//[self playSoundWithKey:@"open" gain:0.25f pitch:1.0f location:Vector2fZero shouldLoop:NO];
 			[self playMusicWithKey:@"open" timesToRepeat:0];
 			break;
 		case SOUND_TIMER_OFF:
-			//[self playSoundWithKey:@"close" gain:1.0f pitch:1.0f location:Vector2fZero shouldLoop:NO];
 			[self playMusicWithKey:@"close" timesToRepeat:0];
 			break;
 		case SOUND_START:
@@ -164,11 +164,11 @@ MusicManager *_musicManagerSingleton = nil;
 + (void) startup
 {
 	MusicManager *mm = [MusicManager getInstance];
-	
-	[mm loadBackgroundMusicWithKey:@"open" fileName:@"open" fileExt:@"mp3"];
-	[mm loadBackgroundMusicWithKey:@"close" fileName:@"close" fileExt:@"mp3"];
-	[mm loadBackgroundMusicWithKey:@"Harp" fileName:@"Harp" fileExt:@"mp3"];	
-	[mm loadBackgroundMusicWithKey:@"Start" fileName:@"Start" fileExt:@"wav"];
+
+    [mm loadBackgroundMusicWithKey:@"open" fileName:@"open" fileExt:@"wav"];
+	[mm loadBackgroundMusicWithKey:@"close" fileName:@"close" fileExt:@"wav"];
+	[mm loadBackgroundMusicWithKey:@"Harp" fileName:@"Harp" fileExt:@"wav"];
+    [mm loadBackgroundMusicWithKey:@"Start" fileName:@"Start" fileExt:@"wav"];
 	[mm loadBackgroundMusicWithKey:@"Pause" fileName:@"Pause" fileExt:@"wav"];
 	[mm loadBackgroundMusicWithKey:@"Stop" fileName:@"Stop" fileExt:@"wav"];
 	

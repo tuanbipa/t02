@@ -168,9 +168,6 @@
 		67CF2D5516195196001FE1AA /* SDWSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C9316195196001FE1AA /* SDWSection.m */; };
 		67CF2D5616195196001FE1AA /* SDWSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C9516195196001FE1AA /* SDWSetting.m */; };
 		67CF2D5716195196001FE1AA /* SDWSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C9716195196001FE1AA /* SDWSync.m */; };
-		67CF2D5816195196001FE1AA /* close.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9916195196001FE1AA /* close.mp3 */; };
-		67CF2D5916195196001FE1AA /* Harp.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9A16195196001FE1AA /* Harp.mp3 */; };
-		67CF2D5A16195196001FE1AA /* open.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9B16195196001FE1AA /* open.mp3 */; };
 		67CF2D5B16195196001FE1AA /* Pause.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9C16195196001FE1AA /* Pause.wav */; };
 		67CF2D5C16195196001FE1AA /* Start.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9D16195196001FE1AA /* Start.wav */; };
 		67CF2D5D16195196001FE1AA /* Stop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9E16195196001FE1AA /* Stop.wav */; };
@@ -540,7 +537,6 @@
 		67CF3070161951F2001FE1AA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 67CF306E161951F2001FE1AA /* Localizable.strings */; };
 		67CF3078161952D4001FE1AA /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF3071161952D4001FE1AA /* AddressBook.framework */; };
 		67CF3079161952D4001FE1AA /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF3072161952D4001FE1AA /* AddressBookUI.framework */; };
-		67CF307A161952D4001FE1AA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF3073161952D4001FE1AA /* AudioToolbox.framework */; };
 		67CF307B161952D4001FE1AA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF3074161952D4001FE1AA /* AVFoundation.framework */; };
 		67CF307C161952D4001FE1AA /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF3075161952D4001FE1AA /* libsqlite3.0.dylib */; };
 		67CF307D161952D4001FE1AA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF3076161952D4001FE1AA /* QuartzCore.framework */; };
@@ -621,6 +617,10 @@
 		67E4195F162E84AB0026CFDE /* filter_start@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E41957162E84AB0026CFDE /* filter_start@2x.png */; };
 		67E41962162EADEA0026CFDE /* filter_done.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E41960162EADEA0026CFDE /* filter_done.png */; };
 		67E41963162EADEA0026CFDE /* filter_done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E41961162EADEA0026CFDE /* filter_done@2x.png */; };
+		67E506B216F2BAE000DCFE06 /* close.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67E506AF16F2BAE000DCFE06 /* close.wav */; };
+		67E506B316F2BAE000DCFE06 /* Harp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67E506B016F2BAE000DCFE06 /* Harp.wav */; };
+		67E506B416F2BAE000DCFE06 /* open.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67E506B116F2BAE000DCFE06 /* open.wav */; };
+		67E506BE16F2BF1E00DCFE06 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67E506BD16F2BF1E00DCFE06 /* AudioToolbox.framework */; };
 		67E50DAE16C09B070006E180 /* filter_due.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E50DAD16C09B070006E180 /* filter_due.png */; };
 		67E5134716533B65007B25A9 /* Trans_CheckOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E5134516533B65007B25A9 /* Trans_CheckOff@2x.png */; };
 		67E5134816533B65007B25A9 /* Trans_CheckOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E5134616533B65007B25A9 /* Trans_CheckOn@2x.png */; };
@@ -995,15 +995,11 @@
 		67CF2C9516195196001FE1AA /* SDWSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWSetting.m; sourceTree = "<group>"; };
 		67CF2C9616195196001FE1AA /* SDWSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWSync.h; sourceTree = "<group>"; };
 		67CF2C9716195196001FE1AA /* SDWSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWSync.m; sourceTree = "<group>"; };
-		67CF2C9916195196001FE1AA /* close.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = close.mp3; sourceTree = "<group>"; };
-		67CF2C9A16195196001FE1AA /* Harp.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Harp.mp3; sourceTree = "<group>"; };
-		67CF2C9B16195196001FE1AA /* open.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = open.mp3; sourceTree = "<group>"; };
 		67CF2C9C16195196001FE1AA /* Pause.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Pause.wav; sourceTree = "<group>"; };
 		67CF2C9D16195196001FE1AA /* Start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Start.wav; sourceTree = "<group>"; };
 		67CF2C9E16195196001FE1AA /* Stop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Stop.wav; sourceTree = "<group>"; };
 		67CF2CA016195196001FE1AA /* MusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicManager.h; sourceTree = "<group>"; };
 		67CF2CA116195196001FE1AA /* MusicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicManager.m; sourceTree = "<group>"; };
-		67CF2CA216195196001FE1AA /* SoundCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCommon.h; sourceTree = "<group>"; };
 		67CF2CA416195196001FE1AA /* TDAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDAccount.h; sourceTree = "<group>"; };
 		67CF2CA516195196001FE1AA /* TDAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDAccount.m; sourceTree = "<group>"; };
 		67CF2CA616195196001FE1AA /* TDAccountParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDAccountParser.h; sourceTree = "<group>"; };
@@ -1380,7 +1376,6 @@
 		67CF306F161951F2001FE1AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		67CF3071161952D4001FE1AA /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		67CF3072161952D4001FE1AA /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
-		67CF3073161952D4001FE1AA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		67CF3074161952D4001FE1AA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		67CF3075161952D4001FE1AA /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		67CF3076161952D4001FE1AA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -1468,6 +1463,10 @@
 		67E41957162E84AB0026CFDE /* filter_start@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_start@2x.png"; sourceTree = "<group>"; };
 		67E41960162EADEA0026CFDE /* filter_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_done.png; sourceTree = "<group>"; };
 		67E41961162EADEA0026CFDE /* filter_done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_done@2x.png"; sourceTree = "<group>"; };
+		67E506AF16F2BAE000DCFE06 /* close.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = close.wav; sourceTree = "<group>"; };
+		67E506B016F2BAE000DCFE06 /* Harp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Harp.wav; sourceTree = "<group>"; };
+		67E506B116F2BAE000DCFE06 /* open.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = open.wav; sourceTree = "<group>"; };
+		67E506BD16F2BF1E00DCFE06 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		67E50DAD16C09B070006E180 /* filter_due.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_due.png; sourceTree = "<group>"; };
 		67E5134516533B65007B25A9 /* Trans_CheckOff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trans_CheckOff@2x.png"; sourceTree = "<group>"; };
 		67E5134616533B65007B25A9 /* Trans_CheckOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trans_CheckOn@2x.png"; sourceTree = "<group>"; };
@@ -1562,12 +1561,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67E506BE16F2BF1E00DCFE06 /* AudioToolbox.framework in Frameworks */,
 				67C8F0DE1638D3F00098CFEB /* MessageUI.framework in Frameworks */,
 				67DE736E162D363A004CC26E /* CoreText.framework in Frameworks */,
 				67CF3080161952DF001FE1AA /* EventKit.framework in Frameworks */,
 				67CF3078161952D4001FE1AA /* AddressBook.framework in Frameworks */,
 				67CF3079161952D4001FE1AA /* AddressBookUI.framework in Frameworks */,
-				67CF307A161952D4001FE1AA /* AudioToolbox.framework in Frameworks */,
 				67CF307B161952D4001FE1AA /* AVFoundation.framework in Frameworks */,
 				67CF307C161952D4001FE1AA /* libsqlite3.0.dylib in Frameworks */,
 				67CF307D161952D4001FE1AA /* QuartzCore.framework in Frameworks */,
@@ -1650,12 +1649,12 @@
 		67CF2B23161950D7001FE1AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				67E506BD16F2BF1E00DCFE06 /* AudioToolbox.framework */,
 				67C8F0DD1638D3F00098CFEB /* MessageUI.framework */,
 				67DE736D162D363A004CC26E /* CoreText.framework */,
 				67CF307F161952DF001FE1AA /* EventKit.framework */,
 				67CF3071161952D4001FE1AA /* AddressBook.framework */,
 				67CF3072161952D4001FE1AA /* AddressBookUI.framework */,
-				67CF3073161952D4001FE1AA /* AudioToolbox.framework */,
 				67CF3074161952D4001FE1AA /* AVFoundation.framework */,
 				67CF3075161952D4001FE1AA /* libsqlite3.0.dylib */,
 				67CF3076161952D4001FE1AA /* QuartzCore.framework */,
@@ -2044,9 +2043,9 @@
 		67CF2C9816195196001FE1AA /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				67CF2C9916195196001FE1AA /* close.mp3 */,
-				67CF2C9A16195196001FE1AA /* Harp.mp3 */,
-				67CF2C9B16195196001FE1AA /* open.mp3 */,
+				67E506AF16F2BAE000DCFE06 /* close.wav */,
+				67E506B016F2BAE000DCFE06 /* Harp.wav */,
+				67E506B116F2BAE000DCFE06 /* open.wav */,
 				67CF2C9C16195196001FE1AA /* Pause.wav */,
 				67CF2C9D16195196001FE1AA /* Start.wav */,
 				67CF2C9E16195196001FE1AA /* Stop.wav */,
@@ -2059,7 +2058,6 @@
 			children = (
 				67CF2CA016195196001FE1AA /* MusicManager.h */,
 				67CF2CA116195196001FE1AA /* MusicManager.m */,
-				67CF2CA216195196001FE1AA /* SoundCommon.h */,
 			);
 			path = SoundSupport;
 			sourceTree = "<group>";
@@ -2680,9 +2678,6 @@
 				67CF2D0716195196001FE1AA /* multiOff@2x.png in Resources */,
 				67CF2D0816195196001FE1AA /* multiOn.png in Resources */,
 				67CF2D0916195196001FE1AA /* multiOn@2x.png in Resources */,
-				67CF2D5816195196001FE1AA /* close.mp3 in Resources */,
-				67CF2D5916195196001FE1AA /* Harp.mp3 in Resources */,
-				67CF2D5A16195196001FE1AA /* open.mp3 in Resources */,
 				67CF2D5B16195196001FE1AA /* Pause.wav in Resources */,
 				67CF2D5C16195196001FE1AA /* Start.wav in Resources */,
 				67CF2D5D16195196001FE1AA /* Stop.wav in Resources */,
@@ -3163,6 +3158,9 @@
 				67E1F4FC16E9D323002D70AF /* module_today@2x.png in Resources */,
 				67E1F4FD16E9D323002D70AF /* pattern_dark.png in Resources */,
 				67E1F4FE16E9D323002D70AF /* pattern_dark@2x.png in Resources */,
+				67E506B216F2BAE000DCFE06 /* close.wav in Resources */,
+				67E506B316F2BAE000DCFE06 /* Harp.wav in Resources */,
+				67E506B416F2BAE000DCFE06 /* open.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

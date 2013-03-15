@@ -14,6 +14,7 @@
 
 #import "TimerManager.h"
 #import "ProjectManager.h"
+#import "MusicManager.h"
 
 #import "ContentView.h"
 
@@ -120,6 +121,8 @@
 
 - (void) startTaskActivation: (id) sender
 {
+    [[MusicManager getInstance] playSound:SOUND_START];
+    
 	[[TimerManager getInstance] activateTask];
 	
 	[timerTableView reloadData];
@@ -129,6 +132,8 @@
 
 - (void) holdAllActiveTasksAndStart: (id) sender
 {
+    [[MusicManager getInstance] playSound:SOUND_START];
+    
 	[[TimerManager getInstance] holdAllActiveTasksAndStart];
 	
 	[timerTableView reloadData];
@@ -139,6 +144,8 @@
 
 - (void) pauseTask: (id) sender
 {
+    [[MusicManager getInstance] playSound:SOUND_PAUSE];
+    
 	NSInteger row = [sender tag] - 11000;
 	
 	[[TimerManager getInstance] pauseTask:row];
@@ -150,6 +157,8 @@
 
 - (void) startTask: (id) sender
 {
+    [[MusicManager getInstance] playSound:SOUND_START];
+    
 	NSInteger row = [sender tag] - 11000;
 	
 	[[TimerManager getInstance] startTask:row];
@@ -171,6 +180,8 @@
 
 - (void) markDoneTask: (id) sender
 {
+    [[MusicManager getInstance] playSound:SOUND_STOP];
+    
 	UIButton *stopButton = (UIButton *) sender;
 	
 	TimerManager *timer = [TimerManager getInstance];
@@ -247,6 +258,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+ 
+    [[MusicManager getInstance] playSound:SOUND_TIMER_ON];
     
     [self checkToActivateTimer];
 }
@@ -254,6 +267,8 @@
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [[MusicManager getInstance] playSound:SOUND_TIMER_OFF];
     
     [self checkToDeactivateTimer];
 }

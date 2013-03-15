@@ -15,6 +15,7 @@
 
 #import "ImageManager.h"
 #import "TaskManager.h"
+#import "MusicManager.h"
 
 #import "iPadSmartDayViewController.h"
 #import "PlannerViewController.h"
