@@ -12,6 +12,7 @@
 #import "ContentView.h"
 
 #import "SmartListViewController.h"
+#import "PlannerView.h"
 
 @interface PlannerViewController ()
 
@@ -33,6 +34,7 @@
     if (self = [super init])
     {
         smartListViewCtrler = [[SmartListViewController alloc] init];
+        //plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
     }
     
     return self;
@@ -41,6 +43,7 @@
 - (void) dealloc
 {
     [smartListViewCtrler release];
+    [plannerView release];
     
     [super dealloc];
 }
@@ -66,6 +69,11 @@
     frm.size.width = 320;
     
     [smartListViewCtrler changeFrame:frm];
+    
+    // planer view in left
+    //plannerView
+    plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width - smartListViewCtrler.contentView.frame.size.width, frm.size.height)];
+    [contentView addSubview:plannerView];
 
 }
 

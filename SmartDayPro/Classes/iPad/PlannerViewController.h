@@ -10,12 +10,14 @@
 
 @class ContentView;
 @class SmartListViewController;
+@class PlannerView;
 
 @interface PlannerViewController : ViewController
 {
     ContentView *contentView;
     
     SmartListViewController *smartListViewCtrler;
+    PlannerView *plannerView;
 }
 
 @end
