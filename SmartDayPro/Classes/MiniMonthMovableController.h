@@ -6,13 +6,14 @@
 //  Copyright (c) 2012 LCL. All rights reserved.
 //
 
-#import "MovableController.h"
+//#import "MovableController.h"
+#import "DummyMovableController.h"
 
 #import "MovableView.h"
 
-@interface MiniMonthMovableController : MovableController
+@interface MiniMonthMovableController : DummyMovableController
 {
-    MovableView *dummyView;
+    //MovableView *dummyView;
     
     BOOL moveInMM;
 }

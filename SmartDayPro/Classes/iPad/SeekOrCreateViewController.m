@@ -80,6 +80,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     for (Task *task in result)
     {
+        task.listSource = SOURCE_NONE;
+        
         if ([task isTask])
         {
             [self.taskList addObject:task];

@@ -208,6 +208,7 @@ typedef enum
 
 typedef enum
 {
+    SOURCE_NONE,
     SOURCE_SMARTLIST,
     SOURCE_CATEGORY,
     SOURCE_NOTE,

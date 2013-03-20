@@ -48,6 +48,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     return ![task checkMustDo];
 }
 
+/*
 - (void) beginMove:(MovableView *)view
 {
     [_abstractViewCtrler deselect];
@@ -88,7 +89,44 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     [dummyView release];
     
     self.activeMovableView.hidden = YES;
+}
+*/
+
+-(void) endMove:(MovableView *)view
+{
+    /*
+    [self unseparate];
     
+    self.activeMovableView.hidden = NO;
+    
+    [self enableScroll:YES container:self.activeMovableView.superview];
+    
+    dummyView.hidden = YES;
+    
+    if (dummyView != nil && [dummyView superview])
+    {
+        if (moveInMM)
+        {
+            [self doTaskMovementInMM];
+        }
+        else
+        {
+            [super endMove:view];
+        }
+        
+        [dummyView removeFromSuperview];
+        
+        dummyView = nil;
+    }*/
+    
+    if (moveInMM)
+    {
+        [self doTaskMovementInMM];
+    }
+    else
+    {
+        [super endMove:self.activeMovableView];
+    }
 }
 
 -(void)move:(NSSet *)touches withEvent:(UIEvent *)event
@@ -100,10 +138,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     CGRect frm = dummyView.frame;
     
-    //[self.activeMovableView move:touches withEvent:event];
     [super move:touches withEvent:event];
-    
-    //CGRect frm = [self getMovableRect:self.activeMovableView];
     
     CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
         
@@ -258,33 +293,6 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         [alertView show];
         [alertView release];
         
-    }
-}
-
--(void) endMove:(MovableView *)view
-{
-    [self unseparate];
-
-    self.activeMovableView.hidden = NO;
-    
-    [self enableScroll:YES container:self.activeMovableView.superview];
-    
-    dummyView.hidden = YES;
-    
-    if (dummyView != nil && [dummyView superview])
-    {
-        if (moveInMM)
-        {
-            [self doTaskMovementInMM];
-        }
-        else 
-        {
-            [super endMove:view];
-        }
-        
-        [dummyView removeFromSuperview];
-        
-        dummyView = nil;
     }
 }
 

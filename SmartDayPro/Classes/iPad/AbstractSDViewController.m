@@ -325,6 +325,11 @@ BOOL _autoPushPending = NO;
     }
 }
 
+- (void) editItem:(Task *)item inRect:(CGRect)inRect
+{
+    
+}
+
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
     
@@ -968,6 +973,12 @@ BOOL _autoPushPending = NO;
     
     if (task != nil)
     {
+        [task retain];
+        
+        CGRect frm = [activeView.superview convertRect:activeView.frame toView:contentView];
+        
+        [self deselect];
+        
         Task *tmp = task;
         
         if (task.original != nil && ![task isREException])
@@ -989,11 +1000,13 @@ BOOL _autoPushPending = NO;
             taskCopy.original = nil;
         }
         
-        //[self editTask:taskCopy];
-        [self editItem:taskCopy inView:activeView];
+        //[self editItem:taskCopy inView:activeView];
+        [self editItem:taskCopy inRect:frm];
+        
+        [task release];
     }
     
-    [self deselect];
+    //[self deselect];
 }
 
 - (void) markDoneTask

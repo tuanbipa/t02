@@ -17,7 +17,8 @@
 #import "Task.h"
 
 #import "ContentView.h"
-#import "ContentTableView.h"
+//#import "ContentTableView.h"
+#import "ContentScrollView.h"
 #import "TaskView.h"
 
 #import "NoteDetailTableViewController.h"
@@ -25,7 +26,8 @@
 #import "SmartDayViewController.h"
 #import "AbstractSDViewController.h"
 
-#import "DummyMovableController.h"
+#import "NoteLayoutController.h"
+#import "NoteMovableController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -54,7 +56,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (self)
     {
-        movableController = [[DummyMovableController alloc] init];
+        movableController = [[NoteMovableController alloc] init];
+		
+		noteLayoutCtrler = [[NoteLayoutController alloc] init];
+        noteLayoutCtrler.movableController = movableController;
 
         self.filterType = NOTE_FILTER_ALL;
         
@@ -68,6 +73,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) dealloc
 {
+    [noteLayoutCtrler release];
     [movableController release];
     
     self.noteList = nil;
@@ -75,9 +81,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super dealloc];
 }
 
+-(void)refreshLayout
+{
+    [movableController unhighlight];
+    [movableController reset];
+	
+	[noteLayoutCtrler performSelector:@selector(layout) withObject:nil afterDelay:0];
+}
+
 - (void) loadAndShowList
 {
     [self filter:self.filterType];
+    
+    [self refreshLayout];
 }
 
 - (void) filter:(NSInteger)type
@@ -115,7 +131,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [self reconcileLinkCopy];
     
-    [listTableView reloadData];    
+    //[listTableView reloadData];
 }
 
 - (void) reconcileLinkCopy
@@ -136,11 +152,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) changeSkin
 {
-    //contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    listTableView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];    
+    //listTableView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    listTableView.separatorColor = [UIColor lightGrayColor];
+    //listTableView.separatorColor = [UIColor lightGrayColor];
 }
 
 - (void) editNote:(Task *)task
@@ -159,7 +175,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         int y = focusIndex*60;
         
-        listTableView.contentOffset = CGPointMake(0, y > 30?y-30:0);
+        //listTableView.contentOffset = CGPointMake(0, y > 30?y-30:0);
     }
     
     checkFocus = NO;
@@ -171,8 +187,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 	if (enable)
 	{
-        
-		CGRect frm = CGRectMake(0, selectedIndex*60-listTableView.contentOffset.y, listTableView.bounds.size.width, 60);
+		//CGRect frm = CGRectMake(0, selectedIndex*60-listTableView.contentOffset.y, listTableView.bounds.size.width, 60);
+        CGRect frm = CGRectZero;
         
         Task *task = [self getSelectedTask];
         
@@ -210,12 +226,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         [Common sortList:self.noteList byKey:@"startTime" ascending:YES];
         
-        [listTableView reloadData];
+        //[listTableView reloadData];
     }
     else if (action == TASK_DELETE)
     {
-        //[self.noteList removeObject:task];
-        //[self initData]; //reload the list to refresh links
         [self loadAndShowList];
     }
 
@@ -223,14 +237,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) refreshView
 {
-    [listTableView reloadData];
+    //[listTableView reloadData];
 }
 
 -(void)setNeedsDisplay
 {
-    [listTableView reloadData];
+    //[listTableView reloadData];
+	for (UIView *view in noteListView.subviews)
+	{
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            [view refresh];
+        }
+	}
 }
 
+/*
 - (void) singleTap
 {
     ////printf("single tap\n");
@@ -247,9 +269,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) doubleTap
 {
     ////printf("double tap\n");
-    /*
-    Task *task = [self.noteList objectAtIndex:tapRow];
-    [self editNote:task];*/
     
     UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tapRow inSection:0]];
                              
@@ -262,25 +281,38 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     tapCount = 0;
 }
+*/
 
 #pragma mark Multi Edit
+
 - (void) multiEdit:(BOOL)enabled
 {
     Settings *settings = [Settings getInstance];
     
+    /*
     for (int i=0; i<self.noteList.count; i++)
     {
         UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         
         TaskView *taskView = (TaskView *) [cell.contentView viewWithTag:10000];
+        
         [taskView multiSelect:enabled];
+    }
+    */
+    for (UIView *view in noteListView.subviews)
+    {
+        if ([view isKindOfClass:[MovableView class]])
+        {
+            [(MovableView *) view multiSelect:enabled];
+        }
     }
     
     editBarPlaceHolder.hidden = !enabled;
     
     CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
     
-    listTableView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
+    //listTableView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
+    noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
 }
 
 - (void) cancelMultiEdit:(id) sender
@@ -313,6 +345,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
     
+    /*
     for (int i=0; i<self.noteList.count; i++)
     {
         UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -322,6 +355,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
         if ([taskView isMultiSelected])
         {
             [taskList addObject:taskView.task];
+        }
+    }
+    */
+    
+    for (UIView *view in noteListView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]] && [((TaskView *)view) isMultiSelected])
+        {
+            [taskList addObject:((TaskView *)view).task];
         }
     }
     
@@ -337,7 +379,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [self multiEdit:NO];
     
-    [listTableView reloadData];
+    [self refreshLayout];
+    
+    //[listTableView reloadData];
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -365,7 +409,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     UIToolbar *editToolbar = (UIToolbar *)[editBarPlaceHolder viewWithTag:10000];
     editToolbar.frame = editBarPlaceHolder.bounds;
     
-    listTableView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
+    //listTableView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
+    noteListView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
 }
 
 -(void) createEditBar
@@ -434,7 +479,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [contentView release];
     
-    //listTableView = [[ContentTableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416 - (settings.tabBarAutoHide?0:40)) style:UITableViewStylePlain];
+/*
     listTableView = [[ContentTableView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40)) style:UITableViewStylePlain];
 
     listTableView.backgroundColor = [UIColor clearColor];
@@ -443,6 +488,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [contentView addSubview:listTableView];
     [listTableView release];
+*/
+ 
+    noteListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
+    noteListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    
+	noteListView.scrollEnabled = YES;
+	noteListView.delegate = self;
+	noteListView.scrollsToTop = NO;
+	noteListView.showsVerticalScrollIndicator = YES;
+	noteListView.directionalLockEnabled = YES;
+	
+	[contentView addSubview:noteListView];
+	[noteListView release];
+    
+    noteLayoutCtrler.viewContainer = noteListView;
     
     [self createEditBar];
 }
@@ -474,6 +534,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+/*
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 #warning Potentially incomplete method implementation.
@@ -532,51 +593,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
 }
+*/
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -591,7 +614,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     Settings *settings = [Settings getInstance];
     
-    listTableView.frame = CGRectMake(0, 0, sz.width, sz.height - (settings.tabBarAutoHide?0:40));
+    //listTableView.frame = CGRectMake(0, 0, sz.width, sz.height - (settings.tabBarAutoHide?0:40));
+    noteListView.frame = CGRectMake(0, 0, sz.width, sz.height - (settings.tabBarAutoHide?0:40));
 }
 
 

@@ -587,7 +587,7 @@ iPadViewController *_iPadViewCtrler;
     
     //CGRect frm = CGRectMake(600, 0, 20, 10);
     
-    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 #pragma mark Actions

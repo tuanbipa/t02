@@ -287,6 +287,8 @@ static sqlite3_stmt *task_delete_statement = nil;
     copy.links = [[NSMutableArray alloc] initWithArray:links copyItems:YES];
     [copy.links release];
     
+    copy.listSource = listSource;
+    
     ////printf("Task %s copy - link count: %d\n", [copy.name UTF8String], copy.links.count);
 	
 	return copy;

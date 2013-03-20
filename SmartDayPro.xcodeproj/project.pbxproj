@@ -583,6 +583,20 @@
 		67DDEC87164D041A0016527F /* MFMailComposeViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC86164D04180016527F /* MFMailComposeViewController+Rotate.m */; };
 		67DE7352162D09B3004CC26E /* SimpleCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE7351162D09B3004CC26E /* SimpleCoreTextView.m */; };
 		67DE736E162D363A004CC26E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DE736D162D363A004CC26E /* CoreText.framework */; };
+		67E0D49B16F95C7900F66567 /* NoteLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E0D49A16F95C7800F66567 /* NoteLayoutController.m */; };
+		67E0D49C16F95C7900F66567 /* NoteLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E0D49A16F95C7800F66567 /* NoteLayoutController.m */; };
+		67E18E8B16F98EDE00F1E976 /* NoteMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E8A16F98EDE00F1E976 /* NoteMovableController.m */; };
+		67E18E8C16F98EDE00F1E976 /* NoteMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E8A16F98EDE00F1E976 /* NoteMovableController.m */; };
+		67E18E9716F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E8E16F99BEF00F1E976 /* PlannerBottomDayCal.m */; };
+		67E18E9816F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E8E16F99BEF00F1E976 /* PlannerBottomDayCal.m */; };
+		67E18E9916F99BEF00F1E976 /* PlannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9016F99BEF00F1E976 /* PlannerHeaderView.m */; };
+		67E18E9A16F99BEF00F1E976 /* PlannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9016F99BEF00F1E976 /* PlannerHeaderView.m */; };
+		67E18E9B16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9216F99BEF00F1E976 /* PlannerMonthCellView.m */; };
+		67E18E9C16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9216F99BEF00F1E976 /* PlannerMonthCellView.m */; };
+		67E18E9D16F99BEF00F1E976 /* PlannerMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */; };
+		67E18E9E16F99BEF00F1E976 /* PlannerMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */; };
+		67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9616F99BEF00F1E976 /* PlannerView.m */; };
+		67E18EA016F99BEF00F1E976 /* PlannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9616F99BEF00F1E976 /* PlannerView.m */; };
 		67E1F4A216E9A03A002D70AF /* bar_tag_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F49E16E9A03A002D70AF /* bar_tag_blue.png */; };
 		67E1F4A316E9A03A002D70AF /* bar_tag_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F49F16E9A03A002D70AF /* bar_tag_blue@2x.png */; };
 		67E1F4A416E9A03A002D70AF /* pattern.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4A016E9A03A002D70AF /* pattern.png */; };
@@ -1373,16 +1387,6 @@
 		67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */; };
 		67FB71BE16781D9E0033C3A1 /* FocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB71BD16781D9E0033C3A1 /* FocusView.m */; };
 		67FB7F251640C9930049DA1A /* MiniMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */; };
-		A2F2A73C16F9932D00021553 /* PlannerBottomDayCal.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73316F9932D00021553 /* PlannerBottomDayCal.m */; };
-		A2F2A73D16F9932D00021553 /* PlannerBottomDayCal.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73316F9932D00021553 /* PlannerBottomDayCal.m */; };
-		A2F2A73E16F9932D00021553 /* PlannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73516F9932D00021553 /* PlannerHeaderView.m */; };
-		A2F2A73F16F9932D00021553 /* PlannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73516F9932D00021553 /* PlannerHeaderView.m */; };
-		A2F2A74016F9932D00021553 /* PlannerMonthCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73716F9932D00021553 /* PlannerMonthCellView.m */; };
-		A2F2A74116F9932D00021553 /* PlannerMonthCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73716F9932D00021553 /* PlannerMonthCellView.m */; };
-		A2F2A74216F9932D00021553 /* PlannerMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73916F9932D00021553 /* PlannerMonthView.m */; };
-		A2F2A74316F9932D00021553 /* PlannerMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73916F9932D00021553 /* PlannerMonthView.m */; };
-		A2F2A74416F9932D00021553 /* PlannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73B16F9932D00021553 /* PlannerView.m */; };
-		A2F2A74516F9932D00021553 /* PlannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F2A73B16F9932D00021553 /* PlannerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2124,6 +2128,20 @@
 		67DE7350162D09B3004CC26E /* SimpleCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCoreTextView.h; sourceTree = "<group>"; };
 		67DE7351162D09B3004CC26E /* SimpleCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleCoreTextView.m; sourceTree = "<group>"; };
 		67DE736D162D363A004CC26E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		67E0D49916F95C7800F66567 /* NoteLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteLayoutController.h; sourceTree = "<group>"; };
+		67E0D49A16F95C7800F66567 /* NoteLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteLayoutController.m; sourceTree = "<group>"; };
+		67E18E8916F98EDE00F1E976 /* NoteMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMovableController.h; sourceTree = "<group>"; };
+		67E18E8A16F98EDE00F1E976 /* NoteMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMovableController.m; sourceTree = "<group>"; };
+		67E18E8D16F99BEF00F1E976 /* PlannerBottomDayCal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerBottomDayCal.h; sourceTree = "<group>"; };
+		67E18E8E16F99BEF00F1E976 /* PlannerBottomDayCal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerBottomDayCal.m; sourceTree = "<group>"; };
+		67E18E8F16F99BEF00F1E976 /* PlannerHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerHeaderView.h; sourceTree = "<group>"; };
+		67E18E9016F99BEF00F1E976 /* PlannerHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerHeaderView.m; sourceTree = "<group>"; };
+		67E18E9116F99BEF00F1E976 /* PlannerMonthCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerMonthCellView.h; sourceTree = "<group>"; };
+		67E18E9216F99BEF00F1E976 /* PlannerMonthCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerMonthCellView.m; sourceTree = "<group>"; };
+		67E18E9316F99BEF00F1E976 /* PlannerMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerMonthView.h; sourceTree = "<group>"; };
+		67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerMonthView.m; sourceTree = "<group>"; };
+		67E18E9516F99BEF00F1E976 /* PlannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerView.h; sourceTree = "<group>"; };
+		67E18E9616F99BEF00F1E976 /* PlannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerView.m; sourceTree = "<group>"; };
 		67E1F49E16E9A03A002D70AF /* bar_tag_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_tag_blue.png; sourceTree = "<group>"; };
 		67E1F49F16E9A03A002D70AF /* bar_tag_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_tag_blue@2x.png"; sourceTree = "<group>"; };
 		67E1F4A016E9A03A002D70AF /* pattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pattern.png; sourceTree = "<group>"; };
@@ -2253,16 +2271,6 @@
 		67FB71BD16781D9E0033C3A1 /* FocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusView.m; sourceTree = "<group>"; };
 		67FB7F231640C9920049DA1A /* MiniMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthHeaderView.h; sourceTree = "<group>"; };
 		67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniMonthHeaderView.m; sourceTree = "<group>"; };
-		A2F2A73216F9932D00021553 /* PlannerBottomDayCal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerBottomDayCal.h; sourceTree = "<group>"; };
-		A2F2A73316F9932D00021553 /* PlannerBottomDayCal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerBottomDayCal.m; sourceTree = "<group>"; };
-		A2F2A73416F9932D00021553 /* PlannerHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerHeaderView.h; sourceTree = "<group>"; };
-		A2F2A73516F9932D00021553 /* PlannerHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerHeaderView.m; sourceTree = "<group>"; };
-		A2F2A73616F9932D00021553 /* PlannerMonthCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerMonthCellView.h; sourceTree = "<group>"; };
-		A2F2A73716F9932D00021553 /* PlannerMonthCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerMonthCellView.m; sourceTree = "<group>"; };
-		A2F2A73816F9932D00021553 /* PlannerMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerMonthView.h; sourceTree = "<group>"; };
-		A2F2A73916F9932D00021553 /* PlannerMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerMonthView.m; sourceTree = "<group>"; };
-		A2F2A73A16F9932D00021553 /* PlannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerView.h; sourceTree = "<group>"; };
-		A2F2A73B16F9932D00021553 /* PlannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2314,16 +2322,16 @@
 		67B41504166C5A3100AB3B5C /* iPad */ = {
 			isa = PBXGroup;
 			children = (
-				A2F2A73216F9932D00021553 /* PlannerBottomDayCal.h */,
-				A2F2A73316F9932D00021553 /* PlannerBottomDayCal.m */,
-				A2F2A73416F9932D00021553 /* PlannerHeaderView.h */,
-				A2F2A73516F9932D00021553 /* PlannerHeaderView.m */,
-				A2F2A73616F9932D00021553 /* PlannerMonthCellView.h */,
-				A2F2A73716F9932D00021553 /* PlannerMonthCellView.m */,
-				A2F2A73816F9932D00021553 /* PlannerMonthView.h */,
-				A2F2A73916F9932D00021553 /* PlannerMonthView.m */,
-				A2F2A73A16F9932D00021553 /* PlannerView.h */,
-				A2F2A73B16F9932D00021553 /* PlannerView.m */,
+				67E18E8D16F99BEF00F1E976 /* PlannerBottomDayCal.h */,
+				67E18E8E16F99BEF00F1E976 /* PlannerBottomDayCal.m */,
+				67E18E8F16F99BEF00F1E976 /* PlannerHeaderView.h */,
+				67E18E9016F99BEF00F1E976 /* PlannerHeaderView.m */,
+				67E18E9116F99BEF00F1E976 /* PlannerMonthCellView.h */,
+				67E18E9216F99BEF00F1E976 /* PlannerMonthCellView.m */,
+				67E18E9316F99BEF00F1E976 /* PlannerMonthView.h */,
+				67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */,
+				67E18E9516F99BEF00F1E976 /* PlannerView.h */,
+				67E18E9616F99BEF00F1E976 /* PlannerView.m */,
 				67E6BA3616A924EC00F14E12 /* iPadViewController.h */,
 				67E6BA3716A924EC00F14E12 /* iPadViewController.m */,
 				67B41506166C5A5A00AB3B5C /* iPadSmartDayViewController.h */,
@@ -2610,6 +2618,10 @@
 				67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */,
 				67CF2BFA16195195001FE1AA /* NoteInfoViewController.h */,
 				67CF2BFB16195195001FE1AA /* NoteInfoViewController.m */,
+				67E0D49916F95C7800F66567 /* NoteLayoutController.h */,
+				67E0D49A16F95C7800F66567 /* NoteLayoutController.m */,
+				67E18E8916F98EDE00F1E976 /* NoteMovableController.h */,
+				67E18E8A16F98EDE00F1E976 /* NoteMovableController.m */,
 				672F54AD16227E3200480BC4 /* NoteView.h */,
 				672F54AE16227E3300480BC4 /* NoteView.m */,
 				67CF2BFC16195195001FE1AA /* NoteViewController.h */,
@@ -4610,11 +4622,13 @@
 				67E3485116DF02E600AA19EE /* TimerManager.m in Sources */,
 				67EC5BD216E4502B006B22F0 /* TimerHistoryViewController.m in Sources */,
 				6765668916F6F4C1007F23A9 /* DummyMovableController.m in Sources */,
-				A2F2A73C16F9932D00021553 /* PlannerBottomDayCal.m in Sources */,
-				A2F2A73E16F9932D00021553 /* PlannerHeaderView.m in Sources */,
-				A2F2A74016F9932D00021553 /* PlannerMonthCellView.m in Sources */,
-				A2F2A74216F9932D00021553 /* PlannerMonthView.m in Sources */,
-				A2F2A74416F9932D00021553 /* PlannerView.m in Sources */,
+				67E0D49B16F95C7900F66567 /* NoteLayoutController.m in Sources */,
+				67E18E8B16F98EDE00F1E976 /* NoteMovableController.m in Sources */,
+				67E18E9716F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */,
+				67E18E9916F99BEF00F1E976 /* PlannerHeaderView.m in Sources */,
+				67E18E9B16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
+				67E18E9D16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
+				67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4800,11 +4814,13 @@
 				67EC0D2E16F8081F00929BFD /* TimerManager.m in Sources */,
 				67EC0D2F16F8081F00929BFD /* TimerHistoryViewController.m in Sources */,
 				67EC0D3016F8081F00929BFD /* DummyMovableController.m in Sources */,
-				A2F2A73D16F9932D00021553 /* PlannerBottomDayCal.m in Sources */,
-				A2F2A73F16F9932D00021553 /* PlannerHeaderView.m in Sources */,
-				A2F2A74116F9932D00021553 /* PlannerMonthCellView.m in Sources */,
-				A2F2A74316F9932D00021553 /* PlannerMonthView.m in Sources */,
-				A2F2A74516F9932D00021553 /* PlannerView.m in Sources */,
+				67E0D49C16F95C7900F66567 /* NoteLayoutController.m in Sources */,
+				67E18E8C16F98EDE00F1E976 /* NoteMovableController.m in Sources */,
+				67E18E9816F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */,
+				67E18E9A16F99BEF00F1E976 /* PlannerHeaderView.m in Sources */,
+				67E18E9C16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
+				67E18E9E16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
+				67E18EA016F99BEF00F1E976 /* PlannerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

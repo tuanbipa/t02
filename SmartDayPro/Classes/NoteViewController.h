@@ -9,15 +9,16 @@
 #import <UIKit/UIKit.h>
 
 #import "PageAbstractViewController.h"
-
-@class ContentView;
-@class ContentTableView;
+@class NoteLayoutController;
+//@class ContentTableView;
+@class ContentScrollView;
 @class Task;
 
 @interface NoteViewController : PageAbstractViewController<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 {
-    //ContentView *contentView;
-    ContentTableView *listTableView;
+    NoteLayoutController *noteLayoutCtrler;
+    //ContentTableView *listTableView;
+    ContentScrollView *noteListView;
     
     UIView *editBarPlaceHolder;
     
@@ -37,7 +38,6 @@
 
 - (Task *) getSelectedTask;
 - (void) changeItem:(Task *)task action:(NSInteger)action;
-//- (void) initData;
 - (void) filter:(NSInteger)type;
 - (void) loadAndShowList;
 - (void) multiEdit:(BOOL)enabled;

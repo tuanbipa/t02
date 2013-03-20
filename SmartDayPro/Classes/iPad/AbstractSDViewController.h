@@ -67,6 +67,7 @@
 - (void) enableCategoryActions:(BOOL)enable onView:(PlanView *)view;
 
 - (void) editItem:(Task *)item;
+- (void) editItem:(Task *)item inRect:(CGRect)inRect;
 - (void) editItem:(Task *)item inView:(TaskView *)inView;
 - (void) starTaskInView:(TaskView *)taskView;
 - (void) markDoneTaskInView:(TaskView *)view;
