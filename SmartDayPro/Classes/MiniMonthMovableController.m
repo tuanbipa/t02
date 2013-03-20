@@ -23,12 +23,14 @@
 #import "MonthlyCalendarView.h"
 
 #import "SmartDayViewController.h"
+#import "iPadSmartDayViewController.h"
 
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
 
 extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
+extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 @implementation MiniMonthMovableController
 
@@ -257,7 +259,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [alertView release];
         
     }
-
 }
 
 -(void) endMove:(MovableView *)view
@@ -285,12 +286,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         dummyView = nil;
     }
-            
-    //[super endMove:view];
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    TaskView *tv = (TaskView *) self.activeMovableView;
+    
     Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
     
     [super endMove:self.activeMovableView];
@@ -366,7 +367,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
             }
                 break;
         }
-        
     }
     
     if (moveInMM)
@@ -389,7 +389,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             taskCopy.listSource = SOURCE_CATEGORY;
             
-            [_abstractViewCtrler editItem:taskCopy];
+            if (_iPadSDViewCtrler != nil)
+            {
+                [_iPadSDViewCtrler editItem:taskCopy inView:tv];
+            }
+            else if (_sdViewCtrler != nil)
+            {
+                [_sdViewCtrler editItem:taskCopy];
+            }
         }
         else
         {

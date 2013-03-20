@@ -371,6 +371,8 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
     if ([self.navigationController.topViewController isKindOfClass:[iPadViewController class]])
     {
+        [navView removeFromSuperview];
+        
         [self save];
     }
     

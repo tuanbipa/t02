@@ -20,6 +20,7 @@
 	NSInteger colorId;
     BOOL isTransparent;
 	NSString *name;
+    NSString *ownerName;
 	NSString *tag;
 	NSString *syncId;
     NSString *sdwId;
@@ -57,6 +58,7 @@
 	BOOL isExpanded;
 	
 	NSInteger status;
+    NSInteger extraStatus;
     NSInteger source;
 	
 	BOOL isExternalUpdate; //this flag is used to not save update time when syncing	
@@ -67,6 +69,7 @@
 @property NSInteger colorId;
 @property BOOL isTransparent;
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *ownerName;
 @property (nonatomic, copy) NSString *tag;
 @property (nonatomic, copy) NSString *syncId;
 @property (nonatomic, copy) NSString *sdwId;
@@ -105,6 +108,7 @@
 @property BOOL isExpanded;
 
 @property NSInteger status;
+@property NSInteger extraStatus;
 @property NSInteger source;
 
 - (void) initialUpdate;
@@ -123,6 +127,7 @@
 - (PlanInfo) getInfo;
 - (BOOL) checkTransparent;
 - (BOOL) checkDefault;
+- (BOOL) isShared;
 - (void) saveSnapshot;
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) insertIntoDB:(sqlite3 *)database;

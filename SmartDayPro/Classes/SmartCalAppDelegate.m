@@ -275,9 +275,10 @@ BOOL _fromBackground = NO;
     UIMenuItem *doTodayItem = [[UIMenuItem alloc] initWithTitle:_doTodayText action:@selector(doToday:)];
     UIMenuItem *copyLinkItem = [[UIMenuItem alloc] initWithTitle:_copyLinkText action:@selector(copyLink:)];
 	UIMenuItem *pasteLinkItem = [[UIMenuItem alloc] initWithTitle:_pasteLinkText action:@selector(pasteLink:)];	
-    UIMenuItem *editLinksItem = [[UIMenuItem alloc] initWithTitle:_editLinksText action:@selector(editLinks:)];	
+    UIMenuItem *editLinksItem = [[UIMenuItem alloc] initWithTitle:_editLinksText action:@selector(editLinks:)];
+    UIMenuItem *createTaskItem = [[UIMenuItem alloc] initWithTitle:_createTask action:@selector(createTask:)];
 
-	NSArray *menuItems = [NSArray arrayWithObjects:doneItem, duplicateItem, doTodayItem, copyLinkItem, pasteLinkItem, editLinksItem, nil];
+	NSArray *menuItems = [NSArray arrayWithObjects:doneItem, duplicateItem, doTodayItem, copyLinkItem, pasteLinkItem, editLinksItem, createTaskItem, nil];
     
     [doneItem release];
     [duplicateItem release];
@@ -285,6 +286,7 @@ BOOL _fromBackground = NO;
     [copyLinkItem release];
     [pasteLinkItem release];
     [editLinksItem release];
+    [createTaskItem release];
 	
 	menuCtrler.menuItems = menuItems;
 }

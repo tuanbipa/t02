@@ -863,6 +863,32 @@ NSInteger _sdwColor[32] = {
     ret.tag = [dict objectForKey:@"tags"];
     ret.isTransparent = ([[dict objectForKey:@"is_transparent"] intValue] == 1);
     ret.status = ([[dict objectForKey:@"invisible"] intValue] == 1?PROJECT_STATUS_INVISIBLE:PROJECT_STATUS_NONE);
+    ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
+    
+    if ([ret isShared])
+    {
+        NSDictionary *ownerDict = [dict objectForKey:@"owner"];
+        
+        if (ownerDict != nil)
+        {
+            NSString *lastName = [ownerDict objectForKey:@"oLastName"];
+            NSString *firstName = [ownerDict objectForKey:@"oFirstName"];
+            
+            if (lastName == nil)
+            {
+                lastName = @"";
+            }
+            
+            if (firstName == nil)
+            {
+                firstName = @"";
+            }
+            
+            ret.ownerName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+            
+            printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
+        }
+    }
     
     NSInteger source = [[dict objectForKey:@"source"] intValue];
     
@@ -897,6 +923,7 @@ NSInteger _sdwColor[32] = {
 - (void) updateProject:(Project *)prj withSDWCategory:(Project *)cat
 {
     prj.name = cat.name;
+    prj.ownerName = (cat.ownerName == nil?@"":cat.ownerName);
     prj.sdwId = cat.sdwId;
     prj.updateTime = cat.updateTime;
     prj.type = cat.type;
@@ -904,6 +931,7 @@ NSInteger _sdwColor[32] = {
     prj.tag = cat.tag;
     prj.isTransparent = cat.isTransparent;
     prj.status = cat.status;
+    prj.extraStatus = cat.extraStatus;
     prj.source = cat.source;
     
 	if (prj.primaryKey > -1)
@@ -1225,7 +1253,7 @@ NSInteger _sdwColor[32] = {
                 
                 //printf("sc time: %s, sdw time: %s\n", [[prj.updateTime description] UTF8String], [[sdwCat.updateTime description] UTF8String]);
                 
-                if (compRes == NSOrderedAscending) //update SDW->SC
+                if (compRes == NSOrderedAscending || [prj isShared]) //update SDW->SC
                 {
                     //printf("update SDW->SC for project: %s\n", [prj.name UTF8String]);
                     
@@ -1381,6 +1409,7 @@ NSInteger _sdwColor[32] = {
     ret.sdwId = [[dict objectForKey:@"id"] stringValue];
     ret.name = [dict objectForKey:@"title"];
     ret.note = [dict objectForKey:@"content"];
+    ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
     
     //NSLog(@"Task from SDW: %@ - name: %@", ret.note, ret.name);
     
@@ -1808,6 +1837,7 @@ NSInteger _sdwColor[32] = {
     task.endTime = sdwTask.endTime;
     task.deadline = sdwTask.deadline;
     task.status = sdwTask.status;
+    task.extraStatus = sdwTask.extraStatus;
     task.completionTime = sdwTask.completionTime;
     task.updateTime = sdwTask.updateTime;
     task.repeatData = sdwTask.repeatData;
@@ -1970,6 +2000,8 @@ NSInteger _sdwColor[32] = {
     DBManager *dbm = [DBManager getInstance];
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/tasks/updates.json?keyapi=%@",SDWSite,self.sdwSection.key];
+    
+    printf("update URL:\n%s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
 	[request setURL:[NSURL URLWithString:urlString]]; 
@@ -1993,7 +2025,7 @@ NSInteger _sdwColor[32] = {
     NSString* body = [[NSString alloc] initWithData:jsonBody
                                            encoding:NSUTF8StringEncoding];
     
-    //printf("update task body:\n%s\n", [body UTF8String]);
+    printf("update task body:\n%s\n", [body UTF8String]);
     
     
     [request setHTTPBody:jsonBody];
@@ -2009,8 +2041,12 @@ NSInteger _sdwColor[32] = {
         return;
     }
     
-    if (urlData) 
+    if (urlData)
     {
+        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
+        printf("update results:\n%s\n", [str UTF8String]);
+        
         NSArray *result = [self getArrayResult:urlData];
         
         if (result == nil)

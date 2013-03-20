@@ -9,5 +9,8 @@
 #import "MovableController.h"
 
 @interface DummyMovableController : MovableController
+{
+    MovableView *dummyView;
+}
 
 @end

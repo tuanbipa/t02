@@ -369,36 +369,21 @@ BOOL _autoPushPending = NO;
 {
     Task *task = view.task;
     
+    if ([task isShared])
+    {
+        return;
+    }
+    
     NSInteger pk = (task.original != nil && ![task isREException]?task.original.primaryKey:task.primaryKey);
     
     BOOL calendarTask = [task isTask] && task.original != nil;
     
-    contentView.actionType = calendarTask?ACTION_TASK_EDIT:ACTION_ITEM_EDIT;
+    contentView.actionType = calendarTask?ACTION_TASK_EDIT:([task isNote]?ACTION_NOTE_EDIT:ACTION_ITEM_EDIT);
     contentView.tag = pk;
     
     CGRect frm = view.frame;
     frm.origin = [view.superview convertPoint:frm.origin toView:contentView];
-    
-    /*
-     if (frm.origin.y + frm.size.height > previewPane.frame.origin.y)
-     {
-     CGFloat dyScroll = frm.origin.y + frm.size.height - previewPane.frame.origin.y + 40;
-     
-     if ([view.superview isKindOfClass:[UIScrollView class]])
-     {
-     UIScrollView *scrollView = (UIScrollView *)view.superview;
-     
-     CGPoint contentOffset = scrollView.contentOffset;
-     
-     contentOffset.y += dyScroll;
-     
-     [scrollView setContentOffset:contentOffset animated:YES];
-     
-     frm.origin.y -= dyScroll;
-     }
-     }
-     */
-    
+        
     UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
     
     [contentView becomeFirstResponder];
@@ -412,13 +397,6 @@ BOOL _autoPushPending = NO;
     {
         return;
     }
-    
-    /*
-    if (activeView != nil)
-    {
-        [activeView doSelect:NO];
-    }
-    */
     
     [self deselect];
     
@@ -450,6 +428,11 @@ BOOL _autoPushPending = NO;
 
 - (void)showProjectActionMenu:(PlanView *)view
 {
+    if ([view.project isShared])
+    {
+        return;
+    }
+    
     contentView.actionType = ACTION_CATEGORY_EDIT;
     
     CGRect frm = view.frame;
@@ -1055,6 +1038,40 @@ BOOL _autoPushPending = NO;
     }
 }
 
+-(void) createTaskFromNote
+{
+    TaskManager *tm = [TaskManager getInstance];
+    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    
+    Task *note = [self getActiveTask];
+    
+    if (note != nil)
+    {
+        [note retain];
+        
+        [self deselect];
+        
+        Task *task = [[Task alloc] init];
+        
+        task.project = note.project;
+        task.name = note.name;
+        
+        [tm addTask:task];
+        
+        NSInteger linkId = [tlm createLink:task.primaryKey destId:note.primaryKey];
+        
+        if (linkId != -1)
+        {
+            //edit in Category view
+            task.links = [tlm getLinkIds4Task:task.primaryKey];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; //trigger sync for Link
+        }
+        
+        [note release];
+    }
+}
+
 - (void) markDoneTaskInView:(TaskView *)view
 {
     Task *task = view.task;
@@ -1093,6 +1110,7 @@ BOOL _autoPushPending = NO;
     
     [task release];
 }
+
 
 #pragma mark Projects
 - (void) doDeleteCategory:(BOOL) cleanFromDB

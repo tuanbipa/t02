@@ -50,7 +50,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender 
 {
 	switch (self.actionType) {
-        case ACTION_ITEM_EDIT:
+        case ACTION_NOTE_EDIT:
         {
             NSInteger pk = self.tag;
             
@@ -63,16 +63,18 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
             {
-                return action == @selector(copy:) || 
-                    action == @selector(delete:) ||  
-                    action == @selector(copyLink:) ||
-                    action == @selector(pasteLink:);
+                return action == @selector(copy:) ||
+                action == @selector(delete:) ||
+                action == @selector(createTask:) ||
+                action == @selector(copyLink:) ||
+                action == @selector(pasteLink:);
             }
 			else
             {
                 return action == @selector(copy:) ||
-                    action == @selector(delete:) ||
-                    action == @selector(copyLink:);
+                action == @selector(delete:) ||
+                action == @selector(createTask:) ||
+                action == @selector(copyLink:);
             }
             
         }
@@ -100,6 +102,33 @@ extern AbstractSDViewController *_abstractViewCtrler;
             {
                 return action == @selector(copy:) ||
                 action == @selector(done:) ||
+                action == @selector(delete:) ||
+                action == @selector(copyLink:);
+            }
+            
+        }
+            break;
+        case ACTION_ITEM_EDIT:
+        {
+            NSInteger pk = self.tag;
+            
+            if (pk == 0)
+            {
+                break;
+            }
+            
+            ////printf("selected primary key: %d\n", pk);
+            
+            if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
+            {
+                return action == @selector(copy:) ||
+                action == @selector(delete:) ||
+                action == @selector(copyLink:) ||
+                action == @selector(pasteLink:);
+            }
+			else
+            {
+                return action == @selector(copy:) ||
                 action == @selector(delete:) ||
                 action == @selector(copyLink:);
             }
@@ -176,6 +205,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [_abstractViewCtrler markDoneTask];
 }
 
+- (void)createTask:(id)sender
+{
+    [_abstractViewCtrler createTaskFromNote];
+}
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {

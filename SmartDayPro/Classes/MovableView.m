@@ -51,6 +51,11 @@
     return self;
 }
 
+- (CGRect) getOriginalFrame
+{
+    return originalFrame;
+}
+
 - (void) changeFrame:(CGRect) frame
 {
 	self.frame = frame;

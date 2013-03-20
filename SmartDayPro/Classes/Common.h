@@ -187,7 +187,13 @@ typedef enum
 	TASK_STATUS_DELETED
 } TaskStatus;
 
-typedef enum 
+typedef enum
+{
+	TASK_EXTRA_STATUS_NONE,
+    Task_EXTRA_STATUS_SHARED
+} TaskExtraStatus;
+
+typedef enum
 {
     LINK_STATUS_NONE,
     LINK_STATUS_DELETED
@@ -225,6 +231,12 @@ typedef enum
 	PROJECT_STATUS_INVISIBLE,
     PROJECT_STATUS_TRANSPARENT
 } ProjectStatus;
+
+typedef enum
+{
+	PROJECT_EXTRA_STATUS_NONE,
+    PROJECT_EXTRA_STATUS_SHARED
+} ProjectExtraStatus;
 
 typedef enum
 {
@@ -269,6 +281,7 @@ typedef enum
 typedef enum
 {
     ACTION_ITEM_EDIT,
+    ACTION_NOTE_EDIT,
     ACTION_TASK_EDIT,
     ACTION_CATEGORY_EDIT
     

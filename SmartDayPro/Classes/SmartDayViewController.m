@@ -836,6 +836,7 @@ extern BOOL _gtdoTabHintShown;
 #pragma mark Category Handle
 - (void) enableCategoryActions:(BOOL)enable onView:(PlanView *)view
 {
+/*
     if ([[BusyController getInstance] checkSyncBusy])
     {
         return;
@@ -883,6 +884,14 @@ extern BOOL _gtdoTabHintShown;
         
         [previewPane show];
     }
+*/
+    
+    if (!previewPane.hidden)
+    {
+        [previewPane show]; //hide preview
+    }
+    
+    [super enableCategoryActions:enable onView:view];
 }
 
 /*
@@ -986,11 +995,16 @@ extern BOOL _gtdoTabHintShown;
     //Task *task = (Task *)view.tag;
     Task *task = view.task;
     
+    if ([task isShared])
+    {
+        return;
+    }
+    
     NSInteger pk = (task.original != nil && ![task isREException]?task.original.primaryKey:task.primaryKey);
     
     BOOL calendarTask = [self.activeViewCtrler isKindOfClass:[CalendarViewController class]] && [task isTask];
     
-    contentView.actionType = calendarTask?ACTION_TASK_EDIT:ACTION_ITEM_EDIT;
+    contentView.actionType = calendarTask?ACTION_TASK_EDIT:([task isNote]?ACTION_NOTE_EDIT:ACTION_ITEM_EDIT);
     contentView.tag = pk;
     
     CGRect frm = view.frame;

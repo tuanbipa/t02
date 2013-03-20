@@ -25,6 +25,8 @@
 #import "SmartDayViewController.h"
 #import "AbstractSDViewController.h"
 
+#import "DummyMovableController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @interface NoteViewController ()
@@ -52,6 +54,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (self)
     {
+        movableController = [[DummyMovableController alloc] init];
+
         self.filterType = NOTE_FILTER_ALL;
         
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -64,49 +68,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) dealloc
 {
+    [movableController release];
+    
     self.noteList = nil;
     
     [super dealloc];
 }
-
-/*
-- (void) initData
-{
-    DBManager *dbm = [DBManager getInstance];
-    TaskManager *tm = [TaskManager getInstance];
-    
-    NSDictionary *tagDict = [tm getFilterTagDict];
-    NSDictionary *categoryDict = [tm getFilterCategoryDict];   
-    
-    //self.noteList = [dbm getAllNotes];
-    self.noteList = [NSMutableArray arrayWithCapacity:50];
-    
-    NSArray *list = [dbm getAllNotes];
-    
-    for (Task *task in list)
-    {
-        BOOL filterIn = ([tm checkGlobalFilterIn:task tagDict:tagDict catDict:categoryDict]);
-        
-        if (filterIn)
-        {
-            task.listSource = SOURCE_NOTE;
-            
-            [self.noteList addObject:task];
-        }        
-    }
-    
-    checkFocus = YES;
-    
-    focusIndex = -1;
-    
-    selectedIndex = -1;
-    tapCount = 0;
-    
-    [self reconcileLinkCopy];
-    
-    [listTableView reloadData];
-}
-*/
 
 - (void) loadAndShowList
 {
@@ -541,12 +508,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
     TaskView *taskView = [[TaskView alloc] initWithFrame:CGRectMake(0, 5, tableView.bounds.size.width, 45)];
     taskView.tag = 10000;
-    //taskView.tag = task;
     taskView.task = task;
     taskView.listStyle = YES;
     taskView.starEnable = NO;
     taskView.checkEnable = YES;
     taskView.showSeparator = NO;
+    
+    //taskView.movableController = self.movableController;
     
     [cell.contentView addSubview:taskView];
     [taskView release];

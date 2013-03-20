@@ -652,4 +652,5 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 
 "_reportSuccess" = "Report has been sent!";
 "_reportFailure" = "Fail to send report. Please try again later!";
+"_createTask" = "Create Task";
 

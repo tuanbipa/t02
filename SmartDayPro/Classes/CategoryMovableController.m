@@ -102,55 +102,58 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     BOOL refresh = NO;
     
-    if ([self.activeMovableView isKindOfClass:[TaskView class]])
+    if (!moveInMM)
     {
-        if (onMovableView != nil && [onMovableView isKindOfClass:[PlanView class]])
+        if ([self.activeMovableView isKindOfClass:[TaskView class]])
         {
-            [tm changeTask:((TaskView *)self.activeMovableView).task toProject:((PlanView *)onMovableView).project.primaryKey];
-            
-            refresh = YES;
-        }
-        else if (rightMovableView != nil)
-        {
-            Task *srcTask = ((TaskView *)self.activeMovableView).task;
-            Task *destTask = ((TaskView *)rightMovableView).task;
-            
-            BOOL catChange = srcTask.project != destTask.project;
-            
-            if (catChange)
+            if (onMovableView != nil && [onMovableView isKindOfClass:[PlanView class]])
             {
-                srcTask.project = destTask.project;
+                [tm changeTask:((TaskView *)self.activeMovableView).task toProject:((PlanView *)onMovableView).project.primaryKey];
                 
-                [srcTask updateProjectIntoDB:[dbm getDatabase]];
+                refresh = YES;
             }
-            
-            [[TaskManager getInstance] changeOrder:srcTask destTask:destTask];
-            
-            if (catChange)
+            else if (rightMovableView != nil)
             {
-                if ([srcTask isTask] || [srcTask isNote])
+                Task *srcTask = ((TaskView *)self.activeMovableView).task;
+                Task *destTask = ((TaskView *)rightMovableView).task;
+                
+                BOOL catChange = srcTask.project != destTask.project;
+                
+                if (catChange)
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+                    srcTask.project = destTask.project;
+                    
+                    [srcTask updateProjectIntoDB:[dbm getDatabase]];
                 }
-                else if ([srcTask isEvent])
+                
+                [[TaskManager getInstance] changeOrder:srcTask destTask:destTask];
+                
+                if (catChange)
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
+                    if ([srcTask isTask] || [srcTask isNote])
+                    {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+                    }
+                    else if ([srcTask isEvent])
+                    {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
+                    }
                 }
+                
+                refresh = YES;
             }
-            
-            refresh = YES;
         }
-    }
-    else if ([self.activeMovableView isKindOfClass:[PlanView class]])
-    {
-        if (rightMovableView != nil && [rightMovableView isKindOfClass:[PlanView class]])
+        else if ([self.activeMovableView isKindOfClass:[PlanView class]])
         {
-			Project *plan1 = ((PlanView *) self.activeMovableView).project;
-			Project *plan2 = ((PlanView *) rightMovableView).project;
-            
-            [pm changeOrder:plan1 destPrj:plan2];
-            
-            refresh = YES;
+            if (rightMovableView != nil && [rightMovableView isKindOfClass:[PlanView class]])
+            {
+                Project *plan1 = ((PlanView *) self.activeMovableView).project;
+                Project *plan2 = ((PlanView *) rightMovableView).project;
+                
+                [pm changeOrder:plan1 destPrj:plan2];
+                
+                refresh = YES;
+            }
         }
     }
 

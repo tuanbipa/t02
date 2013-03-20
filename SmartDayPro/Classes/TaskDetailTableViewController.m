@@ -175,12 +175,13 @@ extern BOOL _isiPad;
 		self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
 	}
 	
-	if (self.taskCopy.name == nil || [self.taskCopy.name isEqualToString:@""])
+	/*if (self.taskCopy.name == nil || [self.taskCopy.name isEqualToString:@""])
 	{
 		saveButton.enabled = NO;
 	}	
+	*/
 	
-	//[self refreshHistory];
+    [self check2EnableSave];
 	
     showMore = NO;
     deadlineEnabled = self.taskCopy.deadline != nil;
@@ -218,6 +219,7 @@ extern BOOL _isiPad;
 	
 	[taskTableView reloadData];
 	
+    /*
 	if ([self.taskCopy.name isEqualToString:@""])
 	{
 		saveButton.enabled = NO;
@@ -225,7 +227,9 @@ extern BOOL _isiPad;
 	else
 	{
 		saveButton.enabled = YES;
-	}
+	}*/
+    
+    [self check2EnableSave];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -680,6 +684,13 @@ extern BOOL _isiPad;
 		[tagButtons[j] setEnabled:NO];
 	}	
 }
+
+- (void) check2EnableSave
+{
+    saveButton.enabled = [self.taskCopy isShared] || self.taskCopy.name == nil || [self.taskCopy.name isEqualToString:@""]?NO:YES;
+}
+
+#pragma mark Actions
 
 - (void) selectTag:(id) sender
 {
@@ -1883,7 +1894,7 @@ extern BOOL _isiPad;
 	{
 		NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		
-		if ([text isEqualToString:@""])
+		/*if ([text isEqualToString:@""])
 		{
 			saveButton.enabled = NO;
 		}
@@ -1891,16 +1902,11 @@ extern BOOL _isiPad;
 		{
 			saveButton.enabled = YES;
 		}
-		
+		*/
+        
 		self.taskCopy.name = text;
-		
-        /*
-		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-		UITableViewCell *cell = [taskTableView cellForRowAtIndexPath:indexPath];
-		
-		UIButton *editTitleButton = (UIButton *) [cell.contentView viewWithTag:10002];
-		editTitleButton.enabled = YES;	
-        */
+        
+        [self check2EnableSave];
 	}
 	else if (textField.tag == 10005) //edit location
     {
@@ -2188,16 +2194,28 @@ extern BOOL _isiPad;
 {
     NSString *text = [titleTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    if ([text isEqualToString:@""])
+    /*if ([text isEqualToString:@""])
     {
         saveButton.enabled = NO;
     }
     else
     {
         saveButton.enabled = YES;
-    }
+    }*/
     
     self.taskCopy.name = text;
+    
+    [self check2EnableSave];
+}
+
+- (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView
+{
+    NSString *text = [titleTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if ([text isEqualToString:@""])
+    {
+        saveButton.enabled = NO;
+    }
 }
 
 #pragma mark Notification
@@ -2209,7 +2227,8 @@ extern BOOL _isiPad;
 
 - (void)appNoBusy:(NSNotification *)notification
 {
-    saveButton.enabled = YES;
+    //saveButton.enabled = YES;
+    [self check2EnableSave];
 }
 
 #pragma mark OS4 Support

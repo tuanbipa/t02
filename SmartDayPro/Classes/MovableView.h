@@ -37,6 +37,7 @@
 
 -(CGPoint)getMovedDelta:(NSSet *)touches;
 -(CGPoint)getTouchPoint;
+- (CGRect) getOriginalFrame;
 - (void) changeFrame:(CGRect) frame;
 -(void)move:(NSSet *)touches withEvent:(UIEvent *)event;
 -(void) multiSelect:(BOOL)enabled;

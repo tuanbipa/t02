@@ -116,7 +116,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     //NSString *name = [NSString stringWithFormat:@"%@%@", plan.source == CATEGORY_SOURCE_ICAL?@"[iOS/OSX] ":(plan.source == CATEGORY_SOURCE_SDW?@"[mySmartDay] ":@""), plan.name];
     
-    NSString *name = plan.name;
+    //NSString *name = plan.name;
+    NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"[%@] ", plan.ownerName]:@"", plan.name];
 	
 	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
 	
@@ -339,6 +340,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     rect.size.width -= PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     
     [self drawText:rect context:ctx];
+    
+    if ([plan isShared])
+    {
+        [[[Colors darkSlateGray] colorWithAlphaComponent:0.5] setFill];
+        
+        CGContextFillRect(ctx, self.bounds);
+    }
 }
 
 - (void)drawRect:(CGRect)rect {

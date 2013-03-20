@@ -24,6 +24,7 @@
 	
 	NSInteger status;
     NSInteger timerStatus;
+    NSInteger extraStatus;
 	NSInteger duration;
 	
 	NSString *name;
@@ -86,6 +87,7 @@
 
 @property NSInteger status;
 @property NSInteger timerStatus;
+@property NSInteger extraStatus;
 @property NSInteger duration;
 
 @property (nonatomic, copy) NSString *name;
@@ -185,6 +187,7 @@
 -(BOOL)isLong;
 -(BOOL)isPartial;
 -(BOOL)isDone;
+-(BOOL) isShared;
 -(BOOL)checkMustDo;
 
 - (NSString *) getRepeatTypeString;

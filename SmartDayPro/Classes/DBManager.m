@@ -24,6 +24,8 @@
 extern BOOL _versionUpgrade;
 extern BOOL _firstLaunch;
 
+extern BOOL _isiPad;
+
 DBManager *_dbManagerSingleton;
 
 static sqlite3_stmt *_event_list_statement = nil;
@@ -3713,22 +3715,10 @@ static sqlite3_stmt *_top_task_statement = nil;
 #pragma mark Upgrade
 - (void)upgrade
 {
-	NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     Settings *settings = [Settings getInstance];
     
 	NSString *dbVersion = settings.dbVersion;
-    
-    /*
-    if ([dbVersion isEqualToString:@"4.0"] && [appVersion compare:@"4.0"] != NSOrderedDescending)
-    {
-        MigrationData *migration = [[MigrationData alloc] init];
-        
-        [migration checkAndMigrateData];
-        
-        [migration release];
-        
-    }
-    */
     
     if (_firstLaunch)
     {
@@ -3741,7 +3731,7 @@ static sqlite3_stmt *_top_task_statement = nil;
         return;
     }
     
-	if ([dbVersion isEqualToString:@"1.0"] && [appVersion isEqualToString:@"1.0.2"])
+	/*if ([dbVersion isEqualToString:@"1.0"] && [appVersion isEqualToString:@"1.0.2"])
 	{
 		[self upgradeDBv1_0_2];
 	}	
@@ -3764,6 +3754,13 @@ static sqlite3_stmt *_top_task_statement = nil;
 	else if ([dbVersion isEqualToString:@"3.0"] && [appVersion isEqualToString:@"4.0"])
 	{
 		[self upgradeDBv4_0];
+	}*/
+    
+	if ([dbVersion isEqualToString:@"5.0"] && (!_isiPad && [appVersion isEqualToString:@"1.1"]))
+	{
+        // upgrade for SD iPhone v1.0.1 to v1.1
+        
+		[self upgradeDBv5_0];
 	}
     
     _versionUpgrade = NO;
@@ -4094,6 +4091,46 @@ static sqlite3_stmt *_top_task_statement = nil;
         
         [project updateIntoDB:database];
     }
+}
+
+- (void)upgradeDBv5_0
+{
+	sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_ExtraStatus NUMERIC;", nil, nil, nil);
+	sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_ExtraStatus NUMERIC;", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_OnwerName TEXT;", nil, nil, nil);
+    
+	NSString *sql = @"UPDATE ProjectTable SET Project_ExtraStatus = ?, Project_OwnerName = ''";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK)
+	{
+		sqlite3_bind_int(statement, 1, PROJECT_EXTRA_STATUS_NONE);
+		
+		int success = sqlite3_step(statement);
+		
+		if (success != SQLITE_DONE)
+		{
+			NSAssert1(0, @"Error: failed to update into the database with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
+	
+	sqlite3_finalize(statement);
+    
+    sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?";
+    
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK)
+	{
+		sqlite3_bind_int(statement, 1, TASK_EXTRA_STATUS_NONE);
+		
+		int success = sqlite3_step(statement);
+		
+		if (success != SQLITE_DONE)
+		{
+			NSAssert1(0, @"Error: failed to update into the database with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
+	
+	sqlite3_finalize(statement);
 }
 
 -(void)closeDB

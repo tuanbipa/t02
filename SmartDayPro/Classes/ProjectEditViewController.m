@@ -130,6 +130,7 @@ extern BOOL _isiPad;
 	projectNameTextField.returnKeyType = UIReturnKeyDone;
 	projectNameTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
 	projectNameTextField.tag = 0;
+    [projectNameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 	
 	[mainView addSubview:projectNameTextField];
 	[projectNameTextField release];	
@@ -214,8 +215,9 @@ extern BOOL _isiPad;
 	saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
                                                                                target:self action:@selector(save:)];
 	self.navigationItem.rightBarButtonItem = saveButton;
-	[saveButton release];     
-	
+	[saveButton release];
+    
+    [self check2EnableSave];
 }
 
 - (BOOL) checkExistingTag:(NSString *)tag
@@ -273,6 +275,8 @@ extern BOOL _isiPad;
     [super viewWillAppear:animated];
 	
 	[self tagInputReset];
+    
+    [self check2EnableSave];
 }
 
 /*
@@ -358,7 +362,7 @@ extern BOOL _isiPad;
 		
 		[self tagInputReset];
 		
-        saveButton.enabled = YES;
+        //saveButton.enabled = YES;
 	}	
 }
 
@@ -401,6 +405,11 @@ extern BOOL _isiPad;
 	{
 		[[Settings getInstance] enableTransparentHint:NO];
 	}
+}
+
+- (void) check2EnableSave
+{
+    saveButton.enabled = [self.projectCopy isShared] || [self.projectCopy.name isEqualToString:@""]?NO:YES;
 }
 
 - (void) save:(id)sender
@@ -594,31 +603,16 @@ extern BOOL _isiPad;
 #pragma mark TextFieldDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    saveButton.enabled = YES;
-
-    /*
-	if (textField.tag == 10000)
-	{
-		NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-		
-		if (![text isEqualToString:@""])
-		{
-			self.projectCopy.tag = [TagDictionary addTagToList:self.projectCopy.tag tag:text];
-		}
-		
-		[self tagInputReset];
-	}
-	else 
-	{*/
-		[textField resignFirstResponder];	
-	//}
+    //saveButton.enabled = YES;
+    
+    [textField resignFirstResponder];
 
 	return YES;	
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    saveButton.enabled = NO;
+    //saveButton.enabled = NO;
     
 	return YES;
 }
@@ -629,6 +623,19 @@ extern BOOL _isiPad;
 	{
 		[self performSelector:@selector(scroll) withObject:nil afterDelay:.1]; 
 	}
+}
+
+- (void) textFieldDidChange:(id)sender
+{
+    UITextField *textField = (UITextField *)sender;
+    
+    NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if ([text isEqualToString:@""])
+    {
+        saveButton.enabled = NO;
+    }
+
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -647,7 +654,7 @@ extern BOOL _isiPad;
 		}
 		else 
 		{
-			self.projectCopy.name = text;			
+			self.projectCopy.name = text;
 		}
 	}
 	else if (textField.tag == 10000) //edit tag
@@ -665,6 +672,7 @@ extern BOOL _isiPad;
 		[self tagInputReset];
 	}
     
+    [self check2EnableSave];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

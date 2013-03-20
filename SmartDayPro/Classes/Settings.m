@@ -274,7 +274,7 @@ extern BOOL _isiPad;
         
         isExternalUpdate = NO;
 		
-		self.dbVersion = @"4.0";
+		self.dbVersion = @"5.0";
 
 		//self.oldAppVersion = nil;
 		
@@ -515,7 +515,7 @@ extern BOOL _isiPad;
 		
 		version = [self.settingDict objectForKey:@"AppVersion"];
 		
-		NSString *newVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+		NSString *newVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 		
 		_versionUpgrade = NO;
 		
