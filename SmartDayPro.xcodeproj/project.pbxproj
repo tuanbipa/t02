@@ -1374,6 +1374,8 @@
 		67EEF94016D21F3800D0A7D0 /* iPadTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EEF93F16D21F3700D0A7D0 /* iPadTagListViewController.m */; };
 		67EFEEF316A535FC0096360B /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EFEEF216A535FC0096360B /* arrow_down.png */; };
 		67EFEEF616A53B410096360B /* module_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EFEEF516A53B410096360B /* module_add.png */; };
+		67F6B8CD16FAB409004EEB69 /* PlannerItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */; };
+		67F6B8CE16FAB409004EEB69 /* PlannerItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */; };
 		67F95E5116DB1A1600B81A42 /* SeekOrCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */; };
 		67FADC2616D3596A009D835D /* iPadSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC2516D3596A009D835D /* iPadSettingViewController.m */; };
 		67FADC2F16D35CF8009D835D /* settings_calendars.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2716D35CF8009D835D /* settings_calendars.png */; };
@@ -2253,6 +2255,8 @@
 		67EEF93F16D21F3700D0A7D0 /* iPadTagListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadTagListViewController.m; sourceTree = "<group>"; };
 		67EFEEF216A535FC0096360B /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
 		67EFEEF516A53B410096360B /* module_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = module_add.png; sourceTree = "<group>"; };
+		67F6B8CB16FAB409004EEB69 /* PlannerItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerItemView.h; sourceTree = "<group>"; };
+		67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerItemView.m; sourceTree = "<group>"; };
 		67F95E4F16DB1A1600B81A42 /* SeekOrCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeekOrCreateViewController.h; sourceTree = "<group>"; };
 		67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeekOrCreateViewController.m; sourceTree = "<group>"; };
 		67FADC2416D35969009D835D /* iPadSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSettingViewController.h; sourceTree = "<group>"; };
@@ -2322,6 +2326,8 @@
 		67B41504166C5A3100AB3B5C /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				67F6B8CB16FAB409004EEB69 /* PlannerItemView.h */,
+				67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */,
 				67E18E8D16F99BEF00F1E976 /* PlannerBottomDayCal.h */,
 				67E18E8E16F99BEF00F1E976 /* PlannerBottomDayCal.m */,
 				67E18E8F16F99BEF00F1E976 /* PlannerHeaderView.h */,
@@ -4629,6 +4635,7 @@
 				67E18E9B16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
 				67E18E9D16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
 				67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */,
+				67F6B8CD16FAB409004EEB69 /* PlannerItemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4821,6 +4828,7 @@
 				67E18E9C16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
 				67E18E9E16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
 				67E18EA016F99BEF00F1E976 /* PlannerView.m in Sources */,
+				67F6B8CE16FAB409004EEB69 /* PlannerItemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

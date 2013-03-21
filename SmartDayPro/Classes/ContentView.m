@@ -207,7 +207,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)createTask:(id)sender
 {
-    [_abstractViewCtrler createTaskFromNote];
+    [_abstractViewCtrler createTaskFromNote:nil];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

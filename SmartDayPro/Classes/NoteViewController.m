@@ -92,8 +92,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) loadAndShowList
 {
     [self filter:self.filterType];
-    
-    [self refreshLayout];
 }
 
 - (void) filter:(NSInteger)type
@@ -130,6 +128,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     tapCount = 0;
     
     [self reconcileLinkCopy];
+    
+    [self refreshLayout];
     
     //[listTableView reloadData];
 }

@@ -8,11 +8,34 @@
 
 #import "NoteMovableController.h"
 
+#import "TaskView.h"
+
+#import "iPadSmartDayViewController.h"
+
+extern iPadSmartDayViewController *_iPadSDViewCtrler;
+
 @implementation NoteMovableController
 
 - (void) animateRelations
 {
     //don't shift notes
+}
+
+-(void) endMove:(MovableView *)view
+{
+    if (!moveInMM)
+    {
+        CGRect frm = dummyView.frame;
+        
+        frm.size.width = 20;
+        
+        if ([_iPadSDViewCtrler checkRect:frm inModule:0])
+        {
+            [_iPadSDViewCtrler createTaskFromNote:((TaskView *)dummyView).task];
+        }
+    }
+    
+    [super endMove:view];
 }
 
 @end

@@ -55,6 +55,13 @@ iPadViewController *_iPadViewCtrler;
     return self;
 }
 
+- (void) dealloc
+{
+    self.activeViewCtrler = nil;
+    
+    [super dealloc];
+}
+
 - (void) showCategory:(id) sender
 {
     [_iPadSDViewCtrler showCategory];
@@ -204,12 +211,6 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void) dealloc
-{
-    self.activeViewCtrler = nil;
-    
-    [super dealloc];
-}
 
 #pragma mark View
 

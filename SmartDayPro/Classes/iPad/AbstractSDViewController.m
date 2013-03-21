@@ -1051,12 +1051,12 @@ BOOL _autoPushPending = NO;
     }
 }
 
--(void) createTaskFromNote
+-(void) createTaskFromNote:(Task *)fromNote
 {
     TaskManager *tm = [TaskManager getInstance];
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
     
-    Task *note = [self getActiveTask];
+    Task *note = fromNote != nil?fromNote:[self getActiveTask];
     
     if (note != nil)
     {

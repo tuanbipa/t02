@@ -19,6 +19,7 @@
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;
 
+- (BOOL) checkRect:(CGRect)rect inModule:(NSInteger) inModule;
 - (void) showCategory;
 - (void) showTag;
 - (void) showSeekOrCreate:(NSString *)text;

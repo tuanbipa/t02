@@ -93,6 +93,23 @@ iPadViewController *_iPadViewCtrler;
 	
 }
 
+- (BOOL) checkRect:(CGRect)rect inModule:(NSInteger) inModule
+{
+    UIView *moduleBorderView = (UIView *)[contentView viewWithTag:18000+inModule];
+    
+    CGRect frm = moduleBorderView.frame;
+    
+    if (frm.size.height == 0)
+    {
+        //module is collapsed
+        
+        return NO;
+    }
+    
+    return CGRectContainsRect(frm, rect);
+    
+}
+
 - (void) resizeModules
 {
     UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];

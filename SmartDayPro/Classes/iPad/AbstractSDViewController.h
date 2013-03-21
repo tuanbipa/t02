@@ -75,7 +75,7 @@
 - (void) deleteTask;
 - (void) copyTask;
 - (void) markDoneTask;
--(void) createTaskFromNote;
+-(void) createTaskFromNote:(Task *)fromNote;
 
 - (void) deleteCategory;
 - (void) copyCategory;
