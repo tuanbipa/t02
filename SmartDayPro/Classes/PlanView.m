@@ -117,7 +117,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     //NSString *name = [NSString stringWithFormat:@"%@%@", plan.source == CATEGORY_SOURCE_ICAL?@"[iOS/OSX] ":(plan.source == CATEGORY_SOURCE_SDW?@"[mySmartDay] ":@""), plan.name];
     
     //NSString *name = plan.name;
-    NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"[%@] ", plan.ownerName]:@"", plan.name];
+    NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"☛ [%@] ", plan.ownerName]:@"", plan.name];
 	
 	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
 	

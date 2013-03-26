@@ -269,11 +269,27 @@
 		case TASK_EDIT_DEADLINE:
 		{
 			Task *task = (Task *) objectEdit;
+            
+            NSInteger diff = 0;
+            
+            if (task.startTime != nil)
+            {
+                diff = [task.deadline timeIntervalSinceDate:task.startTime];
+            }
+            
 			task.deadline = [settings getWorkingEndTimeForDate:picker.date];
             
+            /*
             if (task.startTime != nil && [task.deadline compare:task.startTime] == NSOrderedAscending)
             {
                 task.startTime = [settings getWorkingStartTimeForDate:task.deadline];
+            }*/
+            
+            if (diff > 0)
+            {
+                NSDate *dt = [NSDate dateWithTimeInterval:-diff sinceDate:task.deadline];
+                
+                task.startTime = [settings getWorkingStartTimeForDate:dt];
             }
 		}
 			break;			

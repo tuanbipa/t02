@@ -187,6 +187,7 @@
 - (Task *) findItemByKey:(NSInteger)key;
 
 - (void) reconcileLinks:(NSDictionary *)dict;
+- (void) reloadAlert4Task:(NSInteger)taskId;
 
 -(void) purge;
 -(void) recover;

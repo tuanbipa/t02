@@ -29,6 +29,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property (nonatomic, retain) NSMutableDictionary *alertDict;
+
 - (void) showBusyIndicator:(BOOL)enable;
 
 - (void) showFocusPane;

@@ -28,5 +28,8 @@
 - (void) removeAllAlertsForTask:(Task *)task;
 - (void) cancelAllAlertsForTask:(Task *)task;
 - (void) generateAlerts;
+- (void) stopAlert:(UILocalNotification *)notif;
+- (void) snoozeAlert:(UILocalNotification *)notif;
+- (void) postponeAlert:(UILocalNotification *)notif postponeType:(NSInteger)postponeType;
 
 @end

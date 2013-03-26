@@ -75,6 +75,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 }
 
+- (void) reloadAlert4Task:(NSInteger)taskId
+{
+    
+}
+
 - (void) loadAndShowList
 {
     

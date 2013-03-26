@@ -854,7 +854,27 @@ CalendarViewController *_sc2ViewCtrler;
     [[TaskManager getInstance] garbage:adeView.adeList];
 }
 
-#pragma mark Quick Add 
+- (void) reloadAlert4Task:(NSInteger)taskId
+{
+    NSArray *list = [calendarLayoutController getObjectList];
+    
+    for (Task *task in list)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == taskId)
+            {
+                task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
+                
+                break;
+            }
+        }
+    }
+    
+    [adeView reloadAlert4Task:taskId];
+}
+
+#pragma mark Quick Add
 -(void)showQuickAdd:(NSDate *)timeSlot
 {
     MiniMonthView *mm = _abstractViewCtrler.miniMonthView;

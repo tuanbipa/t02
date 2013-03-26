@@ -37,6 +37,7 @@
 
 #import "CalendarSelectionTableViewController.h"
 #import "DefaultDurationViewController.h"
+#import "SnoozeDurationViewController.h"
 
 #import "AboutTableViewController.h"
 
@@ -361,16 +362,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 #pragma mark Support
 -(void) editTaskDuration
 {
-    /*
-	DurationPickerViewController *ctrler = [[DurationPickerViewController alloc] init];
-	ctrler.objectEdit = self.settingCopy;
-	ctrler.keyEdit = SETTING_EDIT_DEFAULT_DURATION;
+	DefaultDurationViewController *ctrler = [[DefaultDurationViewController alloc] init];
+	ctrler.settings = self.settingCopy;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];
-    */
-    
-	DefaultDurationViewController *ctrler = [[DefaultDurationViewController alloc] init];
+}
+
+-(void) editSnoozeDuration
+{
+	SnoozeDurationViewController *ctrler = [[SnoozeDurationViewController alloc] init];
 	ctrler.settings = self.settingCopy;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
@@ -1136,6 +1137,27 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 }
 
+- (void) createSnoozeDurationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = _snoozeDuration;
+	
+	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
+	durationLabel.tag = baseTag;
+	durationLabel.textAlignment=NSTextAlignmentRight;
+	durationLabel.backgroundColor=[UIColor clearColor];
+	durationLabel.font=[UIFont systemFontOfSize:15];
+	durationLabel.textColor= [Colors darkSteelBlue];
+	
+	durationLabel.text = [Common getDurationString:self.settingCopy.snoozeDuration*60];
+	
+	[cell.contentView addSubview:durationLabel];
+	[durationLabel release];
+	
+}
+
+
 - (void) createDefaultCategoryCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -1850,7 +1872,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		case 0: //About
 			return 1;
 		case 1: //General
-			return 7;
+			return 8;
 		case 2: //Task
 			return 4;
 		case 3: //Calendar
@@ -1984,17 +2006,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 					break;
 				case 4:
 				{
-                    [self createDeleteWarningCell:cell baseTag:11040];
+					[self createSnoozeDurationCell:cell baseTag:11040];
 				}
 					break;
 				case 5:
 				{
-                    [self createTabBarAutoHideCell:cell baseTag:11050];
+                    [self createDeleteWarningCell:cell baseTag:11050];
 				}
 					break;
 				case 6:
 				{
-                    [self createDeleteSuspectedDuplicationCell:cell baseTag:11060];
+                    [self createTabBarAutoHideCell:cell baseTag:11060];
+				}
+					break;
+				case 7:
+				{
+                    [self createDeleteSuspectedDuplicationCell:cell baseTag:11070];
 				}
 					break;
 			}
@@ -2220,7 +2247,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 					
 				case 4:
 				{
-					[self editProjectNames];
+					//[self editProjectNames];
+                    [self editSnoozeDuration];
 				}
 					break;
 				case 5:

@@ -384,8 +384,9 @@ extern BOOL _gtdoTabHintShown;
                     case NOTE_FILTER_ALL:
                         title = _allText;
                         break;
-                    case NOTE_FILTER_TODAY:
-                        title = _todayText;
+                    case NOTE_FILTER_CURRENT:
+                        //title = _todayText;
+                        title = _currentText;
                         break;
                 }
                 
@@ -2050,7 +2051,7 @@ extern BOOL _gtdoTabHintShown;
         case NOTE_FILTER_ALL:
             title = _allText;
             break;
-        case NOTE_FILTER_TODAY:
+        case NOTE_FILTER_CURRENT:
             title = _todayText;
             break;
     }
@@ -3258,7 +3259,8 @@ extern BOOL _gtdoTabHintShown;
 	[todayImageView release];
 	
     UILabel *todayLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
-	todayLabel.text = _todayText;
+	//todayLabel.text = _todayText;
+    todayLabel.text = _currentText;
 	todayLabel.textColor = [UIColor whiteColor];
 	todayLabel.backgroundColor = [UIColor clearColor];
 	todayLabel.font=[UIFont systemFontOfSize:18];
@@ -3274,7 +3276,7 @@ extern BOOL _gtdoTabHintShown;
                              normalStateImage:nil
                            selectedStateImage:nil];
 	todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    todayButton.tag = NOTE_FILTER_TODAY;
+    todayButton.tag = NOTE_FILTER_CURRENT;
 	[optionView addSubview:todayButton];
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];

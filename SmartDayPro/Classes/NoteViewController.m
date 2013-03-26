@@ -66,6 +66,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(tabBarModeChanged:)
 													 name:@"TabBarModeChangeNotification" object:nil];
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(calendarDayChange:)
+													 name:@"CalendarDayChangeNotification" object:nil];
+        
     }
     
     return self;
@@ -106,7 +111,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     self.noteList = [NSMutableArray arrayWithCapacity:50];
     
-    NSArray *list = (self.filterType == NOTE_FILTER_TODAY?[dbm getTodayNotes]:[dbm getAllNotes]);
+    NSArray *list = (self.filterType == NOTE_FILTER_CURRENT?[dbm getNotesByDate:tm.today]:[dbm getAllNotes]);
     
     for (Task *task in list)
     {
@@ -251,6 +256,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
 	}
 }
+
+- (void) reloadAlert4Task:(NSInteger)taskId
+{
+    for (Task *task in self.noteList)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == taskId)
+            {
+                task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
+                
+                break;
+            }
+        }
+    }
+}
+
 
 /*
 - (void) singleTap
@@ -618,6 +640,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     noteListView.frame = CGRectMake(0, 0, sz.width, sz.height - (settings.tabBarAutoHide?0:40));
 }
 
+- (void)calendarDayChange:(NSNotification *)notification
+{
+    //refresh Notes if filter is Current
+    
+    if (self.filterType == NOTE_FILTER_CURRENT)
+    {
+        [self loadAndShowList];
+    }
+}
 
 #pragma mark Links
 - (void) reconcileLinks:(NSDictionary *)dict

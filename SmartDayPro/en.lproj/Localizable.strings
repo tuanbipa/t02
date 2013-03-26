@@ -654,3 +654,12 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 "_reportFailure" = "Fail to send report. Please try again later!";
 "_createTask" = "Create Task";
 
+"_currentText" = "Current";
+"_snoozeDuration" = "Snooze Duration";
+"_snooze" = "Snooze";
+"_postpone" = "Postpone";
+
+"_1DayText" = "1 Day";
+"_1WeekText" = "1 Week";
+"_1MonthText" = "1 Month";
+

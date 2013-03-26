@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */; };
+		670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */; };
 		6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6728E5D916DC7441001024DD /* TimerViewController.m */; };
 		672F54A81622779400480BC4 /* LinkPreviewPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54A71622779400480BC4 /* LinkPreviewPane.m */; };
 		672F54AF16227E3400480BC4 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54AE16227E3300480BC4 /* NoteView.m */; };
@@ -576,11 +578,17 @@
 		67D7ED671647641C00EB57F1 /* MM_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D7ED631647641C00EB57F1 /* MM_next@2x.png */; };
 		67D7ED681647641C00EB57F1 /* MM_prev.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D7ED641647641C00EB57F1 /* MM_prev.png */; };
 		67D7ED691647641C00EB57F1 /* MM_prev@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D7ED651647641C00EB57F1 /* MM_prev@2x.png */; };
+		67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67DAE59F170184040082F962 /* month_cell_bg.png */; };
+		67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67DAE59F170184040082F962 /* month_cell_bg.png */; };
+		67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67DAE5A0170184040082F962 /* month_cell_shadow_bg.png */; };
+		67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67DAE5A0170184040082F962 /* month_cell_shadow_bg.png */; };
 		67DCDDAE165F790F000DAE8B /* PresetTagDict.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67DCDDAC165F790F000DAE8B /* PresetTagDict.dat */; };
 		67DCDDAF165F790F000DAE8B /* TagDict.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67DCDDAD165F790F000DAE8B /* TagDict.dat */; };
 		67DD647516362E5B002EED1E /* week_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 67DD647416362E5B002EED1E /* week_separator.png */; };
 		67DDEC83164CD8030016527F /* GrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC82164CD8020016527F /* GrowingTextView.m */; };
 		67DDEC87164D041A0016527F /* MFMailComposeViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC86164D04180016527F /* MFMailComposeViewController+Rotate.m */; };
+		67DE2148170006FD000545AC /* SnoozeDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE2147170006FC000545AC /* SnoozeDurationViewController.m */; };
+		67DE2149170006FD000545AC /* SnoozeDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE2147170006FC000545AC /* SnoozeDurationViewController.m */; };
 		67DE7352162D09B3004CC26E /* SimpleCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE7351162D09B3004CC26E /* SimpleCoreTextView.m */; };
 		67DE736E162D363A004CC26E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DE736D162D363A004CC26E /* CoreText.framework */; };
 		67E0D49B16F95C7900F66567 /* NoteLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E0D49A16F95C7800F66567 /* NoteLayoutController.m */; };
@@ -1392,6 +1400,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AlarmDrum.wav; sourceTree = "<group>"; };
 		6728E5D816DC7441001024DD /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
 		6728E5D916DC7441001024DD /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
 		672F54A61622779400480BC4 /* LinkPreviewPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPreviewPane.h; sourceTree = "<group>"; };
@@ -2120,6 +2129,8 @@
 		67D7ED631647641C00EB57F1 /* MM_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MM_next@2x.png"; sourceTree = "<group>"; };
 		67D7ED641647641C00EB57F1 /* MM_prev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MM_prev.png; sourceTree = "<group>"; };
 		67D7ED651647641C00EB57F1 /* MM_prev@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MM_prev@2x.png"; sourceTree = "<group>"; };
+		67DAE59F170184040082F962 /* month_cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = month_cell_bg.png; sourceTree = "<group>"; };
+		67DAE5A0170184040082F962 /* month_cell_shadow_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = month_cell_shadow_bg.png; sourceTree = "<group>"; };
 		67DCDDAC165F790F000DAE8B /* PresetTagDict.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PresetTagDict.dat; sourceTree = "<group>"; };
 		67DCDDAD165F790F000DAE8B /* TagDict.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TagDict.dat; sourceTree = "<group>"; };
 		67DD647416362E5B002EED1E /* week_separator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = week_separator.png; sourceTree = "<group>"; };
@@ -2127,6 +2138,8 @@
 		67DDEC82164CD8020016527F /* GrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowingTextView.m; sourceTree = "<group>"; };
 		67DDEC85164D04170016527F /* MFMailComposeViewController+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MFMailComposeViewController+Rotate.h"; sourceTree = "<group>"; };
 		67DDEC86164D04180016527F /* MFMailComposeViewController+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MFMailComposeViewController+Rotate.m"; sourceTree = "<group>"; };
+		67DE2146170006FC000545AC /* SnoozeDurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnoozeDurationViewController.h; sourceTree = "<group>"; };
+		67DE2147170006FC000545AC /* SnoozeDurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnoozeDurationViewController.m; sourceTree = "<group>"; };
 		67DE7350162D09B3004CC26E /* SimpleCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCoreTextView.h; sourceTree = "<group>"; };
 		67DE7351162D09B3004CC26E /* SimpleCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleCoreTextView.m; sourceTree = "<group>"; };
 		67DE736D162D363A004CC26E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -2688,6 +2701,8 @@
 				67CF2C3116195196001FE1AA /* SmartListMovableController.m */,
 				67CF2C3216195196001FE1AA /* SmartListViewController.h */,
 				67CF2C3316195196001FE1AA /* SmartListViewController.m */,
+				67DE2146170006FC000545AC /* SnoozeDurationViewController.h */,
+				67DE2147170006FC000545AC /* SnoozeDurationViewController.m */,
 				67CF2C3416195196001FE1AA /* StartEndPickerViewController.h */,
 				67CF2C3516195196001FE1AA /* StartEndPickerViewController.m */,
 				67CF2C3816195196001FE1AA /* Strings.h */,
@@ -2805,6 +2820,7 @@
 		67CF2C9816195196001FE1AA /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */,
 				67E506AF16F2BAE000DCFE06 /* close.wav */,
 				67E506B016F2BAE000DCFE06 /* Harp.wav */,
 				67E506B116F2BAE000DCFE06 /* open.wav */,
@@ -2935,6 +2951,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				67DAE59F170184040082F962 /* month_cell_bg.png */,
+				67DAE5A0170184040082F962 /* month_cell_shadow_bg.png */,
 				67E1F4E116E9D322002D70AF /* bar_tag.png */,
 				67E1F4E216E9D322002D70AF /* bar_tag@2x.png */,
 				67E1F4E316E9D322002D70AF /* module_add@2x.png */,
@@ -3942,6 +3960,9 @@
 				67E506B316F2BAE000DCFE06 /* Harp.wav in Resources */,
 				67E506B416F2BAE000DCFE06 /* open.wav in Resources */,
 				67EC17DC16F8092200929BFD /* SmartDay_iPad-Info.plist in Resources */,
+				670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
+				67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */,
+				67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4440,6 +4461,9 @@
 				67EC0F2916F8081F00929BFD /* Harp.wav in Resources */,
 				67EC0F2A16F8081F00929BFD /* open.wav in Resources */,
 				67EC17DD16F8092200929BFD /* SmartDay_iPad-Info.plist in Resources */,
+				670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
+				67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */,
+				67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4636,6 +4660,7 @@
 				67E18E9D16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
 				67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */,
 				67F6B8CD16FAB409004EEB69 /* PlannerItemView.m in Sources */,
+				67DE2148170006FD000545AC /* SnoozeDurationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4829,6 +4854,7 @@
 				67E18E9E16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
 				67E18EA016F99BEF00F1E976 /* PlannerView.m in Sources */,
 				67F6B8CE16FAB409004EEB69 /* PlannerItemView.m in Sources */,
+				67DE2149170006FD000545AC /* SnoozeDurationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

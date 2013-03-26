@@ -4661,6 +4661,16 @@ TaskManager *_sctmSingleton = nil;
 	}
 }
 
+- (void) reloadAlert4Task:(NSInteger)taskId
+{
+    Task *task = [self findItemByKey:taskId];
+    
+    if (task != nil)
+    {
+        task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
+    }
+}
+
 #pragma mark Filter
 
 - (BOOL) checkFilterIn:(Task *) task

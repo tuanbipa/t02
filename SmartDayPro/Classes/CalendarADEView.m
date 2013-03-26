@@ -12,6 +12,7 @@
 #import "Task.h"
 
 #import "TaskManager.h"
+#import "DBManager.h"
 #import "TaskLinkManager.h"
 
 #import "TaskView.h"
@@ -157,6 +158,22 @@
         if ([view isKindOfClass:[TaskView class]])
         {
             [view setNeedsDisplay];
+        }
+    }
+}
+
+- (void) reloadAlert4Task:(NSInteger)taskId
+{
+    for (Task *task in self.adeList)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == taskId)
+            {
+                task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
+                
+                break;
+            }
         }
     }
 }
