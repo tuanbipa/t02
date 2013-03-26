@@ -33,7 +33,19 @@
 		
 		[self addSubview:dayLabel];
         
+        // init status
+        //self.isWeekend = NO;
+		//gray = NO;
+		isToday = NO;
+		isDot = NO;
+		
+		hasDTask = NO;
+		hasSTask = NO;
+		
+		//freeRatio = 0;
+        
         self.skinStyle = 1;
+        
     }
     return self;
 }
@@ -90,7 +102,7 @@
 		CGContextStrokeRect(ctx, CGRectMake(self.bounds.origin.x + 1, self.bounds.origin.y + 1, self.bounds.size.width - 2, self.bounds.size.height - 2));
 	}
     
-	CGRect dotFrm = CGRectMake(self.bounds.origin.x + self.bounds.size.width - 10, self.bounds.origin.y + 2 + 5, 5, 5);
+	CGRect dotFrm = CGRectMake(self.bounds.origin.x + self.bounds.size.width - 40, self.bounds.origin.y + 2 + 5, 5, 5);
 	
 	if (self.hasSTask)
 	{
@@ -109,7 +121,7 @@
 	}
 }
 
--(void)setDay:(NSInteger) dayValue
+- (void)setDay:(NSInteger) dayValue
 {
 	day = dayValue;
 	
@@ -147,4 +159,13 @@
 	return date;
 }
 
+// expand cell
+- (void)expandDayCell {
+    CGRect frm = self.frame;
+    frm.size.height = self.frame.size.height + PLANNER_DAY_CELL_HEIGHT;
+    self.frame = frm;
+}
+
+- (void)collapseDayCell {
+}
 @end

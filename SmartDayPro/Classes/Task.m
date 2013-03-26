@@ -91,6 +91,9 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 @synthesize listSource;
 
+@synthesize plannerDuration;
+@synthesize plannerStartTime;
+
 - (id)init
 {
 	if (self = [super init])
@@ -159,6 +162,10 @@ static sqlite3_stmt *task_delete_statement = nil;
 		self.hasNoDuration = NO;
         
         self.listSource = SOURCE_SMARTLIST;
+        
+        // for planner
+        self.plannerDuration = 0;
+        self.plannerStartTime = nil;
 	}
 	
 	return self;
@@ -2026,6 +2033,8 @@ static sqlite3_stmt *task_delete_statement = nil;
 	self.exceptions = nil;
     self.links = nil;
 	
+    // for planner
+    self.plannerStartTime = nil;
     [super dealloc];
 }
 

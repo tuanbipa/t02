@@ -75,6 +75,10 @@
     NSMutableArray *links; //array of link IDs
     
     NSInteger listSource; //where the task comes from? (SmartList or List)
+    
+    // for planner
+    NSInteger plannerDuration;
+    NSDate *plannerStartTime;
 }
 
 @property NSInteger primaryKey; 
@@ -133,6 +137,9 @@
 @property BOOL isTop;
 @property BOOL isSplitted;
 @property BOOL hasNoDuration;
+
+@property (nonatomic, assign) NSInteger plannerDuration;
+@property (nonatomic, copy) NSDate *plannerStartTime;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) initialUpdate;

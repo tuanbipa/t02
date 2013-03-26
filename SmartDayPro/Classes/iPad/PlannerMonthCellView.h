@@ -11,6 +11,9 @@
 @class CellBadgeView;
 @class CellSquareBadgeView;
 
+#define PLANNER_DAY_CELL_HEIGHT 144
+
+
 @interface PlannerMonthCellView : UIView {
     
     NSInteger day;
@@ -25,6 +28,8 @@
 	BOOL hasSTask;
     // is Today
     BOOL isToday;
+    // if has task in current day, view will show dot
+    BOOL isDot;
 }
 @property NSInteger skinStyle;
 
@@ -35,8 +40,10 @@
 @property BOOL hasDTask;
 @property BOOL hasSTask;
 @property BOOL isToday;
+@property BOOL isDot;
 
 - (void)setDay:(NSInteger) dayValue;
 - (void) setDSDots:(BOOL)dTask sTask:(BOOL)sTask;
 - (NSDate *)getCellDate;
+- (void)expandDayCell;
 @end

@@ -11,6 +11,7 @@
 #import "PlannerHeaderView.h"
 #import "PlannerMonthView.h"
 #import "PlannerBottomDayCal.h"
+#import "TaskManager.h"
 
 extern BOOL _isiPad;
 
@@ -24,24 +25,28 @@ extern BOOL _isiPad;
     if (self) {
         // Initialization code
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor grayColor];
         
-        headerView = [[PlannerHeaderView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 34)];
+        headerView = [[PlannerHeaderView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
 		[self addSubview:headerView];
 		[headerView release];
         
         // month view
         //monthView = [[PlannerMonthView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height, frame.size.width, frame.size.height-headerView.frame.size.height)];
-        monthView = [[PlannerMonthView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height, frame.size.width, 26*6)];
+        monthView = [[PlannerMonthView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height, frame.size.width, 26*6+144)];
         
 		[self addSubview:monthView];
 		[monthView release];
-        NSDate *now = [NSDate date];
-        NSInteger weeks = [Common getWeeksInMonth:now];
         
+        // init calendar
+        TaskManager *tm = [TaskManager getInstance];
+        NSDate *calDate = [Common getFirstMonthDate:tm.today];
+        NSInteger weeks = [Common getWeeksInMonth:calDate];
         [monthView changeWeekPlanner:7 weeks:weeks];
-        [monthView initCalendar:now];
-		
+        [monthView initCalendar:calDate];
+        // end init calendar
+        
+        [monthView expandWeek:1];
         
         // bottom day cal
         PlannerBottomDayCal *bottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(0, monthView.frame.origin.y + monthView.frame.size.height, frame.size.width, self.frame.size.height - headerView.frame.size.height - monthView.frame.size.height)];

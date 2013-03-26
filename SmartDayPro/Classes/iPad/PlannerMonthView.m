@@ -12,6 +12,7 @@
 #import "PlannerMonthCellView.h"
 #import "TaskManager.h"
 #import "Task.h"
+#import "PlannerItemView.h"
 
 extern BOOL _isiPad;
 
@@ -34,7 +35,7 @@ extern BOOL _isiPad;
 		
 		CGFloat width = frame.size.width;
 		CGFloat dayWidth = floor(width/7);
-		CGFloat cellHeight = floor(frame.size.height/6);
+		CGFloat cellHeight = floor((frame.size.height-144)/6);
 		
 		CGFloat ymargin = 0;
 		CGFloat yoffset = 0;
@@ -234,5 +235,88 @@ extern BOOL _isiPad;
 	//adeView.nameShown = YES;
 	
 	self.clipsToBounds = YES;
+}
+
+// expand week when user tap on carat
+- (void)expandWeek: (int) week {
+    // initial last y point
+    // tracking array
+    int trackMore[7] = {
+        0, 0, 0, 0, 0, 0, 0,
+    };
+    
+    CGFloat trackY[7] = {
+        0, 0, 0, 0, 0, 0, 0,
+    };
+    
+    // expand width
+    for (int i = week*7; i < 42; i++) {
+        PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
+        if (i < (week+1)*7) {
+            // get y
+            trackY[i-week*7] = cell.frame.origin.y + cell.frame.size.height;
+            
+            [cell expandDayCell];
+        } else {
+            CGRect frm = cell.frame;
+            frm.origin.y = frm.origin.y + PLANNER_DAY_CELL_HEIGHT;
+            cell.frame = frm;
+        }
+    }
+    
+    PlannerMonthCellView *firstCell = [[self subviews] objectAtIndex: week*7];
+    PlannerMonthCellView *lastCell = [[self subviews] objectAtIndex: (week*7)+6];
+    
+    NSDate *fromDate = [firstCell getCellDate];
+    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
+    //NSDate *toDate = [lastCell getCellDate];
+    
+    // a1. get ADEs
+    TaskManager *tm = [[TaskManager alloc] init];
+    NSMutableArray *ades = [tm getADEListFromDate: fromDate toDate: toDate];
+    // a2. sort ades
+    for (Task *ade in ades) {
+        if ([Common compareDate:ade.startTime withDate:fromDate]) {
+            ade.plannerStartTime = fromDate;
+            ade.plannerDuration = (NSInteger)[ade.endTime timeIntervalSinceDate:ade.plannerStartTime]/60;
+        } else {
+            ade.plannerStartTime = ade.startTime;
+            ade.plannerDuration = (NSInteger)[ade.endTime timeIntervalSinceDate:ade.startTime]/60;
+        }
+    }
+    
+    NSSortDescriptor *startTimeSorter = [[NSSortDescriptor alloc] initWithKey:@"plannerStartTime" ascending:YES];
+    NSSortDescriptor *durationSorter = [[NSSortDescriptor alloc] initWithKey:@"plannerDuration"  ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects: startTimeSorter, durationSorter, nil];
+    [ades sortUsingDescriptors:sortDescriptors];
+    
+    // a3. draw ades
+    for (Task *ade in ades) {
+        NSTimeInterval timeInterval = [ade.startTime timeIntervalSinceDate:fromDate];
+        NSInteger dayIndex = 0;
+        dayIndex = timeInterval/86400;
+        if(dayIndex<0)
+            dayIndex = 0;
+        
+        // calculate width
+        int width = 0;
+        if ([Common compareDate:ade.endTime withDate:fromDate] == NSOrderedAscending) {
+            width = (7 - dayIndex) * firstCell.frame.size.width;
+        } else {
+            // end day index
+            timeInterval = [ade.endTime timeIntervalSinceDate:toDate];
+            NSInteger endDayIndex = timeInterval/86400;
+            endDayIndex = endDayIndex < 0 ? 0 : endDayIndex;
+            width = (endDayIndex - dayIndex + 1) * firstCell.frame.size.width;
+        }
+        
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, 20)];
+        
+        item.task = ade;
+        item.backgroundColor = [UIColor redColor];
+        
+        [self addSubview:item];
+        
+    }
 }
 @end

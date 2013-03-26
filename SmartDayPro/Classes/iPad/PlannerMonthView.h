@@ -19,6 +19,8 @@
 	NSInteger nWeeks;
     
     NSInteger skinStyle; //0:white;1:black
+    
+    //NSMutableArray *
 }
 
 @property NSInteger skinStyle;
@@ -27,4 +29,5 @@
 - (void)changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks;
 // draw calendar
 - (void)initCalendar: (NSDate *)date;
+- (void)expandWeek: (int) week;
 @end
