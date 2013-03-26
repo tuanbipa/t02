@@ -22,5 +22,6 @@
 - (void) refreshData;
 -(void) setNeedsDisplay;
 - (void) reconcileLinks:(NSDictionary *)dict;
+- (void) reloadAlert4Task:(NSInteger)taskId;
 
 @end

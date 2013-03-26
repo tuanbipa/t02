@@ -33,6 +33,7 @@
 - (void) updateByAlertData:(AlertData *)another;
 - (NSString *) getAlertTimeString:(NSInteger)taskType textDict:(NSDictionary *)textDict;
 - (NSString *) getAbsoluteTimeString:(Task *)task;
+- (NSDate *) getAlertTime:(Task *)task;
 
 + (NSString *) stringOfAlertData:(AlertData *)data;
 + (AlertData *) parseRepeatData:(NSString *)data;

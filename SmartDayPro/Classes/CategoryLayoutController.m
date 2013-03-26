@@ -90,7 +90,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [taskView refreshStarImage];
         [taskView refreshCheckImage];
         
-        [taskView enableMove:ctrler.filterType == TYPE_TASK];
+        //[taskView enableMove:ctrler.filterType == TYPE_TASK];
         
         ret = taskView;
     }

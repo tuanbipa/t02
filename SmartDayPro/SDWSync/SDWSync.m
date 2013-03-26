@@ -42,7 +42,8 @@ typedef enum
     ADD_LINK,
     UPDATE_LINK,
     DELETE_LINK,
-    UPDATE_ORDER,
+    UPDATE_TASK_ORDER,
+    UPDATE_CATEGORY_ORDER,
     ADD_TAG
     
 } SyncCommand;
@@ -247,6 +248,8 @@ NSInteger _sdwColor[32] = {
             {
                 [self syncTasks];
                 [self syncLinks];
+                
+                [self syncProjectOrder];
                 
                 if (comp != NSOrderedSame)
                 {
@@ -526,8 +529,11 @@ NSInteger _sdwColor[32] = {
                 case DELETE_LINK:
                     [self deleteLinks:list];
                     break;
-                case UPDATE_ORDER:
+                case UPDATE_TASK_ORDER:
                     [self updateOrder4Tasks:list];
+                    break;
+                case UPDATE_CATEGORY_ORDER:
+                    [self updateOrder4Categories:list];
                     break;
                 case ADD_TAG:
                     [self addTags:list];
@@ -577,8 +583,11 @@ NSInteger _sdwColor[32] = {
             case DELETE_LINK:
                 [self deleteLinks:list];
                 break; 
-            case UPDATE_ORDER:
+            case UPDATE_TASK_ORDER:
                 [self updateOrder4Tasks:list];
+                break;
+            case UPDATE_CATEGORY_ORDER:
+                [self updateOrder4Categories:list];
                 break;
             case ADD_TAG:
                 [self addTags:list];
@@ -884,9 +893,10 @@ NSInteger _sdwColor[32] = {
                 firstName = @"";
             }
             
-            ret.ownerName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+            //ret.ownerName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+            ret.ownerName = firstName;
             
-            printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
+            //printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
         }
     }
     
@@ -2578,6 +2588,18 @@ NSInteger _sdwColor[32] = {
     
 }
 
+- (NSDictionary *) toSDWCategoryDict4Order:(Project *)project
+{
+    NSDictionary *prjDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              project.sdwId,@"id",
+                              [NSNumber numberWithInt:project.sequenceNo],@"order_category",
+                              nil];
+    
+    return prjDict;
+    
+}
+
+
 - (Task *) getSDWTask4Order:(NSDictionary *) dict
 {
     Task *ret = [[[Task alloc] init] autorelease];
@@ -2669,6 +2691,85 @@ NSInteger _sdwColor[32] = {
     }
 }
 
+- (void) updateOrder4Categories:(NSArray *)prjList
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+	NSString *urlString=[NSString stringWithFormat:@"%@/api/categories/updates.json?keyapi=%@&fields=id,order_number,last_update",SDWSite,self.sdwSection.key];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:urlString]];
+	[request setHTTPMethod:@"PUT"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    NSMutableArray *sdwPrjList = [NSMutableArray arrayWithCapacity:prjList.count];
+    NSDictionary *prjDict = [ProjectManager getProjectDictBySDWID:prjList];
+    
+    for (Project *prj in prjList)
+    {
+        [sdwPrjList addObject:[self toSDWCategoryDict4Order:prj]];
+        
+    }
+    
+    NSError *error = nil;
+    NSURLResponse *response;
+    
+    NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwPrjList options:0 error:&error];
+    
+    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    
+    //printf("update project order body:\n%s\n", [body UTF8String]);
+    
+    [request setHTTPBody:jsonBody];
+	
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
+        //printf("update project order results:\n%s\n", [str UTF8String]);
+        
+        for (NSDictionary *dict in result)
+        {
+            NSString *sdwId = [[dict objectForKey:@"id"] stringValue];
+            NSInteger lastUpdate = [[dict objectForKey:@"last_update"] intValue];
+            
+            if (sdwId != nil)
+            {
+                Project *prj = [prjDict objectForKey:sdwId];
+                
+                if (prj != nil)
+                {
+                    NSDate *dt = [NSDate dateWithTimeIntervalSince1970:lastUpdate];
+                    
+                    prj.updateTime = dt;
+                    [prj enableExternalUpdate];
+                    
+                    [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
+                }
+            }
+        }
+    }
+}
+
+
 - (void) syncTaskOrder:(BOOL)fromSDW
 {
     //printf("Sync Order from %s->%s\n", fromSDW?"SDW":"SD", fromSDW?"SD":"SDW");
@@ -2728,8 +2829,15 @@ NSInteger _sdwColor[32] = {
     }
     else 
     {
-        [self breakSync:taskList command:UPDATE_ORDER];
+        [self breakSync:taskList command:UPDATE_TASK_ORDER];
     }
+}
+
+- (void) syncProjectOrder
+{
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+    [self breakSync:pm.projectList command:UPDATE_CATEGORY_ORDER];
 }
 
 #pragma mark Sync Links

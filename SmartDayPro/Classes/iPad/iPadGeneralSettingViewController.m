@@ -19,6 +19,7 @@
 
 #import "ProjectSelectionTableViewController.h"
 #import "TagListViewController.h"
+#import "SnoozeDurationViewController.h"
 
 #import "AbstractSDViewController.h"
 
@@ -54,6 +55,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) editTag
 {
     TagListViewController *ctrler = [[TagListViewController alloc] init];
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    
+    [ctrler release];
+}
+
+- (void) editSnoozeDuration
+{
+    SnoozeDurationViewController *ctrler = [[SnoozeDurationViewController alloc] init];
+    ctrler.settings = self.setting;
     
     [self.navigationController pushViewController:ctrler animated:YES];
     
@@ -214,6 +225,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	cell.textLabel.text = _tagListText;
 }
 
+- (void) createSnoozeDurationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = _snoozeDuration;
+	
+	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 120, 10, 120, 20)];
+	durationLabel.tag = baseTag;
+	durationLabel.textAlignment=NSTextAlignmentRight;
+	durationLabel.backgroundColor=[UIColor clearColor];
+	durationLabel.font=[UIFont systemFontOfSize:15];
+    durationLabel.text = [Common getDurationString:self.setting.snoozeDuration*60];
+		
+	[cell.contentView addSubview:durationLabel];
+	[durationLabel release];
+}
+
 - (void) createDeleteWarningCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _deleteWarningText;
@@ -256,7 +284,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -292,12 +320,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
     switch (indexPath.row)
     {
-        /*case 0:
-        {
-            [self createLandscapeEnableCell:cell baseTag:10000];
-        }
-            break;
-        */
         case 0:
         {
             [self createHintCell:cell baseTag:10000];
@@ -315,12 +337,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
             break;
         case 3:
         {
-            [self createDeleteWarningCell:cell baseTag:10030];
+            [self createSnoozeDurationCell:cell baseTag:10030];
         }
             break;
         case 4:
         {
-            [self createDeleteSuspectedDuplicationCell:cell baseTag:10040];
+            [self createDeleteWarningCell:cell baseTag:10040];
+        }
+            break;
+        case 5:
+        {
+            [self createDeleteSuspectedDuplicationCell:cell baseTag:10050];
         }
             break;
     }
@@ -341,6 +368,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
         case 2:
         {
             [self editTag];
+        }
+            break;
+        case 3:
+        {
+            [self editSnoozeDuration];
         }
             break;
     }

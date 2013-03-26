@@ -51,6 +51,7 @@ extern BOOL _isiPad;
 @synthesize landscapeModeEnable;
 @synthesize tabBarAutoHide;
 @synthesize filterTab;
+@synthesize snoozeDuration;
 
 @synthesize taskDuration;
 @synthesize taskDefaultProject;
@@ -167,6 +168,7 @@ extern BOOL _isiPad;
 		self.landscapeModeEnable = YES;
 		self.tabBarAutoHide = NO; 
 		self.filterTab = TASK_FILTER_ALL;
+        self.snoozeDuration = 15;
 		
 		self.taskDuration = DEFAULT_TASK_DURATION;
 		self.taskDefaultProject = 0;
@@ -316,6 +318,13 @@ extern BOOL _isiPad;
 		{
 			self.filterTab = [filterTabSetting intValue];
 		}		
+
+		NSNumber *snoozeDurationSetting = [self.settingDict objectForKey:@"SnoozeDuration"];
+		
+		if (snoozeDurationSetting != nil)
+		{
+			self.snoozeDuration = [snoozeDurationSetting intValue];
+		}
 		
 		NSNumber *taskDurationSetting = [self.settingDict objectForKey:@"TaskDuration"];
 		
@@ -991,6 +1000,7 @@ extern BOOL _isiPad;
 	copy.weekStart = weekStart;
 	copy.landscapeModeEnable = landscapeModeEnable;
 	copy.tabBarAutoHide = tabBarAutoHide;
+    copy.snoozeDuration = snoozeDuration;
 	
 	copy.taskDuration = taskDuration;
 	copy.taskDefaultProject = taskDefaultProject;
@@ -1061,6 +1071,7 @@ extern BOOL _isiPad;
 	self.weekStart = settings.weekStart;
 	self.landscapeModeEnable = settings.landscapeModeEnable;
 	self.tabBarAutoHide = settings.tabBarAutoHide;
+    self.snoozeDuration = settings.snoozeDuration;
 	
 	self.taskDuration = settings.taskDuration;
 	self.taskDefaultProject = settings.taskDefaultProject;
@@ -1132,6 +1143,9 @@ extern BOOL _isiPad;
 
 	NSNumber *tabBarAutoHideSetting = [NSNumber numberWithBool:self.tabBarAutoHide];
 	[settingDict setValue:tabBarAutoHideSetting forKey:@"TabBarAutoHide"];	
+
+	NSNumber *snoozeDurationSetting = [NSNumber numberWithBool:self.snoozeDuration];
+	[settingDict setValue:snoozeDurationSetting forKey:@"SnoozeDuration"];
 	
 	NSNumber *taskDurationSetting = [NSNumber numberWithInt:self.taskDuration];
 	[settingDict setValue:taskDurationSetting forKey:@"TaskDuration"];

@@ -290,6 +290,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self refreshView];
 }
 
+- (void) reloadAlert4Task:(NSInteger)taskId
+{
+    for (Task *task in self.list)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == taskId)
+            {
+                task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
+                
+                break;
+            }
+        }
+    }
+}
+
 #pragma mark Views
 - (void) changeFrame:(CGRect)frm
 {

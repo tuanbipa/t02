@@ -644,6 +644,15 @@
 
 #define _createTask NSLocalizedString(@"_createTask", "")
 
+#define _currentText NSLocalizedString(@"_currentText", "")
+#define _snoozeDuration NSLocalizedString(@"_snoozeDuration", "")
+#define _snooze NSLocalizedString(@"_snooze", "")
+#define _postpone NSLocalizedString(@"_postpone", "")
+
+#define _1DayText NSLocalizedString(@"_1DayText", "")
+#define _1WeekText NSLocalizedString(@"_1WeekText", "")
+#define _1MonthText NSLocalizedString(@"_1MonthText", "")
+
 
 
 

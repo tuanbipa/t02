@@ -35,6 +35,7 @@
 #import "iOSCalSyncViewController.h"
 #import "SyncWindow2TableViewController.h"
 #import "DataRecoveryViewController.h"
+#import "SnoozeDurationViewController.h"
 
 #import "AbstractSDViewController.h"
 #import "iPadViewController.h"
@@ -434,6 +435,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     else if ([viewController isKindOfClass:[SyncWindow2TableViewController class]])
     {
         navLabel.text = _syncWindowText;
+    }
+    else if ([viewController isKindOfClass:[SnoozeDurationViewController class]])
+    {
+        navLabel.text = _snoozeDuration;
     }
 }
 

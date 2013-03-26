@@ -116,6 +116,10 @@ BOOL _autoPushPending = NO;
                                              selector:@selector(sdwSyncComplete:)
                                                  name:@"SDWSyncCompleteNotification" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadAlerts:)
+                                                 name:@"AlertPostponeChangeNotification" object:nil];
+    
 
     return self;
 }
@@ -565,8 +569,9 @@ BOOL _autoPushPending = NO;
         case NOTE_FILTER_ALL:
             title = _allText;
             break;
-        case NOTE_FILTER_TODAY:
-            title = _todayText;
+        case NOTE_FILTER_CURRENT:
+            //title = _todayText;
+            title = _currentText;
             break;
     }
     
@@ -1264,6 +1269,34 @@ BOOL _autoPushPending = NO;
         [focusView reconcileLinks:notification.userInfo];
         
         [focusView setNeedsDisplay];
+    }
+}
+
+#pragma mark Alert Handle
+
+- (void)reloadAlerts:(NSNotification *)notification
+{
+    NSInteger taskId = [[notification.userInfo objectForKey:@"TaskId"] intValue];
+    
+    [self reloadAlert4Task:taskId];
+}
+
+- (void) reloadAlert4Task:(NSInteger)taskId
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    [tm reloadAlert4Task:taskId];
+    
+    for (int i=0; i<4; i++)
+    {
+        PageAbstractViewController *ctrler = viewCtrlers[i];
+        
+        [ctrler reloadAlert4Task:taskId];
+    }
+    
+    if (focusView != nil)
+    {
+        [focusView reloadAlert4Task:taskId];
     }
 }
 

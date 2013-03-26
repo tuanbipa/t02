@@ -31,6 +31,7 @@
 - (NSMutableArray *) searchLinkSource:(NSInteger)linkId;
 - (NSMutableArray *) getAllNotes;
 - (NSMutableArray *) getTodayNotes;
+- (NSMutableArray *) getNotesByDate:(NSDate *)date;
 - (NSMutableArray *) getAllTasks;
 - (NSMutableArray *) getTasks2Sync;
 - (NSMutableArray *) getModifiedTasks2Sync:(NSDate *)afterDate;

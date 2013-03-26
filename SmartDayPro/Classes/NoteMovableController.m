@@ -16,9 +16,10 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 @implementation NoteMovableController
 
-- (void) animateRelations
+- (BOOL) canSeparate
 {
     //don't shift notes
+    return NO;
 }
 
 -(void) endMove:(MovableView *)view

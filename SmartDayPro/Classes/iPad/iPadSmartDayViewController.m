@@ -95,6 +95,8 @@ iPadViewController *_iPadViewCtrler;
 
 - (BOOL) checkRect:(CGRect)rect inModule:(NSInteger) inModule
 {
+    UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
+        
     UIView *moduleBorderView = (UIView *)[contentView viewWithTag:18000+inModule];
     
     CGRect frm = moduleBorderView.frame;
@@ -103,10 +105,15 @@ iPadViewController *_iPadViewCtrler;
     {
         //module is collapsed
         
-        return NO;
+        frm = taskHeaderView.frame;
+    }
+    else
+    {
+        frm.origin.y -= 40;
+        frm.size.height += 40;
     }
     
-    return CGRectContainsRect(frm, rect);
+    return CGRectIntersectsRect(frm, rect);
     
 }
 
@@ -1013,7 +1020,8 @@ iPadViewController *_iPadViewCtrler;
 	[todayImageView release];
 	
     UILabel *todayLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
-	todayLabel.text = _todayText;
+	//todayLabel.text = _todayText;
+    todayLabel.text = _currentText;
 	todayLabel.textColor = [UIColor whiteColor];
 	todayLabel.backgroundColor = [UIColor clearColor];
 	todayLabel.font=[UIFont systemFontOfSize:18];
@@ -1029,7 +1037,7 @@ iPadViewController *_iPadViewCtrler;
                               normalStateImage:nil
                             selectedStateImage:nil];
 	todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    todayButton.tag = NOTE_FILTER_TODAY;
+    todayButton.tag = NOTE_FILTER_CURRENT;
 	[optionView addSubview:todayButton];
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];

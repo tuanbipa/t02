@@ -82,6 +82,8 @@ BOOL _fromBackground = NO;
 @implementation SmartCalAppDelegate
 
 @synthesize window;
+
+@synthesize alertDict;
 //@synthesize tabBarController;
 
 - (BOOL)check24HourFormat
@@ -299,7 +301,16 @@ BOOL _fromBackground = NO;
             
             UIAlertView *alertView = (UIAlertView *) subview;
             
-            [alertView dismissWithClickedButtonIndex:-1 animated:NO];
+            NSObject *obj = alertView.tag;
+            
+            if (obj != nil && [obj isKindOfClass:[UILocalNotification class]])
+            {
+                continue;
+            }
+            else
+            {
+                [alertView dismissWithClickedButtonIndex:-1 animated:NO];
+            }
         }
     }    
 }
@@ -331,6 +342,8 @@ BOOL _fromBackground = NO;
     _isiPad = [self checkiPad];
 	_is24HourFormat = [self check24HourFormat];
 	_gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    
+    self.alertDict = [NSMutableDictionary dictionaryWithCapacity:5];
 		
 	[MusicManager startup];
 	
@@ -503,17 +516,25 @@ BOOL _fromBackground = NO;
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification 
 {
     UIApplicationState state = [application applicationState];
-    if (state != UIApplicationStateInactive) 
+    //if (state != UIApplicationStateInactive)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_alertText
 												   message:notification.alertBody 
 												  delegate:self
 										 cancelButtonTitle:_okText
-										 otherButtonTitles:nil];
+										 otherButtonTitles:_snooze, _postpone, nil];
+        [self.alertDict setObject:notification forKey:notification];
+        alertView.tag = notification;
+        
 		[alertView show];
-		[alertView release];		
+		[alertView release];
 	}
     
+}
+
+- (void)applicationSignificantTimeChange:(UIApplication *)application
+{
+   [[AlertManager getInstance] generateAlerts];    
 }
 
 - (void)dealloc {
@@ -541,11 +562,13 @@ BOOL _fromBackground = NO;
     
     [navController release];
     
+    self.alertDict = nil;
     self.window = nil;
     
     [super dealloc];
 }
 
+/*
 - (void) test
 {
     NSDate *today = [NSDate date];
@@ -556,11 +579,12 @@ BOOL _fromBackground = NO;
 
     //printf("weeks of next month: %d\n", [Common getWeeksInMonth:today]);
     
-    CGSize screen = [Common getScreenSize];
+    //CGSize screen = [Common getScreenSize];
     
     //printf("screen width: %f - height: %f\n", screen.width, screen.height);
 
 }
+*/
 
 #pragma mark Backup/Restore
 + (void)backupDB
@@ -684,7 +708,8 @@ BOOL _fromBackground = NO;
 												  cancelButtonTitle:@"Cancel"
 												  otherButtonTitles:nil];
 		
-		[url retain];
+		//[url retain];
+        [self.alertDict setObject:url forKey:url];
 		importAlert.tag = url;
 		
 		[importAlert addButtonWithTitle:@"Ok"];
@@ -716,10 +741,69 @@ BOOL _fromBackground = NO;
 	{
 		[self autoSync];
 	}
-	else if(buttonIndex == 1)
+	/*else if(buttonIndex == 1)
 	{
 		[self restoreDB:(NSURL *)alertView.tag];
-	}
+	}*/
+    else
+    {
+        NSObject *obj = [self.alertDict objectForKey:alertView.tag];
+        
+        BOOL remove = YES;
+        
+        if (obj != nil)
+        {
+            if ([obj isKindOfClass:[NSURL class]] && buttonIndex == 1)
+            {
+                [self restoreDB:(NSURL *)obj];
+            }
+            else if ([obj isKindOfClass:[UILocalNotification class]])
+            {
+                if (buttonIndex == 0)
+                {
+                    [[AlertManager getInstance] stopAlert:(UILocalNotification *)obj];
+                }
+                else if (buttonIndex == 1)
+                {
+                    [[AlertManager getInstance] snoozeAlert:(UILocalNotification *)obj];
+                }
+                else if (buttonIndex == 2)
+                {
+                    remove = NO;
+                    
+                    //postpone
+                    UIActionSheet *postponeActionSheet = [[UIActionSheet alloc] initWithTitle:_postpone delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:nil otherButtonTitles: _1DayText, _1WeekText, _1MonthText, nil];
+                    postponeActionSheet.tag = obj;
+                    
+                    [postponeActionSheet showInView:self.window];
+                    
+                    [postponeActionSheet release];
+                }
+            }
+         
+            if (remove)
+            {
+                [self.alertDict removeObjectForKey:alertView.tag];
+            }
+        }
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    //printf("index: %d\n", buttonIndex);
+    
+    NSObject *obj = [self.alertDict objectForKey:actionSheet.tag];
+    
+    if (obj != nil)
+    {
+        if (buttonIndex != 3)
+        {
+            [[AlertManager getInstance] postponeAlert:(UILocalNotification *)obj postponeType:buttonIndex];
+        }
+             
+        [self.alertDict removeObjectForKey:obj];
+    }
 }
 
 @end

@@ -9,8 +9,10 @@
 #import "AlertManager.h"
 #import "TaskManager.h"
 #import "DBManager.h"
+#import "MusicManager.h"
 
 #import "Common.h"
+#import "Settings.h"
 #import "Task.h"
 #import "AlertData.h"
 
@@ -65,11 +67,12 @@ AlertManager *_alarmSingleton = nil;
 	UILocalNotification *notif = [[UILocalNotification alloc] init];
 	notif.fireDate = time;
 	notif.timeZone = [NSTimeZone defaultTimeZone];
-	notif.repeatInterval = 0;
+	//notif.repeatInterval = 0;
 	notif.alertBody = info;
 	//notif.alertAction = @"Show me";
 	notif.soundName = UILocalNotificationDefaultSoundName;
-	//notif.applicationIconBadgeNumber = 1;	
+	//notif.applicationIconBadgeNumber = 1;
+    notif.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:alertKey] forKey:@"alertKey"];
 	
     [[UIApplication sharedApplication] scheduleLocalNotification:notif];
 	
@@ -174,6 +177,76 @@ AlertManager *_alarmSingleton = nil;
 		[self generateAlertsForTask:event];
 	}
     */
+}
+
+- (void) stopAlert:(UILocalNotification *)notif
+{
+    NSNumber *alertKey = [notif.userInfo objectForKey:@"alertKey"];
+    
+    if (alertKey != nil)
+    {
+        [self cancelAlert:[alertKey intValue]];
+    }
+}
+
+- (void) snoozeAlert:(UILocalNotification *)notif
+{
+    NSNumber *alertKey = [notif.userInfo objectForKey:@"alertKey"];
+    
+    if (alertKey != nil)
+    {
+        printf("snooze alert: %s\n", [notif.alertBody UTF8String]);
+        
+        Settings *settings = [Settings getInstance];
+        
+        [self alertOnTime:[NSDate dateWithTimeInterval:settings.snoozeDuration*60 sinceDate:[NSDate date]] forKey:[alertKey intValue] info:notif.alertBody];
+    }
+}
+
+- (void) postponeAlert:(UILocalNotification *)notif postponeType:(NSInteger)postponeType
+{
+    NSNumber *alertKey = [notif.userInfo objectForKey:@"alertKey"];
+    
+    if (alertKey != nil)
+    {
+        [self cancelAlert:[alertKey intValue]];
+        
+        DBManager *dbm = [DBManager getInstance];
+        
+        AlertData *dat = [[AlertData alloc] initWithPrimaryKey:[alertKey intValue] database:[dbm getDatabase]];
+        
+        Task *task = [[Task alloc] initWithPrimaryKey:dat.taskKey database:[dbm getDatabase]];
+        
+        NSDate *alertTime = [dat getAlertTime:task];
+        
+        switch (postponeType)
+        {
+            case 0:
+            {
+                alertTime = [Common dateByAddNumDay:1 toDate:alertTime];
+            }
+                break;
+            case 1:
+            {
+                alertTime = [Common dateByAddNumDay:7 toDate:alertTime];
+            }
+                break;
+            case 2:
+            {
+                alertTime = [Common dateByAddNumMonth:1 toDate:alertTime];
+            }
+                break;
+        }
+        
+        dat.absoluteTime = alertTime;
+        
+        [dat updateIntoDB:[dbm getDatabase]];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AlertPostponeChangeNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:task.primaryKey] forKey:@"TaskId"]];
+        
+        [task release];
+        [dat release];
+    }
 }
 
 #pragma mark Public Methods

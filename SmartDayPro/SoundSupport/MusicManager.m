@@ -130,6 +130,9 @@ MusicManager *_musicManagerSingleton = nil;
 		case SOUND_REPORT:
 			[self playMusicWithKey:@"Harp" timesToRepeat:0];
 			break;
+		case SOUND_ALARM:
+			[self playMusicWithKey:@"AlarmDrum" timesToRepeat:0];
+			break;
 			
 	}
 }
@@ -171,6 +174,7 @@ MusicManager *_musicManagerSingleton = nil;
     [mm loadBackgroundMusicWithKey:@"Start" fileName:@"Start" fileExt:@"wav"];
 	[mm loadBackgroundMusicWithKey:@"Pause" fileName:@"Pause" fileExt:@"wav"];
 	[mm loadBackgroundMusicWithKey:@"Stop" fileName:@"Stop" fileExt:@"wav"];
+    [mm loadBackgroundMusicWithKey:@"AlarmDrum" fileName:@"AlarmDrum" fileExt:@"wav"];
 	
 }
 

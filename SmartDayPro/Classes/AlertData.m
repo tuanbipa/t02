@@ -242,6 +242,24 @@ static sqlite3_stmt *alert_delete_statement = nil;
 	return [Common getFullDateTimeString:time];
 }
 
+- (NSDate *) getAlertTime:(Task *)task
+{
+	NSDate *time = self.absoluteTime;
+	
+	if (time == nil)
+	{
+		time = (task.type == TYPE_TASK? task.deadline: task.startTime);
+		
+		if (self.beforeDuration != 0)
+		{
+			time = [Common dateByAddNumSecond:self.beforeDuration toDate:time];
+		}
+		
+	}
+	
+	return time;
+}
+
 - (void)dealloc 
 {	
 	self.absoluteTime = nil;

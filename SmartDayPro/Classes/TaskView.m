@@ -313,11 +313,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGRect textRec = rect;
         textRec.origin = CGPointZero;
         
+        NSString *name = [task isShared]?[NSString stringWithFormat:@"☛ %@", task.name]:task.name;
+        
         SimpleCoreTextView *textView = [[SimpleCoreTextView alloc] initWithFrame:textRec];
-        textView.text = task.name;
+        textView.text = name;
         textView.font = font;
         
-        CGRect caretRect = [textView caretRectForIndex:task.name.length-1];
+        CGRect caretRect = [textView caretRectForIndex:name.length-1];
         
         [textView release];
         
@@ -352,7 +354,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
         textRec = rect;
 
-        if (task.name.length <= lineMaxChars && secondLine == nil)
+        if (name.length <= lineMaxChars && secondLine == nil)
         {
             //1 line text and info -> align vertical center
             
@@ -369,10 +371,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGRect embossedRec = CGRectOffset(textRec, 0, -1);
         
         [embossedColor set];
-        [task.name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+        [name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
         
         [textColor set];
-        [task.name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+        [name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
         
         textRec.origin.x = endPosition.x;
         textRec.origin.y = endPosition.y;

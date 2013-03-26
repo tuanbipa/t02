@@ -317,8 +317,15 @@ extern BOOL _isiPad;
 	
 	selectedDeadlineButton = (UIButton *)sender;
 	selectedDeadlineButton.selected = YES;
+    
+    NSInteger diff = 0;
+    
+    if (task.startTime != nil)
+    {
+        diff = [task.deadline timeIntervalSinceDate:task.startTime];
+    }
 	
-	NSDate *today = [NSDate date]; 
+	NSDate *today = [NSDate date];
 	
 	switch ((selectedDeadlineButton.tag % 10)-4)
 	{
@@ -336,6 +343,7 @@ extern BOOL _isiPad;
 			break;
 	}
     
+    /*
     if (self.taskCopy.startTime != nil && [self.taskCopy.deadline compare:self.taskCopy.startTime] == NSOrderedAscending)
     {
         self.taskCopy.startTime = [settings getWorkingStartTimeForDate:self.taskCopy.deadline];
@@ -344,8 +352,20 @@ extern BOOL _isiPad;
         
         [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+    */
 	
 	deadlineValueLabel.text = [Common getFullDateString3:self.taskCopy.deadline];
+    
+    if (diff > 0)
+    {
+        NSDate *dt = [NSDate dateWithTimeInterval:-diff sinceDate:self.taskCopy.deadline];
+        
+        self.taskCopy.startTime = [settings getWorkingStartTimeForDate:dt];
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
+        
+        [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 - (void)changeStart:(id) sender

@@ -29,5 +29,6 @@
 
 - (void) changeFrame:(CGRect)frm;
 - (void) loadAndShowList;
+- (void) reloadAlert4Task:(NSInteger)taskId;
 
 @end

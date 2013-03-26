@@ -18,6 +18,7 @@
 	BOOL landscapeModeEnable;
 	BOOL tabBarAutoHide;
 	NSInteger filterTab;
+    NSInteger snoozeDuration; //in minutes
 	
 	//task
 	NSInteger taskDuration;
@@ -136,6 +137,7 @@
 @property BOOL landscapeModeEnable;
 @property BOOL tabBarAutoHide;
 @property NSInteger filterTab;
+@property NSInteger snoozeDuration;
 
 @property NSInteger taskDuration;
 @property NSInteger taskDefaultProject;

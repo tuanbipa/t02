@@ -262,7 +262,7 @@ typedef enum
 typedef enum
 {
 	NOTE_FILTER_ALL,
-    NOTE_FILTER_TODAY
+    NOTE_FILTER_CURRENT
 } NoteTypeFilter;
 
 typedef enum 
@@ -339,7 +339,8 @@ typedef enum
 	SOUND_START,
 	SOUND_PAUSE,
 	SOUND_STOP,
-	SOUND_REPORT
+	SOUND_REPORT,
+    SOUND_ALARM
 } SoundType;
 
 typedef enum 
