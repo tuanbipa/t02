@@ -11,6 +11,8 @@
 
 @class Task;
 
+#define PLANNER_ITEM_HEIGHT 20
+
 @interface PlannerItemView : MovableView {
     
     UIImageView *checkImageView;

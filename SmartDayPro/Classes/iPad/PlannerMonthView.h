@@ -20,10 +20,11 @@
     
     NSInteger skinStyle; //0:white;1:black
     
-    //NSMutableArray *
+    NSMutableArray *plannerItemsList;
 }
 
 @property NSInteger skinStyle;
+@property (nonatomic, retain) NSMutableArray *plannerItemsList;
 
 #pragma mark methods
 - (void)changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks;

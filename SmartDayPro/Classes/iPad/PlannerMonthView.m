@@ -13,12 +13,14 @@
 #import "TaskManager.h"
 #import "Task.h"
 #import "PlannerItemView.h"
+#import "TaskView.h"
 
 extern BOOL _isiPad;
 
 @implementation PlannerMonthView
 
 @synthesize skinStyle;
+@synthesize plannerItemsList;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -69,6 +71,9 @@ extern BOOL _isiPad;
 			
 			[cell release];
 		}
+        
+        // init plannerItemsList
+        self.plannerItemsList = [NSMutableArray array];
     }
     return self;
 }
@@ -239,6 +244,14 @@ extern BOOL _isiPad;
 
 // expand week when user tap on carat
 - (void)expandWeek: (int) week {
+    if (self.plannerItemsList.count > 0) {
+        // reset array
+        for (PlannerItemView *itemView in self.plannerItemsList) {
+            [itemView removeFromSuperview];
+        }
+        [self.plannerItemsList removeAllObjects];
+    }
+    
     // initial last y point
     // tracking array
     int trackMore[7] = {
@@ -249,34 +262,25 @@ extern BOOL _isiPad;
         0, 0, 0, 0, 0, 0, 0,
     };
     
-    // expand width
-    for (int i = week*7; i < 42; i++) {
+    // init track y
+    for (int i = week*7; i < (week+1)*7; i++) {
         PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
-        if (i < (week+1)*7) {
-            // get y
-            trackY[i-week*7] = cell.frame.origin.y + cell.frame.size.height;
-            
-            [cell expandDayCell];
-        } else {
-            CGRect frm = cell.frame;
-            frm.origin.y = frm.origin.y + PLANNER_DAY_CELL_HEIGHT;
-            cell.frame = frm;
-        }
+        trackY[i-week*7] = cell.frame.origin.y + cell.frame.size.height;
     }
+    int originY = trackY[0];
     
     PlannerMonthCellView *firstCell = [[self subviews] objectAtIndex: week*7];
     PlannerMonthCellView *lastCell = [[self subviews] objectAtIndex: (week*7)+6];
     
     NSDate *fromDate = [firstCell getCellDate];
     NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
-    //NSDate *toDate = [lastCell getCellDate];
     
     // a1. get ADEs
     TaskManager *tm = [[TaskManager alloc] init];
     NSMutableArray *ades = [tm getADEListFromDate: fromDate toDate: toDate];
     // a2. sort ades
     for (Task *ade in ades) {
-        if ([Common compareDate:ade.startTime withDate:fromDate]) {
+        if ([Common compareDate:ade.startTime withDate:fromDate] == NSOrderedAscending) {
             ade.plannerStartTime = fromDate;
             ade.plannerDuration = (NSInteger)[ade.endTime timeIntervalSinceDate:ade.plannerStartTime]/60;
         } else {
@@ -292,11 +296,17 @@ extern BOOL _isiPad;
     
     // a3. draw ades
     for (Task *ade in ades) {
+        
         NSTimeInterval timeInterval = [ade.startTime timeIntervalSinceDate:fromDate];
         NSInteger dayIndex = 0;
+        NSInteger endDayIndex = 0;
         dayIndex = timeInterval/86400;
         if(dayIndex<0)
             dayIndex = 0;
+        
+        if (trackY[dayIndex] >= 12*20+originY) {
+            continue;
+        }
         
         // calculate width
         int width = 0;
@@ -304,19 +314,114 @@ extern BOOL _isiPad;
             width = (7 - dayIndex) * firstCell.frame.size.width;
         } else {
             // end day index
-            timeInterval = [ade.endTime timeIntervalSinceDate:toDate];
-            NSInteger endDayIndex = timeInterval/86400;
+            timeInterval = [ade.endTime timeIntervalSinceDate:fromDate];
+            endDayIndex = timeInterval/86400;
             endDayIndex = endDayIndex < 0 ? 0 : endDayIndex;
             width = (endDayIndex - dayIndex + 1) * firstCell.frame.size.width;
         }
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, 20)];
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         
         item.task = ade;
-        item.backgroundColor = [UIColor redColor];
-        
+        item.starEnable = NO;
+        [item enableMove:NO];
         [self addSubview:item];
         
+        [self.plannerItemsList addObject:item];
+        [item release];
+        
+        // increment track y
+        int originY = trackY[dayIndex];
+        for (int i = dayIndex; i <= endDayIndex; i++) {
+            trackY[i] = originY + PLANNER_ITEM_HEIGHT;
+            trackMore[i] = trackMore[i] + 1;
+        }
     }
+    
+    // b1. get due tasks
+    NSMutableArray *dTasks = [tm getDTaskListFromDate:fromDate toDate:toDate];
+    // b2. draw due tasks
+    for (Task *task in dTasks) {
+        NSTimeInterval timeInterval = [task.deadline timeIntervalSinceDate:fromDate];
+        NSInteger dayIndex = 0;
+        dayIndex = timeInterval/86400;
+        if(dayIndex<0)
+            dayIndex = 0;
+        
+        if (trackY[dayIndex] >= 12*20+originY) {
+            continue;
+        }
+        
+        int width = firstCell.frame.size.width;
+        
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        item.task = task;
+        item.starEnable = NO;
+        item.listStyle = YES;
+        [item enableMove:NO];
+        [self addSubview:item];
+        
+        [self.plannerItemsList addObject:item];
+        [item release];
+        
+        // increment track y
+        trackY[dayIndex] = trackY[dayIndex] + PLANNER_ITEM_HEIGHT;
+    }
+    
+    // c1. get notes
+    NSMutableArray *notes = [tm getNoteListFromDate:fromDate toDate:toDate];
+    // c2. draw notes
+    for (Task *note in notes) {
+        NSTimeInterval timeInterval = [note.startTime timeIntervalSinceDate:fromDate];
+        NSInteger dayIndex = 0;
+        dayIndex = timeInterval/86400;
+        if(dayIndex<0)
+            dayIndex = 0;
+        
+        //if (trackMore[dayIndex] == 12) {
+        if (trackY[dayIndex] >= 12*20+originY) {
+            continue;
+        }
+        
+        int width = firstCell.frame.size.width;
+        
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        item.task = note;
+        item.starEnable = NO;
+        item.listStyle = YES;
+        [item enableMove:NO];
+        [self addSubview:item];
+        
+        [self.plannerItemsList addObject:item];
+        [item release];
+        
+        // increment track y
+        trackY[dayIndex] = trackY[dayIndex] + PLANNER_ITEM_HEIGHT;
+    }
+    
+    // get max y
+    int maxY = trackY[0];
+    for (int i = 1; i < 7; i++) {
+        if (trackY[i] > maxY) {
+            maxY = trackY[i];
+        }
+    }
+    
+    int alterHeight = maxY - originY;
+    for (int i = week*7; i < 42; i++) {
+        PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
+        if (i < (week+1)*7) {
+            [cell expandDayCell:alterHeight];
+        } else {
+            CGRect frm = cell.frame;
+            frm.origin.y = frm.origin.y + alterHeight;
+            cell.frame = frm;
+        }
+    }
+}
+
+- (void) dealloc {
+    
+    [super dealloc];
 }
 @end

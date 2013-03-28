@@ -60,6 +60,7 @@
 - (NSMutableArray *) getREs;
 - (NSMutableArray *) getRADEs;
 - (NSMutableArray *) getNotesOnDate:(NSDate *)date;
+- (NSMutableArray *) getNotesFromDate:(NSDate *)fromDate toDate:(NSDate *) toDate;
 - (NSMutableArray *) getEventsOnDate:(NSDate *)date;
 - (NSMutableArray *) getADEsOnDate:(NSDate *)date;
 - (NSMutableArray *) getSTasksOnDate:(NSDate *)date;

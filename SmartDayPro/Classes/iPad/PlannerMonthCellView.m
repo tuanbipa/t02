@@ -41,11 +41,11 @@
 		
 		hasDTask = NO;
 		hasSTask = NO;
+        isExpand = NO;
 		
 		//freeRatio = 0;
         
         self.skinStyle = 1;
-        
     }
     return self;
 }
@@ -56,6 +56,24 @@
 {
     // Drawing code
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    // set background color
+    UIColor *color;
+    CGRect backgroundFrm = rect;
+    if (isExpand) {
+        UIImage *img = [UIImage imageNamed:@"month_cell_shadow_bg.png"];
+        backgroundFrm.size.height = img.size.height;
+        color = [UIColor colorWithPatternImage: img];
+    } else {
+        UIImage *img = [UIImage imageNamed:@"month_cell_bg.png"];
+        backgroundFrm.size.height = img.size.height;
+        color = [UIColor colorWithPatternImage: img];
+    }
+    
+    [color setFill];
+    //CGRect backgroundFrm = rect;
+    //backgroundFrm.size.height = 27;
+    CGContextFillRect(ctx, backgroundFrm);
     
 	UIColor *darkColor = [UIColor grayColor];
 	UIColor *lightColor = [UIColor whiteColor];
@@ -160,9 +178,11 @@
 }
 
 // expand cell
-- (void)expandDayCell {
+- (void)expandDayCell: (int) height {
+    isExpand = YES;
     CGRect frm = self.frame;
-    frm.size.height = self.frame.size.height + PLANNER_DAY_CELL_HEIGHT;
+    //frm.size.height = self.frame.size.height + PLANNER_DAY_CELL_HEIGHT;
+    frm.size.height = self.frame.size.height + height;
     self.frame = frm;
 }
 

@@ -430,6 +430,21 @@ TaskManager *_sctmSingleton = nil;
     return list;
 }
 
+- (NSMutableArray *) getNoteListFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate {
+    NSDate *start = [Common clearTimeForDate:fromDate];
+	NSDate *end =  [Common getEndDate:toDate];
+    
+    NSMutableArray *list = [[DBManager getInstance] getNotesFromDate:start toDate:end];
+	
+	list = [self filterList:list];
+	
+	[Common sortList:list byKey:@"startTime" ascending:YES];
+    
+    [self print:list];
+	
+	return list;
+}
+
 - (NSMutableArray *) getDoneTasksToday
 {
     DBManager *dbm = [DBManager getInstance];

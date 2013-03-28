@@ -30,6 +30,8 @@
     BOOL isToday;
     // if has task in current day, view will show dot
     BOOL isDot;
+    // is expanded
+    BOOL isExpand;
 }
 @property NSInteger skinStyle;
 
@@ -45,5 +47,5 @@
 - (void)setDay:(NSInteger) dayValue;
 - (void) setDSDots:(BOOL)dTask sTask:(BOOL)sTask;
 - (NSDate *)getCellDate;
-- (void)expandDayCell;
+- (void)expandDayCell: (int) height;
 @end

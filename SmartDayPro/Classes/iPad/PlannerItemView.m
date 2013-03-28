@@ -11,6 +11,7 @@
 #import "ProjectManager.h"
 #import "Task.h"
 #import "Common.h"
+#import "SimpleCoreTextView.h"
 
 @implementation PlannerItemView
 
@@ -34,9 +35,9 @@
         [self addSubview:checkView];
         [checkView release];
         
-        checkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 8, 12, 12)];
+        /*checkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 8, 12, 12)];
         [checkView addSubview:checkImageView];
-        [checkImageView release];
+        [checkImageView release];*/
         
         [self refreshCheckImage];
         
@@ -124,6 +125,9 @@
     
     CGRect frm = CGRectZero;
     frm.size = img.size;
+    // change size
+    frm.size.width = 13;
+    frm.size.height = 13;
     frm.origin.y = (rect.size.height-frm.size.height)/2;
     //frm.origin.y = SPACE_PAD;
     frm.origin.x = rect.origin.x + SPACE_PAD;
@@ -143,11 +147,218 @@
 
 - (void) drawBoxStyle:(CGRect)rect ctx:(CGContextRef)ctx
 {
+	UIColor *lightColor = [[ProjectManager getInstance] getProjectColor2:task.project];
+	
+	UIColor *dimColor = [[ProjectManager getInstance] getProjectColor1:task.project];
     
+	const CGFloat *fstComps = CGColorGetComponents([lightColor CGColor]);
+	const CGFloat *sndComps = CGColorGetComponents([dimColor CGColor]);
+	
+	size_t num_locations = 3;
+	CGFloat locations[3] = { 0.0, 0.4, 1.0 };
+	
+	CGFloat components[12] = { fstComps[0], fstComps[1], fstComps[2], 1.0,  // Start color
+		sndComps[0], sndComps[1], sndComps[2], 1.0, sndComps[0], sndComps[1], sndComps[2], 1.0 };
+    
+    CGRect frm = rect;
+    int alterSpace = SPACE_PAD/2;
+    frm.origin.x += alterSpace;
+    frm.size.width -= alterSpace;
+    frm.origin.y += alterSpace;
+    frm.size.height -= alterSpace;
+    
+    gradientRect(ctx, frm, components, locations, num_locations);
+    
+    if (isSelected)
+    {
+        CGRect outlineRec = frm;
+        
+        outlineRec.origin.y += 1;
+        outlineRec.origin.x += 1;
+        
+        UIColor *highlightColor = [UIColor colorWithRed:149.0/255 green:185.0/255 blue:239.0/255 alpha:1];
+        
+        [highlightColor setStroke];
+        CGContextSetLineWidth(ctx, 2);
+        
+        if ([task isTask])
+        {
+            strokeRoundedRect(ctx, outlineRec, 5, 5);
+        }
+        else
+        {
+            CGContextStrokeRect(ctx, outlineRec);
+        }
+    }
+    
+    rect = frm;
+    
+    [self drawText:rect context:ctx];
 }
 
 - (void) drawText:(CGRect)rect context:(CGContextRef) ctx {
+    //Task *task = (Task *)self.tag;
+    UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
+    UIFont *infoFont = [UIFont fontWithName:@"Verdana-Italic" size:11];
     
+    CGSize oneCharSize = [@"a" sizeWithFont:font];
+    NSInteger lineMaxChars = floor(rect.size.width/oneCharSize.width);
+    
+    BOOL isList = self.listStyle;
+    
+    NSTextAlignment alignment = NSTextAlignmentLeft;
+    
+    UIColor *embossedColor = isList?[UIColor clearColor]:[UIColor colorWithRed:94.0/255 green:120.0/255 blue:112.0/255 alpha:1];
+    UIColor *textColor = (isList?[UIColor blackColor]:[UIColor whiteColor]);
+    
+    NSString *infoStr = task.location;
+    
+    if ([task isNote])
+    {
+        //NSString *name = [task.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        infoStr = [task.note stringByReplacingOccurrencesOfString:task.name withString:@""];
+        
+        ////printf("text after replace: %s, note:%s, name:%s\n", [infoStr UTF8String], [task.note UTF8String], [task.name UTF8String]);
+        
+        infoStr = [[infoStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%C%C",0x2705,0x274E]]] componentsJoinedByString:@""];
+        
+        infoStr = [infoStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        CGRect textRec = rect;
+        textRec.size.height = oneCharSize.height;
+        
+        if (task.name.length <= lineMaxChars && [infoStr isEqualToString:@""])
+        {
+            //1 line name only without note content -> align center
+            textRec.origin.y += (rect.size.height - oneCharSize.height)/2;
+        }
+        
+        CGRect embossedRec = CGRectOffset(textRec, 0, -1);
+        
+        [embossedColor set];
+        [task.name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+        
+        [textColor set];
+        [task.name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+        
+        if (![infoStr isEqualToString:@""])
+        {
+            textRec = rect;
+            textRec.origin.y += oneCharSize.height;
+            textRec.size.height -= oneCharSize.height;
+            
+            embossedRec = CGRectOffset(textRec, 0, -1);
+            
+            [embossedColor set];
+            [infoStr drawInRect:embossedRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+            
+            [textColor set];
+            [infoStr drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+        }
+    }
+    else
+    {
+        NSString *firstLine = infoStr;
+        NSString *secondLine = nil;
+        
+        CGRect textRec = rect;
+        textRec.origin = CGPointZero;
+        
+        NSString *name = [task isShared]?[NSString stringWithFormat:@"☛ %@", task.name]:task.name;
+        
+        SimpleCoreTextView *textView = [[SimpleCoreTextView alloc] initWithFrame:textRec];
+        textView.text = name;
+        textView.font = font;
+        
+        CGRect caretRect = [textView caretRectForIndex:name.length-1];
+        
+        [textView release];
+        
+        CGPoint endPosition = CGPointMake(rect.origin.x + caretRect.origin.x + 20, rect.origin.y + rect.size.height - caretRect.origin.y - caretRect.size.height - 2);
+        
+        if ((endPosition.y <= rect.size.height - 12) && ![infoStr isEqualToString:@""] ) //draw location
+        {
+            oneCharSize = [@"a" sizeWithFont:infoFont];
+            NSInteger lineMaxChars = floor((rect.size.width - endPosition.x)/oneCharSize.width);
+            
+            if (infoStr.length > lineMaxChars)
+            {
+                int idx = lineMaxChars;
+                
+                firstLine = [infoStr substringToIndex:idx];
+                
+                NSRange range = [firstLine rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:NSBackwardsSearch];
+                
+                if (range.location != NSNotFound)
+                {
+                    idx = range.location;
+                    
+                    firstLine = [infoStr substringToIndex:idx];
+                }
+                
+                range.location = idx;
+                range.length = infoStr.length - idx;
+                
+                secondLine = [infoStr substringWithRange:range];
+            }
+        }
+        
+        textRec = rect;
+        
+        if (name.length <= lineMaxChars && secondLine == nil)
+        {
+            //1 line text and info -> align vertical center
+            
+            if (self.listStyle || [task isTask])
+            {
+                textRec.origin.y += (rect.size.height - oneCharSize.height)/2 - 2;
+            }
+            
+            textRec.size.height = oneCharSize.height;
+            
+            endPosition.y = textRec.origin.y;
+        }
+        
+        CGRect embossedRec = CGRectOffset(textRec, 0, -1);
+        
+        [embossedColor set];
+        [name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+        
+        [textColor set];
+        [name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+        
+        textRec.origin.x = endPosition.x;
+        textRec.origin.y = endPosition.y;
+        textRec.size = oneCharSize;
+        textRec.size.width = rect.size.width - textRec.origin.x;
+        
+        embossedRec = CGRectOffset(textRec, 0, -1);
+        
+        [embossedColor set];
+        [firstLine drawInRect:embossedRec withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+        
+        [textColor set];
+        [firstLine drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+        
+        if (secondLine != nil)
+        {
+            textRec = rect;
+            textRec.origin.y = endPosition.y + oneCharSize.height;
+            textRec.size.height -= textRec.origin.y;
+            
+            if (textRec.size.height >= oneCharSize.height)
+            {
+                CGRect embossedRec = CGRectOffset(textRec, 0, -1);
+                
+                [embossedColor set];
+                [secondLine drawInRect:embossedRec withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+                
+                [textColor set];
+                [secondLine drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+            }
+        }
+    }
 }
 
 -(void)refreshCheckImage
