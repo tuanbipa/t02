@@ -570,8 +570,10 @@ BOOL _autoPushPending = NO;
             title = _allText;
             break;
         case NOTE_FILTER_CURRENT:
-            //title = _todayText;
             title = _currentText;
+            break;
+        case NOTE_FILTER_WEEK:
+            title = _thisWeekText;
             break;
     }
     

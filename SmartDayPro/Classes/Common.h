@@ -262,7 +262,8 @@ typedef enum
 typedef enum
 {
 	NOTE_FILTER_ALL,
-    NOTE_FILTER_CURRENT
+    NOTE_FILTER_CURRENT,
+    NOTE_FILTER_WEEK
 } NoteTypeFilter;
 
 typedef enum 

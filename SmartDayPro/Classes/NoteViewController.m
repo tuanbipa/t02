@@ -111,7 +111,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     self.noteList = [NSMutableArray arrayWithCapacity:50];
     
-    NSArray *list = (self.filterType == NOTE_FILTER_CURRENT?[dbm getNotesByDate:tm.today]:[dbm getAllNotes]);
+    NSMutableArray *list = [NSMutableArray arrayWithCapacity:50];
+    
+    switch (self.filterType)
+    {
+        case NOTE_FILTER_ALL:
+            list = [dbm getAllNotes];
+            break;
+        case NOTE_FILTER_CURRENT:
+            list = [dbm getNotesByDate:tm.today];
+            break;
+        case NOTE_FILTER_WEEK:
+            list = [dbm getNotesByThisWeek];
+            break;
+    }
     
     for (Task *task in list)
     {

@@ -126,8 +126,8 @@ iPadViewController *_iPadViewCtrler;
     UIView *headerViews[3] = {taskHeaderView, noteHeaderView, projectHeaderView};
     
     UIButton *taskModuleButton = (UIButton *)[taskHeaderView viewWithTag:21000];
-    UIButton *noteModuleButton = (UIButton *)[noteHeaderView viewWithTag:21000];
-    UIButton *projectModuleButton = (UIButton *)[projectHeaderView viewWithTag:21000];
+    UIButton *noteModuleButton = (UIButton *)[noteHeaderView viewWithTag:21001];
+    UIButton *projectModuleButton = (UIButton *)[projectHeaderView viewWithTag:21002];
     
     UIButton *buttons[3] = {taskModuleButton, noteModuleButton, projectModuleButton};
     
@@ -631,9 +631,17 @@ iPadViewController *_iPadViewCtrler;
     
     button.selected = !button.selected;
     
-    UIImageView *imgView = (UIImageView *) [button viewWithTag:21001];
+    UIImageView *imgView = (UIImageView *) [button viewWithTag:21010];
     
     imgView.image = [UIImage imageNamed:button.selected?@"expand.png":@"collapse.png"];
+    
+    if (button.tag == 21000 && button.selected)
+    {
+        //expand task module -> hide quick add
+        SmartListViewController *ctrler = [self getSmartListViewController];
+        
+        [ctrler hideQuickAdd];
+    }
     
     [self resizeModules];
 }
@@ -978,13 +986,13 @@ iPadViewController *_iPadViewCtrler;
 
 -(void) createNoteOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 100)];
+	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 100)];
+	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -1039,6 +1047,31 @@ iPadViewController *_iPadViewCtrler;
 	todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
     todayButton.tag = NOTE_FILTER_CURRENT;
 	[optionView addSubview:todayButton];
+    
+    UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
+	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_today.png"];
+	[optionView addSubview:weekImageView];
+	[weekImageView release];
+	
+    UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
+    weekLabel.text = _thisWeekText;
+	weekLabel.textColor = [UIColor whiteColor];
+	weekLabel.backgroundColor = [UIColor clearColor];
+	weekLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:weekLabel];
+	[weekLabel release];
+	
+	UIButton *weekButton=[Common createButton:@""
+                                   buttonType:UIButtonTypeCustom
+                                        frame:CGRectMake(0, 92, 160, 30)
+                                   titleColor:nil
+                                       target:self
+                                     selector:@selector(showNoteWithOption:)
+                             normalStateImage:nil
+                           selectedStateImage:nil];
+	weekButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    weekButton.tag = NOTE_FILTER_WEEK;
+	[optionView addSubview:weekButton];
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2;
@@ -1234,12 +1267,12 @@ iPadViewController *_iPadViewCtrler;
                                                  selector:@selector(expand:)
                                          normalStateImage:nil
                                        selectedStateImage:nil];
-        expandButton.tag = 21000;
+        expandButton.tag = 21000+i;
         
         [headView addSubview:expandButton];
         
         UIImageView *expandImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 25, 25)];
-        expandImgView.tag = 21001;
+        expandImgView.tag = 21010;
         
         expandImgView.image = [UIImage imageNamed:@"collapse.png"];
         

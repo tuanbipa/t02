@@ -515,7 +515,9 @@ BOOL _fromBackground = NO;
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification 
 {
-    UIApplicationState state = [application applicationState];
+    [[MusicManager getInstance] playSound:SOUND_ALARM];
+    
+    //UIApplicationState state = [application applicationState];
     //if (state != UIApplicationStateInactive)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_alertText
@@ -731,6 +733,16 @@ BOOL _fromBackground = NO;
     return YES;	
 }
 
+- (void) showPostponeOption:(UILocalNotification *)notif
+{
+    UIActionSheet *postponeActionSheet = [[UIActionSheet alloc] initWithTitle:_postpone delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:nil otherButtonTitles: _1DayText, _1WeekText, _1MonthText, nil];
+    postponeActionSheet.tag = notif;
+    
+    [postponeActionSheet showInView:self.window];
+    
+    [postponeActionSheet release];    
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if (alertView.tag == -10000 && buttonIndex == 0)
@@ -745,7 +757,7 @@ BOOL _fromBackground = NO;
 	{
 		[self restoreDB:(NSURL *)alertView.tag];
 	}*/
-    else
+    else if (buttonIndex >= 0)
     {
         NSObject *obj = [self.alertDict objectForKey:alertView.tag];
         
@@ -759,6 +771,8 @@ BOOL _fromBackground = NO;
             }
             else if ([obj isKindOfClass:[UILocalNotification class]])
             {
+                [[MusicManager getInstance] stopSound];
+                 
                 if (buttonIndex == 0)
                 {
                     [[AlertManager getInstance] stopAlert:(UILocalNotification *)obj];
@@ -772,12 +786,17 @@ BOOL _fromBackground = NO;
                     remove = NO;
                     
                     //postpone
+                    /*
                     UIActionSheet *postponeActionSheet = [[UIActionSheet alloc] initWithTitle:_postpone delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:nil otherButtonTitles: _1DayText, _1WeekText, _1MonthText, nil];
                     postponeActionSheet.tag = obj;
                     
                     [postponeActionSheet showInView:self.window];
                     
-                    [postponeActionSheet release];
+                    [postponeActionSheet release];*/
+                    
+                    [alertView dismissWithClickedButtonIndex:-1 animated:NO];
+                    
+                    [self performSelector:@selector(showPostponeOption:) withObject:obj];
                 }
             }
          

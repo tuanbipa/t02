@@ -39,6 +39,13 @@ static sqlite3_stmt *alert_delete_statement = nil;
 	return self;
 }
 
+- (void)dealloc
+{
+	self.absoluteTime = nil;
+	
+    [super dealloc];
+}
+
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database 
 {
@@ -258,13 +265,6 @@ static sqlite3_stmt *alert_delete_statement = nil;
 	}
 	
 	return time;
-}
-
-- (void)dealloc 
-{	
-	self.absoluteTime = nil;
-	
-    [super dealloc];
 }
 
 + (NSString *) stringOfAlertData:(AlertData *)data

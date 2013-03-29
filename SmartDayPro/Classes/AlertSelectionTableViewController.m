@@ -289,24 +289,13 @@
 	
 	selectedIndex = indexPath.row;
 	
-	/*
-	if (selectedIndex == 7)
-	{
-		self.alertData.beforeDuration = 0;
-	}
-	else 
-	{
-		NSInteger alertDurations[7] = {-15, -30, -45, -60, -120, -1440, -2880};
-		self.alertData.beforeDuration = alertDurations[selectedIndex]*60;
-	}
-	*/
-	
 	NSInteger alertDurations[8] = {-15, -30, -45, -60, -120, -1440, -2880, 0};
 	
     //NSInteger adeAlertDurations[8] = {8*60, 0, -4*60, -8*60, -12*60, -16*60, -36*60, -60*60};
     NSInteger adeAlertDurations[6] = {-4*60, -8*60, -12*60, -16*60, -36*60, -60*60};
 	
 	self.alertData.beforeDuration = ([self.taskEdit isADE]?adeAlertDurations[selectedIndex]:alertDurations[selectedIndex])*60;
+    self.alertData.absoluteTime = nil;
 	
 	[self showAlertTime];
 }

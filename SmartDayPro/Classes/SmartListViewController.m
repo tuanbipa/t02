@@ -777,7 +777,6 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void) hideQuickAdd
 {
-    //[contentView setContentOffset:CGPointMake(0, quickAddPlaceHolder.bounds.size.height) animated:YES];
     [smartListView setContentOffset:CGPointMake(0, 40)];
 }
 
@@ -2579,6 +2578,8 @@ SmartListViewController *_smartListViewCtrler;
 {
     contentView.frame = frm;
     
+    CGPoint offset = smartListView.contentOffset;
+    
     smartListView.frame = contentView.bounds;
     
     CGRect rec = editBarPlaceHolder.frame;
@@ -2593,6 +2594,8 @@ SmartListViewController *_smartListViewCtrler;
     
     UIButton *moreButton = (UIButton *) [quickAddPlaceHolder viewWithTag:10000];
     moreButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
+    
+    smartListView.contentOffset = offset;
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.

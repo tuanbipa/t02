@@ -26,5 +26,6 @@
 + (void) startup;
 
 - (void) playSound:(SoundType) sound;
+- (void) stopSound;
 
 @end

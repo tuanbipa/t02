@@ -3217,13 +3217,13 @@ extern BOOL _gtdoTabHintShown;
 
 -(void) createNoteOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 100)];
+	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 140, 140)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 100)];
+	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -3278,6 +3278,31 @@ extern BOOL _gtdoTabHintShown;
 	todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
     todayButton.tag = NOTE_FILTER_CURRENT;
 	[optionView addSubview:todayButton];
+    
+    UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
+	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_today.png"];
+	[optionView addSubview:weekImageView];
+	[weekImageView release];
+	
+    UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
+    weekLabel.text = _thisWeekText;
+	weekLabel.textColor = [UIColor whiteColor];
+	weekLabel.backgroundColor = [UIColor clearColor];
+	weekLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:weekLabel];
+	[weekLabel release];
+	
+	UIButton *weekButton=[Common createButton:@""
+                                    buttonType:UIButtonTypeCustom
+                                         frame:CGRectMake(0, 92, 160, 30)
+                                    titleColor:nil
+                                        target:self
+                                      selector:@selector(showNoteWithOption:)
+                              normalStateImage:nil
+                            selectedStateImage:nil];
+	weekButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    weekButton.tag = NOTE_FILTER_WEEK;
+	[optionView addSubview:weekButton];
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2;
