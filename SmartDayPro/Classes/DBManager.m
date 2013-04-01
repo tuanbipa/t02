@@ -239,6 +239,36 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;
 }
 
+- (NSMutableArray *) getNotesByThisWeek
+{
+	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:200];
+    
+    Settings *settings = [Settings getInstance];
+    
+    NSDate *date = [Common getFirstWeekDate:[NSDate date] mondayAsWeekStart:(settings.weekStart==1)];
+    
+    NSTimeInterval dtValue = [[Common toDBDate:[Common clearTimeForDate:date]] timeIntervalSince1970];
+	
+	NSString *sql = [NSString stringWithFormat:@"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status <> ? AND Task_StartTime > %f AND (Task_StartTime - %f) < 7*86400 ORDER BY Task_StartTime DESC", dtValue, dtValue];
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, TYPE_NOTE);
+		sqlite3_bind_int(statement, 2, TASK_STATUS_DELETED);
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			int primaryKey = sqlite3_column_int(statement, 0);
+			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
+			
+			[taskList addObject:task];
+			[task release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return taskList;
+}
+
 - (NSMutableArray *) getAllTasks
 {
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:200];

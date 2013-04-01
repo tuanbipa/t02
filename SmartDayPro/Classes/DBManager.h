@@ -32,6 +32,7 @@
 - (NSMutableArray *) getAllNotes;
 - (NSMutableArray *) getTodayNotes;
 - (NSMutableArray *) getNotesByDate:(NSDate *)date;
+- (NSMutableArray *) getNotesByThisWeek;
 - (NSMutableArray *) getAllTasks;
 - (NSMutableArray *) getTasks2Sync;
 - (NSMutableArray *) getModifiedTasks2Sync:(NSDate *)afterDate;

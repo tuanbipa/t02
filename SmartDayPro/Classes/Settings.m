@@ -1144,7 +1144,7 @@ extern BOOL _isiPad;
 	NSNumber *tabBarAutoHideSetting = [NSNumber numberWithBool:self.tabBarAutoHide];
 	[settingDict setValue:tabBarAutoHideSetting forKey:@"TabBarAutoHide"];	
 
-	NSNumber *snoozeDurationSetting = [NSNumber numberWithBool:self.snoozeDuration];
+	NSNumber *snoozeDurationSetting = [NSNumber numberWithInt:self.snoozeDuration];
 	[settingDict setValue:snoozeDurationSetting forKey:@"SnoozeDuration"];
 	
 	NSNumber *taskDurationSetting = [NSNumber numberWithInt:self.taskDuration];

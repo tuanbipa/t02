@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SmartCalAppDelegate : NSObject <UIApplicationDelegate> {
+@interface SmartCalAppDelegate : NSObject <UIApplicationDelegate, UIAlertViewDelegate, UIActionSheetDelegate> {
     UIWindow *window;
 	
 	UINavigationController *navController;

@@ -58,6 +58,11 @@ MusicManager *_musicManagerSingleton = nil;
 	[musicLibrary setObject:path forKey:theMusicKey];
 }
 
+- (void) setMusicPath:(NSString *)path forKey:(NSString *)forKey
+{
+    [musicLibrary setObject:path forKey:forKey];
+}
+
 - (void) playMusicWithKey:(NSString*)theMusicKey timesToRepeat:(NSUInteger)theTimesToRepeat {
 	
 	NSError *error;
@@ -131,10 +136,21 @@ MusicManager *_musicManagerSingleton = nil;
 			[self playMusicWithKey:@"Harp" timesToRepeat:0];
 			break;
 		case SOUND_ALARM:
-			[self playMusicWithKey:@"AlarmDrum" timesToRepeat:0];
+			//[self playMusicWithKey:@"AlarmDrum" timesToRepeat:0];
+            [self playMusicWithKey:@"Alarm" timesToRepeat:0];
 			break;
 			
 	}
+}
+
+- (void) stopSound
+{
+	if (self.backgroundMusicPlayer != nil)
+	{
+		[self.backgroundMusicPlayer stop];
+	}
+    
+    self.backgroundMusicPlayer = nil;
 }
 
 - (void)dealloc 
@@ -175,6 +191,7 @@ MusicManager *_musicManagerSingleton = nil;
 	[mm loadBackgroundMusicWithKey:@"Pause" fileName:@"Pause" fileExt:@"wav"];
 	[mm loadBackgroundMusicWithKey:@"Stop" fileName:@"Stop" fileExt:@"wav"];
     [mm loadBackgroundMusicWithKey:@"AlarmDrum" fileName:@"AlarmDrum" fileExt:@"wav"];
+    [mm loadBackgroundMusicWithKey:@"Alarm" fileName:@"Alarm" fileExt:@"wav"];
 	
 }
 

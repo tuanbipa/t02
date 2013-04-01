@@ -570,6 +570,8 @@
 		67D51F9F16563B7B007017E3 /* hints_task_ip4.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D51F9716563B7B007017E3 /* hints_task_ip4.png */; };
 		67D51FA016563B7B007017E3 /* hints_task_ip4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D51F9816563B7B007017E3 /* hints_task_ip4@2x.png */; };
 		67D6EEEE16251A6D00251ECC /* LinkInfo2Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 67D6EEED16251A6D00251ECC /* LinkInfo2Sort.m */; };
+		67D75EFB170290A000C2F152 /* Alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67D75EFA170290A000C2F152 /* Alarm.wav */; };
+		67D75EFC170290A000C2F152 /* Alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67D75EFA170290A000C2F152 /* Alarm.wav */; };
 		67D7ED5D1647637700EB57F1 /* MM_month.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D7ED591647637700EB57F1 /* MM_month.png */; };
 		67D7ED5E1647637700EB57F1 /* MM_month@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D7ED5A1647637700EB57F1 /* MM_month@2x.png */; };
 		67D7ED5F1647637700EB57F1 /* MM_week.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D7ED5B1647637700EB57F1 /* MM_week.png */; };
@@ -2121,6 +2123,7 @@
 		67D51F9816563B7B007017E3 /* hints_task_ip4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hints_task_ip4@2x.png"; sourceTree = "<group>"; };
 		67D6EEEC16251A6C00251ECC /* LinkInfo2Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkInfo2Sort.h; sourceTree = "<group>"; };
 		67D6EEED16251A6D00251ECC /* LinkInfo2Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkInfo2Sort.m; sourceTree = "<group>"; };
+		67D75EFA170290A000C2F152 /* Alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Alarm.wav; sourceTree = "<group>"; };
 		67D7ED591647637700EB57F1 /* MM_month.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MM_month.png; sourceTree = "<group>"; };
 		67D7ED5A1647637700EB57F1 /* MM_month@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MM_month@2x.png"; sourceTree = "<group>"; };
 		67D7ED5B1647637700EB57F1 /* MM_week.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MM_week.png; sourceTree = "<group>"; };
@@ -2820,6 +2823,7 @@
 		67CF2C9816195196001FE1AA /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				67D75EFA170290A000C2F152 /* Alarm.wav */,
 				670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */,
 				67E506AF16F2BAE000DCFE06 /* close.wav */,
 				67E506B016F2BAE000DCFE06 /* Harp.wav */,
@@ -3963,6 +3967,7 @@
 				670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				67D75EFB170290A000C2F152 /* Alarm.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4464,6 +4469,7 @@
 				670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				67D75EFC170290A000C2F152 /* Alarm.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
