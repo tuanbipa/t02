@@ -32,7 +32,6 @@ extern BOOL _isiPad;
 		[headerView release];
         
         // month view
-        //monthView = [[PlannerMonthView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height, frame.size.width, frame.size.height-headerView.frame.size.height)];
         monthView = [[PlannerMonthView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height, frame.size.width, 26*6+144)];
         
 		[self addSubview:monthView];
@@ -46,7 +45,7 @@ extern BOOL _isiPad;
         [monthView initCalendar:calDate];
         // end init calendar
         
-        [monthView expandWeek:1];
+        //[monthView expandWeek:4];
         
         // bottom day cal
         PlannerBottomDayCal *bottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(0, monthView.frame.origin.y + monthView.frame.size.height, frame.size.width, self.frame.size.height - headerView.frame.size.height - monthView.frame.size.height)];

@@ -21,6 +21,10 @@
     NSInteger skinStyle; //0:white;1:black
     
     NSMutableArray *plannerItemsList;
+    
+    // the week, which is open
+    // if no week is open, the value is -1
+    int openningWeek;
 }
 
 @property NSInteger skinStyle;
@@ -31,4 +35,5 @@
 // draw calendar
 - (void)initCalendar: (NSDate *)date;
 - (void)expandWeek: (int) week;
+- (void)collapseExpand: (int) week;
 @end

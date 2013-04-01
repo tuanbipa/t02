@@ -12,7 +12,7 @@
 @class CellSquareBadgeView;
 
 #define PLANNER_DAY_CELL_HEIGHT 144
-
+#define PLANNER_DAY_CELL_COLLAPSE_HEIGHT 27
 
 @interface PlannerMonthCellView : UIView {
     
@@ -29,9 +29,13 @@
     // is Today
     BOOL isToday;
     // if has task in current day, view will show dot
-    BOOL isDot;
+    //BOOL isDot;
     // is expanded
     BOOL isExpand;
+    // is the first day in week
+    BOOL isFirstDayInWeek;
+    // this belong to week # in month
+    int weekNumberInMonth;
 }
 @property NSInteger skinStyle;
 
@@ -42,10 +46,14 @@
 @property BOOL hasDTask;
 @property BOOL hasSTask;
 @property BOOL isToday;
-@property BOOL isDot;
+//@property BOOL isDot;
+@property BOOL isFirstDayInWeek;
+@property int weekNumberInMonth;
 
 - (void)setDay:(NSInteger) dayValue;
 - (void) setDSDots:(BOOL)dTask sTask:(BOOL)sTask;
 - (NSDate *)getCellDate;
 - (void)expandDayCell: (int) height;
+- (void)collapseDayCell;
+- (void)disPlayExpandButton:(BOOL)value;
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "PlannerMonthCellView.h"
+#import "Common.h"
+#import "PlannerMonthView.h"
 
 @implementation PlannerMonthCellView
 
@@ -17,6 +19,8 @@
 @synthesize hasDTask;
 @synthesize hasSTask;
 @synthesize isToday;
+@synthesize isFirstDayInWeek;
+@synthesize weekNumberInMonth;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -37,11 +41,12 @@
         //self.isWeekend = NO;
 		//gray = NO;
 		isToday = NO;
-		isDot = NO;
+		//isDot = NO;
 		
 		hasDTask = NO;
 		hasSTask = NO;
         isExpand = NO;
+        isFirstDayInWeek = NO;
 		
 		//freeRatio = 0;
         
@@ -181,11 +186,57 @@
 - (void)expandDayCell: (int) height {
     isExpand = YES;
     CGRect frm = self.frame;
-    //frm.size.height = self.frame.size.height + PLANNER_DAY_CELL_HEIGHT;
+    frm.size.height = self.frame.size.height + PLANNER_DAY_CELL_HEIGHT;
     frm.size.height = self.frame.size.height + height;
     self.frame = frm;
+    [self setNeedsDisplay];
 }
 
 - (void)collapseDayCell {
+    isExpand = NO;
+    CGRect frm = self.frame;
+    frm.size.height = PLANNER_DAY_CELL_COLLAPSE_HEIGHT;
+    self.frame = frm;
+    [self setNeedsDisplay];
+}
+
+- (void)disPlayExpandButton:(BOOL)value {
+    self.isFirstDayInWeek = value;
+    if (isFirstDayInWeek) {
+        UIButton *expandButton = [Common createButton:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:CGRectMake(0, 0, 40, 40)
+                                           titleColor:[UIColor whiteColor]
+                                               target:self
+                                             selector:@selector(expand:)
+                                     normalStateImage:nil
+                                   selectedStateImage:nil];
+        expandButton.tag = 21000;
+        
+        [self addSubview:expandButton];
+        
+        UIImageView *expandImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 25, 25)];
+        expandImgView.tag = 21001;
+        
+        expandImgView.image = [UIImage imageNamed:@"collapse.png"];
+        
+        [expandButton addSubview:expandImgView];
+        [expandImgView release];
+    }
+}
+
+#pragma mark Actions
+
+- (void)expand:(id) sender {
+    UIButton *button = (UIButton *)sender;
+    button.selected = !button.selected;
+    
+    UIImageView *imgView = (UIImageView *) [button viewWithTag:21001];
+    
+    imgView.image = [UIImage imageNamed:button.selected?@"expand.png":@"collapse.png"];
+    
+    PlannerMonthView *monthView = (PlannerMonthView *)self.superview;
+    //[monthView expandWeek:weekNumberInMonth];
+    [monthView collapseExpand:weekNumberInMonth];
 }
 @end

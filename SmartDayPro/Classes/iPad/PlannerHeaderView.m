@@ -128,11 +128,6 @@ extern BOOL _isiPad;
     
     NSString *title = [Common getFullMonthYearString:dt];
     
-    if (!selectedButton.selected)
-    {
-        title = [NSString stringWithFormat:@"Week #%d, %@", [Common getWeekOfYear:dt], [Common getMonthYearString:dt]];
-    }
-    
     UIButton *prevButton = (UIButton *) [self viewWithTag:11000];
     UIButton *nextButton = (UIButton *) [self viewWithTag:11001];
     

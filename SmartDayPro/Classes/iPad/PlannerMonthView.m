@@ -48,7 +48,7 @@ extern BOOL _isiPad;
 			
 			CGFloat height = cellHeight;
 			
-			BOOL isWeekend = ([[Settings getInstance] isMondayAsWeekStart] ?(mod == 5 || mod == 6):(mod == 0 || mod == 6));
+			//BOOL isWeekend = ([[Settings getInstance] isMondayAsWeekStart] ?(mod == 5 || mod == 6):(mod == 0 || mod == 6));
 			
 			CGRect frm = CGRectMake(mod*dayWidth, ymargin+ yoffset, dayWidth, height);
 			
@@ -56,6 +56,7 @@ extern BOOL _isiPad;
 			cell.day = -1;
 			//cell.index = i;
             cell.skinStyle = self.skinStyle;
+            cell.weekNumberInMonth = i/7;
             
 			/*if (isWeekend)
 			{
@@ -74,28 +75,21 @@ extern BOOL _isiPad;
         
         // init plannerItemsList
         self.plannerItemsList = [NSMutableArray array];
+        
+        openningWeek = -1;
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
 - (void)initCalendar: (NSDate *)date {
     [self setTitleForCells:date];
+    [self addExpandButton];
     [self refresh];
 }
 
 - (void)setTitleForCells: (NSDate *) date {
     NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
-	//NSDateComponents *dtComps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:date];
 	NSDateComponents *todayComps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:[NSDate date]];
 	
 	BOOL mondayAsWeekStart = [[Settings getInstance] isMondayAsWeekStart];
@@ -244,13 +238,20 @@ extern BOOL _isiPad;
 
 // expand week when user tap on carat
 - (void)expandWeek: (int) week {
-    if (self.plannerItemsList.count > 0) {
-        // reset array
-        for (PlannerItemView *itemView in self.plannerItemsList) {
-            [itemView removeFromSuperview];
-        }
-        [self.plannerItemsList removeAllObjects];
+    openningWeek = week;
+    
+    // collapse others
+    for (int i = 0; i<42; i++) {
+        
     }
+    
+//    if (self.plannerItemsList.count > 0) {
+//        // reset array
+//        for (PlannerItemView *itemView in self.plannerItemsList) {
+//            [itemView removeFromSuperview];
+//        }
+//        [self.plannerItemsList removeAllObjects];
+//    }
     
     // initial last y point
     // tracking array
@@ -408,6 +409,9 @@ extern BOOL _isiPad;
     }
     
     int alterHeight = maxY - originY;
+    if (alterHeight == 0) {
+        alterHeight = PLANNER_ITEM_HEIGHT;
+    }
     for (int i = week*7; i < 42; i++) {
         PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
         if (i < (week+1)*7) {
@@ -417,6 +421,57 @@ extern BOOL _isiPad;
             frm.origin.y = frm.origin.y + alterHeight;
             cell.frame = frm;
         }
+    }
+}
+
+- (void)collapseWeek {
+    if (openningWeek == -1) {
+        return;
+    }
+    
+    if (self.plannerItemsList.count > 0) {
+        // reset array
+        for (PlannerItemView *itemView in self.plannerItemsList) {
+            [itemView removeFromSuperview];
+        }
+        [self.plannerItemsList removeAllObjects];
+    }
+    
+    // get adjust y
+    PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
+    int adjustY = cell.frame.size.height - PLANNER_DAY_CELL_COLLAPSE_HEIGHT;
+    
+    for (int i = openningWeek*7; i < openningWeek*7 + 7; i++) {
+        PlannerMonthCellView *cell = [[self subviews] objectAtIndex:i];
+        // collapse cell
+        [cell collapseDayCell];
+    }
+    
+    for (int i = openningWeek*7+7; i < self.subviews.count; i++) {
+        PlannerMonthCellView *cell = [[self subviews] objectAtIndex:i];
+        CGRect frm = cell.frame;
+        frm.origin.y = frm.origin.y - adjustY;
+        cell.frame = frm;
+    }
+    
+    openningWeek = -1;
+}
+
+- (void)addExpandButton {
+    
+    for (int i=0; i<42; i=i+7) {
+        PlannerMonthCellView *cell = [[self subviews] objectAtIndex:i];
+        
+        [cell disPlayExpandButton:YES];
+        
+    }
+}
+
+- (void)collapseExpand: (int) week {
+    BOOL isExpand = week != openningWeek;
+    [self collapseWeek];
+    if (isExpand) {
+        [self expandWeek:week];
     }
 }
 
