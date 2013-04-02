@@ -13,6 +13,7 @@
 
 #import "SmartListViewController.h"
 #import "PlannerView.h"
+#import "PlannerBottomDayCal.h"
 
 @interface PlannerViewController ()
 
@@ -44,6 +45,7 @@
 {
     [smartListViewCtrler release];
     [plannerView release];
+    [plannerBottomDayCal release];
     
     [super dealloc];
 }
@@ -54,7 +56,8 @@
     
     CGRect frm = CGRectZero;
     frm.size.width = sz.height + 20 + 44;
-    frm.size.height = sz.width - 20 - 44;
+    //frm.size.height = sz.width - 20 - 44;
+    frm.size.height = sz.width - 20;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     //contentView.backgroundColor = [UIColor magentaColor];
@@ -78,9 +81,13 @@
     plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 8, 750, 206)];
     [contentView addSubview:plannerView];
     
-    CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8), frm.size.height);
+    CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8), frm.size.height - 16);
     
     [smartListViewCtrler changeFrame:tmp];
+    
+    // bottom day cal
+    plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];
+    [contentView addSubview:plannerBottomDayCal];
 }
 
 - (void)viewDidLoad

@@ -1407,6 +1407,7 @@
 		67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */; };
 		67FB71BE16781D9E0033C3A1 /* FocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB71BD16781D9E0033C3A1 /* FocusView.m */; };
 		67FB7F251640C9930049DA1A /* MiniMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */; };
+		A2229BF9170AC7E700282B50 /* PlannerScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2229BF8170AC7E600282B50 /* PlannerScheduleView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2303,6 +2304,8 @@
 		67FB71BD16781D9E0033C3A1 /* FocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusView.m; sourceTree = "<group>"; };
 		67FB7F231640C9920049DA1A /* MiniMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthHeaderView.h; sourceTree = "<group>"; };
 		67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniMonthHeaderView.m; sourceTree = "<group>"; };
+		A2229BF7170AC7E400282B50 /* PlannerScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerScheduleView.h; sourceTree = "<group>"; };
+		A2229BF8170AC7E600282B50 /* PlannerScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerScheduleView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2396,6 +2399,8 @@
 				67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */,
 				6728E5D816DC7441001024DD /* TimerViewController.h */,
 				6728E5D916DC7441001024DD /* TimerViewController.m */,
+				A2229BF7170AC7E400282B50 /* PlannerScheduleView.h */,
+				A2229BF8170AC7E600282B50 /* PlannerScheduleView.m */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -4691,6 +4696,7 @@
 				67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */,
 				67F6B8CD16FAB409004EEB69 /* PlannerItemView.m in Sources */,
 				67DE2148170006FD000545AC /* SnoozeDurationViewController.m in Sources */,
+				A2229BF9170AC7E700282B50 /* PlannerScheduleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@
 @class ContentView;
 @class SmartListViewController;
 @class PlannerView;
+@class PlannerBottomDayCal;
 
 @interface PlannerViewController : ViewController
 {
@@ -18,6 +19,7 @@
     
     SmartListViewController *smartListViewCtrler;
     PlannerView *plannerView;
+    PlannerBottomDayCal *plannerBottomDayCal;
 }
 
 @end
