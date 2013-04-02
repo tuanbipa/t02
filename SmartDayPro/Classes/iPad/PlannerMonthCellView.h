@@ -14,6 +14,13 @@
 #define PLANNER_DAY_CELL_HEIGHT 144
 #define PLANNER_DAY_CELL_COLLAPSE_HEIGHT 27
 
+typedef enum
+{
+	BUTTON_EXPAND_TAG,
+    IMAGE_EXPAND_TAG
+	
+} cellViewTags;
+
 @interface PlannerMonthCellView : UIView {
     
     NSInteger day;

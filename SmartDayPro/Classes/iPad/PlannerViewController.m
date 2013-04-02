@@ -57,7 +57,7 @@
     frm.size.height = sz.width - 20 - 44;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor magentaColor];
+    //contentView.backgroundColor = [UIColor magentaColor];
     
     self.view = contentView;
     
@@ -65,16 +65,22 @@
     
     [contentView addSubview:smartListViewCtrler.view];
     
-    frm.origin.x = frm.size.width - 320;
-    frm.size.width = 320;
+    frm.origin.x = frm.size.width - 234;
+    frm.size.width = 234;
     
-    [smartListViewCtrler changeFrame:frm];
+    //[smartListViewCtrler changeFrame:frm];
     
     // planer view in left
     //plannerView
-    plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width - smartListViewCtrler.contentView.frame.size.width, frm.size.height)];
-    [contentView addSubview:plannerView];
+    //plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 0, contentView.frame.size.width - smartListViewCtrler.contentView.frame.size.width, frm.size.height)];
+    //[contentView addSubview:plannerView];
 
+    plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 8, 750, 206)];
+    [contentView addSubview:plannerView];
+    
+    CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8), frm.size.height);
+    
+    [smartListViewCtrler changeFrame:tmp];
 }
 
 - (void)viewDidLoad

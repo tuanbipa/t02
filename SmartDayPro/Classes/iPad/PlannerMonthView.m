@@ -14,6 +14,7 @@
 #import "Task.h"
 #import "PlannerItemView.h"
 #import "TaskView.h"
+#import "PlannerView.h"
 
 extern BOOL _isiPad;
 
@@ -28,7 +29,8 @@ extern BOOL _isiPad;
     if (self) {
         // Initialization code
         
-        self.backgroundColor = [UIColor clearColor];
+        //self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
         
         todayCellIndex = -1;
         nDays = 0;
@@ -37,7 +39,7 @@ extern BOOL _isiPad;
 		
 		CGFloat width = frame.size.width;
 		CGFloat dayWidth = floor(width/7);
-		CGFloat cellHeight = floor((frame.size.height-144)/6);
+		CGFloat cellHeight = floor((frame.size.height)/6);
 		
 		CGFloat ymargin = 0;
 		CGFloat yoffset = 0;
@@ -82,8 +84,14 @@ extern BOOL _isiPad;
 }
 
 - (void)initCalendar: (NSDate *)date {
+    
     [self setTitleForCells:date];
     [self addExpandButton];
+    [self refresh];
+}
+
+- (void)changeMonth: (NSDate *) date {
+    [self setTitleForCells:date];
     [self refresh];
 }
 
@@ -183,10 +191,7 @@ extern BOOL _isiPad;
     NSDate *fromDate = [firstCell getCellDate];
     NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
     
-	//[self updateBusyTimeFromDate:fromDate toDate:toDate];
 	[self updateDotFromDate:fromDate toDate:toDate];
-	//[adeView setStartDate:fromDate endDate:toDate];
-	
 	//////NSLog(@"end refresh all cells");
 }
 
@@ -229,21 +234,13 @@ extern BOOL _isiPad;
 	{
 		frm.origin.x -= width; //shift left 1 column to start as Monday
 	}*/
-	
-	//adeView.frame = frm;
-	//adeView.nameShown = YES;
-	
+    
 	self.clipsToBounds = YES;
 }
 
 // expand week when user tap on carat
 - (void)expandWeek: (int) week {
     openningWeek = week;
-    
-    // collapse others
-    for (int i = 0; i<42; i++) {
-        
-    }
     
 //    if (self.plannerItemsList.count > 0) {
 //        // reset array
@@ -254,11 +251,6 @@ extern BOOL _isiPad;
 //    }
     
     // initial last y point
-    // tracking array
-    int trackMore[7] = {
-        0, 0, 0, 0, 0, 0, 0,
-    };
-    
     CGFloat trackY[7] = {
         0, 0, 0, 0, 0, 0, 0,
     };
@@ -277,7 +269,8 @@ extern BOOL _isiPad;
     NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
     
     // a1. get ADEs
-    TaskManager *tm = [[TaskManager alloc] init];
+    //TaskManager *tm = [[TaskManager alloc] init];
+    TaskManager *tm = [TaskManager getInstance];
     NSMutableArray *ades = [tm getADEListFromDate: fromDate toDate: toDate];
     // a2. sort ades
     for (Task *ade in ades) {
@@ -317,7 +310,8 @@ extern BOOL _isiPad;
             // end day index
             timeInterval = [ade.endTime timeIntervalSinceDate:fromDate];
             endDayIndex = timeInterval/86400;
-            endDayIndex = endDayIndex < 0 ? 0 : endDayIndex;
+            //endDayIndex = endDayIndex < 0 ? 0 : endDayIndex;
+            endDayIndex = endDayIndex > 7 ? 7 : endDayIndex;
             width = (endDayIndex - dayIndex + 1) * firstCell.frame.size.width;
         }
         
@@ -335,7 +329,6 @@ extern BOOL _isiPad;
         int originY = trackY[dayIndex];
         for (int i = dayIndex; i <= endDayIndex; i++) {
             trackY[i] = originY + PLANNER_ITEM_HEIGHT;
-            trackMore[i] = trackMore[i] + 1;
         }
     }
     
@@ -379,7 +372,6 @@ extern BOOL _isiPad;
         if(dayIndex<0)
             dayIndex = 0;
         
-        //if (trackMore[dayIndex] == 12) {
         if (trackY[dayIndex] >= 12*20+originY) {
             continue;
         }
@@ -422,6 +414,17 @@ extern BOOL _isiPad;
             cell.frame = frm;
         }
     }
+    
+    // update height
+    CGRect selfFrm = self.frame;
+    selfFrm.size.height = selfFrm.size.height + alterHeight;
+    self.frame = selfFrm;
+    
+    // update height of supper view
+    PlannerView *plannerView = (PlannerView *) self.superview;
+    CGRect supperFrm = plannerView.frame;
+    supperFrm.size.height = supperFrm.size.height + alterHeight;
+    plannerView.frame = supperFrm;
 }
 
 - (void)collapseWeek {
@@ -455,6 +458,17 @@ extern BOOL _isiPad;
     }
     
     openningWeek = -1;
+    
+    // update height
+    CGRect selfFrm = self.frame;
+    selfFrm.size.height = selfFrm.size.height - adjustY;
+    self.frame = selfFrm;
+    
+    // update height of supper view
+    PlannerView *plannerView = (PlannerView *) self.superview;
+    CGRect supperFrm = plannerView.frame;
+    supperFrm.size.height = supperFrm.size.height - adjustY;
+    plannerView.frame = supperFrm;
 }
 
 - (void)addExpandButton {
@@ -470,7 +484,7 @@ extern BOOL _isiPad;
 - (void)collapseExpand: (int) week {
     BOOL isExpand = week != openningWeek;
     [self collapseWeek];
-    if (isExpand) {
+    if (isExpand && week != -1) {
         [self expandWeek:week];
     }
 }
@@ -479,4 +493,14 @@ extern BOOL _isiPad;
     
     [super dealloc];
 }
+
+- (NSDate *)getFirstDate {
+    PlannerMonthCellView *firstCell = [self.subviews objectAtIndex:0];
+    return [firstCell getCellDate];
+}
+
+//- (void) jumpToDate:(NSDate *)date
+//{
+//    [_abstractViewCtrler jumpToDate:date];
+//}
 @end

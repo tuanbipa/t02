@@ -18,6 +18,7 @@ extern BOOL _isiPad;
 @implementation PlannerView
 
 @synthesize headerView;
+@synthesize monthView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -32,7 +33,7 @@ extern BOOL _isiPad;
 		[headerView release];
         
         // month view
-        monthView = [[PlannerMonthView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height, frame.size.width, 26*6+144)];
+        monthView = [[PlannerMonthView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height, frame.size.width, 26*6)];
         
 		[self addSubview:monthView];
 		[monthView release];
@@ -48,9 +49,9 @@ extern BOOL _isiPad;
         //[monthView expandWeek:4];
         
         // bottom day cal
-        PlannerBottomDayCal *bottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(0, monthView.frame.origin.y + monthView.frame.size.height, frame.size.width, self.frame.size.height - headerView.frame.size.height - monthView.frame.size.height)];
-        [self addSubview:bottomDayCal];
-        [bottomDayCal release];
+        //PlannerBottomDayCal *bottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(0, monthView.frame.origin.y + monthView.frame.size.height, frame.size.width, self.frame.size.height - headerView.frame.size.height - monthView.frame.size.height)];
+        //[self addSubview:bottomDayCal];
+        //[bottomDayCal release];
     }
     return self;
 }
@@ -64,4 +65,16 @@ extern BOOL _isiPad;
 }
 */
 
+#pragma mark Actions
+
+- (void)shiftTime: (int) mode {
+    // get first day in month
+    NSDate *dt = [self.monthView getFirstDate];
+    
+    dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
+    // collapse week
+    [self.monthView collapseExpand:-1];
+    // init month
+    [self.monthView changeMonth:dt];
+}
 @end

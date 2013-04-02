@@ -20,4 +20,5 @@
 @property (nonatomic, readonly) PlannerHeaderView *headerView;
 @property (nonatomic, readonly) PlannerMonthView *monthView;
 
+- (void)shiftTime: (int) mode;
 @end

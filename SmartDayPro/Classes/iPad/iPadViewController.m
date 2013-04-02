@@ -104,9 +104,13 @@ iPadViewController *_iPadViewCtrler;
         searchBar = nil;
         timerButton = nil;
         tagButton = nil;
+        
+        [[self navigationController] setNavigationBarHidden:YES animated:YES];
     }
     else if ([self.activeViewCtrler isKindOfClass:[iPadSmartDayViewController class]])
     {
+        [[self navigationController] setNavigationBarHidden:NO animated:YES];
+        
         UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                   target:nil
                                                                                   action:nil];

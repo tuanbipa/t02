@@ -10,6 +10,7 @@
 #import "Common.h"
 #import "Settings.h"
 #import "TaskManager.h"
+#import "PlannerView.h"
 
 extern BOOL _isiPad;
 
@@ -148,4 +149,14 @@ extern BOOL _isiPad;
     [title drawInRect:monRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
 
+#pragma mark Actions
+
+- (void) shiftTime:(id) sender
+{
+    UIButton *button = (UIButton *) sender;
+    PlannerView *plannerView = (PlannerView *) self.superview;
+    [plannerView shiftTime:button.tag-11000];
+    
+    [self setNeedsDisplay];
+}
 @end
