@@ -37,8 +37,10 @@ extern BOOL _isiPad;
         nWeeks = 0;
         self.skinStyle = _isiPad?0:1;
 		
-		CGFloat width = frame.size.width;
-		CGFloat dayWidth = floor(width/7);
+		//CGFloat width = frame.size.width;
+        CGFloat width = frame.size.width - TIMELINE_TITLE_WIDTH;
+        
+        CGFloat dayWidth = (width)/7;
 		CGFloat cellHeight = floor((frame.size.height)/6);
 		
 		CGFloat ymargin = 0;
@@ -51,8 +53,15 @@ extern BOOL _isiPad;
 			CGFloat height = cellHeight;
 			
 			//BOOL isWeekend = ([[Settings getInstance] isMondayAsWeekStart] ?(mod == 5 || mod == 6):(mod == 0 || mod == 6));
+            CGFloat thisWidth = dayWidth;//(mod==0 ? dayWidth+titleWidth : dayWidth);
+            CGFloat x = mod*dayWidth;
+            if (mod == 0) {
+                thisWidth += TIMELINE_TITLE_WIDTH;
+            } else {
+                x += TIMELINE_TITLE_WIDTH;
+            }
 			
-			CGRect frm = CGRectMake(mod*dayWidth, ymargin+ yoffset, dayWidth, height);
+			CGRect frm = CGRectMake(x, ymargin+ yoffset, thisWidth, height);
 			
 			PlannerMonthCellView *cell = [[PlannerMonthCellView alloc] initWithFrame:frm];
 			cell.day = -1;
@@ -242,14 +251,6 @@ extern BOOL _isiPad;
 - (void)expandWeek: (int) week {
     openningWeek = week;
     
-//    if (self.plannerItemsList.count > 0) {
-//        // reset array
-//        for (PlannerItemView *itemView in self.plannerItemsList) {
-//            [itemView removeFromSuperview];
-//        }
-//        [self.plannerItemsList removeAllObjects];
-//    }
-    
     // initial last y point
     CGFloat trackY[7] = {
         0, 0, 0, 0, 0, 0, 0,
@@ -303,19 +304,24 @@ extern BOOL _isiPad;
         }
         
         // calculate width
-        int width = 0;
+        CGFloat width = 0;
         if ([Common compareDate:ade.endTime withDate:fromDate] == NSOrderedAscending) {
-            width = (7 - dayIndex) * firstCell.frame.size.width;
+            width = (7 - dayIndex) * lastCell.frame.size.width;
         } else {
             // end day index
             timeInterval = [ade.endTime timeIntervalSinceDate:fromDate];
             endDayIndex = timeInterval/86400;
             //endDayIndex = endDayIndex < 0 ? 0 : endDayIndex;
             endDayIndex = endDayIndex > 7 ? 7 : endDayIndex;
-            width = (endDayIndex - dayIndex + 1) * firstCell.frame.size.width;
+            width = (endDayIndex - dayIndex + 1) * lastCell.frame.size.width;
         }
+        width = (dayIndex==0 ? width + TIMELINE_TITLE_WIDTH : width);
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        // calculate x
+        CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
+        x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
+        
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         
         item.task = ade;
         item.starEnable = NO;
@@ -346,7 +352,12 @@ extern BOOL _isiPad;
             continue;
         }
         
-        int width = firstCell.frame.size.width;
+        // calculate width
+        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width);
+        
+        // calculate x
+        CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
+        x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
         
         PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         item.task = task;
@@ -376,9 +387,14 @@ extern BOOL _isiPad;
             continue;
         }
         
-        int width = firstCell.frame.size.width;
+        // calculate width
+        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width);
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        // calculate x
+        CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
+        x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
+        
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         item.task = note;
         item.starEnable = NO;
         item.listStyle = YES;
@@ -404,9 +420,9 @@ extern BOOL _isiPad;
     if (alterHeight == 0) {
         alterHeight = PLANNER_ITEM_HEIGHT;
     }
-    for (int i = week*7; i < 42; i++) {
+    for (int i = openningWeek*7; i < 42; i++) {
         PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
-        if (i < (week+1)*7) {
+        if (i < (openningWeek+1)*7) {
             [cell expandDayCell:alterHeight];
         } else {
             CGRect frm = cell.frame;
@@ -427,6 +443,7 @@ extern BOOL _isiPad;
     plannerView.frame = supperFrm;
 }
 
+// return adjust height
 - (void)collapseWeek {
     if (openningWeek == -1) {
         return;
@@ -484,9 +501,25 @@ extern BOOL _isiPad;
 - (void)collapseExpand: (int) week {
     BOOL isExpand = week != openningWeek;
     [self collapseWeek];
+    
+    // get first date in week
+    NSDate *firstDate;
+    
     if (isExpand && week != -1) {
         [self expandWeek:week];
+        
+        // get first date in month
+        PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
+        firstDate = [cell getCellDate];
+    } else {
+        PlannerMonthCellView *cell = [[self subviews] objectAtIndex:0];
+        firstDate = [cell getCellDate];
     }
+
+    NSDictionary *aDictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:
+                                 firstDate, @"firstDate",
+                                 nil] autorelease];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationAdjustPlannerMiniMonthHeight" object:nil userInfo:aDictionary];
 }
 
 - (void) dealloc {

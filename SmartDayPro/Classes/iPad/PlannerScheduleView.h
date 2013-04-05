@@ -13,7 +13,14 @@
 @class TimeSlotView;
 
 @interface PlannerScheduleView : ContentView {
+    TimeSlotView *activeSlot;
+	
+	TodayLine *todayLine;
     
+    CGPoint touchPoint;
+    NSInteger touchHandle;
+    BOOL dayManagerRefresh;
 }
 
+@property BOOL todayLineHidden;
 @end

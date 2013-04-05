@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PlannerBottomDayCal : UIView
+@class ContentScrollView;
+@class PlannerScheduleView;
+@class PlannerCalendarLayoutController;
 
+@interface PlannerBottomDayCal : UIView {
+    ContentScrollView *scrollView;
+    PlannerScheduleView *plannerScheduleView;
+    PlannerCalendarLayoutController *calendarLayoutController;
+}
+
+@property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;
+
+- (void)changeFrame: (NSDate*) startDate;
 @end

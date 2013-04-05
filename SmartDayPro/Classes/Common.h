@@ -127,6 +127,11 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 
 #define PROJECT_COLOR_NUM 32
 
+//*** planner section ***
+// width of timeline title
+#define TIMELINE_TITLE_WIDTH 40.0
+// end planner section
+
 #define URL_HELP            @"http://www.leftcoastlogic.com/blog/smartday-for-iphone/guide/"
 #define URL_ABOUTUS			@"http://leftcoastlogic.com/sp/aboutus"
 #define URL_ALSOLCL			@"http://leftcoastlogic.com/lclproducts/"

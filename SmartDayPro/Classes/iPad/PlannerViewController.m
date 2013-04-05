@@ -36,6 +36,8 @@
     {
         smartListViewCtrler = [[SmartListViewController alloc] init];
         //plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustSubFrame:) name:@"NotificationAdjustPlannerMiniMonthHeight" object:nil];
     }
     
     return self;
@@ -47,6 +49,7 @@
     [plannerView release];
     [plannerBottomDayCal release];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
@@ -96,6 +99,18 @@
 	// Do any additional setup after loading the view.
     
     [smartListViewCtrler refreshLayout];
+}
+
+- (void) adjustSubFrame: (NSNotification*) notification {
+    //plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];
+    CGRect frm = CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16);
+    plannerBottomDayCal.frame = frm;
+    
+    // change date
+    NSDictionary *userInfo = [notification userInfo];
+    NSDate *firstDate = [userInfo objectForKey:@"firstDate"];
+    
+    [plannerBottomDayCal changeFrame:firstDate];
 }
 
 - (void)didReceiveMemoryWarning
