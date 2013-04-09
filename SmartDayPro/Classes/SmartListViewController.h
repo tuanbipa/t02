@@ -72,6 +72,7 @@
 
 @property (nonatomic, readonly) SmartListLayoutController *smartListLayoutController;
 
+-(id) init4Planner;
 -(id) initWithTabBar;
 - (void) refreshData;
 - (void) tabBarChanged:(BOOL)mini;

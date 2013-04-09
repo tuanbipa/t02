@@ -13,4 +13,8 @@
     MovableView *dummyView;
 }
 
+@property (nonatomic, assign) UIView *contentView;
+
+- (CGRect) getMovableRect:(UIView *)view;
+
 @end

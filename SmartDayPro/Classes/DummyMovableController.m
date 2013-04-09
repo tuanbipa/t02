@@ -21,14 +21,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation DummyMovableController
 
+@synthesize contentView;
+
 - (CGRect) getMovableRect:(UIView *)view
 {
-    return [view.superview convertRect:view.frame toView:_abstractViewCtrler.contentView];
+    return [view.superview convertRect:view.frame toView:self.contentView];
 }
 
 - (void) beginMove:(MovableView *)view
 {
-    [_abstractViewCtrler deselect];
+    if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler deselect];
+    }
     
     [super beginMove:view];
     
@@ -59,7 +64,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         dummyPlanView.project = ((PlanView *)view).project;
     }
     
-    [_abstractViewCtrler.contentView addSubview:dummyView];
+    [self.contentView addSubview:dummyView];
     [dummyView release];
     
     self.activeMovableView.hidden = YES;

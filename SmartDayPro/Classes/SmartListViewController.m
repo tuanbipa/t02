@@ -43,6 +43,8 @@
 #import "CalendarViewController.h"
 #import "SmartDayViewController.h"
 
+#import "SmartListPlannerMovableController.h"
+
 #import "AbstractSDViewController.h"
 
 #import "SmartCalAppDelegate.h"
@@ -107,6 +109,38 @@ SmartListViewController *_smartListViewCtrler;
 	}
 	
 	return self;	
+}
+
+-(id) init4Planner
+{
+    if (self = [super init])
+    {
+        movableController = [[SmartListPlannerMovableController alloc] init];
+		
+		smartListLayoutController = [[SmartListLayoutController alloc] init];
+        smartListLayoutController.movableController = movableController;
+		
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(scheduleFinished:)
+													 name:@"ScheduleFinishedNotification" object:nil];
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(dayManagerReady:)
+													 name:@"DayManagerReadyNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(appBusy:)
+													 name:@"AppBusyNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(appNoBusy:)
+													 name:@"AppNoBusyNotification" object:nil];
+        
+		
+		firstLoad = YES;        
+    }
+    
+    return self;
 }
 
 -(id) initWithTabBar {

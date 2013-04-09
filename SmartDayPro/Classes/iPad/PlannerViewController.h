@@ -22,4 +22,7 @@
     PlannerBottomDayCal *plannerBottomDayCal;
 }
 
+@property (nonatomic, readonly) ContentView *contentView;
+@property (nonatomic, readonly) PlannerView *plannerView;
+
 @end

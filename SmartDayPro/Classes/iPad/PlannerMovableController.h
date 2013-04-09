@@ -8,6 +8,11 @@
 
 #import "DummyMovableController.h"
 
-@interface PlannerMovable : DummyMovableController
+@interface PlannerMovableController : DummyMovableController
+{
+    BOOL moveInMM;
+}
+
+- (void) doTaskMovementInMM;
 
 @end

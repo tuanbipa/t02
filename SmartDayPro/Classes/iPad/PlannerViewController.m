@@ -15,11 +15,16 @@
 #import "PlannerView.h"
 #import "PlannerBottomDayCal.h"
 
+PlannerViewController *_plannerViewCtrler = nil;
+
 @interface PlannerViewController ()
 
 @end
 
 @implementation PlannerViewController
+
+@synthesize contentView;
+@synthesize plannerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +39,7 @@
 {
     if (self = [super init])
     {
-        smartListViewCtrler = [[SmartListViewController alloc] init];
+        smartListViewCtrler = [[SmartListViewController alloc] init4Planner];
         //plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustSubFrame:) name:@"NotificationAdjustPlannerMiniMonthHeight" object:nil];
@@ -98,7 +103,23 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [smartListViewCtrler setMovableContentView:self.contentView];
+    
     [smartListViewCtrler refreshLayout];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    _plannerViewCtrler = self;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    _plannerViewCtrler = nil;
 }
 
 - (void) adjustSubFrame: (NSNotification*) notification {

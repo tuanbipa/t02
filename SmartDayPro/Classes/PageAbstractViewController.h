@@ -31,4 +31,6 @@
 - (void) loadAndShowList;
 - (void) reloadAlert4Task:(NSInteger)taskId;
 
+- (void) setMovableContentView:(UIView *)contentView;
+
 @end

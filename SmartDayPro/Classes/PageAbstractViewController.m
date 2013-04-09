@@ -18,6 +18,7 @@
 #import "Project.h"
 
 #import "AbstractSDViewController.h"
+#import "DummyMovableController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -37,6 +38,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
         // Custom initialization
     }
     return self;
+}
+
+- (void) setMovableContentView:(UIView *)contentView
+{
+    if ([movableController isKindOfClass:[DummyMovableController class]])
+    {
+        ((DummyMovableController *) movableController).contentView = contentView;
+    }
 }
 
 - (void) deselect

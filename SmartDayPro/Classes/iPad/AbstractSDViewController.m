@@ -1585,6 +1585,13 @@ BOOL _autoPushPending = NO;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    for (int i=0; i<4; i++)
+    {
+        PageAbstractViewController *ctrler = viewCtrlers[i];
+        
+        [ctrler setMovableContentView:self.contentView];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
