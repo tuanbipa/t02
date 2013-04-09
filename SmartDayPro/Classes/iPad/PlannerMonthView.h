@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class HighlightView;
+@class PlannerMonthCellView;
+
 @interface PlannerMonthView : UIView {
     
     NSInteger todayCellIndex;
@@ -25,10 +28,13 @@
     // the week, which is open
     // if no week is open, the value is -1
     int openningWeek;
+    
+    HighlightView *highlightView;
 }
 
 @property NSInteger skinStyle;
 @property (nonatomic, retain) NSMutableArray *plannerItemsList;
+@property (nonatomic, readonly) HighlightView *highlightView;
 
 #pragma mark methods
 - (void)changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks;
@@ -38,4 +44,7 @@
 - (void)expandWeek: (int) week;
 - (void)collapseExpand: (int) week;
 - (NSDate *)getFirstDate;
+- (void)selectCell: (PlannerMonthCellView *) cell;
+- (void)highlightCellOnDate: (NSDate *) dt;
+- (PlannerMonthCellView *) findCellByDate:(NSDate *)date;
 @end

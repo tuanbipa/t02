@@ -252,4 +252,17 @@
     PlannerMonthView *monthView = (PlannerMonthView *)self.superview;
     [monthView collapseExpand:weekNumberInMonth];
 }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	PlannerMonthView *parent = (PlannerMonthView *)[self superview];
+	[parent selectCell:self];
+	
+}
+
+- (void)dealloc {
+	[dayLabel release];
+	
+    [super dealloc];
+}
 @end

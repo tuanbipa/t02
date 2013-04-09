@@ -12,6 +12,7 @@
 #import "PlannerMonthView.h"
 #import "PlannerBottomDayCal.h"
 #import "TaskManager.h"
+#import "PlannerMonthCellView.h"
 
 extern BOOL _isiPad;
 
@@ -44,14 +45,12 @@ extern BOOL _isiPad;
         NSInteger weeks = [Common getWeeksInMonth:calDate];
         [monthView changeWeekPlanner:7 weeks:weeks];
         [monthView initCalendar:calDate];
+        
+        // open today week
+        PlannerMonthCellView *cell = [self.monthView findCellByDate:tm.today];
+        [self.monthView collapseExpand: cell.weekNumberInMonth];
+        [self.monthView highlightCellOnDate:tm.today];
         // end init calendar
-        
-        //[monthView expandWeek:4];
-        
-        // bottom day cal
-        //PlannerBottomDayCal *bottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(0, monthView.frame.origin.y + monthView.frame.size.height, frame.size.width, self.frame.size.height - headerView.frame.size.height - monthView.frame.size.height)];
-        //[self addSubview:bottomDayCal];
-        //[bottomDayCal release];
     }
     return self;
 }
@@ -68,13 +67,22 @@ extern BOOL _isiPad;
 #pragma mark Actions
 
 - (void)shiftTime: (int) mode {
+    [UIView beginAnimations:@"resize_animation" context:NULL];
+    [UIView setAnimationDuration:0.3];
+    
     // get first day in month
     NSDate *dt = [self.monthView getFirstDate];
-    
+    dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
     dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
-    // collapse week
-    [self.monthView collapseExpand:-1];
-    // init month
+    NSInteger weeks = [Common getWeeksInMonth:dt];
+    [self.monthView changeWeekPlanner:7 weeks:weeks];
     [self.monthView changeMonth:dt];
+    // collapse week
+    [self.monthView collapseExpand:0];
+    // select first date in month
+    dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
+    [self.monthView highlightCellOnDate:dt];
+    
+    [UIView commitAnimations];
 }
 @end

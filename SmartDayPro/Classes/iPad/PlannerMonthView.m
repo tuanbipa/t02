@@ -15,6 +15,7 @@
 #import "PlannerItemView.h"
 #import "TaskView.h"
 #import "PlannerView.h"
+#import "HighlightView.h"
 
 extern BOOL _isiPad;
 
@@ -22,6 +23,7 @@ extern BOOL _isiPad;
 
 @synthesize skinStyle;
 @synthesize plannerItemsList;
+@synthesize highlightView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -87,6 +89,11 @@ extern BOOL _isiPad;
         // init plannerItemsList
         self.plannerItemsList = [NSMutableArray array];
         
+        highlightView = [[HighlightView alloc] initWithFrame:CGRectZero];
+		highlightView.hidden = YES;
+		[self addSubview:highlightView];
+		[highlightView release];
+        
         openningWeek = -1;
     }
     return self;
@@ -95,7 +102,8 @@ extern BOOL _isiPad;
 - (void)initCalendar: (NSDate *)date {
     
     [self setTitleForCells:date];
-    [self addExpandButton];
+    // don't user expand button anymore
+    //[self addExpandButton];
     [self refresh];
 }
 
@@ -244,6 +252,23 @@ extern BOOL _isiPad;
 		frm.origin.x -= width; //shift left 1 column to start as Monday
 	}*/
     
+    if (weeks < 6) {
+        
+        PlannerMonthCellView *cell = [[self subviews] objectAtIndex:42];
+        
+        CGFloat alterHeight = (6-weeks) * cell.frame.size.height;
+        // update height
+        CGRect selfFrm = self.frame;
+        selfFrm.size.height = selfFrm.size.height - alterHeight;
+        self.frame = selfFrm;
+
+        // update height of supper view
+        PlannerView *plannerView = (PlannerView *) self.superview;
+        CGRect supperFrm = plannerView.frame;
+        supperFrm.size.height = supperFrm.size.height + alterHeight;
+        plannerView.frame = supperFrm;
+    }
+
 	self.clipsToBounds = YES;
 }
 
@@ -417,8 +442,8 @@ extern BOOL _isiPad;
     }
     
     int alterHeight = maxY - originY;
-    if (alterHeight == 0) {
-        alterHeight = PLANNER_ITEM_HEIGHT;
+    if (alterHeight < PLANNER_ITEM_HEIGHT*6) {
+        alterHeight = PLANNER_ITEM_HEIGHT*6;
     }
     for (int i = openningWeek*7; i < 42; i++) {
         PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
@@ -500,6 +525,9 @@ extern BOOL _isiPad;
 
 - (void)collapseExpand: (int) week {
     BOOL isExpand = week != openningWeek;
+    if (!isExpand) {
+        return;
+    }
     [self collapseWeek];
     
     // get first date in week
@@ -532,8 +560,60 @@ extern BOOL _isiPad;
     return [firstCell getCellDate];
 }
 
-//- (void) jumpToDate:(NSDate *)date
-//{
-//    [_abstractViewCtrler jumpToDate:date];
-//}
+-(void)highlightCell:(PlannerMonthCellView *)cell
+{
+	highlightView.hidden = NO;
+	highlightView.frame = cell.frame;
+	highlightView.tag = cell;
+	[highlightView setNeedsDisplay];
+}
+
+- (void)selectCell: (PlannerMonthCellView *) cell {
+    
+	[self collapseExpand:cell.weekNumberInMonth];
+    [self highlightCell:cell];
+}
+
+- (void)highlightCellOnDate: (NSDate *) dt {
+    PlannerMonthCellView *foundCell = [self findCellByDate:dt];
+	
+	if (foundCell)
+	{
+		[self highlightCell:foundCell];
+	}
+}
+
+- (PlannerMonthCellView *) findCellByDate:(NSDate *)date
+{
+    if (date == nil)
+    {
+        return nil;
+    }
+    
+	PlannerMonthCellView *ret = nil;
+	
+	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+	
+	NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+	
+	NSDateComponents *dtComps = [gregorian components:unitFlags fromDate:date];
+	
+	NSInteger dtMonth = [dtComps month];
+	NSInteger dtYear = [dtComps year];
+	NSInteger dtDay = [dtComps day];
+	
+	for (int i=0; i<42; i++)
+	{
+		PlannerMonthCellView *cell = [[self subviews] objectAtIndex:i];
+		
+		if (cell.month == dtMonth && cell.year == dtYear && cell.day == dtDay)
+		{
+			ret = cell;
+			
+			break;
+		}
+	}
+	
+	return ret;
+}
 @end
