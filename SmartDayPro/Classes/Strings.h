@@ -653,9 +653,15 @@
 #define _1WeekText NSLocalizedString(@"_1WeekText", "")
 #define _1MonthText NSLocalizedString(@"_1MonthText", "")
 
+#define _reminderSync NSLocalizedString(@"_reminderSync", "")
+#define _reminderText NSLocalizedString(@"_reminderText", "")
+#define _sourceText NSLocalizedString(@"_sourceText", "")
 
+#define _reminderNameDuplicationText NSLocalizedString(@"_reminderNameDuplicationText", "")
+#define _reminderDuplicationResolveSuggestionText NSLocalizedString(@"_reminderDuplicationResolveSuggestionText", "")
 
-
+#define _reminderMultiSourceWarningText NSLocalizedString(@"_reminderMultiSourceWarningText", "")
+#define _noReminderSourceFoundText NSLocalizedString(@"_noReminderSourceFoundText", "")
 
 
 

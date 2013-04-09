@@ -1457,6 +1457,7 @@ NSInteger _sdwColor[32] = {
     
     NSInteger dt = [[dict valueForKey:@"start_time"] intValue];
     ret.startTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]]);
+    //ret.startTime = (dt == 0?nil:[NSDate dateWithTimeIntervalSince1970:dt]);
     
     dt = [[dict objectForKey:@"end_time"] intValue];
     
@@ -1468,11 +1469,13 @@ NSInteger _sdwColor[32] = {
     if (due && isTask)
     {
         ret.deadline = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]];
+        //ret.deadline = [NSDate dateWithTimeIntervalSince1970:dt];
     }
     
     if (isEvent)
     {
-        ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]]);        
+        ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]]);
+        //ret.endTime = (dt == 0?nil:[NSDate dateWithTimeIntervalSince1970:dt]);
     }
         
     BOOL star = [[dict objectForKey:@"star"] boolValue];
@@ -1533,10 +1536,11 @@ NSInteger _sdwColor[32] = {
                 NSInteger dt = [[rptExcDict objectForKey:@"exception_date"] intValue];
                 
                 NSDate *excDate = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]];
+                //NSDate *excDate = [NSDate dateWithTimeIntervalSince1970:dt];
                 
                 [deletedExc.repeatData.deletedExceptionDates addObject:excDate];
                 
-                dt = [excDate timeIntervalSince1970]; 
+                dt = [excDate timeIntervalSince1970];
                 
                 [excDict setObject:deletedExc forKey:[NSNumber numberWithInt:dt]];
             }
@@ -1707,9 +1711,14 @@ NSInteger _sdwColor[32] = {
     NSInteger startTime = (task.startTime != nil?[[Common toDBDate:task.startTime] timeIntervalSince1970]:0);
     NSInteger endTime = (task.endTime != nil?[[Common toDBDate:task.endTime] timeIntervalSince1970]:0);
     NSInteger dueTime = (task.deadline != nil?[[Common toDBDate:task.deadline] timeIntervalSince1970]:0);
-    //NSInteger doneTime = (task.completionTime != nil?[task.completionTime timeIntervalSince1970]:0);
     NSInteger doneTime = (task.completionTime != nil?[[Common toDBDate:task.completionTime] timeIntervalSince1970]:0);
-    
+
+/*
+    NSInteger startTime = (task.startTime != nil?[task.startTime timeIntervalSince1970]:0);
+    NSInteger endTime = (task.endTime != nil?[task.endTime timeIntervalSince1970]:0);
+    NSInteger dueTime = (task.deadline != nil?[task.deadline timeIntervalSince1970]:0);
+    NSInteger doneTime = (task.completionTime != nil?[task.completionTime timeIntervalSince1970]:0);
+*/    
     NSInteger type = 0;
     
     switch (task.type)
@@ -1776,6 +1785,7 @@ NSInteger _sdwColor[32] = {
                 //printf("exception date: %s\n", [dt.description UTF8String]);
                 
                 NSDictionary *excDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[Common toDBDate:dt] timeIntervalSince1970]],@"exception_date", nil];
+                //NSDictionary *excDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[dt timeIntervalSince1970]],@"exception_date", nil];
                 
                 [exceptions addObject:excDict];
             }
@@ -2035,7 +2045,7 @@ NSInteger _sdwColor[32] = {
     NSString* body = [[NSString alloc] initWithData:jsonBody
                                            encoding:NSUTF8StringEncoding];
     
-    printf("update task body:\n%s\n", [body UTF8String]);
+    //printf("update task body:\n%s\n", [body UTF8String]);
     
     
     [request setHTTPBody:jsonBody];
@@ -2055,7 +2065,7 @@ NSInteger _sdwColor[32] = {
     {
         NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        printf("update results:\n%s\n", [str UTF8String]);
+        //printf("update results:\n%s\n", [str UTF8String]);
         
         NSArray *result = [self getArrayResult:urlData];
         
@@ -2461,7 +2471,7 @@ NSInteger _sdwColor[32] = {
                         
                         if (duplicated)
                         {
-                            //printf("task %s is duplication suspected\n", [task.name UTF8String]);
+                            printf("SDW task %s is duplication suspected\n", [task.name UTF8String]);
                             
                             task.sdwId = sdwTask.sdwId;
                             [task updateSDWIDIntoDB:[dbm getDatabase]];

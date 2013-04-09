@@ -79,7 +79,7 @@ BusyController *_busyCtrlerSingleton = nil;
 
 - (BOOL) checkSyncBusy
 {
-    NSInteger syncFlag = BUSY_EK_SYNC | BUSY_TD_SYNC | BUSY_SDW_SYNC;
+    NSInteger syncFlag = BUSY_EK_SYNC | BUSY_TD_SYNC | BUSY_SDW_SYNC | BUSY_REMINDER_SYNC;
     
     return (syncFlag & busyFlag) != 0;
 }

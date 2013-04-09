@@ -1851,41 +1851,6 @@ extern BOOL _gtdoTabHintShown;
 - (void) sync:(id) sender
 {
     [super sync];
-/*
-    [self deselect];
-    
-    Settings *settings = [Settings getInstance];
-    
-    if (settings.syncEnabled)
-    {
-        if (settings.sdwSyncEnabled)
-        {
-            [[SDWSync getInstance] initBackgroundSync];
-        }
-        else if (settings.ekSyncEnabled)
-        {
-            [[EKSync getInstance] initBackgroundSync];
-        }
-        else if (settings.tdSyncEnabled)
-        {
-            [[TDSync getInstance] initBackgroundSync];
-        }
-        else
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:_syncOffWarningText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-            
-            [alertView show];
-            [alertView release];			        
-        }
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:_syncOffWarningText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-        
-        [alertView show];
-        [alertView release];        
-    }
-*/
 }
 
 - (void) multiEdit:(id) sender

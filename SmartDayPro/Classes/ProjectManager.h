@@ -56,6 +56,7 @@
 + (NSDictionary *) getProjectDictBySDWID:(NSArray *)projectList;
 + (NSDictionary *) getProjectDictByTaskSyncID:(NSArray *)projectList;
 + (NSDictionary *) getProjectDictByEventSyncID:(NSArray *)projectList;
++ (NSDictionary *) getProjectDictByReminderSyncID:(NSArray *)projectList;
 +(void)free;
 
 -(void)makeIcon:(Project *)prj;
@@ -63,7 +64,7 @@
 - (UIImage *) getADEIcon:(NSInteger)key;
 - (UIImage *) getNoteIcon:(NSInteger)key;
 - (UIImage *) getTaskIcon:(NSInteger)key;
-- (void) resetToodledoIds;
+- (void) resetSyncIds;
 - (void) resetSDWIds;
 - (NSMutableArray *) getCascadeList;
 - (NSMutableArray *) sortAndGetCascadeList;

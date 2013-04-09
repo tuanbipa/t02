@@ -22,7 +22,7 @@
 	NSString *name;
     NSString *ownerName;
 	NSString *tag;
-	NSString *syncId;
+	//NSString *syncId;
     NSString *sdwId;
 	
 	NSDate *actualStartTime;
@@ -38,8 +38,9 @@
 	NSInteger type;
 	NSInteger goal;
 	
-	NSString *ekId;
-	NSString *tdId;
+	NSString *ekId; //Calendar ID
+	NSString *tdId; //Toodledo ID
+    NSString *rmdId; //Reminder ID
 	
 	NSString *suggestedEventMappingName;	
 	
@@ -71,7 +72,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *ownerName;
 @property (nonatomic, copy) NSString *tag;
-@property (nonatomic, copy) NSString *syncId;
+//@property (nonatomic, copy) NSString *syncId;
 @property (nonatomic, copy) NSString *sdwId;
 
 @property (nonatomic, copy) NSDate *actualStartTime;
@@ -90,6 +91,7 @@
 
 @property (nonatomic, copy) NSString *ekId;
 @property (nonatomic, copy) NSString *tdId;
+@property (nonatomic, copy) NSString *rmdId;
 
 @property (nonatomic, copy) NSString *suggestedEventMappingName;
 
@@ -138,12 +140,13 @@
 - (void) updateMappingIntoDB:(sqlite3 *)database;
 - (void) updateToodledoIDIntoDB:(sqlite3 *)database;
 - (void) updateEKIDIntoDB:(sqlite3 *)database;
+- (void) updateReminderIDIntoDB:(sqlite3 *)database;
 - (void) updateActualStartTimeIntoDB:(sqlite3 *)database;
 - (void) updateEndTimeIntoDB:(sqlite3 *)database;
 - (void) updateEndTimeWBIntoDB:(sqlite3 *)database;
 - (void) updateHoursIntoDB:(sqlite3 *)database;
 - (void) updateNameIntoDB:(sqlite3 *)database;
-- (void) updateSyncIDIntoDB:(sqlite3 *)database;
+//- (void) updateSyncIDIntoDB:(sqlite3 *)database;
 - (void) updateSDWIDIntoDB:(sqlite3 *)database;
 - (void) updateColorIDIntoDB:(sqlite3 *)database;
 - (void) updateStatusIntoDB:(sqlite3 *)database;

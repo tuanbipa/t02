@@ -149,7 +149,8 @@ typedef enum
 	BUSY_TASK_SORT_ORDER = 64,
 	BUSY_EK_SYNC = 128,
 	BUSY_TD_SYNC = 256,
-    BUSY_SDW_SYNC = 512
+    BUSY_SDW_SYNC = 512,
+    BUSY_REMINDER_SYNC = 1024
 	
 } BusyCode;
 
@@ -248,7 +249,8 @@ typedef enum
 {
     CATEGORY_SOURCE_LOCAL,
     CATEGORY_SOURCE_SDW,
-    CATEGORY_SOURCE_ICAL
+    CATEGORY_SOURCE_ICAL,
+    CATEGORY_SOURCE_REMINDER
 } CategorySource;
 
 typedef enum 

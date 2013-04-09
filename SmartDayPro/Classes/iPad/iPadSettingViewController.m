@@ -19,6 +19,7 @@
 #import "TDSync.h"
 #import "SDWSync.h"
 #import "EKSync.h"
+#import "EKReminderSync.h"
 
 #import "iPadGeneralSettingViewController.h"
 #import "iPadCalendarSettingViewController.h"
@@ -94,6 +95,8 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	BOOL tdAutoSyncChange = (settings.tdAutoSyncEnabled != self.settingCopy.tdAutoSyncEnabled);
 	BOOL sdwAutoSyncChange = (settings.sdwAutoSyncEnabled != self.settingCopy.sdwAutoSyncEnabled);
     
+    BOOL taskSyncChange = settings.tdSyncEnabled != self.settingCopy.tdSyncEnabled || settings.rmdSyncEnabled != self.settingCopy.rmdSyncEnabled || settings.sdwSyncEnabled != self.settingCopy.sdwSyncEnabled;
+    
     BOOL mustDoDaysChange = (settings.mustDoDays != self.settingCopy.mustDoDays);
     
     BOOL defaultCatChange = (settings.taskDefaultProject != self.settingCopy.taskDefaultProject);
@@ -110,16 +113,32 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 		tm.lastTaskProjectKey = self.settingCopy.taskDefaultProject;
 	}
 	
+    /*
     if (self.tdAccountChange)
 	{
 		[settings resetToodledoSync];
 		
-		[dbm resetToodledoIds];
+		[dbm resetTaskSyncIds];
         [pm resetToodledoIds];
         
         [[TDSync getInstance] resetSyncSection];
+	}*/
+    
+    if (self.tdAccountChange || taskSyncChange)
+	{
+        [dbm resetProjectSyncIds];
+		[dbm resetTaskSyncIds];
+        [pm resetSyncIds];
+        [settings resetToodledoSync];
+        [settings resetReminderSync];
+        
+        if (self.tdAccountChange)
+        {
+            [[TDSync getInstance] resetSyncSection];
+        }
 	}
     
+    /*
     if (self.sdwAccountChange)
 	{
 		[settings resetSDWSync];
@@ -128,6 +147,19 @@ iPadSettingViewController *_iPadSettingViewCtrler;
         [pm resetSDWIds];
         
         [[SDWSync getInstance] resetSyncSection];
+	}
+    */
+    
+    if (self.sdwAccountChange || taskSyncChange)
+	{
+		[settings resetSDWSync];
+        [dbm resetSDWIds];
+        [pm resetSDWIds];
+        
+        if (self.sdwAccountChange)
+        {
+            [[SDWSync getInstance] resetSyncSection];
+        }
 	}
     
 	[settings updateSettings:self.settingCopy];
@@ -172,11 +204,16 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && (ekAutoSyncChange || ekSyncWindowChange);
 	BOOL tdAutoSyncON = (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) && tdAutoSyncChange;
 	BOOL sdwAutoSyncON = (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled) && sdwAutoSyncChange;
+    BOOL rmdAutoSyncON = settings.ekAutoSyncEnabled && settings.rmdSyncEnabled && ekAutoSyncChange;
     
 	if (ekAutoSyncON)
 	{
-		[[EKSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+		[[EKSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];        
 	}
+    else if (rmdAutoSyncON)
+    {
+        [[EKReminderSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+    }    
     else if (toodledoAccountValid && tdAutoSyncON)
 	{
 		[[TDSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];

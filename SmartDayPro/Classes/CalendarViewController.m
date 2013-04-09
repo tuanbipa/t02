@@ -849,11 +849,12 @@ CalendarViewController *_sc2ViewCtrler;
 	[self stopResize];
 }
 
+/*
 - (void) garbageADEList
 {
     [[TaskManager getInstance] garbage:adeView.adeList];
 }
-
+*/
 - (void) reloadAlert4Task:(NSInteger)taskId
 {
     NSArray *list = [calendarLayoutController getObjectList];

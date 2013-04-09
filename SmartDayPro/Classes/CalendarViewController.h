@@ -105,7 +105,7 @@
 
 //- (void) showADEView:(BOOL)hidden;
 - (void) refreshADEPane;
-- (void) garbageADEList;
+//- (void) garbageADEList;
 - (void) focusNow;
 
 - (void)refreshPanes;

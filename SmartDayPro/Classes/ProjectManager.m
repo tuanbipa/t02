@@ -106,11 +106,12 @@ ProjectManager *_projectManagerSingleton = nil;
 }
 
 #pragma mark Sync
-- (void) resetToodledoIds
+- (void) resetSyncIds
 {
     for (Project *prj in self.projectList)
     {
         prj.tdId = @"";
+        prj.rmdId = @"";
     }
 }
 
@@ -911,6 +912,18 @@ ProjectManager *_projectManagerSingleton = nil;
 	for (Project *project in projectList)
 	{
 		[mappingList addObject:project.ekId];
+	}
+	
+	return [NSDictionary dictionaryWithObjects:projectList forKeys:mappingList];
+}
+
++ (NSDictionary *) getProjectDictByReminderSyncID:(NSArray *)projectList
+{
+	NSMutableArray *mappingList = [NSMutableArray arrayWithCapacity:projectList.count];
+	
+	for (Project *project in projectList)
+	{
+		[mappingList addObject:project.rmdId];
 	}
 	
 	return [NSDictionary dictionaryWithObjects:projectList forKeys:mappingList];

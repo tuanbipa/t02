@@ -23,6 +23,7 @@
 #import "TDSync.h"
 #import "EKSync.h"
 #import "SDWSync.h"
+#import "EKReminderSync.h"
 
 #import "DurationPickerViewController.h"
 #import "ProjectSelectionTableViewController.h"
@@ -53,6 +54,8 @@
 #import "NumberInputViewController.h"
 
 #import "ToodledoSyncViewController.h"
+#import "TaskSyncViewController.h"
+
 #import "iOSCalSyncViewController.h"
 #import "DataRecoveryViewController.h"
 
@@ -195,6 +198,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	BOOL tdAutoSyncChange = (settings.tdAutoSyncEnabled != self.settingCopy.tdAutoSyncEnabled);
 	BOOL sdwAutoSyncChange = (settings.sdwAutoSyncEnabled != self.settingCopy.sdwAutoSyncEnabled);
     
+    BOOL taskSyncChange = settings.tdSyncEnabled != self.settingCopy.tdSyncEnabled || settings.rmdSyncEnabled != self.settingCopy.rmdSyncEnabled || settings.sdwSyncEnabled != self.settingCopy.sdwSyncEnabled;
+    
     BOOL mustDoDaysChange = (settings.mustDoDays != self.settingCopy.mustDoDays);
     
     BOOL defaultCatChange = (settings.taskDefaultProject != self.settingCopy.taskDefaultProject);
@@ -211,24 +216,31 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		tm.lastTaskProjectKey = self.settingCopy.taskDefaultProject;
 	}
 	
-    if (self.tdAccountChange)
+    if (self.tdAccountChange || taskSyncChange)
 	{
-		[settings resetToodledoSync];
-		
-		[dbm resetToodledoIds];
-        [pm resetToodledoIds];
+        [dbm resetProjectSyncIds];
+		[dbm resetTaskSyncIds];
+        [pm resetSyncIds];
         
-        [[TDSync getInstance] resetSyncSection];
+        [settings resetToodledoSync];
+        [settings resetReminderSync];
+        
+        if (self.tdAccountChange)
+        {
+            [[TDSync getInstance] resetSyncSection];
+        }
 	}
     
-    if (self.sdwAccountChange)
+    if (self.sdwAccountChange || taskSyncChange)
 	{
 		[settings resetSDWSync];
-		
-		[dbm resetSDWIds];
+        [dbm resetSDWIds];
         [pm resetSDWIds];
-        
-        [[SDWSync getInstance] resetSyncSection];
+
+        if (self.sdwAccountChange)
+        {
+            [[SDWSync getInstance] resetSyncSection];
+        }
 	}
     
 	[settings updateSettings:self.settingCopy];
@@ -273,11 +285,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && (ekAutoSyncChange || ekSyncWindowChange);
 	BOOL tdAutoSyncON = (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) && tdAutoSyncChange;
 	BOOL sdwAutoSyncON = (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled) && sdwAutoSyncChange;
+    BOOL rmdAutoSyncON = settings.rmdSyncEnabled && settings.ekAutoSyncEnabled && ekAutoSyncChange;
     
 	if (ekAutoSyncON)
 	{
 		[[EKSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
 	}
+    else if (rmdAutoSyncON)
+    {
+        [[EKReminderSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+    }
     else if (toodledoAccountValid && tdAutoSyncON)
 	{
 		[[TDSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
@@ -446,6 +463,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) editToodledoSync
 {
     ToodledoSyncViewController *ctrler = [[ToodledoSyncViewController alloc] init];
+    ctrler.setting = self.settingCopy;
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];    
+}
+
+-(void) editTaskSync
+{
+    TaskSyncViewController *ctrler = [[TaskSyncViewController alloc] init];
     ctrler.setting = self.settingCopy;
     
 	[self.navigationController pushViewController:ctrler animated:YES];
@@ -644,7 +670,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         [[TDSync getInstance] initBackgroundSync];
     }
-    else 
+    else if (settings.rmdSyncEnabled)
+    {
+        [[EKReminderSync getInstance] initBackgroundSync];
+    }
+    else
     {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:_syncOffWarningText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
         
@@ -822,37 +852,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) switchSyncSource: (id) sender
 {
     UISegmentedControl *ctrl = (UISegmentedControl *) sender;
-    
-    /*
-    self.settingCopy.syncSource = ctrl.selectedSegmentIndex;
-    
-    UITableViewCell *cell = [settingTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:5]];
-    
-    UISegmentedControl *autoSyncCtrl = (UISegmentedControl *)[cell.contentView viewWithTag:15010];
-    
-    autoSyncCtrl.selectedSegmentIndex = (self.settingCopy.syncSource == 0?(self.settingCopy.sdwAutoSyncEnabled?0:1):(self.settingCopy.tdAutoSyncEnabled?0:1));
-    
-    cell = [settingTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:5]];
-    
-    cell.textLabel.text = (self.settingCopy.syncSource == 0?_mySDAccountText:_toodledoAccountText);
-    */
-    
+
     if (ctrl.selectedSegmentIndex == 0)
     {
         self.settingCopy.sdwSyncEnabled = YES;
-        //self.settingCopy.tdSyncEnabled = NO;
-        //self.settingCopy.ekSyncEnabled = NO;
     }
     else
     {
         self.settingCopy.sdwSyncEnabled = NO;
-        //self.settingCopy.tdSyncEnabled = YES;
-        //self.settingCopy.ekSyncEnabled = YES;
+    }
+
+    if (self.settingCopy.sdwSyncEnabled)
+    {
+        self.settingCopy.tdSyncEnabled = NO;
+        self.settingCopy.rmdSyncEnabled =  NO;
     }
     
-    //NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:5];
-
-    //[settingTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
     [settingTableView reloadData];
 }
 
@@ -906,6 +921,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     self.settingCopy.autoPushEnabled = (segmentedControl.selectedSegmentIndex == 0);
 }
 
+/*
 - (void) enableSDWSync:(id)sender
 {
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
@@ -919,6 +935,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [settingTableView reloadData];
 }
+*/
 
 - (void) confirmSync1way2SDW:(id) sender
 {
@@ -1409,8 +1426,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[segmentedStyleControl release];	
 }
 
-*/
-
 - (void) createEventSyncCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _autoSyncText;
@@ -1426,7 +1441,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[cell.contentView addSubview:segmentedStyleControl];
 	[segmentedStyleControl release];
 }
-
+*/
 - (void) createSyncWindowCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _syncWindowText;
@@ -1434,6 +1449,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
+/*
 - (void) createTaskSyncCell:(UITableViewCell *)cell
 {
 	cell.textLabel.text = _autoSyncText;
@@ -1463,6 +1479,24 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         segmentedStyleControl.enabled = YES;
     }
+}
+*/
+
+- (void) createTaskSyncCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = _tasksText;
+	
+	UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(150, 10, 120, 20)];
+	nameLabel.tag = baseTag;
+	nameLabel.textAlignment=NSTextAlignmentRight;
+	nameLabel.backgroundColor=[UIColor clearColor];
+	nameLabel.font=[UIFont systemFontOfSize:15];
+	nameLabel.text = (!self.settingCopy.tdSyncEnabled && !self.settingCopy.rmdSyncEnabled)?_offText:(self.settingCopy.tdSyncEnabled?_toodledoText:_reminderText);
+
+	[cell.contentView addSubview:nameLabel];
+	[nameLabel release];
 }
 
 - (void) createDeleteWarningCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1597,7 +1631,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[cell.contentView addSubview:segmentedStyleControl];
 	[segmentedStyleControl release];		    
 }
-*/
+
 - (void) createTDSDWSyncCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _autoSyncText;
@@ -1614,6 +1648,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[segmentedStyleControl release];
     
 }
+*/
 
 - (void) createAccountCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
@@ -1640,6 +1675,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[syncSegmentedControl release];
 }
 
+/*
 - (void) createSDWSyncEnableCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 160, 30)];
@@ -1676,7 +1712,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[cell.contentView addSubview:hintLabel];
 	[hintLabel release];     
 }
-
+*/
 - (void) createSDWAccountCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 5, 100, 30)];
@@ -2102,7 +2138,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			{
 				case 0:
 				{
-                    //[self createSDWSyncEnableCell:cell baseTag:14000];
                     [self createSyncSourceSwitchCell:cell baseTag:14000];
                 }
                     break;
@@ -2110,38 +2145,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 				{
                     if (self.settingCopy.sdwSyncEnabled)
                     {
-                        /*
-                        cell.textLabel.text = _autoSyncText;
-                        cell.accessoryType = (self.settingCopy.sdwAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-                        */
-                        
                         [self createSDWAccountCell:cell baseTag:14010];
                     }
                     else
                     {
-                        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_toodledoSyncText, _tasksText];
-                        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        //cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_toodledoSyncText, _tasksText];
+                        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        [self createTaskSyncCell:cell baseTag:14010];
                     }
                 }
                     break;
 				case 2:
 				{
-                    /*if (self.settingCopy.sdwSyncEnabled)
-                    {
-                        [self createSDWAccountCell:cell baseTag:14020];
-                    }
-                    else*/
-                    {
-                        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
-                        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;                        
-                    }
+                    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 }
                     break;
-				/*case 3:
-				{
-                    [self createSDW1WaySyncCell:cell baseTag:14030];
-                }
-                    break;*/
             }
         }
             break;
@@ -2157,53 +2176,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
             }
         }
             break;
-/*		case 6:
-		{
-			switch (indexPath.row)
-			{
-				case 0:
-				{
-                    [self createTDSyncEnableCell:cell baseTag:15000];
-                }
-                    break;
-				case 1:
-				{
-                    cell.textLabel.text = _autoSyncText;
-                    cell.accessoryType = (self.settingCopy.tdAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-                }
-                    break;
-				case 2:
-				{
-                    [self createTDAccountCell:cell baseTag:15020];
-                }
-                    break;
-            }
-        }
-            break;
-		case 7:
-		{
-			switch (indexPath.row)
-			{
-				case 0:
-				{
-                    [self createEKSyncEnableCell:cell baseTag:16000];
-                }
-                    break;
-				case 1:
-				{
-                    cell.textLabel.text = _autoSyncText;
-                    cell.accessoryType = (self.settingCopy.ekAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-                }
-                    break;
-				case 2:
-				{
-                    [self createSyncWindowCell:cell baseTag:16020];
-                }
-                    break;
-            }
-        }
-            break;
-*/
  }
 	
     return cell;
@@ -2294,14 +2266,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
             {
                 switch (indexPath.row)
                 {
-                    /*case 1:
-                    {
-                        self.settingCopy.sdwAutoSyncEnabled = !self.settingCopy.sdwAutoSyncEnabled;
-                        
-                        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                        cell.accessoryType = (self.settingCopy.sdwAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-                    }
-                        break;*/
                     case 1:
                     {
                         [self editSDWAccount];
@@ -2315,7 +2279,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
                 {
                     case 1:
                     {
-                        [self editToodledoSync];
+                        //[self editToodledoSync];
+                        [self editTaskSync];
                     }
                         break;
                     case 2:
@@ -2340,52 +2305,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
             }
         }
             break;
-/*        case 6:
-        {
-			switch (indexPath.row) 
-			{
-				case 1:
-				{
-					self.settingCopy.tdAutoSyncEnabled = !self.settingCopy.tdAutoSyncEnabled;
-                    
-                    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                    cell.accessoryType = (self.settingCopy.tdAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-				}
-					break;
-                    
-				case 2:
-				{
-                    [self editToodledoAccount];
-				}
-					break;
-			}
-            
-        }
-            break;
-        case 7:
-        {
-			switch (indexPath.row) 
-			{
-				case 1:
-				{
-					self.settingCopy.ekAutoSyncEnabled = !self.settingCopy.ekAutoSyncEnabled;
-                    
-                    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                    cell.accessoryType = (self.settingCopy.ekAutoSyncEnabled?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-				}
-					break;
-                    
-				case 2:
-				{
-                    [self editSyncWindow];
-				}
-					break;
-                
-			}
-            
-        }
-            break;
-*/
 	}
 	
 }

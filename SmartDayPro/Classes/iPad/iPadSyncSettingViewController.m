@@ -18,6 +18,7 @@
 #import "SDWAccountViewController.h"
 #import "ToodledoSyncViewController.h"
 #import "iOSCalSyncViewController.h"
+#import "TaskSyncViewController.h"
 
 #import "iPadSettingViewController.h"
 
@@ -83,6 +84,15 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 - (void) editToodledoSync
 {
     ToodledoSyncViewController *ctrler = [[ToodledoSyncViewController alloc] init];
+    ctrler.setting = self.setting;
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
+}
+
+- (void) editTaskSync
+{
+    TaskSyncViewController *ctrler = [[TaskSyncViewController alloc] init];
     ctrler.setting = self.setting;
     
 	[self.navigationController pushViewController:ctrler animated:YES];
@@ -163,6 +173,12 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     {
         self.setting.sdwSyncEnabled = NO;
     }
+    
+    if (self.setting.sdwSyncEnabled)
+    {
+        self.setting.tdSyncEnabled = NO;
+        self.setting.rmdSyncEnabled =  NO;
+    }
 
     [settingTableView reloadData];
     
@@ -175,9 +191,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     {
         [self popupSyncGuide];
     }
-    
 }
-
 
 #pragma mark View
 
@@ -315,6 +329,23 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
+- (void) createTaskSyncCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = _tasksText;
+	
+    UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 120, 10, 120, 20)];
+	nameLabel.tag = baseTag;
+	nameLabel.textAlignment=NSTextAlignmentRight;
+	nameLabel.backgroundColor=[UIColor clearColor];
+	nameLabel.font=[UIFont systemFontOfSize:15];
+	nameLabel.text = (!self.setting.tdSyncEnabled && !self.setting.rmdSyncEnabled)?_offText:(self.setting.tdSyncEnabled?_toodledoText:_reminderText);
+    
+	[cell.contentView addSubview:nameLabel];
+	[nameLabel release];
+}
+
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -421,8 +452,9 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
                     }
                     else
                     {
-                        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_toodledoSyncText, _tasksText];
-                        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        //cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_toodledoSyncText, _tasksText];
+                        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        [self createTaskSyncCell:cell baseTag:11010];
                     }
                 }
                     break;
@@ -463,7 +495,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
             {
                 case 1:
                 {
-                    [self editToodledoSync];
+                    //[self editToodledoSync];
+                    [self editTaskSync];
                 }
                     break;
                 case 2:

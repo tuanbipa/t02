@@ -45,7 +45,7 @@ TaskManager *_sctmSingleton = nil;
 
 //@synthesize todayEventList;
 
-@synthesize garbageList;
+//@synthesize garbageList;
 
 @synthesize today;
 
@@ -198,7 +198,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	//self.todayEventList = nil;
     
-    self.garbageList = [NSMutableArray arrayWithCapacity:5];
+    //self.garbageList = [NSMutableArray arrayWithCapacity:5];
 	
 	self.today = nil;
 	
@@ -5159,6 +5159,18 @@ TaskManager *_sctmSingleton = nil;
 	}
 	
 	return [NSDictionary dictionaryWithObjects:taskList forKeys:keys];	
+}
+
++ (NSDictionary *) getTaskDictionaryBySyncId:(NSArray *)taskList
+{
+	NSMutableArray *keys = [NSMutableArray arrayWithCapacity:taskList.count];
+	
+	for (Task *task in taskList)
+	{
+		[keys addObject:task.syncId];
+	}
+	
+	return [NSDictionary dictionaryWithObjects:taskList forKeys:keys];
 }
 
 + (NSDictionary *) getTaskDictionaryByName:(NSArray *)taskList

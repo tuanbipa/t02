@@ -57,6 +57,8 @@ extern BOOL _isiPad;
         
         [ekStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error)
          {
+             [ekStore release];
+             
              self.setting.ekSyncEnabled = granted;
              
              [settingTableView reloadData];

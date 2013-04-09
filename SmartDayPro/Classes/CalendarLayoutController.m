@@ -189,16 +189,6 @@
 {
 	[super beginLayout];
     
-    TaskManager *tm = [TaskManager getInstance];
-    [tm garbage:self.objList];
-
-/*
-	for (int i=0; i<48; i++)
-	{
-		slotObjects[i] = [[NSMutableArray alloc] initWithCapacity:3];
-	}
-*/
-
     for (int i=0; i<3; i++)
     {
         for (int j=0; j<48; j++)

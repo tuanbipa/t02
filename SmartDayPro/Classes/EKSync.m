@@ -1026,6 +1026,8 @@ extern BOOL _syncMatchHintShown;
         [alertView release];
 
         [self syncComplete];
+        
+        return;
     }
 
 	for (EKCalendar *cal in ekCalList)
@@ -1072,7 +1074,8 @@ extern BOOL _syncMatchHintShown;
                 //[prj updateEKIDIntoDB:[dbm getDatabase]];
                 [prj updateIntoDB:[dbm getDatabase]];
                 
-                [self.dupCategoryList addObject:prj];
+                //[self.dupCategoryList addObject:prj];
+                [self.dupCategoryList addObject:[NSNumber numberWithInt:prj.primaryKey]];
                 
                 [prjList removeObject:prj];
             }
@@ -1251,13 +1254,7 @@ extern BOOL _syncMatchHintShown;
     {
         [self syncEvents];
     }
-    
-    Settings *settings = [Settings getInstance];
-    
-    settings.ekLastSyncTime = [NSDate date];
-    
-    [settings saveEKSync];
-    
+        
     [self syncComplete];
 }
 

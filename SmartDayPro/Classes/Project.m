@@ -35,7 +35,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 @synthesize name;
 @synthesize ownerName;
 @synthesize tag;
-@synthesize syncId;
+//@synthesize syncId;
 @synthesize sdwId;
 
 @synthesize actualStartTime;
@@ -54,6 +54,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 
 @synthesize ekId;
 @synthesize tdId;
+@synthesize rmdId;
 
 @synthesize suggestedEventMappingName;
 
@@ -91,7 +92,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
         self.ownerName = @"";
 		self.goal = 0;
 		self.tag = @"";
-		self.syncId = @"";
+		//self.syncId = @"";
         self.sdwId = @"";
 		
 		self.actualStartTime = nil;				
@@ -101,6 +102,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 		
 		self.ekId = @"";
 		self.tdId = @"";
+        self.rmdId = @"";
 		
 		self.suggestedEventMappingName = @"";
 		
@@ -126,7 +128,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	self.name = nil;
     self.ownerName = nil;
 	self.tag = nil;
-	self.syncId = nil;
+	//self.syncId = nil;
     self.sdwId = nil;
 	
 	self.actualStartTime = nil;
@@ -142,6 +144,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	
 	self.ekId = nil;
 	self.tdId = nil;
+    self.rmdId = nil;
 	self.suggestedEventMappingName = nil;
 	
     [super dealloc];
@@ -535,7 +538,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 			self.tag = (str == NULL? @"":[NSString stringWithUTF8String:str]);
 			
 			str = (char *)sqlite3_column_text(statement, 17);
-			self.syncId = (str == NULL? @"":[NSString stringWithUTF8String:str]);
+			//self.syncId = (str == NULL? @"":[NSString stringWithUTF8String:str]);
+            self.rmdId = (str == NULL? @"":[NSString stringWithUTF8String:str]);
 			
 			self.status = sqlite3_column_int(statement, 18);
 			
@@ -634,7 +638,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	
 	sqlite3_bind_text(statement, 16, [self.tag UTF8String], -1, SQLITE_TRANSIENT);
 	
-	sqlite3_bind_text(statement, 17, [self.syncId UTF8String], -1, SQLITE_TRANSIENT);
+	//sqlite3_bind_text(statement, 17, [self.syncId UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(statement, 17, [self.rmdId UTF8String], -1, SQLITE_TRANSIENT);
 	
 	sqlite3_bind_int(statement, 18, self.status);
 	
@@ -725,7 +730,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	sqlite3_bind_text(statement, 14, [self.tdId UTF8String], -1, SQLITE_TRANSIENT);
 	sqlite3_bind_text(statement, 15, [self.tag UTF8String], -1, SQLITE_TRANSIENT);
 	
-	sqlite3_bind_text(statement, 16, [self.syncId UTF8String], -1, SQLITE_TRANSIENT);
+	//sqlite3_bind_text(statement, 16, [self.syncId UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(statement, 16, [self.rmdId UTF8String], -1, SQLITE_TRANSIENT);
 	sqlite3_bind_int(statement, 17, self.status);
 	
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
@@ -1064,7 +1070,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	}
 }
 
-- (void) updateSyncIDIntoDB:(sqlite3 *)database
+//- (void) updateSyncIDIntoDB:(sqlite3 *)database
+- (void) updateReminderIDIntoDB:(sqlite3 *)database
 {
 	sqlite3_stmt *statement = nil;
 	
@@ -1077,7 +1084,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
     
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);	    
 	
-	sqlite3_bind_text(statement, 1, [self.syncId UTF8String], -1, SQLITE_TRANSIENT);
+	//sqlite3_bind_text(statement, 1, [self.syncId UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(statement, 1, [self.rmdId UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_double(statement, 2, updateTimeValue);
 	sqlite3_bind_int(statement, 3, self.primaryKey);	
 	

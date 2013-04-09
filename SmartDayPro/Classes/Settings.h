@@ -59,8 +59,10 @@
 	//EK Sync
 	BOOL ekAutoSyncEnabled;
     BOOL ekSyncEnabled;
+    BOOL rmdSyncEnabled;
 	NSInteger syncWindowStart;
 	NSInteger syncWindowEnd;
+    NSDate *rmdLastSyncTime;
 	
 	//sync direction
 	NSInteger syncDirection;
@@ -101,7 +103,6 @@
 	NSDate *tdLastAddEditTime;
 	NSDate *tdLastDeleteTime;
 	NSDate *tdLastSyncTime;
-	NSDate *ekLastSyncTime;
     
     //SDW sync
     NSString *sdwDeviceUUID;
@@ -124,6 +125,7 @@
 	NSMutableDictionary *dayManagerDict;
 	NSMutableDictionary *toodledoSyncDict;	
     NSMutableDictionary *sdwSyncDict;
+    NSMutableDictionary *ekSyncDict;
     
     //NSMutableArray *filterPresets;
     NSMutableDictionary *filterPresets;
@@ -177,9 +179,11 @@
 
 @property BOOL ekAutoSyncEnabled;
 @property BOOL ekSyncEnabled;
+@property BOOL rmdSyncEnabled;
 @property NSInteger syncWindowStart;
 @property NSInteger syncWindowEnd;
 @property NSInteger syncDirection;
+@property (nonatomic, copy) NSDate *rmdLastSyncTime;
 
 @property BOOL eventMapHint;
 @property BOOL smartListHint;
@@ -215,7 +219,6 @@
 @property (nonatomic, copy) NSDate *tdLastAddEditTime;
 @property (nonatomic, copy) NSDate *tdLastDeleteTime;
 @property (nonatomic, copy) NSDate *tdLastSyncTime;
-@property (nonatomic, copy) NSDate *ekLastSyncTime;
 
 @property (nonatomic, copy) NSString *sdwEmail;
 @property (nonatomic, copy) NSString *sdwPassword;
@@ -235,13 +238,14 @@
 @property (nonatomic, copy) NSDate *updateTime;
 
 @property (nonatomic, copy) NSString *dbVersion;
-//@property (nonatomic, copy) NSString *oldAppVersion;
+@property (nonatomic, copy) NSString *appVersion;
 
 @property (nonatomic, retain) NSMutableDictionary *settingDict;
 @property (nonatomic, retain) NSMutableDictionary *hintDict;
 @property (nonatomic, retain) NSMutableDictionary *dayManagerDict;
 @property (nonatomic, retain) NSMutableDictionary *toodledoSyncDict;
 @property (nonatomic, retain) NSMutableDictionary *sdwSyncDict;
+@property (nonatomic, retain) NSMutableDictionary *ekSyncDict;
 
 @property (nonatomic, retain) NSMutableDictionary *filterPresets;
 
@@ -261,6 +265,7 @@
 -(void)changeDBVersion:(NSString *)version;
 - (BOOL) checkWorkingTimeChange:(Settings *)settings;
 - (void) resetToodledoSync;
+- (void) resetReminderSync;
 -(void) updateSettings:(Settings *) settings;
 - (UIColor *)getBackgroundColor;
 - (NSDate *) getSyncWindowDate:(BOOL) isStart;

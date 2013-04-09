@@ -21,6 +21,7 @@
 
 #import "SettingTableViewController.h"
 #import "ToodledoSyncViewController.h"
+#import "TaskSyncViewController.h"
 
 extern BOOL _isiPad;
 
@@ -195,14 +196,7 @@ extern BOOL _isiPad;
     
     UIViewController *topCtrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-1];
     
-    /*if ([topCtrler isKindOfClass:[SettingTableViewController class]])
-    {
-        SettingTableViewController *ctrler = (SettingTableViewController *) topCtrler;
-        
-        ctrler.tdAccountChange = accountChange;
-        ctrler.settingCopy.tdVerified = self.setting.tdVerified;
-    }*/
-    if ([topCtrler isKindOfClass:[ToodledoSyncViewController class]])
+/*    if ([topCtrler isKindOfClass:[ToodledoSyncViewController class]])
     {
         ToodledoSyncViewController *ctrler = (ToodledoSyncViewController *) topCtrler;
         
@@ -210,7 +204,18 @@ extern BOOL _isiPad;
         ctrler.setting.tdVerified = self.setting.tdVerified;
         
         [ctrler refreshView];
+    }*/
+    
+    if ([topCtrler isKindOfClass:[TaskSyncViewController class]])
+    {
+        TaskSyncViewController *ctrler = (TaskSyncViewController *) topCtrler;
+        
+        ctrler.tdAccountChange = accountChange;
+        ctrler.setting.tdVerified = self.setting.tdVerified;
+        
+        [ctrler refreshView];
     }
+    
 }
 
 - (void)viewDidUnload {

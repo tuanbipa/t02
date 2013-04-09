@@ -37,6 +37,7 @@ BOOL _featureHintShown = NO;
 BOOL _transparentHintShown = NO;
 
 BOOL _versionUpgrade = NO;
+BOOL _dbUpgrade = NO;
 BOOL _firstLaunch = NO;
 
 extern BOOL _scFreeVersion;
@@ -91,9 +92,11 @@ extern BOOL _isiPad;
 
 @synthesize ekAutoSyncEnabled;
 @synthesize ekSyncEnabled;
+@synthesize rmdSyncEnabled;
 @synthesize syncWindowStart;
 @synthesize syncWindowEnd;
 @synthesize syncDirection;
+@synthesize rmdLastSyncTime;
 
 @synthesize eventMapHint;
 @synthesize smartListHint;
@@ -129,7 +132,6 @@ extern BOOL _isiPad;
 @synthesize tdLastAddEditTime;
 @synthesize tdLastDeleteTime;
 @synthesize tdLastSyncTime;
-@synthesize ekLastSyncTime;
 
 @synthesize sdwEmail;
 @synthesize sdwPassword;
@@ -148,13 +150,14 @@ extern BOOL _isiPad;
 @synthesize updateTime;
 
 @synthesize dbVersion;
-//@synthesize oldAppVersion;
+@synthesize appVersion;
 
 @synthesize settingDict;
 @synthesize hintDict;
 @synthesize dayManagerDict;
 @synthesize toodledoSyncDict;
 @synthesize sdwSyncDict;
+@synthesize ekSyncDict;
 
 @synthesize filterPresets;
 
@@ -215,9 +218,11 @@ extern BOOL _isiPad;
         
 		self.ekAutoSyncEnabled = NO;
         self.ekSyncEnabled = NO;
+        self.rmdSyncEnabled = NO;
 		self.syncWindowStart = 1;
 		self.syncWindowEnd = 2;
 		self.syncDirection = SYNC_2WAY;
+        self.rmdLastSyncTime = nil;
 		
 		self.eventMapHint = YES;
 		self.smartListHint = YES;
@@ -254,7 +259,6 @@ extern BOOL _isiPad;
 		self.tdLastAddEditTime = nil;
 		self.tdLastDeleteTime = nil;
 		self.tdLastSyncTime = nil;
-		self.ekLastSyncTime = nil;
 		
 		self.weekPlannerRows = 1;
         self.mustDoDays = 0;
@@ -276,240 +280,34 @@ extern BOOL _isiPad;
         
         isExternalUpdate = NO;
 		
-		self.dbVersion = @"5.0";
-
 		//self.oldAppVersion = nil;
 		
 		[self loadSettingDict];
-		
-		NSNumber *skinSetting = [self.settingDict objectForKey:@"SkinStyle"];
-		
-		if (skinSetting != nil)
-		{
-			self.skinStyle = [skinSetting intValue];
-		}		
-		
-		NSNumber *weekStartSetting = [self.settingDict objectForKey:@"WeekStart"];
-		
-		if (weekStartSetting != nil)
-		{
-			self.weekStart = [weekStartSetting intValue];
-		}
+
+        BOOL needSaveSetting = NO;
         
-        [[NSCalendar currentCalendar] setFirstWeekday:self.weekStart==0?1:2];
+        NSString *newDBVersion = @"5.0";
         
-		NSNumber *landscapeModeEnableSetting = [self.settingDict objectForKey:@"LandscapeModeEnable"];
-		
-		if (landscapeModeEnableSetting != nil)
-		{
-			self.landscapeModeEnable = ([landscapeModeEnableSetting intValue] == 1);
-		}		
+        _dbUpgrade = NO;
 
-		NSNumber *tabBarAutoHideSetting = [self.settingDict objectForKey:@"TabBarAutoHide"];
-		
-		if (tabBarAutoHideSetting != nil)
-		{
-			self.tabBarAutoHide = [tabBarAutoHideSetting boolValue];
-		}		
-
-		NSNumber *filterTabSetting = [self.settingDict objectForKey:@"FilterTab"];
-		
-		if (filterTabSetting != nil)
-		{
-			self.filterTab = [filterTabSetting intValue];
-		}		
-
-		NSNumber *snoozeDurationSetting = [self.settingDict objectForKey:@"SnoozeDuration"];
-		
-		if (snoozeDurationSetting != nil)
-		{
-			self.snoozeDuration = [snoozeDurationSetting intValue];
-		}
-		
-		NSNumber *taskDurationSetting = [self.settingDict objectForKey:@"TaskDuration"];
-		
-		if (taskDurationSetting != nil)
-		{
-			self.taskDuration = [taskDurationSetting intValue];
-		}
-		
-		NSNumber *taskDefaultProjectSetting = [self.settingDict objectForKey:@"TaskDefaultProject"];
-		
-		if (taskDefaultProjectSetting != nil)
-		{
-			self.taskDefaultProject = [taskDefaultProjectSetting intValue];
-		}
-		
-		NSNumber *eventCombinationSetting = [self.settingDict objectForKey:@"EventCombination"];
-		
-		if (eventCombinationSetting != nil)
-		{
-			self.eventCombination = [eventCombinationSetting intValue];
-		}
-
-		NSNumber *hideFutureTasksSetting = [self.settingDict objectForKey:@"HideFutureTasks"];
-		
-		if (hideFutureTasksSetting != nil)
-		{
-			self.hideFutureTasks = [hideFutureTasksSetting boolValue];
-		}
-		
-        //v4.0: allow to Task move as Event
-        /*
-		NSNumber *movableAsEventSetting = [self.settingDict objectForKey:@"MovableAsEvent"];
-		
-		if (movableAsEventSetting != nil)
-		{
-			self.movableAsEvent = [movableAsEventSetting intValue];
-		}	
-
-		NSNumber *newTaskPlacementSetting = [self.settingDict objectForKey:@"NewTaskPlacement"];
-		
-		if (newTaskPlacementSetting != nil)
-		{
-			self.newTaskPlacement = [newTaskPlacementSetting intValue];
-		}		
-        */
-        
-		NSNumber *minimumSplitSizeSetting = [self.settingDict objectForKey:@"MinimumSplitSize"];
-		
-		if (minimumSplitSizeSetting != nil)
-		{
-			self.minimumSplitSize = [minimumSplitSizeSetting intValue];
-		}		
-		
-		NSString *wdStartTime = [self.settingDict objectForKey:@"WeekdayStartTime"];
-		
-		if (wdStartTime != nil)
-		{
-			self.weekdayStartTime = wdStartTime;
-		}
-		
-		NSString *wdEndTime = [self.settingDict objectForKey:@"WeekdayEndTime"];
-		
-		if (wdStartTime != nil)
-		{
-			self.weekdayEndTime = wdEndTime;
-		}
-		
-		NSString *weStartTime = [self.settingDict objectForKey:@"WeekendStartTime"];
-		
-		if (weStartTime != nil)
-		{
-			self.weekendStartTime = weStartTime;
-		}
-		
-		NSString *weEndTime = [self.settingDict objectForKey:@"WeekendEndTime"];
-		
-		if (weEndTime != nil)
-		{
-			self.weekendEndTime = weEndTime;
-		}
-        
-        NSNumber *syncEnabledSetting = [self.settingDict objectForKey:@"SyncEnabled"];
-		
-		if (syncEnabledSetting != nil)
-		{
-			self.syncEnabled = [syncEnabledSetting boolValue];
-		}
-
-        NSNumber *autoSyncEnabledSetting = [self.settingDict objectForKey:@"AutoSyncEnabled"];
-		
-		if (autoSyncEnabledSetting != nil)
-		{
-			self.autoSyncEnabled = [autoSyncEnabledSetting boolValue];
-		}
-
-        NSNumber *autoPushEnabledSetting = [self.settingDict objectForKey:@"AutoPushEnabled"];
-		
-		if (autoPushEnabledSetting != nil)
-		{
-			self.autoPushEnabled = [autoPushEnabledSetting boolValue];
-		}
-        
-		NSNumber *ekAutoSyncEnabledSetting = [self.settingDict objectForKey:@"EKAutoSyncEnabled"];
-		
-		if (ekAutoSyncEnabledSetting != nil)
-		{
-			self.ekAutoSyncEnabled = [ekAutoSyncEnabledSetting boolValue];
-		}	
-		
-		NSNumber *ekSyncEnabledSetting = [self.settingDict objectForKey:@"EKSyncEnabled"];
-		
-		if (ekSyncEnabledSetting != nil)
-		{
-			self.ekSyncEnabled = [ekSyncEnabledSetting boolValue];
-		}	
-
-		NSNumber *syncWindowStartSetting = [self.settingDict objectForKey:@"SyncWindowStart"];
-		
-		if (syncWindowStartSetting != nil)
-		{
-			self.syncWindowStart = [syncWindowStartSetting intValue];
-		}
-		
-		NSNumber *syncWindowEndSetting = [self.settingDict objectForKey:@"SyncWindowEnd"];
-		
-		if (syncWindowEndSetting != nil)
-		{
-			self.syncWindowEnd = [syncWindowEndSetting intValue];
-		}
-		
-		NSNumber *syncDirectionSetting = [self.settingDict objectForKey:@"SyncDirection"];
-		
-		if (syncDirectionSetting != nil)
-		{
-			self.syncDirection = [syncDirectionSetting intValue];
-		}		
-		
-		NSNumber *deleteWarningSetting = [self.settingDict objectForKey:@"DeleteWarning"];
-		
-		if (deleteWarningSetting != nil)
-		{
-			self.deleteWarning = ([deleteWarningSetting intValue] == 1);
-		}		
-		
-		NSNumber *doneWarningSetting = [self.settingDict objectForKey:@"DoneWarning"];
-		
-		if (doneWarningSetting != nil)
-		{
-			self.doneWarning = ([doneWarningSetting intValue] == 1);
-		}		
-
-		NSNumber *hideWarningSetting = [self.settingDict objectForKey:@"HideWarning"];
-		
-		if (hideWarningSetting != nil)
-		{
-			self.hideWarning = ([hideWarningSetting intValue] == 1);
-		}	
-		
-		NSNumber *weekPlannerRowsSetting = [self.settingDict objectForKey:@"WeekPlannerRows"];
-		
-		if (weekPlannerRowsSetting != nil)
-		{
-			self.weekPlannerRows = [weekPlannerRowsSetting intValue];
-		}		
-
-		NSNumber *mustDoDaysSetting = [self.settingDict objectForKey:@"MustDoDays"];
-		
-		if (mustDoDaysSetting != nil)
-		{
-			self.mustDoDays = [mustDoDaysSetting intValue];
-		}
-        
-		NSNumber *updateTimeSetting = [self.settingDict objectForKey:@"UpdateTime"];
-		
-		if (updateTimeSetting != nil)
-		{
-			self.updateTime = [NSDate dateWithTimeIntervalSince1970:[updateTimeSetting doubleValue]];
-		}
+		if (![self.dbVersion isEqualToString:newDBVersion])
+        {
+            if (self.dbVersion == nil)
+            {
+                _dbUpgrade = YES;
+            }
+            
+            self.dbVersion = newDBVersion;
+            
+            needSaveSetting = YES;
+        }
         
         if (_isiPad)
         {
             self.tabBarAutoHide = YES;
         }
 		
-		NSString *version = [self.settingDict objectForKey:@"DBVersion"];
+		/*NSString *version = [self.settingDict objectForKey:@"DBVersion"];
 		
 		if (version != nil)
 		{
@@ -523,14 +321,17 @@ extern BOOL _isiPad;
 		}
 		
 		version = [self.settingDict objectForKey:@"AppVersion"];
+        */
 		
 		NSString *newVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 		
 		_versionUpgrade = NO;
 		
-		if (![newVersion isEqualToString:version])
+		//if (![newVersion isEqualToString:version])
+        if (![newVersion isEqualToString:self.appVersion])
 		{
-            if (version == nil)
+            //if (version == nil)
+            if (self.appVersion == nil)
             {
                 _firstLaunch = YES;
             }
@@ -539,11 +340,21 @@ extern BOOL _isiPad;
 				_versionUpgrade = YES;
 			}
 			
-			[settingDict setValue:newVersion forKey:@"AppVersion"];	
+			//[settingDict setValue:newVersion forKey:@"AppVersion"];
 			
-			[self saveSettingDict];			
+			//[self saveSettingDict];
+            
+            self.appVersion = newVersion;
+            needSaveSetting = YES;
 		}
+
+        if (needSaveSetting)
+        {
+            //save db version and app version
+            [self saveSettingDict];
+        }
 		
+        /*
         if (_versionUpgrade && [newVersion isEqualToString:@"3.1"])
 		{
 			//upgrade to 3.1
@@ -572,420 +383,28 @@ extern BOOL _isiPad;
 			
 			[self saveSettingDict];			
 		}
+        */
+        
+        if (_versionUpgrade && [newVersion isEqualToString:@"1.0.1"])
+        {
+            //move some ek settings into EKSyncDict
+            [self saveEKSyncDict];
+        }
         
 		[self loadDayManagerDict];
-		
-		NSString *dayStartTime = [self.dayManagerDict objectForKey:@"DayManagerStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.dayManagerStartTime = dayStartTime;
-		}
-		
-		NSString *dayEndTime = [self.dayManagerDict objectForKey:@"DayManagerEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.dayManagerEndTime = dayEndTime;
-		}
-		
-		NSNumber *dayUpdateTimeSetting = [self.dayManagerDict objectForKey:@"DayManagerUpdateTime"];
-		
-		if (dayUpdateTimeSetting != nil)
-		{
-			self.dayManagerUpdateTime = [NSDate dateWithTimeIntervalSince1970:[dayUpdateTimeSetting doubleValue]];
-		}		
-		
-		dayStartTime = [self.dayManagerDict objectForKey:@"MonStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.monStartTime = dayStartTime;
-		}	
-		
-		dayEndTime = [self.dayManagerDict objectForKey:@"MonEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.monEndTime = dayEndTime;
-		}		
-
-		dayStartTime = [self.dayManagerDict objectForKey:@"TueStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.tueStartTime = dayStartTime;
-		}	
-		
-		dayEndTime = [self.dayManagerDict objectForKey:@"TueEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.tueEndTime = dayEndTime;
-		}
-		
-		dayStartTime = [self.dayManagerDict objectForKey:@"WedStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.wedStartTime = dayStartTime;
-		}	
-		
-		dayEndTime = [self.dayManagerDict objectForKey:@"WedEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.wedEndTime = dayEndTime;
-		}		
-		
-		dayStartTime = [self.dayManagerDict objectForKey:@"ThuStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.thuStartTime = dayStartTime;
-		}	
-		
-		dayEndTime = [self.dayManagerDict objectForKey:@"ThuEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.thuEndTime = dayEndTime;
-		}		
-		
-		dayStartTime = [self.dayManagerDict objectForKey:@"FriStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.friStartTime = dayStartTime;
-		}	
-		
-		dayEndTime = [self.dayManagerDict objectForKey:@"FriEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.friEndTime = dayEndTime;
-		}		
-		
-		dayStartTime = [self.dayManagerDict objectForKey:@"SatStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.satStartTime = dayStartTime;
-		}	
-		
-		dayEndTime = [self.dayManagerDict objectForKey:@"SatEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.satEndTime = dayEndTime;
-		}		
-		
-		dayStartTime = [self.dayManagerDict objectForKey:@"SunStartTime"];
-		
-		if (dayStartTime != nil)
-		{
-			self.sunStartTime = dayStartTime;
-		}	
-		
-		dayEndTime = [self.dayManagerDict objectForKey:@"SunEndTime"];
-		
-		if (dayEndTime != nil)
-		{
-			self.sunEndTime = dayEndTime;
-		}		
-		
-		
+				
 		[self loadHintDict];
-		
-		NSNumber *eventMapHintSetting = [self.hintDict objectForKey:@"EventMapHint"];
-		
-		if (eventMapHintSetting != nil)
-		{
-			self.eventMapHint = ([eventMapHintSetting intValue] == 1);
-		}
-		
-		NSNumber *smartListHintSetting = [self.hintDict objectForKey:@"SmartListHint"];
-		
-		if (smartListHintSetting != nil)
-		{
-			self.smartListHint = ([smartListHintSetting intValue] == 1);
-		}
-
-		NSNumber *noteHintSetting = [self.hintDict objectForKey:@"NoteHint"];
-		
-		if (noteHintSetting != nil)
-		{
-			self.noteHint = ([noteHintSetting intValue] == 1);
-		}
-		
-		NSNumber *weekViewHintSetting = [self.hintDict objectForKey:@"WeekViewHint"];
-		
-		if (weekViewHintSetting != nil)
-		{
-			self.weekViewHint = ([weekViewHintSetting intValue] == 1);
-		}
-		
-		NSNumber *weekDayQuickAddHintSetting = [self.hintDict objectForKey:@"WeekDayQuickAddHint"];
-		
-		if (weekDayQuickAddHintSetting != nil)
-		{
-			self.weekDayQuickAddHint = ([weekDayQuickAddHintSetting intValue] == 1);
-		}	
-		
-		NSNumber *calendarHintSetting = [self.hintDict objectForKey:@"CalendarHint"];
-		
-		if (calendarHintSetting != nil)
-		{
-			self.calendarHint = ([calendarHintSetting intValue] == 1);
-		}
-		
-		NSNumber *multiSelectHintSetting = [self.hintDict objectForKey:@"MultiSelectHint"];
-		
-		if (multiSelectHintSetting != nil)
-		{
-			self.multiSelectHint = ([multiSelectHintSetting intValue] == 1);
-		}
-		
-		NSNumber *monthViewHintSetting = [self.hintDict objectForKey:@"MonthViewHint"];
-		
-		if (monthViewHintSetting != nil)
-		{
-			self.monthViewHint = ([monthViewHintSetting intValue] == 1);
-		}		
-
-		NSNumber *rtDoneHintSetting = [self.hintDict objectForKey:@"RTDoneHint"];
-		
-		if (rtDoneHintSetting != nil)
-		{
-			self.rtDoneHint = ([rtDoneHintSetting intValue] == 1);
-		}
-		
-		NSNumber *syncMatchHintSetting = [self.hintDict objectForKey:@"SyncMatchHint"];
-		
-		if (syncMatchHintSetting != nil)
-		{
-			self.syncMatchHint = ([syncMatchHintSetting intValue] == 1);
-		}		
-
-		NSNumber *projectHintSetting = [self.hintDict objectForKey:@"ProjectHint"];
-		
-		if (projectHintSetting != nil)
-		{
-			self.projectHint = ([projectHintSetting intValue] == 1);
-		}	
-
-		NSNumber *projectDetailHintSetting = [self.hintDict objectForKey:@"ProjectDetailHint"];
-		
-		if (projectDetailHintSetting != nil)
-		{
-			self.projectDetailHint = ([projectDetailHintSetting intValue] == 1);
-		}		
-		
-		NSNumber *firstTimeEventSyncHintSetting = [self.hintDict objectForKey:@"FirstTimeEventSyncHint"];
-		
-		if (firstTimeEventSyncHintSetting != nil)
-		{
-			self.firstTimeEventSyncHint = ([firstTimeEventSyncHintSetting intValue] == 1);
-		}		
-
-		NSNumber *workingTimeHintSetting = [self.hintDict objectForKey:@"WorkingTimeHint"];
-		
-		if (workingTimeHintSetting != nil)
-		{
-			self.workingTimeHint = ([workingTimeHintSetting intValue] == 1);
-		}		
-
-		NSNumber *starTabHintSetting = [self.hintDict objectForKey:@"StarTabHint"];
-		
-		if (starTabHintSetting != nil)
-		{
-			self.starTabHint = ([starTabHintSetting intValue] == 1);
-		}		
-
-		NSNumber *gtdoTabHintSetting = [self.hintDict objectForKey:@"GTDoTabHint"];
-		
-		if (gtdoTabHintSetting != nil)
-		{
-			self.gtdoTabHint = ([gtdoTabHintSetting intValue] == 1);
-		}		
-
-		NSNumber *tagHintSetting = [self.hintDict objectForKey:@"TagHint"];
-		
-		if (tagHintSetting != nil)
-		{
-			self.tagHint = ([tagHintSetting intValue] == 1);
-		}		
-
-		NSNumber *featureHintSetting = [self.hintDict objectForKey:@"FeatureHint"];
-		
-		if (featureHintSetting != nil)
-		{
-			self.featureHint = ([featureHintSetting intValue] == 1);
-		}		
-
-		NSNumber *transparentHintSetting = [self.hintDict objectForKey:@"TransparentHint"];
-		
-		if (transparentHintSetting != nil)
-		{
-			self.transparentHint = ([transparentHintSetting intValue] == 1);
-		}	
-
-		NSNumber *msdBackupHintSetting = [self.hintDict objectForKey:@"MSDBackupHint"];
-		
-		if (msdBackupHintSetting != nil)
-		{
-			self.msdBackupHint = [msdBackupHintSetting boolValue];
-		}
         
         if (_versionUpgrade)
         {
             self.featureHint = YES;
         }
-		
+        
+        [self loadEKSyncDict];
+        
 		[self loadToodledoSyncDict];
         
-		NSNumber *tdAutoSyncEnabledSetting = [self.toodledoSyncDict objectForKey:@"TDAutoSyncEnabled"];
-		
-		if (tdAutoSyncEnabledSetting != nil)
-		{
-			self.tdAutoSyncEnabled = [tdAutoSyncEnabledSetting boolValue];
-		}
-        
-		NSNumber *tdSyncEnabledSetting = [self.toodledoSyncDict objectForKey:@"TDSyncEnabled"];
-		
-		if (tdSyncEnabledSetting != nil)
-		{
-			self.tdSyncEnabled = [tdSyncEnabledSetting boolValue];
-		}
-        
-		NSNumber *tdVerifiedSetting = [self.toodledoSyncDict objectForKey:@"TDVerified"];
-		
-		if (tdVerifiedSetting != nil)
-		{
-			self.tdVerified = [tdVerifiedSetting boolValue];
-		}
-		
-		NSString *tdEmailSetting = [self.toodledoSyncDict objectForKey:@"Email"];
-		
-		if (tdEmailSetting != nil)
-		{
-			self.tdEmail = tdEmailSetting;
-		}		
-
-		NSString *tdPwdSetting = [self.toodledoSyncDict objectForKey:@"Pwd"];
-		
-		if (tdPwdSetting != nil)
-		{
-			NSString *pwd = [[NSString alloc] initWithData:[NSDataBase64 dataWithBase64EncodedString:tdPwdSetting] encoding:NSUTF8StringEncoding];
-			
-			self.tdPassword = pwd;
-			
-			[pwd release];
-		}
-		
-		NSNumber *tdSyncResetSetting = [self.toodledoSyncDict objectForKey:@"Reset"];
-		
-		if (tdSyncResetSetting != nil)
-		{
-			self.tdSyncReset = ([tdSyncResetSetting intValue] == 1);
-		}		
-
-		NSNumber *tdLastAddEditTimeSetting = [self.toodledoSyncDict objectForKey:@"LastAddEditTime"];
-		
-		if (tdLastAddEditTimeSetting != nil)
-		{
-			self.tdLastAddEditTime = [NSDate dateWithTimeIntervalSince1970:[tdLastAddEditTimeSetting doubleValue]];
-		}		
-
-		NSNumber *tdLastDeleteTimeSetting = [self.toodledoSyncDict objectForKey:@"LastDeleteTime"];
-		
-		if (tdLastDeleteTimeSetting != nil)
-		{
-			self.tdLastDeleteTime = [NSDate dateWithTimeIntervalSince1970:[tdLastDeleteTimeSetting doubleValue]];
-		}		
-
-		NSNumber *tdLastSyncTimeSetting = [self.toodledoSyncDict objectForKey:@"LastSyncTime"];
-		
-		if (tdLastSyncTimeSetting != nil)
-		{
-			self.tdLastSyncTime = [NSDate dateWithTimeIntervalSince1970:[tdLastSyncTimeSetting doubleValue]];
-		}	
-
-		NSNumber *ekLastSyncTimeSetting = [self.toodledoSyncDict objectForKey:@"EKLastSyncTime"];
-		
-		if (ekLastSyncTimeSetting != nil)
-		{
-			self.ekLastSyncTime = [NSDate dateWithTimeIntervalSince1970:[ekLastSyncTimeSetting doubleValue]];
-		}
-        
 		[self loadSDWSyncDict];
-		
-		NSString *sdwEmailSetting = [self.sdwSyncDict objectForKey:@"Email"];
-		
-		if (sdwEmailSetting != nil)
-		{
-			self.sdwEmail = sdwEmailSetting;
-		}		
-        
-		NSString *sdwPwdSetting = [self.sdwSyncDict objectForKey:@"Pwd"];
-		
-		if (sdwPwdSetting != nil)
-		{
-			NSString *pwd = [[NSString alloc] initWithData:[NSDataBase64 dataWithBase64EncodedString:sdwPwdSetting] encoding:NSUTF8StringEncoding];
-			
-			self.sdwPassword = pwd;
-			
-			[pwd release];
-		} 
-        
-		NSString *sdwDeviceUUIDSetting = [self.sdwSyncDict objectForKey:@"SDWDeviceUUID"];
-		
-		if (sdwDeviceUUIDSetting != nil)
-		{
-			self.sdwDeviceUUID = sdwDeviceUUIDSetting;
-		}		
-        
-		NSNumber *syncSourceSetting = [self.sdwSyncDict objectForKey:@"SyncSource"];
-		
-		if (syncSourceSetting != nil)
-		{
-			self.syncSource = [syncSourceSetting intValue];
-		}	
-        
-		NSNumber *sdwAutoSyncEnabledSetting = [self.sdwSyncDict objectForKey:@"SDWAutoSyncEnabled"];
-		
-		if (sdwAutoSyncEnabledSetting != nil)
-		{
-			self.sdwAutoSyncEnabled = [sdwAutoSyncEnabledSetting boolValue];
-		}	
-        
-		NSNumber *sdwVerifiedSetting = [self.sdwSyncDict objectForKey:@"SDWVerified"];
-		
-		if (sdwVerifiedSetting != nil)
-		{
-			self.sdwVerified = [sdwVerifiedSetting boolValue];
-		}	
-        
-		NSNumber *sdwSyncEnabledSetting = [self.sdwSyncDict objectForKey:@"SDWSyncEnabled"];
-		
-		if (sdwSyncEnabledSetting != nil)
-		{
-			self.sdwSyncEnabled = [sdwSyncEnabledSetting boolValue];
-		}	
-
-		NSNumber *sdwLastSyncTimeSetting = [self.sdwSyncDict objectForKey:@"SDWLastSyncTime"];
-		
-		if (sdwLastSyncTimeSetting != nil)
-		{
-			self.sdwLastSyncTime = [NSDate dateWithTimeIntervalSince1970:[sdwLastSyncTimeSetting doubleValue]];
-		}	
-
-		NSNumber *sdwLastBackupTimeSetting = [self.sdwSyncDict objectForKey:@"SDWLastBackupTime"];
-		
-		if (sdwLastBackupTimeSetting != nil)
-		{
-			self.sdwLastBackupTime = [NSDate dateWithTimeIntervalSince1970:[sdwLastBackupTimeSetting doubleValue]];
-		}
         
         [self loadFilterPresets];
         
@@ -1035,6 +454,7 @@ extern BOOL _isiPad;
 	copy.dayManagerEndTime = dayManagerEndTime;
 	
 	copy.ekAutoSyncEnabled = ekAutoSyncEnabled;
+    copy.rmdSyncEnabled = rmdSyncEnabled;
 	copy.syncWindowStart = syncWindowStart;
 	copy.syncWindowEnd = syncWindowEnd;
 	copy.syncDirection = syncDirection;
@@ -1108,6 +528,7 @@ extern BOOL _isiPad;
     self.autoPushEnabled = settings.autoPushEnabled;
     
     self.ekSyncEnabled = settings.ekSyncEnabled;
+    self.rmdSyncEnabled = settings.rmdSyncEnabled;
 	self.ekAutoSyncEnabled = settings.ekAutoSyncEnabled;	
 	self.syncWindowStart = settings.syncWindowStart;
 	self.syncWindowEnd = settings.syncWindowEnd;
@@ -1130,149 +551,15 @@ extern BOOL _isiPad;
 		self.updateTime = [NSDate date];	
 	}
 	
-	isExternalUpdate = NO;    
-	
-	NSNumber *skinSetting = [NSNumber numberWithInt:self.skinStyle];	
-	[settingDict setValue:skinSetting forKey:@"SkinStyle"];	
-	
-	NSNumber *weekStartSetting = [NSNumber numberWithInt:self.weekStart];	
-	[settingDict setValue:weekStartSetting forKey:@"WeekStart"];	
-
-	NSNumber *landscapeModeEnableSetting = [NSNumber numberWithInt:(self.landscapeModeEnable?1:0)];	
-	[settingDict setValue:landscapeModeEnableSetting forKey:@"LandscapeModeEnable"];	
-
-	NSNumber *tabBarAutoHideSetting = [NSNumber numberWithBool:self.tabBarAutoHide];
-	[settingDict setValue:tabBarAutoHideSetting forKey:@"TabBarAutoHide"];	
-
-	NSNumber *snoozeDurationSetting = [NSNumber numberWithInt:self.snoozeDuration];
-	[settingDict setValue:snoozeDurationSetting forKey:@"SnoozeDuration"];
-	
-	NSNumber *taskDurationSetting = [NSNumber numberWithInt:self.taskDuration];
-	[settingDict setValue:taskDurationSetting forKey:@"TaskDuration"];
-	
-	NSNumber *taskDefaultProjectSetting = [NSNumber numberWithInt:self.taskDefaultProject];
-	[settingDict setValue:taskDefaultProjectSetting forKey:@"TaskDefaultProject"];
-	
-	NSNumber *eventCombinationSetting = [NSNumber numberWithInt:self.eventCombination];
-	[settingDict setValue:eventCombinationSetting forKey:@"EventCombination"];
-	
-	NSNumber *movableAsEventSetting = [NSNumber numberWithInt:self.movableAsEvent];
-	[settingDict setValue:movableAsEventSetting forKey:@"MovableAsEvent"];
-
-	NSNumber *newTaskPlacementSetting = [NSNumber numberWithInt:self.newTaskPlacement];
-	[settingDict setValue:newTaskPlacementSetting forKey:@"NewTaskPlacement"];
-	
-	NSNumber *minimumSplitSizeSetting = [NSNumber numberWithInt:self.minimumSplitSize];
-	[settingDict setValue:minimumSplitSizeSetting forKey:@"MinimumSplitSize"];
-
-	NSNumber *mustDoDaysSetting = [NSNumber numberWithInt:self.mustDoDays];
-	[settingDict setValue:mustDoDaysSetting forKey:@"MustDoDays"];
-    
-	NSNumber *hideFutureTasksSetting = [NSNumber numberWithBool:self.hideFutureTasks];
-	[settingDict setValue:hideFutureTasksSetting forKey:@"HideFutureTasks"];  
-	
-	[settingDict setValue:self.weekdayStartTime forKey:@"WeekdayStartTime"];	
-	[settingDict setValue:self.weekdayEndTime forKey:@"WeekdayEndTime"];	
-	[settingDict setValue:self.weekendStartTime forKey:@"WeekendStartTime"];	
-	[settingDict setValue:self.weekendEndTime forKey:@"WeekendEndTime"];
-	
-	NSNumber *syncEnabledSetting = [NSNumber numberWithBool:self.syncEnabled];
-	[settingDict setValue:syncEnabledSetting forKey:@"SyncEnabled"];
-	NSNumber *autoSyncEnabledSetting = [NSNumber numberWithBool:self.autoSyncEnabled];
-	[settingDict setValue:autoSyncEnabledSetting forKey:@"AutoSyncEnabled"];
-	NSNumber *autoPushEnabledSetting = [NSNumber numberWithBool:self.autoPushEnabled];
-	[settingDict setValue:autoPushEnabledSetting forKey:@"AutoPushEnabled"];
-
-    
-	NSNumber *ekAutoSyncEnabledSetting = [NSNumber numberWithBool:self.ekAutoSyncEnabled];
-	[settingDict setValue:ekAutoSyncEnabledSetting forKey:@"EKAutoSyncEnabled"];	
-
-	NSNumber *ekSyncEnabledSetting = [NSNumber numberWithBool:self.ekSyncEnabled];	
-	[settingDict setValue:ekSyncEnabledSetting forKey:@"EKSyncEnabled"];	
-	
-	NSNumber *syncWindowStartSetting = [NSNumber numberWithInt:self.syncWindowStart];
-	[settingDict setValue:syncWindowStartSetting forKey:@"SyncWindowStart"];	
-	
-	NSNumber *syncWindowEndSetting = [NSNumber numberWithInt:self.syncWindowEnd];	
-	[settingDict setValue:syncWindowEndSetting forKey:@"SyncWindowEnd"];
-	
-	NSNumber *syncDirectionSetting = [NSNumber numberWithInt:self.syncDirection];	
-	[settingDict setValue:syncDirectionSetting forKey:@"SyncDirection"];	
-
-	NSNumber *deleteWarningSetting = [NSNumber numberWithInt:(self.deleteWarning?1:0)];	
-	[settingDict setValue:deleteWarningSetting forKey:@"DeleteWarning"];	
-
-	NSNumber *doneWarningSetting = [NSNumber numberWithInt:(self.doneWarning?1:0)];	
-	[settingDict setValue:doneWarningSetting forKey:@"DoneWarning"];
-
-	NSNumber *hideWarningSetting = [NSNumber numberWithInt:(self.hideWarning?1:0)];	
-	[settingDict setValue:hideWarningSetting forKey:@"HideWarning"];
-    
-	if (self.updateTime != nil)
-	{
-		NSNumber *updateTimeSetting = [NSNumber numberWithDouble:[self.updateTime timeIntervalSince1970]];
-		[self.settingDict setValue:updateTimeSetting forKey:@"UpdateTime"];
-	}    
+	isExternalUpdate = NO;
 	
 	[self saveSettingDict];
 	
-	[dayManagerDict setValue:self.monStartTime forKey:@"MonStartTime"];	
-	[dayManagerDict setValue:self.tueStartTime forKey:@"TueStartTime"];
-	[dayManagerDict setValue:self.wedStartTime forKey:@"WedStartTime"];
-	[dayManagerDict setValue:self.thuStartTime forKey:@"ThuStartTime"];
-	[dayManagerDict setValue:self.friStartTime forKey:@"FriStartTime"];
-	[dayManagerDict setValue:self.satStartTime forKey:@"SatStartTime"];	
-	[dayManagerDict setValue:self.sunStartTime forKey:@"SunStartTime"];
-	
-	[dayManagerDict setValue:self.monEndTime forKey:@"MonEndTime"];	
-	[dayManagerDict setValue:self.tueEndTime forKey:@"TueEndTime"];
-	[dayManagerDict setValue:self.wedEndTime forKey:@"WedEndTime"];
-	[dayManagerDict setValue:self.thuEndTime forKey:@"ThuEndTime"];
-	[dayManagerDict setValue:self.friEndTime forKey:@"FriEndTime"];
-	[dayManagerDict setValue:self.satEndTime forKey:@"SatEndTime"];	
-	[dayManagerDict setValue:self.sunEndTime forKey:@"SunEndTime"];
-
 	[self saveDayManagerDict];
     
-	NSNumber *tdAutoSyncEnabledSetting = [NSNumber numberWithBool:self.tdAutoSyncEnabled];	
-	[self.toodledoSyncDict setValue:tdAutoSyncEnabledSetting forKey:@"TDAutoSyncEnabled"];
-    
-	NSNumber *tdSyncEnabledSetting = [NSNumber numberWithBool:self.tdSyncEnabled];	
-	[self.toodledoSyncDict setValue:tdSyncEnabledSetting forKey:@"TDSyncEnabled"];
-	
-	NSNumber *tdVerifiedSetting = [NSNumber numberWithBool:self.tdVerified];	
-	[self.toodledoSyncDict setValue:tdVerifiedSetting forKey:@"TDVerified"];
-
-	[self.toodledoSyncDict setValue:self.tdEmail forKey:@"Email"];
-	
-	NSString *encodedPwd = [NSDataBase64 base64Encoding:[self.tdPassword dataUsingEncoding:NSUTF8StringEncoding]]; 
-	[self.toodledoSyncDict setValue:encodedPwd forKey:@"Pwd"];
-	
-	NSNumber *tdSyncResetSetting = [NSNumber numberWithInt:(self.tdSyncReset?1:0)];	
-	[self.toodledoSyncDict setValue:tdSyncResetSetting forKey:@"Reset"];
-	
 	[self saveToodledoSyncDict];
-	
-    /*
-	[self.sdwSyncDict setValue:self.sdwEmail forKey:@"Email"];
-	
-	encodedPwd = [NSDataBase64 base64Encoding:[self.sdwPassword dataUsingEncoding:NSUTF8StringEncoding]]; 
-	[self.sdwSyncDict setValue:encodedPwd forKey:@"Pwd"];
     
-    NSNumber *syncSourceSetting = [NSNumber numberWithInt:self.syncSource];	
-	[self.sdwSyncDict setValue:syncSourceSetting forKey:@"SyncSource"];
-    */
-    
-    NSNumber *sdwAutoSyncEnabledSetting = [NSNumber numberWithBool:self.sdwAutoSyncEnabled];	
-	[self.sdwSyncDict setValue:sdwAutoSyncEnabledSetting forKey:@"SDWAutoSyncEnabled"];
-
-    NSNumber *sdwSyncEnabledSetting = [NSNumber numberWithBool:self.sdwSyncEnabled];	
-	[self.sdwSyncDict setValue:sdwSyncEnabledSetting forKey:@"SDWSyncEnabled"];
-    
-    /*
-    NSNumber *sdwVerifiedSetting = [NSNumber numberWithBool:self.sdwVerified];	
-	[self.sdwSyncDict setValue:sdwVerifiedSetting forKey:@"SDWVerified"];
-    */
+    [self saveEKSyncDict];
     
 	[self saveSDWSyncDict];
     
@@ -1306,6 +593,227 @@ extern BOOL _isiPad;
 	{
 		self.settingDict = [NSMutableDictionary dictionaryWithCapacity:2];
 	}
+    else
+    {
+		NSNumber *skinSetting = [self.settingDict objectForKey:@"SkinStyle"];
+		
+		if (skinSetting != nil)
+		{
+			self.skinStyle = [skinSetting intValue];
+		}
+		
+		NSNumber *weekStartSetting = [self.settingDict objectForKey:@"WeekStart"];
+		
+		if (weekStartSetting != nil)
+		{
+			self.weekStart = [weekStartSetting intValue];
+		}
+        
+        [[NSCalendar currentCalendar] setFirstWeekday:self.weekStart==0?1:2];
+        
+		NSNumber *landscapeModeEnableSetting = [self.settingDict objectForKey:@"LandscapeModeEnable"];
+		
+		if (landscapeModeEnableSetting != nil)
+		{
+			self.landscapeModeEnable = ([landscapeModeEnableSetting intValue] == 1);
+		}
+        
+		NSNumber *tabBarAutoHideSetting = [self.settingDict objectForKey:@"TabBarAutoHide"];
+		
+		if (tabBarAutoHideSetting != nil)
+		{
+			self.tabBarAutoHide = [tabBarAutoHideSetting boolValue];
+		}
+        
+		NSNumber *filterTabSetting = [self.settingDict objectForKey:@"FilterTab"];
+		
+		if (filterTabSetting != nil)
+		{
+			self.filterTab = [filterTabSetting intValue];
+		}
+        
+		NSNumber *snoozeDurationSetting = [self.settingDict objectForKey:@"SnoozeDuration"];
+		
+		if (snoozeDurationSetting != nil)
+		{
+			self.snoozeDuration = [snoozeDurationSetting intValue];
+		}
+		
+		NSNumber *taskDurationSetting = [self.settingDict objectForKey:@"TaskDuration"];
+		
+		if (taskDurationSetting != nil)
+		{
+			self.taskDuration = [taskDurationSetting intValue];
+		}
+		
+		NSNumber *taskDefaultProjectSetting = [self.settingDict objectForKey:@"TaskDefaultProject"];
+		
+		if (taskDefaultProjectSetting != nil)
+		{
+			self.taskDefaultProject = [taskDefaultProjectSetting intValue];
+		}
+		
+		NSNumber *eventCombinationSetting = [self.settingDict objectForKey:@"EventCombination"];
+		
+		if (eventCombinationSetting != nil)
+		{
+			self.eventCombination = [eventCombinationSetting intValue];
+		}
+        
+		NSNumber *hideFutureTasksSetting = [self.settingDict objectForKey:@"HideFutureTasks"];
+		
+		if (hideFutureTasksSetting != nil)
+		{
+			self.hideFutureTasks = [hideFutureTasksSetting boolValue];
+		}
+        
+		NSNumber *minimumSplitSizeSetting = [self.settingDict objectForKey:@"MinimumSplitSize"];
+		
+		if (minimumSplitSizeSetting != nil)
+		{
+			self.minimumSplitSize = [minimumSplitSizeSetting intValue];
+		}
+		
+		NSString *wdStartTime = [self.settingDict objectForKey:@"WeekdayStartTime"];
+		
+		if (wdStartTime != nil)
+		{
+			self.weekdayStartTime = wdStartTime;
+		}
+		
+		NSString *wdEndTime = [self.settingDict objectForKey:@"WeekdayEndTime"];
+		
+		if (wdStartTime != nil)
+		{
+			self.weekdayEndTime = wdEndTime;
+		}
+		
+		NSString *weStartTime = [self.settingDict objectForKey:@"WeekendStartTime"];
+		
+		if (weStartTime != nil)
+		{
+			self.weekendStartTime = weStartTime;
+		}
+		
+		NSString *weEndTime = [self.settingDict objectForKey:@"WeekendEndTime"];
+		
+		if (weEndTime != nil)
+		{
+			self.weekendEndTime = weEndTime;
+		}
+        
+        NSNumber *syncEnabledSetting = [self.settingDict objectForKey:@"SyncEnabled"];
+		
+		if (syncEnabledSetting != nil)
+		{
+			self.syncEnabled = [syncEnabledSetting boolValue];
+		}
+        
+        NSNumber *autoSyncEnabledSetting = [self.settingDict objectForKey:@"AutoSyncEnabled"];
+		
+		if (autoSyncEnabledSetting != nil)
+		{
+			self.autoSyncEnabled = [autoSyncEnabledSetting boolValue];
+		}
+        
+        NSNumber *autoPushEnabledSetting = [self.settingDict objectForKey:@"AutoPushEnabled"];
+		
+		if (autoPushEnabledSetting != nil)
+		{
+			self.autoPushEnabled = [autoPushEnabledSetting boolValue];
+		}
+        
+		NSNumber *ekAutoSyncEnabledSetting = [self.settingDict objectForKey:@"EKAutoSyncEnabled"];
+		
+		if (ekAutoSyncEnabledSetting != nil)
+		{
+			self.ekAutoSyncEnabled = [ekAutoSyncEnabledSetting boolValue];
+		}
+		
+		NSNumber *ekSyncEnabledSetting = [self.settingDict objectForKey:@"EKSyncEnabled"];
+		
+		if (ekSyncEnabledSetting != nil)
+		{
+			self.ekSyncEnabled = [ekSyncEnabledSetting boolValue];
+		}
+        
+		NSNumber *syncWindowStartSetting = [self.settingDict objectForKey:@"SyncWindowStart"];
+		
+		if (syncWindowStartSetting != nil)
+		{
+			self.syncWindowStart = [syncWindowStartSetting intValue];
+		}
+		
+		NSNumber *syncWindowEndSetting = [self.settingDict objectForKey:@"SyncWindowEnd"];
+		
+		if (syncWindowEndSetting != nil)
+		{
+			self.syncWindowEnd = [syncWindowEndSetting intValue];
+		}
+		
+		NSNumber *syncDirectionSetting = [self.settingDict objectForKey:@"SyncDirection"];
+		
+		if (syncDirectionSetting != nil)
+		{
+			self.syncDirection = [syncDirectionSetting intValue];
+		}
+		
+		NSNumber *deleteWarningSetting = [self.settingDict objectForKey:@"DeleteWarning"];
+		
+		if (deleteWarningSetting != nil)
+		{
+			self.deleteWarning = ([deleteWarningSetting intValue] == 1);
+		}
+		
+		NSNumber *doneWarningSetting = [self.settingDict objectForKey:@"DoneWarning"];
+		
+		if (doneWarningSetting != nil)
+		{
+			self.doneWarning = ([doneWarningSetting intValue] == 1);
+		}
+        
+		NSNumber *hideWarningSetting = [self.settingDict objectForKey:@"HideWarning"];
+		
+		if (hideWarningSetting != nil)
+		{
+			self.hideWarning = ([hideWarningSetting intValue] == 1);
+		}
+		
+		NSNumber *weekPlannerRowsSetting = [self.settingDict objectForKey:@"WeekPlannerRows"];
+		
+		if (weekPlannerRowsSetting != nil)
+		{
+			self.weekPlannerRows = [weekPlannerRowsSetting intValue];
+		}
+        
+		NSNumber *mustDoDaysSetting = [self.settingDict objectForKey:@"MustDoDays"];
+		
+		if (mustDoDaysSetting != nil)
+		{
+			self.mustDoDays = [mustDoDaysSetting intValue];
+		}
+        
+		NSNumber *updateTimeSetting = [self.settingDict objectForKey:@"UpdateTime"];
+		
+		if (updateTimeSetting != nil)
+		{
+			self.updateTime = [NSDate dateWithTimeIntervalSince1970:[updateTimeSetting doubleValue]];
+		}
+        
+        NSString *dbVersionSetting = [self.settingDict objectForKey:@"DBVersion"];
+		
+		if (dbVersionSetting != nil)
+		{
+			self.dbVersion = dbVersionSetting;
+		}
+        
+        NSString *appVersionSetting = [self.settingDict objectForKey:@"AppVersion"];
+		
+		if (appVersionSetting != nil)
+		{
+			self.appVersion = appVersionSetting;
+		}
+    }
 }
 
 - (void) loadDayManagerDict
@@ -1316,6 +824,128 @@ extern BOOL _isiPad;
 	{
 		self.dayManagerDict = [NSMutableDictionary dictionaryWithCapacity:2];
 	}
+    else
+    {
+		NSString *dayStartTime = [self.dayManagerDict objectForKey:@"DayManagerStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.dayManagerStartTime = dayStartTime;
+		}
+		
+		NSString *dayEndTime = [self.dayManagerDict objectForKey:@"DayManagerEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.dayManagerEndTime = dayEndTime;
+		}
+		
+		NSNumber *dayUpdateTimeSetting = [self.dayManagerDict objectForKey:@"DayManagerUpdateTime"];
+		
+		if (dayUpdateTimeSetting != nil)
+		{
+			self.dayManagerUpdateTime = [NSDate dateWithTimeIntervalSince1970:[dayUpdateTimeSetting doubleValue]];
+		}
+		
+		dayStartTime = [self.dayManagerDict objectForKey:@"MonStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.monStartTime = dayStartTime;
+		}
+		
+		dayEndTime = [self.dayManagerDict objectForKey:@"MonEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.monEndTime = dayEndTime;
+		}
+        
+		dayStartTime = [self.dayManagerDict objectForKey:@"TueStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.tueStartTime = dayStartTime;
+		}
+		
+		dayEndTime = [self.dayManagerDict objectForKey:@"TueEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.tueEndTime = dayEndTime;
+		}
+		
+		dayStartTime = [self.dayManagerDict objectForKey:@"WedStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.wedStartTime = dayStartTime;
+		}
+		
+		dayEndTime = [self.dayManagerDict objectForKey:@"WedEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.wedEndTime = dayEndTime;
+		}
+		
+		dayStartTime = [self.dayManagerDict objectForKey:@"ThuStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.thuStartTime = dayStartTime;
+		}
+		
+		dayEndTime = [self.dayManagerDict objectForKey:@"ThuEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.thuEndTime = dayEndTime;
+		}
+		
+		dayStartTime = [self.dayManagerDict objectForKey:@"FriStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.friStartTime = dayStartTime;
+		}
+		
+		dayEndTime = [self.dayManagerDict objectForKey:@"FriEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.friEndTime = dayEndTime;
+		}
+		
+		dayStartTime = [self.dayManagerDict objectForKey:@"SatStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.satStartTime = dayStartTime;
+		}
+		
+		dayEndTime = [self.dayManagerDict objectForKey:@"SatEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.satEndTime = dayEndTime;
+		}
+		
+		dayStartTime = [self.dayManagerDict objectForKey:@"SunStartTime"];
+		
+		if (dayStartTime != nil)
+		{
+			self.sunStartTime = dayStartTime;
+		}
+		
+		dayEndTime = [self.dayManagerDict objectForKey:@"SunEndTime"];
+		
+		if (dayEndTime != nil)
+		{
+			self.sunEndTime = dayEndTime;
+		}		
+        
+    }
 }
 
 - (void) loadHintDict
@@ -1326,6 +956,148 @@ extern BOOL _isiPad;
 	{
 		self.hintDict = [NSMutableDictionary dictionaryWithCapacity:2];
 	}
+    else
+    {
+		NSNumber *eventMapHintSetting = [self.hintDict objectForKey:@"EventMapHint"];
+		
+		if (eventMapHintSetting != nil)
+		{
+			self.eventMapHint = ([eventMapHintSetting intValue] == 1);
+		}
+		
+		NSNumber *smartListHintSetting = [self.hintDict objectForKey:@"SmartListHint"];
+		
+		if (smartListHintSetting != nil)
+		{
+			self.smartListHint = ([smartListHintSetting intValue] == 1);
+		}
+        
+		NSNumber *noteHintSetting = [self.hintDict objectForKey:@"NoteHint"];
+		
+		if (noteHintSetting != nil)
+		{
+			self.noteHint = ([noteHintSetting intValue] == 1);
+		}
+		
+		NSNumber *weekViewHintSetting = [self.hintDict objectForKey:@"WeekViewHint"];
+		
+		if (weekViewHintSetting != nil)
+		{
+			self.weekViewHint = ([weekViewHintSetting intValue] == 1);
+		}
+		
+		NSNumber *weekDayQuickAddHintSetting = [self.hintDict objectForKey:@"WeekDayQuickAddHint"];
+		
+		if (weekDayQuickAddHintSetting != nil)
+		{
+			self.weekDayQuickAddHint = ([weekDayQuickAddHintSetting intValue] == 1);
+		}
+		
+		NSNumber *calendarHintSetting = [self.hintDict objectForKey:@"CalendarHint"];
+		
+		if (calendarHintSetting != nil)
+		{
+			self.calendarHint = ([calendarHintSetting intValue] == 1);
+		}
+		
+		NSNumber *multiSelectHintSetting = [self.hintDict objectForKey:@"MultiSelectHint"];
+		
+		if (multiSelectHintSetting != nil)
+		{
+			self.multiSelectHint = ([multiSelectHintSetting intValue] == 1);
+		}
+		
+		NSNumber *monthViewHintSetting = [self.hintDict objectForKey:@"MonthViewHint"];
+		
+		if (monthViewHintSetting != nil)
+		{
+			self.monthViewHint = ([monthViewHintSetting intValue] == 1);
+		}
+        
+		NSNumber *rtDoneHintSetting = [self.hintDict objectForKey:@"RTDoneHint"];
+		
+		if (rtDoneHintSetting != nil)
+		{
+			self.rtDoneHint = ([rtDoneHintSetting intValue] == 1);
+		}
+		
+		NSNumber *syncMatchHintSetting = [self.hintDict objectForKey:@"SyncMatchHint"];
+		
+		if (syncMatchHintSetting != nil)
+		{
+			self.syncMatchHint = ([syncMatchHintSetting intValue] == 1);
+		}
+        
+		NSNumber *projectHintSetting = [self.hintDict objectForKey:@"ProjectHint"];
+		
+		if (projectHintSetting != nil)
+		{
+			self.projectHint = ([projectHintSetting intValue] == 1);
+		}
+        
+		NSNumber *projectDetailHintSetting = [self.hintDict objectForKey:@"ProjectDetailHint"];
+		
+		if (projectDetailHintSetting != nil)
+		{
+			self.projectDetailHint = ([projectDetailHintSetting intValue] == 1);
+		}
+		
+		NSNumber *firstTimeEventSyncHintSetting = [self.hintDict objectForKey:@"FirstTimeEventSyncHint"];
+		
+		if (firstTimeEventSyncHintSetting != nil)
+		{
+			self.firstTimeEventSyncHint = ([firstTimeEventSyncHintSetting intValue] == 1);
+		}
+        
+		NSNumber *workingTimeHintSetting = [self.hintDict objectForKey:@"WorkingTimeHint"];
+		
+		if (workingTimeHintSetting != nil)
+		{
+			self.workingTimeHint = ([workingTimeHintSetting intValue] == 1);
+		}
+        
+		NSNumber *starTabHintSetting = [self.hintDict objectForKey:@"StarTabHint"];
+		
+		if (starTabHintSetting != nil)
+		{
+			self.starTabHint = ([starTabHintSetting intValue] == 1);
+		}
+        
+		NSNumber *gtdoTabHintSetting = [self.hintDict objectForKey:@"GTDoTabHint"];
+		
+		if (gtdoTabHintSetting != nil)
+		{
+			self.gtdoTabHint = ([gtdoTabHintSetting intValue] == 1);
+		}
+        
+		NSNumber *tagHintSetting = [self.hintDict objectForKey:@"TagHint"];
+		
+		if (tagHintSetting != nil)
+		{
+			self.tagHint = ([tagHintSetting intValue] == 1);
+		}
+        
+		NSNumber *featureHintSetting = [self.hintDict objectForKey:@"FeatureHint"];
+		
+		if (featureHintSetting != nil)
+		{
+			self.featureHint = ([featureHintSetting intValue] == 1);
+		}
+        
+		NSNumber *transparentHintSetting = [self.hintDict objectForKey:@"TransparentHint"];
+		
+		if (transparentHintSetting != nil)
+		{
+			self.transparentHint = ([transparentHintSetting intValue] == 1);
+		}
+        
+		NSNumber *msdBackupHintSetting = [self.hintDict objectForKey:@"MSDBackupHint"];
+		
+		if (msdBackupHintSetting != nil)
+		{
+			self.msdBackupHint = [msdBackupHintSetting boolValue];
+		}        
+    }
 }
 
 - (void) loadToodledoSyncDict
@@ -1336,6 +1108,75 @@ extern BOOL _isiPad;
 	{
 		self.toodledoSyncDict = [NSMutableDictionary dictionaryWithCapacity:5];
 	}
+    else
+    {
+		NSNumber *tdAutoSyncEnabledSetting = [self.toodledoSyncDict objectForKey:@"TDAutoSyncEnabled"];
+		
+		if (tdAutoSyncEnabledSetting != nil)
+		{
+			self.tdAutoSyncEnabled = [tdAutoSyncEnabledSetting boolValue];
+		}
+        
+		NSNumber *tdSyncEnabledSetting = [self.toodledoSyncDict objectForKey:@"TDSyncEnabled"];
+		
+		if (tdSyncEnabledSetting != nil)
+		{
+			self.tdSyncEnabled = [tdSyncEnabledSetting boolValue];
+		}
+        
+		NSNumber *tdVerifiedSetting = [self.toodledoSyncDict objectForKey:@"TDVerified"];
+		
+		if (tdVerifiedSetting != nil)
+		{
+			self.tdVerified = [tdVerifiedSetting boolValue];
+		}
+		
+		NSString *tdEmailSetting = [self.toodledoSyncDict objectForKey:@"Email"];
+		
+		if (tdEmailSetting != nil)
+		{
+			self.tdEmail = tdEmailSetting;
+		}
+        
+		NSString *tdPwdSetting = [self.toodledoSyncDict objectForKey:@"Pwd"];
+		
+		if (tdPwdSetting != nil)
+		{
+			NSString *pwd = [[NSString alloc] initWithData:[NSDataBase64 dataWithBase64EncodedString:tdPwdSetting] encoding:NSUTF8StringEncoding];
+			
+			self.tdPassword = pwd;
+			
+			[pwd release];
+		}
+		
+		NSNumber *tdSyncResetSetting = [self.toodledoSyncDict objectForKey:@"Reset"];
+		
+		if (tdSyncResetSetting != nil)
+		{
+			self.tdSyncReset = ([tdSyncResetSetting intValue] == 1);
+		}
+        
+		NSNumber *tdLastAddEditTimeSetting = [self.toodledoSyncDict objectForKey:@"LastAddEditTime"];
+		
+		if (tdLastAddEditTimeSetting != nil)
+		{
+			self.tdLastAddEditTime = [NSDate dateWithTimeIntervalSince1970:[tdLastAddEditTimeSetting doubleValue]];
+		}
+        
+		NSNumber *tdLastDeleteTimeSetting = [self.toodledoSyncDict objectForKey:@"LastDeleteTime"];
+		
+		if (tdLastDeleteTimeSetting != nil)
+		{
+			self.tdLastDeleteTime = [NSDate dateWithTimeIntervalSince1970:[tdLastDeleteTimeSetting doubleValue]];
+		}
+        
+		NSNumber *tdLastSyncTimeSetting = [self.toodledoSyncDict objectForKey:@"LastSyncTime"];
+		
+		if (tdLastSyncTimeSetting != nil)
+		{
+			self.tdLastSyncTime = [NSDate dateWithTimeIntervalSince1970:[tdLastSyncTimeSetting doubleValue]];
+		}
+    }
 }
 
 - (void) loadSDWSyncDict
@@ -1346,7 +1187,117 @@ extern BOOL _isiPad;
 	{
 		self.sdwSyncDict = [NSMutableDictionary dictionaryWithCapacity:5];
 	}
+    else
+    {
+		NSString *sdwEmailSetting = [self.sdwSyncDict objectForKey:@"Email"];
+		
+		if (sdwEmailSetting != nil)
+		{
+			self.sdwEmail = sdwEmailSetting;
+		}
+        
+		NSString *sdwPwdSetting = [self.sdwSyncDict objectForKey:@"Pwd"];
+		
+		if (sdwPwdSetting != nil)
+		{
+			NSString *pwd = [[NSString alloc] initWithData:[NSDataBase64 dataWithBase64EncodedString:sdwPwdSetting] encoding:NSUTF8StringEncoding];
+			
+			self.sdwPassword = pwd;
+			
+			[pwd release];
+		}
+        
+		NSString *sdwDeviceUUIDSetting = [self.sdwSyncDict objectForKey:@"SDWDeviceUUID"];
+		
+		if (sdwDeviceUUIDSetting != nil)
+		{
+			self.sdwDeviceUUID = sdwDeviceUUIDSetting;
+		}
+        
+		NSNumber *syncSourceSetting = [self.sdwSyncDict objectForKey:@"SyncSource"];
+		
+		if (syncSourceSetting != nil)
+		{
+			self.syncSource = [syncSourceSetting intValue];
+		}
+        
+		NSNumber *sdwAutoSyncEnabledSetting = [self.sdwSyncDict objectForKey:@"SDWAutoSyncEnabled"];
+		
+		if (sdwAutoSyncEnabledSetting != nil)
+		{
+			self.sdwAutoSyncEnabled = [sdwAutoSyncEnabledSetting boolValue];
+		}
+        
+		NSNumber *sdwVerifiedSetting = [self.sdwSyncDict objectForKey:@"SDWVerified"];
+		
+		if (sdwVerifiedSetting != nil)
+		{
+			self.sdwVerified = [sdwVerifiedSetting boolValue];
+		}
+        
+		NSNumber *sdwSyncEnabledSetting = [self.sdwSyncDict objectForKey:@"SDWSyncEnabled"];
+		
+		if (sdwSyncEnabledSetting != nil)
+		{
+			self.sdwSyncEnabled = [sdwSyncEnabledSetting boolValue];
+		}
+        
+		NSNumber *sdwLastSyncTimeSetting = [self.sdwSyncDict objectForKey:@"SDWLastSyncTime"];
+		
+		if (sdwLastSyncTimeSetting != nil)
+		{
+			self.sdwLastSyncTime = [NSDate dateWithTimeIntervalSince1970:[sdwLastSyncTimeSetting doubleValue]];
+		}
+        
+		NSNumber *sdwLastBackupTimeSetting = [self.sdwSyncDict objectForKey:@"SDWLastBackupTime"];
+		
+		if (sdwLastBackupTimeSetting != nil)
+		{
+			self.sdwLastBackupTime = [NSDate dateWithTimeIntervalSince1970:[sdwLastBackupTimeSetting doubleValue]];
+		}
+    }
 }
+
+- (void) loadEKSyncDict
+{
+	self.ekSyncDict = [NSMutableDictionary dictionaryWithContentsOfFile:[Common getFilePath:@"EKSync.dat"]];
+	
+	if (self.ekSyncDict == nil)
+	{
+		self.ekSyncDict = [NSMutableDictionary dictionaryWithCapacity:5];
+	}
+    else
+    {
+ 		NSNumber *ekAutoSyncEnabledSetting = [self.ekSyncDict objectForKey:@"EKAutoSyncEnabled"];
+		
+		if (ekAutoSyncEnabledSetting != nil)
+		{
+			self.ekAutoSyncEnabled = [ekAutoSyncEnabledSetting boolValue];
+		}
+		
+		NSNumber *ekSyncEnabledSetting = [self.ekSyncDict objectForKey:@"EKSyncEnabled"];
+		
+		if (ekSyncEnabledSetting != nil)
+		{
+			self.ekSyncEnabled = [ekSyncEnabledSetting boolValue];
+		}
+        
+		NSNumber *rmdSyncEnabledSetting = [self.ekSyncDict objectForKey:@"ReminderSyncEnabled"];
+		
+		if (rmdSyncEnabledSetting != nil)
+		{
+			self.rmdSyncEnabled = [rmdSyncEnabledSetting boolValue];
+		}
+        
+		NSNumber *rmdLastSyncTimeSetting = [self.ekSyncDict objectForKey:@"ReminderLastSyncTime"];
+		
+		if (rmdLastSyncTimeSetting != nil)
+		{
+			self.rmdLastSyncTime = [NSDate dateWithTimeIntervalSince1970:[rmdLastSyncTimeSetting doubleValue]];
+		}
+    }
+}
+
 
 - (void) loadFilterPresets
 {
@@ -1362,27 +1313,232 @@ extern BOOL _isiPad;
 
 - (void) saveSettingDict
 {
+	NSNumber *skinSetting = [NSNumber numberWithInt:self.skinStyle];
+	[settingDict setValue:skinSetting forKey:@"SkinStyle"];
+	
+	NSNumber *weekStartSetting = [NSNumber numberWithInt:self.weekStart];
+	[settingDict setValue:weekStartSetting forKey:@"WeekStart"];
+    
+	NSNumber *landscapeModeEnableSetting = [NSNumber numberWithInt:(self.landscapeModeEnable?1:0)];
+	[settingDict setValue:landscapeModeEnableSetting forKey:@"LandscapeModeEnable"];
+    
+	NSNumber *tabBarAutoHideSetting = [NSNumber numberWithBool:self.tabBarAutoHide];
+	[settingDict setValue:tabBarAutoHideSetting forKey:@"TabBarAutoHide"];
+    
+	NSNumber *snoozeDurationSetting = [NSNumber numberWithInt:self.snoozeDuration];
+	[settingDict setValue:snoozeDurationSetting forKey:@"SnoozeDuration"];
+	
+	NSNumber *taskDurationSetting = [NSNumber numberWithInt:self.taskDuration];
+	[settingDict setValue:taskDurationSetting forKey:@"TaskDuration"];
+	
+	NSNumber *taskDefaultProjectSetting = [NSNumber numberWithInt:self.taskDefaultProject];
+	[settingDict setValue:taskDefaultProjectSetting forKey:@"TaskDefaultProject"];
+	
+	NSNumber *eventCombinationSetting = [NSNumber numberWithInt:self.eventCombination];
+	[settingDict setValue:eventCombinationSetting forKey:@"EventCombination"];
+	
+	NSNumber *movableAsEventSetting = [NSNumber numberWithInt:self.movableAsEvent];
+	[settingDict setValue:movableAsEventSetting forKey:@"MovableAsEvent"];
+    
+	NSNumber *newTaskPlacementSetting = [NSNumber numberWithInt:self.newTaskPlacement];
+	[settingDict setValue:newTaskPlacementSetting forKey:@"NewTaskPlacement"];
+	
+	NSNumber *minimumSplitSizeSetting = [NSNumber numberWithInt:self.minimumSplitSize];
+	[settingDict setValue:minimumSplitSizeSetting forKey:@"MinimumSplitSize"];
+    
+	NSNumber *mustDoDaysSetting = [NSNumber numberWithInt:self.mustDoDays];
+	[settingDict setValue:mustDoDaysSetting forKey:@"MustDoDays"];
+    
+	NSNumber *hideFutureTasksSetting = [NSNumber numberWithBool:self.hideFutureTasks];
+	[settingDict setValue:hideFutureTasksSetting forKey:@"HideFutureTasks"];
+	
+	[settingDict setValue:self.weekdayStartTime forKey:@"WeekdayStartTime"];
+	[settingDict setValue:self.weekdayEndTime forKey:@"WeekdayEndTime"];
+	[settingDict setValue:self.weekendStartTime forKey:@"WeekendStartTime"];
+	[settingDict setValue:self.weekendEndTime forKey:@"WeekendEndTime"];
+	
+	NSNumber *syncEnabledSetting = [NSNumber numberWithBool:self.syncEnabled];
+	[settingDict setValue:syncEnabledSetting forKey:@"SyncEnabled"];
+	NSNumber *autoSyncEnabledSetting = [NSNumber numberWithBool:self.autoSyncEnabled];
+	[settingDict setValue:autoSyncEnabledSetting forKey:@"AutoSyncEnabled"];
+	NSNumber *autoPushEnabledSetting = [NSNumber numberWithBool:self.autoPushEnabled];
+	[settingDict setValue:autoPushEnabledSetting forKey:@"AutoPushEnabled"];
+    
+	NSNumber *ekAutoSyncEnabledSetting = [NSNumber numberWithBool:self.ekAutoSyncEnabled];
+	[settingDict setValue:ekAutoSyncEnabledSetting forKey:@"EKAutoSyncEnabled"];
+    
+	NSNumber *ekSyncEnabledSetting = [NSNumber numberWithBool:self.ekSyncEnabled];
+	[settingDict setValue:ekSyncEnabledSetting forKey:@"EKSyncEnabled"];
+    
+	NSNumber *rmdSyncEnabledSetting = [NSNumber numberWithBool:self.rmdSyncEnabled];
+	[settingDict setValue:rmdSyncEnabledSetting forKey:@"ReminderSyncEnabled"];
+	
+	NSNumber *syncWindowStartSetting = [NSNumber numberWithInt:self.syncWindowStart];
+	[settingDict setValue:syncWindowStartSetting forKey:@"SyncWindowStart"];
+	
+	NSNumber *syncWindowEndSetting = [NSNumber numberWithInt:self.syncWindowEnd];
+	[settingDict setValue:syncWindowEndSetting forKey:@"SyncWindowEnd"];
+	
+	NSNumber *syncDirectionSetting = [NSNumber numberWithInt:self.syncDirection];
+	[settingDict setValue:syncDirectionSetting forKey:@"SyncDirection"];
+    
+	NSNumber *deleteWarningSetting = [NSNumber numberWithInt:(self.deleteWarning?1:0)];
+	[settingDict setValue:deleteWarningSetting forKey:@"DeleteWarning"];
+    
+	NSNumber *doneWarningSetting = [NSNumber numberWithInt:(self.doneWarning?1:0)];
+	[settingDict setValue:doneWarningSetting forKey:@"DoneWarning"];
+    
+	NSNumber *hideWarningSetting = [NSNumber numberWithInt:(self.hideWarning?1:0)];
+	[settingDict setValue:hideWarningSetting forKey:@"HideWarning"];
+    
+	if (self.updateTime != nil)
+	{
+		NSNumber *updateTimeSetting = [NSNumber numberWithDouble:[self.updateTime timeIntervalSince1970]];
+		[self.settingDict setValue:updateTimeSetting forKey:@"UpdateTime"];
+	}
+    
 	[self.settingDict writeToFile:[Common getFilePath:@"Settings.dat"] atomically:YES];
 }
 
 - (void) saveDayManagerDict
 {
+	[dayManagerDict setValue:self.monStartTime forKey:@"MonStartTime"];
+	[dayManagerDict setValue:self.tueStartTime forKey:@"TueStartTime"];
+	[dayManagerDict setValue:self.wedStartTime forKey:@"WedStartTime"];
+	[dayManagerDict setValue:self.thuStartTime forKey:@"ThuStartTime"];
+	[dayManagerDict setValue:self.friStartTime forKey:@"FriStartTime"];
+	[dayManagerDict setValue:self.satStartTime forKey:@"SatStartTime"];
+	[dayManagerDict setValue:self.sunStartTime forKey:@"SunStartTime"];
+	
+	[dayManagerDict setValue:self.monEndTime forKey:@"MonEndTime"];
+	[dayManagerDict setValue:self.tueEndTime forKey:@"TueEndTime"];
+	[dayManagerDict setValue:self.wedEndTime forKey:@"WedEndTime"];
+	[dayManagerDict setValue:self.thuEndTime forKey:@"ThuEndTime"];
+	[dayManagerDict setValue:self.friEndTime forKey:@"FriEndTime"];
+	[dayManagerDict setValue:self.satEndTime forKey:@"SatEndTime"];
+	[dayManagerDict setValue:self.sunEndTime forKey:@"SunEndTime"];
+    
+    
 	[self.dayManagerDict writeToFile:[Common getFilePath:@"DayManager.dat"] atomically:YES];
 }
 
 - (void) saveHintDict
 {
+	NSNumber *eventMapHintSetting = [NSNumber numberWithInt:(self.eventMapHint?1:0)];
+	[self.hintDict setValue:eventMapHintSetting forKey:@"EventMapHint"];
+	
+	NSNumber *smartListHintSetting = [NSNumber numberWithInt:(self.smartListHint?1:0)];
+	[self.hintDict setValue:smartListHintSetting forKey:@"SmartListHint"];
+
+    NSNumber *noteHintSetting = [NSNumber numberWithInt:(self.noteHint?1:0)];
+	[self.hintDict setValue:noteHintSetting forKey:@"NoteHint"];
+		
+	NSNumber *weekViewHintSetting = [NSNumber numberWithInt:(self.weekViewHint?1:0)];
+	[self.hintDict setValue:weekViewHintSetting forKey:@"WeekViewHint"];
+    
+	NSNumber *weekDayQuickAddHintSetting = [NSNumber numberWithInt:(self.weekDayQuickAddHint?1:0)];
+	[self.hintDict setValue:weekDayQuickAddHintSetting forKey:@"WeekDayQuickAddHint"];
+	   
+	NSNumber *calendarHintSetting = [NSNumber numberWithInt:(self.calendarHint?1:0)];
+	[self.hintDict setValue:calendarHintSetting forKey:@"CalendarHint"];
+	
+	NSNumber *multiSelectHintSetting = [NSNumber numberWithInt:(self.multiSelectHint?1:0)];
+	[self.hintDict setValue:multiSelectHintSetting forKey:@"MultiSelectHint"];
+		
+	NSNumber *monthViewHintSetting = [NSNumber numberWithInt:(self.monthViewHint?1:0)];
+	[self.hintDict setValue:monthViewHintSetting forKey:@"MonthViewHint"];
+    
+	NSNumber *rtDoneHintSetting = [NSNumber numberWithInt:(self.rtDoneHint?1:0)];
+	[self.hintDict setValue:rtDoneHintSetting forKey:@"RTDoneHint"];
+	
+	NSNumber *syncMatchHintSetting = [NSNumber numberWithInt:(self.syncMatchHint?1:0)];
+	[self.hintDict setValue:syncMatchHintSetting forKey:@"SyncMatchHint"];
+	
+	NSNumber *projectHintSetting = [NSNumber numberWithInt:(self.projectHint?1:0)];
+	[self.hintDict setValue:projectHintSetting forKey:@"ProjectHint"];
+	
+	NSNumber *projectDetailHintSetting = [NSNumber numberWithInt:(self.projectDetailHint?1:0)];
+	[self.hintDict setValue:projectDetailHintSetting forKey:@"ProjectDetailHint"];
+	
+	NSNumber *firstTimeEventSyncHintSetting = [NSNumber numberWithInt:(self.firstTimeEventSyncHint?1:0)];
+	[self.hintDict setValue:firstTimeEventSyncHintSetting forKey:@"FirstTimeEventSyncHint"];
+	
+	NSNumber *workingTimeHintSetting = [NSNumber numberWithInt:(self.workingTimeHint?1:0)];
+	[self.hintDict setValue:workingTimeHintSetting forKey:@"WorkingTimeHint"];
+	
+	NSNumber *starTabHintSetting = [NSNumber numberWithInt:(self.starTabHint?1:0)];
+	[self.hintDict setValue:starTabHintSetting forKey:@"StarTabHint"];
+	
+	NSNumber *gtdoTabHintSetting = [NSNumber numberWithInt:(self.gtdoTabHint?1:0)];
+	[self.hintDict setValue:gtdoTabHintSetting forKey:@"GTDoTabHint"];
+	
+	NSNumber *tagHintSetting = [NSNumber numberWithInt:(self.tagHint?1:0)];
+	[self.hintDict setValue:tagHintSetting forKey:@"TagHint"];
+    
+	NSNumber *featureHintSetting = [NSNumber numberWithInt:(self.featureHint?1:0)];
+	[self.hintDict setValue:featureHintSetting forKey:@"FeatureHint"];
+    
+	NSNumber *transparentHintSetting = [NSNumber numberWithInt:(self.transparentHint?1:0)];
+	[self.hintDict setValue:transparentHintSetting forKey:@"TransparentHint"];
+	
+	NSNumber *msdBackupHintSetting = [NSNumber numberWithBool:self.msdBackupHint];
+	[self.hintDict setValue:msdBackupHintSetting forKey:@"MSDBackupHint"];
+    
 	[self.hintDict writeToFile:[Common getFilePath:@"Hints.dat"] atomically:YES];
 }
 
 - (void) saveToodledoSyncDict
 {
+	NSNumber *tdAutoSyncEnabledSetting = [NSNumber numberWithBool:self.tdAutoSyncEnabled];
+	[self.toodledoSyncDict setValue:tdAutoSyncEnabledSetting forKey:@"TDAutoSyncEnabled"];
+    
+	NSNumber *tdSyncEnabledSetting = [NSNumber numberWithBool:self.tdSyncEnabled];
+	[self.toodledoSyncDict setValue:tdSyncEnabledSetting forKey:@"TDSyncEnabled"];
+	
+	NSNumber *tdVerifiedSetting = [NSNumber numberWithBool:self.tdVerified];
+	[self.toodledoSyncDict setValue:tdVerifiedSetting forKey:@"TDVerified"];
+    
+	[self.toodledoSyncDict setValue:self.tdEmail forKey:@"Email"];
+	
+	NSString *encodedPwd = [NSDataBase64 base64Encoding:[self.tdPassword dataUsingEncoding:NSUTF8StringEncoding]];
+	[self.toodledoSyncDict setValue:encodedPwd forKey:@"Pwd"];
+	
+	NSNumber *tdSyncResetSetting = [NSNumber numberWithInt:(self.tdSyncReset?1:0)];
+	[self.toodledoSyncDict setValue:tdSyncResetSetting forKey:@"Reset"];
+	
+    
 	[self.toodledoSyncDict writeToFile:[Common getFilePath:@"ToodledoSync.dat"] atomically:YES];
 }
 
 - (void) saveSDWSyncDict
 {
+    NSNumber *sdwAutoSyncEnabledSetting = [NSNumber numberWithBool:self.sdwAutoSyncEnabled];
+	[self.sdwSyncDict setValue:sdwAutoSyncEnabledSetting forKey:@"SDWAutoSyncEnabled"];
+    
+    NSNumber *sdwSyncEnabledSetting = [NSNumber numberWithBool:self.sdwSyncEnabled];
+	[self.sdwSyncDict setValue:sdwSyncEnabledSetting forKey:@"SDWSyncEnabled"];
+    
 	[self.sdwSyncDict writeToFile:[Common getFilePath:@"SDWSync.dat"] atomically:YES];
+}
+
+- (void) saveEKSyncDict
+{
+	NSNumber *ekAutoSyncEnabledSetting = [NSNumber numberWithBool:self.ekAutoSyncEnabled];
+	[self.ekSyncDict setValue:ekAutoSyncEnabledSetting forKey:@"EKAutoSyncEnabled"];
+    
+	NSNumber *ekSyncEnabledSetting = [NSNumber numberWithBool:self.ekSyncEnabled];
+	[self.ekSyncDict setValue:ekSyncEnabledSetting forKey:@"EKSyncEnabled"];
+    
+	NSNumber *rmdSyncEnabledSetting = [NSNumber numberWithBool:self.rmdSyncEnabled];
+	[self.ekSyncDict setValue:rmdSyncEnabledSetting forKey:@"ReminderSyncEnabled"];
+    
+	if (self.rmdLastSyncTime != nil)
+	{
+		NSNumber *rmdLastSyncTimeSetting = [NSNumber numberWithDouble:[self.rmdLastSyncTime timeIntervalSince1970]];
+		[self.ekSyncDict setValue:rmdLastSyncTimeSetting forKey:@"ReminderLastSyncTime"];
+	}
+	
+    [self.ekSyncDict writeToFile:[Common getFilePath:@"EKSync.dat"] atomically:YES];
 }
 
 - (void) saveFilterPresets
@@ -1956,6 +2112,16 @@ extern BOOL _isiPad;
 	[self saveToodledoSyncDict];
 }
 
+- (void) resetReminderSync
+{
+    self.rmdLastSyncTime = nil;
+    
+    [self.ekSyncDict removeObjectForKey:@"ReminderLastSyncTime"];
+    
+    [self saveSDWSync];
+    
+}
+
 - (void) verifyToodledo:(BOOL)verified
 {
     self.tdVerified = verified;
@@ -1965,6 +2131,7 @@ extern BOOL _isiPad;
     
     [self saveToodledoSyncDict];
 }
+
 
 
 - (void) saveWorkingTimes
@@ -1986,17 +2153,6 @@ extern BOOL _isiPad;
 	[dayManagerDict setValue:self.sunEndTime forKey:@"SunEndTime"];
     
 	[self saveDayManagerDict];    
-}
-
-- (void) saveEKSync
-{
-	if (self.ekLastSyncTime != nil)
-	{
-		NSNumber *ekLastSyncTimeSetting = [NSNumber numberWithDouble:[self.ekLastSyncTime timeIntervalSince1970]];	
-		[self.toodledoSyncDict setValue:ekLastSyncTimeSetting forKey:@"EKLastSyncTime"];	
-		
-		[self saveToodledoSyncDict];
-	}	
 }
 
 - (void) saveSDWSync 
@@ -2111,7 +2267,6 @@ extern BOOL _isiPad;
 	self.tdLastAddEditTime = nil;
 	self.tdLastDeleteTime = nil;
 	self.tdLastSyncTime = nil;
-	self.ekLastSyncTime = nil;
     
     self.sdwEmail = nil;
     self.sdwPassword = nil;
@@ -2119,13 +2274,14 @@ extern BOOL _isiPad;
     self.sdwLastSyncTime = nil;
 	
 	self.dbVersion = nil;
-	//self.oldAppVersion = nil;
+	self.appVersion = nil;
 	
 	self.settingDict = nil;
 	self.dayManagerDict = nil;
 	self.hintDict = nil;
     self.sdwSyncDict = nil;
     self.toodledoSyncDict = nil;
+    self.ekSyncDict = nil;
     
     self.filterPresets = nil;
     
@@ -2139,18 +2295,12 @@ extern BOOL _isiPad;
 {
 	self.eventMapHint = enabled;
 	
-	NSNumber *eventMapHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:eventMapHintSetting forKey:@"EventMapHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableSmartListHint:(BOOL)enabled
 {
 	self.smartListHint = enabled;
-	
-	NSNumber *smartListHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:smartListHintSetting forKey:@"SmartListHint"];
 	
 	[self saveHintDict];
 }
@@ -2159,18 +2309,12 @@ extern BOOL _isiPad;
 {
 	self.noteHint = enabled;
 	
-	NSNumber *noteHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:noteHintSetting forKey:@"NoteHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableWeekViewHint:(BOOL)enabled
 {
 	self.weekViewHint = enabled;
-	
-	NSNumber *weekViewHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:weekViewHintSetting forKey:@"WeekViewHint"];
 	
 	[self saveHintDict];
 }
@@ -2179,18 +2323,12 @@ extern BOOL _isiPad;
 {
 	self.weekDayQuickAddHint = enabled;
 	
-	NSNumber *weekDayQuickAddHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:weekDayQuickAddHintSetting forKey:@"WeekDayQuickAddHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableCalendarHint:(BOOL)enabled
 {
 	self.calendarHint = enabled;
-	
-	NSNumber *calendarHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:calendarHintSetting forKey:@"CalendarHint"];
 	
 	[self saveHintDict];
 }
@@ -2199,18 +2337,12 @@ extern BOOL _isiPad;
 {
 	self.multiSelectHint = enabled;
 	
-	NSNumber *multiSelectHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:multiSelectHintSetting forKey:@"MultiSelectHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableMonthViewHint:(BOOL)enabled
 {
 	self.monthViewHint = enabled;
-	
-	NSNumber *monthViewHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:monthViewHintSetting forKey:@"MonthViewHint"];
 	
 	[self saveHintDict];
 }
@@ -2219,18 +2351,12 @@ extern BOOL _isiPad;
 {
 	self.rtDoneHint = enabled;
 	
-	NSNumber *rtDoneHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:rtDoneHintSetting forKey:@"RTDoneHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableSyncMatchHint:(BOOL)enabled
 {
 	self.syncMatchHint = enabled;
-	
-	NSNumber *syncMatchHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:syncMatchHintSetting forKey:@"SyncMatchHint"];
 	
 	[self saveHintDict];
 }
@@ -2239,28 +2365,19 @@ extern BOOL _isiPad;
 {
 	self.projectHint = enabled;
 	
-	NSNumber *projectHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:projectHintSetting forKey:@"ProjectHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableProjectDetailHint:(BOOL)enabled
 {
 	self.projectDetailHint = enabled;
-	
-	NSNumber *projectDetailHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:projectDetailHintSetting forKey:@"ProjectDetailHint"];
-	
+
 	[self saveHintDict];
 }
 
 -(void)enableFirstTimeEventSyncHint:(BOOL)enabled
 {
 	self.firstTimeEventSyncHint = enabled;
-	
-	NSNumber *firstTimeEventSyncHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:firstTimeEventSyncHintSetting forKey:@"FirstTimeEventSyncHint"];
 	
 	[self saveHintDict];
 }
@@ -2269,18 +2386,12 @@ extern BOOL _isiPad;
 {
 	self.workingTimeHint = enabled;
 	
-	NSNumber *workingTimeHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:workingTimeHintSetting forKey:@"WorkingTimeHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableStarTabHint:(BOOL)enabled
 {
 	self.starTabHint = enabled;
-	
-	NSNumber *starTabHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:starTabHintSetting forKey:@"StarTabHint"];
 	
 	[self saveHintDict];
 }
@@ -2289,9 +2400,6 @@ extern BOOL _isiPad;
 {
 	self.gtdoTabHint = enabled;
 	
-	NSNumber *gtdoTabHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:gtdoTabHintSetting forKey:@"GTDoTabHint"];
-	
 	[self saveHintDict];
 }
 
@@ -2299,19 +2407,13 @@ extern BOOL _isiPad;
 {
 	self.tagHint = enabled;
 	
-	NSNumber *tagHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:tagHintSetting forKey:@"TagHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableFeatureHint:(BOOL)enabled
 {
 	self.featureHint = enabled;
-	
-	NSNumber *featureHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:featureHintSetting forKey:@"FeatureHint"];
-	
+		
 	[self saveHintDict];
 }
 
@@ -2319,18 +2421,12 @@ extern BOOL _isiPad;
 {
 	self.transparentHint = enabled;
 	
-	NSNumber *transparentHintSetting = [NSNumber numberWithInt:(enabled?1:0)];
-	[self.hintDict setValue:transparentHintSetting forKey:@"TransparentHint"];
-	
 	[self saveHintDict];
 }
 
 -(void)enableMSDBackupHint:(BOOL)enabled
 {
 	self.msdBackupHint = enabled;
-	
-	NSNumber *msdBackupHintSetting = [NSNumber numberWithBool:enabled];
-	[self.hintDict setValue:msdBackupHintSetting forKey:@"MSDBackupHint"];
 	
 	[self saveHintDict];
 }
@@ -2370,6 +2466,7 @@ extern BOOL _isiPad;
 
 -(void)enableHints
 {
+    /*
 	[self enableEventMapHint:YES];
 	[self enableSmartListHint:YES];
     [self enableNoteHint:YES];
@@ -2390,7 +2487,31 @@ extern BOOL _isiPad;
 	[self enableFeatureHint:YES];
     [self enableTransparentHint:YES];
     [self enableMSDBackupHint:YES];
-	
+    */
+    
+    self.eventMapHint = YES;
+    self.smartListHint = YES;
+    self.noteHint = YES;
+    self.weekViewHint = YES;
+    self.weekDayQuickAddHint = YES;
+    self.calendarHint = YES;
+    self.multiSelectHint = YES;
+    self.monthViewHint = YES;
+    self.rtDoneHint = YES;
+    self.syncMatchHint = YES;
+    self.projectHint = YES;
+    self.projectDetailHint = YES;
+    self.firstTimeEventSyncHint = YES;
+    self.workingTimeHint = YES;
+    self.starTabHint = YES;
+    self.gtdoTabHint = YES;
+    self.tagHint = YES;
+    self.featureHint = YES;
+    self.transparentHint = YES;
+	self.msdBackupHint = YES;
+    
+    [self saveHintDict];
+    
 	[self clearHintFlags];
 }
 

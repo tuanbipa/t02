@@ -23,6 +23,7 @@
 #import "TDSync.h"
 #import "SDWSync.h"
 #import "EKSync.h"
+#import "EKReminderSync.h"
 
 #import "ContentView.h"
 #import "MiniMonthView.h"
@@ -107,7 +108,11 @@ BOOL _autoPushPending = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ekSyncComplete:)
                                                  name:@"EKSyncCompleteNotification" object:nil];
-    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(ekReminderSyncComplete:)
+                                                 name:@"EKReminderSyncCompleteNotification" object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(tdSyncComplete:)
                                                  name:@"TDSyncCompleteNotification" object:nil];
@@ -637,6 +642,7 @@ BOOL _autoPushPending = NO;
         TDSync *tdSync = [TDSync getInstance];
         SDWSync *sdwSync = [SDWSync getInstance];
         EKSync *ekSync = [EKSync getInstance];
+        EKReminderSync *rmdSync = [EKReminderSync getInstance];
         
         Settings *settings = [Settings getInstance];
         
@@ -654,7 +660,6 @@ BOOL _autoPushPending = NO;
                 else
                 {
                     //printf("task changed -> init sdw sync 1-way\n");
-                    
                     [sdwSync initBackgroundAuto1WaySync];
                 }
             }
@@ -672,6 +677,18 @@ BOOL _autoPushPending = NO;
                 {
                     [tdSync initBackground1WaySync];
                 }
+            }
+            else if (settings.rmdSyncEnabled)
+            {
+                if (settings.rmdLastSyncTime == nil) //first sync
+                {
+                    [rmdSync initBackgroundSync];
+                }
+                else
+                {
+                    [rmdSync initBackgroundAuto1WaySync];
+                }
+                
             }
         }
         
@@ -723,6 +740,10 @@ BOOL _autoPushPending = NO;
         else if (settings.tdSyncEnabled)
         {
             [[TDSync getInstance] initBackgroundSync];
+        }
+        else if (settings.rmdSyncEnabled)
+        {
+            [[EKReminderSync getInstance] initBackgroundSync];
         }
         else
         {
@@ -1439,11 +1460,58 @@ BOOL _autoPushPending = NO;
             [self resetAllData];
         }
     }
+    else if (settings.rmdSyncEnabled)
+    {
+        if (mode == SYNC_AUTO_2WAY)
+        {
+            if (settings.autoSyncEnabled)
+            {
+                [[EKReminderSync getInstance] initBackgroundAuto2WaySync];
+            }
+            else
+            {
+                [self resetAllData];
+            }
+        }
+        else if (mode == SYNC_MANUAL_2WAY)
+        {
+            [[EKReminderSync getInstance] initBackgroundSync];
+        }
+        else
+        {
+            [self resetAllData];
+        }
+    }
     else
     {
         [self resetAllData];
     }
     
+}
+
+- (void)ekReminderSyncComplete:(NSNotification *)notification
+{
+    //printf("Toodledo Sync complete\n");
+    [self deselect];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
+    
+    if (mode != SYNC_AUTO_1WAY)
+    {
+        [self resetAllData];
+    }
+    else
+    {
+        [tm refreshSyncID4AllItems];
+        
+        CalendarViewController *ctrler = [self getCalendarViewController];
+        
+        [ctrler.calendarLayoutController refreshSyncID4AllItems];
+        
+        return;
+    }
 }
 
 - (void)tdSyncComplete:(NSNotification *)notification

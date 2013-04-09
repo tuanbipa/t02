@@ -95,7 +95,8 @@
 - (NSMutableArray *) getDeletedPlans;
 - (Task *) getTopTaskForPlan:(NSInteger)key;
 - (void) resetEventSyncIdForProject:(NSInteger) prjKey;
-- (void) resetToodledoIds;
+- (void) resetProjectSyncIds;
+- (void) resetTaskSyncIds;
 - (void) resetSDWIds;
 - (NSInteger) getTaskCountForProject:(NSInteger) prjKey;
 - (NSInteger) getEventCountForProject:(NSInteger) prjKey;

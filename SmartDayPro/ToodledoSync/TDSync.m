@@ -314,7 +314,8 @@ TDSync *_tdSyncSingleton;
 	
 	if (scTask.startTime != nil)
 	{
-		startDate = [NSString stringWithFormat:@"%.0f", [[Common toDBDate:scTask.startTime] timeIntervalSince1970]];
+		//startDate = [NSString stringWithFormat:@"%.0f", [[Common toDBDate:scTask.startTime] timeIntervalSince1970]];
+        startDate = [NSString stringWithFormat:@"%.0f", [scTask.startTime timeIntervalSince1970]];
 		startTime = startDate;
 	}
 
@@ -323,7 +324,8 @@ TDSync *_tdSyncSingleton;
 	
 	if (scTask.deadline != nil)
 	{
-		dueDate = [NSString stringWithFormat:@"%.0f", [[Common toDBDate:scTask.deadline] timeIntervalSince1970]];
+		//dueDate = [NSString stringWithFormat:@"%.0f", [[Common toDBDate:scTask.deadline] timeIntervalSince1970]];
+        dueDate = [NSString stringWithFormat:@"%.0f", [scTask.deadline timeIntervalSince1970]];
 		dueTime = dueDate;		
 	}
 	
@@ -331,7 +333,8 @@ TDSync *_tdSyncSingleton;
 	
 	if (scTask.status == TASK_STATUS_DONE)
 	{
-		completedDate = [NSString stringWithFormat:@"%.0f", [[Common toDBDate:scTask.completionTime] timeIntervalSince1970]];
+		//completedDate = [NSString stringWithFormat:@"%.0f", [[Common toDBDate:scTask.completionTime] timeIntervalSince1970]];
+        completedDate = [NSString stringWithFormat:@"%.0f", [scTask.completionTime timeIntervalSince1970]];
 	}
 	
 	NSString *repeat = @",\"repeat\":\"\"";
@@ -2213,7 +2216,7 @@ TDSync *_tdSyncSingleton;
                                 
                                 if (duplicated)
                                 {
-                                    //printf("task %s is duplication suspected\n", [task.name UTF8String]);
+                                    printf("Toodledo task %s is duplication suspected\n", [task.name UTF8String]);
                                     
                                     task.syncId = tdTask.id;
                                     [task updateSyncIDIntoDB:[dbm getDatabase]];

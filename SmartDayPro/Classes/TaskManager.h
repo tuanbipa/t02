@@ -21,7 +21,7 @@
 	//calendar day data
 	//NSMutableArray *todayEventList;
     
-    NSMutableArray *garbageList;
+    //NSMutableArray *garbageList;
 	
 	NSDate *today;
 	
@@ -60,7 +60,7 @@
 
 //@property (nonatomic, retain) NSMutableArray *todayEventList;
 
-@property (nonatomic, retain) NSMutableArray *garbageList;
+//@property (nonatomic, retain) NSMutableArray *garbageList;
 
 @property (nonatomic, copy) NSDate *today;
 
@@ -85,7 +85,8 @@
 +(id)getInstance;
 +(void)startup;
 +(void)free;
-+(NSDictionary *) getTaskDictionary:(NSArray *)taskList;
++ (NSDictionary *) getTaskDictionary:(NSArray *)taskList;
++ (NSDictionary *) getTaskDictionaryBySyncId:(NSArray *)taskList;
 + (NSDictionary *) getTaskDictionaryByName:(NSArray *)taskList;
 + (NSDictionary *) getTaskDictBySDWID:(NSArray *)taskList;
 
@@ -178,7 +179,7 @@
 -(NSDictionary *) getFilterTagDict;
 - (void) resetRESyncIdForProject:(NSInteger) prjKey;
 - (void) refreshSyncID4AllItems;
-- (void) garbage:(NSObject *)obj;
+//- (void) garbage:(NSObject *)obj;
 -(NSDictionary *) getFilterCategoryDict;
 
 - (Task *) findTaskByKey:(NSInteger)key;
@@ -196,6 +197,6 @@
 - (void) wait4ScheduleGBComplete;
 - (void) wait4ThumbPlannerInitComplete;
 - (void) wait4SortComplete;
-- (void) cleanupGarbage;
+//- (void) cleanupGarbage;
 
 @end

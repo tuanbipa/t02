@@ -38,6 +38,7 @@
 #import "EKSync.h"
 #import "TDSync.h"
 #import "SDWSync.h"
+#import "EKReminderSync.h"
 
 #import "GTMBase64.h"
 
@@ -222,6 +223,10 @@ BOOL _fromBackground = NO;
         else if (settings.tdSyncEnabled)
         {
             [[TDSync getInstance] initBackgroundAuto2WaySync];
+        }
+        else if (settings.rmdSyncEnabled)
+        {
+            [[EKReminderSync getInstance] initBackgroundAuto2WaySync];
         }
     }
     
@@ -554,6 +559,11 @@ BOOL _fromBackground = NO;
 	[AlertManager free];
 	[ImageManager free];
 	[BusyController free];
+    
+    [EKSync free];
+    [SDWSync free];
+    [TDSync free];
+    [EKReminderSync free];
     
     [busyIndicatorView release];
     

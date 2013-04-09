@@ -19,10 +19,9 @@
 #import "TaskManager.h"
 #import "AlertData.h"
 
-#import "MigrationData.h"
-
 extern BOOL _versionUpgrade;
 extern BOOL _firstLaunch;
+extern BOOL _dbUpgrade;
 
 extern BOOL _isiPad;
 
@@ -2481,11 +2480,11 @@ static sqlite3_stmt *_top_task_statement = nil;
 	}	
 }
 
-- (void) resetToodledoIds
+- (void) resetProjectSyncIds
 {
 	sqlite3_stmt *statement;
 	
-    static char *sql = "UPDATE ProjectTable SET Project_TaskMappingName = '', Project_UpdateTime = ?";
+    static char *sql = "UPDATE ProjectTable SET Project_TaskMappingName = '', Project_SyncID = '', Project_UpdateTime = ?";
     
     if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
         NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -2500,18 +2499,25 @@ static sqlite3_stmt *_top_task_statement = nil;
     sqlite3_finalize(statement);
     if (success != SQLITE_DONE) {
  		NSAssert1(0, @"Error: failed to update into the database with message '%s'.", sqlite3_errmsg(database));
-	}	
+	}    
+}
 
-    sql = "UPDATE TaskTable SET Task_SyncID = '', Task_UpdateTime = ? WHERE Task_Type = ?";
+- (void) resetTaskSyncIds
+{
+	sqlite3_stmt *statement;
+	
+    static char *sql = "UPDATE TaskTable SET Task_SyncID = '', Task_UpdateTime = ? WHERE Task_Type = ?";
     
     if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
         NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
     }
+    
+    NSTimeInterval updateTimeValue = [[NSDate date] timeIntervalSince1970];
 	
 	sqlite3_bind_double(statement, 1, updateTimeValue);
 	sqlite3_bind_int(statement, 2, TYPE_TASK);
 	
-    success = sqlite3_step(statement);
+    int success = sqlite3_step(statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
     sqlite3_finalize(statement);
     if (success != SQLITE_DONE) {
@@ -3804,10 +3810,10 @@ static sqlite3_stmt *_top_task_statement = nil;
 #pragma mark Upgrade
 - (void)upgrade
 {
-	NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+	//NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     Settings *settings = [Settings getInstance];
     
-	NSString *dbVersion = settings.dbVersion;
+	//NSString *dbVersion = settings.dbVersion;
     
     if (_firstLaunch)
     {
@@ -3815,7 +3821,7 @@ static sqlite3_stmt *_top_task_statement = nil;
         [settings modifyUpdateTime];
     }
     
-    if (!_versionUpgrade)
+    if (!_versionUpgrade || !_dbUpgrade)
     {
         return;
     }
@@ -3845,14 +3851,14 @@ static sqlite3_stmt *_top_task_statement = nil;
 		[self upgradeDBv4_0];
 	}*/
     
-	if ([dbVersion isEqualToString:@"5.0"] && (!_isiPad && [appVersion isEqualToString:@"1.1"]))
+	if (_dbUpgrade && (!_isiPad && [settings.appVersion isEqualToString:@"1.1"]))
 	{
         // upgrade for SD iPhone v1.0.1 to v1.1
-        
 		[self upgradeDBv5_0];
 	}
     
     _versionUpgrade = NO;
+    _dbUpgrade = NO;
 }
 
 - (void)upgradeDBv1_0_2
