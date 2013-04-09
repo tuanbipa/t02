@@ -31,6 +31,7 @@
     
     HighlightView *highlightView;
 }
+@property NSInteger nWeeks;
 
 @property NSInteger skinStyle;
 @property (nonatomic, retain) NSMutableArray *plannerItemsList;
@@ -42,6 +43,7 @@
 - (void)initCalendar: (NSDate *)date;
 - (void)changeMonth: (NSDate *) date;
 - (void)expandWeek: (int) week;
+- (void)collapseWeek;
 - (void)collapseExpand: (int) week;
 - (NSDate *)getFirstDate;
 - (void)selectCell: (PlannerMonthCellView *) cell;

@@ -20,5 +20,5 @@
 
 @property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;
 
-- (void)changeFrame: (NSDate*) startDate;
+- (void)changeWeek: (NSDate*) startDate;
 @end

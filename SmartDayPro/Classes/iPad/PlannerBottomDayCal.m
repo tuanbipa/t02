@@ -52,17 +52,21 @@
     return self;
 }
 
-- (void)changeFrame: (NSDate*) startDate {
+- (void)changeWeek: (NSDate*) startDate {
     [UIView beginAnimations:@"resize_animation" context:NULL];
     [UIView setAnimationDuration:0.3];
-    
-    scrollView.frame = self.bounds;
-    scrollView.contentSize = CGSizeMake(plannerScheduleView.frame.size.width, plannerScheduleView.frame.size.height);
+
+    [self updateFrame];
     
     // reload week view
     calendarLayoutController.startDate = startDate;
     [calendarLayoutController layout];
     
     [UIView commitAnimations];
+}
+
+- (void)updateFrame {
+    scrollView.frame = self.bounds;
+    scrollView.contentSize = CGSizeMake(plannerScheduleView.frame.size.width, plannerScheduleView.frame.size.height);
 }
 @end

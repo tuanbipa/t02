@@ -102,7 +102,7 @@
 }
 
 - (void) adjustSubFrame: (NSNotification*) notification {
-    //plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];
+    
     CGRect frm = CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16);
     plannerBottomDayCal.frame = frm;
     
@@ -110,7 +110,7 @@
     NSDictionary *userInfo = [notification userInfo];
     NSDate *firstDate = [userInfo objectForKey:@"firstDate"];
     
-    [plannerBottomDayCal changeFrame:firstDate];
+    [plannerBottomDayCal changeWeek:firstDate];
 }
 
 - (void)didReceiveMemoryWarning

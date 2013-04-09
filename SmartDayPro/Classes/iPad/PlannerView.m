@@ -45,6 +45,7 @@ extern BOOL _isiPad;
         NSInteger weeks = [Common getWeeksInMonth:calDate];
         [monthView changeWeekPlanner:7 weeks:weeks];
         [monthView initCalendar:calDate];
+        [self finishInitCalendar];
         
         // open today week
         PlannerMonthCellView *cell = [self.monthView findCellByDate:tm.today];
@@ -76,6 +77,9 @@ extern BOOL _isiPad;
     dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
     NSInteger weeks = [Common getWeeksInMonth:dt];
     [self.monthView changeWeekPlanner:7 weeks:weeks];
+    [self.monthView collapseWeek];
+    [self finishInitCalendar];
+    // change month
     [self.monthView changeMonth:dt];
     // collapse week
     [self.monthView collapseExpand:0];
@@ -84,5 +88,18 @@ extern BOOL _isiPad;
     [self.monthView highlightCellOnDate:dt];
     
     [UIView commitAnimations];
+}
+
+- (void)finishInitCalendar {
+    
+    NSInteger weeks = self.monthView.nWeeks;
+	    
+    CGRect frm = self.monthView.frame;
+    frm.size.height = weeks*26;
+    self.monthView.frame = frm;
+    
+    frm = self.frame;
+    frm.size.height = self.headerView.frame.size.height + self.monthView.frame.size.height;
+    self.frame = frm;
 }
 @end

@@ -21,6 +21,7 @@ extern BOOL _isiPad;
 
 @implementation PlannerMonthView
 
+@synthesize nWeeks;
 @synthesize skinStyle;
 @synthesize plannerItemsList;
 @synthesize highlightView;
@@ -252,7 +253,7 @@ extern BOOL _isiPad;
 		frm.origin.x -= width; //shift left 1 column to start as Monday
 	}*/
     
-    if (weeks < 6) {
+    /*if (weeks < 6) {
         
         PlannerMonthCellView *cell = [[self subviews] objectAtIndex:42];
         
@@ -265,9 +266,9 @@ extern BOOL _isiPad;
         // update height of supper view
         PlannerView *plannerView = (PlannerView *) self.superview;
         CGRect supperFrm = plannerView.frame;
-        supperFrm.size.height = supperFrm.size.height + alterHeight;
+        supperFrm.size.height = supperFrm.size.height - alterHeight;
         plannerView.frame = supperFrm;
-    }
+    }*/
 
 	self.clipsToBounds = YES;
 }
