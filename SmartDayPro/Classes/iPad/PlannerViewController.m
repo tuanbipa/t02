@@ -114,6 +114,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return self.plannerView.monthView;
 }
 
+- (void) hidePopover
+{
+	if (self.popoverCtrler != nil && [self.popoverCtrler isPopoverVisible])
+	{
+		[self.popoverCtrler dismissPopoverAnimated:NO];
+	}	
+}
+
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
     [super enableActions:enable onView:view];

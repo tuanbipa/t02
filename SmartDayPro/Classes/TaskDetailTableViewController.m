@@ -52,7 +52,11 @@
 
 #import "HPGrowingTextView.h"
 
+#import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 extern BOOL _isiPad;
 
@@ -794,6 +798,16 @@ extern BOOL _isiPad;
         [taskLocation resignFirstResponder];
     }
     
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler updateTask:self.task withTask:self.taskCopy];
+    }
+    else if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler updateTask:self.task withTask:self.taskCopy];
+    }
+    
+/*
     TaskManager *tm = [TaskManager getInstance];
     
     NSDate *dDate = [[(self.task.original != nil?self.task.original.deadline:self.task.deadline) copy] autorelease];
@@ -899,23 +913,11 @@ extern BOOL _isiPad;
         
         [_abstractViewCtrler hidePopover];
     }
+*/
     
 	[self.navigationController popViewControllerAnimated:YES];	
 }
-
 /*
-- (void) tabBarChanged:(BOOL)mini
-{
-	CGFloat barHeight = [_tabBarCtrler getBarHeight];
-	
-	CGRect frm = taskTableView.frame;
-	//frm.size.height = 416 - (mini?MINI_BAR_HEIGHT:2*MINI_BAR_HEIGHT) - adBannerHeight;
-	frm.size.height = 416 - barHeight;
-	
-	taskTableView.frame = frm;
-}
-*/
-
 - (void) convertRE2Task:(NSInteger)option
 {
     TaskManager *tm = [TaskManager getInstance];
@@ -938,7 +940,7 @@ extern BOOL _isiPad;
         [ctrler refreshADEPane];
     }
 }
-
+*/
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if (alertVw.tag == -10000)
@@ -946,7 +948,7 @@ extern BOOL _isiPad;
 		self.taskCopy.project = self.task.project;
 		[taskTableView reloadData];
 	}
-	else if (alertVw.tag == -11000)
+/*	else if (alertVw.tag == -11000)
 	{
 		if (buttonIndex > 0)
 		{
@@ -987,7 +989,7 @@ extern BOOL _isiPad;
         [_abstractViewCtrler hidePopover];
         
         [self.navigationController popViewControllerAnimated:YES];
-    }
+    }*/
     
 }
 

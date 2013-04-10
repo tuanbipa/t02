@@ -175,6 +175,11 @@ BOOL _autoPushPending = NO;
     activeView = nil;
 }
 
+- (void) hidePopover
+{
+    
+}
+
 - (Task *) getActiveTask
 {
     if (activeView != nil && [activeView isKindOfClass:[TaskView class]])
@@ -500,6 +505,140 @@ BOOL _autoPushPending = NO;
     if ([task isNote])
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
+    }
+}
+
+- (void) updateTask:(Task *)task withTask:(Task *)taskCopy
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    actionTask = task;
+    actionTaskCopy = taskCopy;
+    
+    NSDate *dDate = [[(task.original != nil?task.original.deadline:task.deadline) copy] autorelease];
+    NSDate *sDate = [[(task.original != nil?task.original.startTime:task.startTime) copy] autorelease];
+    
+    NSInteger action = (task.primaryKey == -1 && task.original == nil?TASK_CREATE:TASK_UPDATE);
+    
+    BOOL isADE = ([task isADE] || [task.original isADE] || [taskCopy isADE]);
+    
+    BOOL reChange = [task isRE] || [task.original isRE] || [taskCopy isRE];
+    
+    BOOL reSchedule = NO;
+    
+    if (taskCopy.primaryKey == -1)
+    {
+        [tm addTask:taskCopy];
+        
+        reSchedule = YES;
+    }
+    else
+    {
+        BOOL reEdit = [task isREInstance];
+        
+        BOOL convertRE2Task = reEdit && [taskCopy isTask];
+        
+        if (convertRE2Task)
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertREIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
+            
+            alertView.tag = -13001;
+            
+            [alertView show];
+            [alertView release];
+            
+            return;
+        }
+        else if (reEdit) //change RE
+        {
+            UIAlertView *changeREAlert= [[UIAlertView alloc] initWithTitle:_changeRETitleText  message:_changeREInstanceText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
+            changeREAlert.tag = -13000;
+            [changeREAlert addButtonWithTitle:_onlyInstanceText];
+            [changeREAlert addButtonWithTitle:_allEventsText];
+            [changeREAlert addButtonWithTitle:_allFollowingText];
+            [changeREAlert show];
+            [changeREAlert release];
+            
+            return;
+        }
+        else
+        {
+            reSchedule = [tm updateTask:task withTask:taskCopy];
+            
+            if (!reSchedule)
+            {
+                [[self getCalendarViewController] refreshTaskView4Key:taskCopy.primaryKey];
+                [[self getSmartListViewController] refreshTaskView4Key:taskCopy.primaryKey];
+            }
+            
+        }
+    }
+    
+    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    
+    if (calView != nil)
+    {
+        if (sDate != nil)
+        {
+            //refresh Calendar cell when convert Task -> Event
+            [calView refreshCellByDate:sDate];
+        }
+        
+        if (dDate != nil)
+        {
+            [calView refreshCellByDate:dDate];
+        }
+        
+        if (reChange)
+        {
+            [calView refresh];
+        }
+        else if ([taskCopy isTask])
+        {
+            if (taskCopy.deadline != nil)
+            {
+                [calView refreshCellByDate:taskCopy.deadline];
+            }
+        }
+        else
+        {
+            [calView refreshCellByDate:taskCopy.startTime];
+        }
+        
+        if (isADE)
+        {
+            [calView refreshADEView];
+            [[self getCalendarViewController] refreshADEPane];
+        }
+        
+        [self changeItem:task action:action];
+        
+        [self hidePopover];
+    }
+}
+
+- (void) convertRE2Task:(NSInteger)option
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    BOOL isADE = [actionTask isADE];
+    
+    Task *rt = [tm convertRE2Task:actionTask option:option];
+    
+    actionTaskCopy.primaryKey = rt.primaryKey;
+    
+    [tm updateTask:actionTask withTask:actionTaskCopy];
+    
+    MiniMonthView *mmView = [self getMiniMonth];
+    
+    if (mmView != nil)
+    {
+        [mmView refresh];
+    }
+    
+    if (isADE)
+    {
+        [[self getCalendarViewController] refreshADEPane];
     }
 }
 
@@ -1025,7 +1164,7 @@ BOOL _autoPushPending = NO;
 
 #pragma mark Actions
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+{    
 	if (alertVw.tag == -11000 && buttonIndex != 0) //not Cancel
 	{
 		[self deleteRE:buttonIndex];
@@ -1045,6 +1184,55 @@ BOOL _autoPushPending = NO;
 	{
 		[self doDeleteCategory:(buttonIndex == 2)];
 	}
+	else if (alertVw.tag == -13000)
+	{
+		if (buttonIndex > 0)
+		{
+            BOOL isADE = ([actionTask isADE] || [actionTaskCopy isADE]);
+            
+            if (buttonIndex == 2) //all series
+            {
+                if ([actionTask.startTime compare:actionTaskCopy.startTime] == NSOrderedSame && [actionTask.endTime compare:actionTaskCopy.endTime] == NSOrderedSame) //user does not change time -> keep root time
+                {
+                    actionTaskCopy.startTime = actionTask.original.startTime;
+                    actionTaskCopy.endTime = actionTask.original.endTime;
+                }
+            }
+            
+			[[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:buttonIndex];
+            
+            AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+            MiniMonthView *mmView = [self getMiniMonth];
+            
+            if (isADE)
+            {
+                [calView refreshADEView];
+                
+                [[self getCategoryViewController] refreshADEPane];
+            }
+            
+            if (mmView != nil)
+            {
+                [mmView refresh];
+            }
+		}
+        
+        [self hidePopover];
+		
+		//[self.navigationController popViewControllerAnimated:YES];
+	}
+	else if (alertVw.tag == -13001)
+	{
+        if (buttonIndex != 0)
+        {
+            [self convertRE2Task:buttonIndex];
+        }
+        
+        [self hidePopover];
+        
+        //[self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

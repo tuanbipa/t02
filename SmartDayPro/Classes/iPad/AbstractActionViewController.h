@@ -25,6 +25,9 @@
     ContentView *contentView;
     
     MovableView *activeView;
+    
+    Task *actionTask;
+    Task *actionTaskCopy;
 }
 
 @property (nonatomic, retain) Task *task2Link;
@@ -38,5 +41,7 @@
 - (AbstractMonthCalendarView *)getMonthCalendarView;
 - (FocusView *) getFocusView;
 - (MiniMonthView *) getMiniMonth;
+
+- (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
 
 @end
