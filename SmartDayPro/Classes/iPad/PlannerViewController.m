@@ -6,16 +6,32 @@
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "PlannerViewController.h"
 
 #import "Common.h"
+#import "Task.h"
+
+#import "BusyController.h"
+
 #import "ContentView.h"
+#import "TaskView.h"
+#import "PlannerMonthView.h"
 
 #import "SmartListViewController.h"
 #import "PlannerView.h"
 #import "PlannerBottomDayCal.h"
 
+#import "PreviewViewController.h"
+#import "SDNavigationController.h"
+
+#import "TaskDetailTableViewController.h"
+#import "NoteDetailTableViewController.h"
+#import "AbstractSDViewController.h"
+
 PlannerViewController *_plannerViewCtrler = nil;
+
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @interface PlannerViewController ()
 
@@ -23,8 +39,9 @@ PlannerViewController *_plannerViewCtrler = nil;
 
 @implementation PlannerViewController
 
-@synthesize contentView;
 @synthesize plannerView;
+
+@synthesize popoverCtrler;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +59,8 @@ PlannerViewController *_plannerViewCtrler = nil;
         smartListViewCtrler = [[SmartListViewController alloc] init4Planner];
         //plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
         
+        activeView = nil;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustSubFrame:) name:@"NotificationAdjustPlannerMiniMonthHeight" object:nil];
     }
     
@@ -50,6 +69,8 @@ PlannerViewController *_plannerViewCtrler = nil;
 
 - (void) dealloc
 {
+    self.popoverCtrler = nil;
+    
     [smartListViewCtrler release];
     [plannerView release];
     [plannerBottomDayCal release];
@@ -57,6 +78,99 @@ PlannerViewController *_plannerViewCtrler = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
+
+- (SmartListViewController *) getSmartListViewController
+{
+    return smartListViewCtrler;
+}
+
+- (CalendarViewController *) getCalendarViewController
+{
+    return [_abstractViewCtrler getCalendarViewController];
+}
+
+- (NoteViewController *) getNoteViewController
+{
+    return [_abstractViewCtrler getNoteViewController];
+}
+
+- (CategoryViewController *) getCategoryViewController
+{
+    return [_abstractViewCtrler getCategoryViewController];
+}
+
+- (FocusView *) getFocusView
+{
+    return [_abstractViewCtrler getFocusView];
+}
+
+- (MiniMonthView *) getMiniMonth
+{
+    return [_abstractViewCtrler getMiniMonth];
+}
+
+- (AbstractMonthCalendarView *) getMonthCalendarView
+{
+    return self.plannerView.monthView;
+}
+
+- (void) enableActions:(BOOL)enable onView:(TaskView *)view
+{
+    [super enableActions:enable onView:view];
+    
+    PreviewViewController *ctrler = [[PreviewViewController alloc] init];
+    ctrler.item = view.task;
+    
+    SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+    [ctrler release];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+    
+    [navController release];
+    
+    CGRect frm = [view.superview convertRect:view.frame toView:contentView];
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+}
+
+- (void) editItem:(Task *)item inView:(TaskView *)inView
+{
+    UIViewController *editCtrler = nil;
+    
+    if ([item isNote])
+    {
+        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+        
+        ctrler.note = item;
+        
+        editCtrler = ctrler;
+    }
+    else
+    {
+        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+        
+        ctrler.task = item;
+        
+        editCtrler = ctrler;
+    }
+	
+    if (editCtrler != nil)
+    {
+        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
+        [editCtrler release];
+        
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+        
+        [navController release];
+        
+        CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
+        
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+        
+    }
+}
+
+#pragma mark Views
 
 - (void) loadView
 {

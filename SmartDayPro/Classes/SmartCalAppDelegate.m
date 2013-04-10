@@ -759,9 +759,12 @@ BOOL _fromBackground = NO;
 	{
 		exit(0);
 	}
-	else if (alertView.tag == -10001 && buttonIndex == 1)
+	else if (alertView.tag == -10001)
 	{
-		[self autoSync];
+        if (buttonIndex == 1)
+        {
+            [self autoSync];
+        }
 	}
 	/*else if(buttonIndex == 1)
 	{

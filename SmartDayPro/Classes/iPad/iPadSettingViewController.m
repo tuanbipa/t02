@@ -91,11 +91,17 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	
 	BOOL tabBarChanged = (settings.tabBarAutoHide != self.settingCopy.tabBarAutoHide);
     
+    /*
 	BOOL ekAutoSyncChange = (settings.ekAutoSyncEnabled != self.settingCopy.ekAutoSyncEnabled);
 	BOOL tdAutoSyncChange = (settings.tdAutoSyncEnabled != self.settingCopy.tdAutoSyncEnabled);
 	BOOL sdwAutoSyncChange = (settings.sdwAutoSyncEnabled != self.settingCopy.sdwAutoSyncEnabled);
+    */
+    
+    BOOL autoSyncChange = settings.autoSyncEnabled != settings.autoSyncEnabled;
     
     BOOL taskSyncChange = settings.tdSyncEnabled != self.settingCopy.tdSyncEnabled || settings.rmdSyncEnabled != self.settingCopy.rmdSyncEnabled || settings.sdwSyncEnabled != self.settingCopy.sdwSyncEnabled;
+    
+    BOOL ekSyncChange = settings.ekSyncEnabled != settings.ekSyncEnabled;
     
     BOOL mustDoDaysChange = (settings.mustDoDays != self.settingCopy.mustDoDays);
     
@@ -201,10 +207,17 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
     BOOL sdwAccountValid = ![settings.sdwEmail isEqualToString:@""] && ![settings.sdwEmail isEqualToString:@""] && settings.sdwVerified;
     
+    /*
 	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && (ekAutoSyncChange || ekSyncWindowChange);
 	BOOL tdAutoSyncON = (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) && tdAutoSyncChange;
 	BOOL sdwAutoSyncON = (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled) && sdwAutoSyncChange;
     BOOL rmdAutoSyncON = settings.ekAutoSyncEnabled && settings.rmdSyncEnabled && ekAutoSyncChange;
+     */
+    
+	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.autoSyncEnabled) && (autoSyncChange || ekSyncWindowChange || ekSyncChange);
+	BOOL tdAutoSyncON = settings.tdSyncEnabled && settings.autoSyncEnabled && (autoSyncChange || taskSyncChange);
+	BOOL sdwAutoSyncON = settings.sdwSyncEnabled && settings.autoSyncEnabled && (autoSyncChange || taskSyncChange);
+    BOOL rmdAutoSyncON = settings.ekAutoSyncEnabled && settings.autoSyncEnabled && (autoSyncChange || taskSyncChange);
     
 	if (ekAutoSyncON)
 	{

@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AbstractMonthCalendarView.h"
+
 @class HighlightView;
 @class PlannerMonthCellView;
 
-@interface PlannerMonthView : UIView {
+@interface PlannerMonthView : AbstractMonthCalendarView {
     
     NSInteger todayCellIndex;
 	

@@ -271,8 +271,15 @@ iPadViewController *_iPadViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+    
     [self changeSkin];
     //[self createToolbar];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 -(NSUInteger)supportedInterfaceOrientations

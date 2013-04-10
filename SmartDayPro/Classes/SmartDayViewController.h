@@ -79,11 +79,12 @@
 //@property (nonatomic, retain) Task *task2Link;
 
 -(void) switchView:(NSInteger)idx;
+/*
 - (CalendarViewController *) getCalendarViewController;
 - (SmartListViewController *) getSmartListViewController;
 - (NoteViewController *) getNoteViewController;
 - (CategoryViewController *) getCategoryViewController;
-
+*/
 - (void) enableCategoryActions:(BOOL)enable onView:(PlanView *)view;
 - (void) copyCategory;
 - (void) deleteCategory;

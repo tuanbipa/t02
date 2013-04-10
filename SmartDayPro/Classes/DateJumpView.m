@@ -15,6 +15,8 @@
 
 #import "SmartDayViewController.h"
 
+#import "AbstractSDViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation DateJumpView

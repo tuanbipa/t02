@@ -670,6 +670,10 @@
 		67E513CD163534E600621DA1 /* menu_export.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E513CC163534E600621DA1 /* menu_export.png */; };
 		67E57B3A17125B1C00491846 /* TaskSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E57B3917125B1C00491846 /* TaskSyncViewController.m */; };
 		67E57B3B17125B1C00491846 /* TaskSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E57B3917125B1C00491846 /* TaskSyncViewController.m */; };
+		67E5A9881715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E5A9871715388700EF14D9 /* AbstractMonthCalendarView.m */; };
+		67E5A9891715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E5A9871715388700EF14D9 /* AbstractMonthCalendarView.m */; };
+		67E5A98C17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E5A98B17153A7C00EF14D9 /* AbstractActionViewController.m */; };
+		67E5A98D17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E5A98B17153A7C00EF14D9 /* AbstractActionViewController.m */; };
 		67E5E1FC1652057200B41134 /* NoteHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67E5E1FB1652057200B41134 /* NoteHint.htm */; };
 		67E5E1FE1652291A00B41134 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E5E1FD1652291A00B41134 /* close.png */; };
 		67E5E20016522A5C00B41134 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E5E1FF16522A5C00B41134 /* close@2x.png */; };
@@ -2208,6 +2212,10 @@
 		67E513CC163534E600621DA1 /* menu_export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_export.png; sourceTree = "<group>"; };
 		67E57B3817125B1C00491846 /* TaskSyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskSyncViewController.h; sourceTree = "<group>"; };
 		67E57B3917125B1C00491846 /* TaskSyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSyncViewController.m; sourceTree = "<group>"; };
+		67E5A9861715388500EF14D9 /* AbstractMonthCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractMonthCalendarView.h; sourceTree = "<group>"; };
+		67E5A9871715388700EF14D9 /* AbstractMonthCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractMonthCalendarView.m; sourceTree = "<group>"; };
+		67E5A98A17153A7B00EF14D9 /* AbstractActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionViewController.h; sourceTree = "<group>"; };
+		67E5A98B17153A7C00EF14D9 /* AbstractActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionViewController.m; sourceTree = "<group>"; };
 		67E5E1FB1652057200B41134 /* NoteHint.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = NoteHint.htm; sourceTree = "<group>"; };
 		67E5E1FD1652291A00B41134 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		67E5E1FF16522A5C00B41134 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
@@ -2334,6 +2342,8 @@
 		67B41504166C5A3100AB3B5C /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				67E5A98A17153A7B00EF14D9 /* AbstractActionViewController.h */,
+				67E5A98B17153A7C00EF14D9 /* AbstractActionViewController.m */,
 				67E6E42D166DB86200018988 /* AbstractSDViewController.h */,
 				67E6E42E166DB86200018988 /* AbstractSDViewController.m */,
 				67FB71BC16781D9E0033C3A1 /* FocusView.h */,
@@ -2501,6 +2511,8 @@
 		67CF2B5A16195195001FE1AA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				67E5A9861715388500EF14D9 /* AbstractMonthCalendarView.h */,
+				67E5A9871715388700EF14D9 /* AbstractMonthCalendarView.m */,
 				67CF2B5D16195195001FE1AA /* AlertData.h */,
 				67CF2B5E16195195001FE1AA /* AlertData.m */,
 				67CF2B5F16195195001FE1AA /* AlertListViewController.h */,
@@ -4648,6 +4660,8 @@
 				67E30FDA171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
 				67E30FDE171406D6007AD2DE /* PlannerMovableController.m in Sources */,
 				67E30FE2171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
+				67E5A9881715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
+				67E5A98C17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4837,6 +4851,8 @@
 				67E30FDB171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
 				67E30FDF171406D6007AD2DE /* PlannerMovableController.m in Sources */,
 				67E30FE3171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
+				67E5A9891715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
+				67E5A98D17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
