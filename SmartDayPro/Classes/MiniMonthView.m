@@ -23,6 +23,8 @@
 #import "SmartDayViewController.h"
 #import "CalendarViewController.h"
 
+#import "AbstractSDViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
 
 extern BOOL _isiPad;

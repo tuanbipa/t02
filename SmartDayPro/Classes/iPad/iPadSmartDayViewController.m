@@ -357,7 +357,12 @@ iPadViewController *_iPadViewCtrler;
     
     self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
     
-    self.popoverCtrler.passthroughViews = [NSArray arrayWithObject:[_iPadViewCtrler getTimerButton]];
+    UIButton *timerButton = [_iPadViewCtrler getTimerButton];
+    
+    if (timerButton != nil)
+    {
+        self.popoverCtrler.passthroughViews = [NSArray arrayWithObject:timerButton];
+    }
     
     [navController release];
     

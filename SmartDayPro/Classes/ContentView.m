@@ -12,8 +12,10 @@
 #import "Task.h"
 
 #import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 @implementation ContentView
 
@@ -149,7 +151,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) copyLink:(id)sender 
 {
-    if (_abstractViewCtrler != nil)
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler copyLink];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler copyLink];
     }
@@ -157,7 +163,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) pasteLink:(id)sender
 {
-    if (_abstractViewCtrler != nil)
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler pasteLink];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler pasteLink];
     }    
@@ -169,8 +179,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)copy:(id)sender {
 	////////printf("copy\n");
-
-    if (_abstractViewCtrler != nil)
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler copyTask];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         if (self.actionType == ACTION_CATEGORY_EDIT)
         {
@@ -186,7 +199,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)delete:(id)sender
 {    
-    if (_abstractViewCtrler != nil)
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler deleteTask];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         if (self.actionType == ACTION_CATEGORY_EDIT)
         {
@@ -202,7 +219,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)done:(id)sender
 {
-    [_abstractViewCtrler markDoneTask];
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler markDoneTask];
+    }
+    else if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler markDoneTask];
+    }
 }
 
 - (void)createTask:(id)sender

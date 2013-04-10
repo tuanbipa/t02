@@ -6,23 +6,23 @@
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "AbstractActionViewController.h"
 
+@class MovableView;
 @class ContentView;
 @class SmartListViewController;
 @class PlannerView;
 @class PlannerBottomDayCal;
 
-@interface PlannerViewController : ViewController
+@interface PlannerViewController : AbstractActionViewController
 {
-    ContentView *contentView;
-    
     SmartListViewController *smartListViewCtrler;
     PlannerView *plannerView;
     PlannerBottomDayCal *plannerBottomDayCal;
 }
 
-@property (nonatomic, readonly) ContentView *contentView;
 @property (nonatomic, readonly) PlannerView *plannerView;
+
+@property (nonatomic, retain) UIPopoverController *popoverCtrler;
 
 @end

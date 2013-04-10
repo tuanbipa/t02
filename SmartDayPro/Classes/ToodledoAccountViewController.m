@@ -265,7 +265,7 @@ extern BOOL _isiPad;
 	if (parser.error != nil)
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_errorText message:parser.error delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-		[alert show];
+		[alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
 		[alert release];	
 	}
 	else 
@@ -286,8 +286,8 @@ extern BOOL _isiPad;
         }
 			
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_checkValidityText message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-		[alert show];
-		[alert release];		
+		[alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+		[alert release];
 	}
 	
 	[parser release];
@@ -296,13 +296,14 @@ extern BOOL _isiPad;
 - (void)fetchError:(NSError *)error
 {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_errorText message:[error localizedDescription] delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-	[alert show];
+    [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
 	[alert release];	
 }
 
 - (void)checkValidity:(id)sender
 {
 	[self fetchUserId];
+    //[self performSelectorOnMainThread:@selector(fetchUserId) withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark TextField Delegate

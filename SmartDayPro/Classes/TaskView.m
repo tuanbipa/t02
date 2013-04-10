@@ -25,11 +25,13 @@
 #import "CalendarViewController.h"
 
 #import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 @implementation TaskView
 
@@ -1260,7 +1262,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 #pragma mark MovableView Interface Customization
 - (void) enableActions:(BOOL)enable
 {
-    if (_abstractViewCtrler != nil)
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler enableActions:enable onView:self];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler enableActions:enable onView:self];
     }
@@ -1275,7 +1281,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	[super doubleTouch];
 	
-    if (_abstractViewCtrler != nil)
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler editItem:self.task inView:self];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editItem:self.task inView:self];
     }
