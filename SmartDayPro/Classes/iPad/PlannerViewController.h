@@ -13,6 +13,7 @@
 @class SmartListViewController;
 @class PlannerView;
 @class PlannerBottomDayCal;
+@class TaskView;
 
 @interface PlannerViewController : AbstractActionViewController
 {
@@ -25,4 +26,5 @@
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;
 
+- (void) editItem:(Task *)item inView:(TaskView *)inView;
 @end

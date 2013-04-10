@@ -133,7 +133,7 @@ extern PlannerViewController *_plannerViewCtrler;
 {
     NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
     
-    Task *task = ((TaskView *) self.activeMovableView).task;
+    //Task *task = ((TaskView *) self.activeMovableView).task;
     
     //if ([task isTask])
     {
@@ -236,14 +236,7 @@ extern PlannerViewController *_plannerViewCtrler;
             
             taskCopy.listSource = SOURCE_CATEGORY;
             
-            if (_iPadSDViewCtrler != nil)
-            {
-                [_iPadSDViewCtrler editItem:taskCopy inView:tv];
-            }
-            /*else if (_sdViewCtrler != nil)
-            {
-                [_sdViewCtrler editItem:taskCopy];
-            }*/
+            [_plannerViewCtrler editItem:task inView:tv];
         }
     }
 }
