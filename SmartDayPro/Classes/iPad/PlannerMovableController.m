@@ -107,8 +107,7 @@ extern PlannerViewController *_plannerViewCtrler;
         frm.size.height = 25;
         
         //highlight cell at point
-        
-        //[_abstractViewCtrler.miniMonthView moveToPoint:tp];
+        [_plannerViewCtrler.plannerView moveToPoint:tp];
     }
     else
     {
@@ -132,7 +131,120 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) doTaskMovementInMM
 {
+    NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+    
+    Task *task = ((TaskView *) self.activeMovableView).task;
+    
+    //if ([task isTask])
+    {
+        NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+        
+        alertView.tag = -10000;
+        
+        [alertView show];
+        [alertView release];
+        
+    }
+}
+
+- (void) changeTaskDeadline:(Task *)task
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    if (task.original != nil)
+    {
+        task = task.original;
+    }
+    
+    NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+    
+    NSDate *dDate = nil;
+    NSDate *deadline = task.deadline;
+    
+    if (deadline != nil)
+    {
+        dDate = [[deadline copy] autorelease];
+        
+        deadline = [[Settings getInstance] getWorkingEndTimeForDate:calDate];
+    }
+    else
+    {
+        deadline = [[Settings getInstance] getWorkingEndTimeForDate:calDate];
+    }
+    
+    task.deadline = deadline;
+    
+    [task updateDeadlineIntoDB:[dbm getDatabase]];
+    
+    if (dDate != nil)
+    {
+        [_plannerViewCtrler.plannerView.monthView refreshCellByDate:dDate];
+    }
+    
+    [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
+    
+    [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
 }
 
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    TaskView *tv = (TaskView *) self.activeMovableView;
+    
+    Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+    
+    [super endMove:self.activeMovableView];
+    
+    //NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+    
+    //NSDate *visitDate = nil;
+    
+    BOOL needEdit = NO;
+    
+	if (alertVw.tag == -10000)
+	{
+        switch (buttonIndex)
+        {
+            case 0: //Edit
+            {
+                [self changeTaskDeadline:task];
+                
+                needEdit = YES;
+            }
+                break;
+                
+            case 1: //OK
+                [self changeTaskDeadline:task];
+                break;
+        }
+        
+	}
+    
+    if (moveInMM)
+    {
+        
+        if (needEdit)
+        {
+            if (task.original != nil && ![task isREException])
+            {
+                task = task.original;
+            }
+            
+            Task *taskCopy = [[task copy] autorelease];
+            
+            taskCopy.listSource = SOURCE_CATEGORY;
+            
+            if (_iPadSDViewCtrler != nil)
+            {
+                [_iPadSDViewCtrler editItem:taskCopy inView:tv];
+            }
+            /*else if (_sdViewCtrler != nil)
+            {
+                [_sdViewCtrler editItem:taskCopy];
+            }*/
+        }
+    }
+}
 @end

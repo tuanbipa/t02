@@ -385,7 +385,7 @@ extern BOOL _isiPad;
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
         x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(firstCell.frame.origin.x + dayIndex * firstCell.frame.size.width, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         item.task = task;
         item.starEnable = NO;
         item.listStyle = YES;
@@ -616,5 +616,102 @@ extern BOOL _isiPad;
 	}
 	
 	return ret;
+}
+
+- (NSDate *)getSelectedDate {
+	NSDate *ret = nil;
+	
+	if (!highlightView.hidden)
+	{
+		PlannerMonthCellView *cell = (PlannerMonthCellView *)highlightView.tag;
+		
+		NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+		
+		NSDate *today = [NSDate date];
+		
+		NSDateComponents *comps = [gregorian components:0xFF fromDate:today]; //today
+		
+		[comps setYear:cell.year];
+		[comps setMonth:cell.month];
+		[comps setDay:cell.day];
+		
+		ret = [gregorian dateFromComponents:comps];
+	}
+	
+	return ret;
+}
+
+- (void) refreshCellByDate:(NSDate *)date
+{
+	PlannerMonthCellView *cell = [self findCellByDate:date];
+	
+	if (cell != nil)
+	{
+		
+		TaskManager *tm = [TaskManager getInstance];
+        
+		NSMutableArray *eventList = [tm getEventListOnDate:date];
+		
+		NSInteger allocTime = 0;
+		
+		for (Task *task in eventList)
+		{
+			allocTime += [Common timeIntervalNoDST:task.endTime sinceDate:task.startTime];
+		}
+		
+		NSMutableArray *dTaskList = [tm getDTaskListOnDate:date];
+		
+		BOOL hasDTask = (dTaskList.count > 0);
+		
+        /*
+         NSMutableArray *sTaskList = [tm getSTaskListOnDate:date];
+         
+         BOOL hasSTask = (sTaskList.count > 0);
+         */
+        
+        BOOL hasSTask = NO;
+        
+		[cell setDSDots:hasDTask sTask:hasSTask];
+        
+		//CGFloat ratio = (CGFloat) allocTime/(24*3600);
+		
+		//cell.freeRatio = (allocTime == 0?0:ratio);
+        
+        // need to re-open week if openning
+        if (cell.weekNumberInMonth == openningWeek) {
+            [self collapseWeek];
+            [self collapseExpand: cell.weekNumberInMonth];
+        } else {
+            [self collapseExpand:cell.weekNumberInMonth];
+        }
+        
+        [self highlightCellOnDate:date];
+	}
+}
+
+- (void) highlightCellAtPoint:(CGPoint) point
+{
+	PlannerMonthCellView *foundCell = nil;
+	
+	for (int i=0; i<42; i++)
+	{
+		PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
+		
+		if (CGRectContainsPoint(cell.frame, point))
+		{
+			foundCell = cell;
+			break;
+		}
+	}
+    
+	if (foundCell)
+	{
+		[self highlightCell:foundCell];
+	}
+}
+
+- (void) unhighlight
+{
+	highlightView.hidden = YES;
 }
 @end

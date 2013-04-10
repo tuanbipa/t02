@@ -21,4 +21,5 @@
 @property (nonatomic, readonly) PlannerMonthView *monthView;
 
 - (void)shiftTime: (int) mode;
+- (void) moveToPoint:(CGPoint) point;
 @end

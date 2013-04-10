@@ -49,4 +49,8 @@
 - (void)selectCell: (PlannerMonthCellView *) cell;
 - (void)highlightCellOnDate: (NSDate *) dt;
 - (PlannerMonthCellView *) findCellByDate:(NSDate *)date;
+- (NSDate *)getSelectedDate;
+- (void) refreshCellByDate:(NSDate *)date;
+- (void) highlightCellAtPoint:(CGPoint) point;
+- (void) unhighlight;
 @end

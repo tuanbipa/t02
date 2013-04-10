@@ -102,4 +102,20 @@ extern BOOL _isiPad;
     frm.size.height = self.headerView.frame.size.height + self.monthView.frame.size.height;
     self.frame = frm;
 }
+
+- (void) moveToPoint:(CGPoint) point
+{
+	CGPoint p = [self convertPoint:point toView:monthView];
+    
+	if (CGRectContainsPoint(monthView.bounds, p))
+	{
+		////printf("contain point - %f, frm y: %f, frm h: %f\n", p.y, calView.frame.origin.y, calView.frame.size.height);
+		[monthView highlightCellAtPoint:p];
+	}
+	else
+	{
+		[monthView unhighlight];
+	}
+    
+}
 @end
