@@ -125,7 +125,7 @@ iPadViewController *_iPadViewCtrler;
 			break;
 		case 1:
 			cell.textLabel.text = _infoText;
-			cell.imageView.image=[UIImage imageNamed:@"settings_info.png"];
+			cell.imageView.image=[UIImage imageNamed:@"menu_info.png"];
 			break;
 		case 2:
 			cell.textLabel.text = _backupText;

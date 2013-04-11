@@ -248,8 +248,8 @@ CalendarViewController *_sc2ViewCtrler;
     
     CGRect frm = contentView.bounds;
 	
-	frm.origin.y = mmH + adeH + focusH + (_isiPad?10:0);
-    frm.size.height -= mmH + adeH + focusH + (_isiPad?20:0);
+	frm.origin.y = mmH + adeH + focusH; //+ (_isiPad?10:0);
+    frm.size.height -= mmH + adeH + focusH; //+ (_isiPad?20:0);
     
     calendarView.frame = frm;
     
@@ -1855,6 +1855,8 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	outlineView.hidden = YES;
     
+	[self changeSkin];
+    
     //[self createHintView];
 }
 
@@ -1907,8 +1909,6 @@ CalendarViewController *_sc2ViewCtrler;
 {	
 	_sc2ViewCtrler = self;
 	
-	[self changeSkin];
-    
     [self focusNow];
 	
     /*

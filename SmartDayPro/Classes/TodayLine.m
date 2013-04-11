@@ -45,7 +45,7 @@
     
     CGRect frm = rect;
     
-    frm.size.height = todayLineImg.size.height;
+    //frm.size.height = todayLineImg.size.height;
     
     [todayLineImg drawInRect:frm];
 }
