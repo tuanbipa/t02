@@ -58,17 +58,12 @@
 
 - (TaskView *) layoutObject:(Task *) task reusableView:(TaskView *)reusableView
 {
+    // set list source
+    task.listSource = SOURCE_PLANNER_CALENDAR;
+    
+    
     // drawing events
-	//TaskManager *tm = [TaskManager getInstance];
-	
-	//NSDate *date = tm.today;
-    
-	//TaskProgress *segment = [tm getEventSegment:task onDate:task.smartTime];
-    
-    //NSDate *startTime = [task isTask]?task.smartTime:task.startTime;
     NSDate *startTime = task.startTime;
-	
-	////printf("layout task %s, start: %s, segment start: %s\n", [task.name UTF8String], [[task.startTime description] UTF8String], [[segment.startTime description] UTF8String]);
 	
 	CGSize timePaneSize = [TimeSlotView calculateTimePaneSize];
 	CGFloat ymargin = TIME_SLOT_HEIGHT/2;
@@ -137,7 +132,7 @@
     taskView.alpha = 1;
 	//taskView.tag = task;
     taskView.task = task;
-    [taskView enableMove:![task checkMustDo]];
+    [taskView enableMove:YES];
     taskView.checkEnable = NO;
     
 	taskView.touchHoldEnable = YES;

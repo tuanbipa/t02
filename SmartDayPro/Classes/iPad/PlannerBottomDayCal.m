@@ -10,11 +10,13 @@
 #import "ContentScrollView.h"
 #import "PlannerScheduleView.h"
 #import "PlannerCalendarLayoutController.h"
-
 #import "TaskView.h"
 #import "Task.h"
+#import "CalendarPlannerMovableController.h"
 
 @implementation PlannerBottomDayCal
+
+@synthesize movableController;
 
 @synthesize calendarLayoutController;
 
@@ -41,6 +43,10 @@
         [plannerScheduleView release];
         
         calendarLayoutController = [[PlannerCalendarLayoutController alloc] init];
+        // add movable controller
+        movableController = [[CalendarPlannerMovableController alloc] init];
+        calendarLayoutController.movableController = movableController;
+        
         calendarLayoutController.viewContainer = scrollView;
         [calendarLayoutController layout];
         
@@ -103,4 +109,16 @@
 	}
 }
 
+- (void)dealloc {
+    [movableController release];
+    [super dealloc];
+}
+
+- (void) setMovableContentView:(UIView *)contentView
+{
+    if ([movableController isKindOfClass:[DummyMovableController class]])
+    {
+        ((DummyMovableController *) movableController).contentView = contentView;
+    }
+}
 @end

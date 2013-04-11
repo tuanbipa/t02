@@ -11,17 +11,20 @@
 @class ContentScrollView;
 @class PlannerScheduleView;
 @class PlannerCalendarLayoutController;
+@class MovableController;
 
 @interface PlannerBottomDayCal : UIView {
     ContentScrollView *scrollView;
     PlannerScheduleView *plannerScheduleView;
     PlannerCalendarLayoutController *calendarLayoutController;
+    MovableController *movableController;
 }
 
 @property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;
+@property (nonatomic, readonly) MovableController *movableController;
 
 - (void)changeWeek: (NSDate*) startDate;
 - (void) refreshLayout;
 - (void) refreshTaskView4Key:(NSInteger)taskKey;
-
+- (void) setMovableContentView:(UIView *)contentView;
 @end

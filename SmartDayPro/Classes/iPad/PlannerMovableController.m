@@ -133,9 +133,9 @@ extern PlannerViewController *_plannerViewCtrler;
 {
     NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
     
-    //Task *task = ((TaskView *) self.activeMovableView).task;
+    Task *task = ((TaskView *) self.activeMovableView).task;
     
-    //if ([task isTask])
+    if ([task isTask])
     {
         NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
         
@@ -146,6 +146,16 @@ extern PlannerViewController *_plannerViewCtrler;
         [alertView show];
         [alertView release];
         
+    } else if ([task isEvent]) {
+        
+        NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+        
+        alertView.tag = -10001;
+        
+        [alertView show];
+        [alertView release];
     }
 }
 
@@ -178,15 +188,28 @@ extern PlannerViewController *_plannerViewCtrler;
     
     [task updateDeadlineIntoDB:[dbm getDatabase]];
     
-    if (dDate != nil)
-    {
-        [_plannerViewCtrler.plannerView.monthView refreshCellByDate:dDate];
-    }
+//    if (dDate != nil)
+//    {
+//        [_plannerViewCtrler.plannerView.monthView refreshCellByDate:dDate];
+//    }
     
     [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
     
     [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
+}
+
+- (void) changeEventDate:(Task *)task
+{
+    //Task *task = ((TaskView *) self.activeMovableView).task;
+    
+    NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+    
+    NSDate *oldDate = [[task.startTime copy] autorelease];
+    
+    [[TaskManager getInstance] moveTime:[Common copyTimeFromDate:oldDate toDate:calDate] forEvent:task];
+    
+    [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -220,7 +243,23 @@ extern PlannerViewController *_plannerViewCtrler;
                 break;
         }
         
-	}
+	}else if (alertVw.tag == -10001)
+	{
+        switch (buttonIndex)
+        {
+            case 0: //Edit
+            {
+                [self changeEventDate:task];
+                
+                needEdit = YES;
+            }
+                break;
+            case 1: //OK
+                [self changeEventDate:task];
+                break;
+        }
+        
+    }
     
     if (moveInMM)
     {

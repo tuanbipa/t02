@@ -173,8 +173,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
         
-        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
         
+        //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
 
@@ -228,6 +229,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [smartListViewCtrler setMovableContentView:self.contentView];
     
     [smartListViewCtrler refreshLayout];
+    
+    [plannerBottomDayCal setMovableContentView:self.contentView];
 }
 
 - (void) viewWillAppear:(BOOL)animated

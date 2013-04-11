@@ -1401,6 +1401,8 @@
 		67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */; };
 		67FB71BE16781D9E0033C3A1 /* FocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB71BD16781D9E0033C3A1 /* FocusView.m */; };
 		67FB7F251640C9930049DA1A /* MiniMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */; };
+		A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
+		A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2291,6 +2293,8 @@
 		67FB71BD16781D9E0033C3A1 /* FocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusView.m; sourceTree = "<group>"; };
 		67FB7F231640C9920049DA1A /* MiniMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthHeaderView.h; sourceTree = "<group>"; };
 		67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniMonthHeaderView.m; sourceTree = "<group>"; };
+		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
+		A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarPlannerMovableController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2394,6 +2398,8 @@
 				67E30FE1171407B8007AD2DE /* SmartListPlannerMovableController.m */,
 				6728E5D816DC7441001024DD /* TimerViewController.h */,
 				6728E5D916DC7441001024DD /* TimerViewController.m */,
+				A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */,
+				A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -4662,6 +4668,7 @@
 				67E30FE2171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
 				67E5A9881715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98C17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
+				A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4853,6 +4860,7 @@
 				67E30FE3171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
 				67E5A9891715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98D17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
+				A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
