@@ -95,7 +95,7 @@
 - (void) deleteTask;
 - (void) copyTask;
 - (void) markDoneTask;
-- (void) changeItem:(Task *)task action:(NSInteger)action;
+//- (void) changeItem:(Task *)task action:(NSInteger)action;
 - (void) hideDropDownMenu;
 - (void) showBusyIndicator:(BOOL)enable;
 - (void) jumpToDate:(NSDate *)date;

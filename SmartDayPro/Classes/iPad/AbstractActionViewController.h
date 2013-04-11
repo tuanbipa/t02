@@ -43,5 +43,6 @@
 - (MiniMonthView *) getMiniMonth;
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
+- (void) changeItem:(Task *)task;
 
 @end

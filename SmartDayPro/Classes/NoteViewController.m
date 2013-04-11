@@ -236,6 +236,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+/*
 - (void) changeItem:(Task *)task action:(NSInteger)action
 {
     if (action == TASK_CREATE)
@@ -252,7 +253,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 
 }
-
+*/
 - (void) refreshView
 {
     //[listTableView reloadData];

@@ -200,7 +200,8 @@ extern BOOL _isiPad;
         [self.note updateIntoDB:[dbm getDatabase]];
     }
     
-    [_abstractViewCtrler changeItem:self.note action:action];
+    //[_abstractViewCtrler changeItem:self.note action:action];
+    [_abstractViewCtrler changeItem:self.note];
     
     [_abstractViewCtrler hidePopover];
     

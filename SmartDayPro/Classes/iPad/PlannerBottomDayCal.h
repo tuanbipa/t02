@@ -21,4 +21,7 @@
 @property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;
 
 - (void)changeWeek: (NSDate*) startDate;
+- (void) refreshLayout;
+- (void) refreshTaskView4Key:(NSInteger)taskKey;
+
 @end

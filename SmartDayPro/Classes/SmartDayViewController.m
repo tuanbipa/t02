@@ -581,17 +581,7 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) jumpToDate:(NSDate *)date
 {
-    /*
-    [self deselect];
-    
-    [[TaskManager getInstance] initCalendarData:date];
-    
-    [miniMonthView initCalendar:date];
-    */
-    
     [super jumpToDate:date];
-    
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
     
     self.activeViewCtrler.view.userInteractionEnabled = YES;
 }
@@ -599,20 +589,6 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) scrollToDate:(NSDate *)date
 {
-    /*
-    [self deselect];
-    
-    TaskManager *tm = [TaskManager getInstance];
-    
-    tm.today = date;
-    
-    [miniMonthView initCalendar];
-    
-    CalendarViewController *ctrler = [self getCalendarViewController];
-    
-    [ctrler refreshPanes];
-    */
-    
     [super scrollToDate:date];
     
     self.navigationItem.title = [Common getCalendarDateString:date];
@@ -1113,6 +1089,7 @@ extern BOOL _gtdoTabHintShown;
     }
 }
 
+/*
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
     if ([item isNote])
@@ -1139,7 +1116,6 @@ extern BOOL _gtdoTabHintShown;
     [self editCategory:project];
 }
 
-/*
 - (void) markDoneTaskInView:(TaskView *)view
 {
     //Task *task = (Task *)view.tag;
@@ -1181,7 +1157,6 @@ extern BOOL _gtdoTabHintShown;
     
     [task release];
 }
-*/
 
 - (void) starTaskInView:(TaskView *)taskView
 {
@@ -1207,7 +1182,6 @@ extern BOOL _gtdoTabHintShown;
 {
     TaskManager *tm = [TaskManager getInstance];
     
-    //Task *task = [self.activeViewCtrler getSelectedTask];
     Task *task = [self getActiveTask];
     
     [task retain];
@@ -1467,7 +1441,6 @@ extern BOOL _gtdoTabHintShown;
     [task release];
 }
 
-/*
 - (void) markDoneTask
 {
     Task *task = [self getActiveTask];
@@ -1495,7 +1468,6 @@ extern BOOL _gtdoTabHintShown;
         [task release];
     }
 }
-*/
 
 - (void) changeItem:(Task *)task action:(NSInteger)action
 {
@@ -1530,13 +1502,6 @@ extern BOOL _gtdoTabHintShown;
                 [ctrler loadAndShowList];
             }
         }
-        /*
-        else if ([self.activeViewCtrler isKindOfClass:[CalendarViewController class]])
-        {
-            CalendarViewController *ctrler = (CalendarViewController *) self.activeViewCtrler;
-            
-            [ctrler refreshLayout];
-        }*/
         
         CalendarViewController *ctrler = [self getCalendarViewController];
         
@@ -1556,7 +1521,7 @@ extern BOOL _gtdoTabHintShown;
         }        
     }
 }
-
+*/
 #pragma mark Actions
 - (void) addNote:(id) sender
 {
@@ -1643,6 +1608,7 @@ extern BOOL _gtdoTabHintShown;
 	[ctrler release];				
 }
 
+/*
 - (void) editCategory:(Project *) project
 {
 	ProjectEditViewController *ctrler = [[ProjectEditViewController alloc] init];
@@ -1652,7 +1618,7 @@ extern BOOL _gtdoTabHintShown;
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];		        
 }
-
+*/
 - (void) addCategory:(id) sender
 {
 	Project *project = [[Project alloc] init];
