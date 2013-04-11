@@ -30,6 +30,7 @@
 #import "ContentView.h"
 #import "FocusView.h"
 #import "MiniMonthView.h"
+#import "PlannerBottomDayCal.h"
 
 #import "CalendarViewController.h"
 #import "SmartListViewController.h"
@@ -39,6 +40,7 @@
 
 #import "TaskDetailTableViewController.h"
 #import "NoteDetailTableViewController.h"
+#import "ProjectEditViewController.h"
 
 #import "SmartCalAppDelegate.h"
 
@@ -161,6 +163,11 @@ BOOL _autoPushPending = NO;
     return nil;
 }
 
+- (PlannerBottomDayCal *) getPlannerDayCalendarView
+{
+    return nil;
+}
+
 -(void) deselect
 {
     if (activeView != nil)
@@ -271,6 +278,14 @@ BOOL _autoPushPending = NO;
     [self refreshData];
     
     self.task2Link = nil;
+}
+
+- (void) refreshADE
+{
+    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    [calView refreshADEView];
+    
+    [[self getCalendarViewController] refreshADEPane];
 }
 
 #pragma mark Action Menu
@@ -432,17 +447,27 @@ BOOL _autoPushPending = NO;
 
 - (void) editItem:(Task *)item inRect:(CGRect)inRect
 {
-    
+    [self editItem:item];
 }
 
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
-    
+    [self editItem:item];
+}
+
+- (void) editCategory:(Project *) project
+{
+	ProjectEditViewController *ctrler = [[ProjectEditViewController alloc] init];
+	
+	ctrler.project = project;
+	
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
 }
 
 - (void) editProject:(Project *)project inView:(PlanView *)inView
 {
-    
+    [self editCategory:project];
 }
 
 #pragma mark Calendar Actions
@@ -484,6 +509,7 @@ BOOL _autoPushPending = NO;
 
 #pragma mark Task Actions
 
+/*
 - (void) changeItem:(Task *)task action:(NSInteger)action
 {
     PageAbstractViewController *ctrler = nil;
@@ -507,6 +533,70 @@ BOOL _autoPushPending = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
     }
 }
+*/
+
+- (void) changeItem:(Task *)task
+{
+    if ([task isNote])
+    {
+        if (task.listSource == SOURCE_NOTE)
+        {
+            NoteViewController *ctrler = [self getNoteViewController];
+            
+            [ctrler loadAndShowList];
+        }
+        else if (task.listSource == SOURCE_CATEGORY)
+        {
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            
+            if (ctrler.filterType == TYPE_NOTE)
+            {
+                [ctrler loadAndShowList];
+            }
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
+    }
+    else if ([task isADE])
+    {
+        [self refreshADE];
+    }
+    else if ([task isEvent])
+    {
+        if (task.listSource == SOURCE_CATEGORY)
+        {
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            
+            if (ctrler.filterType == TYPE_EVENT)
+            {
+                [ctrler loadAndShowList];
+            }
+        }
+        
+        CalendarViewController *ctrler = [self getCalendarViewController];
+        
+        [ctrler refreshLayout];
+        
+        PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+        
+        if (plannerDayCal != nil)
+        {
+            [plannerDayCal refreshLayout];
+        }
+    }
+    else if ([task isTask])
+    {
+        if (task.listSource == SOURCE_CATEGORY)
+        {
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            
+            if (ctrler.filterType == TYPE_TASK)
+            {
+                [ctrler loadAndShowList];
+            }
+        }
+    }    
+}
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy
 {
@@ -518,7 +608,7 @@ BOOL _autoPushPending = NO;
     NSDate *dDate = [[(task.original != nil?task.original.deadline:task.deadline) copy] autorelease];
     NSDate *sDate = [[(task.original != nil?task.original.startTime:task.startTime) copy] autorelease];
     
-    NSInteger action = (task.primaryKey == -1 && task.original == nil?TASK_CREATE:TASK_UPDATE);
+    //NSInteger action = (task.primaryKey == -1 && task.original == nil?TASK_CREATE:TASK_UPDATE);
     
     BOOL isADE = ([task isADE] || [task.original isADE] || [taskCopy isADE]);
     
@@ -564,14 +654,29 @@ BOOL _autoPushPending = NO;
         else
         {
             reSchedule = [tm updateTask:task withTask:taskCopy];
-            
-            if (!reSchedule)
-            {
-                [[self getCalendarViewController] refreshTaskView4Key:taskCopy.primaryKey];
-                [[self getSmartListViewController] refreshTaskView4Key:taskCopy.primaryKey];
-            }
-            
         }
+    }
+    
+    if (!reSchedule)
+    {
+        [[self getCalendarViewController] refreshTaskView4Key:task.primaryKey];
+        [[self getSmartListViewController] refreshTaskView4Key:task.primaryKey];
+        
+        PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+        
+        if (plannerDayCal != nil)
+        {
+            [plannerDayCal refreshTaskView4Key:task.primaryKey];
+        }
+        
+        if ([task isADE])
+        {
+            [self refreshADE];
+        }
+    }
+    else
+    {
+        [self changeItem:task];
     }
     
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
@@ -605,13 +710,14 @@ BOOL _autoPushPending = NO;
             [calView refreshCellByDate:taskCopy.startTime];
         }
         
+        /*
         if (isADE)
         {
             [calView refreshADEView];
             [[self getCalendarViewController] refreshADEPane];
         }
-        
-        [self changeItem:task action:action];
+        */
+        //[self changeItem:task action:action];
         
         [self hidePopover];
     }
@@ -677,15 +783,16 @@ BOOL _autoPushPending = NO;
         
         [calView refresh];
         
-        if ([task isADE])
+        /*if ([task isADE])
         {
             [calView refreshADEView];
             
             CalendarViewController *ctrler = [self getCalendarViewController];
             [ctrler refreshADEPane];//refresh ADE
-        }
+        }*/
         
-        [self changeItem:task action:TASK_DELETE];
+        //[self changeItem:task action:TASK_DELETE];
+        [self changeItem:task];
     }
     
     [task release];
@@ -721,15 +828,16 @@ BOOL _autoPushPending = NO;
     
     [calCtrler refreshView];
     
-    if ([task isADE])
+    /*if ([task isADE])
     {
         [calView refreshADEView];
         
         CalendarViewController *ctrler = [self getCalendarViewController];
         [ctrler refreshADEPane];//refresh ADE
-    }
+    }*/
     
-    [self changeItem:task action:TASK_DELETE];
+    //[self changeItem:task action:TASK_DELETE];
+    [self changeItem:task];
     
     [task release];
 }
@@ -772,11 +880,11 @@ BOOL _autoPushPending = NO;
             [calView refresh];
         }
         
-        if (type == TYPE_ADE)
+        /*if (type == TYPE_ADE)
         {
             [calView refreshADEView];
         }
-        else if (type == TYPE_TASK)
+        else */if (type == TYPE_TASK)
         {
             if (start != nil)
             {
@@ -793,11 +901,11 @@ BOOL _autoPushPending = NO;
             [calView refreshCellByDate:start];
         }
         
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        [ctrler refreshADEPane];//refresh ADE for any link removement
+        //CalendarViewController *ctrler = [self getCalendarViewController];
+        //[ctrler refreshADEPane];//refresh ADE for any link removement
     }
     
-    [self changeItem:task action:TASK_DELETE];
+    [self changeItem:task];
     
     [self deselect];
 }
@@ -1201,14 +1309,15 @@ BOOL _autoPushPending = NO;
             
 			[[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:buttonIndex];
             
-            AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+            //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
             MiniMonthView *mmView = [self getMiniMonth];
             
             if (isADE)
             {
-                [calView refreshADEView];
+                //[calView refreshADEView];
                 
-                [[self getCategoryViewController] refreshADEPane];
+                //[[self getCategoryViewController] refreshADEPane];
+                [self refreshADE];
             }
             
             if (mmView != nil)

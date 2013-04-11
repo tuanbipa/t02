@@ -11,6 +11,9 @@
 #import "PlannerScheduleView.h"
 #import "PlannerCalendarLayoutController.h"
 
+#import "TaskView.h"
+#import "Task.h"
+
 @implementation PlannerBottomDayCal
 
 @synthesize calendarLayoutController;
@@ -69,4 +72,35 @@
     scrollView.frame = self.bounds;
     scrollView.contentSize = CGSizeMake(plannerScheduleView.frame.size.width, plannerScheduleView.frame.size.height);
 }
+
+- (void) refreshLayout
+{
+    [calendarLayoutController layout];
+}
+
+- (void) refreshTaskView4Key:(NSInteger)taskKey
+{
+	for (UIView *view in scrollView.subviews)
+	{
+		if ([view isKindOfClass:[TaskView class]])
+		{
+            TaskView *taskView = (TaskView *) view;
+            
+            Task *task = taskView.task;
+            
+            if (task.original != nil)
+            {
+                task = task.original;
+            }
+            
+            if (task.primaryKey == taskKey)
+            {
+                [taskView setNeedsDisplay];
+                
+                break;
+            }
+		}
+	}
+}
+
 @end

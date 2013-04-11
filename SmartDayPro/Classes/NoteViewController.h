@@ -37,7 +37,7 @@
 @property NSInteger filterType;
 
 - (Task *) getSelectedTask;
-- (void) changeItem:(Task *)task action:(NSInteger)action;
+//- (void) changeItem:(Task *)task action:(NSInteger)action;
 - (void) filter:(NSInteger)type;
 - (void) loadAndShowList;
 - (void) multiEdit:(BOOL)enabled;
