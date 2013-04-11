@@ -26,5 +26,5 @@
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;
 
-- (void) editItem:(Task *)item inView:(TaskView *)inView;
+- (void) editItem:(Task *)item inView:(UIView *)inView;
 @end

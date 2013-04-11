@@ -41,14 +41,20 @@ extern BOOL _isiPad;
         
         // init calendar
         TaskManager *tm = [TaskManager getInstance];
-        NSDate *calDate = [Common getFirstMonthDate:tm.today];
+        NSDate *dt = nil;
+        if (tm.today != nil) {
+            dt = tm.today;
+        } else {
+            dt = [NSDate date];
+        }
+        NSDate *calDate = [Common getFirstMonthDate:dt];
         NSInteger weeks = [Common getWeeksInMonth:calDate];
         [monthView changeWeekPlanner:7 weeks:weeks];
         [monthView initCalendar:calDate];
         [self finishInitCalendar];
         
         // open today week
-        PlannerMonthCellView *cell = [self.monthView findCellByDate:tm.today];
+        PlannerMonthCellView *cell = [self.monthView findCellByDate:dt];
         [self.monthView collapseExpand: cell.weekNumberInMonth];
         [self.monthView highlightCellOnDate:tm.today];
         // end init calendar

@@ -12,6 +12,9 @@
 #import "Task.h"
 #import "Common.h"
 #import "SimpleCoreTextView.h"
+#import "PlannerViewController.h"
+
+extern PlannerViewController *_plannerViewCtrler;
 
 @implementation PlannerItemView
 
@@ -367,7 +370,13 @@
     checkImageView.image = [[ImageManager getInstance] getImageWithName:@"markdone.png"];
 }
 
-- (void) refresh {
-    
+- (void) doubleTouch
+{
+	[super doubleTouch];
+	
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler editItem:self.task inView:self];
+    }
 }
 @end

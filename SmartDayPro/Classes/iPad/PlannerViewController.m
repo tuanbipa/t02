@@ -141,7 +141,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
 }
 
-- (void) editItem:(Task *)item inView:(TaskView *)inView
+- (void) editItem:(Task *)item inView:(UIView *)inView
 {
     UIViewController *editCtrler = nil;
     
