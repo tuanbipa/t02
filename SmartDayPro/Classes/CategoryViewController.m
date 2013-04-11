@@ -337,13 +337,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [listView release];
     
     layoutController.viewContainer = listView;
+    
+    [self changeSkin];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self changeSkin];
     
     [self loadAndShowList];
 }

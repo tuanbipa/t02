@@ -1725,13 +1725,17 @@ SmartListViewController *_smartListViewCtrler;
 {
 	NSString *text = [quickAddTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	
-	if (![text isEqualToString:@""])
+    if (![quickAddTextField isFirstResponder])
+    {
+        [quickAddTextField becomeFirstResponder];
+    }
+	else if (![text isEqualToString:@""])
 	{
 		[self quickAddTask:text];
 	}
     
     quickAddTextField.text = @"";
-    saveAndMoreItem.enabled = NO;
+    //saveAndMoreItem.enabled = NO;
 }
 
 -(void) quickAddDidChange:(id) sender
@@ -1740,7 +1744,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    saveAndMoreItem.enabled = ![text isEqualToString:@""];
+    //saveAndMoreItem.enabled = ![text isEqualToString:@""];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -2725,6 +2729,8 @@ SmartListViewController *_smartListViewCtrler;
 	
 	[self createEditBar];
     
+    [self changeSkin];
+
     //[self createQuickAddEditBar];
 }
 
@@ -2754,8 +2760,6 @@ SmartListViewController *_smartListViewCtrler;
 - (void)viewWillAppear:(BOOL)animated 
 {	
 	_smartListViewCtrler = self;
-	
-	[self changeSkin];
 	
 	if (firstLoad)
 	{

@@ -271,10 +271,20 @@ iPadViewController *_iPadViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+    //[self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
     
     [self changeSkin];
     //[self createToolbar];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    {
+        [self showLandscapeView];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated

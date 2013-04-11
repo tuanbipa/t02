@@ -66,7 +66,8 @@ extern BOOL _isiPad;
     self.projectCopy = self.project;
     
 	mainView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
-	mainView.backgroundColor = [UIColor colorWithRed:161.0/255 green:162.0/255 blue:169.0/255 alpha:1];
+	//mainView.backgroundColor = [UIColor colorWithRed:161.0/255 green:162.0/255 blue:169.0/255 alpha:1];
+    mainView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
 	[mainView setContentSize:CGSizeMake(320, 600)];
 	mainView.canCancelContentTouches = NO;
 	mainView.delaysContentTouches = YES;

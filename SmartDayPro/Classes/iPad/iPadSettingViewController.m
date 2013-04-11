@@ -316,13 +316,24 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
 	UIButton *backButton = [Common createButton:_doneText
                                          buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(0, 5, 60, 30)
+                                              frame:CGRectMake(navView.bounds.size.width - 70, 5, 60, 30)
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(back:)
-                                   normalStateImage:@"blue_button.png"
+                                   normalStateImage:@"done_btn.png"
                                  selectedStateImage:nil];
     [navView addSubview:backButton];
+    
+    /*
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    doneButton.frame = CGRectMake(0, 5, 60, 30);
+    [doneButton setTintColor:[UIColor blackColor]];
+    [doneButton setTitle:_doneText forState:UIControlStateNormal];
+    [doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [navView addSubview:doneButton];
+    
+    [doneButton addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    */
     
     navLabel = [[UILabel alloc] initWithFrame:navView.bounds];
     navLabel.font = [UIFont boldSystemFontOfSize:18];
@@ -582,7 +593,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 						break;
 					case 4:
 					{
-						//cell.imageView.image = [UIImage imageNamed:@"settings_sync.png"];
+						cell.imageView.image = [UIImage imageNamed:@"settings_recovery.png"];
 						cell.textLabel.text = _dataRecovery;
 					}
 						break;

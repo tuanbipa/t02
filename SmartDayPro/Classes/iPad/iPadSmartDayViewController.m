@@ -1028,7 +1028,7 @@ iPadViewController *_iPadViewCtrler;
 	[optionView addSubview:allButton];
     
     UIImageView *todayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
-	todayImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_today.png"];
+	todayImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_day.png"];
 	[optionView addSubview:todayImageView];
 	[todayImageView release];
 	
@@ -1054,7 +1054,7 @@ iPadViewController *_iPadViewCtrler;
 	[optionView addSubview:todayButton];
     
     UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
-	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_today.png"];
+	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_week.png"];
 	[optionView addSubview:weekImageView];
 	[weekImageView release];
 	
@@ -1215,7 +1215,7 @@ iPadViewController *_iPadViewCtrler;
 
     CalendarViewController *ctrler = [self getCalendarViewController];
     
-    [ctrler changeFrame:CGRectMake(5, 0, w-5, frm.size.height)];
+    [ctrler changeFrame:CGRectMake(5, 10, w-5, frm.size.height-20)];
     
     [contentView addSubview:ctrler.view];
     
@@ -1353,6 +1353,7 @@ iPadViewController *_iPadViewCtrler;
                                         normalStateImage:nil
                                       selectedStateImage:nil];
             taskMultiEditButton.tag = 25000+i;
+            taskMultiEditButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
             
             [headView addSubview:taskMultiEditButton];
         }
@@ -1364,8 +1365,11 @@ iPadViewController *_iPadViewCtrler;
                                                titleColor:[UIColor whiteColor]
                                                    target:self
                                                  selector:@selector(showDone:)
-                                         normalStateImage:@"CheckOff20.png"
-                                       selectedStateImage:@"CheckOn20.png"];
+                                         normalStateImage:@"module_hidedone.png"
+                                       selectedStateImage:@"module_showdone.png"];
+            
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            projectShowDoneButton.selected = ctrler.showDone;
             
             [headView addSubview:projectShowDoneButton];
         }

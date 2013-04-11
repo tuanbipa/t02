@@ -541,13 +541,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     noteLayoutCtrler.viewContainer = noteListView;
     
     [self createEditBar];
+    
+    [self changeSkin];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self changeSkin];
     
     //[self initData];
     [self loadAndShowList];

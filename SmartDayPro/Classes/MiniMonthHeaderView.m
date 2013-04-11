@@ -112,7 +112,7 @@ extern BOOL _isiPad;
                                               titleColor:[UIColor whiteColor]
                                                   target:self
                                                 selector:@selector(goToday:)
-                                        normalStateImage:@"blue_button.png"
+                                        normalStateImage:@"module_today.png"
                                       selectedStateImage:nil];
             
             [self addSubview:todayButton];
@@ -230,7 +230,7 @@ extern BOOL _isiPad;
     
     if (!selectedButton.selected)
     {
-        title = [NSString stringWithFormat:@"Week #%d, %@", [Common getWeekOfYear:dt], [Common getMonthYearString:dt]];
+        title = [NSString stringWithFormat:@"CW #%d, %@", [Common getWeekOfYear:dt], [Common getMonthYearString:dt]];
     }
     
     UIButton *prevButton = (UIButton *) [self viewWithTag:11000];
