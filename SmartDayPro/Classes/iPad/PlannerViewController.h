@@ -23,6 +23,7 @@
 }
 
 @property (nonatomic, readonly) PlannerView *plannerView;
+@property (nonatomic, readonly) PlannerBottomDayCal *plannerBottomDayCal;
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;
 

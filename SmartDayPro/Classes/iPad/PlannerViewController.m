@@ -40,6 +40,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 @implementation PlannerViewController
 
 @synthesize plannerView;
+@synthesize plannerBottomDayCal;
 
 @synthesize popoverCtrler;
 

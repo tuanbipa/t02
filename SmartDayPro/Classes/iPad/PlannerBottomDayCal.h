@@ -22,6 +22,7 @@
 
 @property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;
 @property (nonatomic, readonly) MovableController *movableController;
+@property (nonatomic, readonly) PlannerScheduleView *plannerScheduleView;
 
 - (void)changeWeek: (NSDate*) startDate;
 - (void) refreshLayout;

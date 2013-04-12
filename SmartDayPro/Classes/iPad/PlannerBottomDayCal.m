@@ -17,6 +17,7 @@
 @implementation PlannerBottomDayCal
 
 @synthesize movableController;
+@synthesize plannerScheduleView;
 
 @synthesize calendarLayoutController;
 

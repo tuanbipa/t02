@@ -107,4 +107,76 @@
      }
  }
 
+- (TimeSlotView *)getTimeSlot
+{
+	//ILOG(@"[ScheduleView getTimeSlot\n")
+	
+	if (activeSlot != nil)
+	{
+		//ILOG(@"ScheduleView getTimeSlot] NOT NIL\n")
+		return activeSlot;
+	}
+	
+	//ILOG(@"ScheduleView getTimeSlot]\n")
+	return nil;
+}
+
+// hilight title when move over
+- (void) highlight:(CGRect) rec
+{
+	//ILOG(@"[ScheduleView hightlight\n")
+	
+	rec.origin.x -= self.frame.origin.x;
+	rec.origin.y -= self.frame.origin.y;
+	
+	TimeSlotView *slot = [self hitTestRec:rec];
+	
+	if (activeSlot == slot)
+	{
+		return;
+	}
+	
+	[activeSlot unhighlight];
+	
+	activeSlot = slot;
+	
+	if (activeSlot != nil)
+	{
+		////////printf("high light slot:%s\n", [[activeSlot.time description] UTF8String] );
+		[activeSlot highlight];
+	}
+	
+	//ILOG(@"ScheduleView hightlight]\n")
+}
+
+// unhilight title after moving
+- (void) unhighlight
+{
+	//ILOG(@"[ScheduleView unhightlight\n")
+	
+	if (activeSlot != nil)
+	{
+		[activeSlot unhighlight];
+		activeSlot = nil;
+	}
+	//ILOG(@"ScheduleView unhightlight]\n")
+}
+
+- (TimeSlotView *) hitTestRec: (CGRect) rec
+{
+	//ILOG(@"[ScheduleView hitTestRec\n")
+	
+	//for (TimeSlotView *view in self.subviews)
+	for (UIView *view in self.subviews)
+	{
+		if ([view isKindOfClass:[TimeSlotView class]] && [(TimeSlotView *)view hitTestRec:rec] != nil)
+		{
+			//ILOG(@"ScheduleView hitTestRec] NOT NIL\n")
+			return (TimeSlotView *)view;
+		}
+	}
+	
+	//ILOG(@"ScheduleView hitTestRec]\n")
+	return nil;
+}
 @end

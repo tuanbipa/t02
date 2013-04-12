@@ -23,4 +23,8 @@
 }
 
 @property BOOL todayLineHidden;
+
+- (TimeSlotView *)getTimeSlot;
+- (void) highlight:(CGRect) rec;
+- (void) unhighlight;
 @end

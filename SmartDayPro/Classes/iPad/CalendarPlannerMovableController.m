@@ -13,6 +13,12 @@
 #import "TaskView.h"
 #import "Task.h"
 #import "PlannerViewController.h"
+#import "PlannerBottomDayCal.h"
+#import "PlannerScheduleView.h"
+#import "TimeSlotView.h"
+#import "PlannerCalendarLayoutController.h"
+
+extern PlannerViewController *_plannerViewCtrler;
 
 @implementation CalendarPlannerMovableController
 
@@ -23,6 +29,12 @@
 	}
 	
 	return self;
+}
+
+-(void)move:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super move:touches withEvent:event];
+    [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView highlight:self.activeMovableView.frame];
 }
 
 -(void) endMove:(MovableView *)view
@@ -45,18 +57,26 @@
         if (moveInMM)
         {
             [self doTaskMovementInMM];
-        }
-        else if (rightMovableView != nil)
-        {
-            //Task *destTask = (Task *)rightMovableView.tag;
-            Task *destTask = ((TaskView *)rightMovableView).task;
+        } else {
+            // calculate date
+            CGPoint touchPoint = [self.activeMovableView getTouchPoint];
             
-            if ([task isTask] && [destTask isTask])
-            {
-                [[TaskManager getInstance] changeOrder:task destTask:destTask];
-            }
+            NSDate *startDate = [[_plannerViewCtrler.plannerBottomDayCal.calendarLayoutController.startDate copy] autorelease];
             
+            CGFloat dayWidth = (_plannerViewCtrler.plannerBottomDayCal.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
+            CGFloat dayNumber = (touchPoint.x-TIMELINE_TITLE_WIDTH)/dayWidth;
+            if (dayNumber > 0 || dayNumber < 7) {
+                TimeSlotView *timeSlot = [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView getTimeSlot];
+                
+                startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
+                NSInteger num = dayNumber;
+                NSDate *toDate = [Common dateByAddNumDay:num toDate:startDate];
+                [self changeTime:task time:toDate];
+            }            
+            
+            [_plannerViewCtrler.plannerBottomDayCal refreshLayout];
         }
+        
         
         if (!moveInMM)
         {
@@ -64,6 +84,42 @@
         }
     }
     
+    [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView unhighlight];
+    
     [view release];
+}
+
+- (void) changeTime:(Task *)task time:(NSDate *)time
+{
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    //NSDate *sDate = [task.startTime copy];
+    //NSDate *dDate = [task.deadline copy];
+    
+    
+    [tm moveTime:time forEvent:task];
+    
+//    if ([task isRE])
+//    {
+//        [_abstractViewCtrler.miniMonthView refresh];
+//    }
+//    else
+//    {
+//        if (sDate != nil)
+//        {
+//            [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:sDate];
+//            [sDate release];
+//        }
+//        
+//        if (dDate != nil)
+//        {
+//            [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:dDate];
+//            [dDate release];
+//        }
+//        
+//        [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:task.startTime];
+//    }
+    
 }
 @end
