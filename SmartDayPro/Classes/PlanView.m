@@ -109,6 +109,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+- (void) drawHand:(CGRect)rect context:(CGContextRef) ctx
+{
+    UIImage *flagImage = [[ImageManager getInstance] getImageWithName:@"assign.png"];
+    
+    [flagImage drawInRect:rect];
+}
+
 - (void) drawText:(CGRect)rect context:(CGContextRef) ctx
 {
 	//Project *plan = (Project *)self.tag;
@@ -117,7 +124,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     //NSString *name = [NSString stringWithFormat:@"%@%@", plan.source == CATEGORY_SOURCE_ICAL?@"[iOS/OSX] ":(plan.source == CATEGORY_SOURCE_SDW?@"[mySmartDay] ":@""), plan.name];
     
     //NSString *name = plan.name;
-    NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"☛ [%@] ", plan.ownerName]:@"", plan.name];
+    NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"[%@] ", plan.ownerName]:@"", plan.name];
 	
 	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
 	
@@ -339,14 +346,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
     rect.origin.x += PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     rect.size.width -= PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     
-    [self drawText:rect context:ctx];
-    
     if ([plan isShared])
     {
         [[[Colors darkSlateGray] colorWithAlphaComponent:0.5] setFill];
         
         CGContextFillRect(ctx, self.bounds);
+        
+        frm.size.width = HAND_SIZE;
+        frm.size.height = HAND_SIZE;
+        
+        frm.origin.x = rect.origin.x + SPACE_PAD/2;
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+        [self drawHand:frm context:ctx];
+        
+        rect.origin.x += HAND_SIZE + SPACE_PAD/2;
+        rect.size.width -= HAND_SIZE + SPACE_PAD/2;
     }
+    
+    [self drawText:rect context:ctx];
 }
 
 - (void)drawRect:(CGRect)rect {

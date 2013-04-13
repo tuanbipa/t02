@@ -316,7 +316,8 @@ extern PlannerViewController *_plannerViewCtrler;
         CGRect textRec = rect;
         textRec.origin = CGPointZero;
         
-        NSString *name = [task isShared]?[NSString stringWithFormat:@"☛ %@", task.name]:task.name;
+        //NSString *name = [task isShared]?[NSString stringWithFormat:@"☛ %@", task.name]:task.name;
+        NSString *name = task.name;
         
         SimpleCoreTextView *textView = [[SimpleCoreTextView alloc] initWithFrame:textRec];
         textView.text = name;
@@ -738,6 +739,13 @@ extern PlannerViewController *_plannerViewCtrler;
     
     [linkImage drawInRect:rect];
 }
+
+- (void) drawHand:(CGRect)rect context:(CGContextRef) ctx
+{
+    UIImage *flagImage = [[ImageManager getInstance] getImageWithName:@"assign.png"];
+    
+    [flagImage drawInRect:rect];
+}
     
 - (void) drawListStyle:(CGRect)rect ctx:(CGContextRef)ctx
 {
@@ -750,6 +758,7 @@ extern PlannerViewController *_plannerViewCtrler;
     BOOL hasHashMark = YES;
     BOOL hasTime = YES;
     BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
+    BOOL hasHand = [task isShared];
     
     //printf("task %s link count: %d\n", [task.name UTF8String], task.links.count);
     
@@ -997,6 +1006,20 @@ extern PlannerViewController *_plannerViewCtrler;
         rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
 	}
     
+	if (hasHand)
+	{
+		frm.size.width = HAND_SIZE;
+		frm.size.height = HAND_SIZE;
+        
+		frm.origin.x = rect.origin.x + SPACE_PAD/2;
+		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		[self drawHand:frm context:ctx];
+		
+        rect.origin.x += HAND_SIZE + SPACE_PAD/2;
+        rect.size.width -= HAND_SIZE + SPACE_PAD/2;
+	}
+    
     [self drawText:rect context:ctx];
 }
 
@@ -1011,6 +1034,7 @@ extern PlannerViewController *_plannerViewCtrler;
 	BOOL hasDue = [task isDTask];
 	BOOL hasFlag = [task isTask] && (task.isTop || (task.original != nil && task.original.isTop));
     BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
+    BOOL hasHand = [task isShared];
 
     ////printf("task view: %s - has Link: %s\n", [task.name UTF8String], (hasLink?"Yes":"No"));
     	
@@ -1228,7 +1252,21 @@ extern PlannerViewController *_plannerViewCtrler;
 		
         rect.origin.x += FLAG_SIZE + SPACE_PAD/2;
         rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
-	}   
+	}
+    
+	if (hasHand)
+	{
+		frm.size.width = HAND_SIZE;
+		frm.size.height = HAND_SIZE;
+        
+		frm.origin.x = rect.origin.x + SPACE_PAD/2;
+		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		[self drawHand:frm context:ctx];
+		
+        rect.origin.x += HAND_SIZE + SPACE_PAD/2;
+        rect.size.width -= HAND_SIZE + SPACE_PAD/2;
+	}
     
     rect.origin.x += SPACE_PAD;
     rect.size.width -= SPACE_PAD;
