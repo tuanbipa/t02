@@ -133,6 +133,10 @@ extern PlannerViewController *_plannerViewCtrler;
 {
     NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
     
+    if (calDate == nil) {
+        [super endMove:self.activeMovableView];
+        return;
+    }
     Task *task = ((TaskView *) self.activeMovableView).task;
     
     if ([task isTask])
