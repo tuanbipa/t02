@@ -37,8 +37,10 @@
 #import "SmartDayViewController.h"
 
 #import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 extern BOOL _isiPad;
 
@@ -200,10 +202,15 @@ extern BOOL _isiPad;
         [self.note updateIntoDB:[dbm getDatabase]];
     }
     
-    //[_abstractViewCtrler changeItem:self.note action:action];
-    [_abstractViewCtrler changeItem:self.note];
-    
-    [_abstractViewCtrler hidePopover];
+    if (_plannerViewCtrler != nil) {
+        [_plannerViewCtrler changeItem:self.note];
+        [_plannerViewCtrler hidePopover];
+    } else {
+        //[_abstractViewCtrler changeItem:self.note action:action];
+        [_abstractViewCtrler changeItem:self.note];
+        
+        [_abstractViewCtrler hidePopover];
+    }
     
     [self.navigationController popViewControllerAnimated:YES];
 }

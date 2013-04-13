@@ -554,6 +554,12 @@ BOOL _autoPushPending = NO;
                 [ctrler loadAndShowList];
             }
         }
+        else if (task.listSource == SOURCE_PLANNER_CALENDAR)
+        {
+            // reload planner month view
+            AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+            [calView refreshCellByDate:task.startTime];
+        }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
     }
