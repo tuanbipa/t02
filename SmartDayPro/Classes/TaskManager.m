@@ -4645,16 +4645,7 @@ TaskManager *_sctmSingleton = nil;
     
     [srcTask updateSeqNoIntoDB:[dbm getDatabase]];
     
-	/*if (self.taskTypeFilter == TASK_FILTER_ALL && list != nil)
-	{
-        [Common sortList:list byKey:@"sequenceNo" ascending:YES];
-        
-		[self resetTabAllWithList:list]; 
-	}
-	else */
-	{
-		[self initSmartListData];
-	}	    
+    [self initSmartListData];
 }
 
 - (void) reconcilePinTask:(Task *)task

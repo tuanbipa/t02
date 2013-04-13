@@ -362,8 +362,12 @@ BOOL _fromBackground = NO;
     
     [TimerManager startup];
 	
-    busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
-	
+    //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
+    busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    busyIndicatorView.transform = CGAffineTransformMakeScale(2.0, 2.0);
+    
+    busyIndicatorView.center = self.window.center;
+    
 	[self createCustomMenuItems];
     
     if (_isiPad)

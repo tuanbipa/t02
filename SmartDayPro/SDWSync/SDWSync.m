@@ -1195,7 +1195,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
-    ////printf("getTasks: %s\n", [url UTF8String]);
+    //printf("getCategories: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -1218,7 +1218,7 @@ NSInteger _sdwColor[32] = {
     {
         //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        //printf("get categories:\n%s\n", [str UTF8String]);
+        //printf("get categories returns:\n%s\n", [str UTF8String]);
 
         NSMutableArray *prjList = [NSMutableArray arrayWithArray: pm.projectList];
         
@@ -1955,8 +1955,7 @@ NSInteger _sdwColor[32] = {
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwList options:0 error:&error];
     
-    NSString* body = [[NSString alloc] initWithData:jsonBody
-                                           encoding:NSUTF8StringEncoding];
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
     //printf("add task body:\n%s\n", [body UTF8String]);
     
@@ -2021,7 +2020,7 @@ NSInteger _sdwColor[32] = {
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/tasks/updates.json?keyapi=%@",SDWSite,self.sdwSection.key];
     
-    printf("update URL:\n%s\n", [urlString UTF8String]);
+    //printf("update URL:\n%s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
 	[request setURL:[NSURL URLWithString:urlString]]; 

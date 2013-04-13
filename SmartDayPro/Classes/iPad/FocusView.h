@@ -24,4 +24,6 @@
 - (void) reconcileLinks:(NSDictionary *)dict;
 - (void) reloadAlert4Task:(NSInteger)taskId;
 
+- (BOOL) checkExpanded;
+
 @end

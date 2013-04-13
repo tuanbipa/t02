@@ -21,6 +21,7 @@
 #import "ContentView.h"
 #import "MiniMonthView.h"
 #import "MonthlyCalendarView.h"
+#import "FocusView.h"
 
 #import "SmartDayViewController.h"
 #import "iPadSmartDayViewController.h"
@@ -48,15 +49,27 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     return ![task checkMustDo];
 }
 
+-(void)beginMove:(MovableView *)view
+{
+    [super beginMove:view];
+    
+    moveInFocus = NO;
+    moveInMM = NO;
+}
+
 -(void) endMove:(MovableView *)view
 {
     if (moveInMM)
     {
         [self doTaskMovementInMM];
     }
+    else if (moveInFocus)
+    {
+        [self doTaskMovementInFocus];
+    }
     else
     {
-        [super endMove:self.activeMovableView];
+        [super endMove:view];
     }
 }
 
@@ -70,16 +83,30 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     CGRect frm = dummyView.frame;
     
     [super move:touches withEvent:event];
-    
-    CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
-        
+
     CGPoint touchPoint = [self.activeMovableView getTouchPoint];
     
-    CGPoint tp = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.miniMonthView];    
+    CGPoint p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
     
-    moveInMM = CGRectContainsPoint(mmFrm, tp) && !_abstractViewCtrler.miniMonthView.hidden;
+    if ([self.activeMovableView isKindOfClass:[TaskView class]])
+    {
+        CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
+        
+        moveInMM = CGRectContainsPoint(mmFrm, p) && !_abstractViewCtrler.miniMonthView.hidden;
+        
+        moveInFocus = NO;
+        
+        if (_abstractViewCtrler.focusView != nil)
+        {
+            CGRect focusFrm = [self getMovableRect:_abstractViewCtrler.focusView];
+            p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
+            
+            moveInFocus = CGRectContainsPoint(focusFrm, p);
+        }
+                
+    }
     
-    if (moveInMM)
+    if (moveInMM || moveInFocus)
     {
         if (frm.size.width > 100)
         {
@@ -91,17 +118,20 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             [dummyView setNeedsDisplay];
         }
         
-        frm.origin.x = tp.x;
-        frm.origin.y = tp.y - 40;
+        frm.origin.x = p.x;
+        frm.origin.y = p.y - (moveInMM?40:25);
         
-        frm.size.width = 80;
+        frm.size.width = (moveInMM?80:160);
         frm.size.height = 25;
         
-        [_abstractViewCtrler.miniMonthView moveToPoint:tp];
+        if (moveInMM)
+        {
+            [_abstractViewCtrler.miniMonthView moveToPoint:p];
+        }
     }
     else
-    {
-        if (frm.size.width < 100)
+    {        
+        if (frm.size.width <= 160)
         {
             if ([self.activeMovableView isKindOfClass:[TaskView class]])
             {
@@ -180,9 +210,48 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:oldDate];
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];
     }
-    
 }
 
+- (void) doTaskMovementInFocus
+{
+    Task *task = ((TaskView *) self.activeMovableView).task;
+    
+    [[task retain] autorelease];
+    
+    [super endMove:self.activeMovableView];
+    
+    if ([task isTask])
+    {
+        [self changeTaskDeadline:task];
+    }
+    else if ([task isEvent])
+    {
+        [self changeEventDate:task];
+    }
+    else if ([task isNote])
+    {
+        task.startTime = [Common copyTimeFromDate:task.startTime toDate:[[TaskManager getInstance] today]];
+        
+        [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];
+    }
+    
+    if ([task isEvent])
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
+    }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+        
+        if ([_abstractViewCtrler.focusView checkExpanded])
+        {
+            [_abstractViewCtrler.focusView refreshData];
+
+            //resize calendar views
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:nil];
+        }
+    }
+}
 
 - (void) doTaskMovementInMM
 {

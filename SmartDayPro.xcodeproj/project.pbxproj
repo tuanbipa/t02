@@ -27,6 +27,16 @@
 		677A4D4916BFBB690082330A /* filter_star.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A4D4816BFBB690082330A /* filter_star.png */; };
 		678579EF16B0F6260079A1C2 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */; };
 		67A98154161C26B400DBDAD3 /* SDNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A98153161C26B400DBDAD3 /* SDNavigationController.m */; };
+		67B170621717BCBE00FBD56A /* arrow_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B1705F1717BCBE00FBD56A /* arrow_down@2x.png */; };
+		67B170631717BCBE00FBD56A /* arrow_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B1705F1717BCBE00FBD56A /* arrow_down@2x.png */; };
+		67B170641717BCBE00FBD56A /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170601717BCBE00FBD56A /* arrow_left.png */; };
+		67B170651717BCBE00FBD56A /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170601717BCBE00FBD56A /* arrow_left.png */; };
+		67B170661717BCBE00FBD56A /* arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170611717BCBE00FBD56A /* arrow_left@2x.png */; };
+		67B170671717BCBE00FBD56A /* arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170611717BCBE00FBD56A /* arrow_left@2x.png */; };
+		67B1706A1717C3B800FBD56A /* timer_item.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170681717C3B800FBD56A /* timer_item.png */; };
+		67B1706B1717C3B800FBD56A /* timer_item.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170681717C3B800FBD56A /* timer_item.png */; };
+		67B1706C1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
+		67B1706D1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
 		67B41508166C5A5A00AB3B5C /* iPadSmartDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */; };
 		67C8F0DE1638D3F00098CFEB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C8F0DD1638D3F00098CFEB /* MessageUI.framework */; };
 		67C8F0E51638EA5A0098CFEB /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C8F0E21638EA5A0098CFEB /* HPGrowingTextView.m */; };
@@ -1450,6 +1460,11 @@
 		678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
 		67A98152161C26B400DBDAD3 /* SDNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDNavigationController.h; sourceTree = "<group>"; };
 		67A98153161C26B400DBDAD3 /* SDNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDNavigationController.m; sourceTree = "<group>"; };
+		67B1705F1717BCBE00FBD56A /* arrow_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_down@2x.png"; sourceTree = "<group>"; };
+		67B170601717BCBE00FBD56A /* arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_left.png; sourceTree = "<group>"; };
+		67B170611717BCBE00FBD56A /* arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_left@2x.png"; sourceTree = "<group>"; };
+		67B170681717C3B800FBD56A /* timer_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_item.png; sourceTree = "<group>"; };
+		67B170691717C3B800FBD56A /* timer_item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timer_item@2x.png"; sourceTree = "<group>"; };
 		67B41506166C5A5A00AB3B5C /* iPadSmartDayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSmartDayViewController.h; sourceTree = "<group>"; };
 		67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadSmartDayViewController.m; sourceTree = "<group>"; };
 		67C8F0DD1638D3F00098CFEB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -2974,11 +2989,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				67EC1B261716BE6700582703 /* done_btn@2x.png */,
-				67EC1B1A17169F0800582703 /* filter_day.png */,
-				67EC1B1B17169F0800582703 /* filter_day@2x.png */,
-				67EC1B1C17169F0800582703 /* filter_week.png */,
-				67EC1B1D17169F0800582703 /* filter_week@2x.png */,
+				67B170681717C3B800FBD56A /* timer_item.png */,
+				67B170691717C3B800FBD56A /* timer_item@2x.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
 				67CF2D9D161951B8001FE1AA /* 2-mash-blue.png */,
@@ -2999,6 +3011,9 @@
 				67CF2DAA161951B8001FE1AA /* alert_black.png */,
 				67CF2DAB161951B8001FE1AA /* alert_black@2x.png */,
 				67EFEEF216A535FC0096360B /* arrow_down.png */,
+				67B1705F1717BCBE00FBD56A /* arrow_down@2x.png */,
+				67B170601717BCBE00FBD56A /* arrow_left.png */,
+				67B170611717BCBE00FBD56A /* arrow_left@2x.png */,
 				67CF2DAC161951B8001FE1AA /* background_button.png */,
 				67EEF93216D20A5F00D0A7D0 /* bar_eye.png */,
 				67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */,
@@ -3073,6 +3088,7 @@
 				67CF2DDC161951B8001FE1AA /* delete_button.png */,
 				67CF2DDD161951B8001FE1AA /* detail.png */,
 				67CF2DDE161951B8001FE1AA /* done_btn.png */,
+				67EC1B261716BE6700582703 /* done_btn@2x.png */,
 				67CF2DDF161951B8001FE1AA /* DTasks_icon.png */,
 				67CF2DE0161951B8001FE1AA /* duplicate.png */,
 				67CF2DE1161951B8001FE1AA /* event.png */,
@@ -3083,6 +3099,8 @@
 				67CF2DE6161951B8001FE1AA /* expand.png */,
 				67E41950162E84AB0026CFDE /* filter_all.png */,
 				67E41951162E84AB0026CFDE /* filter_all@2x.png */,
+				67EC1B1A17169F0800582703 /* filter_day.png */,
+				67EC1B1B17169F0800582703 /* filter_day@2x.png */,
 				67E41960162EADEA0026CFDE /* filter_done.png */,
 				67E41961162EADEA0026CFDE /* filter_done@2x.png */,
 				67E50DAD16C09B070006E180 /* filter_due.png */,
@@ -3095,6 +3113,8 @@
 				67E41957162E84AB0026CFDE /* filter_start@2x.png */,
 				67D16D2316310CEF007C5A03 /* filter_today.png */,
 				67D16D2416310CEF007C5A03 /* filter_today@2x.png */,
+				67EC1B1C17169F0800582703 /* filter_week.png */,
+				67EC1B1D17169F0800582703 /* filter_week@2x.png */,
 				67CF2DE7161951B8001FE1AA /* filterWKV.png */,
 				67CF2DE8161951B8001FE1AA /* flag.png */,
 				67CF2DE9161951B8001FE1AA /* flag@2x.png */,
@@ -4013,6 +4033,11 @@
 				67EC1B2217169F0900582703 /* filter_week.png in Resources */,
 				67EC1B2417169F0900582703 /* filter_week@2x.png in Resources */,
 				67EC1B271716BE6700582703 /* done_btn@2x.png in Resources */,
+				67B170621717BCBE00FBD56A /* arrow_down@2x.png in Resources */,
+				67B170641717BCBE00FBD56A /* arrow_left.png in Resources */,
+				67B170661717BCBE00FBD56A /* arrow_left@2x.png in Resources */,
+				67B1706A1717C3B800FBD56A /* timer_item.png in Resources */,
+				67B1706C1717C3B800FBD56A /* timer_item@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4528,6 +4553,11 @@
 				67EC1B2317169F0900582703 /* filter_week.png in Resources */,
 				67EC1B2517169F0900582703 /* filter_week@2x.png in Resources */,
 				67EC1B281716BE6700582703 /* done_btn@2x.png in Resources */,
+				67B170631717BCBE00FBD56A /* arrow_down@2x.png in Resources */,
+				67B170651717BCBE00FBD56A /* arrow_left.png in Resources */,
+				67B170671717BCBE00FBD56A /* arrow_left@2x.png in Resources */,
+				67B1706B1717C3B800FBD56A /* timer_item.png in Resources */,
+				67B1706D1717C3B800FBD56A /* timer_item@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

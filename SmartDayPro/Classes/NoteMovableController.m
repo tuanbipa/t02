@@ -24,7 +24,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 -(void) endMove:(MovableView *)view
 {
-    if (!moveInMM)
+    if (!moveInMM && !moveInFocus)
     {
         CGRect frm = dummyView.frame;
         

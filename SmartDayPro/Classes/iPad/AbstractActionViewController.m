@@ -1128,6 +1128,106 @@ BOOL _autoPushPending = NO;
     
 }
 
+- (void) convertRE2Task:(NSInteger)option task:(Task *)task
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    [tm convertRE2Task:task option:option];
+    
+    MiniMonthView *mmView = [self getMiniMonth];
+    
+    if (mmView != nil)
+    {
+        [mmView refresh];
+    }
+}
+
+- (void) convert2Task:(Task *)task
+{
+    NSDate *sDate = [[task.startTime copy] autorelease];
+    
+    Task *taskCopy = [[task copy] autorelease];
+    
+    taskCopy.type = TYPE_TASK;
+    
+    if (task.original != nil && ![task isREException])
+    {
+        task = task.original;
+    }
+    
+    BOOL isRE = [task isRE];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    [tm updateTask:task withTask:taskCopy];
+    
+    if (isRE)
+    {
+        MiniMonthView *mmView = [self getMiniMonth];
+
+        if (mmView != nil)
+        {
+            [mmView refresh];
+        }
+    }
+    else
+    {
+        AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+        
+        if (calView != nil)
+        {
+            [calView refreshCellByDate:sDate];
+            
+            if (task.deadline != nil)
+            {
+                [calView refreshCellByDate:task.deadline];
+            }            
+        }
+    }
+}
+
+- (void) changeTime:(Task *)task time:(NSDate *)time
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSDate *sDate = [task.startTime copy];
+    NSDate *dDate = [task.deadline copy];
+    
+    [tm moveTime:[Common copyTimeFromDate:time toDate:tm.today] forEvent:task];
+    
+    if ([task isRE])
+    {
+        MiniMonthView *mmView = [self getMiniMonth];
+        
+        if (mmView != nil)
+        {
+            [mmView refresh];
+        }
+    }
+    else
+    {
+        AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+        
+        if (calView != nil)
+        {
+            if (sDate != nil)
+            {
+                [calView refreshCellByDate:sDate];
+                [sDate release];
+            }
+            
+            if (dDate != nil)
+            {
+                [calView refreshCellByDate:dDate];
+                [dDate release];
+            }
+            
+            [calView refreshCellByDate:task.startTime];
+        }
+    }
+    
+}
+
 #pragma mark Project Actions
 - (void) doDeleteCategory:(BOOL) cleanFromDB
 {
@@ -1309,14 +1409,10 @@ BOOL _autoPushPending = NO;
             
 			[[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:buttonIndex];
             
-            //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
             MiniMonthView *mmView = [self getMiniMonth];
             
             if (isADE)
             {
-                //[calView refreshADEView];
-                
-                //[[self getCategoryViewController] refreshADEPane];
                 [self refreshADE];
             }
             
@@ -1327,8 +1423,6 @@ BOOL _autoPushPending = NO;
 		}
         
         [self hidePopover];
-		
-		//[self.navigationController popViewControllerAnimated:YES];
 	}
 	else if (alertVw.tag == -13001)
 	{
@@ -1338,8 +1432,6 @@ BOOL _autoPushPending = NO;
         }
         
         [self hidePopover];
-        
-        //[self.navigationController popViewControllerAnimated:YES];
     }
     
 }

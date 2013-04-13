@@ -312,6 +312,11 @@ AbstractSDViewController *_abstractViewCtrler;
     [ctrler refreshFrame];
 }
 
+- (BOOL) checkExpanded
+{
+    return zoomButton.selected;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
