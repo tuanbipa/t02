@@ -34,7 +34,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Initialization code
-		expandImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, frame.size.height/2 - 10, 20, 20)];
+		expandImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, frame.size.height/2 - 5, 10, 10)];
 		
 		[self addSubview:expandImageView];
 		[expandImageView release];
@@ -68,11 +68,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	//if ([(Project *)self.tag isExpanded])
     if ([self.project isExpanded])
 	{
-		expandImageView.image = [[ImageManager getInstance] getImageWithName:@"expand.png"];
+		expandImageView.image = [[ImageManager getInstance] getImageWithName:@"arrow_down.png"];
 	}
 	else 
 	{
-		expandImageView.image = [[ImageManager getInstance] getImageWithName:@"collapse.png"];
+		expandImageView.image = [[ImageManager getInstance] getImageWithName:@"arrow_left.png"];
 	}
 }
 

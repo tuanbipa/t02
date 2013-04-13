@@ -45,4 +45,8 @@
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
 - (void) changeItem:(Task *)task;
 
+- (void) convertRE2Task:(NSInteger)option task:(Task *)task;
+- (void) convert2Task:(Task *)task;
+- (void) changeTime:(Task *)task time:(NSDate *)time;
+
 @end

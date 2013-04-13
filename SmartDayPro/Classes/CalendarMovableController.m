@@ -38,6 +38,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 #pragma mark Support Methods
+
+/*
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task
 {
     TaskManager *tm = [TaskManager getInstance];
@@ -81,15 +83,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
-- (void) doneMove
-{
-    [super endMove:self.activeMovableView];
-    
-    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-    
-    [ctrler.todayScheduleView unhighlight];
-}
-
 - (void) changeTime:(Task *)task time:(NSDate *)time
 {
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
@@ -123,28 +116,38 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     
 }
+*/
+- (void) doneMove
+{
+    [super endMove:self.activeMovableView];
+    
+    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+    
+    [ctrler.todayScheduleView unhighlight];
+}
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     Task *task =  [[((TaskView *)self.activeMovableView).task retain] autorelease];
-    NSDate *time = [[_abstractViewCtrler getCalendarViewController].todayScheduleView getTimeSlot];
-    
+
 	if (alertVw.tag == -11000)
 	{                
         [self doneMove];
         
         if (buttonIndex == 1)
         {
-            [self convert2Task:task];
+            [_abstractViewCtrler convert2Task:task];
         }
 	}
 	else if (alertVw.tag == -11001)
 	{
+        NSDate *time = [[[[_abstractViewCtrler getCalendarViewController].todayScheduleView getTimeSlot] retain] autorelease];
+        
         [self doneMove];
         
         if (buttonIndex == 1)
         {
-            [self changeTime:task time:time];
+            [_abstractViewCtrler changeTime:task time:time];
         }
 	}
 	else if (alertVw.tag == -11002)
@@ -153,7 +156,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         if (buttonIndex != 0)
         {
-            [self convertRE2Task:buttonIndex task:task];
+            [_abstractViewCtrler convertRE2Task:buttonIndex task:task];
         }
     }
     else
@@ -195,18 +198,27 @@ extern AbstractSDViewController *_abstractViewCtrler;
     if (dummyView != nil && [dummyView superview])
     {
         Task *task =  ((TaskView *)self.activeMovableView).task;
+        [[task retain] autorelease];
         
         BOOL moveAsEvent = ([task isEvent] || ([task isTask] && [[Settings getInstance] movableAsEvent] == 0));
         
         BOOL convertEventIntoTask = [task isEvent] && self.activeMovableView.frame.origin.x > ctrler.calendarView.bounds.size.width + 60;
         
-        if (moveInMM)
+        if (moveInFocus)
+        {
+            [self doTaskMovementInFocus];
+        }
+        else if (moveInMM)
         {
             [self doTaskMovementInMM];
         }
         else if (rightMovableView != nil)
         {
             Task *destTask = ((TaskView *)rightMovableView).task;
+
+            [[destTask retain] autorelease];
+            
+            [self doneMove];
             
             if ([task isTask] && [destTask isTask])
             {
@@ -252,25 +264,29 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
             }
             
-            NSDate *time = [ctrler.todayScheduleView getTimeSlot];
-
-            [self changeTime:task time:time];
+            NSDate *time = [[[ctrler.todayScheduleView getTimeSlot] retain] autorelease];
+            
+            [self doneMove];
+            
+            [_abstractViewCtrler changeTime:task time:time];
             
         }
         else 
         {
             refresh = NO;
+            
+            [self doneMove];
         }
-        
-        if (!moveInMM)
+        /*
+        if (!moveInMM && !moveInFocus)
         {
             [super endMove:view];
-        }
+        }*/
     }
     
     [ctrler.todayScheduleView unhighlight];
         
-    if (!moveInMM && refresh)
+    if (!moveInMM && !moveInFocus && refresh)
     {
         [ctrler refreshLayout];
     }

@@ -87,20 +87,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [self unseparate];
     
-    self.activeMovableView.hidden = NO;
-    
-    [self enableScroll:YES container:self.activeMovableView.superview];
-    
     dummyView.hidden = YES;
     
     if (dummyView != nil && [dummyView superview])
     {
-        [super endMove:view];
-        
         [dummyView removeFromSuperview];
         
         dummyView = nil;
     }
+    
+     if (self.activeMovableView != nil)
+     {
+         self.activeMovableView.hidden = NO;
+         
+         [self enableScroll:YES container:self.activeMovableView.superview];
+         
+         [super endMove:self.activeMovableView];
+     }
 }
 
 @end

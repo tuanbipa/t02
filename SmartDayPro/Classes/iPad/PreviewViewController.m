@@ -255,9 +255,9 @@ PreviewViewController *_previewCtrler;
     
     [contentView release];
     
-/*	UIButton *nameButton = [Common createButton:self.item.name
+	UIButton *nameButton = [Common createButton:self.item.name
 										buttonType:UIButtonTypeCustom
-											 frame:CGRectMake(10, 0, frm.size.width-40, 40)
+											 frame:CGRectMake(10, 0, frm.size.width-50, 40)
 										titleColor:[UIColor blackColor]
 											target:self
 										  selector:@selector(editItem:)
@@ -266,7 +266,7 @@ PreviewViewController *_previewCtrler;
     nameButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     
     [contentView addSubview:nameButton];
-*/
+/*
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, -2, frm.size.width-40, 40)];
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.textColor = [UIColor blackColor];
@@ -276,10 +276,10 @@ PreviewViewController *_previewCtrler;
     
     [contentView addSubview:nameLabel];
     [nameLabel release];
-    
+*/    
     UIButton *nextButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(frm.size.width - 40, -2, 40, 30)
+                                          frame:CGRectMake(frm.size.width - 40, 0, 40, 40)
                                      titleColor:[UIColor blackColor]
                                          target:self
                                        selector:@selector(editItem:)
@@ -287,11 +287,11 @@ PreviewViewController *_previewCtrler;
                              selectedStateImage:nil];
     
     [contentView addSubview:nextButton];
-    
+   
     UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
     
     //detailImgView.frame = CGRectMake(frm.size.width - 40, 5, 25, 30);
-    detailImgView.frame = CGRectMake(10, 5, 25, 30);
+    detailImgView.frame = CGRectMake(10, 3, 25, 30);
     
     [nextButton addSubview:detailImgView];
     [detailImgView release];
@@ -318,10 +318,10 @@ PreviewViewController *_previewCtrler;
     
     frm = contentView.bounds;
     
-    frm.origin.x += 10;
+    //frm.origin.x += 10;
     frm.origin.y += 60;
     frm.size.height -= 60;
-    frm.size.width -= 20;
+    //frm.size.width -= 20;
     
     linkTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     linkTableView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1];
@@ -411,7 +411,7 @@ PreviewViewController *_previewCtrler;
                                           titleColor:[UIColor whiteColor]
                                               target:self
                                             selector:@selector(showTimer:)
-                                    normalStateImage:@"bar_timer.png"
+                                    normalStateImage:@"timer_item.png"
                                   selectedStateImage:nil];
         
         UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
@@ -604,7 +604,6 @@ PreviewViewController *_previewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 	return (indexPath.row == expandedNoteIndex) || (!hasNote && indexPath.row == 0) ?[self calculateExpandedNoteHeight]:40;
 }
 
@@ -660,18 +659,6 @@ PreviewViewController *_previewCtrler;
         
         [cell.contentView addSubview:noteView];
         [noteView release];
-        
-        /*
-        UIButton *editButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(-5, 0, 30, 30)
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(editNote:)
-                                   normalStateImage:@"MM_month.png"
-                                 selectedStateImage:nil];
-        
-        [noteView addSubview:editButton];*/
     }
     else if ([item isTask])
     {

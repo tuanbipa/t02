@@ -16,8 +16,11 @@
     //MovableView *dummyView;
     
     BOOL moveInMM;
+    
+    BOOL moveInFocus;
 }
 
 - (void) doTaskMovementInMM;
+- (void) doTaskMovementInFocus;
 
 @end
