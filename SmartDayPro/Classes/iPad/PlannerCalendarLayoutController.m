@@ -58,10 +58,7 @@
 
 - (TaskView *) layoutObject:(Task *) task reusableView:(TaskView *)reusableView
 {
-    // set list source
-    task.listSource = SOURCE_PLANNER_CALENDAR;
-    
-    
+        
     // drawing events
     NSDate *startTime = task.startTime;
 	
@@ -126,7 +123,7 @@
         [taskView changeFrame:frm];
 	}
     
-    task.listSource = SOURCE_SMARTLIST;
+    task.listSource = SOURCE_PLANNER_CALENDAR;
     task.isSplitted = NO;
     
     taskView.alpha = 1;

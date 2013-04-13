@@ -65,16 +65,19 @@ extern PlannerViewController *_plannerViewCtrler;
             
             CGFloat dayWidth = (_plannerViewCtrler.plannerBottomDayCal.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
             CGFloat dayNumber = (touchPoint.x-TIMELINE_TITLE_WIDTH)/dayWidth;
-            if (dayNumber > 0 || dayNumber < 7) {
+            
+            // if not move out calendar
+            if (dayNumber > 0 && dayNumber < 7) {
                 TimeSlotView *timeSlot = [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView getTimeSlot];
                 
                 startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
                 NSInteger num = dayNumber;
                 NSDate *toDate = [Common dateByAddNumDay:num toDate:startDate];
                 [self changeTime:task time:toDate];
+                
+                [_plannerViewCtrler.plannerBottomDayCal refreshLayout];
             }            
             
-            [_plannerViewCtrler.plannerBottomDayCal refreshLayout];
         }
         
         
@@ -94,32 +97,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     TaskManager *tm = [TaskManager getInstance];
     
-    //NSDate *sDate = [task.startTime copy];
-    //NSDate *dDate = [task.deadline copy];
-    
-    
     [tm moveTime:time forEvent:task];
-    
-//    if ([task isRE])
-//    {
-//        [_abstractViewCtrler.miniMonthView refresh];
-//    }
-//    else
-//    {
-//        if (sDate != nil)
-//        {
-//            [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:sDate];
-//            [sDate release];
-//        }
-//        
-//        if (dDate != nil)
-//        {
-//            [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:dDate];
-//            [dDate release];
-//        }
-//        
-//        [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:task.startTime];
-//    }
     
 }
 @end

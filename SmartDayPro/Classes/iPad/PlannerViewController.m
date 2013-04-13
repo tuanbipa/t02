@@ -213,7 +213,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 8, 750, 206)];
     [contentView addSubview:plannerView];
     
-    CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8), frm.size.height - 16);
+    CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, frm.size.height - 16);
     
     [smartListViewCtrler changeFrame:tmp];
     
