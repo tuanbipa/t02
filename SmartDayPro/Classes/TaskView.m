@@ -26,6 +26,7 @@
 
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
+#import "PlannerBottomDayCal.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
@@ -1300,6 +1301,10 @@ extern PlannerViewController *_plannerViewCtrler;
         CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
         
         [ctrler beginResize:self];
+    } else if (self.task.listSource == SOURCE_PLANNER_CALENDAR) {
+        [_abstractViewCtrler hidePreview];
+        
+        [_plannerViewCtrler.plannerBottomDayCal beginResize:self];
     }
     
 }

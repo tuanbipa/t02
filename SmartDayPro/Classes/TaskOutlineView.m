@@ -15,8 +15,11 @@
 #import "SmartDayViewController.h"
 
 #import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
+#import "PlannerBottomDayCal.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 @implementation TaskOutlineView
 
@@ -169,10 +172,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{	
-    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-    
-    [ctrler finishResize];
+{
+    if (_plannerViewCtrler != nil) {
+        [_plannerViewCtrler.plannerBottomDayCal finishResize];
+    } else if (_abstractViewCtrler  != nil) {
+        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        
+        [ctrler finishResize];
+    }
 }
 
 

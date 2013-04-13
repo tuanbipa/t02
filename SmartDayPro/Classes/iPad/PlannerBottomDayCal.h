@@ -12,12 +12,16 @@
 @class PlannerScheduleView;
 @class PlannerCalendarLayoutController;
 @class MovableController;
+@class TaskOutlineView;
+@class TaskView;
 
 @interface PlannerBottomDayCal : UIView {
     ContentScrollView *scrollView;
     PlannerScheduleView *plannerScheduleView;
     PlannerCalendarLayoutController *calendarLayoutController;
     MovableController *movableController;
+    
+    TaskOutlineView *outlineView;
 }
 
 @property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;
@@ -28,4 +32,8 @@
 - (void) refreshLayout;
 - (void) refreshTaskView4Key:(NSInteger)taskKey;
 - (void) setMovableContentView:(UIView *)contentView;
+
+#pragma mark resizing handle
+- (void)beginResize:(TaskView *)view;
+- (void)finishResize;
 @end

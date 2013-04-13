@@ -13,6 +13,9 @@
 #import "TaskView.h"
 #import "Task.h"
 #import "CalendarPlannerMovableController.h"
+#import "TaskOutlineView.h"
+#import "Common.h"
+#import "TaskManager.h"
 
 @implementation PlannerBottomDayCal
 
@@ -58,6 +61,11 @@
         scrollView.showsHorizontalScrollIndicator = YES;
         scrollView.showsVerticalScrollIndicator = YES;
         scrollView.directionalLockEnabled = YES;
+        
+        // outline for resizing event
+        outlineView = [[TaskOutlineView alloc] initWithFrame:CGRectZero];
+        [self addSubview:outlineView];
+        [outlineView release];
     }
     return self;
 }
@@ -121,5 +129,71 @@
     {
         ((DummyMovableController *) movableController).contentView = contentView;
     }
+}
+
+#pragma mark resizing handle
+
+- (void)beginResize:(TaskView *)view
+{
+	//[self deselect];
+	
+	//outlineView.tag = view.tag;
+    outlineView.tag = view.task;
+	
+	CGRect frm = view.frame;
+	
+	frm.origin = [view.superview convertPoint:frm.origin toView:self];
+	
+	[outlineView changeFrame:frm];
+	
+	outlineView.hidden = NO;
+	
+	scrollView.scrollEnabled = NO;
+	scrollView.userInteractionEnabled = NO;
+}
+
+- (void)finishResize
+{
+	Task *task = (Task *)outlineView.tag;
+	
+	int segments = [outlineView getResizedSegments];
+	
+	if (segments != 0 && outlineView.handleFlag != 0)
+	{
+		//if ([task isEvent])
+		{
+			if (outlineView.handleFlag == 1)
+			{
+				task.startTime = [Common dateByAddNumSecond:-segments*15*60 toDate:task.startTime];
+			}
+			else if (outlineView.handleFlag == 2)
+			{
+				task.endTime = [Common dateByAddNumSecond:segments*15*60 toDate:task.endTime];
+			}
+		}
+		/*else if ([task isTask])
+		{
+			if (task.original != nil)
+			{
+				task = task.original;
+			}
+			
+			task.duration += segments*15*60;
+		}*/
+        
+		[[TaskManager getInstance] resizeTask:task];
+        
+        [calendarLayoutController layout];
+	}
+    
+	[self stopResize];
+}
+
+- (void) stopResize
+{
+	outlineView.hidden = YES;
+	
+	scrollView.scrollEnabled = YES;
+	scrollView.userInteractionEnabled = YES;
 }
 @end
