@@ -317,6 +317,7 @@ extern BOOL _isiPad;
     
     // a3. draw ades
     for (Task *ade in ades) {
+        ade.listSource = SOURCE_PLANNER_CALENDAR;
         
         NSTimeInterval timeInterval = [ade.startTime timeIntervalSinceDate:fromDate];
         NSInteger dayIndex = 0;
@@ -368,6 +369,8 @@ extern BOOL _isiPad;
     NSMutableArray *dTasks = [tm getDTaskListFromDate:fromDate toDate:toDate];
     // b2. draw due tasks
     for (Task *task in dTasks) {
+        task.listSource = SOURCE_PLANNER_CALENDAR;
+        
         NSTimeInterval timeInterval = [task.deadline timeIntervalSinceDate:fromDate];
         NSInteger dayIndex = 0;
         dayIndex = timeInterval/86400;
@@ -403,6 +406,8 @@ extern BOOL _isiPad;
     NSMutableArray *notes = [tm getNoteListFromDate:fromDate toDate:toDate];
     // c2. draw notes
     for (Task *note in notes) {
+        note.listSource = SOURCE_PLANNER_CALENDAR;
+        
         NSTimeInterval timeInterval = [note.startTime timeIntervalSinceDate:fromDate];
         NSInteger dayIndex = 0;
         dayIndex = timeInterval/86400;

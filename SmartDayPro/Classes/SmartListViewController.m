@@ -120,7 +120,6 @@ SmartListViewController *_smartListViewCtrler;
 		smartListLayoutController = [[SmartListLayoutController alloc] init];
         smartListLayoutController.movableController = movableController;
 		
-        
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
 													 name:@"ScheduleFinishedNotification" object:nil];

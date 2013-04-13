@@ -66,6 +66,7 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 //#define ALERT_SIZE 10
 #define ALERT_SIZE 18
 #define FLAG_SIZE 18
+#define HAND_SIZE 16
 #define LINK_SIZE 16
 #define REPEAT_SIZE 13
 
