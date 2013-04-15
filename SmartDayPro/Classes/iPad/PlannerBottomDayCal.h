@@ -14,14 +14,17 @@
 @class MovableController;
 @class TaskOutlineView;
 @class TaskView;
+@class TimeSlotView;
 
-@interface PlannerBottomDayCal : UIView {
+@interface PlannerBottomDayCal : UIView <UITextFieldDelegate>{
     ContentScrollView *scrollView;
     PlannerScheduleView *plannerScheduleView;
     PlannerCalendarLayoutController *calendarLayoutController;
     MovableController *movableController;
     
     TaskOutlineView *outlineView;
+    
+    UITextField *quickAddTextField;
 }
 
 @property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;
@@ -36,4 +39,8 @@
 #pragma mark resizing handle
 - (void)beginResize:(TaskView *)view;
 - (void)finishResize;
+
+
+#pragma mark quick add event
+-(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender;
 @end

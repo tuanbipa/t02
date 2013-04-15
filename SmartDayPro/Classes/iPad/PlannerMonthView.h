@@ -29,7 +29,7 @@
     
     // the week, which is open
     // if no week is open, the value is -1
-    int openningWeek;
+    NSInteger openningWeek;
     
     HighlightView *highlightView;
 }
@@ -55,4 +55,6 @@
 - (void) refreshCellByDate:(NSDate *)date;
 - (void) highlightCellAtPoint:(CGPoint) point;
 - (void) unhighlight;
+- (void)collapseCurrentWeek;
+- (void)expandCurrentWeek;
 @end

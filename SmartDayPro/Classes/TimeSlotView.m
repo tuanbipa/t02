@@ -13,10 +13,13 @@
 #import "TaskManager.h"
 #import "CalendarViewController.h"
 #import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
+#import "PlannerBottomDayCal.h"
 
 extern CalendarViewController *_sc2ViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 extern BOOL _is24HourFormat;
 
@@ -236,8 +239,12 @@ extern BOOL _is24HourFormat;
 {
 	if (gestureRecognizer.state != UIGestureRecognizerStateEnded) 
 	{
-        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-        [ctrler showQuickAdd:self.time];
+        if (_plannerViewCtrler != nil) {
+            [_plannerViewCtrler.plannerBottomDayCal showQuickAdd:self sender:gestureRecognizer];
+        } else {
+            CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+            [ctrler showQuickAdd:self.time];
+        }
 	}
 }
 

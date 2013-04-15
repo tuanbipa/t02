@@ -273,6 +273,7 @@ extern BOOL _isiPad;
 	self.clipsToBounds = YES;
 }
 
+#pragma mark Collapse - Expand functions
 // expand week when user tap on carat
 - (void)expandWeek: (int) week {
     openningWeek = week;
@@ -550,9 +551,35 @@ extern BOOL _isiPad;
         firstDate = [cell getCellDate];
     }
 
+//    NSDictionary *aDictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:
+//                                 firstDate, @"firstDate",
+//                                 nil] autorelease];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationAdjustPlannerMiniMonthHeight" object:nil userInfo:aDictionary];
+    [self sendAdjustNotification:firstDate];
+}
+
+- (void)collapseCurrentWeek {
+    NSInteger currentWeek = openningWeek;
+    [self collapseWeek];
+    openningWeek = currentWeek;
+    
+    PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
+    NSDate *firstDate = [cell getCellDate];
+    [self sendAdjustNotification:firstDate];
+}
+
+- (void)expandCurrentWeek {
+    [self expandWeek:openningWeek];
+    
+    PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
+    NSDate *firstDate = [cell getCellDate];
+    [self sendAdjustNotification:firstDate];
+}
+
+- (void)sendAdjustNotification: (NSDate *) firstDate {
     NSDictionary *aDictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:
-                                 firstDate, @"firstDate",
-                                 nil] autorelease];
+                                  firstDate, @"firstDate",
+                                  nil] autorelease];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationAdjustPlannerMiniMonthHeight" object:nil userInfo:aDictionary];
 }
 
@@ -561,6 +588,7 @@ extern BOOL _isiPad;
     [super dealloc];
 }
 
+#pragma mark Actions
 - (NSDate *)getFirstDate {
     PlannerMonthCellView *firstCell = [self.subviews objectAtIndex:0];
     return [firstCell getCellDate];
