@@ -126,6 +126,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
         if (moveInMM)
         {
+            p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.miniMonthView];
             [_abstractViewCtrler.miniMonthView moveToPoint:p];
         }
     }

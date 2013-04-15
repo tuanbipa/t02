@@ -42,6 +42,8 @@
 #import "NoteDetailTableViewController.h"
 #import "ProjectEditViewController.h"
 
+#import "SDNavigationController.h"
+
 #import "SmartCalAppDelegate.h"
 
 BOOL _autoPushPending = NO;
@@ -52,6 +54,8 @@ BOOL _autoPushPending = NO;
 
 @implementation AbstractActionViewController
 @synthesize contentView;
+
+@synthesize popoverCtrler;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,6 +73,8 @@ BOOL _autoPushPending = NO;
         activeView = nil;
         
         self.task2Link = nil;
+        
+        self.popoverCtrler = nil;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(miniMonthResize:)
@@ -129,6 +135,8 @@ BOOL _autoPushPending = NO;
     
     self.task2Link = nil;
     
+    self.popoverCtrler = nil;    
+    
     [super dealloc];
 }
 
@@ -168,6 +176,14 @@ BOOL _autoPushPending = NO;
     return nil;
 }
 
+- (void) hidePopover
+{
+	if (self.popoverCtrler != nil && [self.popoverCtrler isPopoverVisible])
+	{
+		[self.popoverCtrler dismissPopoverAnimated:NO];
+	}
+	
+}
 -(void) deselect
 {
     if (activeView != nil)
@@ -179,12 +195,9 @@ BOOL _autoPushPending = NO;
 
     [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO];
     
-    activeView = nil;
-}
-
-- (void) hidePopover
-{
+    [self hidePopover];
     
+    activeView = nil;
 }
 
 - (Task *) getActiveTask
@@ -423,7 +436,7 @@ BOOL _autoPushPending = NO;
 }
 
 #pragma mark Edit
-
+/*
 - (void) editItem:(Task *)item
 {
     if ([item isNote])
@@ -444,15 +457,134 @@ BOOL _autoPushPending = NO;
         [ctrler release];
     }
 }
+*/
+- (void) editItem:(Task *)item
+{
+    if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SDNavigationController class]])
+    {
+        if ([item isNote])
+        {
+            NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+            ctrler.note = item;
+            
+            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
+        else
+        {
+            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+            
+            ctrler.task = item;
+            
+            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
+    }
+    else
+    {
+        if ([item isNote])
+        {
+            NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+            ctrler.note = item;
+            
+            [self.navigationController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
+        else
+        {
+            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+            
+            ctrler.task = item;
+            
+            [self.navigationController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
 
+    }
+}
+
+/*
 - (void) editItem:(Task *)item inRect:(CGRect)inRect
 {
     [self editItem:item];
 }
+*/
 
+- (void) editItem:(Task *)task inRect:(CGRect)inRect
+{
+    [self.popoverCtrler dismissPopoverAnimated:NO];
+    
+    UIViewController *ctrler = nil;
+    
+    if ([task isNote])
+    {
+        NoteDetailTableViewController *noteCtrler = [[NoteDetailTableViewController alloc] init];
+        noteCtrler.note = task;
+        
+        ctrler = noteCtrler;
+    }
+    else
+    {
+        TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
+        taskCtrler.task = task;
+        
+        ctrler = taskCtrler;
+    }
+    
+	SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+	[ctrler release];
+	
+	self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+	
+	[navController release];
+    
+    //[self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(task.listSource == SOURCE_CALENDAR || task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];    
+}
+
+/*
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
     [self editItem:item];
+}
+*/
+
+- (void) editItem:(Task *)item inView:(TaskView *)inView
+{
+    UIViewController *editCtrler = nil;
+    
+    if ([item isNote])
+    {
+        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+        
+        ctrler.note = item;
+        
+        editCtrler = ctrler;
+    }
+    else
+    {
+        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+        
+        ctrler.task = item;
+        
+        editCtrler = ctrler;
+    }
+	
+    if (editCtrler != nil)
+    {
+        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
+        [editCtrler release];
+        
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+        
+        [navController release];
+        
+        CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
+        
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+        
+    }
 }
 
 - (void) editCategory:(Project *) project
@@ -465,9 +597,28 @@ BOOL _autoPushPending = NO;
 	[ctrler release];
 }
 
+/*
 - (void) editProject:(Project *)project inView:(PlanView *)inView
 {
     [self editCategory:project];
+}
+*/
+- (void) editProject:(Project *)project inView:(PlanView *)inView
+{
+    ProjectEditViewController *editCtrler = [[ProjectEditViewController alloc] init];
+    editCtrler.project = project;
+    
+    SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
+    [editCtrler release];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+    
+    [navController release];
+    
+    CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    
 }
 
 #pragma mark Calendar Actions
@@ -614,9 +765,7 @@ BOOL _autoPushPending = NO;
     NSDate *dDate = [[(task.original != nil?task.original.deadline:task.deadline) copy] autorelease];
     NSDate *sDate = [[(task.original != nil?task.original.startTime:task.startTime) copy] autorelease];
     
-    //NSInteger action = (task.primaryKey == -1 && task.original == nil?TASK_CREATE:TASK_UPDATE);
-    
-    BOOL isADE = ([task isADE] || [task.original isADE] || [taskCopy isADE]);
+    //BOOL isADE = ([task isADE] || [task.original isADE] || [taskCopy isADE]);
     
     BOOL reChange = [task isRE] || [task.original isRE] || [taskCopy isRE];
     
@@ -1132,6 +1281,13 @@ BOOL _autoPushPending = NO;
     
     [tm starTask:task];
     
+    SmartListViewController *slViewCtrler = [self getSmartListViewController];
+    
+    [slViewCtrler setNeedsDisplay];
+    
+    CategoryViewController *catViewCtrler = [self getCategoryViewController];
+    
+    [catViewCtrler setNeedsDisplay];
 }
 
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task

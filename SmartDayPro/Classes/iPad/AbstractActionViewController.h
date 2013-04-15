@@ -34,6 +34,8 @@
 
 @property (nonatomic, readonly) ContentView *contentView;
 
+@property (nonatomic, retain) UIPopoverController *popoverCtrler;
+
 - (CalendarViewController *) getCalendarViewController;
 - (SmartListViewController *) getSmartListViewController;
 - (NoteViewController *) getNoteViewController;
@@ -48,5 +50,7 @@
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task;
 - (void) convert2Task:(Task *)task;
 - (void) changeTime:(Task *)task time:(NSDate *)time;
+
+- (void) editItem:(Task *)item;
 
 @end

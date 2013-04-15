@@ -17,7 +17,7 @@
     //UIButton *taskMultiEditButton;
 }
 
-@property (nonatomic, retain) UIPopoverController *popoverCtrler;
+//@property (nonatomic, retain) UIPopoverController *popoverCtrler;
 
 - (BOOL) checkRect:(CGRect)rect inModule:(NSInteger) inModule;
 - (void) showCategory;

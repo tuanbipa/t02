@@ -25,7 +25,13 @@
 
 #import "iPadSmartDayViewController.h"
 
-extern iPadSmartDayViewController *_iPadSDViewCtrler;
+#import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
+
+extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
+
+//extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 PreviewViewController *_previewCtrler;
 
@@ -159,8 +165,15 @@ PreviewViewController *_previewCtrler;
     {
         Task *item = [self.linkList objectAtIndex:tapRow];
     
-        //[self editTask:item];
-        [_iPadSDViewCtrler editItem:item];
+        //[_iPadSDViewCtrler editItem:item];
+        if (_plannerViewCtrler != nil)
+        {
+            [_plannerViewCtrler editItem:item];
+        }
+        else if (_abstractViewCtrler != nil)
+        {
+            [_abstractViewCtrler editItem:item];
+        }
     }
 }
 
@@ -225,21 +238,40 @@ PreviewViewController *_previewCtrler;
 {
     if (noteView.note != nil)
     {
-        //[self editTask:noteView.note];
-        [_iPadSDViewCtrler editItem:noteView.note];
+        //[_iPadSDViewCtrler editItem:noteView.note];
+        if (_plannerViewCtrler != nil)
+        {
+            [_plannerViewCtrler editItem:noteView.note];
+        }
+        else if (_abstractViewCtrler != nil)
+        {
+            [_abstractViewCtrler editItem:noteView.note];
+        }
     }
 }
 
 #pragma mark Actions
 - (void) editItem:(id) sender
 {
-    //[self editTask:self.item];
-    [_iPadSDViewCtrler editItem:self.item];
+    //[_iPadSDViewCtrler editItem:self.item];
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler editItem:item];
+    }
+    else if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler editItem:item];
+    }
 }
 
 - (void) showTimer:(id) sender
 {
-    [_iPadSDViewCtrler showTimer];
+    //[_iPadSDViewCtrler showTimer];
+    
+    if ([_abstractViewCtrler isKindOfClass:[iPadSmartDayViewController class]])
+    {
+        [(iPadSmartDayViewController *)_abstractViewCtrler showTimer];
+    }
 }
 
 #pragma mark View
@@ -403,7 +435,7 @@ PreviewViewController *_previewCtrler;
 {
     [super viewWillAppear:animated];
     
-    if ([self.item isTask])
+    if ([self.item isTask] && _plannerViewCtrler == nil)
     {
         UIButton *timerButton = [Common createButton:@""
                                           buttonType:UIButtonTypeCustom
@@ -435,10 +467,11 @@ PreviewViewController *_previewCtrler;
 {
     if (noteLinkCreated)
     {
-        NoteViewController *ctrler = [_iPadSDViewCtrler getNoteViewController];
+        //NoteViewController *ctrler = [_iPadSDViewCtrler getNoteViewController];
+        NoteViewController *ctrler = [_abstractViewCtrler getNoteViewController];
         [ctrler loadAndShowList];
         
-        CategoryViewController *catCtrler = [_iPadSDViewCtrler getCategoryViewController];
+        CategoryViewController *catCtrler = [_abstractViewCtrler getCategoryViewController];
         [catCtrler setNeedsDisplay];
     }
     
