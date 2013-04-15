@@ -41,6 +41,8 @@
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
 
+#import "SmartListLayoutController.h"
+
 #import "SmartCalAppDelegate.h"
 
 extern BOOL _isiPad;
@@ -134,7 +136,10 @@ extern BOOL _isiPad;
                 ctrler = [[CalendarViewController alloc] init];
                 break;
             case 1:
+            {
                 ctrler = [[SmartListViewController alloc] init];
+                //((SmartListViewController *)ctrler).smartListLayoutController.layoutInPlanner = NO;
+            }
                 break;
             case 2:
                 ctrler = [[NoteViewController alloc] init];

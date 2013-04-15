@@ -29,6 +29,8 @@
 #import "NoteDetailTableViewController.h"
 #import "AbstractSDViewController.h"
 
+#import "SmartListLayoutController.h"
+
 PlannerViewController *_plannerViewCtrler = nil;
 
 extern AbstractSDViewController *_abstractViewCtrler;
@@ -58,7 +60,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     if (self = [super init])
     {
         smartListViewCtrler = [[SmartListViewController alloc] init4Planner];
-        //plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
+        //smartListViewCtrler.smartListLayoutController.layoutInPlanner = YES;
         
         activeView = nil;
         
@@ -115,6 +117,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return self.plannerView.monthView;
 }
 
+/*
 - (void) hidePopover
 {
 	if (self.popoverCtrler != nil && [self.popoverCtrler isPopoverVisible])
@@ -122,6 +125,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		[self.popoverCtrler dismissPopoverAnimated:NO];
 	}	
 }
+*/
 
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
@@ -143,6 +147,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
 }
 
+/*
 - (void) editItem:(Task *)item inView:(UIView *)inView
 {
     UIViewController *editCtrler = nil;
@@ -180,7 +185,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
-
+*/
 #pragma mark Views
 
 - (void) loadView

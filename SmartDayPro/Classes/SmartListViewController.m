@@ -1778,8 +1778,7 @@ SmartListViewController *_smartListViewCtrler;
 - (void)scheduleFinished:(NSNotification *)notification
 {
     //printf("smart list schedule finished - refresh layout\n");
-    
-	[self refreshLayout];
+    [self refreshLayout];
 }
 
 /*

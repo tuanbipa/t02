@@ -28,6 +28,17 @@
 
 @synthesize layoutFinished;
 @synthesize taskList;
+//@synthesize layoutInPlanner;
+
+- (id) init
+{
+    if (self = [super init])
+    {
+        self.layoutFinished = YES;
+    }
+    
+    return self;
+}
 
 - (void) layout4NewTask:(Task *)task
 {
@@ -133,6 +144,8 @@
 
 - (BOOL) layout4Tasks:(NSArray *)taskList2Layout fromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex forActive:(BOOL)forActive todayLines:(NSMutableArray *)todayLines
 {
+    //printf("layout the rest [%d-%d]\n", fromIndex, toIndex);
+    
 	BOOL checkActive = forActive;
 	
 	//if todayLines is nil -> layout and todayLines directly to veiw container 
@@ -154,9 +167,10 @@
 			checkActive = NO;
 		}
 		
+        //printf("add view for task: %s\n", [task.name UTF8String]);
 		[self.viewContainer addSubview:taskView];
 		
-		lastView = taskView;		
+		lastView = taskView;
 	}
 	
 	if (todayLines == nil)
@@ -176,7 +190,7 @@
 	
 	TaskManager *tm = [TaskManager getInstance];
     
-    //printf("smart list layout background\n");
+    //printf("smart list layout background - views: %d - task count:%d\n", self.viewContainer.subviews.count, taskList2Layout.count);
 
 	//NSArray *taskList = [self getObjectList];
 	
@@ -190,7 +204,8 @@
 
 	for (UIView *view in self.viewContainer.subviews)
 	{
-		if ([view isKindOfClass:[TaskView class]] && idx < taskList2Layout.count)
+		//if ([view isKindOfClass:[TaskView class]] && idx < taskList2Layout.count)
+        if ([self checkReusableView:view] && idx < taskList2Layout.count)
 		{
 			Task *task = [taskList2Layout objectAtIndex:idx++];
 			
@@ -207,6 +222,8 @@
 		}
 		else if ([self checkRemovableView:view])
 		{
+            //printf("remove\n");
+            
 			[view removeFromSuperview];
 		}
 	}
@@ -264,25 +281,26 @@
 	{
 		self.layoutFinished = YES;
 		
-		//[[_tabBarCtrler getSmartListViewCtrler]  finishLayout];
-		
 		return;
 	}
-    
-    [super beginLayout];
-    
 	//printf("smart list begin layout\n");
-        
+    
+/*
     NSInteger busyLayout = BUSY_TASK_LAYOUT | BUSY_TASK_LAYOUT_SUBSET;
     
     NSInteger busyFlag = [[BusyController getInstance] getBusyFlag];
     
     if ((busyFlag & busyLayout) != 0)
     {
-        //printf("busy flag:%d, busy layout:%d - Task Layout is in progress\n", busyFlag, busyLayout);
-        
         return;
     }
+*/
+    if (!self.layoutFinished)
+    {
+        return;
+    }
+    
+    [super beginLayout];
 	
 	self.layoutFinished = NO;
 		

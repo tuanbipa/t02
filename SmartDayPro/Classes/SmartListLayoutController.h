@@ -19,6 +19,7 @@
 } 
 
 @property BOOL layoutFinished;
+//@property BOOL layoutInPlanner;
 
 @property (nonatomic, retain) NSMutableArray *taskList;
 

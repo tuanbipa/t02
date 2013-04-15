@@ -63,7 +63,10 @@ extern PlannerViewController *_plannerViewCtrler;
             
             ////printf("selected primary key: %d\n", pk);
             
-            if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
+            Task *task2Link = (_plannerViewCtrler != nil?_plannerViewCtrler.task2Link:_abstractViewCtrler.task2Link);
+            
+            //if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
+            if (task2Link != nil && task2Link.primaryKey != pk)
             {
                 return action == @selector(copy:) ||
                 action == @selector(delete:) ||
@@ -91,8 +94,10 @@ extern PlannerViewController *_plannerViewCtrler;
             }
             
             ////printf("selected primary key: %d\n", pk);
+            Task *task2Link = (_plannerViewCtrler != nil?_plannerViewCtrler.task2Link:_abstractViewCtrler.task2Link);
             
-            if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
+            //if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
+            if (task2Link != nil && task2Link.primaryKey != pk)
             {
                 return action == @selector(copy:) ||
                 action == @selector(done:) ||
@@ -121,7 +126,10 @@ extern PlannerViewController *_plannerViewCtrler;
             
             ////printf("selected primary key: %d\n", pk);
             
-            if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
+            Task *task2Link = (_plannerViewCtrler != nil?_plannerViewCtrler.task2Link:_abstractViewCtrler.task2Link);
+            
+            //if (_abstractViewCtrler.task2Link != nil && _abstractViewCtrler.task2Link.primaryKey != pk)
+            if (task2Link != nil && task2Link.primaryKey != pk)
             {
                 return action == @selector(copy:) ||
                 action == @selector(delete:) ||
@@ -240,7 +248,11 @@ extern PlannerViewController *_plannerViewCtrler;
     
 	[super touchesEnded:touches withEvent:event];
     
-    if (_abstractViewCtrler != nil)
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler deselect];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler deselect];
     }

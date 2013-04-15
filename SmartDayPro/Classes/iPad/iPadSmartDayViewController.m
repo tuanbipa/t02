@@ -84,6 +84,7 @@ iPadViewController *_iPadViewCtrler;
     [super dealloc];
 }
 
+/*
 - (void) hidePopover
 {
 	if (self.popoverCtrler != nil && [self.popoverCtrler isPopoverVisible])
@@ -92,7 +93,7 @@ iPadViewController *_iPadViewCtrler;
 	}
 	
 }
-
+*/
 - (BOOL) checkRect:(CGRect)rect inModule:(NSInteger) inModule
 {
     UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
@@ -180,6 +181,7 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+/*
 - (void) editItem:(Task *)item
 {
     if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SDNavigationController class]])
@@ -275,7 +277,7 @@ iPadViewController *_iPadViewCtrler;
     
     [catViewCtrler setNeedsDisplay];
 }
-
+*/
 - (void) addTask
 {
 	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
@@ -586,6 +588,7 @@ iPadViewController *_iPadViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
+/*
 - (void) editItem:(Task *)task inRect:(CGRect)inRect
 {
     [self.popoverCtrler dismissPopoverAnimated:NO];
@@ -618,6 +621,7 @@ iPadViewController *_iPadViewCtrler;
     
     [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
+*/
 
 #pragma mark Actions
 - (void) expand:(id) sender
