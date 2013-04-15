@@ -22,10 +22,11 @@ extern BOOL _isiPad;
     if (self) {
         // Initialization code
         
-        self.backgroundColor = [UIColor lightGrayColor];
+        //self.backgroundColor = [UIColor lightGrayColor];
+        self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"planner_top_bg.png"]];
         
         // next/previous button
-        CGRect frm = CGRectMake(35, 0, 50, 50);
+        CGRect frm = CGRectMake(0, 0, 50, 50);
         
         UIButton *prevButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
@@ -37,10 +38,10 @@ extern BOOL _isiPad;
                                    normalStateImage:nil
                                  selectedStateImage:nil];
         prevButton.tag = 11000;
-        prevButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+        prevButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
         [self addSubview:prevButton];
         
-        UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_prev.png"]];
+        UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"planner_prev.png"]];
         prevImgView.frame = CGRectMake(10, 0, 30, 30);
         [prevButton addSubview:prevImgView];
         [prevImgView release];
@@ -61,11 +62,21 @@ extern BOOL _isiPad;
         nextButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
         [self addSubview:nextButton];
         
-        UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
+        UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"planner_next.png"]];
         nextImgView.frame = CGRectMake(10, 0, 30, 30);
         [nextButton addSubview:nextImgView];
         [nextImgView release];
         
+        UIButton *todayButton = [Common createButton:_todayText
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(self.bounds.size.width-75, 5, 60, 25)
+                                          titleColor:[UIColor whiteColor]
+                                              target:self
+                                            selector:@selector(goToday:)
+                                    normalStateImage:@"module_today.png"
+                                  selectedStateImage:nil];
+        
+        [self addSubview:todayButton];
         
     }
     return self;
