@@ -11,6 +11,7 @@
 #import "Common.h"
 #import "Settings.h"
 #import "ContentView.h"
+#import "Task.h"
 
 #import "TaskManager.h"
 #import "ProjectManager.h"
@@ -243,6 +244,9 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	
     if (defaultCatChange)
     {
+        tm.eventDummy.project = settings.taskDefaultProject;
+        tm.taskDummy.project = settings.taskDefaultProject;
+        
         [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
     }
     

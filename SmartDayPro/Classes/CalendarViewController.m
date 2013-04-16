@@ -38,6 +38,7 @@
 #import "MiniMonthView.h"
 #import "MiniMonthHeaderView.h"
 #import "FocusView.h"
+#import "HPGrowingTextView.h"
 
 #import "CalendarMovableController.h"
 //#import "CalendarLayoutController.h"
@@ -898,7 +899,8 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	NSInteger slotIdx = 2*hour + minute/30;
 	
-	CGRect frm = quickAddTextField.frame;
+	//CGRect frm = quickAddTextField.frame;
+    CGRect frm = quickAddBackgroundView.frame;
 	
 	frm.origin.y = ymargin + slotIdx * TIME_SLOT_HEIGHT + 1;
 	
@@ -927,80 +929,27 @@ CalendarViewController *_sc2ViewCtrler;
     
 	frm.origin = p;
 	
-	quickAddTextField.frame = frm;
+	//quickAddTextField.frame = frm;
+    quickAddBackgroundView.frame = frm;
+    quickAddBackgroundView.hidden = NO;
+    [quickAddBackgroundView setNeedsDisplay];
+    
+/*
+    quickAddTextField.frame = frm;
 	
 	quickAddTextField.text = @"";
-	quickAddTextField.hidden = NO;
 	quickAddTextField.tag = [timeSlot timeIntervalSince1970];
 	
 	[quickAddTextField becomeFirstResponder];
+*/
+    //quickAddTextView.frame = frm;
+    quickAddTextView.text = @"";
+    quickAddTextView.tag = [timeSlot timeIntervalSince1970];
+    [quickAddTextView becomeFirstResponder];
 	
 	addButton.enabled = NO;
     
     calendarView.contentOffset = offset;
-}
-
--(void)showQuickAdd_old:(NSDate *)timeSlot
-{
-    MiniMonthView *mm = _abstractViewCtrler.miniMonthView;
-    
-    if ([mm.headerView getMWMode] == 0 && !_isiPad) //im month mode
-    {
-        [mm.headerView changeMWMode:1];
-    }
-    
-	calendarView.scrollEnabled = NO;
-	calendarView.userInteractionEnabled = NO;
-	
-	CGFloat ymargin = TIME_SLOT_HEIGHT/2;
-	
-	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
-	
-	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:timeSlot];
-	NSInteger hour = [comps hour];
-	NSInteger minute = [comps minute];
-	
-	NSInteger slotIdx = 2*hour + minute/30;
-	
-	CGRect frm = quickAddTextField.frame;
-	
-	CGPoint offset = calendarView.contentOffset;
-	
-	frm.origin.y = ymargin + slotIdx * TIME_SLOT_HEIGHT + 1;
-	
-	if (minute >= 30)
-	{
-		minute -= 30;
-	}
-	
-	frm.origin.y += minute*TIME_SLOT_HEIGHT/30;
-	
-	CGPoint p = [calendarView convertPoint:frm.origin toView:contentView];
-	p.x = frm.origin.x;
-    
-    CGFloat kbH = [Common getKeyboardHeight];
-	
-    //if (p.y + frm.size.height > contentView.bounds.size.height - kbH)
-    {
-        CGFloat dy = (p.y + frm.size.height - contentView.bounds.size.height + kbH) + 20;
-        
-		p.y -= dy;
-		offset.y += dy;
-		
-		[calendarView setContentOffset:offset animated:NO];        
-    }
-	
-	frm.origin = p;
-	
-	quickAddTextField.frame = frm;
-	
-	quickAddTextField.text = @"";
-	quickAddTextField.hidden = NO;
-	quickAddTextField.tag = [timeSlot timeIntervalSince1970];
-	
-	[quickAddTextField becomeFirstResponder];
-	
-	addButton.enabled = NO;
 }
 
 -(void)quickAdd:(NSString *)name startTime:(NSDate *)startTime
@@ -1452,11 +1401,39 @@ CalendarViewController *_sc2ViewCtrler;
     [adeView reconcileLinks:dict];
 }
 
+#pragma mark GrowingTextView Delegate
+- (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView
+{
+    return NO;
+}
+
+- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView;
+{
+    NSString *text = [quickAddTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    quickAddBackgroundView.hidden = YES;
+	calendarView.scrollEnabled = YES;
+	calendarView.userInteractionEnabled = YES;
+	addButton.enabled = YES;
+	
+	if (![text isEqualToString:@""])
+	{
+		NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:growingTextView.tag];
+		
+		TaskManager *tm = [TaskManager getInstance];
+		
+		[self quickAdd:text startTime:[Common copyTimeFromDate:startTime toDate:tm.today]];
+	}
+}
+
+
 #pragma mark TextFieldDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
-	textField.hidden = YES;
+    
+	//textField.hidden = YES;
+    quickAddBackgroundView.hidden = YES;
 	calendarView.scrollEnabled = YES;
 	calendarView.userInteractionEnabled = YES;
 	addButton.enabled = YES;	
@@ -1749,11 +1726,10 @@ CalendarViewController *_sc2ViewCtrler;
 - (void) changeFrame:(CGRect)frm
 {
     contentView.frame = frm;
+    calendarView.frame = contentView.bounds;
     
     adeView.frame = CGRectMake(0, 0, frm.size.width, 40);
     adeSeparatorImgView.frame = CGRectMake(0, 0, frm.size.width, 6);
-    
-    calendarView.frame = contentView.bounds;
     
     //printf("calendar frame w:%f\n", calendarView.bounds.size.width);
     
@@ -1771,6 +1747,17 @@ CalendarViewController *_sc2ViewCtrler;
     
     calendarView.contentOffset = offset;
     
+	CGSize timePaneSize = [TimeSlotView calculateTimePaneSize];
+	CGFloat xmargin = LEFT_MARGIN + timePaneSize.width + TIME_LINE_PAD;
+    
+    quickAddBackgroundView.frame = CGRectMake(xmargin, 0, frm.size.width-xmargin-CALENDAR_BOX_ALIGNMENT, 2*TIME_SLOT_HEIGHT);
+    
+    frm = quickAddBackgroundView.bounds;
+    frm.origin.x += 15;
+    frm.size.width -= 15;
+    
+    //quickAddTextField.frame = frm;
+    quickAddTextView.frame = frm;
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -1837,18 +1824,51 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	CGSize timePaneSize = [TimeSlotView calculateTimePaneSize];
 	CGFloat xmargin = LEFT_MARGIN + timePaneSize.width + TIME_LINE_PAD;
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    quickAddBackgroundView = [[TaskView alloc] initWithFrame:CGRectMake(xmargin, 0, frm.size.width-xmargin-CALENDAR_BOX_ALIGNMENT, 2*TIME_SLOT_HEIGHT)];
+    quickAddBackgroundView.task = tm.eventDummy;
+    [contentView addSubview:quickAddBackgroundView];
+    [quickAddBackgroundView release];
+    quickAddBackgroundView.hidden = YES;
+    
+    frm = quickAddBackgroundView.bounds;
+    frm.origin.x += 15;
+    frm.size.width -= 15;
+    
+    quickAddTextView = [[HPGrowingTextView alloc] initWithFrame:frm];
+    quickAddTextView.delegate = self;
+    quickAddTextView.backgroundColor = [UIColor clearColor];
 
-    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(xmargin, 0, frm.size.width-xmargin-CALENDAR_BOX_ALIGNMENT, 2*TIME_SLOT_HEIGHT)];
+	quickAddTextView.minNumberOfLines = 1;
+	quickAddTextView.maxNumberOfLines = 2;
+    quickAddTextView.contentInset = UIEdgeInsetsZero;
+	quickAddTextView.returnKeyType = UIReturnKeyDone; //just as an example
+	quickAddTextView.font = [UIFont boldSystemFontOfSize:12];
+    quickAddTextView.textColor = [UIColor whiteColor];
+    
+    [quickAddBackgroundView addSubview:quickAddTextView];
+    [quickAddTextView release];
+
+/*
+    //quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(xmargin, 0, frm.size.width-xmargin-CALENDAR_BOX_ALIGNMENT, 2*TIME_SLOT_HEIGHT)];
+    quickAddTextField = [[UITextField alloc] initWithFrame:frm];
+    quickAddTextField.backgroundColor = [UIColor clearColor];
+    
 	quickAddTextField.delegate = self;
-	quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
-	quickAddTextField.keyboardType=UIKeyboardTypeDefault;
+	//quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
+    quickAddTextField.borderStyle = UITextBorderStyleNone;
+	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;
-	quickAddTextField.font=[UIFont systemFontOfSize:16];
-	quickAddTextField.hidden = YES;
+	quickAddTextField.font = [UIFont boldSystemFontOfSize:12];
+    quickAddTextField.textColor = [UIColor whiteColor];
+	//quickAddTextField.hidden = YES;
 	
-	[contentView addSubview:quickAddTextField];
+	//[contentView addSubview:quickAddTextField];
+    [quickAddBackgroundView addSubview:quickAddTextField];
 	[quickAddTextField release];
-
+*/
 	outlineView = [[TaskOutlineView alloc] initWithFrame:CGRectZero];
 	[contentView addSubview:outlineView];
 	[outlineView release];

@@ -46,6 +46,8 @@
 
 #import "SmartCalAppDelegate.h"
 
+extern BOOL _isiPad;
+
 BOOL _autoPushPending = NO;
 
 @interface AbstractActionViewController ()
@@ -512,6 +514,13 @@ BOOL _autoPushPending = NO;
 
 - (void) editItem:(Task *)task inRect:(CGRect)inRect
 {
+    if (!_isiPad)
+    {
+        [self editItem:task];
+        
+        return;
+    }
+    
     [self.popoverCtrler dismissPopoverAnimated:NO];
     
     UIViewController *ctrler = nil;
@@ -552,6 +561,13 @@ BOOL _autoPushPending = NO;
 
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
+    if (!_isiPad)
+    {
+        [self editItem:item];
+        
+        return;
+    }
+    
     UIViewController *editCtrler = nil;
     
     if ([item isNote])
@@ -605,6 +621,13 @@ BOOL _autoPushPending = NO;
 */
 - (void) editProject:(Project *)project inView:(PlanView *)inView
 {
+    if (!_isiPad)
+    {
+        [self editCategory:project];
+        
+        return;
+    }
+    
     ProjectEditViewController *editCtrler = [[ProjectEditViewController alloc] init];
     editCtrler.project = project;
     
