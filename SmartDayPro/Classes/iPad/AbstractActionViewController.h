@@ -11,6 +11,7 @@
 @class Task;
 @class MovableView;
 @class ContentView;
+@class TaskView;
 @class AbstractMonthCalendarView;
 @class FocusView;
 @class MiniMonthView;
@@ -52,5 +53,7 @@
 - (void) changeTime:(Task *)task time:(NSDate *)time;
 
 - (void) editItem:(Task *)item;
+- (void) editItem:(Task *)task inRect:(CGRect)inRect;
+- (void) editItem:(Task *)item inView:(TaskView *)inView;
 
 @end

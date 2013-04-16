@@ -396,8 +396,11 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
             Task *taskCopy = [[task copy] autorelease];
             
-            taskCopy.listSource = SOURCE_CATEGORY;
+            taskCopy.listSource = task.listSource;
             
+            CGRect frm = [_abstractViewCtrler.miniMonthView.calView getRectOfSelectedCellInView:_abstractViewCtrler.contentView];
+            
+            /*
             if (_iPadSDViewCtrler != nil)
             {
                 [_iPadSDViewCtrler editItem:taskCopy inView:tv];
@@ -405,7 +408,9 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             else if (_sdViewCtrler != nil)
             {
                 [_sdViewCtrler editItem:taskCopy];
-            }
+            }*/
+            
+            [_abstractViewCtrler editItem:taskCopy inRect:frm];
         }
         else
         {

@@ -57,5 +57,6 @@
 - (void) initCalendar:(NSDate *)date;
 - (void) refreshCalendar:(NSDate *)date;
 - (void) changeFrame:(CGRect)frm;
+- (CGRect) getRectOfSelectedCellInView:(UIView *)view;
 
 @end

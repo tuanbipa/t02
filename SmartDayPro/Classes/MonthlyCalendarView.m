@@ -729,6 +729,20 @@ extern BOOL _isiPad;
 	return ret;
 }
 
+- (CGRect) getRectOfSelectedCellInView:(UIView *)view
+{
+    CGRect ret = CGRectZero;
+    
+	if (!highlightView.hidden)
+	{
+        MonthlyCellView *cell = (MonthlyCellView *)highlightView.tag;
+        
+        ret = [cell.superview convertRect:cell.frame toView:view];
+    }
+    
+    return ret;
+}
+
 - (BOOL) checkDateInCalendar:(NSDate *)date
 {
 	MonthlyCellView *firstCell = [self.subviews objectAtIndex:0];
