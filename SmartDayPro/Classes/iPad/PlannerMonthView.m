@@ -16,6 +16,9 @@
 #import "TaskView.h"
 #import "PlannerView.h"
 #import "HighlightView.h"
+#import "AbstractSDViewController.h"
+
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation PlannerMonthView
 
@@ -604,6 +607,7 @@
 - (void)selectCell: (PlannerMonthCellView *) cell {
     
 	[self collapseExpand:cell.weekNumberInMonth];
+    [_abstractViewCtrler jumpToDate:[cell getCellDate]];
     [self highlightCell:cell];
 }
 

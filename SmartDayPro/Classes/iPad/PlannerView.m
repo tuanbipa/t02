@@ -13,8 +13,11 @@
 #import "PlannerBottomDayCal.h"
 #import "TaskManager.h"
 #import "PlannerMonthCellView.h"
+#import "AbstractSDViewController.h"
 
 extern BOOL _isiPad;
+
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation PlannerView
 
@@ -91,6 +94,7 @@ extern BOOL _isiPad;
     [self.monthView collapseExpand:0];
     // select first date in month
     dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
+    [_abstractViewCtrler jumpToDate:dt];
     [self.monthView highlightCellOnDate:dt];
     
     [UIView commitAnimations];

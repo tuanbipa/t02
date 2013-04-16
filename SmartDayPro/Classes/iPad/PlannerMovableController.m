@@ -28,7 +28,7 @@
 #import "TaskDetailTableViewController.h"
 
 //extern SmartDayViewController *_sdViewCtrler;
-//extern AbstractSDViewController *_abstractViewCtrler;
+extern AbstractSDViewController *_abstractViewCtrler;
 //extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 extern PlannerViewController *_plannerViewCtrler;
@@ -224,7 +224,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     [super endMove:self.activeMovableView];
     
-    //NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+    NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
     
     //NSDate *visitDate = nil;
     
@@ -267,6 +267,9 @@ extern PlannerViewController *_plannerViewCtrler;
     
     if (moveInMM)
     {
+        if (calDate != nil) {
+            [_abstractViewCtrler jumpToDate:calDate];
+        }
         
         if (needEdit)
         {
