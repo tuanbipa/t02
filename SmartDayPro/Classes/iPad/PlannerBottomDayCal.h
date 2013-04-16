@@ -15,6 +15,7 @@
 @class TaskOutlineView;
 @class TaskView;
 @class TimeSlotView;
+@class HPGrowingTextView;
 
 @interface PlannerBottomDayCal : UIView <UITextFieldDelegate>{
     ContentScrollView *scrollView;
@@ -24,7 +25,9 @@
     
     TaskOutlineView *outlineView;
     
-    UITextField *quickAddTextField;
+    //UITextField *quickAddTextField;
+    HPGrowingTextView *quickAddTextView;
+    TaskView *quickAddBackgroundView;
 }
 
 @property (nonatomic, readonly) PlannerCalendarLayoutController *calendarLayoutController;

@@ -20,6 +20,7 @@
 #import "PlannerViewController.h"
 #import "PlannerView.h"
 #import "PlannerMonthView.h"
+#import "HPGrowingTextView.h"
 
 extern PlannerViewController *_plannerViewCtrler;
 
@@ -75,16 +76,41 @@ extern PlannerViewController *_plannerViewCtrler;
         
         // init quick-add-event view
         CGFloat dayWidth = (self.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
-        quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, dayWidth, 2*TIME_SLOT_HEIGHT)];
+        /*quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, dayWidth, 2*TIME_SLOT_HEIGHT)];
         quickAddTextField.delegate = self;
         quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
         quickAddTextField.keyboardType=UIKeyboardTypeDefault;
         quickAddTextField.returnKeyType = UIReturnKeyDone;
         quickAddTextField.font=[UIFont systemFontOfSize:16];
         quickAddTextField.hidden = YES;
-        
         [self addSubview:quickAddTextField];
-        [quickAddTextField release];
+        [quickAddTextField release];*/
+        
+        TaskManager *tm = [TaskManager getInstance];
+        
+        quickAddBackgroundView = [[TaskView alloc] initWithFrame:CGRectMake(0, 0, dayWidth, 2*TIME_SLOT_HEIGHT)];
+        quickAddBackgroundView.task = tm.eventDummy;
+        [self addSubview:quickAddBackgroundView];
+        [quickAddBackgroundView release];
+        quickAddBackgroundView.hidden = YES;
+        
+        CGRect frm = quickAddBackgroundView.bounds;
+        frm.origin.x += 15;
+        frm.size.width -= 15;
+        
+        quickAddTextView = [[HPGrowingTextView alloc] initWithFrame:frm];
+        quickAddTextView.delegate = self;
+        quickAddTextView.backgroundColor = [UIColor clearColor];
+        
+        quickAddTextView.minNumberOfLines = 1;
+        quickAddTextView.maxNumberOfLines = 2;
+        quickAddTextView.contentInset = UIEdgeInsetsZero;
+        quickAddTextView.returnKeyType = UIReturnKeyDone; //just as an example
+        quickAddTextView.font = [UIFont boldSystemFontOfSize:12];
+        quickAddTextView.textColor = [UIColor whiteColor];
+        
+        [quickAddBackgroundView addSubview:quickAddTextView];
+        [quickAddTextView release];
     }
     return self;
 }
@@ -219,6 +245,86 @@ extern PlannerViewController *_plannerViewCtrler;
 
 #pragma mark quick add event
 
+//-(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender
+//{
+//    // collapse current week
+//    if (_plannerViewCtrler != nil) {
+//        [_plannerViewCtrler.plannerView.monthView collapseCurrentWeek];
+//    }
+//    
+//    scrollView.scrollEnabled = NO;
+//	scrollView.userInteractionEnabled = NO;
+//    
+//    // 1, calculate X
+//    CGPoint coords = [sender locationInView:sender.view];
+//    //CGFloat dayWidth = (self.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
+//    CGFloat dayWidth = quickAddTextField.frame.size.width;
+//    NSInteger dayNumber = (coords.x-TIMELINE_TITLE_WIDTH)/dayWidth;
+//    
+//    CGFloat x = dayNumber * dayWidth + TIMELINE_TITLE_WIDTH;
+//    
+//    CGRect frm = quickAddTextField.frame;
+//    
+//    frm.origin.x = x;
+//    
+//    // 2, calculate Y
+//    CGFloat ymargin = TIME_SLOT_HEIGHT/2;
+//	
+//	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+//	
+//	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:timeSlot.time];
+//	NSInteger hour = [comps hour];
+//	NSInteger minute = [comps minute];
+//	
+//	NSInteger slotIdx = 2*hour + minute/30;
+//	
+//	CGPoint offset = scrollView.contentOffset;
+//	
+//	frm.origin.y = ymargin + slotIdx * TIME_SLOT_HEIGHT + 1;
+//	
+//	if (minute >= 30)
+//	{
+//		minute -= 30;
+//	}
+//	
+//	frm.origin.y += minute*TIME_SLOT_HEIGHT/30;
+//	
+//	CGPoint p = [scrollView convertPoint:frm.origin toView:self];
+//	p.x = frm.origin.x;
+//    
+//    CGFloat kbH = 352;//[Common getKeyboardHeight];
+//	
+//    //if (p.y + frm.size.height > contentView.bounds.size.height - kbH)
+//    {
+//        CGFloat dy = (p.y + frm.size.height - self.bounds.size.height + kbH) + 20;
+//        
+//		p.y -= dy;
+//		offset.y += dy;
+//		
+//		[scrollView setContentOffset:offset animated:NO];
+//    }
+//	
+//	frm.origin = p;
+//    if (offset.y < 0) {
+//        frm.origin.y += offset.y;
+//        offset.y = 0;
+//    }
+//    
+//    // 3, show quick-add
+//    quickAddTextField.frame = frm;
+//	quickAddTextField.text = @"";
+//	quickAddTextField.hidden = NO;
+//    
+//    // calculate time
+//    NSDate *startDate = [[self.calendarLayoutController.startDate copy] autorelease];
+//    startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
+//    NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
+//	quickAddTextField.tag = [toDate timeIntervalSince1970];
+//	
+//	[quickAddTextField becomeFirstResponder];
+//    scrollView.contentOffset = offset;
+//}
+
 -(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender
 {
     // collapse current week
@@ -232,12 +338,12 @@ extern PlannerViewController *_plannerViewCtrler;
     // 1, calculate X
     CGPoint coords = [sender locationInView:sender.view];
     //CGFloat dayWidth = (self.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
-    CGFloat dayWidth = quickAddTextField.frame.size.width;
+    CGFloat dayWidth = quickAddBackgroundView.frame.size.width;
     NSInteger dayNumber = (coords.x-TIMELINE_TITLE_WIDTH)/dayWidth;
     
     CGFloat x = dayNumber * dayWidth + TIMELINE_TITLE_WIDTH;
     
-    CGRect frm = quickAddTextField.frame;
+    CGRect frm = quickAddBackgroundView.frame;
     
     frm.origin.x = x;
     
@@ -285,17 +391,17 @@ extern PlannerViewController *_plannerViewCtrler;
     }
     
     // 3, show quick-add
-    quickAddTextField.frame = frm;
-	quickAddTextField.text = @"";
-	quickAddTextField.hidden = NO;
+    quickAddBackgroundView.frame = frm;
+	quickAddTextView.text = @"";
+	quickAddBackgroundView.hidden = NO;
     
     // calculate time
     NSDate *startDate = [[self.calendarLayoutController.startDate copy] autorelease];
     startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
     NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
-	quickAddTextField.tag = [toDate timeIntervalSince1970];
+	quickAddTextView.tag = [toDate timeIntervalSince1970];
 	
-	[quickAddTextField becomeFirstResponder];
+	[quickAddTextView becomeFirstResponder];
     scrollView.contentOffset = offset;
 }
 
@@ -318,29 +424,57 @@ extern PlannerViewController *_plannerViewCtrler;
 	//[self refreshLayout];
 }
 
-#pragma mark TextFieldDelegate
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
+#pragma mark GrowingTextView Delegate
+- (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView
 {
-	[textField resignFirstResponder];
-	textField.hidden = YES;
+    return NO;
+}
+
+- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView;
+{
+    NSString *text = [quickAddTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    quickAddBackgroundView.hidden = YES;
 	scrollView.scrollEnabled = YES;
 	scrollView.userInteractionEnabled = YES;
 	//addButton.enabled = YES;
 	
-	if (![textField.text isEqualToString:@""])
+	if (![text isEqualToString:@""])
 	{
-		NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:textField.tag];
+		NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:quickAddTextView.tag];
 		
-		//TaskManager *tm = [TaskManager getInstance];
-		
-		[self quickAdd:textField.text startTime:startTime];
+		[self quickAdd:text startTime:startTime];
 	}
-	
+    
     // expand current week
     if (_plannerViewCtrler != nil) {
         [_plannerViewCtrler.plannerView.monthView expandCurrentWeek];
     }
-	return YES;
 }
+
+#pragma mark TextFieldDelegate
+//
+//-(BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//	[textField resignFirstResponder];
+//	textField.hidden = YES;
+//	scrollView.scrollEnabled = YES;
+//	scrollView.userInteractionEnabled = YES;
+//	//addButton.enabled = YES;
+//	
+//	if (![textField.text isEqualToString:@""])
+//	{
+//		NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:textField.tag];
+//		
+//		//TaskManager *tm = [TaskManager getInstance];
+//		
+//		[self quickAdd:textField.text startTime:startTime];
+//	}
+//	
+//    // expand current week
+//    if (_plannerViewCtrler != nil) {
+//        [_plannerViewCtrler.plannerView.monthView expandCurrentWeek];
+//    }
+//	return YES;
+//}
 @end
