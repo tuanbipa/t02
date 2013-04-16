@@ -17,8 +17,6 @@
 #import "PlannerView.h"
 #import "HighlightView.h"
 
-extern BOOL _isiPad;
-
 @implementation PlannerMonthView
 
 @synthesize nWeeks;
@@ -38,7 +36,8 @@ extern BOOL _isiPad;
         todayCellIndex = -1;
         nDays = 0;
         nWeeks = 0;
-        self.skinStyle = _isiPad?0:1;
+        //self.skinStyle = _isiPad?0:1;
+        self.skinStyle = 0;
 		
 		//CGFloat width = frame.size.width;
         CGFloat width = frame.size.width - TIMELINE_TITLE_WIDTH;
@@ -117,7 +116,7 @@ extern BOOL _isiPad;
     NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
 	NSDateComponents *todayComps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:[NSDate date]];
-	
+	NSDateComponents *dtComps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:date];
 	BOOL mondayAsWeekStart = [[Settings getInstance] isMondayAsWeekStart];
 	
 	NSDate *startDate = [Common getFirstWeekDate:date mondayAsWeekStart:mondayAsWeekStart];
@@ -150,7 +149,7 @@ extern BOOL _isiPad;
         
         //cell.freeRatio = 0;
         
-		//cell.gray = (cell.month != dtComps.month);
+		cell.gray = (cell.month != dtComps.month);
 		
 		if (cell.day == todayComps.day && cell.month == todayComps.month && cell.year == todayComps.year)
 		{

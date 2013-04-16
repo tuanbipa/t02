@@ -43,6 +43,8 @@ typedef enum
     BOOL isFirstDayInWeek;
     // this belong to week # in month
     int weekNumberInMonth;
+    //cell in previous or next month
+    BOOL gray;
 }
 @property NSInteger skinStyle;
 
@@ -56,6 +58,7 @@ typedef enum
 //@property BOOL isDot;
 @property BOOL isFirstDayInWeek;
 @property int weekNumberInMonth;
+@property BOOL gray;
 
 - (void)setDay:(NSInteger) dayValue;
 - (void) setDSDots:(BOOL)dTask sTask:(BOOL)sTask;

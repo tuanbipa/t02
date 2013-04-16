@@ -47,6 +47,7 @@
 		hasSTask = NO;
         isExpand = NO;
         isFirstDayInWeek = NO;
+        gray = NO;
 		
 		//freeRatio = 0;
         
@@ -245,6 +246,41 @@
     }
 }
 
+-(void)setGray:(BOOL) isGray
+{
+	gray = isGray;
+	
+	[self changeDayColor];
+	
+}
+
+- (void) changeDayColor
+{
+	if (gray)
+	{
+		//if ([[Settings getInstance] skinStyle] == 0)
+        if (self.skinStyle == 0)
+		{
+			dayLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+		}
+		else
+		{
+			dayLabel.textColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+		}
+	}
+	else
+	{
+		//if ([[Settings getInstance] skinStyle] == 0)
+        if (self.skinStyle == 0)
+		{
+			dayLabel.textColor = [UIColor blackColor];
+		}
+		else
+		{
+			dayLabel.textColor = [UIColor whiteColor];
+		}
+	}
+}
 #pragma mark Actions
 
 - (void)expand:(id) sender {
