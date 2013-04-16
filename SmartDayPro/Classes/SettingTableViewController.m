@@ -19,6 +19,7 @@
 #import "DBManager.h"
 #import "ImageManager.h"
 #import "Project.h"
+#import "Task.h"
 
 #import "TDSync.h"
 #import "EKSync.h"
@@ -322,6 +323,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
     if (defaultCatChange)
     {
+        tm.eventDummy.project = settings.taskDefaultProject;
+        tm.taskDummy.project = settings.taskDefaultProject;
+        
         [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
     }
     

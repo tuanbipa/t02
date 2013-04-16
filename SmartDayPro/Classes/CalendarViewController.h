@@ -25,6 +25,7 @@
 @class TaskOutlineView;
 @class TaskView;
 @class Task;
+@class HPGrowingTextView;
 
 @interface CalendarViewController : PageAbstractViewController<UITextFieldDelegate> {
 
@@ -49,7 +50,9 @@
 	UILabel *suggestedTimeLabel;
 	UIView *hintView;
 	
-	UITextField *quickAddTextField;
+	//UITextField *quickAddTextField;
+    HPGrowingTextView *quickAddTextView;
+    TaskView *quickAddBackgroundView;
 	UIBarButtonItem *addButton;
 	DateJumpView *dateJumpView;
 	FilterView *filterView;

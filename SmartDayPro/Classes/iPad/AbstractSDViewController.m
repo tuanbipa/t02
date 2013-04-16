@@ -94,11 +94,6 @@ extern BOOL _isiPad;
     [super dealloc];
 }
 
-- (void) hidePopover
-{
-    
-}
-
 - (void) hidePreview //to support change size in calendar view 
 {
     [self hidePopover];
