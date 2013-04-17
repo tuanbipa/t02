@@ -396,7 +396,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
             Task *taskCopy = [[task copy] autorelease];
             
-            taskCopy.listSource = task.listSource;
+            taskCopy.listSource = SOURCE_CATEGORY;//free task -> refresh in all views
             
             CGRect frm = [_abstractViewCtrler.miniMonthView.calView getRectOfSelectedCellInView:_abstractViewCtrler.contentView];
             

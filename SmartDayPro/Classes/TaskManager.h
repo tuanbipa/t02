@@ -89,6 +89,7 @@
 + (NSDictionary *) getTaskDictionaryBySyncId:(NSArray *)taskList;
 + (NSDictionary *) getTaskDictionaryByName:(NSArray *)taskList;
 + (NSDictionary *) getTaskDictBySDWID:(NSArray *)taskList;
++ (BOOL)checkTaskInTimeRange:(Task *)task startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
 
 - (void) initMiniMonth:(BOOL)inProgress;
 - (void) initData;
@@ -148,7 +149,6 @@
 -(void) sortTasks:(NSMutableArray *)tasks;
 -(NSMutableArray *) sortTask:(Task *)task;
 -(BOOL) addTask:(Task *)task;
--(BOOL)checkTaskInTimeRange:(Task *)task startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
 -(BOOL)updateTask:(Task *)taskEdit withTask:(Task *)task;
 -(void)createREException:(Task *)instance originalTime:(NSDate *)originalTime;
 -(BOOL) changeRE:(Task *)re withUntil:(NSDate *)until;

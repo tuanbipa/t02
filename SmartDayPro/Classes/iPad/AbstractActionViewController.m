@@ -836,7 +836,7 @@ BOOL _autoPushPending = NO;
         }
     }
     
-    if (!reSchedule)
+/*  if (!reSchedule)
     {
         [[self getCalendarViewController] refreshTaskView4Key:task.primaryKey];
         [[self getSmartListViewController] refreshTaskView4Key:task.primaryKey];
@@ -857,6 +857,35 @@ BOOL _autoPushPending = NO;
     {
         [self changeItem:task];
     }
+*/
+    if (!reSchedule)
+    {
+        //don't need to refresh Calendar View and Task List when re-scheduling because they are refreshed when schedule is finished
+        
+        CalendarViewController *calCtrler = [self getCalendarViewController];
+        
+        [calCtrler reconcileItem:task];
+        
+        SmartListViewController *taskCtrler = [self getSmartListViewController];
+        
+        [taskCtrler reconcileItem:task];
+    }
+    
+    NoteViewController *noteCtrler = [self getNoteViewController];
+    
+    [noteCtrler reconcileItem:task];
+    
+    CategoryViewController *catCtrler = [self getCategoryViewController];
+    
+    [catCtrler reconcileItem:task];
+    
+    FocusView *focusView = [self getFocusView];
+    
+    if (focusView != nil)
+    {
+        [focusView reconcileItem:task];
+    }
+
     
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class Task;
+
 @interface FocusView : UIView
 {
     UIScrollView *contentView;
@@ -25,5 +27,6 @@
 - (void) reloadAlert4Task:(NSInteger)taskId;
 
 - (BOOL) checkExpanded;
+- (void) reconcileItem:(Task *)item;
 
 @end

@@ -30,6 +30,7 @@
 - (void) changeFrame:(CGRect)frm;
 - (void) loadAndShowList;
 - (void) reloadAlert4Task:(NSInteger)taskId;
+- (void) reconcileItem:(Task *)item;
 
 - (void) setMovableContentView:(UIView *)contentView;
 

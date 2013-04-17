@@ -152,6 +152,21 @@ SmartListViewController *_smartListViewCtrler;
 	
 }
 
+- (void) reconcileItem:(Task *)item
+{
+    if ([item isTask] && [_abstractViewCtrler checkControllerActive:1])
+    {
+        if (item.listSource == SOURCE_SMARTLIST)
+        {
+            [self refreshTaskView4Key:item.primaryKey];
+        }
+        else
+        {
+            [self refreshLayout];
+        }
+    }
+}
+
 - (void) refreshData
 {
 	[dayManagerView initData];

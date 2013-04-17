@@ -166,6 +166,18 @@ extern BOOL _gtdoTabHintShown;
 }
 */
 
+- (BOOL) checkControllerActive:(NSInteger)index
+{
+    UIViewController *ctrler = viewCtrlers[index];
+    
+    if (self.activeViewCtrler == ctrler)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
 -(void)changeSkin
 {
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]){

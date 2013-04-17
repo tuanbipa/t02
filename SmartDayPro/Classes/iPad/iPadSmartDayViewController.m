@@ -84,16 +84,26 @@ iPadViewController *_iPadViewCtrler;
     [super dealloc];
 }
 
-/*
-- (void) hidePopover
+- (BOOL) checkControllerActive:(NSInteger)index
 {
-	if (self.popoverCtrler != nil && [self.popoverCtrler isPopoverVisible])
-	{
-		[self.popoverCtrler dismissPopoverAnimated:NO];
-	}
-	
+    UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
+    UIView *noteHeaderView = (UIView *)[contentView viewWithTag:20001];
+    UIView *projectHeaderView = (UIView *)[contentView viewWithTag:20002];
+    
+    UIButton *taskModuleButton = (UIButton *)[taskHeaderView viewWithTag:21000];
+    UIButton *noteModuleButton = (UIButton *)[noteHeaderView viewWithTag:21001];
+    UIButton *projectModuleButton = (UIButton *)[projectHeaderView viewWithTag:21002];
+    
+    UIButton *buttons[4] = {nil, taskModuleButton, noteModuleButton, projectModuleButton};
+    
+    if (index == 0 || (index > 0 && buttons[index].selected))
+    {
+        return YES;
+    }
+    
+    return NO;
 }
-*/
+
 - (BOOL) checkRect:(CGRect)rect inModule:(NSInteger) inModule
 {
     UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
@@ -168,12 +178,13 @@ iPadViewController *_iPadViewCtrler;
         
         y += frm.size.height + 10;
         
-        if (i==0)
+        /*if (i==0)
         {
             //tasks module
             [viewCtrlers[i+1] refreshLayout];
         }
-        else
+        else*/
+        if (i != 0)
         {
             [viewCtrlers[i+1] loadAndShowList];
         }

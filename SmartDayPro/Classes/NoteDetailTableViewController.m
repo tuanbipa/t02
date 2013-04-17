@@ -12,7 +12,6 @@
 #import "Colors.h"
 #import "Task.h"
 #import "Project.h"
-//#import "CustomTextView.h"
 #import "ImageManager.h"
 #import "ProjectManager.h"
 #import "DBManager.h"
@@ -24,13 +23,11 @@
 #import "DatePickerViewController.h"
 #import "TagEditViewController.h"
 #import "ProjectSelectionTableViewController.h"
-//#import "ListViewController.h"
 #import "LinkViewController.h"
 #import "NoteInfoViewController.h"
 
 #import "CalendarViewController.h"
 #import "SmartListViewController.h"
-//#import "ListAbstractViewController.h"
 
 #import "NoteViewController.h"
 
@@ -151,40 +148,11 @@ extern BOOL _isiPad;
     [ctrler release];
 }
 
-/*
-- (void) check:(id) sender
-{
-    UIButton *button = (UIButton *) sender;
-    
-    button.selected = !button.selected;
-    
-    [noteView changeCheckMode:button.selected];
-}
-
-- (void) uncheckAll:(id) sender
-{
-    [noteView uncheckAll];
-}
-
-- (void) done:(id)sender
-{
-    CGRect frm = contentView.bounds;
-    frm.origin.y = 30;
-    frm.size.height -= 30;
-    
-    [noteView changeFrame:frm];
-    
-    [noteView finishEdit];
-    
-    doneBarView.hidden = YES;
-    
-    saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
-}
-*/
 - (void) save:(id)sender
 {
     [noteView finishEdit];
-    
+
+/*
     [self.note updateByTask:self.noteCopy];
     
     DBManager *dbm = [DBManager getInstance];
@@ -210,6 +178,16 @@ extern BOOL _isiPad;
         [_abstractViewCtrler changeItem:self.note];
         
         [_abstractViewCtrler hidePopover];
+    }
+*/
+    
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler updateTask:self.note withTask:self.noteCopy];
+    }
+    else if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler updateTask:self.note withTask:self.noteCopy];
     }
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -310,71 +288,6 @@ extern BOOL _isiPad;
     
     [contentView addSubview:detailButton];    
     
-    /*
-	doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-[Common getKeyboardHeight]-40, frm.size.width, 40)];
-	doneBarView.backgroundColor = [UIColor clearColor];
-	doneBarView.hidden = YES;
-	
-	[contentView addSubview:doneBarView];
-	[doneBarView release];	
-	
-	UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-	backgroundView.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-	backgroundView.alpha = 0.7;
-	
-	[doneBarView addSubview:backgroundView];
-	[backgroundView release];
-    
-    checkButton=[Common createButton:@"" 
-                                   buttonType:UIButtonTypeCustom 
-                                        frame:CGRectMake(10, 5, 30, 30)
-                                   titleColor:[UIColor whiteColor]
-                                       target:self 
-                                     selector:@selector(check:) 
-                             normalStateImage:@"CheckOn30.png" 
-                           selectedStateImage:@"CheckOn30_blue.png"];
-    checkButton.backgroundColor=[UIColor clearColor];
-    
-    [doneBarView addSubview:checkButton];
-    
-    
-    UIButton *uncheckAllButton=[Common createButton:@"" 
-                          buttonType:UIButtonTypeCustom 
-                               frame:CGRectMake(60, 5, 30, 30)
-                          titleColor:[UIColor whiteColor]
-                              target:self 
-                            selector:@selector(uncheckAll:) 
-                    normalStateImage:@"CheckNone.png" 
-                  selectedStateImage:nil];
-    uncheckAllButton.backgroundColor=[UIColor clearColor];
-    
-    [doneBarView addSubview:uncheckAllButton];
-    
-	
-	UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	doneButton.frame = CGRectMake(250, 5, 60, 30);
-	doneButton.alpha=1;
-	[doneButton setTitle:_doneText forState:UIControlStateNormal];
-	doneButton.titleLabel.font=[UIFont systemFontOfSize:14];
-	[doneButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];		
-	[doneButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
-	
-	[doneButton addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
-	
-	UIButton *cleanButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	cleanButton.frame = CGRectMake(180, 5, 60, 30);
-	cleanButton.alpha=1;
-	[cleanButton setTitle:_cleanText forState:UIControlStateNormal];
-	cleanButton.titleLabel.font=[UIFont systemFontOfSize:14];
-	[cleanButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];		
-	[cleanButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
-	
-	[cleanButton addTarget:self action:@selector(clean:) forControlEvents:UIControlEventTouchUpInside];	
-    
-	[doneBarView addSubview:doneButton];
-	[doneBarView addSubview:cleanButton];
-    */
-    
     self.noteCopy = self.note;
     noteView.note = self.noteCopy;
     
@@ -397,18 +310,6 @@ extern BOOL _isiPad;
     {
         [noteView startEdit];
     }
-    
-    /*
-    if (self.navigationController.viewControllers.count > 1)
-    {
-        UIViewController *parentCtrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-        if ([parentCtrler isKindOfClass:[NoteViewController class]])
-        {
-            UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_backText style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-            self.navigationItem.leftBarButtonItem = backButton;
-            [backButton release];            
-        }
-    }*/
 }
 
 - (void)viewDidUnload

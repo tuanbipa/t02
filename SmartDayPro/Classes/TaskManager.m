@@ -324,7 +324,7 @@ TaskManager *_sctmSingleton = nil;
 			
 			for (Task *subEvent in subEvents)
 			{
-				if ([self checkTaskInTimeRange:subEvent startTime:fromDate endTime:toDate])
+				if ([TaskManager checkTaskInTimeRange:subEvent startTime:fromDate endTime:toDate])
 				{
 					[splitList addObject:subEvent];
 				}
@@ -2167,7 +2167,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	NSDate *end = [Common dateByAddNumDay:1 toDate:start];
 	
-	if ([self checkTaskInTimeRange:task startTime:start endTime:end])
+	if ([TaskManager checkTaskInTimeRange:task startTime:start endTime:end])
 	{
 		if (task.type == TYPE_EVENT)
 		{
@@ -2946,20 +2946,7 @@ TaskManager *_sctmSingleton = nil;
 		[self scheduleTasks];
 	}
     
-    /*
-    if (_smartDayViewCtrler != nil)
-    {
-        [[_smartDayViewCtrler getActiveListViewController] changeTask:task action:TASK_CREATE oldStart:nil oldDue:nil];
-    }
-	*/
-    
 	return filterIn;
-}
-
--(BOOL)checkTaskInTimeRange:(Task *)task startTime:(NSDate *)startTime endTime:(NSDate *)endTime
-{
-	return ([task.startTime compare:startTime] != NSOrderedAscending && [task.startTime compare:endTime] == NSOrderedAscending) ||
-	([task.startTime compare:startTime] == NSOrderedAscending && [task.endTime compare:startTime] == NSOrderedDescending);
 }
 
 - (Task *) getTask2Update:(Task *)taskEdit
@@ -5187,6 +5174,13 @@ TaskManager *_sctmSingleton = nil;
 	
 	return [NSDictionary dictionaryWithObjects:taskList forKeys:mappingList];
 }
+
++(BOOL)checkTaskInTimeRange:(Task *)task startTime:(NSDate *)startTime endTime:(NSDate *)endTime
+{
+	return ([task.startTime compare:startTime] != NSOrderedAscending && [task.startTime compare:endTime] == NSOrderedAscending) ||
+	([task.startTime compare:startTime] == NSOrderedAscending && [task.endTime compare:startTime] == NSOrderedDescending);
+}
+
 
 
 @end

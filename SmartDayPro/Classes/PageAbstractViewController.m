@@ -80,6 +80,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return nil;
 }
 
+- (void) reconcileItem:(Task *)item
+{
+    
+}
+
 - (void) reconcileLinks:(NSDictionary *)dict
 {
 }
