@@ -711,6 +711,10 @@
 		67E839E116D609A000155ADE /* SC_aboutUS_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E839DE16D609A000155ADE /* SC_aboutUS_768.html */; };
 		67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E98FF116D47F7D000E0DC6 /* iPadCalendarSettingViewController.m */; };
 		67E98FF516D4BDF5000E0DC6 /* iPadTaskSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E98FF416D4BDF4000E0DC6 /* iPadTaskSettingViewController.m */; };
+		67EABEA1171E7F0E007C3680 /* planner_task_top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EABE9F171E7F0E007C3680 /* planner_task_top_bg.png */; };
+		67EABEA2171E7F0E007C3680 /* planner_task_top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EABE9F171E7F0E007C3680 /* planner_task_top_bg.png */; };
+		67EABEA3171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EABEA0171E7F0E007C3680 /* planner_task_top_bg@2x.png */; };
+		67EABEA4171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EABEA0171E7F0E007C3680 /* planner_task_top_bg@2x.png */; };
 		67EBDB02169676C1006DD864 /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EBDB01169676C1006DD864 /* PreviewViewController.m */; };
 		67EC0C7F16F8081F00929BFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B30161950D7001FE1AA /* main.m */; };
 		67EC0C8016F8081F00929BFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B34161950D7001FE1AA /* AppDelegate.m */; };
@@ -2305,6 +2309,8 @@
 		67E98FF116D47F7D000E0DC6 /* iPadCalendarSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadCalendarSettingViewController.m; sourceTree = "<group>"; };
 		67E98FF316D4BDF4000E0DC6 /* iPadTaskSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadTaskSettingViewController.h; sourceTree = "<group>"; };
 		67E98FF416D4BDF4000E0DC6 /* iPadTaskSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadTaskSettingViewController.m; sourceTree = "<group>"; };
+		67EABE9F171E7F0E007C3680 /* planner_task_top_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner_task_top_bg.png; sourceTree = "<group>"; };
+		67EABEA0171E7F0E007C3680 /* planner_task_top_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "planner_task_top_bg@2x.png"; sourceTree = "<group>"; };
 		67EBDB00169676C1006DD864 /* PreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewViewController.h; sourceTree = "<group>"; };
 		67EBDB01169676C1006DD864 /* PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
 		67EC0F2F16F8081F00929BFD /* SmartDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3019,18 +3025,6 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				A2E86A88171C06AE00299C9F /* planner_currenttime.png */,
-				A2E86A89171C06AE00299C9F /* planner_currenttime@2x.png */,
-				A2E86A8A171C06AF00299C9F /* planner_next.png */,
-				A2E86A8B171C06AF00299C9F /* planner_next@2x.png */,
-				A2E86A8C171C06AF00299C9F /* planner_prev.png */,
-				A2E86A8D171C06AF00299C9F /* planner_prev@2x.png */,
-				A2E86A8E171C06AF00299C9F /* planner_top_bg.png */,
-				A2E86A8F171C06AF00299C9F /* planner_top_bg@2x.png */,
-				67CE5E14171931E200F00F04 /* assign@2x.png */,
-				67010EB417190D5100143507 /* assign.png */,
-				67B170681717C3B800FBD56A /* timer_item.png */,
-				67B170691717C3B800FBD56A /* timer_item@2x.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
 				67CF2D9D161951B8001FE1AA /* 2-mash-blue.png */,
@@ -3054,6 +3048,8 @@
 				67B1705F1717BCBE00FBD56A /* arrow_down@2x.png */,
 				67B170601717BCBE00FBD56A /* arrow_left.png */,
 				67B170611717BCBE00FBD56A /* arrow_left@2x.png */,
+				67010EB417190D5100143507 /* assign.png */,
+				67CE5E14171931E200F00F04 /* assign@2x.png */,
 				67CF2DAC161951B8001FE1AA /* background_button.png */,
 				67EEF93216D20A5F00D0A7D0 /* bar_eye.png */,
 				67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */,
@@ -3319,6 +3315,16 @@
 				67CF2E5F161951B8001FE1AA /* pin.png */,
 				67CF2E60161951B8001FE1AA /* PinOff20.png */,
 				67CF2E61161951B8001FE1AA /* PinOn20.png */,
+				A2E86A88171C06AE00299C9F /* planner_currenttime.png */,
+				A2E86A89171C06AE00299C9F /* planner_currenttime@2x.png */,
+				A2E86A8A171C06AF00299C9F /* planner_next.png */,
+				A2E86A8B171C06AF00299C9F /* planner_next@2x.png */,
+				A2E86A8C171C06AF00299C9F /* planner_prev.png */,
+				A2E86A8D171C06AF00299C9F /* planner_prev@2x.png */,
+				67EABE9F171E7F0E007C3680 /* planner_task_top_bg.png */,
+				67EABEA0171E7F0E007C3680 /* planner_task_top_bg@2x.png */,
+				A2E86A8E171C06AF00299C9F /* planner_top_bg.png */,
+				A2E86A8F171C06AF00299C9F /* planner_top_bg@2x.png */,
 				67CF2E62161951B8001FE1AA /* play_green_yellow.png */,
 				67E3485316DF2FED00AA19EE /* play_green_yellow@2x.png */,
 				67CF2E63161951B8001FE1AA /* plus.png */,
@@ -3391,6 +3397,8 @@
 				67E3485616DF2FED00AA19EE /* timer_bg.png */,
 				6742B10916E048E60053EB5F /* timer_done.png */,
 				6742B10A16E048E60053EB5F /* timer_done@2x.png */,
+				67B170681717C3B800FBD56A /* timer_item.png */,
+				67B170691717C3B800FBD56A /* timer_item@2x.png */,
 				6742B10B16E048E60053EB5F /* timer_pause.png */,
 				6742B10C16E048E60053EB5F /* timer_pause@2x.png */,
 				6742B10D16E048E60053EB5F /* timer_play.png */,
@@ -4088,6 +4096,8 @@
 				A2E86A9A171C06AF00299C9F /* planner_prev@2x.png in Resources */,
 				A2E86A9C171C06AF00299C9F /* planner_top_bg.png in Resources */,
 				A2E86A9E171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
+				67EABEA1171E7F0E007C3680 /* planner_task_top_bg.png in Resources */,
+				67EABEA3171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4618,6 +4628,8 @@
 				A2E86A9B171C06AF00299C9F /* planner_prev@2x.png in Resources */,
 				A2E86A9D171C06AF00299C9F /* planner_top_bg.png in Resources */,
 				A2E86A9F171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
+				67EABEA2171E7F0E007C3680 /* planner_task_top_bg.png in Resources */,
+				67EABEA4171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

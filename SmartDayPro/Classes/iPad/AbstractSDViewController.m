@@ -150,6 +150,11 @@ extern BOOL _isiPad;
     }
 }
 
+- (BOOL) checkControllerActive:(NSInteger)index
+{
+    return NO;
+}
+
 - (CalendarViewController *) getCalendarViewController
 {
     return (CalendarViewController *)viewCtrlers[0];

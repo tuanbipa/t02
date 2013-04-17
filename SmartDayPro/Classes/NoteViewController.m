@@ -236,24 +236,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
-/*
-- (void) changeItem:(Task *)task action:(NSInteger)action
-{
-    if (action == TASK_CREATE)
-    {
-        [self.noteList addObject:task];
-        
-        [Common sortList:self.noteList byKey:@"startTime" ascending:YES];
-        
-        //[listTableView reloadData];
-    }
-    else if (action == TASK_DELETE)
-    {
-        [self loadAndShowList];
-    }
-
-}
-*/
 - (void) refreshView
 {
     //[listTableView reloadData];
@@ -284,6 +266,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
                 break;
             }
         }
+    }
+}
+
+- (void) reconcileItem:(Task *)item
+{
+    if ([item isNote] && [_abstractViewCtrler checkControllerActive:2])
+    {
+        [self loadAndShowList];
     }
 }
 

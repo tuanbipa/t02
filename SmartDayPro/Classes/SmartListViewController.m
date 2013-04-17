@@ -152,6 +152,21 @@ SmartListViewController *_smartListViewCtrler;
 	
 }
 
+- (void) reconcileItem:(Task *)item
+{
+    if ([item isTask] && [_abstractViewCtrler checkControllerActive:1])
+    {
+        if (item.listSource == SOURCE_SMARTLIST)
+        {
+            [self refreshTaskView4Key:item.primaryKey];
+        }
+        else
+        {
+            [self refreshLayout];
+        }
+    }
+}
+
 - (void) refreshData
 {
 	[dayManagerView initData];
@@ -2209,16 +2224,18 @@ SmartListViewController *_smartListViewCtrler;
 	
 	[contentView addSubview:editBarPlaceHolder];
 	[editBarPlaceHolder release];
-	
+    
 	UIToolbar *editToolbar = [[UIToolbar alloc] initWithFrame:editBarPlaceHolder.bounds];
 	editToolbar.barStyle = UIBarStyleBlack;
+    editToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    editToolbar.tag = 1;
 	
 	[editBarPlaceHolder addSubview:editToolbar];
 	[editToolbar release];
 
 	UIButton *cancelButton = [Common createButton:_cancelText 
 									 buttonType:UIButtonTypeCustom 
-										  frame:CGRectMake(0, 5, 80, 30)
+										  frame:CGRectMake(0, 5, 70, 30)
 									 titleColor:[UIColor whiteColor]
 										 target:self 
 									   selector:@selector(cancelMultiEdit:) 
@@ -2229,10 +2246,10 @@ SmartListViewController *_smartListViewCtrler;
 	
 	doneButton = [Common createButton:_doneText
 									 buttonType:UIButtonTypeCustom 
-										  frame:CGRectMake(0, 5, 80, 30)
+										  frame:CGRectMake(0, 5, 70, 30)
 									 titleColor:[UIColor whiteColor]
 										 target:self 
-									   selector:@selector(multiDone:) 
+									   selector:@selector(multiDone:)
 							   normalStateImage:@"done_btn.png"
 							 selectedStateImage:nil];
 	
@@ -2240,7 +2257,7 @@ SmartListViewController *_smartListViewCtrler;
 	
 	UIButton *deleteButton = [Common createButton:_deleteText 
 									   buttonType:UIButtonTypeCustom
-											frame:CGRectMake(0, 5, 80, 30)
+											frame:CGRectMake(0, 5, 70, 30)
 									   titleColor:[UIColor whiteColor]
 										   target:self 
 										 selector:@selector(multiDelete:) 
@@ -2624,6 +2641,9 @@ SmartListViewController *_smartListViewCtrler;
     
     editBarPlaceHolder.frame = rec;
     //editToolbar.frame = editBarPlaceHolder.bounds;
+    
+    UIToolbar *toolbar = (UIToolbar *) [editBarPlaceHolder viewWithTag:1];
+    toolbar.frame = editBarPlaceHolder.bounds;
     
     quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 40);
     quickAddTextField.frame = CGRectMake(10, 5, frm.size.width-50, 30);

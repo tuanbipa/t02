@@ -567,9 +567,9 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
         return NSOrderedSame;
     }
     
-    NSTimeInterval ti1 = [date1 timeIntervalSince1970];
+    NSTimeInterval ti1 = (date1 == nil? -1:[date1 timeIntervalSince1970]);
     
-    NSTimeInterval ti2 = [date2 timeIntervalSince1970];
+    NSTimeInterval ti2 = (date2 == nil? -1:[date2 timeIntervalSince1970]);
     
     if (ti2 > ti1)
     {
@@ -585,6 +585,11 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSComparisonResult)compareDateNoTime:(NSDate*) date1 withDate:(NSDate*) date2
 {
+    if (date1 == nil && date2 == nil)
+    {
+        return NSOrderedSame;
+    }
+    
 	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
 	unsigned flags = NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit;

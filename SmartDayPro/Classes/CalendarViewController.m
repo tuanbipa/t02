@@ -163,6 +163,21 @@ CalendarViewController *_sc2ViewCtrler;
     [super dealloc];
 }
 
+- (void) reconcileItem:(Task *)item
+{
+    if (([item isTask] || [item isEvent]) && [_abstractViewCtrler checkControllerActive:0])
+    {
+        if (item.listSource == SOURCE_CALENDAR)
+        {
+            [self refreshTaskView4Key:item.primaryKey];
+        }
+        else
+        {
+            [self refreshLayout];
+        }
+    }
+}
+
 #pragma mark Support
 -(void)showAutoSyncProgress:(BOOL)enabled
 {
@@ -342,10 +357,6 @@ CalendarViewController *_sc2ViewCtrler;
 -(void)deselect
 {
     [super deselect];
-    
-    //[self hideDropDownMenu];
-	//[movableController unhighlight];
-	//[self hideBars];
 	
     suggestedTimeLabel.hidden = YES;
 	[self stopResize];
@@ -406,10 +417,8 @@ CalendarViewController *_sc2ViewCtrler;
 
 - (void) markDoneTask
 {
-	//Task *task = [movableController getActiveTask];
 	TaskView *taskView = movableController.activeMovableView;
 	
-	//Task *task = (Task *)taskView.tag;
     Task *task = taskView.task;
 	
 	if (task.original != nil)
@@ -419,57 +428,29 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	[task retain];
 	
-	//[taskView removeFromSuperview];
 	[calendarLayoutController removeView:taskView];
 	
 	[self deselect];
 	
 	[[TaskManager getInstance] markDoneTask:task];
-	
-    /*
-	if ([task isSTask] || [task isDTask])
-	{
-		//[taskDrawerView refreshLayout];
-		
-		if (task.startTime != nil)
-		{
-			[self.weekPlannerView.calView refreshCellByDate:task.startTime];
-		}
-		
-		if (task.deadline != nil && task.deadline != task.startTime)
-		{
-			[self.weekPlannerView.calView refreshCellByDate:task.deadline];
-		}		
-	}	
-	*/
+
 	[task release];
 }
 
 -(void) deleteRE:(NSInteger)deleteOption
 {
-	//Task *task = [movableController getActiveTask];
 	TaskView *taskView = movableController.activeMovableView;
 	
-	//Task *task = (Task *)taskView.tag;
     Task *task = taskView.task;
 	
 	[task retain];
 	
-	//[taskView removeFromSuperview];
 	[calendarLayoutController removeView:taskView];
 	
 	[self deselect];
 	
 	[[TaskManager getInstance] deleteREInstance:task deleteOption:deleteOption];
-	
-    /*
-	if ([task isADE] || [task isSTask] || [task isDTask])
-	{
-		[taskDrawerView refreshLayout];
-	}
-     */
-    
-    
+	    
 	[task release];
 		
 	[self refreshLayout];	
@@ -513,7 +494,6 @@ CalendarViewController *_sc2ViewCtrler;
 
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
-	//Task *task = (Task *)view.tag;
     Task *task = view.task;
     
 	UIMenuController *menuCtrler = [UIMenuController sharedMenuController];	
@@ -525,10 +505,7 @@ CalendarViewController *_sc2ViewCtrler;
 		CGRect frm = view.frame;
 		
 		NSString *timeStr = nil;
-		
-		//BOOL inTaskDrawer = (view.superview.superview == taskDrawerView);
-		
-		//if (!inTaskDrawer && (task.type == TYPE_EVENT || (task.type == TYPE_TASK && task.original != nil))) //event or task in calendar
+
         if (task.type == TYPE_EVENT || (task.type == TYPE_TASK && task.original != nil)) //event or task in calendar
 		{
 			NSDate *smartTime = (task.type == TYPE_TASK?task.smartTime:task.startTime);
@@ -540,12 +517,6 @@ CalendarViewController *_sc2ViewCtrler;
 		
 		if (timeStr != nil)
 		{
-			//CGSize strSize = [timeStr sizeWithFont:[UIFont systemFontOfSize:14]];
-			
-			//CGRect timeFrm = CGRectMake(0, frm.origin.y - 20 + 2, strSize.width + 10, 20);
-			            
-			//timePlaceHolder.frame = timeFrm;
-			//suggestedTimeLabel.frame = timePlaceHolder.bounds;
 			timePlaceHolder.tag = view;
 			suggestedTimeLabel.text = timeStr;
 		}
@@ -610,8 +581,6 @@ CalendarViewController *_sc2ViewCtrler;
 
 - (void) refreshViewAfterScrolling
 {
-	//[self refreshADEView];
-	
 	TaskView *activeView = (TaskView *)movableController.activeMovableView;	
 	
 	if (activeView != nil && timePlaceHolder.tag == activeView)
@@ -652,7 +621,6 @@ CalendarViewController *_sc2ViewCtrler;
 		{
             TaskView *taskView = (TaskView *) view;
                         
-            //Task *task = (Task *)taskView.tag;
             Task *task = taskView.task;
             
             if (task.original != nil)
@@ -672,129 +640,8 @@ CalendarViewController *_sc2ViewCtrler;
 	}	
 }
 
-/*
-- (void) doWeekPlannerAction:(NSInteger)action forTask:(Task *)task
-{
-	NSDate *calDate = [self.weekPlannerView.calView getSelectedDate];
-	
-	NSDate *sDate = nil;
-	NSDate *dDate = nil;
-	
-	if (task != nil && calDate != nil)
-	{
-		switch (action) 
-		{
-			case 0: //Start On
-			{
-				NSDate *startTime = task.startTime;
-				
-				if (startTime != nil)
-				{
-					sDate = [[startTime copy] autorelease];
-					
-					startTime = [Common copyTimeFromDate:startTime toDate:calDate];
-				}
-				else 
-				{
-					startTime = [Common copyTimeFromDate:[NSDate date] toDate:calDate];
-				}
-				
-				task.startTime = startTime;
-				
-			}
-				break;
-			case 1: //Due By
-			{
-				NSDate *deadline = task.deadline;
-				
-				if (deadline != nil)
-				{
-					dDate = [[deadline copy] autorelease];
-					
-					deadline = [Common copyTimeFromDate:deadline toDate:calDate];
-				}
-				else 
-				{
-					deadline = [Common copyTimeFromDate:[NSDate date] toDate:calDate];
-				}
-				
-				task.deadline = deadline;
-				
-			}
-				break;
-			case 2: //Do On
-			{
-				NSDate *startTime = task.startTime;
-				NSDate *deadline = task.deadline;
-				
-				if (startTime != nil)
-				{
-					sDate = [[startTime copy] autorelease];
-					
-					startTime = [Common copyTimeFromDate:startTime toDate:calDate];
-				}
-				else 
-				{
-					startTime = [Common copyTimeFromDate:[NSDate date] toDate:calDate];
-				}
-				
-				task.startTime = startTime;
-				
-				if (deadline != nil)
-				{
-					dDate = [[deadline copy] autorelease];
-					
-					deadline = [Common copyTimeFromDate:deadline toDate:calDate];
-				}
-				else 
-				{
-					deadline = [Common copyTimeFromDate:[NSDate date] toDate:calDate];
-				}
-				
-				task.deadline = deadline;				
-				
-			}
-				break;
-		}
-		
-		if (task.original != nil)
-		{
-			task.original.startTime = task.startTime;
-			task.original.deadline = task.deadline;
-			
-			task = task.original;
-		}
-		
-		[task updateTimeIntoDB:[[DBManager getInstance] getDatabase]];
-		
-		if (sDate != nil)
-		{
-			[self.weekPlannerView.calView refreshCellByDate:sDate];
-		}
-
-		if (dDate != nil)
-		{
-			[self.weekPlannerView.calView refreshCellByDate:dDate];
-		}
-		
-		[self.weekPlannerView.calView refreshCellByDate:calDate];
-		
-		[self refreshView4Task:task];
-		
-		//[[_tabBarCtrler getSmartListViewCtrler] refreshView4Task:task];
-		
-		[self jumpToDate:calDate];
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];		
-	}	
-}
-*/
-
 - (void)beginResize:(TaskView *)view
 {
-	//[self deselect];
-	
-	//outlineView.tag = view.tag;
     outlineView.tag = view.task;
 	
 	CGRect frm = view.frame;
@@ -839,23 +686,11 @@ CalendarViewController *_sc2ViewCtrler;
 		}
 
 		[[TaskManager getInstance] resizeTask:task];
-
-		//CGPoint offset = calendarView.contentOffset;
-		
-		//[self refreshLayout];
-		
-		//[calendarView setContentOffset:offset];
 	}
 
 	[self stopResize];
 }
 
-/*
-- (void) garbageADEList
-{
-    [[TaskManager getInstance] garbage:adeView.adeList];
-}
-*/
 - (void) reloadAlert4Task:(NSInteger)taskId
 {
     NSArray *list = [calendarLayoutController getObjectList];
@@ -899,7 +734,6 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	NSInteger slotIdx = 2*hour + minute/30;
 	
-	//CGRect frm = quickAddTextField.frame;
     CGRect frm = quickAddBackgroundView.frame;
 	
 	frm.origin.y = ymargin + slotIdx * TIME_SLOT_HEIGHT + 1;

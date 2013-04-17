@@ -12,7 +12,10 @@
 #import "Common.h"
 #import "Task.h"
 
+#import "TaskManager.h"
+#import "ImageManager.h"
 #import "BusyController.h"
+#import "MenuMakerView.h"
 
 #import "ContentView.h"
 #import "TaskView.h"
@@ -147,46 +150,365 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
 }
 
-/*
-- (void) editItem:(Task *)item inView:(UIView *)inView
+#pragma mark Actions
+- (void) add:(id)sender
 {
-    UIViewController *editCtrler = nil;
+	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
     
-    if ([item isNote])
-    {
-        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-        
-        ctrler.note = item;
-        
-        editCtrler = ctrler;
-    }
-    else
-    {
-        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-        
-        ctrler.task = item;
-        
-        editCtrler = ctrler;
-    }
+    Task *task = [[[Task alloc] init] autorelease];
 	
-    if (editCtrler != nil)
-    {
-        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
-        [editCtrler release];
-        
-        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-        
-        [navController release];
-        
-        CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
-        
-        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
-        
-        //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
+	ctrler.task = task;
+	
+	SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+	[ctrler release];
+	
+	self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+	
+	[navController release];
+    
+    UIButton *addTaskButton = (UIButton *)[contentView viewWithTag:22000];
+	
+	CGRect frm = [addTaskButton.superview convertRect:addTaskButton.frame toView:contentView];
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
-*/
+
+- (void) filter:(id) sender
+{
+    UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
+    
+    CGRect frm = optionView.frame;
+    
+    frm.origin.x = taskHeaderView.frame.origin.x + taskHeaderView.frame.size.width - 60;
+    frm.origin.y = taskHeaderView.frame.origin.y + taskHeaderView.frame.size.height;
+    
+    optionView.frame = frm;
+    
+    [self showOptionMenu];
+}
+
+- (void) showTaskWithOption:(id)sender
+{
+    [self hideDropDownMenu];
+    
+    UIButton *button = (UIButton *) sender;
+    
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [ctrler filter:button.tag];
+    
+    NSString *title = [[TaskManager getInstance] getFilterTitle:button.tag];
+    
+    UILabel *filterLabel = (UILabel *)[contentView viewWithTag:24000];
+    
+    filterLabel.text = title;
+}
+
+- (void) startMultiEdit:(id)sender
+{
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [ctrler multiEdit:YES];
+}
+
+#pragma mark Filter
+- (void) refreshTaskFilterTitle
+{
+    UILabel *taskFilterLabel = (UILabel *)[contentView viewWithTag:24000];
+    
+    taskFilterLabel.text = [[TaskManager getInstance] getFilterTitle];
+}
+
+-(void)shrinkEnd
+{
+    optionView.hidden = YES;
+}
+
+- (void) hideDropDownMenu
+{
+	if (!optionView.hidden)
+	{
+        CGPoint p = optionView.frame.origin;
+        p.x += optionView.frame.size.width/2;
+        
+		[Common animateShrinkView:optionView toPosition:p target:self shrinkEnd:@selector(shrinkEnd)];
+	}
+}
+
+- (void) showOptionMenu
+{
+    BOOL menuVisible = !optionView.hidden;
+    
+    if (!menuVisible)
+	{
+		optionView.hidden = NO;
+		[contentView  bringSubviewToFront:optionView];
+		
+        [Common animateGrowViewFromPoint:optionView.frame.origin toPoint:CGPointMake(optionView.frame.origin.x, optionView.frame.origin.y + optionView.bounds.size.height/2) forView:optionView];
+	}
+}
+
+-(void) createTaskOptionView
+{
+	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+	optionView.hidden = YES;
+	optionView.backgroundColor = [UIColor clearColor];
+	[contentView addSubview:optionView];
+	[optionView release];
+	
+	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+	optionImageView.alpha = 0.9;
+	[optionView addSubview:optionImageView];
+	[optionImageView release];
+    
+    UIImageView *allImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
+	allImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_all.png"];
+	[optionView addSubview:allImageView];
+	[allImageView release];
+	
+    UILabel *allLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
+	allLabel.text = _allText;
+	allLabel.textColor = [UIColor whiteColor];
+	allLabel.backgroundColor = [UIColor clearColor];
+	allLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:allLabel];
+	[allLabel release];
+	
+	UIButton *allButton=[Common createButton:@""
+                                  buttonType:UIButtonTypeCustom
+                                       frame:CGRectMake(0, 22, 160, 30)
+                                  titleColor:nil
+                                      target:self
+                                    selector:@selector(showTaskWithOption:)
+                            normalStateImage:nil
+                          selectedStateImage:nil];
+	allButton.titleLabel.font=[UIFont systemFontOfSize:18];
+	allButton.tag = TASK_FILTER_ALL;
+	[optionView addSubview:allButton];
+    
+    UIImageView *starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
+	starImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_star.png"];
+	[optionView addSubview:starImageView];
+	[starImageView release];
+	
+    UILabel *starLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+	starLabel.text = _starText;
+	starLabel.textColor = [UIColor whiteColor];
+	starLabel.backgroundColor = [UIColor clearColor];
+	starLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:starLabel];
+	[starLabel release];
+	
+	UIButton *starButton=[Common createButton:@""
+                                   buttonType:UIButtonTypeCustom
+                                        frame:CGRectMake(0, 57, 160, 30)
+                                   titleColor:nil
+                                       target:self
+                                     selector:@selector(showTaskWithOption:)
+                             normalStateImage:nil
+                           selectedStateImage:nil];
+	starButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    starButton.tag = TASK_FILTER_PINNED;
+	[optionView addSubview:starButton];
+    
+    UIImageView *gtdImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
+	gtdImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_gtd.png"];
+	[optionView addSubview:gtdImageView];
+	[gtdImageView release];
+	
+	UILabel *gtdLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
+	gtdLabel.text = _gtdoText;
+	gtdLabel.textColor = [UIColor whiteColor];
+	gtdLabel.backgroundColor = [UIColor clearColor];
+	gtdLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:gtdLabel];
+	[gtdLabel release];
+	
+	UIButton *gtdButton=[Common createButton:@""
+                                  buttonType:UIButtonTypeCustom
+                                       frame:CGRectMake(0, 92, 160, 30)
+                                  titleColor:nil
+                                      target:self
+                                    selector:@selector(showTaskWithOption:)
+                            normalStateImage:nil
+                          selectedStateImage:nil];
+	gtdButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    gtdButton.tag = TASK_FILTER_TOP;
+	[optionView addSubview:gtdButton];
+    
+    UIImageView *dueImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 130, 20, 20)];
+	dueImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_due.png"];
+	[optionView addSubview:dueImageView];
+	[dueImageView release];
+	
+	UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
+	dueLabel.text = _dueText;
+	dueLabel.textColor = [UIColor whiteColor];
+	dueLabel.backgroundColor = [UIColor clearColor];
+	dueLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:dueLabel];
+	[dueLabel release];
+	
+	UIButton *dueButton=[Common createButton:@""
+                                  buttonType:UIButtonTypeCustom
+                                       frame:CGRectMake(0, 127, 160, 30)
+                                  titleColor:nil
+                                      target:self
+                                    selector:@selector(showTaskWithOption:)
+                            normalStateImage:nil
+                          selectedStateImage:nil];
+	dueButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    dueButton.tag = TASK_FILTER_DUE;
+	[optionView addSubview:dueButton];
+    
+    UIImageView *startImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 165, 20, 20)];
+	startImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+	[optionView addSubview:startImageView];
+	[startImageView release];
+	
+	UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 162, 120, 25)];
+	startLabel.text = _startText;
+	startLabel.textColor = [UIColor whiteColor];
+	startLabel.backgroundColor = [UIColor clearColor];
+	startLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:startLabel];
+	[startLabel release];
+	
+	UIButton *startButton=[Common createButton:@""
+                                    buttonType:UIButtonTypeCustom
+                                         frame:CGRectMake(0, 162, 160, 30)
+                                    titleColor:nil
+                                        target:self
+                                      selector:@selector(showTaskWithOption:)
+                              normalStateImage:nil
+                            selectedStateImage:nil];
+	startButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    startButton.tag = TASK_FILTER_ACTIVE;
+	[optionView addSubview:startButton];
+    
+    UIImageView *doneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 200, 20, 20)];
+	doneImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_done.png"];
+	[optionView addSubview:doneImageView];
+	[doneImageView release];
+	
+	UILabel *doneLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 197, 120, 25)];
+	doneLabel.text = _doneText;
+	doneLabel.textColor = [UIColor whiteColor];
+	doneLabel.backgroundColor = [UIColor clearColor];
+	doneLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:doneLabel];
+	[doneLabel release];
+	
+	UIButton *doneButton=[Common createButton:@""
+                                   buttonType:UIButtonTypeCustom
+                                        frame:CGRectMake(0, 197, 160, 30)
+                                   titleColor:nil
+                                       target:self
+                                     selector:@selector(showTaskWithOption:)
+                             normalStateImage:nil
+                           selectedStateImage:nil];
+	doneButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    doneButton.tag = TASK_FILTER_DONE;
+	[optionView addSubview:doneButton];
+    
+    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+    menu.menuPoint = menu.bounds.size.width/2;
+    
+    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+    
+    [menu release];
+}
+
 #pragma mark Views
+- (void) createTaskModuleHeader
+{
+    CGRect frm = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, 30);
+    
+    UIView *headView = [[UIView alloc] initWithFrame:frm];
+    headView.backgroundColor = [UIColor clearColor];
+    headView.tag = 20000;
+    
+    [contentView addSubview:headView];
+    [headView release];
+    
+    UIImageView *headerImageView = [[UIImageView alloc] initWithFrame:headView.bounds];
+    headerImageView.image = [UIImage imageNamed:@"planner_task_top_bg.png"];
+    
+    [headView addSubview:headerImageView];
+    [headerImageView release];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 100, 30)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:16];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentLeft;
+    label.text = _tasksText;
+    
+    [headView addSubview:label];
+    [label release];
+    
+    UIButton *addButton = [Common createButton:@""
+                                    buttonType:UIButtonTypeCustom
+                                         frame:CGRectMake(headView.bounds.size.width-35, 0, 30, 30)
+                                    titleColor:[UIColor whiteColor]
+                                        target:self
+                                      selector:@selector(add:)
+                              normalStateImage:@"module_add.png"
+                            selectedStateImage:nil];
+    addButton.tag = 22000;
+    
+    [headView addSubview:addButton];
+    
+    UIButton *filterButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(headView.bounds.size.width-70, 0, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(filter:)
+                                 normalStateImage:nil
+                               selectedStateImage:nil];
+    filterButton.tag = 23000;
+    [headView addSubview:filterButton];
+    
+    UIImageView *filterImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 10, 10)];
+    
+    filterImgView.image = [UIImage imageNamed:@"arrow_down.png"];
+    
+    [filterButton addSubview:filterImgView];
+    [filterImgView release];
+    
+    UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(headView.bounds.size.width-70, 5, 1, 20)];
+    filterSeparatorView.backgroundColor = [UIColor whiteColor];
+    
+    [headView addSubview:filterSeparatorView];
+    [filterSeparatorView release];
+    
+    UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(headView.bounds.size.width-180, 0, 100, 30)];
+    filterLabel.backgroundColor = [UIColor clearColor];
+    filterLabel.textAlignment =  NSTextAlignmentRight;
+    filterLabel.textColor = [UIColor whiteColor];
+    filterLabel.font = [UIFont boldSystemFontOfSize:16];
+    filterLabel.tag = 24000;
+    filterLabel.text = _allText;
+    
+    [headView addSubview:filterLabel];
+    [filterLabel release];
+    
+    UIButton *taskMultiEditButton = [Common createButton:@"Edit"
+                                              buttonType:UIButtonTypeCustom
+                                                   frame:CGRectMake(70, 0, 60, 30)
+                                              titleColor:[UIColor whiteColor]
+                                                  target:self
+                                                selector:@selector(startMultiEdit:)
+                                        normalStateImage:nil
+                                      selectedStateImage:nil];
+    taskMultiEditButton.tag = 25000;
+    taskMultiEditButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    
+    [headView addSubview:taskMultiEditButton];
+    
+    [self createTaskOptionView];
+}
 
 - (void) loadView
 {
@@ -206,8 +528,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [contentView addSubview:smartListViewCtrler.view];
     
-    frm.origin.x = frm.size.width - 234;
-    frm.size.width = 234;
+    //frm.origin.x = frm.size.width - 234;
+    //frm.size.width = 234;
     
     //[smartListViewCtrler changeFrame:frm];
     
@@ -219,9 +541,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 8, 750, 206)];
     [contentView addSubview:plannerView];
     
-    CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, frm.size.height - 16);
+    [self createTaskModuleHeader];
     
-    [smartListViewCtrler changeFrame:tmp];
+    CGFloat headerHeight = 30;
+    
+    //CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, frm.size.height - 16);
+    frm = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, headerHeight + 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, contentView.frame.size.height - headerHeight - 16);
+    
+    [smartListViewCtrler changeFrame:frm];
+
     
     // bottom day cal
     plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];

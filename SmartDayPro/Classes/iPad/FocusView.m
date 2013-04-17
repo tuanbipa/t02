@@ -176,6 +176,9 @@ AbstractSDViewController *_abstractViewCtrler;
         frm.size.height = 40 + contentView.bounds.size.height;
         
         self.frame = frm;
+        
+        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        [ctrler refreshFrame];
     }
     else
     {
@@ -190,7 +193,7 @@ AbstractSDViewController *_abstractViewCtrler;
         frm.size.height = 0;
         
         contentView.frame = frm;
-    }
+    }    
 }
 
 - (void) refreshData
@@ -296,20 +299,46 @@ AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+- (void) refreshTaskView4Key:(NSInteger)taskKey
+{
+	for (UIView *view in contentView.subviews)
+	{
+		if ([view isKindOfClass:[TaskView class]])
+		{
+            TaskView *taskView = (TaskView *) view;
+            
+            Task *task = taskView.task;
+            
+            if (task.original != nil)
+            {
+                task = task.original;
+            }
+            
+            if (task.primaryKey == taskKey)
+            {
+                [taskView setNeedsDisplay];
+                [taskView refreshStarImage];
+                [taskView refreshCheckImage];
+                
+                break;
+            }
+		}
+	}
+}
+
+- (void) reconcileItem:(Task *)item
+{
+    if ([self checkExpanded])
+    {
+        [self refreshData];
+    }
+}
+
 - (void) zoom:(id)sender
 {
     zoomButton.selected = !zoomButton.selected;
     
-    /*
-    UIImageView *zoomImgView = (UIImageView *)[zoomButton viewWithTag:10000];
-    
-    zoomImgView.image = [UIImage imageNamed:zoomButton.selected?@"MM_month.png":@"MM_week.png"];
-    */
-    
     [self refreshData];
-    
-    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-    [ctrler refreshFrame];
 }
 
 - (BOOL) checkExpanded

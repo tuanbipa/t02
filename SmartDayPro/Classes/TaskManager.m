@@ -324,7 +324,7 @@ TaskManager *_sctmSingleton = nil;
 			
 			for (Task *subEvent in subEvents)
 			{
-				if ([self checkTaskInTimeRange:subEvent startTime:fromDate endTime:toDate])
+				if ([TaskManager checkTaskInTimeRange:subEvent startTime:fromDate endTime:toDate])
 				{
 					[splitList addObject:subEvent];
 				}
@@ -2167,7 +2167,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	NSDate *end = [Common dateByAddNumDay:1 toDate:start];
 	
-	if ([self checkTaskInTimeRange:task startTime:start endTime:end])
+	if ([TaskManager checkTaskInTimeRange:task startTime:start endTime:end])
 	{
 		if (task.type == TYPE_EVENT)
 		{
@@ -2946,20 +2946,7 @@ TaskManager *_sctmSingleton = nil;
 		[self scheduleTasks];
 	}
     
-    /*
-    if (_smartDayViewCtrler != nil)
-    {
-        [[_smartDayViewCtrler getActiveListViewController] changeTask:task action:TASK_CREATE oldStart:nil oldDue:nil];
-    }
-	*/
-    
 	return filterIn;
-}
-
--(BOOL)checkTaskInTimeRange:(Task *)task startTime:(NSDate *)startTime endTime:(NSDate *)endTime
-{
-	return ([task.startTime compare:startTime] != NSOrderedAscending && [task.startTime compare:endTime] == NSOrderedAscending) ||
-	([task.startTime compare:startTime] == NSOrderedAscending && [task.endTime compare:startTime] == NSOrderedDescending);
 }
 
 - (Task *) getTask2Update:(Task *)taskEdit
@@ -4910,6 +4897,40 @@ TaskManager *_sctmSingleton = nil;
     return [[ProjectManager getInstance] getVisibleProjectDict];
 }
 
+- (NSString *) getFilterTitle:(NSInteger)filterType
+{
+    NSString *title = @"";
+    
+    switch (filterType)
+    {
+        case TASK_FILTER_ALL:
+            title = _allText;
+            break;
+        case TASK_FILTER_PINNED:
+            title = _starText;
+            break;
+        case TASK_FILTER_TOP:
+            title = _gtdoText;
+            break;
+        case TASK_FILTER_DUE:
+            title = _dueText;
+            break;
+        case TASK_FILTER_ACTIVE:
+            title = _startText;
+            break;
+        case TASK_FILTER_DONE:
+            title = _doneText;
+            break;
+    }
+    
+    return title;
+}
+
+- (NSString *) getFilterTitle
+{
+    return [self getFilterTitle:self.taskTypeFilter];
+}
+
 #pragma mark Sync Support
 - (Task *) findREByKey:(NSInteger)key
 {
@@ -5126,8 +5147,6 @@ TaskManager *_sctmSingleton = nil;
 	TaskManager *tm = [TaskManager getInstance];
 	
 	tm.taskTypeFilter = [[Settings getInstance] filterTab];
-	
-	[tm initData];
 }
 
 +(void)free
@@ -5187,6 +5206,13 @@ TaskManager *_sctmSingleton = nil;
 	
 	return [NSDictionary dictionaryWithObjects:taskList forKeys:mappingList];
 }
+
++(BOOL)checkTaskInTimeRange:(Task *)task startTime:(NSDate *)startTime endTime:(NSDate *)endTime
+{
+	return ([task.startTime compare:startTime] != NSOrderedAscending && [task.startTime compare:endTime] == NSOrderedAscending) ||
+	([task.startTime compare:startTime] == NSOrderedAscending && [task.endTime compare:startTime] == NSOrderedDescending);
+}
+
 
 
 @end

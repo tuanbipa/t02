@@ -84,6 +84,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super dealloc];
 }
 
+- (void) reconcileItem:(Task *)item
+{
+    if ([_abstractViewCtrler checkControllerActive:3])
+    {
+        if (([item isNote] && self.filterType == TYPE_NOTE) ||
+            ([item isTask] && self.filterType == TYPE_TASK) ||
+            ([item isEvent] && self.filterType == TYPE_EVENT))
+        {
+            [self loadAndShowList];
+        }
+    }
+}
+
 - (void) changeSkin
 {
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
