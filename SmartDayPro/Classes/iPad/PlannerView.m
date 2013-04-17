@@ -116,9 +116,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self.monthView changeMonth:dt];
     
     NSDate *today = [NSDate date];
-    NSInteger week = [Common getWeekday:today];
+    NSInteger week = [Common getWeekdayOrdinal:today];
     // collapse week
-    [self.monthView collapseExpand:week];
+    [self.monthView collapseExpand:week-1];
     // select first date in month
     [_abstractViewCtrler jumpToDate:today];
     [self.monthView highlightCellOnDate:today];
