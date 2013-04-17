@@ -20,6 +20,9 @@
     SmartListViewController *smartListViewCtrler;
     PlannerView *plannerView;
     PlannerBottomDayCal *plannerBottomDayCal;
+    
+    UIView *optionView;
+    UIImageView *optionImageView;
 }
 
 @property (nonatomic, readonly) PlannerView *plannerView;
@@ -29,4 +32,6 @@
 
 - (void) editItem:(Task *)item inView:(UIView *)inView;
 - (void) hidePopover;
+- (void) refreshTaskFilterTitle;
+
 @end

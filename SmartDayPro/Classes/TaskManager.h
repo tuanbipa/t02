@@ -181,6 +181,8 @@
 - (void) refreshSyncID4AllItems;
 //- (void) garbage:(NSObject *)obj;
 -(NSDictionary *) getFilterCategoryDict;
+- (NSString *) getFilterTitle:(NSInteger)filterType;
+- (NSString *) getFilterTitle;
 
 - (Task *) findTaskByKey:(NSInteger)key;
 - (Task *) findEventByKey:(NSInteger)key;

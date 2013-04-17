@@ -4897,6 +4897,40 @@ TaskManager *_sctmSingleton = nil;
     return [[ProjectManager getInstance] getVisibleProjectDict];
 }
 
+- (NSString *) getFilterTitle:(NSInteger)filterType
+{
+    NSString *title = @"";
+    
+    switch (filterType)
+    {
+        case TASK_FILTER_ALL:
+            title = _allText;
+            break;
+        case TASK_FILTER_PINNED:
+            title = _starText;
+            break;
+        case TASK_FILTER_TOP:
+            title = _gtdoText;
+            break;
+        case TASK_FILTER_DUE:
+            title = _dueText;
+            break;
+        case TASK_FILTER_ACTIVE:
+            title = _startText;
+            break;
+        case TASK_FILTER_DONE:
+            title = _doneText;
+            break;
+    }
+    
+    return title;
+}
+
+- (NSString *) getFilterTitle
+{
+    return [self getFilterTitle:self.taskTypeFilter];
+}
+
 #pragma mark Sync Support
 - (Task *) findREByKey:(NSInteger)key
 {
@@ -5113,8 +5147,6 @@ TaskManager *_sctmSingleton = nil;
 	TaskManager *tm = [TaskManager getInstance];
 	
 	tm.taskTypeFilter = [[Settings getInstance] filterTab];
-	
-	[tm initData];
 }
 
 +(void)free

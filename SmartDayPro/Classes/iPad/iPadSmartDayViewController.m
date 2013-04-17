@@ -12,6 +12,7 @@
 #import "Task.h"
 #import "Settings.h"
 
+#import "TaskManager.h"
 #import "TimerManager.h"
 #import "ImageManager.h"
 #import "MenuMakerView.h"
@@ -126,6 +127,13 @@ iPadViewController *_iPadViewCtrler;
     
     return CGRectIntersectsRect(frm, rect);
     
+}
+
+- (void) refreshTaskFilterTitle
+{
+    UILabel *taskFilterLabel = (UILabel *)[contentView viewWithTag:24000];
+  
+    taskFilterLabel.text = [[TaskManager getInstance] getFilterTitle];
 }
 
 - (void) resizeModules

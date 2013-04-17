@@ -165,8 +165,7 @@ BOOL _fromBackground = NO;
 {
     Settings *settings = [Settings getInstance];
     
-	[TaskManager startup];
-    [TimerManager startup];
+	[[TaskManager getInstance] initData];
 	
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
     
@@ -361,6 +360,8 @@ BOOL _fromBackground = NO;
 	[ProjectManager startup];
     
     [TimerManager startup];
+    
+    [TaskManager startup];
 	
     //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

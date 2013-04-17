@@ -232,6 +232,8 @@ iPadViewController *_iPadViewCtrler;
     [ctrler release];
     
     [contentView addSubview:self.activeViewCtrler.view];
+
+    [ctrler refreshTaskFilterTitle];
     
     [self refreshToolbar];
 }
@@ -243,11 +245,11 @@ iPadViewController *_iPadViewCtrler;
         [self.activeViewCtrler.view removeFromSuperview];
     }
 
-    //iPadSmartDayViewController *ctrler = _iPadSDViewCtrler;
-    
     self.activeViewCtrler = _iPadSDViewCtrler;
     
     [contentView addSubview:self.activeViewCtrler.view];
+
+    [_iPadSDViewCtrler refreshTaskFilterTitle];
     
     [self refreshToolbar];
 }

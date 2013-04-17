@@ -28,4 +28,6 @@
 - (void) showTimer;
 - (void) showMenu;
 
+- (void) refreshTaskFilterTitle;
+
 @end
