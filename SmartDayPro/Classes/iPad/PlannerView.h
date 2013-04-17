@@ -22,4 +22,5 @@
 
 - (void)shiftTime: (int) mode;
 - (void) moveToPoint:(CGPoint) point;
+- (void)goToday;
 @end

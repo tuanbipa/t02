@@ -11,8 +11,10 @@
 #import "Settings.h"
 #import "TaskManager.h"
 #import "PlannerView.h"
+//#import "AbstractSDViewController.h"
 
 extern BOOL _isiPad;
+//extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation PlannerHeaderView
 
@@ -167,6 +169,14 @@ extern BOOL _isiPad;
     UIButton *button = (UIButton *) sender;
     PlannerView *plannerView = (PlannerView *) self.superview;
     [plannerView shiftTime:button.tag-11000];
+    
+    [self setNeedsDisplay];
+}
+
+- (void) goToday:(id) sender
+{
+    PlannerView *plannerView = (PlannerView *) self.superview;
+    [plannerView goToday];
     
     [self setNeedsDisplay];
 }
