@@ -75,7 +75,7 @@ extern BOOL _isiPad;
                                           titleColor:[UIColor whiteColor]
                                               target:self
                                             selector:@selector(goToday:)
-                                    normalStateImage:@"module_today.png"
+                                    normalStateImage:nil
                                   selectedStateImage:nil];
         
         [self addSubview:todayButton];

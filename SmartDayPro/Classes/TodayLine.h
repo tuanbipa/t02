@@ -14,11 +14,12 @@
 	BOOL dashStyle;
     BOOL focusStyle;
 	NSDate *date;
+    BOOL forPlanner;
 }
 
 @property BOOL horizontal;
 @property BOOL dashStyle;
 @property BOOL focusStyle;
 @property (nonatomic, copy) NSDate *date; 
-
+- (id)initForPlannerWithFrame:(CGRect)frame;
 @end

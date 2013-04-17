@@ -21,6 +21,8 @@
 #import "PlannerView.h"
 #import "PlannerMonthView.h"
 #import "HPGrowingTextView.h"
+#import "Common.h"
+#import "Settings.h"
 
 extern PlannerViewController *_plannerViewCtrler;
 
@@ -59,6 +61,11 @@ extern PlannerViewController *_plannerViewCtrler;
         calendarLayoutController.movableController = movableController;
         
         calendarLayoutController.viewContainer = scrollView;
+        TaskManager *tm = [TaskManager getInstance];
+        NSDate *dt = tm.today;
+        Settings *settings = [Settings getInstance];
+        dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart==1)];
+        [self changeWeek:dt];
         [calendarLayoutController layout];
         
         scrollView.contentSize = CGSizeMake(plannerScheduleView.frame.size.width, plannerScheduleView.frame.size.height);
@@ -86,7 +93,7 @@ extern PlannerViewController *_plannerViewCtrler;
         [self addSubview:quickAddTextField];
         [quickAddTextField release];*/
         
-        TaskManager *tm = [TaskManager getInstance];
+        //TaskManager *tm = [TaskManager getInstance];
         
         quickAddBackgroundView = [[TaskView alloc] initWithFrame:CGRectMake(0, 0, dayWidth, 2*TIME_SLOT_HEIGHT)];
         quickAddBackgroundView.task = tm.eventDummy;
@@ -125,7 +132,21 @@ extern PlannerViewController *_plannerViewCtrler;
     calendarLayoutController.startDate = startDate;
     [calendarLayoutController layout];
     
+    // show/hide today line
+    [self refeshTodayLine:startDate];
+    
     [UIView commitAnimations];
+}
+
+- (void)refeshTodayLine: (NSDate *) startDate {
+    NSDate *today = [NSDate date];
+    NSDate *endWeek = [Common dateByAddNumDay:7 toDate:startDate];
+    if ([Common compareDate:today withDate:startDate] == NSOrderedDescending && [Common compareDate:today withDate:endWeek] == NSOrderedAscending) {
+        plannerScheduleView.todayLineHidden = NO;
+        [plannerScheduleView refreshTodayLine];
+    } else {
+        plannerScheduleView.todayLineHidden = YES;
+    }
 }
 
 - (void)updateFrame {

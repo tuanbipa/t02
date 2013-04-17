@@ -57,7 +57,8 @@
 			}
 		}
         
-        todayLine = [[TodayLine alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 17)];
+        //todayLine = [[TodayLine alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 17)];
+        todayLine = [[TodayLine alloc] initForPlannerWithFrame:CGRectMake(0, 0, frame.size.width, 17)];
 		todayLine.dashStyle = YES;
 		[self addSubview:todayLine];
 		[todayLine release];
@@ -98,9 +99,10 @@
          // Draw them with a 2.0 stroke width so they are a bit more visible.
          CGContextSetLineWidth(context, 0.3);
          
-         CGContextMoveToPoint(context, xPoint,0); //start at this point
+         CGContextMoveToPoint(context, xPoint,12); //start at this point
          
-         CGContextAddLineToPoint(context, xPoint, self.frame.size.height); //draw to this point
+         //CGContextAddLineToPoint(context, xPoint, self.frame.size.height); //draw to this point
+         CGContextAddLineToPoint(context, xPoint, self.frame.size.height - 60); //draw to this point
          
          // and now draw the Path!
          CGContextStrokePath(context);
@@ -178,5 +180,43 @@
 	
 	//ILOG(@"ScheduleView hitTestRec]\n")
 	return nil;
+}
+
+- (void) setTodayLineHidden:(BOOL)hidden
+{
+    todayLineHidden = hidden;
+    
+    todayLine.hidden = hidden;
+}
+
+- (CGFloat) getTodayLineY
+{
+    NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+    
+    unsigned unitFlags = 0xFFFF;
+    NSDateComponents *comps = [gregorian components:unitFlags fromDate:[NSDate date]];
+    
+    int minute = comps.minute;
+    
+    NSInteger slotIdx = 2*comps.hour + minute/30;
+    
+    if (minute >= 30)
+    {
+        minute -= 30;
+    }
+    
+    CGFloat y = TIME_SLOT_HEIGHT/2 + slotIdx * TIME_SLOT_HEIGHT + minute*TIME_SLOT_HEIGHT/30;
+    
+    return y;
+}
+
+- (void) refreshTodayLine
+{
+    if (!todayLine.hidden)
+    {
+        CGRect frm = todayLine.frame;
+        frm.origin.y = [self getTodayLineY] - frm.size.height/2;
+        todayLine.frame = frm;
+    }
 }
 @end

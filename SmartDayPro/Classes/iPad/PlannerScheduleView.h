@@ -22,9 +22,10 @@
     BOOL dayManagerRefresh;
 }
 
-@property BOOL todayLineHidden;
+@property (nonatomic) BOOL todayLineHidden;
 
 - (TimeSlotView *)getTimeSlot;
 - (void) highlight:(CGRect) rec;
 - (void) unhighlight;
+- (void) refreshTodayLine;
 @end

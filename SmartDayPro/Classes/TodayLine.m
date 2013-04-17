@@ -27,6 +27,21 @@
 		self.horizontal = YES;
 		self.dashStyle = NO;
         self.focusStyle = NO;
+        forPlanner = NO;
+	}
+    return self;
+}
+
+- (id)initForPlannerWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        // Initialization code
+		
+		self.backgroundColor = [UIColor clearColor];
+		self.date = nil;
+		self.horizontal = YES;
+		self.dashStyle = NO;
+        self.focusStyle = NO;
+        forPlanner = YES;
 	}
     return self;
 }
@@ -40,8 +55,12 @@
 
 - (void)drawRect:(CGRect)rect {
     // Drawing code
-	
-	UIImage *todayLineImg = [UIImage imageNamed:@"currenttime.png"];
+    UIImage *todayLineImg;
+	if (forPlanner) {
+        todayLineImg = [UIImage imageNamed:@"planner_currenttime.png"];
+    } else {
+        todayLineImg = [UIImage imageNamed:@"currenttime.png"];
+    }
     
     CGRect frm = rect;
     
