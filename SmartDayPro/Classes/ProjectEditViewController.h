@@ -16,7 +16,7 @@
 	Settings *settings;
 	
 	UIScrollView *mainView;
-	
+	UITextField *projectNameTextField;
 	UITextField *tagInputTextField;
 	UIButton *tagButtons[9];
     

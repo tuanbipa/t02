@@ -472,7 +472,10 @@ extern BOOL _isiPad;
 
 -(void)shrinkEnd
 {
-    optionView.hidden = YES;
+    if (optionView != nil && [optionView superview])
+    {
+        optionView.hidden = YES;
+    }
 }
 
 - (void) hideDropDownMenu

@@ -104,7 +104,6 @@ SmartListViewController *_smartListViewCtrler;
 												 selector:@selector(appNoBusy:)
 													 name:@"AppNoBusyNotification" object:nil];
 
-		
 		firstLoad = YES;
 	}
 	
@@ -135,7 +134,6 @@ SmartListViewController *_smartListViewCtrler;
 												 selector:@selector(appNoBusy:)
 													 name:@"AppNoBusyNotification" object:nil];
         
-		
 		firstLoad = YES;        
     }
     
@@ -315,7 +313,8 @@ SmartListViewController *_smartListViewCtrler;
 		[filterView tagInputReset];
 	}
     	
-	[self.smartListLayoutController performSelector:@selector(layout) withObject:nil afterDelay:0];
+	//[self.smartListLayoutController performSelector:@selector(layout) withObject:nil afterDelay:0];
+    [self.smartListLayoutController layout];
 }
 
 /*
@@ -1786,6 +1785,8 @@ SmartListViewController *_smartListViewCtrler;
 	}
     
     quickAddTextField.text = @"";
+    
+    maskView.hidden = YES;
 }
 
 #pragma mark Notification
@@ -1955,7 +1956,7 @@ SmartListViewController *_smartListViewCtrler;
     quickAddPlaceHolder.userInteractionEnabled = YES;
 }
 
-#pragma mark OS4 Support 
+#pragma mark OS4 Support
 -(void) purge
 {
 	[self.navigationController popToRootViewControllerAnimated:NO];
