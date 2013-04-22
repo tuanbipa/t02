@@ -424,6 +424,9 @@ extern PlannerViewController *_plannerViewCtrler;
 	
 	[quickAddTextView becomeFirstResponder];
     scrollView.contentOffset = offset;
+    
+    NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+    [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
 }
 
 -(void)quickAdd:(NSString *)name startTime:(NSDate *)startTime
@@ -471,6 +474,9 @@ extern PlannerViewController *_plannerViewCtrler;
     if (_plannerViewCtrler != nil) {
         [_plannerViewCtrler.plannerView.monthView expandCurrentWeek];
     }
+    
+    NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+    [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
 }
 
 #pragma mark TextFieldDelegate

@@ -80,6 +80,18 @@ extern BOOL _isiPad;
         
         [self addSubview:todayButton];
         
+        // add month button
+        UIButton *monthButton = [Common createButton:@""
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(self.bounds.size.width-75, 5, 60, 25)
+                                          titleColor:[UIColor whiteColor]
+                                              target:self
+                                            selector:@selector(showYearView:)
+                                    normalStateImage:nil
+                                  selectedStateImage:nil];
+        monthButton.tag = 20000;
+        [self addSubview:monthButton];
+        
     }
     return self;
 }
@@ -160,6 +172,10 @@ extern BOOL _isiPad;
     [[UIColor whiteColor] set];
     
     [title drawInRect:monRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+    
+    // update frame of month button
+    UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
+    monthButton.frame = monRec;
 }
 
 #pragma mark Actions
@@ -179,5 +195,10 @@ extern BOOL _isiPad;
     [plannerView goToday];
     
     [self setNeedsDisplay];
+}
+
+- (void) showYearView:(id) sender
+{
+    
 }
 @end
