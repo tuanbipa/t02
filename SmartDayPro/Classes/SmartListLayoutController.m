@@ -277,8 +277,11 @@
 
 - (void) layout
 {
+    //@synchronized(self)
+    //{
 	if (self.viewContainer == nil)
 	{
+        //printf("view container is nil -> end\n");
 		self.layoutFinished = YES;
 		
 		return;
@@ -297,8 +300,11 @@
 */
     if (!self.layoutFinished)
     {
+        //printf("layout in progress -> end\n");
         return;
     }
+    
+    //printf("smartlist layout\n");
     
     [super beginLayout];
 	
@@ -352,7 +358,7 @@
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_LAYOUT];
 		[self performSelectorInBackground:@selector(layoutBackground:) withObject:taskList2Layout];		
 	}
-
+    //}
 	////NSLog(@"smart list end layout");
 }
 

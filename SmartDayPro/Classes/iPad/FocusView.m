@@ -176,9 +176,6 @@ AbstractSDViewController *_abstractViewCtrler;
         frm.size.height = 40 + contentView.bounds.size.height;
         
         self.frame = frm;
-        
-        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-        [ctrler refreshFrame];
     }
     else
     {
@@ -194,6 +191,9 @@ AbstractSDViewController *_abstractViewCtrler;
         
         contentView.frame = frm;
     }    
+    
+    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+    [ctrler refreshFrame];
 }
 
 - (void) refreshData

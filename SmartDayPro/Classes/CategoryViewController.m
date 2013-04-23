@@ -138,7 +138,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         if ([view isKindOfClass:[TaskView class]])
         {
-            view.tag = tm.taskDummy;
+            //view.tag = tm.taskDummy;
+            ((TaskView *)view).task = tm.taskDummy;
         }
     }
     
@@ -163,7 +164,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
                 
 				NSMutableArray *activeTasks = [dbm getItems:self.filterType inPlan:prj.primaryKey];
 
-                if (self.showDone)
+                if (self.showDone && self.filterType == TYPE_TASK)
                 {
                     NSMutableArray *doneTasks = [dbm getDoneTasks4Plan:prj.primaryKey];
                     
@@ -223,17 +224,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) refreshView
 {
-    //[listTableView reloadData];
-    
     [self refreshLayout];
 }
 
 -(void)setNeedsDisplay
 {
-    //[listTableView reloadData];
     for (UIView *view in self.listView.subviews)
     {
-        [view setNeedsDisplay];
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            [(TaskView *)view refresh];
+        }
+        else
+        {
+            [view setNeedsDisplay];
+        }
     }
 }
 

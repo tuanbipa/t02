@@ -122,7 +122,7 @@ extern BOOL _isiPad;
 	[projectNameLabel release];
 
 	//UITextField *projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 75, 300, 30)];
-    UITextField *projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 70, 300, 30)];
+    projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 70, 300, 30)];
     
 	projectNameTextField.text = self.projectCopy.name;
 	projectNameTextField.delegate = self;
@@ -418,6 +418,8 @@ extern BOOL _isiPad;
     DBManager *dbm = [DBManager getInstance];
     ProjectManager *pm = [ProjectManager getInstance];
     TaskManager *tm = [TaskManager getInstance];
+    
+    [projectNameTextField resignFirstResponder];
     
     if ([[ProjectManager getInstance] checkExistingProjectName:self.projectCopy.name excludeProject:self.projectCopy.primaryKey])
     {

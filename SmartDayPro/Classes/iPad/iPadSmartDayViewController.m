@@ -180,7 +180,8 @@ iPadViewController *_iPadViewCtrler;
         
         y += 40;
         
-        CGRect frm = !buttons[i].selected?CGRectZero:CGRectMake(w+20, y, w-10, moduleHeight);
+        //CGRect frm = !buttons[i].selected?CGRectZero:CGRectMake(w+20, y, w-10, moduleHeight);
+        CGRect frm = !buttons[i].selected?CGRectMake(w+20, 0, w-10, 0):CGRectMake(w+20, y, w-10, moduleHeight);
         
         [viewCtrlers[i+1] changeFrame:frm];
         
@@ -302,6 +303,22 @@ iPadViewController *_iPadViewCtrler;
 	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
     
     Task *task = [[[Task alloc] init] autorelease];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+	switch (tm.taskTypeFilter)
+	{
+		case TASK_FILTER_PINNED:
+		{
+			task.status = TASK_STATUS_PINNED;
+		}
+			break;
+		case TASK_FILTER_DUE:
+		{
+			task.deadline = [NSDate date];
+		}
+			break;
+	}
 	
 	ctrler.task = task;
 	
@@ -564,6 +581,22 @@ iPadViewController *_iPadViewCtrler;
         {
             task.type = TYPE_TASK;
             
+            TaskManager *tm = [TaskManager getInstance];
+            
+            switch (tm.taskTypeFilter)
+            {
+                case TASK_FILTER_PINNED:
+                {
+                    task.status = TASK_STATUS_PINNED;
+                }
+                    break;
+                case TASK_FILTER_DUE:
+                {
+                    task.deadline = [NSDate date];
+                }
+                    break;
+            }
+            
             TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
             taskCtrler.task = task;
             
@@ -696,48 +729,74 @@ iPadViewController *_iPadViewCtrler;
 {
     UIButton *button = (UIButton *) sender;
     
-    if (!optionView.hidden)
+/*    if (!optionView.hidden)
     {
         [self hideDropDownMenu];
     }
+*/
+    UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
+    UIView *noteHeaderView = (UIView *)[contentView viewWithTag:20001];
+    UIView *projectHeaderView = (UIView *)[contentView viewWithTag:20002];
     
-    if ([optionView superview] != nil)
-    {
-        [optionView removeFromSuperview];
-    }
+    UIView *modules[3] = {taskHeaderView, noteHeaderView, projectHeaderView};
+    
+    UIView *moduleView = modules[button.tag - 23000];
+    
+    CGRect moduleFrm = [moduleView.superview convertRect:moduleView.frame toView:contentView];
+    
+    UIButton *expandedButton = (UIButton *) [moduleView viewWithTag:21000+button.tag-23000];
     
     if (optionView.tag != button.tag)
     {
-        UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
-        UIView *noteHeaderView = (UIView *)[contentView viewWithTag:20001];
-        UIView *projectHeaderView = (UIView *)[contentView viewWithTag:20002];
-        
-        UIView *modules[3] = {taskHeaderView, noteHeaderView, projectHeaderView};
-        
-        UIView *moduleView = modules[button.tag - 23000];
-        
-        CGRect moduleFrm = [moduleView.superview convertRect:moduleView.frame toView:contentView];
-        
-        switch (button.tag - 23000)
+        if ([optionView superview] != nil)
         {
-            case 0:
-            {
-                [self createTaskOptionView];              
-            }
-                break;
-            case 1:
-            {
-                [self createNoteOptionView];
-            }
-                
-                break;
-            case 2:
-            {
-                [self createProjectOptionView];
-            }
-                break;
+            [optionView removeFromSuperview];
+            
+            optionView = nil;
         }
-     
+
+        if (expandedButton.selected)
+        {
+            switch (button.tag - 23000)
+            {
+                case 0:
+                {
+                    [self createTaskOptionView];
+                }
+                    break;
+                case 1:
+                {
+                    [self createNoteOptionView];
+                }
+                    
+                    break;
+                case 2:
+                {
+                    [self createProjectOptionView];
+                }
+                    break;
+            }
+            
+            CGRect frm = optionView.frame;
+            
+            frm.origin.x = moduleFrm.origin.x + moduleFrm.size.width - 60;
+            frm.origin.y = moduleFrm.origin.y + moduleFrm.size.height;
+            
+            optionView.frame = frm;
+            
+            optionView.tag = button.tag;
+            
+            [self showOptionMenu];
+            
+            //optionView.tag = -1;
+        }
+    }
+    else if (!optionView.hidden)
+    {
+        [self hideDropDownMenu];
+    }
+    else
+    {
         CGRect frm = optionView.frame;
         
         frm.origin.x = moduleFrm.origin.x + moduleFrm.size.width - 60;
@@ -749,8 +808,6 @@ iPadViewController *_iPadViewCtrler;
         
         [self showOptionMenu];
     }
-    
-    optionView.tag = -1;
 }
 
 - (void) showDone:(id) sender

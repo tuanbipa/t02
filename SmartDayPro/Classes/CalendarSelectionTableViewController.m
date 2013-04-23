@@ -323,7 +323,10 @@ extern BOOL _isiPad;
 {
     [self done:sender];
     
-    [_iPadSDViewCtrler hidePopover];
+    //[_iPadSDViewCtrler hidePopover];
+    [_abstractViewCtrler hidePopover];
+    
+    [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
 }
 
 #pragma mark Table view methods
