@@ -11,10 +11,10 @@
 #import "Settings.h"
 #import "TaskManager.h"
 #import "PlannerView.h"
-//#import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
 
 extern BOOL _isiPad;
-//extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 @implementation PlannerHeaderView
 
@@ -199,6 +199,7 @@ extern BOOL _isiPad;
 
 - (void) showYearView:(id) sender
 {
-    
+    UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
+    [_plannerViewCtrler showYearView:monthButton];
 }
 @end

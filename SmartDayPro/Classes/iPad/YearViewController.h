@@ -1,5 +1,5 @@
 //
-//  YearView.h
+//  YearViewController.h
 //  SmartDayPro
 //
 //  Created by Nguyen Van Thuc on 4/22/13.
@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class YearView;
 
-@interface YearView : UIView {
-    NSDate *date;
+@interface YearViewController : UIViewController {
+    YearView *contentView;
 }
-@property (nonatomic, retain) NSDate *date;
 
-- (void)initCalendar;
 @end

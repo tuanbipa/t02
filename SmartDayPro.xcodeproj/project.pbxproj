@@ -1441,6 +1441,10 @@
 		A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 		A2E036B61724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
 		A2E036B71724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
+		A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B91724ECA10039A2DF /* MonthInYearView.m */; };
+		A2E036BB1724ECA10039A2DF /* MonthInYearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B91724ECA10039A2DF /* MonthInYearView.m */; };
+		A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036BD1724F5890039A2DF /* YearViewController.m */; };
+		A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036BD1724F5890039A2DF /* YearViewController.m */; };
 		A2E86A90171C06AF00299C9F /* planner_currenttime.png in Resources */ = {isa = PBXBuildFile; fileRef = A2E86A88171C06AE00299C9F /* planner_currenttime.png */; };
 		A2E86A91171C06AF00299C9F /* planner_currenttime.png in Resources */ = {isa = PBXBuildFile; fileRef = A2E86A88171C06AE00299C9F /* planner_currenttime.png */; };
 		A2E86A92171C06AF00299C9F /* planner_currenttime@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2E86A89171C06AE00299C9F /* planner_currenttime@2x.png */; };
@@ -2369,6 +2373,10 @@
 		A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarPlannerMovableController.m; sourceTree = "<group>"; };
 		A2E036B41724DDFA0039A2DF /* YearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearView.h; sourceTree = "<group>"; };
 		A2E036B51724DDFA0039A2DF /* YearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YearView.m; sourceTree = "<group>"; };
+		A2E036B81724ECA10039A2DF /* MonthInYearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthInYearView.h; sourceTree = "<group>"; };
+		A2E036B91724ECA10039A2DF /* MonthInYearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthInYearView.m; sourceTree = "<group>"; };
+		A2E036BC1724F5880039A2DF /* YearViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearViewController.h; sourceTree = "<group>"; };
+		A2E036BD1724F5890039A2DF /* YearViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YearViewController.m; sourceTree = "<group>"; };
 		A2E86A88171C06AE00299C9F /* planner_currenttime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner_currenttime.png; sourceTree = "<group>"; };
 		A2E86A89171C06AE00299C9F /* planner_currenttime@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "planner_currenttime@2x.png"; sourceTree = "<group>"; };
 		A2E86A8A171C06AF00299C9F /* planner_next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner_next.png; sourceTree = "<group>"; };
@@ -2484,6 +2492,10 @@
 				A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */,
 				A2E036B41724DDFA0039A2DF /* YearView.h */,
 				A2E036B51724DDFA0039A2DF /* YearView.m */,
+				A2E036B81724ECA10039A2DF /* MonthInYearView.h */,
+				A2E036B91724ECA10039A2DF /* MonthInYearView.m */,
+				A2E036BC1724F5880039A2DF /* YearViewController.h */,
+				A2E036BD1724F5890039A2DF /* YearViewController.m */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -4832,6 +4844,8 @@
 				67E5A98C17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 				A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
 				A2E036B61724DDFA0039A2DF /* YearView.m in Sources */,
+				A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */,
+				A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5025,6 +5039,8 @@
 				67E5A98D17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 				A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
 				A2E036B71724DDFA0039A2DF /* YearView.m in Sources */,
+				A2E036BB1724ECA10039A2DF /* MonthInYearView.m in Sources */,
+				A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

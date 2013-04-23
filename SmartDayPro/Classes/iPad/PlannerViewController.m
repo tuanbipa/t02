@@ -33,6 +33,7 @@
 #import "AbstractSDViewController.h"
 
 #import "SmartListLayoutController.h"
+#import "YearViewController.h"
 
 PlannerViewController *_plannerViewCtrler = nil;
 
@@ -600,4 +601,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)showYearView: (UIView *) view {
+    //[super enableActions:enable onView:view];
+    
+    YearViewController *yearView = [[YearViewController alloc] init];
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:yearView] autorelease];
+    [yearView release];
+    
+    CGRect frm = [view.superview convertRect:view.frame toView:contentView];
+    
+    //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
 @end

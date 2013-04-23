@@ -33,5 +33,5 @@
 - (void) editItem:(Task *)item inView:(UIView *)inView;
 - (void) hidePopover;
 - (void) refreshTaskFilterTitle;
-
+- (void)showYearView: (UIView *) view;
 @end
