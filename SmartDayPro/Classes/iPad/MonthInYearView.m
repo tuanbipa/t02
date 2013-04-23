@@ -13,6 +13,10 @@
 #import "TaskManager.h"
 #import "Common.h"
 #import "Task.h"
+#import "PlannerViewController.h"
+#import "PlannerView.h"
+
+extern PlannerViewController *_plannerViewCtrler;
 
 @implementation MonthInYearView
 
@@ -283,6 +287,11 @@
 		
 		cell.freeRatio = ratio;
 	}
+}
+
+- (void)selectCell: (MonthlyCellView *) cell {
+    [_plannerViewCtrler.popoverCtrler dismissPopoverAnimated:NO];
+    [_plannerViewCtrler.plannerView goToDate:[cell getCellDate]];
 }
 
 #pragma mark Properties
