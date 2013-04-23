@@ -37,6 +37,7 @@
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;
 
+- (BOOL) checkControllerActive:(NSInteger)index;
 - (CalendarViewController *) getCalendarViewController;
 - (SmartListViewController *) getSmartListViewController;
 - (NoteViewController *) getNoteViewController;
@@ -46,7 +47,8 @@
 - (MiniMonthView *) getMiniMonth;
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
-- (void) changeItem:(Task *)task;
+//- (void) changeItem:(Task *)task;
+- (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule;
 
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task;
 - (void) convert2Task:(Task *)task;

@@ -53,7 +53,7 @@
 - (NoteViewController *) getNoteViewController;
 - (CategoryViewController *) getCategoryViewController;
 */
-- (BOOL) checkControllerActive:(NSInteger)index;
+
 - (void) refreshView;
 - (void) setNeedsDisplay;
 - (void) resetAllData;

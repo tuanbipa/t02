@@ -95,7 +95,7 @@
 	[settingTableView release];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 	[settingTableView reloadData];
 }
 

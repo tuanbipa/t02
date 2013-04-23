@@ -227,7 +227,7 @@
 "_syncText" = "Sync";
 
 "_hintsText" = "Hints";
-"_confirmationsText" = "Confirmations";
+"_confirmText" = "Confirm";
 "_deleteWarningText" = "Delete Warning";
 "_doneWarningText" = "Done Warning";
 

@@ -229,7 +229,7 @@
 #define _syncText NSLocalizedString(@"_syncText" , @"Sync")
 
 #define _hintsText NSLocalizedString(@"_hintsText" , @"Hints")
-#define _confirmationsText NSLocalizedString(@"_confirmationsText" , @"Confirmations")
+#define _confirmText NSLocalizedString(@"_confirmText" , @"Confirm")
 #define _deleteWarningText NSLocalizedString(@"_deleteWarningText" , @"Delete Warning")
 #define _doneWarningText NSLocalizedString(@"_doneWarningText" , @"Done Warning")
 
