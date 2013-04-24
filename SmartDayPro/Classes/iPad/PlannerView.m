@@ -105,25 +105,45 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [UIView setAnimationDuration:0.3];
     
     NSDate *dt = [NSDate date];
-    //NSDate *dt = [self.monthView getFirstDate];
-    dt = [Common getFirstMonthDate:dt];
-    //dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
-    NSInteger weeks = [Common getWeeksInMonth:dt];
+    [self goToDate:dt];
+//    //NSDate *dt = [self.monthView getFirstDate];
+//    dt = [Common getFirstMonthDate:dt];
+//    //dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
+//    NSInteger weeks = [Common getWeeksInMonth:dt];
+//    [self.monthView changeWeekPlanner:7 weeks:weeks];
+//    [self.monthView collapseWeek];
+//    [self finishInitCalendar];
+//    // change month
+//    [self.monthView changeMonth:dt];
+//    
+//    NSDate *today = [NSDate date];
+//    NSInteger week = [Common getWeekdayOrdinal:today];
+//    // collapse week
+//    [self.monthView collapseExpand:week-1];
+//    // select first date in month
+//    [_abstractViewCtrler jumpToDate:today];
+//    [self.monthView highlightCellOnDate:today];
+    
+    [UIView commitAnimations];
+}
+
+- (void)goToDate: (NSDate *) dt {
+    
+    NSDate *firstMonDate = [Common getFirstMonthDate:dt];
+    NSInteger weeks = [Common getWeeksInMonth:firstMonDate];
     [self.monthView changeWeekPlanner:7 weeks:weeks];
     [self.monthView collapseWeek];
     [self finishInitCalendar];
     // change month
-    [self.monthView changeMonth:dt];
+    [self.monthView changeMonth:firstMonDate];
     
-    NSDate *today = [NSDate date];
-    NSInteger week = [Common getWeekdayOrdinal:today];
     // collapse week
-    [self.monthView collapseExpand:week-1];
-    // select first date in month
-    [_abstractViewCtrler jumpToDate:today];
-    [self.monthView highlightCellOnDate:today];
+    [self.monthView collapseExpandByDate:dt];
+    // select cell date
+    [_abstractViewCtrler jumpToDate:dt];
+    [self.monthView highlightCellOnDate:dt];
     
-    [UIView commitAnimations];
+    [self.headerView setNeedsDisplay];
 }
 
 - (void)finishInitCalendar {

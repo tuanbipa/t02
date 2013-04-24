@@ -23,4 +23,5 @@
 - (void)shiftTime: (int) mode;
 - (void) moveToPoint:(CGPoint) point;
 - (void)goToday;
+- (void)goToDate: (NSDate *) dt;
 @end

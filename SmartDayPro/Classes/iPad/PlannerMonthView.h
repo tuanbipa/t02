@@ -47,6 +47,9 @@
 - (void)expandWeek: (int) week;
 - (void)collapseWeek;
 - (void)collapseExpand: (int) week;
+- (void)collapseExpandByDate: (NSDate *) dt;
+- (void)collapseCurrentWeek;
+- (void)expandCurrentWeek;
 - (NSDate *)getFirstDate;
 - (void)selectCell: (PlannerMonthCellView *) cell;
 - (void)highlightCellOnDate: (NSDate *) dt;
@@ -55,6 +58,4 @@
 - (void) refreshCellByDate:(NSDate *)date;
 - (void) highlightCellAtPoint:(CGPoint) point;
 - (void) unhighlight;
-- (void)collapseCurrentWeek;
-- (void)expandCurrentWeek;
 @end

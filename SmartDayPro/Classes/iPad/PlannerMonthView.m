@@ -553,11 +553,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
         firstDate = [cell getCellDate];
     }
 
-//    NSDictionary *aDictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:
-//                                 firstDate, @"firstDate",
-//                                 nil] autorelease];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationAdjustPlannerMiniMonthHeight" object:nil userInfo:aDictionary];
     [self sendAdjustNotification:firstDate];
+}
+
+- (void)collapseExpandByDate: (NSDate *) dt {
+    PlannerMonthCellView *foundCell = [self findCellByDate:dt];
+    if (foundCell) {
+        [self collapseExpand:foundCell.weekNumberInMonth];
+    }
 }
 
 - (void)collapseCurrentWeek {

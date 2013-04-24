@@ -332,9 +332,9 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	MonthlyCalendarView *parent = (MonthlyCalendarView *)[self superview];
-	[parent selectCell:self];
-	
+//    MonthlyCalendarView *parent = (MonthlyCalendarView *)[self superview];
+//	[parent selectCell:self];
+    [[self superview] selectCell:self];
 }
 
 - (void)dealloc {
