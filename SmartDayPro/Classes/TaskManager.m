@@ -4160,13 +4160,8 @@ TaskManager *_sctmSingleton = nil;
 	
 	[slTask updateStatusIntoDB:[[DBManager getInstance] getDatabase]];
     
-	if (self.taskTypeFilter == TASK_FILTER_PINNED && slTask.status == TASK_STATUS_NONE)
+/*	if (self.taskTypeFilter == TASK_FILTER_PINNED && slTask.status == TASK_STATUS_NONE)
     {
-        /*if ([task checkMustDo])
-        {
-            [self.mustDoTaskList removeObject:slTask];
-        }
-        else*/
         if (![task checkMustDo])
         {
             [self.taskList removeObject:slTask];
@@ -4174,6 +4169,30 @@ TaskManager *_sctmSingleton = nil;
             [self scheduleTasks];
         }
     }
+*/
+	if (self.taskTypeFilter == TASK_FILTER_PINNED && ![task checkMustDo])
+    {
+        BOOL reSchedule = NO;
+        
+        if (slTask.status == TASK_STATUS_NONE)
+        {
+            [self.taskList removeObject:slTask];
+            
+            reSchedule = YES;
+        }
+        else if (task.listSource == SOURCE_CATEGORY && slTask == task)
+        {
+            [self filterTaskList];
+            
+            reSchedule = YES;
+        }
+        
+        if (reSchedule)
+        {
+            [self scheduleTasks];
+        }
+    }
+    
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
 }

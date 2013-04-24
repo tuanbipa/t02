@@ -271,7 +271,7 @@
 {
 	[self stopTextEdit];
     	
-	self.task.location = locationTextView.text;
+	//self.task.location = locationTextView.text;
 }
 
 - (void)cleanLocation:(id) sender
@@ -766,11 +766,9 @@
 	return YES;
 }
 
-/*
 - (void)textViewDidEndEditing:(UITextView *)textView{
 	self.task.location = textView.text;
 }
-*/
 
 #pragma mark GrowingTextView Delegate
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height

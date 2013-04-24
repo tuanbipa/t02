@@ -112,5 +112,6 @@
 - (void) focusNow;
 
 - (void)refreshPanes;
+- (void) refreshCalendarDay;
 
 @end

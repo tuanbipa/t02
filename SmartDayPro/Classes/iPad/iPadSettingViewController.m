@@ -38,6 +38,10 @@
 #import "SyncWindow2TableViewController.h"
 #import "DataRecoveryViewController.h"
 #import "SnoozeDurationViewController.h"
+#import "TaskSyncViewController.h"
+
+#import "CategoryViewController.h"
+#import "CalendarViewController.h"
 
 #import "AbstractSDViewController.h"
 #import "iPadViewController.h"
@@ -84,7 +88,9 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
     BOOL hideFutureTaskChange = settings.hideFutureTasks != self.settingCopy.hideFutureTasks;
 	
-	BOOL reSchedule = (settings.eventCombination != self.settingCopy.eventCombination || settings.minimumSplitSize != self.settingCopy.minimumSplitSize || [settings checkWorkingTimeChange:self.settingCopy]);
+    BOOL workTimeChange = [settings checkWorkingTimeChange:self.settingCopy];
+
+	BOOL reSchedule = (settings.eventCombination != self.settingCopy.eventCombination || settings.minimumSplitSize != self.settingCopy.minimumSplitSize || workTimeChange);
 	
 	BOOL changeSkin = (settings.skinStyle != self.settingCopy.skinStyle);
 	
@@ -256,6 +262,11 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     {
         // to refresh visibility in mySD if it was hidden in mySD before
         [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
+    }
+    
+    if (workTimeChange)
+    {
+        [[_abstractViewCtrler getCalendarViewController] refreshCalendarDay];
     }
 }
 
@@ -504,6 +515,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     else if ([viewController isKindOfClass:[SnoozeDurationViewController class]])
     {
         navLabel.text = _snoozeDuration;
+    }
+    else if ([viewController isKindOfClass:[TaskSyncViewController class]])
+    {
+        navLabel.text = _taskSyncText;
     }
 }
 

@@ -90,6 +90,7 @@
 - (void) copyTask: (id) sender;
 -(void) hideBars;
 - (void) hideQuickAdd;
+-(void) cancelQuickAdd;
 
 - (void) confirmDeleteTask: (id) sender;
 -(void)confirmMarkDone: (id) sender;

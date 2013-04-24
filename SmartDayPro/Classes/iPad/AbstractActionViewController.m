@@ -343,9 +343,11 @@ BOOL _autoPushPending = NO;
         return;
     }
     
+    BOOL showAction = activeView != view;
+    
     [self deselect];
     
-    if (activeView != view)
+    if (showAction)
     {
         UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
         
@@ -676,9 +678,14 @@ BOOL _autoPushPending = NO;
 {
     [self deselect];
     
-    [[TaskManager getInstance] initCalendarData:date];
-
     MiniMonthView *mmView = [self getMiniMonth];
+    
+    if (mmView != nil)
+    {
+        [mmView updateWeeks:date];
+    }
+    
+    [[TaskManager getInstance] initCalendarData:date];
 
     if (mmView != nil)
     {
@@ -1396,6 +1403,11 @@ BOOL _autoPushPending = NO;
     if (task.listSource == SOURCE_CATEGORY)
     {
         [ctrler setNeedsDisplay];
+        
+        if ([self checkControllerActive:1])
+        {
+            [slViewCtrler refreshLayout];
+        }
     }
     else if ([self checkControllerActive:3])
     {

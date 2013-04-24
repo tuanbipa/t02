@@ -327,6 +327,7 @@ extern BOOL _isiPad;
     [_abstractViewCtrler hidePopover];
     
     [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
+    [[_abstractViewCtrler getNoteViewController] loadAndShowList];
 }
 
 #pragma mark Table view methods

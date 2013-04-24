@@ -663,7 +663,7 @@
 #define _reminderMultiSourceWarningText NSLocalizedString(@"_reminderMultiSourceWarningText", "")
 #define _noReminderSourceFoundText NSLocalizedString(@"_noReminderSourceFoundText", "")
 
-
+#define _taskSyncText NSLocalizedString(@"_taskSyncText", "")
 
 
 

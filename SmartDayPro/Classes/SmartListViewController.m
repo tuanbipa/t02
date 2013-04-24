@@ -454,6 +454,13 @@ SmartListViewController *_smartListViewCtrler;
     maskView.hidden = YES;
 }
 
+-(void) cancelQuickAdd
+{
+    quickAddTextField.text = @"";
+    
+    [self stopQuickAdd];
+}
+
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {	
 	//if (smartListMovableController.selectionMode == SELECTION_MULTI)

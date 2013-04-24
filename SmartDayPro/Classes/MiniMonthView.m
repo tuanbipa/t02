@@ -271,8 +271,8 @@ extern BOOL _isiPad;
     NSDate *firstDate = [self.calView getFirstDate];
     NSDate *lastDate = [self.calView getLastDate];
     
-    if ([Common compareDate:firstDate withDate:date] == NSOrderedDescending ||
-        [Common compareDate:lastDate withDate:date] == NSOrderedAscending)
+    if ([Common compareDateNoTime:firstDate withDate:date] == NSOrderedDescending ||
+        [Common compareDateNoTime:lastDate withDate:date] == NSOrderedAscending)
     {
         NSInteger mode = [headerView getMWMode];
         
@@ -362,6 +362,17 @@ extern BOOL _isiPad;
     self.calView.superview.layer.masksToBounds = YES;
     
     [[self.calView layer] addAnimation:animation forKey:@"slideTransition"];
+}
+
+- (void) updateWeeks:(NSDate *)date
+{
+    NSInteger mode = [headerView getMWMode];
+    
+    NSDate *calDate = (mode == 1?date:[Common getFirstMonthDate:date]);
+    
+    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
+    
+    [self.calView changeWeekPlanner:7 weeks:weeks];
 }
 
 #pragma mark Actions
