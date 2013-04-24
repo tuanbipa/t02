@@ -20,9 +20,14 @@
 
 #import "BusyController.h"
 
+#import "AbstractSDViewController.h"
+#import "SmartListViewController.h"
+
 //#import "SCTabBarController.h"
 
 //extern SCTabBarController *_tabBarCtrler;
+
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation SmartListLayoutController
 
@@ -392,6 +397,13 @@
 		taskView = [[[TaskView alloc] initWithFrame:frm] autorelease];
         taskView.listStyle = YES;
 		//taskView.starEnable = YES;
+        
+        SmartListViewController *ctrler = [_abstractViewCtrler getSmartListViewController];
+        
+        if ([ctrler isInMultiEditMode])
+        {
+            [taskView multiSelect:YES];
+        }
 	}
 
     task.listSource = SOURCE_SMARTLIST;

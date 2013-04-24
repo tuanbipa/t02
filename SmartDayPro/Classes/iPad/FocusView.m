@@ -35,7 +35,7 @@ AbstractSDViewController *_abstractViewCtrler;
     if (self)
     {
         // Initialization code
-        
+  
         self.layer.borderWidth = 1;
 
         self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];

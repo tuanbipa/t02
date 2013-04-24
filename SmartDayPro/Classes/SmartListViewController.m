@@ -42,6 +42,7 @@
 #import "BusyController.h"
 #import "CalendarViewController.h"
 #import "SmartDayViewController.h"
+#import "CategoryViewController.h"
 
 #import "SmartListPlannerMovableController.h"
 
@@ -581,6 +582,7 @@ SmartListViewController *_smartListViewCtrler;
 -(void)refreshView
 {
 	//[self refreshLayout];
+    [self setNeedsDisplay];
 }
 
 - (void) refreshTaskView4Key:(NSInteger)taskKey
@@ -759,6 +761,8 @@ SmartListViewController *_smartListViewCtrler;
 	}
     
     [tm addTask:task];
+    
+    [_abstractViewCtrler reconcileItem:task reSchedule:YES];
 	
     if (task.deadline != nil)
     {
@@ -1069,7 +1073,7 @@ SmartListViewController *_smartListViewCtrler;
 		
 		[taskDoneAlertView addButtonWithTitle:_okText];
 		[taskDoneAlertView show];
-		[taskDoneAlertView release];		
+		[taskDoneAlertView release];
 	}
 	else 
 	{
@@ -1525,7 +1529,17 @@ SmartListViewController *_smartListViewCtrler;
             [view removeFromSuperview];
         }
         
-        [[TaskManager getInstance] deleteTasks:taskList];  
+        [[TaskManager getInstance] deleteTasks:taskList];
+        
+        if ([_abstractViewCtrler checkControllerActive:3])
+        {
+            CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+            
+            if (ctrler.filterType == TYPE_TASK)
+            {
+                [ctrler loadAndShowList];
+            }
+        }
         
         [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
     }
@@ -1611,7 +1625,17 @@ SmartListViewController *_smartListViewCtrler;
         }
         
         [[TaskManager getInstance] markDoneTasks:taskList];     
-    }  
+    }
+    
+    if ([_abstractViewCtrler checkControllerActive:3])
+    {
+        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+        
+        if (ctrler.filterType == TYPE_TASK)
+        {
+            [ctrler loadAndShowList];
+        }
+    }
     
     [self multiEdit:NO];
     

@@ -222,6 +222,12 @@ BOOL _autoPushPending = NO;
     return nil;
 }
 
+- (BOOL) checkControllerActive:(NSInteger)index
+{
+    //0:Calendar, 1:Tasks, 2:Notes, 3:Projects
+    return NO;
+}
+
 #pragma mark Refresh
 - (void) setNeedsDisplay
 {
@@ -683,33 +689,7 @@ BOOL _autoPushPending = NO;
 }
 
 #pragma mark Task Actions
-
 /*
-- (void) changeItem:(Task *)task action:(NSInteger)action
-{
-    PageAbstractViewController *ctrler = nil;
-    
-    if (task.listSource == SOURCE_NOTE)
-    {
-        ctrler = [self getNoteViewController];
-    }
-    else if (task.listSource == SOURCE_CATEGORY)
-    {
-        ctrler = [self getCategoryViewController];
-    }
-    
-    if (ctrler != nil)
-    {
-        [ctrler loadAndShowList];
-    }
-    
-    if ([task isNote])
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
-    }
-}
-*/
-
 - (void) changeItem:(Task *)task
 {
     if ([task isNote])
@@ -738,13 +718,9 @@ BOOL _autoPushPending = NO;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
     }
-    else if ([task isADE])
-    {
-        [self refreshADE];
-    }
     else if ([task isEvent])
     {
-        if (task.listSource == SOURCE_CATEGORY)
+        if (task.listSource == SOURCE_CATEGORY || task.listSource == SOURCE_FOCUS)
         {
             CategoryViewController *ctrler = [self getCategoryViewController];
             
@@ -754,15 +730,22 @@ BOOL _autoPushPending = NO;
             }
         }
         
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        
-        [ctrler refreshLayout];
-        
-        PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
-        
-        if (plannerDayCal != nil)
+        if ([task isADE])
         {
-            [plannerDayCal refreshLayout];
+            [self refreshADE];
+        }
+        else
+        {
+            CalendarViewController *ctrler = [self getCalendarViewController];
+            
+            [ctrler refreshLayout];
+            
+            PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+            
+            if (plannerDayCal != nil)
+            {
+                [plannerDayCal refreshLayout];
+            }            
         }
     }
     else if ([task isTask])
@@ -777,6 +760,38 @@ BOOL _autoPushPending = NO;
             }
         }
     }    
+}
+*/
+
+- (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule
+{
+    if (!reSchedule)
+    {
+        //don't need to refresh Calendar View and Task List when re-scheduling because they are refreshed when schedule is finished
+        
+        CalendarViewController *calCtrler = [self getCalendarViewController];
+        
+        [calCtrler reconcileItem:item];
+        
+        SmartListViewController *taskCtrler = [self getSmartListViewController];
+        
+        [taskCtrler reconcileItem:item];
+    }
+    
+    NoteViewController *noteCtrler = [self getNoteViewController];
+    
+    [noteCtrler reconcileItem:item];
+    
+    CategoryViewController *catCtrler = [self getCategoryViewController];
+    
+    [catCtrler reconcileItem:item];
+    
+    FocusView *focusView = [self getFocusView];
+    
+    if (focusView != nil)
+    {
+        [focusView reconcileItem:item];
+    }
 }
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy
@@ -836,29 +851,7 @@ BOOL _autoPushPending = NO;
         }
     }
     
-/*  if (!reSchedule)
-    {
-        [[self getCalendarViewController] refreshTaskView4Key:task.primaryKey];
-        [[self getSmartListViewController] refreshTaskView4Key:task.primaryKey];
-        
-        PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
-        
-        if (plannerDayCal != nil)
-        {
-            [plannerDayCal refreshTaskView4Key:task.primaryKey];
-        }
-        
-        if ([task isADE])
-        {
-            [self refreshADE];
-        }
-    }
-    else
-    {
-        [self changeItem:task];
-    }
-*/
-    if (!reSchedule)
+/*    if (!reSchedule)
     {
         //don't need to refresh Calendar View and Task List when re-scheduling because they are refreshed when schedule is finished
         
@@ -884,8 +877,9 @@ BOOL _autoPushPending = NO;
     if (focusView != nil)
     {
         [focusView reconcileItem:task];
-    }
-
+    }*/
+    
+    [self reconcileItem:task reSchedule:reSchedule];
     
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     
@@ -926,9 +920,11 @@ BOOL _autoPushPending = NO;
         }
         */
         //[self changeItem:task action:action];
-        
-        [self hidePopover];
     }
+    
+    [self deselect];
+    
+    //[self hidePopover];
 }
 
 - (void) convertRE2Task:(NSInteger)option
@@ -1000,7 +996,7 @@ BOOL _autoPushPending = NO;
         }*/
         
         //[self changeItem:task action:TASK_DELETE];
-        [self changeItem:task];
+        [self reconcileItem:task reSchedule:YES];
     }
     
     [task release];
@@ -1045,7 +1041,7 @@ BOOL _autoPushPending = NO;
     }*/
     
     //[self changeItem:task action:TASK_DELETE];
-    [self changeItem:task];
+    [self reconcileItem:task reSchedule:YES];
     
     [task release];
 }
@@ -1102,18 +1098,31 @@ BOOL _autoPushPending = NO;
             if (deadline != nil)
             {
                 [calView refreshCellByDate:deadline];
+                
+                if ([Common daysBetween:deadline sinceDate:tm.today] <= 0)
+                {
+                    [[self getFocusView] refreshData];
+                }
             }
         }
         else if (type == TYPE_EVENT)
         {
             [calView refreshCellByDate:start];
         }
+        else if (type == TYPE_ADE)
+        {
+            if ([TaskManager checkTaskInTimeRange:task startTime:[Common clearTimeForDate:tm.today] endTime:[Common getEndDate:tm.today]])
+            {
+                [[self getFocusView] refreshData];
+            }
+        }
         
         //CalendarViewController *ctrler = [self getCalendarViewController];
         //[ctrler refreshADEPane];//refresh ADE for any link removement
     }
     
-    [self changeItem:task];
+    //[self changeItem:task];
+    [self reconcileItem:task reSchedule:YES];
     
     [self deselect];
 }
@@ -1235,12 +1244,31 @@ BOOL _autoPushPending = NO;
             [tm markDoneTask:task];
         }
         
-        [calView refreshCellByDate:oldDeadline];
-        
+        if (oldDeadline != nil)
+        {
+            [calView refreshCellByDate:oldDeadline];
+            
+            if ([Common daysBetween:oldDeadline sinceDate:tm.today] <= 0)
+            {
+                [[self getFocusView] refreshData];
+            }
+        }
+        /*
         CategoryViewController *ctrler = [self getCategoryViewController];
         
         //remove done task from list
         [ctrler markDoneTask:task];
+        */
+        
+        if ([self checkControllerActive:3])
+        {
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            
+            if (ctrler.filterType == TYPE_TASK)
+            {
+                [ctrler loadAndShowList];
+            }
+        }
         
         if (isRT)
         {
@@ -1309,12 +1337,32 @@ BOOL _autoPushPending = NO;
         [tm markDoneTask:task];
     }
     
-    [calView refreshCellByDate:oldDue];
+    if (oldDue != nil)
+    {
+        [calView refreshCellByDate:oldDue];
+        
+        if ([Common daysBetween:oldDue sinceDate:tm.today] <= 0)
+        {
+            [[self getFocusView] refreshData];
+        }
+    }
     
+    /*
     CategoryViewController *ctrler = [self getCategoryViewController];
     
     //remove done task from list
     [ctrler markDoneTask:task];
+    */
+    
+    if ([self checkControllerActive:3])
+    {
+        CategoryViewController *ctrler = [self getCategoryViewController];
+        
+        if (ctrler.filterType == TYPE_TASK)
+        {
+            [ctrler loadAndShowList];
+        }
+    }
     
     if (isRT)
     {
@@ -1338,9 +1386,24 @@ BOOL _autoPushPending = NO;
     
     [slViewCtrler setNeedsDisplay];
     
+    /*
     CategoryViewController *catViewCtrler = [self getCategoryViewController];
     
     [catViewCtrler setNeedsDisplay];
+    */
+    CategoryViewController *ctrler = [self getCategoryViewController];
+
+    if (task.listSource == SOURCE_CATEGORY)
+    {
+        [ctrler setNeedsDisplay];
+    }
+    else if ([self checkControllerActive:3])
+    {
+        if (ctrler.filterType == TYPE_TASK)
+        {
+            [ctrler loadAndShowList];
+        }
+    }    
 }
 
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task

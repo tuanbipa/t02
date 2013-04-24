@@ -23,6 +23,8 @@
 #import "MonthlyCalendarView.h"
 #import "FocusView.h"
 
+#import "NoteViewController.h"
+
 #import "SmartDayViewController.h"
 #import "iPadSmartDayViewController.h"
 
@@ -213,6 +215,17 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     }
 }
 
+- (void) changeNoteDate:(Task *)task
+{
+    NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+  
+    task.startTime = [Common copyTimeFromDate:task.startTime toDate:calDate];
+    
+    [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];
+
+    [[_abstractViewCtrler getNoteViewController] loadAndShowList];
+}
+
 - (void) doTaskMovementInFocus
 {
     Task *task = ((TaskView *) self.activeMovableView).task;
@@ -264,7 +277,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     {
         NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
         
         alertView.tag = -10000;
         
@@ -276,7 +289,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     {
         NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
         
         alertView.tag = -10001;
         
@@ -287,7 +300,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     {
         NSString *msg = [NSString stringWithFormat:@"%@ %@", _noteAssociatedText, [Common getCalendarDateString:calDate]];
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
         
         alertView.tag = -10002;
         
@@ -359,20 +372,25 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         switch (buttonIndex) 
         {
             case 0: //Edit
-            {                
+            {
+                /*
                 task.startTime = [Common copyTimeFromDate:task.startTime toDate:calDate];
                 
-                [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];
+                [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];*/
+                
+                [self changeNoteDate:task];
                 
                 needEdit = YES;
             }
                 break;
             case 1: //OK
             {
+                /*
                 task.startTime = [Common copyTimeFromDate:task.startTime toDate:calDate];
                 
-                [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];
+                [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];*/
                 
+                [self changeNoteDate:task];
             }
                 break;
         }
