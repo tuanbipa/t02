@@ -76,39 +76,16 @@ extern PlannerViewController *_plannerViewCtrler;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     [self drawMonthTitle:contentRect context:ctx];
-    
-//    // drawing day cells
-//    CGFloat headerWidth = 52;
-//    CGFloat dayHeight = (contentRect.size.height-headerWidth)/6;
-//    CGFloat dayWidth = contentRect.size.width/7;
-//    CGFloat xOffset = contentRect.origin.x;
-//    CGFloat x = xOffset;
-//    CGFloat y = contentRect.origin.y + headerWidth;
-//    for (int i=0; i<42; i++) {
-//        CGRect dayFrm = CGRectMake(x, y, dayWidth, dayHeight);
-//        
-//        MonthlyCellView *cell = [[MonthlyCellView alloc] initWithFrame:dayFrm];
-//        cell.day = -1;
-//        cell.index = i;
-//        cell.skinStyle = 0;
-//        
-//        [self addSubview:cell];
-//        [cell release];
-//        
-//        x += dayWidth;
-//        //x = cell.frame.origin.x + cell.frame.size.width;
-//        if ((i+1)%7 == 0) {
-//            y += dayHeight;
-//            x = xOffset;
-//        }
-//    }
 }
 
 - (void)drawMonthTitle: (CGRect)rect context:(CGContextRef) ctx {
-    UIFont *font = [UIFont boldSystemFontOfSize:16];
+    // set boder
+    [[UIColor lightGrayColor] set];
+	CGContextSetLineWidth(ctx, 1);
+	CGContextStrokeRect(ctx, rect);
     
     // drawing monthi title
-    //NSDate *dt = [NSDate date];
+    UIFont *font = [UIFont systemFontOfSize:16];
     NSString *title = [Common getFullMonthYearString:self.monthDate];
     
     
@@ -119,36 +96,34 @@ extern PlannerViewController *_plannerViewCtrler;
     
     // title
     [[UIColor blackColor] set];
-    [title drawInRect:CGRectOffset(monRec, 0, 1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+    CGFloat yOffset = (monRec.size.height - font.pointSize) / 2.0;
+    CGRect textRect = CGRectMake(monRec.origin.x, yOffset, monRec.size.width, font.pointSize);
+    [title drawInRect:textRect withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
     // end drawing month title
     
     // drawing day header
     NSString* _dayNamesMon[7] = {_monText, _tueText, _wedText, _thuText, _friText, _satText, _sunText};
 	NSString* _dayNamesSun[7] = {_sunText, _monText, _tueText, _wedText, _thuText, _friText, _satText};
     
-    // background day header
-//    CGRect bgFrm = CGRectMake(monRec.origin.x, monRec.origin.y + monRec.size.height, monRec.size.width, 22);
-//    [[UIColor lightTextColor] set];
-//    CGContextFillRect(ctx, bgFrm);
-    
     BOOL weekStartOnMonday = [[Settings getInstance] isMondayAsWeekStart];
-    font = [UIFont boldSystemFontOfSize:10];
+    font = [UIFont systemFontOfSize:12];
     
     CGRect dayRec = rect;
     dayRec.origin.y += monRec.size.height;
 	dayRec.size.width /= 7;
     dayRec.size.height = 22;
+    
+    yOffset = (dayRec.size.height - font.pointSize) / 2.0;
+    textRect = CGRectMake(dayRec.origin.x, dayRec.origin.y + yOffset, dayRec.size.width, font.pointSize);
+    
     for (int i=0; i<7; i++)
 	{
 		NSString *dayName = weekStartOnMonday?_dayNamesMon[i]:_dayNamesSun[i];
 		
-		dayRec.origin.x = rect.origin.x + i*dayRec.size.width;
+        textRect.origin.x = rect.origin.x + i*textRect.size.width;
 		
 		[[UIColor darkGrayColor] set];
-		[dayName drawInRect:CGRectOffset(dayRec, 0, -1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
-		
-		//[[UIColor whiteColor] set];
-		//[dayName drawInRect:dayRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+        [dayName drawInRect:textRect withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 	}
 }
 
@@ -203,40 +178,28 @@ extern PlannerViewController *_plannerViewCtrler;
 			todayCellIndex = i;
 		}
 		
-		if (cell.day == dtComps.day && cell.month == dtComps.month && cell.year == dtComps.year)
+		/*if (cell.day == dtComps.day && cell.month == dtComps.month && cell.year == dtComps.year)
 		{
 			[self highlightCell:cell];
-		}
+		}*/
 	}
 }
 
 - (void) initCalendar//:(NSDate *)date
 {
-	
-//    [self showWeekCalendar:date];
-//    
-//	[self highlightCellOnDate:date];
     [self showWeekCalendar:self.monthDate];
 }
 
-- (void)highlightCell: (MonthlyCellView *) cell {
-    
-}
-
-- (void)highlightCellOnDate: (NSDate *) dt {
-    
-}
+//- (void)highlightCell: (MonthlyCellView *) cell {
+//    
+//}
+//
+//- (void)highlightCellOnDate: (NSDate *) dt {
+//    
+//}
 
 - (void) refresh
 {
-//	//////NSLog(@"begin refresh all cells");
-//    MonthlyCellView *firstCell = [[self subviews] objectAtIndex:0];
-//    //MonthlyCellView *lastCell = [[self subviews] objectAtIndex:7*nWeeks-1];
-//    MonthlyCellView *lastCell = [[self subviews] objectAtIndex:41];
-//    
-//    NSDate *fromDate = [firstCell getCellDate];
-//    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
-    
     MonthlyCellView *cell = [[self subviews] objectAtIndex:7];
     NSDate *fromDate = [Common getFirstMonthDate:[cell getCellDate]];
     NSDate *toDate = [Common getEndMonthDate:fromDate withMonths:1];

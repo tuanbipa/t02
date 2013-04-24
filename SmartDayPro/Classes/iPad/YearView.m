@@ -63,7 +63,7 @@
         prevButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
         [self addSubview:prevButton];
         
-        UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"previous.png"]];
+        UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_prev.png"]];
         prevImgView.frame = CGRectMake(10, 0, 30, 30);
         [prevButton addSubview:prevImgView];
         [prevImgView release];
@@ -84,7 +84,7 @@
         nextButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
         [self addSubview:nextButton];
         
-        UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"next.png"]];
+        UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
         nextImgView.frame = CGRectMake(10, 0, 30, 30);
         [nextButton addSubview:nextImgView];
         [nextImgView release];
