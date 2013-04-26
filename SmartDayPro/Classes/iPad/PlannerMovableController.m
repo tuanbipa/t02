@@ -192,14 +192,9 @@ extern PlannerViewController *_plannerViewCtrler;
     
     [task updateDeadlineIntoDB:[dbm getDatabase]];
     
-//    if (dDate != nil)
-//    {
-//        [_plannerViewCtrler.plannerView.monthView refreshCellByDate:dDate];
-//    }
-    
     [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
-    
     [_plannerViewCtrler.plannerView.monthView collapseExpandByDate:calDate];
+    [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:calDate];
     
     [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
