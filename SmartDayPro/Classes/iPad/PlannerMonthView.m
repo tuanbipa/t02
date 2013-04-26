@@ -712,19 +712,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
 		[cell setDSDots:hasDTask sTask:hasSTask];
         
-		//CGFloat ratio = (CGFloat) allocTime/(24*3600);
-		
-		//cell.freeRatio = (allocTime == 0?0:ratio);
-        
         // need to re-open week if openning
         if (cell.weekNumberInMonth == openningWeek) {
             [self collapseWeek];
             [self collapseExpand: cell.weekNumberInMonth];
-        } else {
+            [self highlightCellOnDate:date];
+        }/* else {
             [self collapseExpand:cell.weekNumberInMonth];
         }
         
-        [self highlightCellOnDate:date];
+        [self highlightCellOnDate:date];*/
 	}
 }
 

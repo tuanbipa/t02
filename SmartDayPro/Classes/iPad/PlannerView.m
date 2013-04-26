@@ -84,18 +84,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
     NSDate *dt = [self.monthView getFirstDate];
     dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
     dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
-    NSInteger weeks = [Common getWeeksInMonth:dt];
-    [self.monthView changeWeekPlanner:7 weeks:weeks];
-    [self.monthView collapseWeek];
-    [self finishInitCalendar];
-    // change month
-    [self.monthView changeMonth:dt];
-    // collapse week
-    [self.monthView collapseExpand:0];
-    // select first date in month
-    dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
-    [_abstractViewCtrler jumpToDate:dt];
-    [self.monthView highlightCellOnDate:dt];
+//    NSInteger weeks = [Common getWeeksInMonth:dt];
+//    [self.monthView changeWeekPlanner:7 weeks:weeks];
+//    [self.monthView collapseWeek];
+//    [self finishInitCalendar];
+//    // change month
+//    [self.monthView changeMonth:dt];
+//    // collapse week
+//    [self.monthView collapseExpand:0];
+//    // select first date in month
+//    dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
+//    [_abstractViewCtrler jumpToDate:dt];
+//    [self.monthView highlightCellOnDate:dt];
+    [self goToDate:dt];
     
     [UIView commitAnimations];
 }

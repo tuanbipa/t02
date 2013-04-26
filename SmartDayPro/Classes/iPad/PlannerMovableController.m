@@ -199,6 +199,8 @@ extern PlannerViewController *_plannerViewCtrler;
     
     [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
     
+    [_plannerViewCtrler.plannerView.monthView collapseExpandByDate:calDate];
+    
     [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
 }
