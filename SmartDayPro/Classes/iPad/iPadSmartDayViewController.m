@@ -300,6 +300,8 @@ iPadViewController *_iPadViewCtrler;
 */
 - (void) addTask
 {
+    [[self getSmartListViewController] cancelQuickAdd];
+    
 	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
     
     Task *task = [[[Task alloc] init] autorelease];
@@ -385,28 +387,34 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
+    BOOL showPopover = activeView != view;
+    
     [super enableActions:enable onView:view];
     
-    PreviewViewController *ctrler = [[PreviewViewController alloc] init];
-    ctrler.item = view.task;
-    
-    SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
-    [ctrler release];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-    
-    UIButton *timerButton = [_iPadViewCtrler getTimerButton];
-    
-    if (timerButton != nil)
+    if (showPopover)
     {
-        self.popoverCtrler.passthroughViews = [NSArray arrayWithObject:timerButton];
+        PreviewViewController *ctrler = [[PreviewViewController alloc] init];
+        ctrler.item = view.task;
+        
+        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+        [ctrler release];
+        
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+        
+        UIButton *timerButton = [_iPadViewCtrler getTimerButton];
+        
+        if (timerButton != nil)
+        {
+            self.popoverCtrler.passthroughViews = [NSArray arrayWithObjects:timerButton,view,nil];
+        }
+        
+        [navController release];
+        
+        CGRect frm = [view.superview convertRect:view.frame toView:contentView];
+        
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+        
     }
-    
-    [navController release];
-    
-    CGRect frm = [view.superview convertRect:view.frame toView:contentView];
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
 }
 
 - (void) scrollToDate:(NSDate *)date

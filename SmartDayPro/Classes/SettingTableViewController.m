@@ -186,8 +186,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	Settings *settings = [Settings getInstance];
     
     BOOL hideFutureTaskChange = settings.hideFutureTasks != self.settingCopy.hideFutureTasks;
+    
+    BOOL workTimeChange = [settings checkWorkingTimeChange:self.settingCopy];
 	
-	BOOL reSchedule = (settings.eventCombination != self.settingCopy.eventCombination || settings.minimumSplitSize != self.settingCopy.minimumSplitSize || [settings checkWorkingTimeChange:self.settingCopy]);
+	BOOL reSchedule = (settings.eventCombination != self.settingCopy.eventCombination || settings.minimumSplitSize != self.settingCopy.minimumSplitSize || workTimeChange);
 	
 	BOOL changeSkin = (settings.skinStyle != self.settingCopy.skinStyle);
 	
@@ -335,6 +337,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         // to refresh visibility in mySD if it was hidden in mySD before
         [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
+    }
+    
+    if (workTimeChange)
+    {
+        [[_abstractViewCtrler getCalendarViewController] refreshCalendarDay];
     }    
 }
 

@@ -44,5 +44,6 @@
 - (void) shiftTime:(NSInteger)mode;
 - (void) initCalendar:(NSDate *)date;
 - (void) highlight:(NSDate *)date;
+- (void) updateWeeks:(NSDate *)date;
 
 @end

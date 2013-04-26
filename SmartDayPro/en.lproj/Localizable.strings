@@ -677,3 +677,5 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 Note: If you select a source that is not showing in your iOS Reminder, your reminders will become duplicated.";
 
 "_noReminderSourceFoundText" = "You must have at least one reminder source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Reminder to have that.";
+
+"_taskSyncText" = "Task Sync";
