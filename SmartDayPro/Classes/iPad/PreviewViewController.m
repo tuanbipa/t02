@@ -467,12 +467,22 @@ PreviewViewController *_previewCtrler;
 {
     if (noteLinkCreated)
     {
-        //NoteViewController *ctrler = [_iPadSDViewCtrler getNoteViewController];
+        /*
         NoteViewController *ctrler = [_abstractViewCtrler getNoteViewController];
         [ctrler loadAndShowList];
         
         CategoryViewController *catCtrler = [_abstractViewCtrler getCategoryViewController];
         [catCtrler setNeedsDisplay];
+        */
+        
+        if (_plannerViewCtrler != nil)
+        {
+            [_plannerViewCtrler reconcileItem:noteView.note reSchedule:NO];
+        }
+        else
+        {
+            [_abstractViewCtrler reconcileItem:noteView.note reSchedule:NO];
+        }
     }
     
     if (noteChange || noteLinkCreated)

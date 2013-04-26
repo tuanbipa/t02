@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class Project;
 @class Task;
 @class MovableView;
 @class ContentView;
@@ -57,5 +58,9 @@
 - (void) editItem:(Task *)item;
 - (void) editItem:(Task *)task inRect:(CGRect)inRect;
 - (void) editItem:(Task *)item inView:(TaskView *)inView;
+
+- (void) editProject:(Project *)project inRect:(CGRect)inRect;
+
+-(void) deselect;
 
 @end

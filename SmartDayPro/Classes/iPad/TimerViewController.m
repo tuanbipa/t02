@@ -258,6 +258,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [[TimerManager getInstance] refreshTaskLists:YES];
  
     [[MusicManager getInstance] playSound:SOUND_TIMER_ON];
     

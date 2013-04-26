@@ -476,6 +476,10 @@ iPadViewController *_iPadViewCtrler;
 
     Task *task = [self getActiveTask];
     
+    [[task retain] autorelease];
+    
+    [self deselect];
+    
     if (task != nil && [task isTask])
     {
         if (![timer checkActivated:task])
@@ -483,7 +487,7 @@ iPadViewController *_iPadViewCtrler;
             timer.taskToActivate = task;
         }
         
-        [self deselect];
+        //[self deselect];
     }
     else
     {
@@ -1470,14 +1474,73 @@ iPadViewController *_iPadViewCtrler;
         
         view.frame = CGRectZero;
         view.clipsToBounds = YES;
+
+        [contentView addSubview:view];
+    }
+}
+
+- (void) showTaskModule:(BOOL)enabled
+{
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    UIView *view = ctrler.view;
+    
+    if (!enabled)
+    {
+        if (view.superview != nil)
+        {
+            //[ctrler clearLayout];
+            
+            [view removeFromSuperview];
+        }
+    }
+    else if (view.superview != contentView)
+    {
+        if (view.superview != nil)
+        {
+            //[ctrler clearLayout];
+            
+            [view removeFromSuperview];
+        }
         
-        /*
-        view.layer.borderWidth = 1;
-        view.layer.cornerRadius = 5;
-        view.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
-        */
+        view.frame = CGRectZero;
+        view.clipsToBounds = YES;
         
         [contentView addSubview:view];
+        
+        UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
+        UIView *noteHeaderView = (UIView *)[contentView viewWithTag:20001];
+        UIView *projectHeaderView = (UIView *)[contentView viewWithTag:20002];
+        
+        UIButton *taskModuleButton = (UIButton *)[taskHeaderView viewWithTag:21000];
+        UIButton *noteModuleButton = (UIButton *)[noteHeaderView viewWithTag:21001];
+        UIButton *projectModuleButton = (UIButton *)[projectHeaderView viewWithTag:21002];
+        
+        UIButton *buttons[3] = {taskModuleButton, noteModuleButton, projectModuleButton};
+        
+        NSInteger expandNum = 0;
+        
+        for (int i=0; i<3; i++)
+        {
+            if (buttons[i].selected)
+            {
+                expandNum += 1;
+            }
+        }
+        
+        NSInteger moduleHeight = (expandNum == 0?0:(contentView.bounds.size.height-160)/expandNum);
+        
+        CGFloat w = contentView.bounds.size.width/2 - 10;
+        
+        CGRect frm = !taskModuleButton.selected?CGRectMake(w+20, 0, w-10, 0):CGRectMake(w+20, 50, w-10, moduleHeight);
+        
+        [ctrler resetMovableController:NO];
+        
+        [ctrler setMovableContentView:self.contentView];
+        
+        [ctrler changeFrame:frm];
+        
+        [ctrler performSelector:@selector(refreshLayout) withObject:nil afterDelay:0.1];
     }
 }
 
@@ -1490,6 +1553,13 @@ iPadViewController *_iPadViewCtrler;
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self deselect];
 }
 
 /*

@@ -78,6 +78,7 @@
 - (void) tabBarChanged:(BOOL)mini;
 -(void)deselect;
 -(void)changeSkin;
+- (void)clearLayout;
 -(void)refreshLayout;
 - (void) backToSingleSelectMode;
 - (void) refreshSmartList:(BOOL) needSchedule;
@@ -105,5 +106,6 @@
 - (void) filter:(NSInteger)filterType;
 
 - (void) changeFrame:(CGRect)frm;
+- (void) resetMovableController:(BOOL)forPlanner;
 
 @end

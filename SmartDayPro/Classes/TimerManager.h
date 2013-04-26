@@ -34,6 +34,8 @@
 - (void) pauseTimer;
 - (void) markDoneTask:(NSInteger) taskIndex inProgress:(BOOL) inProgress;
 
+-(void) refreshTaskLists:(BOOL)needRefreshDuration;
+
 +(id)getInstance;
 +(void)startup;
 +(void)free;

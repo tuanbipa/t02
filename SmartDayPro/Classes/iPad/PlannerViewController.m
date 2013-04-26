@@ -63,8 +63,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     if (self = [super init])
     {
-        smartListViewCtrler = [[SmartListViewController alloc] init4Planner];
-        //smartListViewCtrler.smartListLayoutController.layoutInPlanner = YES;
+        //smartListViewCtrler = [[SmartListViewController alloc] init4Planner];
+        //smartListViewCtrler = [[SmartListViewController alloc] init];
+        //[smartListViewCtrler resetMovableController:YES];
         
         activeView = nil;
         
@@ -78,7 +79,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     self.popoverCtrler = nil;
     
-    [smartListViewCtrler release];
+    //[smartListViewCtrler release];
     [plannerView release];
     [plannerBottomDayCal release];
     
@@ -88,7 +89,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (SmartListViewController *) getSmartListViewController
 {
-    return smartListViewCtrler;
+    //return smartListViewCtrler;
+    return [_abstractViewCtrler getSmartListViewController];
 }
 
 - (CalendarViewController *) getCalendarViewController
@@ -151,6 +153,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
 }
 
+- (BOOL) checkControllerActive:(NSInteger)index
+{
+    return index == 1?YES:NO;
+}
+
+- (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule
+{
+    [super reconcileItem:item reSchedule:reSchedule];
+}
+
 #pragma mark Actions
 - (void) add:(id)sender
 {
@@ -176,16 +188,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) filter:(id) sender
 {
-    UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
+    if (!optionView.hidden)
+    {
+        [self hideDropDownMenu];
+    }
+    else
+    {
+        UIView *taskHeaderView = (UIView *)[contentView viewWithTag:21000];
     
-    CGRect frm = optionView.frame;
+        CGRect frm = optionView.frame;
     
-    frm.origin.x = taskHeaderView.frame.origin.x + taskHeaderView.frame.size.width - 60;
-    frm.origin.y = taskHeaderView.frame.origin.y + taskHeaderView.frame.size.height;
+        frm.origin.x = taskHeaderView.frame.origin.x + taskHeaderView.frame.size.width - 60;
+        frm.origin.y = taskHeaderView.frame.origin.y + taskHeaderView.frame.size.height;
     
-    optionView.frame = frm;
+        optionView.frame = frm;
     
-    [self showOptionMenu];
+        [self showOptionMenu];
+    }
 }
 
 - (void) showTaskWithOption:(id)sender
@@ -427,7 +446,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     UIView *headView = [[UIView alloc] initWithFrame:frm];
     headView.backgroundColor = [UIColor clearColor];
-    headView.tag = 20000;
+    headView.tag = 21000;
     
     [contentView addSubview:headView];
     [headView release];
@@ -527,17 +546,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [contentView release];
     
-    [contentView addSubview:smartListViewCtrler.view];
+    SmartListViewController *ctrler = [self getSmartListViewController];
     
-    //frm.origin.x = frm.size.width - 234;
-    //frm.size.width = 234;
-    
-    //[smartListViewCtrler changeFrame:frm];
-    
-    // planer view in left
-    //plannerView
-    //plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 0, contentView.frame.size.width - smartListViewCtrler.contentView.frame.size.width, frm.size.height)];
-    //[contentView addSubview:plannerView];
+    //[contentView addSubview:smartListViewCtrler.view];
+    [contentView addSubview:ctrler.view];
 
     plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 8, 750, 206)];
     [contentView addSubview:plannerView];
@@ -549,8 +561,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     //CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, frm.size.height - 16);
     frm = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, headerHeight + 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, contentView.frame.size.height - headerHeight - 16);
     
-    [smartListViewCtrler changeFrame:frm];
-
+    [ctrler changeFrame:frm];
     
     // bottom day cal
     plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];
@@ -562,9 +573,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [smartListViewCtrler setMovableContentView:self.contentView];
+    SmartListViewController *ctrler = [self getSmartListViewController];
     
-    [smartListViewCtrler refreshLayout];
+    [ctrler resetMovableController:YES];
+    
+    [ctrler setMovableContentView:self.contentView];
+    
+    //[ctrler refreshLayout];
     
     [plannerBottomDayCal setMovableContentView:self.contentView];
 }
@@ -573,6 +588,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [super viewWillAppear:animated];
     
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [ctrler performSelector:@selector(refreshLayout) withObject:nil afterDelay:0.1];
+    
     _plannerViewCtrler = self;
 }
 
@@ -580,6 +599,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [super viewWillDisappear:animated];
     
+    [self deselect];
+    
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [ctrler clearLayout];
+    [ctrler.view removeFromSuperview];
+
     _plannerViewCtrler = nil;
 }
 

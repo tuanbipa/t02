@@ -31,7 +31,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation SmartListLayoutController
 
-@synthesize layoutFinished;
+@synthesize layoutInProgress;
 @synthesize taskList;
 //@synthesize layoutInPlanner;
 
@@ -39,10 +39,38 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     if (self = [super init])
     {
-        self.layoutFinished = YES;
+        self.layoutInProgress = NO;
+        
+        layoutCond = [[NSCondition alloc] init];
     }
     
     return self;
+}
+
+- (void) setLayoutInProgress:(BOOL)inProgress
+{
+	[layoutCond lock];
+	
+	layoutInProgress = inProgress;
+	
+	if (!inProgress)
+	{
+		[layoutCond signal];
+	}
+	
+	[layoutCond unlock];
+}
+
+- (void) wait4LayoutComplete
+{
+	[layoutCond lock];
+	
+	while (self.layoutInProgress)
+	{
+		[layoutCond wait];
+	}
+    
+	[layoutCond unlock];
 }
 
 - (void) layout4NewTask:(Task *)task
@@ -244,9 +272,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	[self initContentOffset];
 	
-	self.layoutFinished = YES;
-	
-	//[[_tabBarCtrler getSmartListViewCtrler]  finishLayout];
+	self.layoutInProgress = NO;
 	
 	[[BusyController getInstance] setBusy:NO withCode:BUSY_TASK_LAYOUT];
 	
@@ -271,9 +297,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	[self initContentOffset];
 	
-	self.layoutFinished = YES;
-	
-	//[[_tabBarCtrler getSmartListViewCtrler]  finishLayout];
+	self.layoutInProgress = NO;
 	
 	[[BusyController getInstance] setBusy:NO withCode:BUSY_TASK_LAYOUT_SUBSET];
 	
@@ -287,7 +311,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	if (self.viewContainer == nil)
 	{
         //printf("view container is nil -> end\n");
-		self.layoutFinished = YES;
+		self.layoutInProgress = NO;
 		
 		return;
 	}
@@ -302,18 +326,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         return;
     }
-*/
+
     if (!self.layoutFinished)
     {
         //printf("layout in progress -> end\n");
         return;
     }
+*/
+    [self wait4LayoutComplete];
     
     //printf("smartlist layout\n");
     
     [super beginLayout];
 	
-	self.layoutFinished = NO;
+	self.layoutInProgress = YES;
 		
 	lastView = nil;
 	
@@ -350,7 +376,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		
 		if (toIndex == taskList2Layout.count)
 		{
-			self.layoutFinished = YES;
+			self.layoutInProgress = NO;
 			
 			//[[_tabBarCtrler getSmartListViewCtrler]  finishLayout];
 		}
@@ -455,7 +481,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self.viewContainer setContentOffset:CGPointMake(0, 40)];
 }
 */
-- (void)dealloc {
+- (void)dealloc
+{
+    [layoutCond release];
+    
 	self.taskList = nil;
 	
     [super dealloc];

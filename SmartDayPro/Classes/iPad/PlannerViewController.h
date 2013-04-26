@@ -17,7 +17,7 @@
 
 @interface PlannerViewController : AbstractActionViewController
 {
-    SmartListViewController *smartListViewCtrler;
+    //SmartListViewController *smartListViewCtrler;
     PlannerView *plannerView;
     PlannerBottomDayCal *plannerBottomDayCal;
     

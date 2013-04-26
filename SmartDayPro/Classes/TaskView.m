@@ -53,6 +53,7 @@ extern PlannerViewController *_plannerViewCtrler;
         self.checkEnable = YES;
         
         checkView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        //checkView.backgroundColor = [UIColor magentaColor];
         
         [self addSubview:checkView];
         [checkView release];
@@ -76,18 +77,19 @@ extern PlannerViewController *_plannerViewCtrler;
 		
         starView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)];
         starView.userInteractionEnabled = NO;
+        starView.backgroundColor = [UIColor clearColor];
         
         [self addSubview:starView];
         [starView release];
         
-        starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(starView.bounds.size.width - 20 -2, (starView.bounds.size.height-20)/2-2, 20, 20)];
+        //starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(starView.bounds.size.width - 20 -2, (starView.bounds.size.height-20)/2-2, 20, 20)];
+        
+        starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 8, 20, 20)];
         
         [starView addSubview:starImageView];
         [starImageView release];
         
-        [self refreshStarImage];
-        
-        UIButton *starButton=[Common createButton:@""
+        starButton=[Common createButton:@""
                                        buttonType:UIButtonTypeCustom
                               //frame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)
                                             frame:starView.bounds
@@ -95,9 +97,11 @@ extern PlannerViewController *_plannerViewCtrler;
                                            target:self
                                          selector:@selector(star:)
                                  normalStateImage:nil
-                               selectedStateImage:nil];
+                                selectedStateImage:nil];
         starButton.backgroundColor=[UIColor clearColor];
         [starView addSubview:starButton];
+
+        [self refreshStarImage];
         
         self.multiSelectionEnable = NO;
         
@@ -175,11 +179,13 @@ extern PlannerViewController *_plannerViewCtrler;
     {
         checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
     }
-    else 
+    else
     {
         checkButton.selected = [task isDone];
         checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);        
     }
+    
+    checkView.userInteractionEnabled = self.checkEnable;
 }
 
 - (void) refresh

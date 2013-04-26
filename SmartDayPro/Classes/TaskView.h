@@ -18,6 +18,7 @@
     UIView *checkView;
     UIView *starView;
     UIButton *checkButton;
+    UIButton *starButton;
 	
 	BOOL checkEnable;
 	BOOL starEnable;

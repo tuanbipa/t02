@@ -29,5 +29,6 @@
 - (void) showMenu;
 
 - (void) refreshTaskFilterTitle;
+- (void) showTaskModule:(BOOL)enabled;
 
 @end

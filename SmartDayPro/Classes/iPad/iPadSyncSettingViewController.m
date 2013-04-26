@@ -134,6 +134,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     {
         [self confirmSyncOn];
     }
+
+    [_iPadSettingViewCtrler refresh]; //to refresh Data Recovery row
 }
 
 - (void) enableAutoSync:(id)sender

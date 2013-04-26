@@ -220,6 +220,11 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) showLandscapeView
 {
+    if (_iPadSDViewCtrler != nil)
+    {
+        [_iPadSDViewCtrler showTaskModule:NO];
+    }
+    
     if (self.activeViewCtrler != nil && [self.activeViewCtrler.view superview])
     {
         [self.activeViewCtrler.view removeFromSuperview];
@@ -248,6 +253,11 @@ iPadViewController *_iPadViewCtrler;
     self.activeViewCtrler = _iPadSDViewCtrler;
     
     [contentView addSubview:self.activeViewCtrler.view];
+    
+    if (_iPadSDViewCtrler != nil)
+    {
+        [_iPadSDViewCtrler showTaskModule:YES];
+    }
 
     [_iPadSDViewCtrler refreshTaskFilterTitle];
     
@@ -273,20 +283,28 @@ iPadViewController *_iPadViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    //[self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
-    
     [self changeSkin];
-    //[self createToolbar];
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    {
+        [self showLandscapeView];
+        
+        if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
+        {
+            PlannerViewController *ctrler = (PlannerViewController *) self.activeViewCtrler;
+            
+            [ctrler viewWillAppear:NO];
+        }
+    }
+    else
+    {
+        [self showPortraitView];
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-    {
-        [self showLandscapeView];
-    }
 }
 
 - (void) viewWillAppear:(BOOL)animated

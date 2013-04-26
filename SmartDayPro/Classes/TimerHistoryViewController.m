@@ -58,7 +58,7 @@
 {
     ProjectManager *pm = [ProjectManager getInstance];
     
-    NSString *mailBody = @"Hi,\n This is a report of a completed task in SmartDay. You can view it in any spreadsheet.";
+    NSString *mailBody = [NSString stringWithFormat:@"Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.", self.task.name];
     
     NSString *csvContent = @"Project, Task Name, Duration, Due Date, Start Date, Completed Date, Timer Duration, Segment No, From Time, To Time, Sub Total \n";
     

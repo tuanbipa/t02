@@ -653,6 +653,29 @@ BOOL _autoPushPending = NO;
     
 }
 
+- (void) editProject:(Project *)project inRect:(CGRect)inRect
+{
+    if (!_isiPad)
+    {
+        [self editCategory:project];
+        
+        return;
+    }
+    
+    ProjectEditViewController *editCtrler = [[ProjectEditViewController alloc] init];
+    editCtrler.project = project;
+    
+    SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
+    [editCtrler release];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+    
+    [navController release];
+    
+    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    
+}
+
 #pragma mark Calendar Actions
 - (void) scrollToDate:(NSDate *)date
 {
@@ -1579,15 +1602,19 @@ BOOL _autoPushPending = NO;
 	{
         Project *planCopy = [[plan copy] autorelease];
         
+        CGRect frm = [activeView.superview convertRect:activeView.frame toView:contentView];
+        
+        [self deselect];
+        
         planCopy.name = [NSString stringWithFormat:@"%@ (copy)", plan.name];
         planCopy.primaryKey = -1;
         planCopy.ekId = @"";
         planCopy.tdId = @"";
         
-        [self editProject:planCopy inView:activeView];
+        [self editProject:planCopy inRect:frm];
 	}
     
-    [self deselect];
+    //[self deselect];
 }
 
 

@@ -15,12 +15,16 @@
 	
 	BOOL layoutFinished;
 	NSMutableArray *taskList;
+    
+    NSCondition *layoutCond;
 
 } 
 
-@property BOOL layoutFinished;
-//@property BOOL layoutInPlanner;
+//@property BOOL layoutFinished;
+@property BOOL layoutInProgress;
 
 @property (nonatomic, retain) NSMutableArray *taskList;
+
+- (void) wait4LayoutComplete;
 
 @end

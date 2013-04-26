@@ -16,6 +16,10 @@
 #import "TaskManager.h"
 #import "DBManager.h"
 
+#import "AbstractSDViewController.h"
+
+extern AbstractSDViewController *_abstractViewCtrler;
+
 TimerManager *_timerManagerSingleton;
 
 @implementation TimerManager
@@ -137,6 +141,8 @@ TimerManager *_timerManagerSingleton;
 		if (self.taskToActivate.primaryKey == -1)
 		{
 			[[TaskManager getInstance] addTask:self.taskToActivate];
+            
+            [_abstractViewCtrler reconcileItem:self.taskToActivate reSchedule:YES];
 		}
 		
 		TaskProgress *lastProgress = [[[TaskProgress alloc] init] autorelease];
@@ -353,7 +359,8 @@ TimerManager *_timerManagerSingleton;
 		DBManager *dbm = [DBManager getInstance];
 		TaskProgress *lastProgress = task.lastProgress;
 		
-		if (task.status == TASK_STATUS_ACTIVE)
+		//if (task.status == TASK_STATUS_ACTIVE)
+        if (task.timerStatus == TASK_TIMER_STATUS_START)
 		{
 			lastProgress.endTime = [NSDate date];
 			

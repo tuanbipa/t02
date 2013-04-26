@@ -47,10 +47,12 @@
 #import "SmartListPlannerMovableController.h"
 
 #import "AbstractSDViewController.h"
+#import "PlannerViewController.h"
 
 #import "SmartCalAppDelegate.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 
 extern BOOL _smartListHintShown;
 extern BOOL _multiSelectHintShown;
@@ -111,6 +113,7 @@ SmartListViewController *_smartListViewCtrler;
 	return self;	
 }
 
+/*
 -(id) init4Planner
 {
     if (self = [super init])
@@ -140,6 +143,35 @@ SmartListViewController *_smartListViewCtrler;
     
     return self;
 }
+*/
+
+- (void) resetMovableController:(BOOL)forPlanner
+{
+    if (movableController != nil)
+    {
+        [movableController release];
+        smartListLayoutController.movableController = nil;
+    }
+    
+    if (forPlanner)
+    {
+        movableController = [[SmartListPlannerMovableController alloc] init];
+        smartListLayoutController.movableController = movableController;
+    }
+    else
+    {
+        movableController = [[SmartListMovableController alloc] init];
+        smartListLayoutController.movableController = movableController;
+    }
+    
+	for (UIView *view in smartListView.subviews)
+	{
+		if ([view isKindOfClass:[TaskView class]])
+		{
+            ((TaskView *)view).movableController = movableController;
+        }
+    }
+}
 
 -(id) initWithTabBar {
 	if ([self init]) {
@@ -151,9 +183,16 @@ SmartListViewController *_smartListViewCtrler;
 	
 }
 
+- (BOOL) checkControllerActive
+{
+    AbstractActionViewController *ctrler = (_plannerViewCtrler != nil?_plannerViewCtrler:_abstractViewCtrler);
+    
+    return [ctrler checkControllerActive:1];
+}
+
 - (void) reconcileItem:(Task *)item
 {
-    if ([item isTask] && [_abstractViewCtrler checkControllerActive:1])
+    if ([item isTask] && [self checkControllerActive])
     {
         if (item.listSource == SOURCE_SMARTLIST)
         {
@@ -292,6 +331,19 @@ SmartListViewController *_smartListViewCtrler;
 			}
 		}
 	}	
+}
+
+- (void)clearLayout
+{
+    [self.smartListLayoutController wait4LayoutComplete];
+    
+	for (UIView *view in smartListView.subviews)
+	{
+		if (view != quickAddPlaceHolder)
+		{
+            [view removeFromSuperview];
+        }
+    }
 }
 
 -(void)refreshLayout
@@ -792,7 +844,7 @@ SmartListViewController *_smartListViewCtrler;
 
 - (BOOL) checkMoveEnable
 {
-	return self.smartListLayoutController.layoutFinished && tabPane.userInteractionEnabled && ![[TaskManager getInstance] checkSortInBackground];
+	return !self.smartListLayoutController.layoutInProgress && tabPane.userInteractionEnabled && ![[TaskManager getInstance] checkSortInBackground];
 }
 
 - (void) finishLayout
@@ -2723,6 +2775,7 @@ SmartListViewController *_smartListViewCtrler;
 	
     quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
 	quickAddPlaceHolder.backgroundColor = [UIColor clearColor];
+    quickAddPlaceHolder.tag = -30000;
 	[smartListView addSubview:quickAddPlaceHolder];
 	[quickAddPlaceHolder release];
     
