@@ -465,16 +465,9 @@ PreviewViewController *_previewCtrler;
 
 - (void) viewWillDisappear:(BOOL)animated
 {
-    if (noteLinkCreated)
+    
+    if (noteChange || noteLinkCreated)
     {
-        /*
-        NoteViewController *ctrler = [_abstractViewCtrler getNoteViewController];
-        [ctrler loadAndShowList];
-        
-        CategoryViewController *catCtrler = [_abstractViewCtrler getCategoryViewController];
-        [catCtrler setNeedsDisplay];
-        */
-        
         if (_plannerViewCtrler != nil)
         {
             [_plannerViewCtrler reconcileItem:noteView.note reSchedule:NO];
@@ -483,10 +476,6 @@ PreviewViewController *_previewCtrler;
         {
             [_abstractViewCtrler reconcileItem:noteView.note reSchedule:NO];
         }
-    }
-    
-    if (noteChange || noteLinkCreated)
-    {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil]; //to auto-sync mSD
     }
     

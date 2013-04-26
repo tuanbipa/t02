@@ -161,6 +161,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule
 {
     [super reconcileItem:item reSchedule:reSchedule];
+    
+    if ([item isNote]) {
+        PlannerMonthView *monthView = (PlannerMonthView*)[self getMonthCalendarView];
+        [monthView refreshCellByDate:item.startTime];
+    }
 }
 
 #pragma mark Actions
