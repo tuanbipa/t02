@@ -277,12 +277,32 @@ BOOL _autoPushPending = NO;
         {
             [ctrler refreshView];
         }
-        
+    }
+    
+    FocusView *focusView = [self getFocusView];
+    
+    if (focusView != nil)
+    {
+        [focusView refreshView];
     }
 }
 
 - (void) refreshData
 {
+    NoteViewController *noteCtrler = [self getNoteViewController];
+    
+    [noteCtrler loadAndShowList];
+    
+    CategoryViewController *catCtrler = [self getCategoryViewController];
+    
+    [catCtrler loadAndShowList];
+    
+    FocusView *focusView = [self getFocusView];
+    
+    if (focusView != nil)
+    {
+        [focusView refreshData];
+    }
     
 }
 
@@ -597,6 +617,8 @@ BOOL _autoPushPending = NO;
 	
     if (editCtrler != nil)
     {
+        [self hidePopover];
+        
         SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
         [editCtrler release];
         
@@ -608,7 +630,7 @@ BOOL _autoPushPending = NO;
         /*
         [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];*/
         
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
     }
 }
 
@@ -1340,6 +1362,8 @@ BOOL _autoPushPending = NO;
         }
         
         [note release];
+        
+        [self reconcileItem:task reSchedule:YES];
     }
 }
 
@@ -1453,6 +1477,8 @@ BOOL _autoPushPending = NO;
     {
         [mmView refresh];
     }
+    
+    [self reconcileItem:task reSchedule:YES];
 }
 
 - (void) convert2Task:(Task *)task
@@ -1497,6 +1523,8 @@ BOOL _autoPushPending = NO;
             }            
         }
     }
+    
+    [self reconcileItem:task reSchedule:YES];
 }
 
 - (void) changeTime:(Task *)task time:(NSDate *)time
@@ -1539,6 +1567,56 @@ BOOL _autoPushPending = NO;
         }
     }
     
+    [self reconcileItem:task reSchedule:YES];
+}
+
+-(void) changeTask:(Task *)task toProject:(NSInteger)prjKey
+{
+    TaskManager *tm = [TaskManager getInstance];
+    DBManager *dbm = [DBManager getInstance];
+    
+    Task *slTask = [tm getTask2Update:task];
+    
+    if (slTask != nil)
+    {
+        slTask.project = prjKey;
+        
+        [slTask updateIntoDB:[dbm getDatabase]];
+
+        Task *schedTask = [tm findScheduledTask:slTask];
+        
+        schedTask.project = prjKey;
+       
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+    }
+    
+    
+    task.project = prjKey;
+    
+    [self reconcileItem:task reSchedule:NO];
+}
+
+-(void)quickAddEvent:(NSString *)name startTime:(NSDate *)startTime
+{
+	//////printf("quick add - %s, start: %s\n", [name UTF8String], [[startTime description] UTF8String]);
+	
+	Task *event = [[Task alloc] init];
+	
+	event.name = name;
+	event.startTime = startTime;
+	event.endTime = [Common dateByAddNumSecond:3600 toDate:event.startTime];
+	
+	event.type = TYPE_EVENT;
+	
+	[[TaskManager getInstance] addTask:event];
+	    
+    MiniMonthView *mmView = [self getMiniMonth];
+	
+    [mmView.calView refreshCellByDate:startTime];
+	
+	[self reconcileItem:event reSchedule:YES];
+    
+    [event release];
 }
 
 #pragma mark Project Actions
@@ -1559,10 +1637,9 @@ BOOL _autoPushPending = NO;
         {
             [mmView initCalendar:tm.today];
         }
+
+		[self refreshData];
         
-        CategoryViewController *ctrler = [self getCategoryViewController];
-        [ctrler loadAndShowList];
-		
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
 	}

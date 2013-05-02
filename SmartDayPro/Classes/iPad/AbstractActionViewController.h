@@ -54,6 +54,8 @@
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task;
 - (void) convert2Task:(Task *)task;
 - (void) changeTime:(Task *)task time:(NSDate *)time;
+-(void) changeTask:(Task *)task toProject:(NSInteger)prjKey;
+-(void)quickAddEvent:(NSString *)name startTime:(NSDate *)startTime;
 
 - (void) editItem:(Task *)item;
 - (void) editItem:(Task *)task inRect:(CGRect)inRect;

@@ -466,13 +466,13 @@ extern BOOL _isiPad;
         
         [self.project updateIntoDB:[dbm getDatabase]];
         
-        BOOL needRefresh = NO;
+        //BOOL needRefresh = NO;
         
         if (colorChange)
         {
             [pm makeIcon:self.project];
             
-            needRefresh = YES;
+            //needRefresh = YES;
         }
         
         if (self.project.primaryKey == tm.lastTaskProjectKey && self.project.status == PROJECT_STATUS_INVISIBLE)
@@ -512,10 +512,14 @@ extern BOOL _isiPad;
         {
             [_abstractViewCtrler resetAllData];
         }
-		else if (needRefresh)
+		/*else if (needRefresh)
 		{
             [_abstractViewCtrler refreshView];
-		}
+		}*/
+        else if (colorChange)
+        {
+            [_abstractViewCtrler setNeedsDisplay];
+        }
         else if (transparentChange)
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];

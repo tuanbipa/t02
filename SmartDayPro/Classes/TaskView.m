@@ -53,7 +53,6 @@ extern PlannerViewController *_plannerViewCtrler;
         self.checkEnable = YES;
         
         checkView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        //checkView.backgroundColor = [UIColor magentaColor];
         
         [self addSubview:checkView];
         [checkView release];

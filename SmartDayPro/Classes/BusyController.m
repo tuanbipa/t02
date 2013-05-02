@@ -62,7 +62,7 @@ BusyController *_busyCtrlerSingleton = nil;
 {
 	BOOL busyEnable = (busyFlag != 0);
     
-    [_appDelegate showBusyIndicator:busyEnable];    
+    [_appDelegate showBusyIndicator:busyEnable];
 }
 
 - (void) refreshBusyIndicator

@@ -23,6 +23,7 @@
 #import "ScheduleView.h"
 
 #import "AbstractSDViewController.h"
+#import "CategoryViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -223,6 +224,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
             if ([task isTask] && [destTask isTask])
             {
                 [[TaskManager getInstance] changeOrder:task destTask:destTask];
+                
+                CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+                
+                if (ctrler.filterType == TYPE_TASK)
+                {
+                    [ctrler loadAndShowList];
+                }
             }
         }
         else if (convertEventIntoTask)

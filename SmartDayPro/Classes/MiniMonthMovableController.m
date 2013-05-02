@@ -192,6 +192,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
+    [_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
+    
 }
 
 - (void) changeEventDate:(Task *)task
@@ -213,6 +215,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:oldDate];
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];
     }
+    
+    [_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
 }
 
 - (void) changeNoteDate:(Task *)task
@@ -223,7 +227,9 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];
 
-    [[_abstractViewCtrler getNoteViewController] loadAndShowList];
+    //[[_abstractViewCtrler getNoteViewController] loadAndShowList];
+    
+    [_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
 }
 
 - (void) doTaskMovementInFocus

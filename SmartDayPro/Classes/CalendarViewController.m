@@ -687,6 +687,8 @@ CalendarViewController *_sc2ViewCtrler;
 
 		[[TaskManager getInstance] resizeTask:task];
 	}
+    
+    [_abstractViewCtrler reconcileItem:task reSchedule:YES];
 
 	[self stopResize];
 }
@@ -786,6 +788,7 @@ CalendarViewController *_sc2ViewCtrler;
     calendarView.contentOffset = offset;
 }
 
+/*
 -(void)quickAdd:(NSString *)name startTime:(NSDate *)startTime
 {
 	//////printf("quick add - %s, start: %s\n", [name UTF8String], [[startTime description] UTF8String]);
@@ -806,6 +809,7 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	[self refreshLayout];	
 }
+*/
 
 #pragma mark Hint 
 - (void) popupHint
@@ -1256,12 +1260,14 @@ CalendarViewController *_sc2ViewCtrler;
 		
 		TaskManager *tm = [TaskManager getInstance];
 		
-		[self quickAdd:text startTime:[Common copyTimeFromDate:startTime toDate:tm.today]];
+		//[self quickAdd:text startTime:[Common copyTimeFromDate:startTime toDate:tm.today]];
+        [_abstractViewCtrler quickAddEvent:text startTime:[Common copyTimeFromDate:startTime toDate:tm.today]];
 	}
 }
 
 
 #pragma mark TextFieldDelegate
+/*
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
@@ -1283,6 +1289,7 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	return YES;	
 }
+*/
 
 -(void) createHintView
 {
