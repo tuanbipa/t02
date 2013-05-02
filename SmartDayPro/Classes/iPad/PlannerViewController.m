@@ -165,6 +165,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     if ([item isNote]) {
         PlannerMonthView *monthView = (PlannerMonthView*)[self getMonthCalendarView];
         [monthView refreshCellByDate:item.startTime];
+    } else if ([item isEvent]) {
+        [plannerBottomDayCal.calendarLayoutController layout];
     }
 }
 

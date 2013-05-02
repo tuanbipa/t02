@@ -132,6 +132,9 @@
     [taskView enableMove:YES];
     taskView.checkEnable = NO;
     
+    taskView.checkEnable = NO;
+    [taskView refreshCheckImage];
+    
 	taskView.touchHoldEnable = YES;
 	
 	if (task.type == TYPE_EVENT)
@@ -246,7 +249,7 @@
         self.startDate = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart==1)];
     }
     NSDate *start = [Common clearTimeForDate:startDate];
-    NSDate *end = [Common getEndDate:[Common dateByAddNumDay:7 toDate:startDate]];
+    NSDate *end = [Common getEndDate:[Common dateByAddNumDay:6 toDate:startDate]];
     
     // only get events
     self.objList = [tm getEventListFromDate:start toDate:end];
