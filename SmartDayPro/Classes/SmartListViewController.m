@@ -48,6 +48,7 @@
 
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
+#import "PlannerMonthView.h"
 
 #import "SmartCalAppDelegate.h"
 
@@ -1698,7 +1699,15 @@ SmartListViewController *_smartListViewCtrler;
     
     [self multiEdit:NO];
     
-    [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
+    //[_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
+    if (_plannerViewCtrler) {
+        PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getMonthCalendarView];
+        [monthView collapseCurrentWeek];
+        [monthView expandCurrentWeek];
+        [monthView refresh];
+    } else {
+        [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
+    }
 }
 
 - (void) confirmMultiMarkDone

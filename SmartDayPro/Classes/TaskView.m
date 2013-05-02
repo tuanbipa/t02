@@ -237,7 +237,12 @@ extern PlannerViewController *_plannerViewCtrler;
     
 	if (!self.multiSelectionEnable)
 	{
-        [_abstractViewCtrler markDoneTaskInView:self];
+        //[_abstractViewCtrler markDoneTaskInView:self];
+        if (_plannerViewCtrler) {
+            [_plannerViewCtrler markDoneTaskInView:self];
+        } else {
+            [_abstractViewCtrler markDoneTaskInView:self];
+        }
     }
     
     [self refreshCheckImage];
