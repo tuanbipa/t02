@@ -466,12 +466,7 @@ PreviewViewController *_previewCtrler;
 
 - (void) viewWillDisappear:(BOOL)animated
 {
-<<<<<<< Updated upstream
-    
     if (noteChange || noteLinkCreated)
-=======
-    if (noteLinkCreated || noteChange)
->>>>>>> Stashed changes
     {
         if (_plannerViewCtrler != nil)
         {
@@ -481,19 +476,10 @@ PreviewViewController *_previewCtrler;
         {
             [_abstractViewCtrler reconcileItem:noteView.note reSchedule:NO];
         }
-<<<<<<< Updated upstream
-=======
-
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil]; //to auto-sync mSD
 
     }
-    /*
-    if (noteChange || noteLinkCreated)
-    {
->>>>>>> Stashed changes
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil]; //to auto-sync mSD
-    }
-    */
+
     _previewCtrler = nil;
 }
 
