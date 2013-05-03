@@ -69,7 +69,6 @@ extern PlannerViewController *_plannerViewCtrler;
         Settings *settings = [Settings getInstance];
         dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart==1)];
         [self changeWeek:dt];
-        [calendarLayoutController layout];
         
         scrollView.contentSize = CGSizeMake(plannerScheduleView.frame.size.width, plannerScheduleView.frame.size.height);
         //scrollView.contentOffset = CGPointMake(self.bounds.size.width, 0);

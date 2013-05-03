@@ -137,41 +137,38 @@
     
 	taskView.touchHoldEnable = YES;
 	
-	if (task.type == TYPE_EVENT)
-	{
-        //int index = days + 1;
-        int index = days;
+    // check overlap
+    int index = days;
+    
+    BOOL overlapping = (slotObjects[index][slotIdx].count > 0);
+    
+    [slotObjects[index][slotIdx] addObject:taskView];
+    
+    if (overlapping)
+    {
+        NSInteger count = slotObjects[index][slotIdx].count;
+        NSInteger space = 2;
         
-		BOOL overlapping = (slotObjects[index][slotIdx].count > 0);
-		
-		[slotObjects[index][slotIdx] addObject:taskView];
-		
-		if (overlapping)
-		{
-			NSInteger count = slotObjects[index][slotIdx].count;
-			NSInteger space = 2;
-			
-			//CGFloat w = (self.viewContainer.bounds.size.width - xmargin - (count-1)*space)/count;
-            CGFloat w = (dayWidth - (count-1)*space)/count;
-			
-			for (int i=0; i<count; i++)
-			{
-				TaskView *view = [slotObjects[index][slotIdx] objectAtIndex:i];
-				
-				CGRect rect = view.frame;
-				rect.size.width = w;
-				
-				rect.origin.x = frm.origin.x + (w + space)*i;
-				
-                [view changeFrame:rect];
-			}
-		}
-	}
+        //CGFloat w = (self.viewContainer.bounds.size.width - xmargin - (count-1)*space)/count;
+        CGFloat w = (dayWidth - (count-1)*space)/count;
+        
+        for (int i=0; i<count; i++)
+        {
+            TaskView *view = [slotObjects[index][slotIdx] objectAtIndex:i];
+            
+            CGRect rect = view.frame;
+            rect.size.width = w;
+            
+            rect.origin.x = frm.origin.x + (w + space)*i;
+            
+            [view changeFrame:rect];
+        }
+    }
+    // end check overlap
     
     ////printf("calendar task %s - frame x: %f, width: %f\n", [task.name UTF8String], taskView.frame.origin.x, taskView.frame.size.width);
     
-    
-	return taskView;
+ 	return taskView;
     
 }
 
@@ -189,16 +186,6 @@
 {
 	[super beginLayout];
     
-    //TaskManager *tm = [TaskManager getInstance];
-    //[tm garbage:self.objList];
-    
-    /*
-     for (int i=0; i<48; i++)
-     {
-     slotObjects[i] = [[NSMutableArray alloc] initWithCapacity:3];
-     }
-     */
-    
     for (int i=0; i<7; i++)
     {
         for (int j=0; j<48; j++)
@@ -213,15 +200,6 @@
 - (void) endLayout
 {
 	[super endLayout];
-    
-    ////printf("*free slot objects\n");
-    
-    /*
-     for (int i=0; i<48; i++)
-     {
-     [slotObjects[i] release];
-     }
-     */
     
     for (int i=0; i<7; i++)
     {

@@ -45,6 +45,8 @@
 #import "SDNavigationController.h"
 
 #import "SmartCalAppDelegate.h"
+#import "PlannerViewController.h"
+#import "PlannerMonthView.h"
 
 extern BOOL _isiPad;
 
@@ -1726,16 +1728,24 @@ BOOL _autoPushPending = NO;
             
 			[[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:buttonIndex];
             
-            MiniMonthView *mmView = [self getMiniMonth];
-            
-            if (isADE)
-            {
-                [self refreshADE];
-            }
-            
-            if (mmView != nil)
-            {
-                [mmView refresh];
+            if ([self isKindOfClass:[PlannerViewController class]]) {
+                // for planner
+                PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getMonthCalendarView];
+                // reload openning week
+                [plannerMonthView collapseCurrentWeek];
+                [plannerMonthView expandCurrentWeek];
+            } else {
+                MiniMonthView *mmView = [self getMiniMonth];
+                
+                if (isADE)
+                {
+                    [self refreshADE];
+                }
+                
+                if (mmView != nil)
+                {
+                    [mmView refresh];
+                }
             }
 		}
         
