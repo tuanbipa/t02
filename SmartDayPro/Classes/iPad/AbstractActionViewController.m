@@ -306,6 +306,10 @@ BOOL _autoPushPending = NO;
         [focusView refreshData];
     }
     
+    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    
+    [calView refresh];
+    
 }
 
 - (void) resetAllData
@@ -846,6 +850,14 @@ BOOL _autoPushPending = NO;
     {
         [focusView reconcileItem:item];
     }
+    
+    if ([item isADE])
+    {
+        AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+        
+        [calView refreshADEView];
+        [[self getCalendarViewController] refreshADEPane];
+    }
 }
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy
@@ -866,7 +878,9 @@ BOOL _autoPushPending = NO;
     
     if (taskCopy.primaryKey == -1)
     {
-        [tm addTask:taskCopy];
+        [task updateByTask:taskCopy];
+        
+        [tm addTask:task];
         
         reSchedule = YES;
     }
@@ -904,34 +918,6 @@ BOOL _autoPushPending = NO;
             reSchedule = [tm updateTask:task withTask:taskCopy];
         }
     }
-    
-/*    if (!reSchedule)
-    {
-        //don't need to refresh Calendar View and Task List when re-scheduling because they are refreshed when schedule is finished
-        
-        CalendarViewController *calCtrler = [self getCalendarViewController];
-        
-        [calCtrler reconcileItem:task];
-        
-        SmartListViewController *taskCtrler = [self getSmartListViewController];
-        
-        [taskCtrler reconcileItem:task];
-    }
-    
-    NoteViewController *noteCtrler = [self getNoteViewController];
-    
-    [noteCtrler reconcileItem:task];
-    
-    CategoryViewController *catCtrler = [self getCategoryViewController];
-    
-    [catCtrler reconcileItem:task];
-    
-    FocusView *focusView = [self getFocusView];
-    
-    if (focusView != nil)
-    {
-        [focusView reconcileItem:task];
-    }*/
     
     [self reconcileItem:task reSchedule:reSchedule];
     

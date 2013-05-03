@@ -1864,6 +1864,8 @@ SmartListViewController *_smartListViewCtrler;
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    quickAddTextField.tag = 1;
+    
 	[self stopQuickAdd];
 	
 	return YES;	
@@ -1871,12 +1873,17 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
-	NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-	
-	if (![text isEqualToString:@""])
-	{
-		[self quickAddTask:text];
-	}
+    if (quickAddTextField.tag == 1)
+    {
+        NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        if (![text isEqualToString:@""])
+        {
+            [self quickAddTask:text];
+        }
+    }
+    
+    quickAddTextField.tag = -1;
     
     quickAddTextField.text = @"";
     
@@ -2792,6 +2799,7 @@ SmartListViewController *_smartListViewCtrler;
     
     quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-50, 30)];
 	quickAddTextField.delegate = self;
+    quickAddTextField.tag = -1;
 	quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
 	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;

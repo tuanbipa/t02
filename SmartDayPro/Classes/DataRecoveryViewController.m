@@ -15,7 +15,11 @@
 
 #import "SettingTableViewController.h"
 
+#import "iPadSettingViewController.h"
+
 extern BOOL _isiPad;
+
+extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 @interface DataRecoveryViewController ()
 
@@ -35,32 +39,46 @@ extern BOOL _isiPad;
 
 - (void) sync1way2SDW
 {
-    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-    
-    if ([ctrler isKindOfClass:[SettingTableViewController class]])
+    if (_iPadSettingViewCtrler != nil)
     {
-        SettingTableViewController *settingCtrler = (SettingTableViewController *) ctrler;
-        
-        [settingCtrler save:nil];
+        [_iPadSettingViewCtrler.navigationController popToRootViewControllerAnimated:YES];
     }
-    
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    else
+    {
+        UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+        
+        if ([ctrler isKindOfClass:[SettingTableViewController class]])
+        {
+            SettingTableViewController *settingCtrler = (SettingTableViewController *) ctrler;
+            
+            [settingCtrler save:nil];
+        }
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];        
+    }
     
     [[SDWSync getInstance] initBackground1WayPush];
 }
 
 - (void) sync1way2SD
 {
-    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-    
-    if ([ctrler isKindOfClass:[SettingTableViewController class]])
+    if (_iPadSettingViewCtrler != nil)
     {
-        SettingTableViewController *settingCtrler = (SettingTableViewController *) ctrler;
-        
-        [settingCtrler save];
+        [_iPadSettingViewCtrler.navigationController popToRootViewControllerAnimated:YES];        
     }
+    else
+    {
+        UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
         
-    [self.navigationController popToRootViewControllerAnimated:YES];
+        if ([ctrler isKindOfClass:[SettingTableViewController class]])
+        {
+            SettingTableViewController *settingCtrler = (SettingTableViewController *) ctrler;
+            
+            [settingCtrler save];
+        }
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
     
     [[DBManager getInstance] cleanDB];
     
@@ -84,7 +102,7 @@ extern BOOL _isiPad;
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:_deleteAllMySDDataConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText,nil];
     alertView.tag = -10000;
     
-    [alertView show];
+    [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
     [alertView release];
     
 }
@@ -95,7 +113,7 @@ extern BOOL _isiPad;
     
     alertView.tag = -10001;
     
-    [alertView show];
+    [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
     [alertView release];
 }
 

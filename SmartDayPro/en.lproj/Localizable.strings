@@ -677,5 +677,7 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 Note: If you select a source that is not showing in your iOS Reminder, your reminders will become duplicated.";
 
 "_noReminderSourceFoundText" = "You must have at least one reminder source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Reminder to have that.";
+"_reminderFatalError" = "EventKit returns empty reminder list. This could be a fatal error in iOS Reminder. You may need to restore your device to recover Reminder App.";
+"_reminderAccessHint" = "Please go to iOS Settings/Privacy and enable SmartDay to access to Reminder app.";
 
 "_taskSyncText" = "Task Sync";

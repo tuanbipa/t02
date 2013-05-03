@@ -20,6 +20,7 @@
 
 @property (nonatomic, retain) NSMutableArray *adeList;
 @property (nonatomic, retain) NSMutableArray *dueList;
+@property (nonatomic, retain) NSMutableArray *noteList;
 
 - (void) refreshData;
 - (void) refreshView;

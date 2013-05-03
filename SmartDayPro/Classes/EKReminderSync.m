@@ -282,7 +282,7 @@ EKReminderSync *_ekReminderSyncSingleton;
     
     if (ekCalList.count == 0)
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText  message:_ekFatalError delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText  message:_reminderFatalError delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
         [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
         [alertView release];
         
