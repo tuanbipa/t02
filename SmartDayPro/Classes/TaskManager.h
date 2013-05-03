@@ -145,7 +145,7 @@
 - (NSMutableArray *) getDisplayList;
 -(void) unDone:(Task *)task;
 - (void) populateRE:(Task *)re isNew:(BOOL)isNew;
--(void) changeTask:(Task *)task toProject:(NSInteger)prjKey;
+//-(void) changeTask:(Task *)task toProject:(NSInteger)prjKey;
 -(void) sortTasks:(NSMutableArray *)tasks;
 -(NSMutableArray *) sortTask:(Task *)task;
 -(BOOL) addTask:(Task *)task;
@@ -184,6 +184,7 @@
 - (NSString *) getFilterTitle:(NSInteger)filterType;
 - (NSString *) getFilterTitle;
 
+- (Task *) getTask2Update:(Task *)taskEdit;
 - (Task *) findTaskByKey:(NSInteger)key;
 - (Task *) findEventByKey:(NSInteger)key;
 - (Task *) findREByKey:(NSInteger)key;

@@ -640,7 +640,7 @@ extern PreviewViewController *_previewCtrler;
 
 - (void) done:(id)sender
 {
-    doneBarView.hidden = YES;
+    //doneBarView.hidden = YES;
     
     [self finishEdit];
 }
@@ -669,6 +669,20 @@ extern PreviewViewController *_previewCtrler;
     doneBarView.hidden = NO;
     
     return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if (!doneBarView.hidden)
+    {
+        CGRect frm = noteTextView.frame;
+        
+        frm.size.height += 40;
+        
+        noteTextView.frame = frm;
+        
+        doneBarView.hidden = YES;
+    }
 }
 
 - (void)textViewDidChange:(UITextView *)textView

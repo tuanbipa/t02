@@ -210,6 +210,7 @@ PreviewViewController *_previewCtrler;
     [note release];
     
     noteLinkCreated = YES;
+    hasNote = YES;
 }
 
 #pragma mark Notification
@@ -465,7 +466,6 @@ PreviewViewController *_previewCtrler;
 
 - (void) viewWillDisappear:(BOOL)animated
 {
-    
     if (noteChange || noteLinkCreated)
     {
         if (_plannerViewCtrler != nil)
@@ -477,8 +477,9 @@ PreviewViewController *_previewCtrler;
             [_abstractViewCtrler reconcileItem:noteView.note reSchedule:NO];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil]; //to auto-sync mSD
+
     }
-    
+
     _previewCtrler = nil;
 }
 

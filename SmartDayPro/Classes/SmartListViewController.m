@@ -1446,6 +1446,8 @@ SmartListViewController *_smartListViewCtrler;
 		[self performSelector:@selector(tabFilter:) withObject:[NSNumber numberWithInt:filterType] afterDelay:0];
         
 		[[Settings getInstance] changeFilterTab:filterType];
+        
+        [self hideQuickAdd];
 	}
 	
 	if (filterType == TASK_FILTER_PINNED || filterType == TASK_FILTER_TOP)

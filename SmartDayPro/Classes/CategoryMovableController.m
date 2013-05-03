@@ -89,7 +89,19 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     [self zoom:onView];
     
-    if ([self canSeparate])
+    if ([self.activeMovableView isKindOfClass:[TaskView class]])
+    {
+        Task *item = ((TaskView *) self.activeMovableView).task;
+        
+        if ([item isNote] || [item isEvent])
+        {
+            //don't allow to separate Notes and Events
+            leftView = nil;
+            rightView = nil;
+        }
+    }
+    
+    //if ([self canSeparate])
     {
         [self separate:rightView fromLeft:leftView];
     }
@@ -127,7 +139,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             {
                 if (onMovableView != nil && [onMovableView isKindOfClass:[PlanView class]])
                 {
-                    [tm changeTask:((TaskView *)self.activeMovableView).task toProject:((PlanView *)onMovableView).project.primaryKey];
+                    [_iPadSDViewCtrler changeTask:((TaskView *)self.activeMovableView).task toProject:((PlanView *)onMovableView).project.primaryKey];
                     
                     refresh = YES;
                 }

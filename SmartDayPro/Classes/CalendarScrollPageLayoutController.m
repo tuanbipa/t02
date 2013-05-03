@@ -232,6 +232,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [taskView enableMove:![task checkMustDo]];
     taskView.checkEnable = NO;
     
+    [taskView refreshCheckImage];
+    
 	taskView.touchHoldEnable = YES;
 	
 	if (task.type == TYPE_EVENT)

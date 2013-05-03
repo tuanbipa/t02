@@ -88,9 +88,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     if ([_abstractViewCtrler checkControllerActive:3])
     {
-        if (([item isNote] && self.filterType == TYPE_NOTE) ||
+        //comment out: when convert a task into event, it does not match filter type anymore
+        /*if (([item isNote] && self.filterType == TYPE_NOTE) ||
             ([item isTask] && self.filterType == TYPE_TASK) ||
-            ([item isEvent] && self.filterType == TYPE_EVENT))
+            ([item isEvent] && self.filterType == TYPE_EVENT))*/
         {
             [self loadAndShowList];
         }

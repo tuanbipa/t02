@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSMutableArray *dueList;
 
 - (void) refreshData;
+- (void) refreshView;
 -(void) setNeedsDisplay;
 - (void) reconcileLinks:(NSDictionary *)dict;
 - (void) reloadAlert4Task:(NSInteger)taskId;

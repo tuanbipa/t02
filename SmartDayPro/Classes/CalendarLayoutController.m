@@ -135,8 +135,8 @@
 	//taskView.tag = task;
     taskView.task = task;
     taskView.checkEnable = NO;
-    
-    [taskView refreshCheckImage];    
+    [taskView refreshCheckImage];
+
     [taskView enableMove:![task checkMustDo]];
     
 	taskView.touchHoldEnable = YES;

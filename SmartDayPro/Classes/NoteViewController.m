@@ -29,6 +29,8 @@
 #import "NoteLayoutController.h"
 #import "NoteMovableController.h"
 
+#import "CategoryViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
 
 @interface NoteViewController ()
@@ -238,7 +240,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) refreshView
 {
-    //[listTableView reloadData];
+    [self setNeedsDisplay];
 }
 
 -(void)setNeedsDisplay
@@ -408,6 +410,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self refreshLayout];
     
     //[listTableView reloadData];
+    
+    CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+    
+    if (ctrler.filterType == TYPE_NOTE)
+    {
+        [ctrler loadAndShowList];
+    }
+
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex

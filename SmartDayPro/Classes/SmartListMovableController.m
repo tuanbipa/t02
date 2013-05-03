@@ -21,10 +21,15 @@
 #import "SmartListLayoutController.h"
 
 #import "SmartListViewController.h"
+#import "CategoryViewController.h"
 //#import "SmartDayPageViewController.h"
 //#import "ListViewController.h"
 
+#import "AbstractSDViewController.h"
+
 extern SmartListViewController *_smartListViewCtrler;
+
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation SmartListMovableController
 
@@ -80,18 +85,19 @@ extern SmartListViewController *_smartListViewCtrler;
             if ([task isTask] && [destTask isTask])
             {
                 [[TaskManager getInstance] changeOrder:task destTask:destTask];
+                
+                CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+                
+                if (ctrler.filterType == TYPE_TASK)
+                {
+                    [ctrler loadAndShowList];
+                }
             }
         }
         else
         {
             [super endMove:view];
         }
-  
-        /*
-        if (!moveInMM)
-        {
-            [super endMove:view];   
-        }*/
     }
         
     [view release];

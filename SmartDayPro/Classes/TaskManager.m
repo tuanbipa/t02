@@ -2518,27 +2518,34 @@ TaskManager *_sctmSingleton = nil;
 	[self populateRE:re fromDate:start toDate:end];	
 }
 
+/*
 -(void) changeTask:(Task *)task toProject:(NSInteger)prjKey
 {
 	Task *original = [self findTaskByKey:task.primaryKey];
 	
 	if (original != nil)
 	{
-        //[self garbage:original];
         [self removeTask:original status:-1];
     }
     
     task.project = prjKey;
     
-    BOOL needSchedule = [self populateTask:task];
+    BOOL needSchedule = NO;
     
-    if (needSchedule)
+    if ([task isTask])
     {
-        [self scheduleTasks];
+        needSchedule = [self populateTask:task];
+        
+        if (needSchedule)
+        {
+            [self scheduleTasks];
+        }
     }
-	
+
+        
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
 }
+*/
 
 -(void) sortTasks:(NSMutableArray *)tasks //to support sync multi tasks 
 {
@@ -2793,7 +2800,7 @@ TaskManager *_sctmSingleton = nil;
 	{
 		return NO;
 	}
-	*/
+    */
     
 	BOOL reSchedule = NO;
 	
