@@ -27,6 +27,7 @@ AbstractSDViewController *_abstractViewCtrler;
 
 @synthesize adeList;
 @synthesize dueList;
+@synthesize noteList;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -67,14 +68,12 @@ AbstractSDViewController *_abstractViewCtrler;
         
         [self addSubview:zoomButton];
         
-        /*
-        UIImageView *zoomImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_week.png"]];
+        UIImageView *zoomImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_month.png"]];
         zoomImgView.frame = CGRectMake(5, 3, 30, 30);
         zoomImgView.tag = 10000;
         
         [zoomButton addSubview:zoomImgView];
         [zoomImgView release];
-        */
         
         frm.origin.y = 40;
         frm.size.height = 0;
@@ -100,6 +99,7 @@ AbstractSDViewController *_abstractViewCtrler;
 {
     self.adeList = nil;
     self.dueList = nil;
+    self.noteList = nil;
     
     [super dealloc];
 }
@@ -130,6 +130,7 @@ AbstractSDViewController *_abstractViewCtrler;
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
             taskView.starEnable = NO;
+            taskView.listStyle = YES;
             
             [taskView enableMove:NO];
             [taskView refreshStarImage];
@@ -152,6 +153,31 @@ AbstractSDViewController *_abstractViewCtrler;
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
             taskView.starEnable = NO;
+            taskView.listStyle = YES;
+            
+            [taskView enableMove:NO];
+            [taskView refreshStarImage];
+            [taskView refreshCheckImage];
+            
+            [contentView addSubview:taskView];
+            [taskView release];
+            
+            y += frm.size.height + 5;
+            
+        }
+
+        for (int i=0; i<self.noteList.count; i++)
+        {
+            Task *task = [self.noteList objectAtIndex:i];
+            
+            task.listSource = SOURCE_FOCUS;
+            
+            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 30);
+            
+            TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
+            taskView.task = task;
+            taskView.starEnable = NO;
+            taskView.listStyle = YES;
             
             [taskView enableMove:NO];
             [taskView refreshStarImage];
@@ -199,6 +225,7 @@ AbstractSDViewController *_abstractViewCtrler;
 - (void) refreshData
 {
     TaskManager *tm = [TaskManager getInstance];
+    DBManager *dbm = [DBManager getInstance];
     
     titleLabel.text = [Common getFullDateString3:tm.today];
     
@@ -215,7 +242,9 @@ AbstractSDViewController *_abstractViewCtrler;
         else
         {
             self.dueList = [tm getDTaskListOnDate:tm.today];
-        }        
+        }
+        
+        self.noteList = [dbm getNotesByDate:tm.today];
     }
     
     [self refreshView];
@@ -337,6 +366,9 @@ AbstractSDViewController *_abstractViewCtrler;
 - (void) zoom:(id)sender
 {
     zoomButton.selected = !zoomButton.selected;
+    
+    UIImageView *imgView = (UIImageView *)[zoomButton viewWithTag:10000];
+    imgView.image = [UIImage imageNamed:zoomButton.selected?@"MM_month.png":@"MM_week.png"];
     
     [self refreshData];
 }

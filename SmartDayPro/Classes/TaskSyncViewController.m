@@ -51,6 +51,36 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     return self;
 }
 
+- (void) checkEKAccess
+{
+    if (![EKReminderSync checkEKReminderAccessEnabled])
+    {
+        EKEventStore *ekStore = [[[EKEventStore alloc] init] autorelease];
+        
+        [ekStore requestAccessToEntityType:EKEntityTypeReminder completion:^(BOOL granted, NSError *error)
+         {
+             //[ekStore release];
+             
+             self.setting.rmdSyncEnabled = granted;
+             
+             if (!self.setting.rmdSyncEnabled)
+             {
+                 self.setting.tdSyncEnabled = YES;
+                 
+                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""  message:_reminderAccessHint delegate:self cancelButtonTitle:nil otherButtonTitles:_okText, nil];
+
+                 [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+                 
+                 [alertView release];
+                 
+             }
+             
+             [settingTableView reloadData];
+             
+         }];
+    }    
+}
+
 - (void) enableTaskSync:(id)sender
 {
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
@@ -64,8 +94,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     {
         if (!self.setting.tdSyncEnabled && !self.setting.rmdSyncEnabled)
         {
-            self.setting.rmdSyncEnabled = YES;
-            self.setting.tdSyncEnabled = NO;
+            self.setting.rmdSyncEnabled = NO;
+            self.setting.tdSyncEnabled = YES;
         }
     }
     
@@ -91,20 +121,28 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
     if (self.setting.rmdSyncEnabled)
     {
+        /*
         if (![EKReminderSync checkEKReminderAccessEnabled])
         {
-            EKEventStore *ekStore = [[EKEventStore alloc] init];
+            EKEventStore *ekStore = [[[EKEventStore alloc] init] autorelease];
             
             [ekStore requestAccessToEntityType:EKEntityTypeReminder completion:^(BOOL granted, NSError *error)
              {
-                 [ekStore release];
+                 //[ekStore release];
                  
                  self.setting.rmdSyncEnabled = granted;
+                 
+                 if (!self.setting.rmdSyncEnabled)
+                 {
+                     self.setting.tdSyncEnabled = YES;
+                 }
 
              }];
-        }
+        }*/
+        
+        [self checkEKAccess];
     }
-    
+
     [settingTableView reloadData];
 }
 

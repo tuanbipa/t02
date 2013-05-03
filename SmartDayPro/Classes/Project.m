@@ -1264,7 +1264,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 {
 	if ((self.ekId == nil || [self.ekId isEqualToString:@""]) &&
         (self.tdId == nil || [self.tdId isEqualToString:@""]) &&
-        (self.sdwId == nil || [self.sdwId isEqualToString:@""]))
+        (self.sdwId == nil || [self.sdwId isEqualToString:@""]) &&
+        (self.rmdId == nil || [self.rmdId isEqualToString:@""]))
 	{
 		[self cleanFromDatabase];
 		

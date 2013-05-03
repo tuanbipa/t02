@@ -662,6 +662,8 @@
 
 #define _reminderMultiSourceWarningText NSLocalizedString(@"_reminderMultiSourceWarningText", "")
 #define _noReminderSourceFoundText NSLocalizedString(@"_noReminderSourceFoundText", "")
+#define _reminderFatalError NSLocalizedString(@"_reminderFatalError", "")
+#define _reminderAccessHint NSLocalizedString(@"_reminderAccessHint", "")
 
 #define _taskSyncText NSLocalizedString(@"_taskSyncText", "")
 

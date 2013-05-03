@@ -476,6 +476,11 @@ iPadViewController *_iPadViewCtrler;
 
     Task *task = [self getActiveTask];
     
+    if (task.original != nil && ![task isREException])
+    {
+        task = task.original;
+    }
+    
     [[task retain] autorelease];
     
     [self deselect];

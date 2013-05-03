@@ -323,7 +323,6 @@ extern BOOL _isiPad;
 {
     [self done:sender];
     
-    //[_iPadSDViewCtrler hidePopover];
     [_abstractViewCtrler hidePopover];
     
     [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
