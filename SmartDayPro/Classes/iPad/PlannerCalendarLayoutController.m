@@ -79,7 +79,8 @@
     //NSInteger days = [Common daysBetween:startTime sinceDate:date];
     NSInteger days = [Common daysBetween:startTime sinceDate:startDate];
     
-    CGFloat dayWidth = (self.viewContainer.bounds.size.width - xmargin)/7;
+    //CGFloat dayWidth = (self.viewContainer.bounds.size.width - xmargin)/7;
+    NSInteger dayWidth = (self.viewContainer.bounds.size.width - xmargin)/7;
     
     CGFloat pageOffset = days*dayWidth;
     
@@ -166,10 +167,9 @@
     }
     // end check overlap
     
-    ////printf("calendar task %s - frame x: %f, width: %f\n", [task.name UTF8String], taskView.frame.origin.x, taskView.frame.size.width);
+    //printf("calendar task %s - frame x: %f, width: %f\n", [task.name UTF8String], taskView.frame.origin.x, taskView.frame.size.width);
     
  	return taskView;
-    
 }
 
 - (BOOL) checkReusableView:(UIView *) view
