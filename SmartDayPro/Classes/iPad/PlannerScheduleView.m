@@ -219,4 +219,8 @@
         todayLine.frame = frm;
     }
 }
+
+- (CGRect)getTodayLineCGRect {
+    return todayLine.frame;
+}
 @end

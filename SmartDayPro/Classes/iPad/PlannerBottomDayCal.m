@@ -136,6 +136,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     // show/hide today line
     [self refeshTodayLine:startDate];
+    [self scrollToCurrentTimeAnimated:YES];
     
     [UIView commitAnimations];
 }
@@ -197,6 +198,10 @@ extern PlannerViewController *_plannerViewCtrler;
     {
         ((DummyMovableController *) movableController).contentView = contentView;
     }
+}
+
+- (void)scrollToCurrentTimeAnimated: (BOOL) animate{
+    [scrollView scrollRectToVisible:[plannerScheduleView getTodayLineCGRect] animated:animate];
 }
 
 #pragma mark resizing handle

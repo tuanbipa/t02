@@ -28,4 +28,5 @@
 - (void) highlight:(CGRect) rec;
 - (void) unhighlight;
 - (void) refreshTodayLine;
+- (CGRect)getTodayLineCGRect;
 @end
