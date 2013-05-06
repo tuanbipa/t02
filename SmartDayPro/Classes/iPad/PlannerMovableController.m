@@ -193,6 +193,10 @@ extern PlannerViewController *_plannerViewCtrler;
     [task updateDeadlineIntoDB:[dbm getDatabase]];
     
     [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
+    if (dDate != nil && [Common compareDateNoTime:dDate withDate:calDate] != NSOrderedSame) {
+        // refresh old cell
+        [_plannerViewCtrler.plannerView.monthView refreshCellByDate:dDate];
+    }
     [_plannerViewCtrler.plannerView.monthView collapseExpandByDate:calDate];
     [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:calDate];
     
