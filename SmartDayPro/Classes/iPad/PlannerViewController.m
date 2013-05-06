@@ -160,7 +160,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule
 {
-    [super reconcileItem:item reSchedule:reSchedule];
+    // comment this line to fix deleting default task error
+    //[super reconcileItem:item reSchedule:reSchedule];
     
     if ([item isNote]) {
         PlannerMonthView *monthView = (PlannerMonthView*)[self getMonthCalendarView];
