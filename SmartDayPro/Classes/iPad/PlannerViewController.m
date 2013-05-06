@@ -135,22 +135,27 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
+    BOOL showPopover = activeView != view;
+    
     [super enableActions:enable onView:view];
     
-    PreviewViewController *ctrler = [[PreviewViewController alloc] init];
-    ctrler.item = view.task;
-    
-    SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
-    [ctrler release];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-    
-    [navController release];
-    
-    CGRect frm = [view.superview convertRect:view.frame toView:contentView];
-    
-    //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
+    if (showPopover) {
+        
+        PreviewViewController *ctrler = [[PreviewViewController alloc] init];
+        ctrler.item = view.task;
+        
+        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+        [ctrler release];
+        
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+        
+        [navController release];
+        
+        CGRect frm = [view.superview convertRect:view.frame toView:contentView];
+        
+        //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
+    }
 }
 
 - (BOOL) checkControllerActive:(NSInteger)index
