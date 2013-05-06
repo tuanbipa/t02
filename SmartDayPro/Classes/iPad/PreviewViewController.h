@@ -25,6 +25,7 @@
     BOOL hasNote;
     
     NoteView *noteView;
+    CGRect noteFrm;
     
     BOOL noteLinkCreated;
     BOOL noteChange; //track change when user checks in Note content or modify Note content to sync with mSD

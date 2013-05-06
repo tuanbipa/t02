@@ -225,11 +225,11 @@ AbstractSDViewController *_abstractViewCtrler;
 - (void) refreshData
 {
     TaskManager *tm = [TaskManager getInstance];
-    DBManager *dbm = [DBManager getInstance];
+    //DBManager *dbm = [DBManager getInstance];
     
     titleLabel.text = [Common getFullDateString3:tm.today];
     
-    if (zoomButton.selected)
+    if ([self checkExpanded])
     {
         self.adeList = [tm getADEListOnDate:tm.today];
         
@@ -244,7 +244,7 @@ AbstractSDViewController *_abstractViewCtrler;
             self.dueList = [tm getDTaskListOnDate:tm.today];
         }
         
-        self.noteList = [dbm getNotesByDate:tm.today];
+        self.noteList = [tm getNoteListOnDate:tm.today];
     }
     
     [self refreshView];

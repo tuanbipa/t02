@@ -31,6 +31,7 @@
 #import "GuideWebView.h"
 #import "MiniMonthView.h"
 #import "MonthlyCalendarView.h"
+#import "FocusView.h"
 
 #import "ProgressIndicatorView.h"
 
@@ -1603,6 +1604,13 @@ SmartListViewController *_smartListViewCtrler;
             }
         }
         
+        FocusView *focusView = [_abstractViewCtrler getFocusView];
+        
+        if (focusView != nil && [focusView checkExpanded])
+        {
+            [focusView refreshData];
+        }
+        
         [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
     }
     
@@ -1697,6 +1705,13 @@ SmartListViewController *_smartListViewCtrler;
         {
             [ctrler loadAndShowList];
         }
+    }
+    
+    FocusView *focusView = [_abstractViewCtrler getFocusView];
+    
+    if (focusView != nil && [focusView checkExpanded])
+    {
+        [focusView refreshData];
     }
     
     [self multiEdit:NO];

@@ -16,6 +16,7 @@
 #import "AlertManager.h"
 #import "ProjectManager.h"
 #import "TaskLinkManager.h"
+#import "TimerManager.h"
 #import "TagDictionary.h"
 
 #import "RepeatData.h"
@@ -3054,13 +3055,23 @@ TaskManager *_sctmSingleton = nil;
         BOOL taskReset = NO;
         NSMutableArray *links = nil;
         
-        if (taskChange && (![slTask.syncId isEqualToString:@""] || ![slTask.sdwId isEqualToString:@""])) //already synced
+        if (taskChange) 
         {
-            links = [tlm getLinks4Task:taskEdit.primaryKey];
+            if ([task isEvent])
+            {
+                [[TimerManager getInstance] check2CompleteTask:slTask.primaryKey];
+            }
             
-            [slTask deleteFromDatabase:[dbm getDatabase]];
-            taskReset = YES;
-        }		
+            if ((![slTask.syncId isEqualToString:@""] || ![slTask.sdwId isEqualToString:@""])) //already synced
+            {
+                links = [tlm getLinks4Task:taskEdit.primaryKey];
+                
+                //[slTask deleteFromDatabase:[dbm getDatabase]];
+                [self deleteTask:slTask];
+                
+                taskReset = YES;                
+            }
+        }
         
         if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo || becomeFuture))
         {
@@ -4218,6 +4229,8 @@ TaskManager *_sctmSingleton = nil;
 	{
         //[self removeTask:slTask status:TASK_STATUS_DONE];
         
+        [[TimerManager getInstance] check2CompleteTask:slTask.primaryKey];
+        
         if (self.taskTypeFilter == TASK_FILTER_DONE)
         {
             slTask.status = TASK_STATUS_DONE;
@@ -4303,6 +4316,8 @@ TaskManager *_sctmSingleton = nil;
         else if ([slTask isTask])
         {
             [self removeTask:slTask status:TASK_STATUS_DELETED];
+            
+            [[TimerManager getInstance] check2DeleteTask:slTask.primaryKey];
         }
         else if ([slTask isEvent])
         {
@@ -4313,10 +4328,10 @@ TaskManager *_sctmSingleton = nil;
         
         reschedule = YES;
     }
-    else 
+    /*else
     {
         [task deleteFromDatabase:[dbm getDatabase]];
-    }
+    }*/
     
     if (reschedule)
     {

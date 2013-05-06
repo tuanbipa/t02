@@ -1640,9 +1640,11 @@ static sqlite3_stmt *task_delete_statement = nil;
 {
     [[AlertManager getInstance] removeAllAlertsForTask:self];
     [[TaskLinkManager getInstance] deleteAllLinks4Task:self];
+    [[DBManager getInstance] deleteAllProgressForTask:self.primaryKey];
     
-	if ((self.syncId == nil || [self.syncId isEqualToString:@""]) &&
-        (self.sdwId == nil || [self.sdwId isEqualToString:@""]))
+/*	if ((self.syncId == nil || [self.syncId isEqualToString:@""]) &&
+        (self.sdwId == nil || [self.sdwId isEqualToString:@""]))*/
+    if ([self checkCleanable])
 	{
 		[self cleanFromDatabase:database];
 		

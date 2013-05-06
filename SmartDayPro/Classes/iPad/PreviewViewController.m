@@ -67,6 +67,10 @@ PreviewViewController *_previewCtrler;
         noteChange = NO;
         noteLinkCreated = NO;
         
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(noteBeginEdit:)
+													 name:@"NoteBeginEditNotification" object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteFinishEdit:)
 													 name:@"NoteFinishEditNotification" object:nil];
@@ -74,6 +78,7 @@ PreviewViewController *_previewCtrler;
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteDoubleTap:)
 													 name:@"NoteDoubleTapNotification" object:nil];
+        
     }
     
     return self;
@@ -214,8 +219,26 @@ PreviewViewController *_previewCtrler;
 }
 
 #pragma mark Notification
+- (void) noteBeginEdit:(NSNotification *)notification
+{
+    if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
+    {
+        noteFrm = noteView.frame;
+        CGRect frm = noteFrm;
+        
+        frm.size.height = 220 - expandedNoteIndex*40;
+        
+        [noteView changeFrame:frm];
+    }
+}
+
 - (void) noteFinishEdit:(NSNotification *)notification
 {
+    if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
+    {
+        [noteView changeFrame:noteFrm];
+    }
+    
     if (!hasNote)
     {
         NSString *text = [noteView getNoteText];

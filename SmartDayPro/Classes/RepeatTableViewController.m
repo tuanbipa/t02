@@ -16,6 +16,8 @@
 #import "Task.h"
 #import "RepeatData.h"
 
+extern BOOL _isiPad;
+
 @implementation RepeatTableViewController
 
 @synthesize task;
@@ -89,8 +91,8 @@
 	[contentView addSubview:repeatTableView];
 	[repeatTableView release];
 	
-	//doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
-    doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height - [Common getKeyboardHeight] - 40, frm.size.width, 40)];
+	doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
+    //doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height - [Common getKeyboardHeight] - 40, frm.size.width, 40)];
 	doneBarView.backgroundColor=[UIColor clearColor];
 	
 	doneBarView.hidden = YES;
@@ -506,7 +508,7 @@
 	repeatTableView.frame = CGRectMake(0, 0, 320, 160);
 	
 	[repeatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	
+    
 	doneBarView.hidden = NO;
 	untilPicker.hidden = NO;
 
@@ -1203,18 +1205,21 @@
 {
 	//repeatTableView.frame = CGRectMake(0, 0, 320, 160);
     
-    CGRect frm = contentView.bounds;
-    
-    frm.size.height -= [Common getKeyboardHeight] + 40;
-    repeatTableView.frame = frm;
-	
-	int section = (textField.tag > 11000? 1: 0);
-	
-	int row = (textField.tag-(textField.tag > 11000?11000:10000))/100;
-	
-	[repeatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	
-	doneBarView.hidden = NO;
+    if (!_isiPad)
+    {
+        CGRect frm = contentView.bounds;
+        
+        frm.size.height -= [Common getKeyboardHeight] + 40;
+        repeatTableView.frame = frm;
+        
+        int section = (textField.tag > 11000? 1: 0);
+        
+        int row = (textField.tag-(textField.tag > 11000?11000:10000))/100;
+        
+        [repeatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        
+        //doneBarView.hidden = NO;        
+    }
 	
 	activeTextField = textField;
 }

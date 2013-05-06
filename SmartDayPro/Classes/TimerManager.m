@@ -390,6 +390,107 @@ TimerManager *_timerManagerSingleton;
 	//[[MusicManager getInstance] playSound:SOUND_STOP];
 }
 
+- (void) check2CompleteTask:(NSInteger) taskId
+{
+    Task *foundTask = nil;
+    NSMutableArray *sourceList = nil;
+    
+    for (int i=0; i< self.activeTaskList.count; i++)
+    {
+        Task *task = [self.activeTaskList objectAtIndex:i];
+        
+        if (task.primaryKey == taskId)
+        {
+            foundTask = task;
+            
+            sourceList = self.activeTaskList;
+            
+            break;
+        }
+    }
+    
+    if (foundTask == nil)
+    {
+        for (int i=0; i< self.inProgressTaskList.count; i++)
+        {
+            Task *task = [self.inProgressTaskList objectAtIndex:i];
+            
+            if (task.primaryKey == taskId)
+            {
+                foundTask = task;
+                
+                sourceList = self.inProgressTaskList;
+                
+                break;
+            }
+        }        
+    }
+    
+    if (foundTask != nil)
+    {
+		DBManager *dbm = [DBManager getInstance];
+		TaskProgress *lastProgress = foundTask.lastProgress;
+		
+        if (foundTask.timerStatus == TASK_TIMER_STATUS_START)
+		{
+			lastProgress.endTime = [NSDate date];
+			
+			if ([lastProgress.endTime compare:lastProgress.startTime] == NSOrderedSame)
+			{
+				lastProgress.endTime = [Common dateByAddNumSecond:1 toDate:lastProgress.startTime];
+			}
+			
+			[lastProgress updateEndTimeIntoDB:[dbm getDatabase]];
+		}
+		
+		foundTask.endTime = lastProgress.endTime;
+		
+		[foundTask updateEndTimeIntoDB:[dbm getDatabase]];
+        
+        [sourceList removeObject:foundTask];
+    }
+}
+
+- (void) check2DeleteTask:(NSInteger) taskId
+{
+    Task *foundTask = nil;
+    
+    for (int i=0; i< self.activeTaskList.count; i++)
+    {
+        Task *task = [self.activeTaskList objectAtIndex:i];
+        
+        if (task.primaryKey == taskId)
+        {
+            foundTask = task;
+            
+            break;
+        }
+    }
+    
+    if (foundTask != nil)
+    {
+        [self.activeTaskList removeObject:foundTask];
+    }
+    else
+    {
+        for (int i=0; i< self.inProgressTaskList.count; i++)
+        {
+            Task *task = [self.inProgressTaskList objectAtIndex:i];
+            
+            if (task.primaryKey == taskId)
+            {
+                foundTask = task;
+                
+                break;
+            }
+        }
+        
+        if (foundTask != nil)
+        {
+            [self.inProgressTaskList removeObject:foundTask];
+        }
+    }
+}
 
 - (void) showTimerOptions
 {

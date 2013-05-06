@@ -291,17 +291,23 @@ BOOL _autoPushPending = NO;
 
 - (void) refreshData
 {
-    NoteViewController *noteCtrler = [self getNoteViewController];
+    if ([self checkControllerActive:2])
+    {
+        NoteViewController *noteCtrler = [self getNoteViewController];
     
-    [noteCtrler loadAndShowList];
+        [noteCtrler loadAndShowList];
+    }
     
-    CategoryViewController *catCtrler = [self getCategoryViewController];
-    
-    [catCtrler loadAndShowList];
+    if ([self checkControllerActive:3])
+    {
+        CategoryViewController *catCtrler = [self getCategoryViewController];
+        
+        [catCtrler loadAndShowList];
+    }
     
     FocusView *focusView = [self getFocusView];
     
-    if (focusView != nil)
+    if (focusView != nil && [focusView checkExpanded])
     {
         [focusView refreshData];
     }

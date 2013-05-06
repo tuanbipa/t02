@@ -32,6 +32,8 @@ extern PreviewViewController *_previewCtrler;
 @synthesize editEnabled;
 @synthesize touchEnabled;
 
+@synthesize checkItem;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -62,7 +64,7 @@ extern PreviewViewController *_previewCtrler;
         [self addSubview:noteTextView];
         [noteTextView release];
         
-        [self createDoneBarView];
+        //[self createDoneBarView];
         
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
         tapRecognizer.numberOfTapsRequired = 2;
@@ -82,6 +84,7 @@ extern PreviewViewController *_previewCtrler;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDoubleTapNotification" object:nil];
 }
 
+/*
 - (void) createDoneBarView
 {
 	doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height, self.bounds.size.width, 40)];
@@ -136,6 +139,7 @@ extern PreviewViewController *_previewCtrler;
     
 	[doneBarView addSubview:doneButton];
 }
+*/
 
 - (void) changeFrame:(CGRect)frame
 {
@@ -332,6 +336,7 @@ extern PreviewViewController *_previewCtrler;
     
     noteTextView.contentOffset = CGPointZero;
 
+    /*
     NSString *text = [noteTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
     if (self.note != nil)
@@ -339,7 +344,8 @@ extern PreviewViewController *_previewCtrler;
         self.note.note = text;
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteFinishEditNotification" object:nil];    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteFinishEditNotification" object:nil];
+    */
 }
 
 - (void) startEdit
@@ -619,6 +625,7 @@ extern PreviewViewController *_previewCtrler;
     self.checkDict = [NSMutableDictionary dictionaryWithCapacity:10];
 }
 
+/*
 - (void) uncheckAll:(id) sender
 {
     [self removeAllChecks];
@@ -629,8 +636,10 @@ extern PreviewViewController *_previewCtrler;
     
     [self createCheckButtons:note];
 }
+*/
 
 #pragma mark Actions
+/*
 - (void) check:(id) sender
 {
     checkButton.selected = !checkButton.selected;
@@ -643,6 +652,33 @@ extern PreviewViewController *_previewCtrler;
     //doneBarView.hidden = YES;
     
     [self finishEdit];
+}*/
+
+- (IBAction) check:(id)sender
+{
+    UIBarButtonItem *checkItem = (UIBarButtonItem *)sender;
+    
+    checkItem.tag = (checkItem.tag == 0?1:0);
+    
+    [checkItem setImage:[UIImage imageNamed:(checkItem.tag == 0?@"CheckOn30.png":@"CheckOn30_blue.png")]];
+    
+    [self changeCheckMode:(checkItem.tag == 1)];
+}
+
+- (IBAction) uncheckAll:(id)sender
+{
+    [self removeAllChecks];
+    
+    NSString *note = [noteTextView.text stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%C", 0x2705] withString:[NSString stringWithFormat:@"%C", 0x274E]];
+    
+    noteTextView.text = note;
+    
+    [self createCheckButtons:note];    
+}
+
+- (IBAction) done:(id)sender
+{
+    [self finishEdit];    
 }
 
 #pragma mark TextView delegate
@@ -655,6 +691,7 @@ extern PreviewViewController *_previewCtrler;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteBeginEditNotification" object:nil]; //notify observers to resize NoteView
     
+    /*
     CGRect frm = noteTextView.frame;
     
     frm.size.height -= 40;
@@ -666,14 +703,19 @@ extern PreviewViewController *_previewCtrler;
     frm.origin.y = self.bounds.size.height-40;
     doneBarView.frame = frm;
     
-    doneBarView.hidden = NO;
+    doneBarView.hidden = NO;*/
+    
+    NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"NoteInputAccessoryView"
+                                                   owner:self
+                                                 options:nil];
+    noteTextView.inputAccessoryView = [views objectAtIndex:0];
     
     return YES;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    if (!doneBarView.hidden)
+    /*if (!doneBarView.hidden)
     {
         CGRect frm = noteTextView.frame;
         
@@ -682,7 +724,16 @@ extern PreviewViewController *_previewCtrler;
         noteTextView.frame = frm;
         
         doneBarView.hidden = YES;
+    }*/
+    
+    NSString *text = [noteTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (self.note != nil)
+    {
+        self.note.note = text;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteFinishEditNotification" object:nil];    
 }
 
 - (void)textViewDidChange:(UITextView *)textView
@@ -717,7 +768,8 @@ extern PreviewViewController *_previewCtrler;
     
     if (checkRange.location != NSNotFound) //user inputs new line
     {
-        if (checkButton.selected)
+        //if (checkButton.selected)
+        if (checkItem.tag == 1)
         {
             text = [text stringByReplacingCharactersInRange:checkRange withString:[NSString stringWithFormat:@"\n%C ", 0x274E]];
         }
@@ -796,7 +848,9 @@ extern PreviewViewController *_previewCtrler;
     
     UIButton *btn = [self.checkDict objectForKey:[NSNumber numberWithInt:lineIdx]];
     
-    checkButton.selected = (btn != nil);
+    //checkButton.selected = (btn != nil);
+    checkItem.tag = (btn != nil?1:0);
+    [checkItem setImage:[UIImage imageNamed:(checkItem.tag == 0?@"CheckOn30.png":@"CheckOn30_blue.png")]];
     
     if (cursorRange.length == 0 && (cursorRange.location < noteTextView.text.length))
     {

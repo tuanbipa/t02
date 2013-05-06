@@ -33,6 +33,8 @@
 - (void) continueTimer;
 - (void) pauseTimer;
 - (void) markDoneTask:(NSInteger) taskIndex inProgress:(BOOL) inProgress;
+- (void) check2CompleteTask:(NSInteger) taskId;
+- (void) check2DeleteTask:(NSInteger) taskId;
 
 -(void) refreshTaskLists:(BOOL)needRefreshDuration;
 

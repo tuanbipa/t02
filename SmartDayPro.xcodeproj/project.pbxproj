@@ -696,6 +696,8 @@
 		67E6BA3416A920AF00F14E12 /* PlannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E6BA3316A920AF00F14E12 /* PlannerViewController.m */; };
 		67E6BA3816A924EC00F14E12 /* iPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E6BA3716A924EC00F14E12 /* iPadViewController.m */; };
 		67E6E42F166DB86200018988 /* AbstractSDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E6E42E166DB86200018988 /* AbstractSDViewController.m */; };
+		67E7789917374853004D227F /* NoteInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E7789817374853004D227F /* NoteInputAccessoryView.xib */; };
+		67E7789A17374853004D227F /* NoteInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E7789817374853004D227F /* NoteInputAccessoryView.xib */; };
 		67E79F271659C73500FBB0DA /* handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E79F261659C73500FBB0DA /* handle@2x.png */; };
 		67E79F2B165A331800FBB0DA /* SC_aboutUS_320_ip5.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E79F28165A331800FBB0DA /* SC_aboutUS_320_ip5.html */; };
 		67E79F2C165A331800FBB0DA /* SC_bg_320_ip5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67E79F29165A331800FBB0DA /* SC_bg_320_ip5.jpg */; };
@@ -2294,6 +2296,7 @@
 		67E6BA3716A924EC00F14E12 /* iPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadViewController.m; sourceTree = "<group>"; };
 		67E6E42D166DB86200018988 /* AbstractSDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractSDViewController.h; sourceTree = "<group>"; };
 		67E6E42E166DB86200018988 /* AbstractSDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractSDViewController.m; sourceTree = "<group>"; };
+		67E7789817374853004D227F /* NoteInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteInputAccessoryView.xib; sourceTree = "<group>"; };
 		67E79F261659C73500FBB0DA /* handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle@2x.png"; sourceTree = "<group>"; };
 		67E79F28165A331800FBB0DA /* SC_aboutUS_320_ip5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SC_aboutUS_320_ip5.html; sourceTree = "<group>"; };
 		67E79F29165A331800FBB0DA /* SC_bg_320_ip5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SC_bg_320_ip5.jpg; sourceTree = "<group>"; };
@@ -3453,6 +3456,7 @@
 			isa = PBXGroup;
 			children = (
 				67CF2EA8161951B8001FE1AA /* MainWindow.xib */,
+				67E7789817374853004D227F /* NoteInputAccessoryView.xib */,
 			);
 			path = "Resources-iPad";
 			sourceTree = "<group>";
@@ -4116,6 +4120,7 @@
 				A2E86A9E171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
 				67EABEA1171E7F0E007C3680 /* planner_task_top_bg.png in Resources */,
 				67EABEA3171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
+				67E7789917374853004D227F /* NoteInputAccessoryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4648,6 +4653,7 @@
 				A2E86A9F171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
 				67EABEA2171E7F0E007C3680 /* planner_task_top_bg.png in Resources */,
 				67EABEA4171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
+				67E7789A17374853004D227F /* NoteInputAccessoryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

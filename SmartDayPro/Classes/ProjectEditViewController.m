@@ -499,7 +499,8 @@ extern BOOL _isiPad;
             
 			[tm initSmartListData];
 			
-            [_abstractViewCtrler.miniMonthView initCalendar:tm.today];
+            //[_abstractViewCtrler.miniMonthView initCalendar:tm.today];
+            [_abstractViewCtrler refreshData];
 			
 			[dt release];
 		}

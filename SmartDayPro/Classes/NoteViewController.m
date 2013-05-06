@@ -20,6 +20,7 @@
 //#import "ContentTableView.h"
 #import "ContentScrollView.h"
 #import "TaskView.h"
+#import "FocusView.h"
 
 #import "NoteDetailTableViewController.h"
 
@@ -406,18 +407,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     
     [self multiEdit:NO];
-    
+
     [self refreshLayout];
     
-    //[listTableView reloadData];
-    
-    CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
-    
-    if (ctrler.filterType == TYPE_NOTE)
+    if ([_abstractViewCtrler checkControllerActive:3])
     {
-        [ctrler loadAndShowList];
+        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+        
+        if (ctrler.filterType == TYPE_NOTE)
+        {
+            [ctrler loadAndShowList];
+        }
     }
-
+    
+    FocusView *focusView = [_abstractViewCtrler getFocusView];
+    
+    if (focusView != nil && [focusView checkExpanded])
+    {
+        [focusView refreshData];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex

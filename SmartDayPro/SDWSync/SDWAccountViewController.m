@@ -234,7 +234,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     {
         NSString *errorMsg = [[SDWSync getInstance] createNewAccount:emailTextField.text passWord:pwdTextField.text];
         
-        NSString *msg = (errorMsg == nil?_sdwSignupSuccessText:[NSString stringWithFormat:@"%@: %@", _sdwSignupFailedText, errorMsg]);
+        NSString *msg = (errorMsg == nil?_sdwSignupSuccessText:[NSString stringWithFormat:@"%@ %@", _sdwSignupFailedText, errorMsg]);
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_signupText message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
         [alert show];

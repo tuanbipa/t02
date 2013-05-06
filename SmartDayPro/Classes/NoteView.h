@@ -19,7 +19,7 @@
     UIScrollView *noteBgScrollView;
     
     UIView *doneBarView;
-    UIButton *checkButton;
+    //UIButton *checkButton;
     
     CGRect parentFrame;
 }
@@ -32,6 +32,11 @@
 
 @property BOOL editEnabled;
 @property BOOL touchEnabled; //allow users to tap or double-tap in Preview pane, disabled in Edit view
+
+@property (nonatomic, assign) IBOutlet UIBarButtonItem *checkItem;
+- (IBAction) check:(id)sender;
+- (IBAction) uncheckAll:(id)sender;
+- (IBAction) done:(id)sender;
 
 - (void) changeFrame:(CGRect)frame;
 - (void) changeCheckMode:(BOOL)inCheck;
