@@ -54,7 +54,7 @@ extern PreviewViewController *_previewCtrler;
         
         CGRect frm = self.bounds;
         frm.origin.x += 20;
-        frm.size.width -= 20;
+        frm.size.width -= 40;
         
         noteTextView = [[CustomTextView alloc] initWithFrame:frm];
 
@@ -65,26 +65,26 @@ extern PreviewViewController *_previewCtrler;
         [noteTextView release];
         
         //[self createDoneBarView];
-        
+
+        /*
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
         tapRecognizer.numberOfTapsRequired = 2;
         tapRecognizer.numberOfTouchesRequired = 1;
-        [noteTextView addGestureRecognizer:tapRecognizer];
+        [self addGestureRecognizer:tapRecognizer];*/
+        
     }
     
     return self;
 }
 
+/*
 - (void) doubleTap:(id)sender
 {
     [self cancelEdit];
     
-    doneBarView.hidden = YES;
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDoubleTapNotification" object:nil];
 }
 
-/*
 - (void) createDoneBarView
 {
 	doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height, self.bounds.size.width, 40)];
@@ -150,7 +150,7 @@ extern PreviewViewController *_previewCtrler;
     noteBgScrollView.frame = frm;
     
     frm.origin.x += 20;
-    frm.size.width -= 20;
+    frm.size.width -= 40;
     
     noteTextView.frame = frm;
 }

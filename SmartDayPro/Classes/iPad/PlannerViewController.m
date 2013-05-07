@@ -176,6 +176,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+- (void) deselect
+{
+    [super deselect];
+    
+    [self hideDropDownMenu];
+}
+
 #pragma mark Actions
 - (void) add:(id)sender
 {

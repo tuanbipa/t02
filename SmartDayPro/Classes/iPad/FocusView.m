@@ -130,7 +130,8 @@ AbstractSDViewController *_abstractViewCtrler;
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
             taskView.starEnable = NO;
-            taskView.listStyle = YES;
+            taskView.listStyle = NO;
+            taskView.focusStyle = YES;
             
             [taskView enableMove:NO];
             [taskView refreshStarImage];
@@ -153,7 +154,8 @@ AbstractSDViewController *_abstractViewCtrler;
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
             taskView.starEnable = NO;
-            taskView.listStyle = YES;
+            taskView.listStyle = NO;
+            taskView.focusStyle = YES;
             
             [taskView enableMove:NO];
             [taskView refreshStarImage];
@@ -177,7 +179,8 @@ AbstractSDViewController *_abstractViewCtrler;
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
             taskView.starEnable = NO;
-            taskView.listStyle = YES;
+            taskView.listStyle = NO;
+            taskView.focusStyle = YES;
             
             [taskView enableMove:NO];
             [taskView refreshStarImage];

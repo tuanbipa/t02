@@ -418,6 +418,32 @@ TaskManager *_sctmSingleton = nil;
 	
 }
 
+- (NSMutableArray *) getNoteList
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSMutableArray *list = [dbm getAllNotes];
+    
+    list = [self filterList:list];
+    
+    [Common sortList:list byKey:@"startTime" ascending:NO];
+    
+    return list;
+}
+
+- (NSMutableArray *) getWeekNoteList
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSMutableArray *list = [dbm getNotesByThisWeek];
+    
+    list = [self filterList:list];
+    
+    [Common sortList:list byKey:@"startTime" ascending:NO];
+    
+    return list;
+}
+
 - (NSMutableArray *) getNoteListOnDate:(NSDate *)onDate
 {
     DBManager *dbm = [DBManager getInstance];
@@ -426,7 +452,7 @@ TaskManager *_sctmSingleton = nil;
     
     list = [self filterList:list];
     
-    [Common sortList:list byKey:@"startTime" ascending:YES];
+    [Common sortList:list byKey:@"startTime" ascending:NO];
     
     return list;
 }
@@ -439,7 +465,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	list = [self filterList:list];
 	
-	[Common sortList:list byKey:@"startTime" ascending:YES];
+	[Common sortList:list byKey:@"startTime" ascending:NO];
     
     [self print:list];
 	
