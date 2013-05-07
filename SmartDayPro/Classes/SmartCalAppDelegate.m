@@ -187,7 +187,7 @@ BOOL _fromBackground = NO;
     
     [settings clearHintFlags];
 	
-	[DBManager startup];
+	//[DBManager startup];
 	
 	[[TaskManager getInstance] recover];
     
@@ -475,7 +475,7 @@ BOOL _fromBackground = NO;
 		}
 	}
 	
-	[DBManager free];
+	//[DBManager free];
 	
 	[pool release];
 	
