@@ -66,9 +66,10 @@ AbstractSDViewController *_abstractViewCtrler;
     }    
 }
 
+/*
 - (void) singleTouch
 {
-    //printf("Note 1 touch\n");
+    printf("Note 1 touch\n");
     
     NoteView *noteView = (NoteView *) self.superview;
     
@@ -82,7 +83,7 @@ AbstractSDViewController *_abstractViewCtrler;
 
 - (void) doubleTouch
 {
-    //printf("Note 2 touch\n");
+    printf("Note 2 touch\n");
     
     NoteView *noteView = (NoteView *) self.superview;
     
@@ -105,16 +106,20 @@ AbstractSDViewController *_abstractViewCtrler;
     {
 		case 1:
         {
+            printf("single touch\n");
 			[self performSelector:@selector(singleTouch) withObject:nil afterDelay:.2];
         }
 			break;
 		case 2:
         {
+            printf("double touch\n");
+            
 			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTouch) object:nil];
 			[self doubleTouch];
         }
 			break;
 	}
 }
+*/
 
 @end

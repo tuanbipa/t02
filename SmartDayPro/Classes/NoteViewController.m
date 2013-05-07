@@ -119,13 +119,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     switch (self.filterType)
     {
         case NOTE_FILTER_ALL:
-            list = [dbm getAllNotes];
+            //list = [dbm getAllNotes];
+            list = [tm getNoteList];
             break;
         case NOTE_FILTER_CURRENT:
-            list = [dbm getNotesByDate:tm.today];
+            //list = [dbm getNotesByDate:tm.today];
+            list = [tm getNoteListOnDate:tm.today];
             break;
         case NOTE_FILTER_WEEK:
-            list = [dbm getNotesByThisWeek];
+            //list = [dbm getNotesByThisWeek];
+            list = [tm getWeekNoteList];
             break;
     }
     

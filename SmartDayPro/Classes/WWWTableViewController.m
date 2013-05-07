@@ -20,8 +20,14 @@
 
 #import "LocationViewController.h"
 
+#import "AbstractSDViewController.h"
+
 //#import "SCTabBarController.h"
 //extern SCTabBarController *_tabBarCtrler;
+
+extern BOOL _isiPad;
+
+extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation WWWTableViewController
 
@@ -750,17 +756,22 @@
 
 #pragma mark textView delegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-	//CGRect frm = CGRectMake(0, 0, 320, 200);
-    
-    //contentView.frame = frm;
-    
-    CGRect frm = contentView.bounds;
-    
-    frm.size.height -= [Common getKeyboardHeight] + 40;
-    
-	wwwTableView.frame = frm;
-    
-	[wwwTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
+    if (!_isiPad)
+    {
+        CGRect frm = contentView.bounds;
+        
+        frm.size.height -= [Common getKeyboardHeight] + 40;
+        
+        wwwTableView.frame = frm;
+        
+        [wwwTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        
+    }
+    else if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
+    {
+        [wwwTableView setContentOffset:CGPointMake(0, 100) animated:YES];
+    }
 	
 	doneBarView.hidden = NO;
 	return YES;

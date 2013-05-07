@@ -75,9 +75,9 @@ PreviewViewController *_previewCtrler;
 												 selector:@selector(noteFinishEdit:)
 													 name:@"NoteFinishEditNotification" object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
+        /*[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteDoubleTap:)
-													 name:@"NoteDoubleTapNotification" object:nil];
+													 name:@"NoteDoubleTapNotification" object:nil];*/
         
     }
     
@@ -216,6 +216,10 @@ PreviewViewController *_previewCtrler;
     
     noteLinkCreated = YES;
     hasNote = YES;
+    
+    expandedNoteIndex = 0;
+    
+    [linkTableView reloadData];
 }
 
 #pragma mark Notification
@@ -229,6 +233,8 @@ PreviewViewController *_previewCtrler;
         frm.size.height = 220 - expandedNoteIndex*40;
         
         [noteView changeFrame:frm];
+        
+        nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
     }
 }
 
@@ -236,7 +242,11 @@ PreviewViewController *_previewCtrler;
 {
     if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
     {
+        contentView.frame = CGRectMake(0, 0, 320, 416);
+        
         [noteView changeFrame:noteFrm];
+        
+        nextButton.frame = CGRectMake(noteFrm.size.width - 30, noteFrm.size.height/2-30, 30, 30);        
     }
     
     if (!hasNote)
@@ -258,6 +268,7 @@ PreviewViewController *_previewCtrler;
     }
 }
 
+/*
 - (void) noteDoubleTap:(NSNotification *)notification
 {
     if (noteView.note != nil)
@@ -273,7 +284,7 @@ PreviewViewController *_previewCtrler;
         }
     }
 }
-
+*/
 #pragma mark Actions
 - (void) editItem:(id) sender
 {
@@ -298,6 +309,23 @@ PreviewViewController *_previewCtrler;
     }
 }
 
+- (void) editNote:(id)sender
+{
+    [noteView cancelEdit];
+    
+    if (noteView.note != nil)
+    {
+        if (_plannerViewCtrler != nil)
+        {
+            [_plannerViewCtrler editItem:noteView.note];
+        }
+        else if (_abstractViewCtrler != nil)
+        {
+            [_abstractViewCtrler editItem:noteView.note];
+        }        
+    }
+}
+
 #pragma mark View
 
 - (void) loadView
@@ -313,26 +341,19 @@ PreviewViewController *_previewCtrler;
     
 	UIButton *nameButton = [Common createButton:self.item.name
 										buttonType:UIButtonTypeCustom
-											 frame:CGRectMake(10, 0, frm.size.width-50, 40)
+											 frame:CGRectMake(10, 0, frm.size.width-40, 40)
 										titleColor:[UIColor blackColor]
 											target:self
 										  selector:@selector(editItem:)
 								  normalStateImage:nil
 								selectedStateImage:nil];
     nameButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    //nameButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+    nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;    
     
     [contentView addSubview:nameButton];
-/*
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, -2, frm.size.width-40, 40)];
-    nameLabel.backgroundColor = [UIColor clearColor];
-    nameLabel.textColor = [UIColor blackColor];
-    nameLabel.textAlignment = NSTextAlignmentLeft;
-    nameLabel.font = [UIFont boldSystemFontOfSize:18];
-    nameLabel.text = self.item.name;
-    
-    [contentView addSubview:nameLabel];
-    [nameLabel release];
-*/    
+
+    /*
     UIButton *nextButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
                                           frame:CGRectMake(frm.size.width - 40, 0, 40, 40)
@@ -346,11 +367,17 @@ PreviewViewController *_previewCtrler;
    
     UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
     
-    //detailImgView.frame = CGRectMake(frm.size.width - 40, 5, 25, 30);
     detailImgView.frame = CGRectMake(10, 3, 25, 30);
     
     [nextButton addSubview:detailImgView];
     [detailImgView release];
+    */
+    
+    UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    nextButton.frame = CGRectMake(frm.size.width - 30, 2, 30, 30);
+    [nextButton addTarget:self action:@selector(editItem:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [contentView addSubview:nextButton];
     
     UIImageView *linkBGView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 33, 320, 27)];
     linkBGView.image = [UIImage imageNamed:@"category_header.png"];
@@ -690,6 +717,14 @@ PreviewViewController *_previewCtrler;
             [cell.contentView addSubview:noteView];
             [noteView release];
             
+            /*
+            nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
+            [nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [cell.contentView addSubview:nextButton];
+            */
+            
             return cell;
         }
         else
@@ -715,6 +750,12 @@ PreviewViewController *_previewCtrler;
         
         [cell.contentView addSubview:noteView];
         [noteView release];
+        
+        nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
+        [nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [cell.contentView addSubview:nextButton];
     }
     else if ([item isTask])
     {

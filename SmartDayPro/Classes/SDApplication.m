@@ -42,7 +42,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             [self resetIdleTimer];
         }
     }
-    
+    /*
     for(UITouch *touch in allTouches)
     {
         BOOL touchEnded = (touch.phase == UITouchPhaseBegan);
@@ -53,9 +53,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
             CustomTextView *tv = (CustomTextView*)touch.view;
             
             [tv touchDetected:touch withEvent:event];
-            ////printf("double tap on Custom View");
+            //printf("double tap on Custom View");
         }
-    }    
+    } */
 }
 
 - (void)resetIdleTimer {

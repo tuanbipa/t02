@@ -100,6 +100,8 @@
 - (void) splitEvents:(NSMutableArray *) eventList fromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (NSMutableArray *) getADEListOnDate:(NSDate *)onDate;
 - (NSMutableArray *) getEventListOnDate:(NSDate *)onDate;
+- (NSMutableArray *) getNoteList;
+- (NSMutableArray *) getWeekNoteList;
 - (NSMutableArray *) getNoteListOnDate:(NSDate *)onDate;
 - (NSMutableArray *) getNoteListFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate;
 - (NSMutableArray *) getDoneTasksToday;
