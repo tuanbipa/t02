@@ -149,6 +149,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
         
+        self.popoverCtrler.passthroughViews = [NSArray arrayWithObjects:view,nil];
+        
         [navController release];
         
         CGRect frm = [view.superview convertRect:view.frame toView:contentView];
