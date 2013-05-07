@@ -1789,6 +1789,8 @@ SmartListViewController *_smartListViewCtrler;
 */
 - (void) multiEdit:(BOOL)enabled
 {
+    [self cancelQuickAdd];
+    
     for (UIView *view in smartListView.subviews)
     {
         if ([view isKindOfClass:[MovableView class]])

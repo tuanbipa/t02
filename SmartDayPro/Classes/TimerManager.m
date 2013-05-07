@@ -194,6 +194,8 @@ TimerManager *_timerManagerSingleton;
 			
 			task.timerStatus = TASK_TIMER_STATUS_PAUSE;
 			[task updateTimerStatusIntoDB:[dbm getDatabase]];
+            
+            [self refreshActualDurationForTask:task];
 						
 			if (self.inProgressTaskList == nil)
 			{
@@ -382,10 +384,10 @@ TimerManager *_timerManagerSingleton;
         
         TaskManager *tm = [TaskManager getInstance];
         
-        [tm markDoneTask:task];
+        [tm markDoneTask:task]; //mark done task also removes task from Timer list
 	}
 	
-	[sourceList removeObject:task];
+	//[sourceList removeObject:task];
 	
 	//[[MusicManager getInstance] playSound:SOUND_STOP];
 }

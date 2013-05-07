@@ -44,6 +44,7 @@
 - (NoteViewController *) getNoteViewController;
 - (CategoryViewController *) getCategoryViewController;
 - (AbstractMonthCalendarView *)getMonthCalendarView;
+- (AbstractMonthCalendarView *)getPlannerMonthCalendarView;
 - (FocusView *) getFocusView;
 - (MiniMonthView *) getMiniMonth;
 

@@ -170,6 +170,11 @@ BOOL _autoPushPending = NO;
     return nil;
 }
 
+- (AbstractMonthCalendarView *)getPlannerMonthCalendarView
+{
+    return nil;
+}
+
 - (FocusView *) getFocusView
 {
     return nil;
@@ -316,6 +321,9 @@ BOOL _autoPushPending = NO;
     
     [calView refresh];
     
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    
+    [plannerCalView refresh];
 }
 
 - (void) resetAllData
@@ -336,7 +344,10 @@ BOOL _autoPushPending = NO;
 - (void) refreshADE
 {
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    
     [calView refreshADEView];
+    [plannerCalView refreshADEView];
     
     [[self getCalendarViewController] refreshADEPane];
 }
@@ -753,79 +764,6 @@ BOOL _autoPushPending = NO;
 }
 
 #pragma mark Task Actions
-/*
-- (void) changeItem:(Task *)task
-{
-    if ([task isNote])
-    {
-        if (task.listSource == SOURCE_NOTE)
-        {
-            NoteViewController *ctrler = [self getNoteViewController];
-            
-            [ctrler loadAndShowList];
-        }
-        else if (task.listSource == SOURCE_CATEGORY)
-        {
-            CategoryViewController *ctrler = [self getCategoryViewController];
-            
-            if (ctrler.filterType == TYPE_NOTE)
-            {
-                [ctrler loadAndShowList];
-            }
-        }
-        else if (task.listSource == SOURCE_PLANNER_CALENDAR)
-        {
-            // reload planner month view
-            AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-            [calView refreshCellByDate:task.startTime];
-        }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
-    }
-    else if ([task isEvent])
-    {
-        if (task.listSource == SOURCE_CATEGORY || task.listSource == SOURCE_FOCUS)
-        {
-            CategoryViewController *ctrler = [self getCategoryViewController];
-            
-            if (ctrler.filterType == TYPE_EVENT)
-            {
-                [ctrler loadAndShowList];
-            }
-        }
-        
-        if ([task isADE])
-        {
-            [self refreshADE];
-        }
-        else
-        {
-            CalendarViewController *ctrler = [self getCalendarViewController];
-            
-            [ctrler refreshLayout];
-            
-            PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
-            
-            if (plannerDayCal != nil)
-            {
-                [plannerDayCal refreshLayout];
-            }            
-        }
-    }
-    else if ([task isTask])
-    {
-        if (task.listSource == SOURCE_CATEGORY)
-        {
-            CategoryViewController *ctrler = [self getCategoryViewController];
-            
-            if (ctrler.filterType == TYPE_TASK)
-            {
-                [ctrler loadAndShowList];
-            }
-        }
-    }    
-}
-*/
 
 - (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule
 {
@@ -863,6 +801,10 @@ BOOL _autoPushPending = NO;
         
         [calView refreshADEView];
         [[self getCalendarViewController] refreshADEPane];
+        
+        AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+        
+        [plannerCalView refreshADEView];
     }
 }
 
@@ -929,48 +871,44 @@ BOOL _autoPushPending = NO;
     
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     
-    if (calView != nil)
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    
+    //if (calView != nil)
     {
         if (sDate != nil)
         {
             //refresh Calendar cell when convert Task -> Event
             [calView refreshCellByDate:sDate];
+            [plannerCalView refreshCellByDate:sDate];
         }
         
         if (dDate != nil)
         {
             [calView refreshCellByDate:dDate];
+            [plannerCalView refreshCellByDate:dDate];
         }
         
         if (reChange)
         {
             [calView refresh];
+            [plannerCalView refresh];
         }
         else if ([taskCopy isTask])
         {
             if (taskCopy.deadline != nil)
             {
                 [calView refreshCellByDate:taskCopy.deadline];
+                [plannerCalView refreshCellByDate:taskCopy.deadline];
             }
         }
         else
         {
             [calView refreshCellByDate:taskCopy.startTime];
+            [plannerCalView refreshCellByDate:taskCopy.startTime];
         }
-        
-        /*
-        if (isADE)
-        {
-            [calView refreshADEView];
-            [[self getCalendarViewController] refreshADEPane];
-        }
-        */
-        //[self changeItem:task action:action];
     }
     
     [self deselect];
-    
-    //[self hidePopover];
 }
 
 - (void) convertRE2Task:(NSInteger)option
@@ -1002,9 +940,10 @@ BOOL _autoPushPending = NO;
 {
     TaskManager *tm = [TaskManager getInstance];
     
-    //Task *task = [self.activeViewCtrler getSelectedTask];
     Task *task = [self getActiveTask];
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     [task retain];
     
@@ -1033,15 +972,8 @@ BOOL _autoPushPending = NO;
         
         [calView refresh];
         
-        /*if ([task isADE])
-        {
-            [calView refreshADEView];
-            
-            CalendarViewController *ctrler = [self getCalendarViewController];
-            [ctrler refreshADEPane];//refresh ADE
-        }*/
-        
-        //[self changeItem:task action:TASK_DELETE];
+        [plannerCalView refresh];
+
         [self reconcileItem:task reSchedule:YES];
     }
     
@@ -1053,6 +985,8 @@ BOOL _autoPushPending = NO;
     Task *task = [self getActiveTask];
     
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     NSInteger pk = task.primaryKey;
     
@@ -1074,19 +1008,12 @@ BOOL _autoPushPending = NO;
     
     [calView refresh];
     
+    [plannerCalView refresh];
+    
     CalendarViewController *calCtrler = [self getCalendarViewController];
     
     [calCtrler refreshView];
     
-    /*if ([task isADE])
-    {
-        [calView refreshADEView];
-        
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        [ctrler refreshADEPane];//refresh ADE
-    }*/
-    
-    //[self changeItem:task action:TASK_DELETE];
     [self reconcileItem:task reSchedule:YES];
     
     [task release];
@@ -1098,6 +1025,7 @@ BOOL _autoPushPending = NO;
     
     Task *task = [self getActiveTask];
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     NSInteger pk = task.primaryKey;
     
@@ -1129,21 +1057,19 @@ BOOL _autoPushPending = NO;
         {
             [calView refresh];
         }
-        
-        /*if (type == TYPE_ADE)
-        {
-            [calView refreshADEView];
-        }
-        else */if (type == TYPE_TASK)
+
+        if (type == TYPE_TASK)
         {
             if (start != nil)
             {
                 [calView refreshCellByDate:start];
+                [plannerCalView refreshCellByDate:start];
             }
             
             if (deadline != nil)
             {
                 [calView refreshCellByDate:deadline];
+                [plannerCalView refreshCellByDate:deadline];
                 
                 if ([Common daysBetween:deadline sinceDate:tm.today] <= 0)
                 {
@@ -1154,6 +1080,7 @@ BOOL _autoPushPending = NO;
         else if (type == TYPE_EVENT)
         {
             [calView refreshCellByDate:start];
+            [plannerCalView refreshCellByDate:start];
         }
         else if (type == TYPE_ADE)
         {
@@ -1162,12 +1089,9 @@ BOOL _autoPushPending = NO;
                 [[self getFocusView] refreshData];
             }
         }
-        
-        //CalendarViewController *ctrler = [self getCalendarViewController];
-        //[ctrler refreshADEPane];//refresh ADE for any link removement
+
     }
     
-    //[self changeItem:task];
     [self reconcileItem:task reSchedule:YES];
     
     [self deselect];
@@ -1267,6 +1191,7 @@ BOOL _autoPushPending = NO;
     Task *task = [self getActiveTask];
     
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     if (task != nil)
     {
@@ -1293,18 +1218,13 @@ BOOL _autoPushPending = NO;
         if (oldDeadline != nil)
         {
             [calView refreshCellByDate:oldDeadline];
+            [plannerCalView refreshCellByDate:oldDeadline];
             
             if ([Common daysBetween:oldDeadline sinceDate:tm.today] <= 0)
             {
                 [[self getFocusView] refreshData];
             }
         }
-        /*
-        CategoryViewController *ctrler = [self getCategoryViewController];
-        
-        //remove done task from list
-        [ctrler markDoneTask:task];
-        */
         
         if ([self checkControllerActive:3])
         {
@@ -1319,6 +1239,7 @@ BOOL _autoPushPending = NO;
         if (isRT)
         {
             [calView refreshCellByDate:task.deadline];
+            [plannerCalView refreshCellByDate:task.deadline];
         }
         
         [task release];
@@ -1367,6 +1288,8 @@ BOOL _autoPushPending = NO;
     
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    
     [task retain];
     
     [self deselect];
@@ -1388,20 +1311,13 @@ BOOL _autoPushPending = NO;
     if (oldDue != nil)
     {
         [calView refreshCellByDate:oldDue];
+        [plannerCalView refreshCellByDate:oldDue];
         
         if ([Common daysBetween:oldDue sinceDate:tm.today] <= 0)
         {
             [[self getFocusView] refreshData];
         }
     }
-    
-    /*
-    CategoryViewController *ctrler = [self getCategoryViewController];
-    
-    //remove done task from list
-    [ctrler markDoneTask:task];
-    */
-    
     if ([self checkControllerActive:3])
     {
         CategoryViewController *ctrler = [self getCategoryViewController];
@@ -1415,6 +1331,7 @@ BOOL _autoPushPending = NO;
     if (isRT)
     {
         [calView refreshCellByDate:task.deadline];
+        [plannerCalView refreshCellByDate:task.deadline];
         
         [view setNeedsDisplay];
     }
@@ -1507,13 +1424,17 @@ BOOL _autoPushPending = NO;
     {
         AbstractMonthCalendarView *calView = [self getMonthCalendarView];
         
-        if (calView != nil)
+        AbstractMonthCalendarView *plannerCalView = [self getMonthCalendarView];
+        
+        //if (calView != nil)
         {
             [calView refreshCellByDate:sDate];
+            [plannerCalView refreshCellByDate:sDate];
             
             if (task.deadline != nil)
             {
                 [calView refreshCellByDate:task.deadline];
+                [plannerCalView refreshCellByDate:task.deadline];
             }            
         }
     }
@@ -1543,21 +1464,27 @@ BOOL _autoPushPending = NO;
     {
         AbstractMonthCalendarView *calView = [self getMonthCalendarView];
         
-        if (calView != nil)
+        AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+        
+        //if (calView != nil)
         {
             if (sDate != nil)
             {
                 [calView refreshCellByDate:sDate];
+                [plannerCalView refreshCellByDate:sDate];
+                
                 [sDate release];
             }
             
             if (dDate != nil)
             {
                 [calView refreshCellByDate:dDate];
+                [plannerCalView refreshCellByDate:dDate];
                 [dDate release];
             }
             
             [calView refreshCellByDate:task.startTime];
+            [plannerCalView refreshCellByDate:task.startTime];
         }
     }
     

@@ -20,6 +20,8 @@
 #import "ContentView.h"
 #import "TaskView.h"
 #import "PlannerMonthView.h"
+#import "MiniMonthView.h"
+#import "MonthlyCalendarView.h"
 
 #import "SmartListViewController.h"
 #import "PlannerView.h"
@@ -120,8 +122,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (AbstractMonthCalendarView *) getMonthCalendarView
 {
+    //return self.plannerView.monthView;
+    return _abstractViewCtrler.miniMonthView.calView;
+}
+
+- (AbstractMonthCalendarView *)getPlannerMonthCalendarView
+{
     return self.plannerView.monthView;
 }
+
 
 /*
 - (void) hidePopover
