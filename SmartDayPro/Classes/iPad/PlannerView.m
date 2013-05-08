@@ -14,6 +14,7 @@
 #import "TaskManager.h"
 #import "PlannerMonthCellView.h"
 #import "AbstractSDViewController.h"
+#import "Settings.h"
 
 extern BOOL _isiPad;
 
@@ -50,11 +51,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
         } else {
             dt = [NSDate date];
         }
-        NSDate *calDate = [Common getFirstMonthDate:dt];
-        NSInteger weeks = [Common getWeeksInMonth:calDate];
-        [monthView changeWeekPlanner:7 weeks:weeks];
-        [monthView initCalendar:calDate];
-        [self finishInitCalendar];
+//        NSDate *calDate = [Common getFirstMonthDate:dt];
+//        //NSInteger weeks = [Common getWeeksInMonth:calDate];
+//        Settings *st = [Settings getInstance];
+//        NSInteger weeks = [Common getWeeksInMonth:calDate mondayAsWeekStart:st.isMondayAsWeekStart];
+//        [monthView changeWeekPlanner:7 weeks:weeks];
+//        [monthView initCalendar:calDate];
+//        [self finishInitCalendar];
+        [self goToDate:dt];
         
         // open today week
         PlannerMonthCellView *cell = [self.monthView findCellByDate:dt];
@@ -84,18 +88,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     NSDate *dt = [self.monthView getFirstDate];
     dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
     dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
-//    NSInteger weeks = [Common getWeeksInMonth:dt];
-//    [self.monthView changeWeekPlanner:7 weeks:weeks];
-//    [self.monthView collapseWeek];
-//    [self finishInitCalendar];
-//    // change month
-//    [self.monthView changeMonth:dt];
-//    // collapse week
-//    [self.monthView collapseExpand:0];
-//    // select first date in month
-//    dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
-//    [_abstractViewCtrler jumpToDate:dt];
-//    [self.monthView highlightCellOnDate:dt];
     [self goToDate:dt];
     
     [UIView commitAnimations];
@@ -107,23 +99,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     NSDate *dt = [NSDate date];
     [self goToDate:dt];
-//    //NSDate *dt = [self.monthView getFirstDate];
-//    dt = [Common getFirstMonthDate:dt];
-//    //dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
-//    NSInteger weeks = [Common getWeeksInMonth:dt];
-//    [self.monthView changeWeekPlanner:7 weeks:weeks];
-//    [self.monthView collapseWeek];
-//    [self finishInitCalendar];
-//    // change month
-//    [self.monthView changeMonth:dt];
-//    
-//    NSDate *today = [NSDate date];
-//    NSInteger week = [Common getWeekdayOrdinal:today];
-//    // collapse week
-//    [self.monthView collapseExpand:week-1];
-//    // select first date in month
-//    [_abstractViewCtrler jumpToDate:today];
-//    [self.monthView highlightCellOnDate:today];
     
     [UIView commitAnimations];
 }
@@ -131,18 +106,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void)goToDate: (NSDate *) dt {
     
     NSDate *firstMonDate = [Common getFirstMonthDate:dt];
-    NSInteger weeks = [Common getWeeksInMonth:firstMonDate];
-    [self.monthView changeWeekPlanner:7 weeks:weeks];
-    [self.monthView collapseWeek];
+    //NSInteger weeks = [Common getWeeksInMonth:firstMonDate];
+    Settings *st = [Settings getInstance];
+    NSInteger weeks = [Common getWeeksInMonth:firstMonDate mondayAsWeekStart:st.isMondayAsWeekStart];
+    [monthView changeWeekPlanner:7 weeks:weeks];
+    [monthView collapseWeek];
     [self finishInitCalendar];
     // change month
-    [self.monthView changeMonth:firstMonDate];
+    [monthView changeMonth:firstMonDate];
     
     // collapse week
-    [self.monthView collapseExpandByDate:dt];
+    [monthView collapseExpandByDate:dt];
     // select cell date
     [_abstractViewCtrler jumpToDate:dt];
-    [self.monthView highlightCellOnDate:dt];
+    [monthView highlightCellOnDate:dt];
     
     [self.headerView setNeedsDisplay];
 }

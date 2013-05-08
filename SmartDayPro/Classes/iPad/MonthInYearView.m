@@ -136,6 +136,8 @@ extern PlannerViewController *_plannerViewCtrler;
 	
 	NSDateComponents *dtComps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:date];
 	NSDateComponents *todayComps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:[NSDate date]];
+    
+    BOOL checkToday = (dtComps.month == todayComps.month && dtComps.year == todayComps.year);
 	
 	BOOL mondayAsWeekStart = [[Settings getInstance] isMondayAsWeekStart];
 	
@@ -171,7 +173,7 @@ extern PlannerViewController *_plannerViewCtrler;
         
 		cell.gray = (cell.month != dtComps.month);
 		
-		if (cell.day == todayComps.day && cell.month == todayComps.month && cell.year == todayComps.year)
+		if (checkToday && cell.day == todayComps.day && cell.month == todayComps.month)
 		{
 			cell.isToday = YES;
 			
@@ -200,18 +202,20 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) refresh
 {
+//    MonthlyCellView *cell = [[self subviews] objectAtIndex:7];
+//    NSDate *fromDate = [Common getFirstMonthDate:[cell getCellDate]];
+//    NSDate *toDate = [Common getEndMonthDate:fromDate withMonths:1];
+//    
+//	[self updateBusyTimeFromDate:fromDate toDate:toDate];
+	[self performSelectorInBackground:@selector(updateBusyTimeFromDate) withObject:nil];
+}
+
+- (void) updateBusyTimeFromDate//:(NSDate *)fromDate toDate:(NSDate *)toDate
+{
     MonthlyCellView *cell = [[self subviews] objectAtIndex:7];
     NSDate *fromDate = [Common getFirstMonthDate:[cell getCellDate]];
     NSDate *toDate = [Common getEndMonthDate:fromDate withMonths:1];
     
-	[self updateBusyTimeFromDate:fromDate toDate:toDate];
-	//[self updateDotFromDate:fromDate toDate:toDate];
-	
-	//////NSLog(@"end refresh all cells");
-}
-
-- (void) updateBusyTimeFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
-{
 	NSInteger allocTime[42];
 	
 	for (int i=0; i<42; i++)

@@ -519,6 +519,7 @@ typedef struct
 + (NSInteger)getWeekday:(NSDate *)date;
 + (NSInteger)getWeekdayOrdinal:(NSDate *)date;
 + (NSInteger) getWeeksInMonth:(NSDate *)date;
++ (NSInteger) getWeeksInMonth:(NSDate *)date mondayAsWeekStart:(BOOL)mondayAsWeekStart;
 + (NSInteger) getWeekOfYear:(NSDate *)date;
 + (BOOL)isWeekend:(NSDate *)date;
 + (NSDate *) getDateByFullString:(NSString *)strDate;
