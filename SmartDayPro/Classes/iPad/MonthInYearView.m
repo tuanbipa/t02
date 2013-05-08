@@ -200,18 +200,20 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) refresh
 {
+//    MonthlyCellView *cell = [[self subviews] objectAtIndex:7];
+//    NSDate *fromDate = [Common getFirstMonthDate:[cell getCellDate]];
+//    NSDate *toDate = [Common getEndMonthDate:fromDate withMonths:1];
+//    
+//	[self updateBusyTimeFromDate:fromDate toDate:toDate];
+	[self performSelectorInBackground:@selector(updateBusyTimeFromDate) withObject:nil];
+}
+
+- (void) updateBusyTimeFromDate//:(NSDate *)fromDate toDate:(NSDate *)toDate
+{
     MonthlyCellView *cell = [[self subviews] objectAtIndex:7];
     NSDate *fromDate = [Common getFirstMonthDate:[cell getCellDate]];
     NSDate *toDate = [Common getEndMonthDate:fromDate withMonths:1];
     
-	[self updateBusyTimeFromDate:fromDate toDate:toDate];
-	//[self updateDotFromDate:fromDate toDate:toDate];
-	
-	//////NSLog(@"end refresh all cells");
-}
-
-- (void) updateBusyTimeFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
-{
 	NSInteger allocTime[42];
 	
 	for (int i=0; i<42; i++)

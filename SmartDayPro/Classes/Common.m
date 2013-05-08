@@ -1004,6 +1004,31 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return comps.weekOfMonth;
 }
 
++ (NSInteger) getWeeksInMonth:(NSDate *)date mondayAsWeekStart:(BOOL)mondayAsWeekStart
+{
+    NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+    
+    NSDate *lastMonthDate = [Common getEndMonthDate:date withMonths:1];
+    
+	NSDateComponents *comps = [gregorian components:NSWeekOfMonthCalendarUnit fromDate:lastMonthDate];
+    
+    NSInteger weeks = comps.weekOfMonth;
+    if (mondayAsWeekStart) {
+        NSDateComponents *compsLastMon = [gregorian components:NSWeekdayCalendarUnit fromDate:lastMonthDate];
+        NSDate *firstMonthDate = [Common getFirstMonthDate:lastMonthDate];
+        NSDateComponents *compsFirstMon = [gregorian components:NSWeekdayCalendarUnit fromDate:firstMonthDate];
+        if ([compsLastMon weekday] == 1 && [compsFirstMon weekday] != 1) {
+            // the end month is Sunday
+            weeks--;
+        } else if ([compsLastMon weekday] != 1 && [compsFirstMon weekday] == 1) {
+            weeks++;
+        }
+    }
+    
+    //return comps.weekOfMonth;
+    return weeks;
+}
+
 + (NSInteger) getWeekOfYear:(NSDate *)date
 {
     if (date == nil)

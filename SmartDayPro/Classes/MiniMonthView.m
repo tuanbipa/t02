@@ -218,7 +218,9 @@ extern BOOL _isiPad;
     
     if (mode == 0)
     {
-        NSInteger weeks = [Common getWeeksInMonth:date];
+        //NSInteger weeks = [Common getWeeksInMonth:date];
+        Settings *st = [Settings getInstance];
+        NSInteger weeks = [Common getWeeksInMonth:date mondayAsWeekStart:st.isMondayAsWeekStart];
         
         [self.calView changeWeekPlanner:7 weeks:weeks];        
     }
@@ -327,7 +329,9 @@ extern BOOL _isiPad;
     
     NSDate *calDate = (mode == 1?tm.today:[Common getFirstMonthDate:tm.today]);
     
-    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
+    //NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
+    Settings *st = [Settings getInstance];
+    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate mondayAsWeekStart:st.isMondayAsWeekStart]);
     
     [self.calView changeWeekPlanner:7 weeks:weeks];
     
@@ -370,7 +374,9 @@ extern BOOL _isiPad;
     
     NSDate *calDate = (mode == 1?date:[Common getFirstMonthDate:date]);
     
-    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
+    //NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
+    Settings *st = [Settings getInstance];
+    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate mondayAsWeekStart:st.isMondayAsWeekStart]);
     
     [self.calView changeWeekPlanner:7 weeks:weeks];
 }
