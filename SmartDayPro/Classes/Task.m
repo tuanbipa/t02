@@ -1687,8 +1687,8 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (BOOL) checkCleanable
 {
-    return (self.sdwId == nil || [self.sdwId isEqualToString:@""] ||
-            self.syncId == nil || [self.syncId isEqualToString:@""]);
+    return (self.sdwId == nil || [self.sdwId isEqualToString:@""]) &&
+            (self.syncId == nil || [self.syncId isEqualToString:@""]);
 }
 
 - (void)cleanFromDatabase:(sqlite3 *)database 

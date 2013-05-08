@@ -939,7 +939,8 @@ extern BOOL _syncMatchHintShown;
         }
         
         if ((prj.tdId != nil && ![prj.tdId isEqualToString:@""]) || 
-            (prj.sdwId != nil && ![prj.sdwId isEqualToString:@""]))
+            (prj.sdwId != nil && ![prj.sdwId isEqualToString:@""]) ||
+             (prj.rmdId != nil && ![prj.rmdId isEqualToString:@""]))
         {
             prj.ekId = @"";
             [prj updateEKIDIntoDB:[dbm getDatabase]];

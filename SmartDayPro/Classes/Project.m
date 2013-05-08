@@ -460,6 +460,14 @@ static sqlite3_stmt *prj_delete_statement = nil;
     return pk == self.primaryKey;
 }
 
+- (BOOL) checkCleanable
+{
+    return (self.tdId == nil || [self.tdId isEqualToString:@""]) &&
+        (self.sdwId == nil || [self.sdwId isEqualToString:@""]) &&
+        (self.ekId == nil || [self.ekId isEqualToString:@""]) &&
+        (self.rmdId == nil || [self.rmdId isEqualToString:@""]);
+}
+
 - (BOOL) isShared
 {
     return self.extraStatus == PROJECT_EXTRA_STATUS_SHARED;

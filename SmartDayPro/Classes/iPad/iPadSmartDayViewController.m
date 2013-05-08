@@ -187,117 +187,19 @@ iPadViewController *_iPadViewCtrler;
         
         y += frm.size.height + 10;
         
-        /*if (i==0)
+        if (i==0)
         {
             //tasks module
             [viewCtrlers[i+1] refreshLayout];
         }
-        else*/
-        if (i != 0)
+        else if (i != 0)
         {
             [viewCtrlers[i+1] loadAndShowList];
         }
-
+        
     }
 }
 
-/*
-- (void) editItem:(Task *)item
-{
-    if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SDNavigationController class]])
-    {
-        if ([item isNote])
-        {
-            NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-            ctrler.note = item;
-            
-            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
-            [ctrler release];
-        }
-        else
-        {
-            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-            
-            ctrler.task = item;
-            
-            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
-            [ctrler release];
-        }
-    }
-    else
-    {
-        [super editItem:item];
-    }
-}
-
-- (void) editItem:(Task *)item inView:(TaskView *)inView
-{
-    UIViewController *editCtrler = nil;
-    
-    if ([item isNote])
-    {
-        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-        
-        ctrler.note = item;
-        
-        editCtrler = ctrler;
-    }
-    else
-    {
-        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-        
-        ctrler.task = item;
-        
-        editCtrler = ctrler;
-    }
-	
-    if (editCtrler != nil)
-    {
-        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
-        [editCtrler release];
-        
-        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-        
-        [navController release];
-        
-        CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
-        
-        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
-
-    }
-}
-
-- (void) editProject:(Project *)project inView:(PlanView *)inView
-{
-    ProjectEditViewController *editCtrler = [[ProjectEditViewController alloc] init];
-    editCtrler.project = project;
-    
-    SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
-    [editCtrler release];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-    
-    [navController release];
-    
-    CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
-    
-}
-
-- (void) starTaskInView:(TaskView *)taskView
-{
-    [super starTaskInView:taskView];
-    
-    SmartListViewController *slViewCtrler = [self getSmartListViewController];
-    
-    [slViewCtrler setNeedsDisplay];
-    
-    CategoryViewController *catViewCtrler = [self getCategoryViewController];
-    
-    [catViewCtrler setNeedsDisplay];
-}
-*/
 - (void) addTask
 {
     [[self getSmartListViewController] cancelQuickAdd];
@@ -657,52 +559,9 @@ iPadViewController *_iPadViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
-/*
-- (void) editItem:(Task *)task inRect:(CGRect)inRect
-{
-    [self.popoverCtrler dismissPopoverAnimated:NO];
-    
-    UIViewController *ctrler = nil;
-    
-    if ([task isNote])
-    {
-        NoteDetailTableViewController *noteCtrler = [[NoteDetailTableViewController alloc] init];
-        noteCtrler.note = task;
-        
-        ctrler = noteCtrler;
-    }
-    else
-    {
-        TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
-        taskCtrler.task = task;
-        
-        ctrler = taskCtrler;
-    }
-    
-	SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
-	[ctrler release];
-	
-	self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-	
-	[navController release];
-    
-    //CGRect frm = CGRectMake(600, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-}
-*/
-
 #pragma mark Actions
 - (void) expand:(id) sender
 {
-    /*
-    if (activeView != nil)
-    {
-        [activeView doSelect:NO];
-        
-        activeView = nil;
-    }
-    */
     [self deselect];
     
     UIButton *button = (UIButton *)sender;
@@ -745,12 +604,7 @@ iPadViewController *_iPadViewCtrler;
 - (void) filter:(id) sender
 {
     UIButton *button = (UIButton *) sender;
-    
-/*    if (!optionView.hidden)
-    {
-        [self hideDropDownMenu];
-    }
-*/
+
     UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
     UIView *noteHeaderView = (UIView *)[contentView viewWithTag:20001];
     UIView *projectHeaderView = (UIView *)[contentView viewWithTag:20002];
@@ -1545,7 +1399,10 @@ iPadViewController *_iPadViewCtrler;
         
         [ctrler changeFrame:frm];
         
-        [ctrler performSelector:@selector(refreshLayout) withObject:nil afterDelay:0.1];
+        if (expandNum != 0)
+        {
+            [ctrler performSelector:@selector(refreshLayout) withObject:nil afterDelay:0.1];
+        }
     }
 }
 

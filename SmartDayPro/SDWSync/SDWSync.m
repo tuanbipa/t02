@@ -1154,8 +1154,9 @@ NSInteger _sdwColor[32] = {
                     
                     if (delPrj != nil)
                     {
-                        if ((delPrj.tdId != nil && ![delPrj.tdId isEqualToString:@""]) 
-                            || (delPrj.ekId != nil && ![delPrj.ekId isEqualToString:@""]))
+                        if ((delPrj.tdId != nil && ![delPrj.tdId isEqualToString:@""]) ||
+                            (delPrj.ekId != nil && ![delPrj.ekId isEqualToString:@""]) ||
+                            (delPrj.rmdId != nil && ![delPrj.rmdId isEqualToString:@""]))
                         {
                             delPrj.sdwId = @"";
                             [delPrj updateSDWIDIntoDB:[dbm getDatabase]];

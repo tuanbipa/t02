@@ -152,7 +152,7 @@ static sqlite3_stmt *task_progress_delete_statement = nil;
 	{
 
     if (task_progress_update_statement == nil) {
-        static char *sql = "UPDATE TaskProgressTable SET Task_StartTime = ?,Task_EndTime = ? WHERE TaskProgress_ID = ?";		
+        static char *sql = "UPDATE TaskProgressTable SET Task_StartTime = ?,Task_EndTime = ?,Task_ID = ? WHERE TaskProgress_ID = ?";		
 		
         if (sqlite3_prepare_v2(database, sql, -1, &task_progress_update_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -166,7 +166,8 @@ static sqlite3_stmt *task_progress_delete_statement = nil;
 	
 	sqlite3_bind_int(task_progress_update_statement, 1, startTimeValue);
 	sqlite3_bind_int(task_progress_update_statement, 2, endTimeValue);
-	sqlite3_bind_int(task_progress_update_statement, 3, self.primaryKey);
+    sqlite3_bind_int(task_progress_update_statement, 3, task.primaryKey);
+	sqlite3_bind_int(task_progress_update_statement, 4, self.primaryKey);
 	
     int success = sqlite3_step(task_progress_update_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.

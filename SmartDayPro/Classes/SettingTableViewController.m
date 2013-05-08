@@ -678,7 +678,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [self.navigationController popViewControllerAnimated:YES];
     
-    Settings *settings = [Settings getInstance];
+    /*Settings *settings = [Settings getInstance];
     
     if (settings.ekSyncEnabled)
     {
@@ -702,7 +702,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         [alertView show];
         [alertView release];			        
-    }    
+    }*/
+    
+    [_abstractViewCtrler sync];
 }
 
 #pragma mark Actions
@@ -1024,7 +1026,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [_abstractViewCtrler resetAllData];
     
-    BOOL syncEnabled = self.settingCopy.syncEnabled && (self.settingCopy.ekSyncEnabled || self.settingCopy.tdSyncEnabled || self.settingCopy.sdwSyncEnabled);
+    BOOL syncEnabled = self.settingCopy.syncEnabled && (self.settingCopy.ekSyncEnabled || self.settingCopy.tdSyncEnabled || self.settingCopy.sdwSyncEnabled || self.settingCopy.rmdSyncEnabled);
     
     NSString *msg = (syncEnabled? [NSString stringWithFormat:@"%@ %@", _deleteSuspectedDuplicationCompleteText, _syncAgainText]: _deleteSuspectedDuplicationCompleteText);
     
@@ -1059,7 +1061,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         [self popupSyncGuide];
     }
-    
 }
 
 #pragma mark Cell Creation

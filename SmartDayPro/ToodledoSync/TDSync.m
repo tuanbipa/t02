@@ -1561,7 +1561,8 @@ TDSync *_tdSyncSingleton;
 		Project *plan = (Project *)userInfo;
 	
 		if ((plan.ekId != nil && ![plan.ekId isEqualToString:@""]) ||
-            (plan.sdwId != nil && ![plan.sdwId isEqualToString:@""]))
+            (plan.sdwId != nil && ![plan.sdwId isEqualToString:@""]) ||
+            (plan.rmdId != nil && ![plan.rmdId isEqualToString:@""]))
 		{
 			plan.tdId = @"";
 			[plan updateToodledoIDIntoDB:[[DBManager getInstance] getDatabase]];

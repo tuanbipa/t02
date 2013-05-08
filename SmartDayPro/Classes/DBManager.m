@@ -3098,16 +3098,17 @@ static sqlite3_stmt *_top_task_statement = nil;
 	NSMutableArray *activeTaskList = [NSMutableArray arrayWithCapacity:20];
 	
 	const char *sql = "SELECT a.Task_ID, Task_ProjectID, Task_TimerStatus, Task_Name, TaskProgress_ID \
-	FROM TaskTable a, TaskProgressTable b WHERE Task_Type = ? AND Task_Status = ? AND (Task_TimerStatus = ? OR Task_TimerStatus = ?) \
+	FROM TaskTable a, TaskProgressTable b WHERE Task_Type = ? AND (Task_Status <> ? AND Task_Status <> ?) AND (Task_TimerStatus = ? OR Task_TimerStatus = ?) \
 	AND a.Task_ID = b.Task_ID GROUP BY a.Task_ID ORDER BY TaskProgress_ID DESC";
 	sqlite3_stmt *statement;
 	// Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
 	// The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.        
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, TYPE_TASK);
-		sqlite3_bind_int(statement, 2, TASK_STATUS_NONE);
-		sqlite3_bind_int(statement, 3, TASK_TIMER_STATUS_START);
-		sqlite3_bind_int(statement, 4, TASK_TIMER_STATUS_INTERRUPT);
+		sqlite3_bind_int(statement, 2, TASK_STATUS_DELETED);
+		sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
+		sqlite3_bind_int(statement, 4, TASK_TIMER_STATUS_START);
+		sqlite3_bind_int(statement, 5, TASK_TIMER_STATUS_INTERRUPT);
 		// We "step" through the results - once for each row.
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			// The second parameter indicates the column index into the result set.
@@ -3143,14 +3144,15 @@ static sqlite3_stmt *_top_task_statement = nil;
 	NSMutableArray *inProgressTaskList = [NSMutableArray arrayWithCapacity:20];
 	
 	const char *sql = "SELECT a.Task_ID, Task_ProjectID, Task_Name FROM TaskTable a, TaskProgressTable b \
-	WHERE Task_Type = ? AND Task_Status = ? AND Task_TimerStatus = ? AND a.Task_ID = b.Task_ID GROUP BY a.Task_ID ORDER BY TaskProgress_ID DESC";
+	WHERE Task_Type = ? AND (Task_Status <> ? AND Task_Status <> ?) AND Task_TimerStatus = ? AND a.Task_ID = b.Task_ID GROUP BY a.Task_ID ORDER BY TaskProgress_ID DESC";
 	sqlite3_stmt *statement;
 	// Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
 	// The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.        
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
         sqlite3_bind_int(statement, 1, TYPE_TASK);
-        sqlite3_bind_int(statement, 2, TASK_STATUS_NONE);
-		sqlite3_bind_int(statement, 3, TASK_TIMER_STATUS_PAUSE);
+        sqlite3_bind_int(statement, 2, TASK_STATUS_DELETED);
+        sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
+		sqlite3_bind_int(statement, 4, TASK_TIMER_STATUS_PAUSE);
 		// We "step" through the results - once for each row.
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			// The second parameter indicates the column index into the result set.

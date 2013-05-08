@@ -67,6 +67,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	while (self.layoutInProgress)
 	{
+        //printf("wait for layout complete\n");
 		[layoutCond wait];
 	}
     
@@ -317,31 +318,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	}
 	//printf("smart list begin layout\n");
     
-/*
-    NSInteger busyLayout = BUSY_TASK_LAYOUT | BUSY_TASK_LAYOUT_SUBSET;
-    
-    NSInteger busyFlag = [[BusyController getInstance] getBusyFlag];
-    
-    if ((busyFlag & busyLayout) != 0)
-    {
-        return;
-    }
-
-    if (!self.layoutFinished)
-    {
-        //printf("layout in progress -> end\n");
-        return;
-    }
-*/
     [self wait4LayoutComplete];
     
-    //printf("smartlist layout\n");
+    //printf("smartlist begin layout\n");
     
     [super beginLayout];
 	
 	self.layoutInProgress = YES;
 		
-	lastView = nil;
+	//lastView = nil;
 	
 	NSMutableArray *taskList2Layout = [self getObjectList];
 	

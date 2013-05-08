@@ -129,6 +129,7 @@
 - (PlanInfo) getInfo;
 - (BOOL) checkTransparent;
 - (BOOL) checkDefault;
+- (BOOL) checkCleanable;
 - (BOOL) isShared;
 - (void) saveSnapshot;
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;

@@ -280,7 +280,7 @@ EKReminderSync *_ekReminderSyncSingleton;
     
     NSArray *ekCalList = [self.eventStore calendarsForEntityType:EKEntityTypeReminder];
     
-    if (ekCalList.count == 0)
+    /*if (ekCalList.count == 0)
     {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_syncErrorText  message:_reminderFatalError delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
         [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
@@ -289,7 +289,7 @@ EKReminderSync *_ekReminderSyncSingleton;
         [self syncComplete];
         
         return;
-    }
+    }*/
     
 	for (EKCalendar *cal in ekCalList)
 	{

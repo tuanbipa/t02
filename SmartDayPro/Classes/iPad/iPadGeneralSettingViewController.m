@@ -144,7 +144,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [_abstractViewCtrler resetAllData];
     
-    BOOL syncEnabled = self.setting.syncEnabled && (self.setting.ekSyncEnabled || self.setting.tdSyncEnabled || self.setting.sdwSyncEnabled);
+    BOOL syncEnabled = self.setting.syncEnabled && (self.setting.ekSyncEnabled || self.setting.tdSyncEnabled || self.setting.sdwSyncEnabled || self.setting.rmdSyncEnabled);
     
     NSString *msg = (syncEnabled? [NSString stringWithFormat:@"%@ %@", _deleteSuspectedDuplicationCompleteText, _syncAgainText]: _deleteSuspectedDuplicationCompleteText);
     
@@ -159,6 +159,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [alertView show];
     [alertView release];
+}
+
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertVw.tag == -10002 && buttonIndex != 0) //not Cancel
+	{
+        [_abstractViewCtrler sync];
+	}
 }
 
 #pragma mark Cell Creation

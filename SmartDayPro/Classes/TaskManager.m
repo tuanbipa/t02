@@ -4099,7 +4099,11 @@ TaskManager *_sctmSingleton = nil;
 
 - (Task *) doneRT:(Task *)rt
 {
+    DBManager *dbm = [DBManager getInstance];
+    
 	[[AlertManager getInstance] cancelAllAlertsForTask:rt];
+    
+    [[TimerManager getInstance] check2CompleteTask:rt.primaryKey];
 	
 	Task *instance = [[rt copy] autorelease];
 	
@@ -4109,7 +4113,16 @@ TaskManager *_sctmSingleton = nil;
 	instance.mergedSeqNo = -1;
 	instance.completionTime = [NSDate date];
 	
-	[instance insertIntoDB:[[DBManager getInstance] getDatabase]];
+	[instance insertIntoDB:[dbm getDatabase]];
+    
+    NSMutableArray *progressList = [dbm getAllProgressHistoryForTask:rt.primaryKey];
+    
+    for (TaskProgress *progress in progressList)
+    {
+        progress.task = instance;
+        
+        [progress updateIntoDB:[dbm getDatabase]];
+    }
 	
 	Task *nextInstance = nil;
 	
@@ -4249,7 +4262,7 @@ TaskManager *_sctmSingleton = nil;
 	{
 		[self doneRT:slTask];	
         
-        task.deadline = slTask.deadline;
+        //task.deadline = slTask.deadline;
 	}
 	else if ([slTask isTask])
 	{

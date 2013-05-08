@@ -1912,7 +1912,11 @@ SmartListViewController *_smartListViewCtrler;
 - (void)scheduleFinished:(NSNotification *)notification
 {
     //printf("smart list schedule finished - refresh layout\n");
-    [self refreshLayout];
+    
+    if ([_abstractViewCtrler checkControllerActive:1])
+    {
+        [self refreshLayout];
+    }
 }
 
 /*
@@ -2791,11 +2795,11 @@ SmartListViewController *_smartListViewCtrler;
     smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
     smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
 
-	smartListView.scrollEnabled = YES;
+	//smartListView.scrollEnabled = YES;
 	smartListView.delegate = self;
 	smartListView.scrollsToTop = NO;	
 	smartListView.showsVerticalScrollIndicator = YES;
-	smartListView.directionalLockEnabled = YES;
+	//smartListView.directionalLockEnabled = YES;
 	
 	[contentView addSubview:smartListView];
 	[smartListView release];

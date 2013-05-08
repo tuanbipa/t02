@@ -237,11 +237,9 @@ extern BOOL _isiPad;
     UIButton *nextButton = (UIButton *) [self viewWithTag:11001];
     
     CGRect monRec = CGRectZero;
-    //monRec.origin.x = 110;
-    monRec.origin.x = prevButton.frame.origin.x + 50;
+    monRec.origin.x = prevButton.frame.origin.x + 30;
     monRec.origin.y = 5;
-    //monRec.size.width = self.bounds.size.width-50-monRec.origin.x;
-    monRec.size.width = nextButton.frame.origin.x - monRec.origin.x;
+    monRec.size.width = nextButton.frame.origin.x - monRec.origin.x + 20;
     monRec.size.height = 20;
     
     [[UIColor grayColor] set];

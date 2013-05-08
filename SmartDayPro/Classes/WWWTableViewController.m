@@ -717,6 +717,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	// remove the controller
 	//[self dismissModalViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    [wwwTableView reloadData];
 	
     return NO;
 }
