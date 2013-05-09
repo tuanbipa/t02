@@ -131,7 +131,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return self.plannerView.monthView;
 }
 
-
+- (PlannerBottomDayCal *)getPlannerDayCalendarView
+{
+    return self.plannerBottomDayCal;
+}
 /*
 - (void) hidePopover
 {

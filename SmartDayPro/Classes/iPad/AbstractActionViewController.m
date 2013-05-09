@@ -324,6 +324,9 @@ BOOL _autoPushPending = NO;
     AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     [plannerCalView refresh];
+    
+    PlannerBottomDayCal *planerDayCal = [self getPlannerDayCalendarView];
+    [planerDayCal refreshLayout];
 }
 
 - (void) resetAllData
