@@ -316,6 +316,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     NSSortDescriptor *startTimeSorter = [[NSSortDescriptor alloc] initWithKey:@"plannerStartTime" ascending:YES];
     NSSortDescriptor *durationSorter = [[NSSortDescriptor alloc] initWithKey:@"plannerDuration"  ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObjects: startTimeSorter, durationSorter, nil];
+    [startTimeSorter release];
+    [durationSorter release];
     [ades sortUsingDescriptors:sortDescriptors];
     
     // a3. draw ades
