@@ -379,4 +379,10 @@ extern PlannerViewController *_plannerViewCtrler;
         [_plannerViewCtrler editItem:self.task inView:self];
     }
 }
+
+- (void)dealloc {
+    [task release];
+    
+    [super dealloc];
+}
 @end

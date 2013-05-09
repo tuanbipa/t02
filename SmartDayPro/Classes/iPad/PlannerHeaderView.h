@@ -10,7 +10,7 @@
 
 @interface PlannerHeaderView : UIView {
     
-    UIButton *selectedButton;
+    //UIButton *selectedButton;
     //UILabel *titleLabel;
 }
 
