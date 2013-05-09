@@ -1726,7 +1726,7 @@ BOOL _autoPushPending = NO;
             
             if ([self isKindOfClass:[PlannerViewController class]]) {
                 // for planner
-                PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getMonthCalendarView];
+                PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
                 // reload openning week
                 [plannerMonthView collapseCurrentWeek];
                 [plannerMonthView expandCurrentWeek];
