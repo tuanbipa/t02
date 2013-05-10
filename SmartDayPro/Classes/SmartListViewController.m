@@ -1719,8 +1719,9 @@ SmartListViewController *_smartListViewCtrler;
     //[_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
     if (_plannerViewCtrler) {
         PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
-        [monthView collapseCurrentWeek];
-        [monthView expandCurrentWeek];
+        /*[monthView collapseCurrentWeek];
+        [monthView expandCurrentWeek];*/
+        [monthView refreshOpeningWeek:nil];
         [monthView refresh];
     } else {
         [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks

@@ -752,4 +752,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	highlightView.hidden = YES;
 }
+
+- (void) refreshOpeningWeek: (NSNotification *)notification {
+    [self collapseCurrentWeek];
+    [self expandCurrentWeek];
+    PlannerMonthCellView *cell = (PlannerMonthCellView *)highlightView.tag;
+    [self highlightCell:cell];
+}
 @end
