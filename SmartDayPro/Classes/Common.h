@@ -197,7 +197,7 @@ typedef enum
 typedef enum
 {
 	TASK_EXTRA_STATUS_NONE,
-    Task_EXTRA_STATUS_SHARED
+    TASK_EXTRA_STATUS_SHARED
 } TaskExtraStatus;
 
 typedef enum

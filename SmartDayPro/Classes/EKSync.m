@@ -1247,15 +1247,18 @@ extern BOOL _syncMatchHintShown;
         }        
     }
     
-    if (self.syncMode == SYNC_AUTO_1WAY)
+    if (self.syncMode != SYNC_MANUAL_2WAY_BACK) //only sync Projects for 2WAY-BACK mode
     {
-        [self sync1way];
+        if (self.syncMode == SYNC_AUTO_1WAY)
+        {
+            [self sync1way];
+        }
+        else
+        {
+            [self syncEvents];
+        }
     }
-    else
-    {
-        [self syncEvents];
-    }
-        
+    
     [self syncComplete];
 }
 
@@ -1343,7 +1346,7 @@ extern BOOL _syncMatchHintShown;
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (alertVw.tag == -10000 && buttonIndex == 1)
+    if (alertVw.tag == -10000)
     {
         if (buttonIndex == 1)
         {

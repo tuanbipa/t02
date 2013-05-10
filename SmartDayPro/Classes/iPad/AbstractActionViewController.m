@@ -1189,12 +1189,62 @@ BOOL _autoPushPending = NO;
     //[self deselect];
 }
 
+- (void) markDoneTask:(Task *)task
+{
+    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSDate *oldDeadline = [[task.deadline copy] autorelease];
+    BOOL isRT = [task isRT];
+    
+    //[tm markDoneTask:task];
+    
+    if ([task isDone])
+    {
+        [tm unDone:task];
+    }
+    else
+    {
+        [tm markDoneTask:task];
+    }
+    
+    if (oldDeadline != nil)
+    {
+        [calView refreshCellByDate:oldDeadline];
+        [plannerCalView refreshCellByDate:oldDeadline];
+        
+        if ([Common daysBetween:oldDeadline sinceDate:tm.today] <= 0)
+        {
+            [[self getFocusView] refreshData];
+        }
+    }
+    
+    if ([self checkControllerActive:3])
+    {
+        CategoryViewController *ctrler = [self getCategoryViewController];
+        
+        if (ctrler.filterType == TYPE_TASK)
+        {
+            [ctrler loadAndShowList];
+        }
+    }
+    
+    if (isRT)
+    {
+        [calView refreshCellByDate:task.deadline];
+        [plannerCalView refreshCellByDate:task.deadline];
+    }
+    
+}
+
 - (void) markDoneTask
 {
     Task *task = [self getActiveTask];
     
-    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     if (task != nil)
     {
@@ -1202,6 +1252,7 @@ BOOL _autoPushPending = NO;
         
         [self deselect];
         
+        /*
         TaskManager *tm = [TaskManager getInstance];
         
         NSDate *oldDeadline = [[task.deadline copy] autorelease];
@@ -1244,6 +1295,9 @@ BOOL _autoPushPending = NO;
             [calView refreshCellByDate:task.deadline];
             [plannerCalView refreshCellByDate:task.deadline];
         }
+        */
+        
+        [self markDoneTask:task];
         
         [task release];
     }
@@ -1263,6 +1317,20 @@ BOOL _autoPushPending = NO;
         [self deselect];
         
         Task *task = [[Task alloc] init];
+        
+        switch (tm.taskTypeFilter)
+        {
+            case TASK_FILTER_PINNED:
+            {
+                task.status = TASK_STATUS_PINNED;
+            }
+                break;
+            case TASK_FILTER_DUE:
+            {
+                task.deadline = [NSDate date];
+            }
+                break;
+        }
         
         task.project = note.project;
         task.name = note.name;
@@ -2030,13 +2098,21 @@ BOOL _autoPushPending = NO;
     //printf("Toodledo Sync complete\n");
     [self deselect];
     
+    Settings *settings = [Settings getInstance];
     TaskManager *tm = [TaskManager getInstance];
     
     int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
     
     if (mode != SYNC_AUTO_1WAY)
     {
-        [self resetAllData];
+        if (settings.ekSyncEnabled)
+        {
+            [[EKSync getInstance] initBackgroundSyncBack];
+        }
+        else
+        {
+            [self resetAllData];
+        }
     }
     else
     {
@@ -2055,13 +2131,21 @@ BOOL _autoPushPending = NO;
     //printf("Toodledo Sync complete\n");
     [self deselect];
     
+    Settings *settings = [Settings getInstance];
     TaskManager *tm = [TaskManager getInstance];
     
     int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
     
     if (mode != SYNC_AUTO_1WAY)
     {
-        [self resetAllData];
+        if (settings.ekSyncEnabled)
+        {
+            [[EKSync getInstance] initBackgroundSyncBack];
+        }
+        else
+        {
+            [self resetAllData];
+        }
     }
     else
     {

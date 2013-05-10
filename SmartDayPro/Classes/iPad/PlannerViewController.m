@@ -203,6 +203,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
     
     Task *task = [[[Task alloc] init] autorelease];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+	switch (tm.taskTypeFilter)
+	{
+		case TASK_FILTER_PINNED:
+		{
+			task.status = TASK_STATUS_PINNED;
+		}
+			break;
+		case TASK_FILTER_DUE:
+		{
+			task.deadline = [NSDate date];
+		}
+			break;
+	}    
 	
 	ctrler.task = task;
 	
@@ -260,6 +276,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) startMultiEdit:(id)sender
 {
+    [self deselect];
+    
     SmartListViewController *ctrler = [self getSmartListViewController];
     
     [ctrler multiEdit:YES];

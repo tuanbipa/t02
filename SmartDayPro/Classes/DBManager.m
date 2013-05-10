@@ -3097,7 +3097,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	NSMutableArray *activeTaskList = [NSMutableArray arrayWithCapacity:20];
 	
-	const char *sql = "SELECT a.Task_ID, Task_ProjectID, Task_TimerStatus, Task_Name, TaskProgress_ID \
+	const char *sql = "SELECT a.Task_ID, Task_ProjectID, Task_TimerStatus, Task_Name, Task_Deadline  \
 	FROM TaskTable a, TaskProgressTable b WHERE Task_Type = ? AND (Task_Status <> ? AND Task_Status <> ?) AND (Task_TimerStatus = ? OR Task_TimerStatus = ?) \
 	AND a.Task_ID = b.Task_ID GROUP BY a.Task_ID ORDER BY TaskProgress_ID DESC";
 	sqlite3_stmt *statement;
@@ -3126,6 +3126,9 @@ static sqlite3_stmt *_top_task_statement = nil;
 			
 			char *name = (char *) sqlite3_column_text(statement, 3);	
 			task.name = [NSString stringWithUTF8String:name];
+            
+            NSTimeInterval deadlineValue = sqlite3_column_double(statement, 4);
+			task.deadline = (deadlineValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:deadlineValue]]);
 			
 			task.lastProgress = [self getLastProgressForTask:task.primaryKey];
 			
@@ -3143,7 +3146,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	NSMutableArray *inProgressTaskList = [NSMutableArray arrayWithCapacity:20];
 	
-	const char *sql = "SELECT a.Task_ID, Task_ProjectID, Task_Name FROM TaskTable a, TaskProgressTable b \
+	const char *sql = "SELECT a.Task_ID, Task_ProjectID, Task_Name, Task_Deadline FROM TaskTable a, TaskProgressTable b \
 	WHERE Task_Type = ? AND (Task_Status <> ? AND Task_Status <> ?) AND Task_TimerStatus = ? AND a.Task_ID = b.Task_ID GROUP BY a.Task_ID ORDER BY TaskProgress_ID DESC";
 	sqlite3_stmt *statement;
 	// Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
@@ -3159,6 +3162,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 			int primaryKey = sqlite3_column_int(statement, 0);
 			int projectKey = sqlite3_column_int(statement, 1);
 			char *name = (char *)sqlite3_column_text(statement, 2);			
+            NSTimeInterval deadlineValue = sqlite3_column_double(statement, 3);
 			// We avoid the alloc-init-autorelease pattern here because we are in a tight loop and
 			// autorelease is slightly more expensive than release. This design choice has nothing to do with
 			// actual memory management - at the end of this block of code, all the book objects allocated
@@ -3171,6 +3175,9 @@ static sqlite3_stmt *_top_task_statement = nil;
 			task.name = [NSString stringWithUTF8String:name];
 			task.timerStatus = TASK_TIMER_STATUS_PAUSE;
             task.listSource = SOURCE_TIMER;
+            
+			task.deadline = (deadlineValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:deadlineValue]]);
+            
 			
 			[inProgressTaskList addObject:task];
 			[task release];

@@ -48,6 +48,9 @@
 	//UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
 	contentView.backgroundColor=[UIColor darkGrayColor];
+    
+	self.view = contentView;
+	[contentView release];    
 	
 	//editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 20, frm.size.width - 20, 140)];
     editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - [Common getKeyboardHeight] - 40 - 20)];
@@ -63,7 +66,7 @@
 	[contentView addSubview:editTextView];
 	[editTextView release];	
 
-	//doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
+    /*
     doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height - [Common getKeyboardHeight] - 40, frm.size.width, 40)];
 	doneBarView.backgroundColor=[UIColor clearColor];
 	doneBarView.hidden = YES;
@@ -79,7 +82,7 @@
 	[backgroundView release];
 	
 	UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	//doneButton.frame = CGRectMake(250, 5, 60, 30);
+
     doneButton.frame = CGRectMake(frm.size.width-70, 5, 60, 30);
 	doneButton.alpha=1;
 	[doneButton setTitle:_doneText forState:UIControlStateNormal];
@@ -101,9 +104,7 @@
 	
 	[doneBarView addSubview:doneButton];
 	[doneBarView addSubview:cleanButton];
-	
-	self.view = contentView;
-	[contentView release];
+	*/
 	
 	self.navigationItem.title = _descriptionText;
 }
@@ -139,8 +140,10 @@
 
 - (void)done:(id) sender
 {
-	doneBarView.hidden = YES;
-	self.task.note = editTextView.text;
+	//doneBarView.hidden = YES;
+	//self.task.note = editTextView.text;
+    
+    [editTextView resignFirstResponder];
 	
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -153,8 +156,20 @@
 
 #pragma mark textView delegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-	doneBarView.hidden = NO;
+	//doneBarView.hidden = NO;
+    
+    NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"DescriptionInputAccessoryView"
+                                                   owner:self
+                                                 options:nil];
+    
+    editTextView.inputAccessoryView = [views objectAtIndex:0];
+    
 	return YES;
+}
+
+- (void) textViewDidEndEditing:(UITextView *)textView
+{
+    self.task.note = editTextView.text;
 }
 
 /*

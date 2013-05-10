@@ -343,7 +343,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
     
-    //listTableView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
     noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
 }
 
@@ -356,16 +355,36 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	if ([[Settings getInstance] deleteWarning])
 	{
-		NSString *msg = _itemDeleteText;
-		NSInteger tag = -10000;
-		
-		UIAlertView *taskDeleteAlertView = [[UIAlertView alloc] initWithTitle:_itemDeleteTitle  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
-		
-		taskDeleteAlertView.tag = tag;
-		
-		[taskDeleteAlertView addButtonWithTitle:_okText];
-		[taskDeleteAlertView show];
-		[taskDeleteAlertView release];
+        BOOL needConfirm = NO;
+        
+        for (UIView *view in noteListView.subviews)
+        {
+            if ([view isKindOfClass:[TaskView class]])
+            {
+                TaskView *tv = (TaskView *)view;
+                
+                if ([tv isMultiSelected])
+                {
+                    needConfirm = YES;
+                    
+                    break;
+                }
+            }
+        }
+        
+        if (needConfirm)
+        {
+            NSString *msg = _itemDeleteText;
+            NSInteger tag = -10000;
+            
+            UIAlertView *taskDeleteAlertView = [[UIAlertView alloc] initWithTitle:_itemDeleteTitle  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
+            
+            taskDeleteAlertView.tag = tag;
+            
+            [taskDeleteAlertView addButtonWithTitle:_okText];
+            [taskDeleteAlertView show];
+            [taskDeleteAlertView release];
+        }
 	}
 	else
 	{
@@ -376,21 +395,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) doMultiDeleteTask
 {
     NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
-    
-    /*
-    for (int i=0; i<self.noteList.count; i++)
-    {
-        UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         
-        TaskView *taskView = (TaskView *) [cell.contentView viewWithTag:10000];
-        
-        if ([taskView isMultiSelected])
-        {
-            [taskList addObject:taskView.task];
-        }
-    }
-    */
-    
     for (UIView *view in noteListView.subviews)
     {
         if ([view isKindOfClass:[TaskView class]] && [((TaskView *)view) isMultiSelected])
@@ -456,8 +461,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     UIToolbar *editToolbar = (UIToolbar *)[editBarPlaceHolder viewWithTag:10000];
     editToolbar.frame = editBarPlaceHolder.bounds;
     
-    //listTableView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
-    noteListView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
+    //noteListView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
+    
+    BOOL isMultiEdit = !editBarPlaceHolder.hidden;
+    
+    CGFloat h = (settings.tabBarAutoHide?0:40) + (isMultiEdit?40:0);
+    
+    noteListView.frame = CGRectMake(0, isMultiEdit?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
 }
 
 -(void) createEditBar

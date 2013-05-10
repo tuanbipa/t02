@@ -1937,7 +1937,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 -(BOOL) isShared
 {
-    return self.extraStatus == Task_EXTRA_STATUS_SHARED;
+    return self.extraStatus == TASK_EXTRA_STATUS_SHARED;
 }
 
 -(BOOL)checkMustDo

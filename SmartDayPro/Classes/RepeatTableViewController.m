@@ -397,6 +397,11 @@ extern BOOL _isiPad;
 #pragma mark Actions
 -(void)save:(id)sender
 {
+    if ([activeTextField isFirstResponder])
+    {
+        [activeTextField resignFirstResponder];
+    }
+    
 	self.task.repeatData = self.repeatData;
 	
 	[self.navigationController popViewControllerAnimated:YES];	
