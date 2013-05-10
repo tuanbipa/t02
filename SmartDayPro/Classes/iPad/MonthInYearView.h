@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface MonthInYearView : UIView {
-    NSInteger month;
-    NSInteger year;
-    NSDate *monthDate;
+//    NSInteger month;
+//    NSInteger year;
+//    NSDate *monthDate;
     
     NSInteger todayCellIndex;
 }

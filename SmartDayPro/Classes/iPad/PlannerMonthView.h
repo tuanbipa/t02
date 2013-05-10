@@ -17,10 +17,10 @@
     
     NSInteger todayCellIndex;
 	
-	NSInteger currentMonth;
-	NSInteger currentYear;
+	//NSInteger currentMonth;
+	//NSInteger currentYear;
     
-    NSInteger nDays;
+    //NSInteger nDays;
 	NSInteger nWeeks;
     
     NSInteger skinStyle; //0:white;1:black

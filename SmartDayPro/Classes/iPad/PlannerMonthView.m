@@ -37,7 +37,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         self.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
         
         todayCellIndex = -1;
-        nDays = 0;
+        //nDays = 0;
         nWeeks = 0;
         //self.skinStyle = _isiPad?0:1;
         self.skinStyle = 0;
@@ -217,7 +217,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks
 {
-	nDays = days;
+	//nDays = days;
 	nWeeks = weeks;
 	
 	/*BOOL weekStartOnMonday = [[Settings getInstance] isMondayAsWeekStart];

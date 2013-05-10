@@ -156,10 +156,10 @@ extern PlannerViewController *_plannerViewCtrler;
 	
 	for (int i=0; i<42; i++)
 	{
-		if (i > 0)
+		/*if (i > 0)
 		{
 			lastDate = [Common dateByAddNumDay:i toDate:startDate];
-		}
+		}*/
         
 		NSDateComponents *comps = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:lastDate];
 		
@@ -179,11 +179,8 @@ extern PlannerViewController *_plannerViewCtrler;
 			
 			todayCellIndex = i;
 		}
-		
-		/*if (cell.day == dtComps.day && cell.month == dtComps.month && cell.year == dtComps.year)
-		{
-			[self highlightCell:cell];
-		}*/
+        
+        lastDate = [Common dateByAddNumDay:i toDate:startDate];
 	}
 }
 
