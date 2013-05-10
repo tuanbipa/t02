@@ -694,6 +694,8 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) startMultiEdit:(id)sender
 {
+    [self deselect];
+    
     UIButton *btn = (UIButton *)sender;
     
     int index = btn.tag - 25000;

@@ -49,6 +49,7 @@
 - (MiniMonthView *) getMiniMonth;
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
+- (void) markDoneTask:(Task *)task;
 //- (void) changeItem:(Task *)task;
 - (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule;
 

@@ -797,10 +797,17 @@ extern PlannerViewController *_plannerViewCtrler;
     
     if (task.type == TYPE_ADE)
     {
-        CGRect frm = CGRectOffset(rect, SPACE_PAD, 0);
+        /*CGRect frm = CGRectOffset(rect, SPACE_PAD, 0);
         
         frm.size.height -= 2;
         frm.size.width -= 2*SPACE_PAD;
+        */
+        
+        rect = CGRectOffset(rect, SPACE_PAD, 0);
+        rect.size.width -= 2*SPACE_PAD;
+        
+        CGRect frm = rect;
+        frm.size.height -= 2;
         
         [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
         fillRoundedRect(ctx, frm, 5, 5);
@@ -960,12 +967,12 @@ extern PlannerViewController *_plannerViewCtrler;
 		frm.size.width = LINK_SIZE;
 		frm.size.height = LINK_SIZE;
         
-		frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE;
+		frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE - SPACE_PAD;
 		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
 		
 		[self drawLink:frm context:ctx];
         
-        rect.size.width -= LINK_SIZE;
+        rect.size.width -= LINK_SIZE + SPACE_PAD;
     }
     else
     {
@@ -1060,12 +1067,18 @@ extern PlannerViewController *_plannerViewCtrler;
     
     if (task.type == TYPE_ADE)
     {
-        //CGRect frm = CGRectOffset(rect, SPACE_PAD, 10);
+        /*
         CGRect frm = CGRectOffset(rect, SPACE_PAD, 0);
 
-        //frm.size.height -= 20;
         frm.size.height -= 2;
         frm.size.width -= 2*SPACE_PAD;
+        */
+        
+        rect = CGRectOffset(rect, SPACE_PAD, 0);
+        rect.size.width -= 2*SPACE_PAD;
+        
+        CGRect frm = rect;
+        frm.size.height -= 2;
         
         [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
         fillRoundedRect(ctx, frm, 5, 5);
@@ -1237,12 +1250,12 @@ extern PlannerViewController *_plannerViewCtrler;
 		frm.size.width = LINK_SIZE;
 		frm.size.height = LINK_SIZE;
         
-		frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE;
+		frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE - SPACE_PAD;
 		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
 		
 		[self drawLink:frm context:ctx];
         
-        rect.size.width -= LINK_SIZE;
+        rect.size.width -= LINK_SIZE + SPACE_PAD;
     }
     else 
     {

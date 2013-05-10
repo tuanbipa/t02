@@ -329,6 +329,21 @@ AbstractSDViewController *_abstractViewCtrler;
             }
         }
     }
+    
+    for (Task *task in self.noteList)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == sourceId)
+            {
+                task.links = [tlm getLinkIds4Task:sourceId];
+            }
+            else if (task.primaryKey == destId)
+            {
+                task.links = [tlm getLinkIds4Task:destId];
+            }
+        }
+    }
 }
 
 - (void) refreshTaskView4Key:(NSInteger)taskKey

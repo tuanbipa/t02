@@ -1426,6 +1426,8 @@
 		67EFEEF616A53B410096360B /* module_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EFEEF516A53B410096360B /* module_add.png */; };
 		67F6B8CD16FAB409004EEB69 /* PlannerItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */; };
 		67F6B8CE16FAB409004EEB69 /* PlannerItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */; };
+		67F83B0D173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */; };
+		67F83B0E173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */; };
 		67F95E5116DB1A1600B81A42 /* SeekOrCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */; };
 		67FADC2616D3596A009D835D /* iPadSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC2516D3596A009D835D /* iPadSettingViewController.m */; };
 		67FADC2F16D35CF8009D835D /* settings_calendars.png in Resources */ = {isa = PBXBuildFile; fileRef = 67FADC2716D35CF8009D835D /* settings_calendars.png */; };
@@ -2354,6 +2356,7 @@
 		67EFEEF516A53B410096360B /* module_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = module_add.png; sourceTree = "<group>"; };
 		67F6B8CB16FAB409004EEB69 /* PlannerItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerItemView.h; sourceTree = "<group>"; };
 		67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerItemView.m; sourceTree = "<group>"; };
+		67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DescriptionInputAccessoryView.xib; sourceTree = "<group>"; };
 		67F95E4F16DB1A1600B81A42 /* SeekOrCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeekOrCreateViewController.h; sourceTree = "<group>"; };
 		67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeekOrCreateViewController.m; sourceTree = "<group>"; };
 		67FADC2416D35969009D835D /* iPadSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSettingViewController.h; sourceTree = "<group>"; };
@@ -3455,6 +3458,7 @@
 		67CF2EA7161951B8001FE1AA /* Resources-iPad */ = {
 			isa = PBXGroup;
 			children = (
+				67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */,
 				67CF2EA8161951B8001FE1AA /* MainWindow.xib */,
 				67E7789817374853004D227F /* NoteInputAccessoryView.xib */,
 			);
@@ -4121,6 +4125,7 @@
 				67EABEA1171E7F0E007C3680 /* planner_task_top_bg.png in Resources */,
 				67EABEA3171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 				67E7789917374853004D227F /* NoteInputAccessoryView.xib in Resources */,
+				67F83B0D173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4654,6 +4659,7 @@
 				67EABEA2171E7F0E007C3680 /* planner_task_top_bg.png in Resources */,
 				67EABEA4171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 				67E7789A17374853004D227F /* NoteInputAccessoryView.xib in Resources */,
+				67F83B0E173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

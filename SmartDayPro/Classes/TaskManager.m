@@ -4923,7 +4923,7 @@ TaskManager *_sctmSingleton = nil;
 	{
 		NSDictionary *tagDict = [self getFilterTagDict];
         
-        NSDictionary *categoryDict = [self getFilterCategoryDict];
+        //NSDictionary *categoryDict = [self getFilterCategoryDict];
 
 		for (Task *task in list)
 		{

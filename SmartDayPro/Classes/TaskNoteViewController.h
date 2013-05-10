@@ -19,4 +19,7 @@
 
 @property (nonatomic, assign) Task *task;
 
+- (IBAction) clean:(id)sender;
+- (IBAction) done:(id)sender;
+
 @end

@@ -837,6 +837,22 @@ EKReminderSync *_ekReminderSyncSingleton;
         task.repeatData = nil;
     }
     
+	NSInteger taskPlacement = [[Settings getInstance] newTaskPlacement];
+    
+    DBManager *dbm = [DBManager getInstance];
+	
+	if (task.primaryKey == -1)
+	{
+		if (taskPlacement == 0) //on top
+		{
+			task.sequenceNo = [dbm getTaskMinSortSeqNo] - 1;
+		}
+		else
+		{
+			task.sequenceNo = [dbm getTaskMaxSortSeqNo] + 1;
+		}
+	}
+    
 	if (task.primaryKey > -1)
 	{
 		[task externalUpdate];

@@ -382,9 +382,11 @@ TimerManager *_timerManagerSingleton;
 		
 		//[task updateStatusIntoDB:[dbm getDatabase]];
         
-        TaskManager *tm = [TaskManager getInstance];
+        //TaskManager *tm = [TaskManager getInstance];
         
-        [tm markDoneTask:task]; //mark done task also removes task from Timer list
+        //[tm markDoneTask:task]; //mark done task also removes task from Timer list
+        
+        [_abstractViewCtrler markDoneTask:task];
 	}
 	
 	//[sourceList removeObject:task];
