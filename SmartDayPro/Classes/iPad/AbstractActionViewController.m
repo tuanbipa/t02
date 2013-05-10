@@ -1729,10 +1729,13 @@ BOOL _autoPushPending = NO;
             
             if ([self isKindOfClass:[PlannerViewController class]]) {
                 // for planner
-                PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
+                //PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
                 // reload openning week
-                [plannerMonthView collapseCurrentWeek];
-                [plannerMonthView expandCurrentWeek];
+                //[plannerMonthView collapseCurrentWeek];
+                //[plannerMonthView expandCurrentWeek];
+
+                PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+                [plannerDayCal refreshLayout];
             } else {
                 MiniMonthView *mmView = [self getMiniMonth];
                 
