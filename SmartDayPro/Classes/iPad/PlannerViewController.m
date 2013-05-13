@@ -183,7 +183,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     //[super reconcileItem:item reSchedule:reSchedule];
     
     if ([item isNote]) {
-        PlannerMonthView *monthView = (PlannerMonthView*)[self getMonthCalendarView];
+        PlannerMonthView *monthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
         [monthView refreshCellByDate:item.startTime];
     } else if ([item isEvent]) {
         [plannerBottomDayCal.calendarLayoutController layout];
