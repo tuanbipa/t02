@@ -1635,7 +1635,6 @@ SmartListViewController *_smartListViewCtrler;
         */
         
         [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
->>>>>>> Stashed changes
     }
 }
 
