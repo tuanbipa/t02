@@ -85,17 +85,6 @@ extern PlannerViewController *_plannerViewCtrler;
         
         // init quick-add-event view
         CGFloat dayWidth = (self.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
-        /*quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, dayWidth, 2*TIME_SLOT_HEIGHT)];
-        quickAddTextField.delegate = self;
-        quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
-        quickAddTextField.keyboardType=UIKeyboardTypeDefault;
-        quickAddTextField.returnKeyType = UIReturnKeyDone;
-        quickAddTextField.font=[UIFont systemFontOfSize:16];
-        quickAddTextField.hidden = YES;
-        [self addSubview:quickAddTextField];
-        [quickAddTextField release];*/
-        
-        //TaskManager *tm = [TaskManager getInstance];
         
         quickAddBackgroundView = [[TaskView alloc] initWithFrame:CGRectMake(0, 0, dayWidth, 2*TIME_SLOT_HEIGHT)];
         quickAddBackgroundView.task = tm.eventDummy;

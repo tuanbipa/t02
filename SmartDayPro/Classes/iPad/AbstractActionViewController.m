@@ -1796,11 +1796,11 @@ BOOL _autoPushPending = NO;
 			[[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:buttonIndex];
             
             if ([self isKindOfClass:[PlannerViewController class]]) {
-                if (!isADE) {
-                    /*PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
+                if (isADE) {
+                    PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
                     // reload openning week
                     [plannerMonthView refreshOpeningWeek:nil];
-                } else {*/
+                } else {
                     PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
                     [plannerDayCal refreshLayout];
                 }

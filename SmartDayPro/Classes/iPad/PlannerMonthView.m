@@ -99,8 +99,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         openningWeek = -1;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refreshOpeningWeek:)                                   name:@"FastScheduleFinishedNotification" object:nil];
+        /*[[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshOpeningWeek:)                                   name:@"FastScheduleFinishedNotification" object:nil];*/
     }
     return self;
 }

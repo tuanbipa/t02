@@ -691,4 +691,50 @@ extern AbstractSDViewController *_abstractViewCtrler;
     //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
+
+- (void)changeTime:(Task *)task time:(NSDate *)time {
+    
+    NSDate *sDate = [task.startTime copy];
+    NSDate *dDate = [task.deadline copy];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    [tm moveTime:time forEvent:task];
+    
+    if ([task isRE])
+    {
+        MiniMonthView *mmView = [self getMiniMonth];
+        
+        if (mmView != nil)
+        {
+            [mmView refresh];
+        }
+    }
+    else
+    {
+        AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+        
+        //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+        
+        //if (calView != nil)
+        {
+            if (sDate != nil)
+            {
+                [calView refreshCellByDate:sDate];
+                //[plannerCalView refreshCellByDate:sDate];
+                
+                [sDate release];
+            }
+            
+            if (dDate != nil)
+            {
+                [calView refreshCellByDate:dDate];
+                //[plannerCalView refreshCellByDate:dDate];
+                [dDate release];
+            }
+            
+            [calView refreshCellByDate:task.startTime];
+            //[plannerCalView refreshCellByDate:task.startTime];
+        }
+    }
+}
 @end

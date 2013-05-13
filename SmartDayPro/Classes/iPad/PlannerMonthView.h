@@ -58,5 +58,5 @@
 - (void) refreshCellByDate:(NSDate *)date;
 - (void) highlightCellAtPoint:(CGPoint) point;
 - (void) unhighlight;
-//- (void) refreshOpeningWeek: (NSNotification *)notification;
+- (void) refreshOpeningWeek: (NSNotification *)notification;
 @end

@@ -95,9 +95,9 @@ extern PlannerViewController *_plannerViewCtrler;
 - (void) changeTime:(Task *)task time:(NSDate *)time
 {
     
-    TaskManager *tm = [TaskManager getInstance];
-    
-    [tm moveTime:time forEvent:task];
-    
+//    TaskManager *tm = [TaskManager getInstance];
+//    
+//    [tm moveTime:time forEvent:task];
+    [_plannerViewCtrler changeTime:task time:time];
 }
 @end
