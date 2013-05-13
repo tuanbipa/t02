@@ -363,6 +363,8 @@ extern PlannerViewController *_plannerViewCtrler;
     scrollView.scrollEnabled = NO;
 	scrollView.userInteractionEnabled = NO;
     
+    _plannerViewCtrler.plannerView.userInteractionEnabled = NO;
+    
     // 1, calculate X
     CGPoint coords = [sender locationInView:sender.view];
     //CGFloat dayWidth = (self.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
@@ -468,7 +470,8 @@ extern PlannerViewController *_plannerViewCtrler;
     quickAddBackgroundView.hidden = YES;
 	scrollView.scrollEnabled = YES;
 	scrollView.userInteractionEnabled = YES;
-	//addButton.enabled = YES;
+    
+	_plannerViewCtrler.plannerView.userInteractionEnabled = YES;
 	
 	if (![text isEqualToString:@""])
 	{
