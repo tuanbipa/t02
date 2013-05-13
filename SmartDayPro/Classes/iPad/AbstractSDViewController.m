@@ -345,7 +345,7 @@ extern BOOL _isiPad;
     CategoryViewController *catCtrler = [self getCategoryViewController];
     [catCtrler loadAndShowList];    
 }
-
+/*
 #pragma mark Alert Handle
 
 - (void)reloadAlerts:(NSNotification *)notification
@@ -373,7 +373,7 @@ extern BOOL _isiPad;
         [focusView reloadAlert4Task:taskId];
     }
 }
-
+*/
 #pragma mark View
 
 -(void)changeSkin

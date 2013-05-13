@@ -453,19 +453,21 @@ extern BOOL _isiPad;
     }
     else 
     {
+        NSDate *date = [[TaskManager getInstance] today];
+        
         if (self.taskCopy.type == TYPE_ADE)
         {
-            self.taskCopy.startTime = [Common clearTimeForDate:[NSDate date]];
-            self.taskCopy.endTime = [Common getEndDate:[NSDate date]];
+            self.taskCopy.startTime = [Common clearTimeForDate:date];
+            self.taskCopy.endTime = [Common getEndDate:date];
         }
         else 
         {
-            self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
+            self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:date];
             self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];            
         }        
     }
 	
-	if (self.taskCopy.alerts != nil && self.taskCopy.alerts.count > 0 && self.taskCopy.type == TYPE_TASK && self.taskCopy.deadline == nil)
+	if (self.taskCopy.alerts != nil && self.taskCopy.alerts.count > 0 && [self.taskCopy isTask] && self.taskCopy.deadline == nil)
 	{
 		self.taskCopy.deadline = [[Settings getInstance] getWorkingEndTimeForDate:[NSDate date]]; //Task has alerts -> set due Today
 	}

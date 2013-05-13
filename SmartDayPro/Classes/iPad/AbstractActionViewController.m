@@ -2206,6 +2206,8 @@ BOOL _autoPushPending = NO;
 
 - (void) reloadAlert4Task:(NSInteger)taskId
 {
+    printf("reload alert for task: %d\n", taskId);
+    
     TaskManager *tm = [TaskManager getInstance];
     
     [tm reloadAlert4Task:taskId];

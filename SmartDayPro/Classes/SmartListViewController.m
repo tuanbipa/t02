@@ -1914,7 +1914,7 @@ SmartListViewController *_smartListViewCtrler;
 {
     //printf("smart list schedule finished - refresh layout\n");
     
-    if ([_abstractViewCtrler checkControllerActive:1])
+    if (_plannerViewCtrler != nil || [_abstractViewCtrler checkControllerActive:1])
     {
         [self refreshLayout];
     }

@@ -1366,6 +1366,8 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) refreshTopTasks
 {
+    //printf("refresh GTD\n");
+    
     NSMutableArray *tasks = [NSMutableArray arrayWithArray:self.taskList];
     
     [tasks addObjectsFromArray:self.mustDoTaskList];
