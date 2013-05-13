@@ -445,7 +445,7 @@
 "_gtdoTabHintText" = "\"GTDo\" filter automates GTD for you.  The top task from each of your Projects always shows here.  Mark one as \"done\" and the next task from that Project automatically replaces it!";
 "_tagHintText" = "Create tags, then select to show up to 9 as presets.  These can be chosen when you create or edit new Task or Event item.";
 "_loadingText" = "Loading...";
-"_deleteCategoryWarningText" = "Warning!\nThis will delete your Project in all SmartDay apps. It will also delete the corresponding Calendar in your iPhone Calendar, and any external calendars such as Exchange and iCloud.  It will also delete your Toodledo Folder of the same name.";
+"_deleteCategoryWarningText" = "Warning!\nThis will delete your Project in all SmartDay apps. It will also delete the corresponding Calendar in your iOS Calendar, and any external calendars such as Exchange and iCloud.  It will also delete your Toodledo Folder of the same name.";
 "_keepDataText" = "Keep Data";
 "_yesText" = "Yes";
 "_noText" = "No";

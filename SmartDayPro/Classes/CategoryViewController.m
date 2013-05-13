@@ -311,16 +311,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) reloadAlert4Task:(NSInteger)taskId
 {
-    for (Task *task in self.list)
+    for (NSObject *obj in self.list)
     {
-        if (task.original == nil || [task isREException])
+        if ([obj isKindOfClass:[Task class]])
         {
-            if (task.primaryKey == taskId)
+            Task *task = (Task *) obj;
+            
+            if (task.original == nil || [task isREException])
             {
-                task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
-                
-                break;
-            }
+                if (task.primaryKey == taskId)
+                {
+                    task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
+                    
+                    break;
+                }
+            }            
         }
     }
 }

@@ -306,21 +306,19 @@ extern BOOL _syncMatchHintShown;
 
 -(void) updateEKEvent:(EKEvent *)ekEvent withSCEvent:(Task *)scEvent
 {
+    ekEvent.allDay = NO;
 	ekEvent.title = scEvent.name;
 	ekEvent.location = scEvent.location;
 	ekEvent.notes = scEvent.note;
 	ekEvent.startDate = scEvent.startTime;
 	ekEvent.endDate = scEvent.endTime;
-    ekEvent.allDay = NO;
-	//ekEvent.recurrenceRule = nil;
-	
-	if (scEvent.type == TYPE_ADE)
+    
+	if ([scEvent isADE])
 	{
 		ekEvent.allDay = YES;
-		//ekEvent.endDate = [Common dateByAddNumSecond:-1 toDate:scEvent.endTime];
         ekEvent.endDate = scEvent.endTime;
 	}
-	
+
 	if (scEvent.repeatData != nil && scEvent.groupKey == -1)
 	{
 		//ekEvent.recurrenceRule = [self buildRRule:scEvent.repeatData startDate:scEvent.startTime];

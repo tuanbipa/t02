@@ -495,7 +495,9 @@ extern BOOL _isiPad;
     }
     else 
     {
-        self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
+        TaskManager *tm = [TaskManager getInstance];
+        
+        self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
         self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];            
     } 
     

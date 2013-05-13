@@ -798,7 +798,7 @@ BOOL _autoPushPending = NO;
         [focusView reconcileItem:item];
     }
     
-    if ([item isADE])
+    //if ([item isADE]) -> need to update when convert from ADE -> Event also
     {
         AbstractMonthCalendarView *calView = [self getMonthCalendarView];
         
@@ -2206,8 +2206,6 @@ BOOL _autoPushPending = NO;
 
 - (void) reloadAlert4Task:(NSInteger)taskId
 {
-    printf("reload alert for task: %d\n", taskId);
-    
     TaskManager *tm = [TaskManager getInstance];
     
     [tm reloadAlert4Task:taskId];

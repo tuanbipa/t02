@@ -1585,6 +1585,8 @@ SmartListViewController *_smartListViewCtrler;
         }
     }
     
+    [self multiEdit:NO];
+    
     if (viewList.count > 0)
     {
         for (UIView *view in viewList)
@@ -1592,14 +1594,20 @@ SmartListViewController *_smartListViewCtrler;
             [view removeFromSuperview];
         }
         
+        printf("1\n");
+        
         [[TaskManager getInstance] deleteTasks:taskList];
         
+        /*
+
+        printf("2\n");
         if ([_abstractViewCtrler checkControllerActive:3])
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
             if (ctrler.filterType == TYPE_TASK)
             {
+                        printf("3\n");
                 [ctrler loadAndShowList];
             }
         }
@@ -1608,18 +1616,27 @@ SmartListViewController *_smartListViewCtrler;
         
         if (focusView != nil && [focusView checkExpanded])
         {
+                    printf("4\n");
             [focusView refreshData];
         }
+                printf("5\n");
         
+<<<<<<< Updated upstream
         if (_plannerViewCtrler) {
             PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
             [monthView refresh];
         } else {
             [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
         }
+=======
+        [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
+        
+                printf("6\n");
+        */
+        
+        [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
+>>>>>>> Stashed changes
     }
-    
-    [self multiEdit:NO];    
 }
 
 - (void) confirmMultiDeleteTask
