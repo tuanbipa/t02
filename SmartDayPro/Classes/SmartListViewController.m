@@ -1594,7 +1594,7 @@ SmartListViewController *_smartListViewCtrler;
             [view removeFromSuperview];
         }
         
-        printf("1\n");
+        //printf("1\n");
         
         [[TaskManager getInstance] deleteTasks:taskList];
         
@@ -1708,6 +1708,8 @@ SmartListViewController *_smartListViewCtrler;
         }
     }
     
+    [self multiEdit:NO];
+        
     if (viewList.count > 0)
     {
         for (UIView *view in viewList)
@@ -1735,8 +1737,7 @@ SmartListViewController *_smartListViewCtrler;
         [focusView refreshData];
     }
     
-    [self multiEdit:NO];
-    
+    /*
     if (_plannerViewCtrler) {
         PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
         [monthView refreshOpeningWeek:nil];
@@ -1744,6 +1745,10 @@ SmartListViewController *_smartListViewCtrler;
     } else {
         [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
     }
+    */
+    
+    [[_abstractViewCtrler getPlannerMonthCalendarView] refresh];
+    [[_abstractViewCtrler getMonthCalendarView] refresh];
 }
 
 - (void) confirmMultiMarkDone
