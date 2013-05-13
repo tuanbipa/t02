@@ -37,6 +37,7 @@
 #import "SmartListViewController.h"
 #import "NoteViewController.h"
 #import "CategoryViewController.h"
+#import "PlannerViewController.h"
 
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
@@ -46,6 +47,8 @@
 #import "SmartCalAppDelegate.h"
 
 extern BOOL _isiPad;
+
+extern PlannerViewController *_plannerViewCtrler;
 
 @interface AbstractSDViewController ()
 
@@ -183,6 +186,16 @@ extern BOOL _isiPad;
 - (MiniMonthView *) getMiniMonth
 {
     return self.miniMonthView;
+}
+
+- (AbstractMonthCalendarView *)getPlannerMonthCalendarView
+{
+    return [_plannerViewCtrler getPlannerMonthCalendarView];
+}
+
+- (PlannerBottomDayCal *) getPlannerDayCalendarView
+{
+    return [_plannerViewCtrler getPlannerDayCalendarView];
 }
 
 -(void)shrinkEnd

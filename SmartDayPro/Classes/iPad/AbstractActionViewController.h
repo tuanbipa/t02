@@ -16,6 +16,7 @@
 @class AbstractMonthCalendarView;
 @class FocusView;
 @class MiniMonthView;
+@class PlannerBottomDayCal;
 
 @class CalendarViewController;
 @class SmartListViewController;
@@ -45,6 +46,7 @@
 - (CategoryViewController *) getCategoryViewController;
 - (AbstractMonthCalendarView *)getMonthCalendarView;
 - (AbstractMonthCalendarView *)getPlannerMonthCalendarView;
+- (PlannerBottomDayCal *) getPlannerDayCalendarView;
 - (FocusView *) getFocusView;
 - (MiniMonthView *) getMiniMonth;
 
