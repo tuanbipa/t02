@@ -1611,7 +1611,12 @@ SmartListViewController *_smartListViewCtrler;
             [focusView refreshData];
         }
         
-        [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
+        if (_plannerViewCtrler) {
+            PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
+            [monthView refresh];
+        } else {
+            [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
+        }
     }
     
     [self multiEdit:NO];    
@@ -1716,12 +1721,8 @@ SmartListViewController *_smartListViewCtrler;
     
     [self multiEdit:NO];
     
-    //[_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
     if (_plannerViewCtrler) {
         PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
-        /*[monthView collapseCurrentWeek];
-        [monthView expandCurrentWeek];*/
-        [monthView refreshOpeningWeek:nil];
         [monthView refresh];
     } else {
         [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
