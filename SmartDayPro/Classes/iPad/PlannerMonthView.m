@@ -105,6 +105,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return self;
 }
 
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+     
+    [super dealloc];
+}
+
 - (void)initCalendar: (NSDate *)date {
     
     [self setTitleForCells:date];
@@ -591,11 +598,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
                                   firstDate, @"firstDate",
                                   nil] autorelease];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationAdjustPlannerMiniMonthHeight" object:nil userInfo:aDictionary];
-}
-
-- (void) dealloc {
-    
-    [super dealloc];
 }
 
 #pragma mark Actions
