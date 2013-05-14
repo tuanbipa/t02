@@ -161,6 +161,8 @@ extern BOOL _isiPad;
 
 @synthesize filterPresets;
 
+@synthesize timeZoneDict;
+
 - (id) init
 {
 	if (self = [super init])
@@ -408,10 +410,52 @@ extern BOOL _isiPad;
         
         [self loadFilterPresets];
         
+        [self loadTimeZoneDict];
+        
 	}
 	
 	return self;
 }
+
+- (void)dealloc {
+	self.weekdayStartTime = nil;
+	self.weekdayEndTime = nil;
+	self.weekendStartTime = nil;
+	self.weekendEndTime = nil;
+	
+	self.dayManagerStartTime = nil;
+	self.dayManagerEndTime = nil;
+	
+	self.tdEmail = nil;
+	self.tdPassword = nil;
+	self.tdLastAddEditTime = nil;
+	self.tdLastDeleteTime = nil;
+	self.tdLastSyncTime = nil;
+    
+    self.sdwEmail = nil;
+    self.sdwPassword = nil;
+    self.sdwDeviceUUID = nil;
+    self.sdwLastSyncTime = nil;
+	
+	self.dbVersion = nil;
+	self.appVersion = nil;
+	
+	self.settingDict = nil;
+	self.dayManagerDict = nil;
+	self.hintDict = nil;
+    self.sdwSyncDict = nil;
+    self.toodledoSyncDict = nil;
+    self.ekSyncDict = nil;
+    
+    self.filterPresets = nil;
+    
+    self.timeZoneDict = nil;
+    
+    self.updateTime = nil;
+	
+    [super dealloc];
+}
+
 
 - (id) copyWithZone:(NSZone*) zone{
 	Settings *copy = [[Settings alloc] init];
@@ -1309,6 +1353,11 @@ extern BOOL _isiPad;
 		//self.filterPresets = [NSMutableArray arrayWithCapacity:3];
         self.filterPresets = [NSMutableDictionary dictionaryWithCapacity:3];
 	}
+}
+
+- (void) loadTimeZoneDict
+{
+    self.timeZoneDict = [NSDictionary dictionaryWithContentsOfFile:[Common getFilePath:@"TimeZoneDict.dat"]];
 }
 
 - (void) saveSettingDict
@@ -2253,43 +2302,6 @@ extern BOOL _isiPad;
 	isExternalUpdate = YES;
 }
 
-- (void)dealloc {
-	self.weekdayStartTime = nil;
-	self.weekdayEndTime = nil;		
-	self.weekendStartTime = nil;
-	self.weekendEndTime = nil;
-	
-	self.dayManagerStartTime = nil;
-	self.dayManagerEndTime = nil;
-	
-	self.tdEmail = nil;
-	self.tdPassword = nil;
-	self.tdLastAddEditTime = nil;
-	self.tdLastDeleteTime = nil;
-	self.tdLastSyncTime = nil;
-    
-    self.sdwEmail = nil;
-    self.sdwPassword = nil;
-    self.sdwDeviceUUID = nil;
-    self.sdwLastSyncTime = nil;
-	
-	self.dbVersion = nil;
-	self.appVersion = nil;
-	
-	self.settingDict = nil;
-	self.dayManagerDict = nil;
-	self.hintDict = nil;
-    self.sdwSyncDict = nil;
-    self.toodledoSyncDict = nil;
-    self.ekSyncDict = nil;
-    
-    self.filterPresets = nil;
-    
-    self.updateTime = nil;
-	
-    [super dealloc];
-}
-
 #pragma mark Hints
 -(void)enableEventMapHint:(BOOL)enabled
 {
@@ -2515,9 +2527,29 @@ extern BOOL _isiPad;
 	[self clearHintFlags];
 }
 
++ (void)createTimeZoneDictIfNeeded {
+	BOOL success;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+	NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"TimeZoneDict.dat"];
+    success = [fileManager fileExistsAtPath:writableDBPath];
+    if (!success)
+	{
+		// The writable database does not exist, so copy the default to the appropriate location.
+		NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"TimeZoneDict.dat"];
+		success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
+		if (!success) {
+			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
+		}
+	}
+}
 
 +(void)startup
 {
+    [Settings createTimeZoneDictIfNeeded];
+    
 	[[Settings getInstance] clearHintFlags];
 }
 

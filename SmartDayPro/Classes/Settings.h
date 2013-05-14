@@ -249,6 +249,8 @@
 
 @property (nonatomic, retain) NSMutableDictionary *filterPresets;
 
+@property (nonatomic, retain) NSDictionary *timeZoneDict;
+
 - (WorkingTimeInfo) getWorkingTimeInfo:(BOOL) onWeekend;
 - (WorkingTimeInfo) getWorkingTimeInfoForDate:(NSDate *) date;
 - (NSDate *)getWorkingStartTimeForDate:(NSDate *)date;

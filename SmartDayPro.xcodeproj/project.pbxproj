@@ -639,6 +639,16 @@
 		67E1F4FC16E9D323002D70AF /* module_today@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4ED16E9D323002D70AF /* module_today@2x.png */; };
 		67E1F4FD16E9D323002D70AF /* pattern_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4EE16E9D323002D70AF /* pattern_dark.png */; };
 		67E1F4FE16E9D323002D70AF /* pattern_dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4EF16E9D323002D70AF /* pattern_dark@2x.png */; };
+		67E26D7F1741DC1B00638879 /* TimeZoneDict.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */; };
+		67E26D801741DC1B00638879 /* TimeZoneDict.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */; };
+		67E26D871741F0D600638879 /* SD_aboutUS_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D811741F0D500638879 /* SD_aboutUS_768.html */; };
+		67E26D881741F0D600638879 /* SD_aboutUS_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D811741F0D500638879 /* SD_aboutUS_768.html */; };
+		67E26D891741F0D600638879 /* SD_css_768.css in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D821741F0D500638879 /* SD_css_768.css */; };
+		67E26D8A1741F0D600638879 /* SD_css_768.css in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D821741F0D500638879 /* SD_css_768.css */; };
+		67E26D8B1741F0D600638879 /* SmartDayiPhone_205.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D831741F0D500638879 /* SmartDayiPhone_205.png */; };
+		67E26D8C1741F0D600638879 /* SmartDayiPhone_205.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D831741F0D500638879 /* SmartDayiPhone_205.png */; };
+		67E26D8D1741F0D600638879 /* SO_bg_768.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D841741F0D500638879 /* SO_bg_768.jpg */; };
+		67E26D8E1741F0D600638879 /* SO_bg_768.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D841741F0D500638879 /* SO_bg_768.jpg */; };
 		67E30FD8171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */; };
 		67E30FD9171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */; };
 		67E30FDA171405CF007AD2DE /* PlannerScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD7171405CF007AD2DE /* PlannerScheduleView.m */; };
@@ -2236,6 +2246,11 @@
 		67E1F4ED16E9D323002D70AF /* module_today@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "module_today@2x.png"; sourceTree = "<group>"; };
 		67E1F4EE16E9D323002D70AF /* pattern_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pattern_dark.png; sourceTree = "<group>"; };
 		67E1F4EF16E9D323002D70AF /* pattern_dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pattern_dark@2x.png"; sourceTree = "<group>"; };
+		67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TimeZoneDict.dat; sourceTree = "<group>"; };
+		67E26D811741F0D500638879 /* SD_aboutUS_768.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SD_aboutUS_768.html; sourceTree = "<group>"; };
+		67E26D821741F0D500638879 /* SD_css_768.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SD_css_768.css; sourceTree = "<group>"; };
+		67E26D831741F0D500638879 /* SmartDayiPhone_205.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmartDayiPhone_205.png; sourceTree = "<group>"; };
+		67E26D841741F0D500638879 /* SO_bg_768.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SO_bg_768.jpg; sourceTree = "<group>"; };
 		67E30FD4171405CF007AD2DE /* PlannerCalendarLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerCalendarLayoutController.h; sourceTree = "<group>"; };
 		67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerCalendarLayoutController.m; sourceTree = "<group>"; };
 		67E30FD6171405CF007AD2DE /* PlannerScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerScheduleView.h; sourceTree = "<group>"; };
@@ -2970,6 +2985,7 @@
 		67CF2D6A161951B7001FE1AA /* DB */ = {
 			isa = PBXGroup;
 			children = (
+				67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */,
 				67DCDDAC165F790F000DAE8B /* PresetTagDict.dat */,
 				67DCDDAD165F790F000DAE8B /* TagDict.dat */,
 				67CF2D6D161951B7001FE1AA /* SmartCalDB.sql */,
@@ -3468,6 +3484,12 @@
 		67CF2FE3161951C2001FE1AA /* WEB */ = {
 			isa = PBXGroup;
 			children = (
+				67E26D811741F0D500638879 /* SD_aboutUS_768.html */,
+				67E26D821741F0D500638879 /* SD_css_768.css */,
+				67E26D831741F0D500638879 /* SmartDayiPhone_205.png */,
+				67E26D841741F0D500638879 /* SO_bg_768.jpg */,
+				67E26D851741F0D600638879 /* userGuide */,
+				67E26D861741F0D600638879 /* userGuide2.0 */,
 				67E839DC16D609A000155ADE /* LCL_Products_Page_768.html */,
 				67E839DD16D609A000155ADE /* SB_205.png */,
 				67E839DE16D609A000155ADE /* SC_aboutUS_768.html */,
@@ -3528,6 +3550,20 @@
 				67D16D1D1630ED52007C5A03 /* TestFlight.h */,
 			);
 			path = TestFlightSDK1;
+			sourceTree = "<group>";
+		};
+		67E26D851741F0D600638879 /* userGuide */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide;
+			sourceTree = "<group>";
+		};
+		67E26D861741F0D600638879 /* userGuide2.0 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide2.0;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -4126,6 +4162,11 @@
 				67EABEA3171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 				67E7789917374853004D227F /* NoteInputAccessoryView.xib in Resources */,
 				67F83B0D173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
+				67E26D7F1741DC1B00638879 /* TimeZoneDict.dat in Resources */,
+				67E26D871741F0D600638879 /* SD_aboutUS_768.html in Resources */,
+				67E26D891741F0D600638879 /* SD_css_768.css in Resources */,
+				67E26D8B1741F0D600638879 /* SmartDayiPhone_205.png in Resources */,
+				67E26D8D1741F0D600638879 /* SO_bg_768.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4660,6 +4701,11 @@
 				67EABEA4171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 				67E7789A17374853004D227F /* NoteInputAccessoryView.xib in Resources */,
 				67F83B0E173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
+				67E26D801741DC1B00638879 /* TimeZoneDict.dat in Resources */,
+				67E26D881741F0D600638879 /* SD_aboutUS_768.html in Resources */,
+				67E26D8A1741F0D600638879 /* SD_css_768.css in Resources */,
+				67E26D8C1741F0D600638879 /* SmartDayiPhone_205.png in Resources */,
+				67E26D8E1741F0D600638879 /* SO_bg_768.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
