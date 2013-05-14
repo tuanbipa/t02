@@ -105,6 +105,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return self;
 }
 
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+     
+    [super dealloc];
+}
+
 - (void)initCalendar: (NSDate *)date {
     
     [self setTitleForCells:date];
