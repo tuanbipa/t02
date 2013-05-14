@@ -594,7 +594,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 - (void) dealloc {
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 

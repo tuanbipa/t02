@@ -178,6 +178,7 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void)dealloc {
     [movableController release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
