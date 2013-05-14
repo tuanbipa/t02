@@ -108,28 +108,28 @@ extern BOOL _isiPad;
 	
 	webView.safariEnabled = YES;
 	
-	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"SC_aboutUS_768" ofType:@"html"];  
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"SD_aboutUS_768" ofType:@"html"];  
 	
 	NSString *html = [NSString stringWithContentsOfFile:filePath]; 
 	
 	if (html) {
-		NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-        //NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 		if (version == nil || [version isEqualToString:@""])
 		{
 			version = @"unknown";
 		}
 		
-		NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        //NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+        NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 		if (build == nil || [build isEqualToString:@""])
 		{
 			build = @"unknown";
 		}
 		
-		NSString *info = [NSString stringWithFormat:@"Version %@", version];
+		NSString *name = @"SmartDay";
 		
-		html = [html stringByReplacingOccurrencesOfString:@"_SP_VERSION" withString:info];
+		html = [html stringByReplacingOccurrencesOfString:@"_SD_VERSION" withString:version];
+		html = [html stringByReplacingOccurrencesOfString:@"_SD_BUILD_NUMBER" withString:build];
+		html = [html stringByReplacingOccurrencesOfString:@"_SD_NAME" withString:name];
 		
 		[webView loadHTMLContent:html];
 	}	
