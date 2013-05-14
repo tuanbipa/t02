@@ -600,11 +600,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NotificationAdjustPlannerMiniMonthHeight" object:nil userInfo:aDictionary];
 }
 
-- (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
-}
-
 #pragma mark Actions
 - (NSDate *)getFirstDate {
     PlannerMonthCellView *firstCell = [self.subviews objectAtIndex:0];
