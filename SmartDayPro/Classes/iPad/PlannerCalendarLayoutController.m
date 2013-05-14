@@ -79,8 +79,8 @@
     //NSInteger days = [Common daysBetween:startTime sinceDate:date];
     NSInteger days = [Common daysBetween:startTime sinceDate:startDate];
     
-    //CGFloat dayWidth = (self.viewContainer.bounds.size.width - xmargin)/7;
-    NSInteger dayWidth = (self.viewContainer.bounds.size.width - xmargin)/7;
+    CGFloat dayWidth = (self.viewContainer.bounds.size.width - xmargin)/7;
+    //NSInteger dayWidth = (self.viewContainer.bounds.size.width - xmargin)/7;
     
     CGFloat pageOffset = days*dayWidth;
     
@@ -91,7 +91,7 @@
 	
 	//frm.size.width = 320 - xmargin - CALENDAR_BOX_ALIGNMENT;
     //frm.size.width = self.viewContainer.bounds.size.width - xmargin - CALENDAR_BOX_ALIGNMENT - (task.type == TYPE_TASK?20:0);
-    frm.size.width = dayWidth;
+    frm.size.width = dayWidth-1;
 	
 	frm.origin.y = ymargin + slotIdx * TIME_SLOT_HEIGHT + 1;
 	
