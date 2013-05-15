@@ -643,6 +643,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     //[ctrler refreshLayout];
     
     [plannerBottomDayCal setMovableContentView:self.contentView];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    NSDate *dt = nil;
+    if (tm.today != nil) {
+        dt = tm.today;
+    } else {
+        dt = [NSDate date];
+    }
+    [plannerView goToDate:dt];
 }
 
 - (void) viewWillAppear:(BOOL)animated
