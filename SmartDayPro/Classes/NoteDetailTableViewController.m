@@ -207,6 +207,7 @@ extern BOOL _isiPad;
 
 - (void) noteBeginEdit:(NSNotification *)notification
 {
+    noteHeightAlternate = noteView.bounds.size.height;
     CGFloat h = contentView.bounds.size.height - (_isiPad?0:[Common getKeyboardHeight]);
     
     [noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, h-30)];
@@ -218,7 +219,8 @@ extern BOOL _isiPad;
 {
     saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
     
-    [noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, contentView.bounds.size.height-30)];
+    //[noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, contentView.bounds.size.height-30)];
+    [noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, noteHeightAlternate)];
 }
 
 #pragma mark View

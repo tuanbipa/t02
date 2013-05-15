@@ -32,6 +32,8 @@
     UIBarButtonItem *saveButton;
     
     Task *note;
+    
+    CGFloat noteHeightAlternate;
 }
 
 @property (nonatomic, retain) Task *note;
