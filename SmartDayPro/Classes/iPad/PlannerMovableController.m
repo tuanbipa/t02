@@ -26,6 +26,7 @@
 
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
+#import "PlannerBottomDayCal.h"
 
 //extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
@@ -214,7 +215,11 @@ extern PlannerViewController *_plannerViewCtrler;
     
     [[TaskManager getInstance] moveTime:[Common copyTimeFromDate:oldDate toDate:calDate] forEvent:task];
     
-    [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
+    //[_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
+    BOOL expanded = [_plannerViewCtrler.plannerView.monthView collapseExpandByDate:calDate];
+    if (!expanded) {
+        [_plannerViewCtrler.plannerBottomDayCal refreshLayout];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex

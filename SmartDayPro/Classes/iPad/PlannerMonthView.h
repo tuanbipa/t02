@@ -46,8 +46,8 @@
 - (void)changeMonth: (NSDate *) date;
 - (void)expandWeek: (int) week;
 - (void)collapseWeek;
-- (void)collapseExpand: (int) week;
-- (void)collapseExpandByDate: (NSDate *) dt;
+- (BOOL)collapseExpand: (int) week;
+- (BOOL)collapseExpandByDate: (NSDate *) dt;
 - (void)collapseCurrentWeek;
 - (void)expandCurrentWeek;
 - (NSDate *)getFirstDate;

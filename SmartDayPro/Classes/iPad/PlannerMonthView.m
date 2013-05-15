@@ -544,10 +544,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
-- (void)collapseExpand: (int) week {
+- (BOOL)collapseExpand: (int) week {
     BOOL isExpand = week != openningWeek;
     if (!isExpand) {
-        return;
+        return NO;
     }
     [self collapseWeek];
     
@@ -566,12 +566,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 
     [self sendAdjustNotification:firstDate];
+    return YES;
 }
 
-- (void)collapseExpandByDate: (NSDate *) dt {
+- (BOOL)collapseExpandByDate: (NSDate *) dt {
     PlannerMonthCellView *foundCell = [self findCellByDate:dt];
     if (foundCell) {
-        [self collapseExpand:foundCell.weekNumberInMonth];
+        return [self collapseExpand:foundCell.weekNumberInMonth];
+    } else {
+        return NO;
     }
 }
 
