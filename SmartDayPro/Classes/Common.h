@@ -197,7 +197,8 @@ typedef enum
 typedef enum
 {
 	TASK_EXTRA_STATUS_NONE,
-    TASK_EXTRA_STATUS_SHARED
+    TASK_EXTRA_STATUS_SHARED = 1,
+    TASK_EXTRA_STATUS_MANUAL = 2
 } TaskExtraStatus;
 
 typedef enum
@@ -501,6 +502,7 @@ typedef struct
 + (NSDate *)copyTimeFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 + (NSDate *)clearTimeForDate:(NSDate *)date;
 + (NSDate *)getEndDate:(NSDate *)date;
++ (NSInteger) getSecondsFromTimeZoneID:(NSInteger)tzID;
 + (NSDate *)dateNoDST:(NSDate *)date;
 + (NSDate *)toDBDate:(NSDate *)localDate;
 + (NSDate *)fromDBDate:(NSDate *)dbDate;

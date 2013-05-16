@@ -681,3 +681,6 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_reminderAccessHint" = "Please go to iOS Settings/Privacy and enable SmartDay to access to Reminder app.";
 
 "_taskSyncText" = "Task Sync";
+
+"_timeZoneSupport" = "TimeZone Support";
+"_timeZone" = "TimeZone";

@@ -10,6 +10,7 @@
 
 #import "Common.h"
 #import "Colors.h"
+
 #import "TaskManager.h"
 
 #import "NSDataBase64.h"
@@ -147,6 +148,9 @@ extern BOOL _isiPad;
 @synthesize weekPlannerColumns;	
 @synthesize mustDoDays;
 
+@synthesize timeZoneSupport;
+@synthesize timeZoneID;
+
 @synthesize updateTime;
 
 @synthesize dbVersion;
@@ -264,6 +268,9 @@ extern BOOL _isiPad;
 		
 		self.weekPlannerRows = 1;
         self.mustDoDays = 0;
+        
+        self.timeZoneSupport = NO;
+        self.timeZoneID = 0;
         
         self.sdwEmail = @"";
         self.sdwPassword = @"";
@@ -524,6 +531,9 @@ extern BOOL _isiPad;
     copy.sdwVerified = sdwVerified;
     copy.syncSource = syncSource;
     
+    copy.timeZoneSupport = timeZoneSupport;
+    copy.timeZoneID = timeZoneID;
+    
     copy.updateTime = updateTime;
 	
 	return copy;
@@ -583,10 +593,13 @@ extern BOOL _isiPad;
 	self.hideWarning = settings.hideWarning;
 	
     self.tdSyncEnabled = settings.tdSyncEnabled;
-	self.tdAutoSyncEnabled = settings.tdAutoSyncEnabled;	
+	self.tdAutoSyncEnabled = settings.tdAutoSyncEnabled;
 
     self.sdwSyncEnabled = settings.sdwSyncEnabled;
     self.sdwAutoSyncEnabled = settings.sdwAutoSyncEnabled;
+    
+    self.timeZoneSupport = settings.timeZoneSupport;
+    self.timeZoneID = settings.timeZoneID;
     
     self.updateTime = settings.updateTime;
     
@@ -837,6 +850,20 @@ extern BOOL _isiPad;
 			self.mustDoDays = [mustDoDaysSetting intValue];
 		}
         
+		NSNumber *timeZoneSupportSetting = [self.settingDict objectForKey:@"TimeZoneSupport"];
+		
+		if (timeZoneSupportSetting != nil)
+		{
+			self.timeZoneSupport = [timeZoneSupportSetting boolValue];
+		}
+        
+		NSNumber *timeZoneIDSetting = [self.settingDict objectForKey:@"TimeZoneID"];
+		
+		if (timeZoneIDSetting != nil)
+		{
+			self.timeZoneID = [timeZoneIDSetting intValue];
+		}
+
 		NSNumber *updateTimeSetting = [self.settingDict objectForKey:@"UpdateTime"];
 		
 		if (updateTimeSetting != nil)
@@ -1357,7 +1384,26 @@ extern BOOL _isiPad;
 
 - (void) loadTimeZoneDict
 {
-    self.timeZoneDict = [NSDictionary dictionaryWithContentsOfFile:[Common getFilePath:@"TimeZoneDict.dat"]];
+    NSError *error = nil;
+    
+    NSData *jsonData = [NSData dataWithContentsOfFile:[Common getFilePath:@"TimeZone.dat"]];
+    
+    NSArray *list = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    
+    NSMutableArray *idList = [NSMutableArray arrayWithCapacity:list.count];
+    NSMutableArray *nameList = [NSMutableArray arrayWithCapacity:list.count];
+    
+    for (NSDictionary *dict in list)
+    {
+        int tzID = [[dict objectForKey:@"id"] intValue];
+        
+        NSString *tzName = [dict objectForKey:@"name"];
+        
+        [idList addObject:[NSNumber numberWithInt:tzID]];
+        [nameList addObject:tzName];
+    }
+
+    self.timeZoneDict = [NSDictionary dictionaryWithObjects:nameList forKeys:idList];
 }
 
 - (void) saveSettingDict
@@ -1439,6 +1485,12 @@ extern BOOL _isiPad;
     
 	NSNumber *hideWarningSetting = [NSNumber numberWithInt:(self.hideWarning?1:0)];
 	[settingDict setValue:hideWarningSetting forKey:@"HideWarning"];
+    
+	NSNumber *timeZoneSupportSetting = [NSNumber numberWithBool:self.timeZoneSupport];
+	[settingDict setValue:timeZoneSupportSetting forKey:@"TimeZoneSupport"];
+
+	NSNumber *timeZoneIDSetting = [NSNumber numberWithInt:self.timeZoneID];
+	[settingDict setValue:timeZoneIDSetting forKey:@"TimeZoneID"];
     
 	if (self.updateTime != nil)
 	{
@@ -2533,12 +2585,12 @@ extern BOOL _isiPad;
     NSError *error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"TimeZoneDict.dat"];
+	NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"TimeZone.dat"];
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (!success)
 	{
 		// The writable database does not exist, so copy the default to the appropriate location.
-		NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"TimeZoneDict.dat"];
+		NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"TimeZone.dat"];
 		success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
 		if (!success) {
 			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
@@ -2550,7 +2602,14 @@ extern BOOL _isiPad;
 {
     [Settings createTimeZoneDictIfNeeded];
     
-	[[Settings getInstance] clearHintFlags];
+    Settings *settings = [Settings getInstance];
+    
+	[settings clearHintFlags];
+    
+    if (settings.timeZoneSupport)
+    {
+        [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];          
+    }
 }
 
 +(id)getInstance

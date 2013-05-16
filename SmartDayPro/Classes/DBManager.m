@@ -4204,6 +4204,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 - (void)upgradeDBv5_0
 {
 	sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_ExtraStatus NUMERIC;", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_TimeZoneID NUMERIC;", nil, nil, nil);
 	sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_ExtraStatus NUMERIC;", nil, nil, nil);
     sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_OnwerName TEXT;", nil, nil, nil);
     
@@ -4224,7 +4225,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	
 	sqlite3_finalize(statement);
     
-    sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?";
+    sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?, Task_TimeZoneID = -1";
     
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK)
 	{

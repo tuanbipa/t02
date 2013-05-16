@@ -39,6 +39,7 @@
 #import "DataRecoveryViewController.h"
 #import "SnoozeDurationViewController.h"
 #import "TaskSyncViewController.h"
+#import "TimeZonePickerViewController.h"
 
 #import "CategoryViewController.h"
 #import "CalendarViewController.h"
@@ -116,6 +117,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
     BOOL ekSyncWindowChange = (settings.syncWindowStart != self.settingCopy.syncWindowStart) || (settings.syncWindowEnd != self.settingCopy.syncWindowEnd);
     
+    BOOL timeZoneSupportChange = settings.timeZoneSupport != self.settingCopy.timeZoneSupport;
+    
+    BOOL timeZoneChange = settings.timeZoneID != self.settingCopy.timeZoneID;
+    
 	if (settings.taskDuration != self.settingCopy.taskDuration)
 	{
 		tm.lastTaskDuration = self.settingCopy.taskDuration;
@@ -177,6 +182,22 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
 	[settings updateSettings:self.settingCopy];
     
+    if (timeZoneSupportChange)
+    {
+        if (!settings.timeZoneSupport)
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+        }
+        else
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];
+        }
+    }
+    else if (timeZoneChange)
+    {
+        [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];        
+    }
+    
     if (weekStartChange)
     {
         [[NSCalendar currentCalendar] setFirstWeekday:settings.weekStart==0?1:2];
@@ -187,11 +208,6 @@ iPadSettingViewController *_iPadSettingViewCtrler;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TabBarModeChangeNotification" object:nil];
     }
 	
-	if (reSchedule && !mustDoDaysChange)
-	{
-		[tm scheduleTasks];
-	}
-	
 	if (changeSkin)
 	{
 		for (UIViewController *ctrler in self.navigationController.viewControllers)
@@ -201,6 +217,15 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 				[ctrler changeSkin];
 			}
 		}
+	}
+    
+    if (timeZoneSupportChange || timeZoneChange)
+    {
+        [tm initData];
+    }
+	else if (reSchedule && !mustDoDaysChange)
+	{
+		[tm scheduleTasks];
 	}
 	
 	if (weekStartChange && !mustDoDaysChange)
@@ -213,13 +238,6 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     BOOL toodledoAccountValid = ![settings.tdEmail isEqualToString:@""] && ![settings.tdPassword isEqualToString:@""] && settings.tdVerified;
     
     BOOL sdwAccountValid = ![settings.sdwEmail isEqualToString:@""] && ![settings.sdwEmail isEqualToString:@""] && settings.sdwVerified;
-    
-    /*
-	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.ekAutoSyncEnabled) && (ekAutoSyncChange || ekSyncWindowChange);
-	BOOL tdAutoSyncON = (settings.tdSyncEnabled && settings.tdAutoSyncEnabled) && tdAutoSyncChange;
-	BOOL sdwAutoSyncON = (settings.sdwSyncEnabled && settings.sdwAutoSyncEnabled) && sdwAutoSyncChange;
-    BOOL rmdAutoSyncON = settings.ekAutoSyncEnabled && settings.rmdSyncEnabled && ekAutoSyncChange;
-     */
     
 	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.autoSyncEnabled) && (autoSyncChange || ekSyncWindowChange || ekSyncChange);
 	BOOL tdAutoSyncON = settings.tdSyncEnabled && settings.autoSyncEnabled && (autoSyncChange || taskSyncChange);
@@ -519,6 +537,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     else if ([viewController isKindOfClass:[TaskSyncViewController class]])
     {
         navLabel.text = _taskSyncText;
+    }
+    else if ([viewController isKindOfClass:[TimeZonePickerViewController class]])
+    {
+        navLabel.text = _timeZone;
     }
 }
 

@@ -563,6 +563,14 @@
 		67D16D2516310CEF007C5A03 /* filter_today.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D16D2316310CEF007C5A03 /* filter_today.png */; };
 		67D16D2616310CEF007C5A03 /* filter_today@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D16D2416310CEF007C5A03 /* filter_today@2x.png */; };
 		67D282D01654E21A0090C9F8 /* contact@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D282CF1654E21A0090C9F8 /* contact@2x.png */; };
+		67D4EFD817433B43002B3483 /* TimeZonePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67D4EFD717433B43002B3483 /* TimeZonePickerViewController.m */; };
+		67D4EFD917433B43002B3483 /* TimeZonePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67D4EFD717433B43002B3483 /* TimeZonePickerViewController.m */; };
+		67D4EFDB17437394002B3483 /* none.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D4EFDA17437394002B3483 /* none.png */; };
+		67D4EFDC17437394002B3483 /* none.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D4EFDA17437394002B3483 /* none.png */; };
+		67D4EFE317438C2C002B3483 /* SmartApps_768_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67D4EFE117438C2C002B3483 /* SmartApps_768_css.css */; };
+		67D4EFE417438C2C002B3483 /* SmartApps_768_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67D4EFE117438C2C002B3483 /* SmartApps_768_css.css */; };
+		67D4EFE517438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67D4EFE217438C2C002B3483 /* Smartapps_bg_768.jpg */; };
+		67D4EFE617438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67D4EFE217438C2C002B3483 /* Smartapps_bg_768.jpg */; };
 		67D51F801655EDC3007017E3 /* CheckOff20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D51F7E1655EDC3007017E3 /* CheckOff20@2x.png */; };
 		67D51F811655EDC3007017E3 /* CheckOn20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D51F7F1655EDC3007017E3 /* CheckOn20@2x.png */; };
 		67D51F841655F1A6007017E3 /* links_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 67D51F821655F1A6007017E3 /* links_white.png */; };
@@ -639,8 +647,8 @@
 		67E1F4FC16E9D323002D70AF /* module_today@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4ED16E9D323002D70AF /* module_today@2x.png */; };
 		67E1F4FD16E9D323002D70AF /* pattern_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4EE16E9D323002D70AF /* pattern_dark.png */; };
 		67E1F4FE16E9D323002D70AF /* pattern_dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4EF16E9D323002D70AF /* pattern_dark@2x.png */; };
-		67E26D7F1741DC1B00638879 /* TimeZoneDict.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */; };
-		67E26D801741DC1B00638879 /* TimeZoneDict.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */; };
+		67E26D7F1741DC1B00638879 /* TimeZone.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D7E1741DC1B00638879 /* TimeZone.dat */; };
+		67E26D801741DC1B00638879 /* TimeZone.dat in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D7E1741DC1B00638879 /* TimeZone.dat */; };
 		67E26D871741F0D600638879 /* SD_aboutUS_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D811741F0D500638879 /* SD_aboutUS_768.html */; };
 		67E26D881741F0D600638879 /* SD_aboutUS_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D811741F0D500638879 /* SD_aboutUS_768.html */; };
 		67E26D891741F0D600638879 /* SD_css_768.css in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D821741F0D500638879 /* SD_css_768.css */; };
@@ -2168,6 +2176,11 @@
 		67D16D2316310CEF007C5A03 /* filter_today.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_today.png; sourceTree = "<group>"; };
 		67D16D2416310CEF007C5A03 /* filter_today@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_today@2x.png"; sourceTree = "<group>"; };
 		67D282CF1654E21A0090C9F8 /* contact@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contact@2x.png"; sourceTree = "<group>"; };
+		67D4EFD617433B43002B3483 /* TimeZonePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeZonePickerViewController.h; sourceTree = "<group>"; };
+		67D4EFD717433B43002B3483 /* TimeZonePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeZonePickerViewController.m; sourceTree = "<group>"; };
+		67D4EFDA17437394002B3483 /* none.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = none.png; sourceTree = "<group>"; };
+		67D4EFE117438C2C002B3483 /* SmartApps_768_css.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SmartApps_768_css.css; sourceTree = "<group>"; };
+		67D4EFE217438C2C002B3483 /* Smartapps_bg_768.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Smartapps_bg_768.jpg; sourceTree = "<group>"; };
 		67D51F7E1655EDC3007017E3 /* CheckOff20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CheckOff20@2x.png"; sourceTree = "<group>"; };
 		67D51F7F1655EDC3007017E3 /* CheckOn20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CheckOn20@2x.png"; sourceTree = "<group>"; };
 		67D51F821655F1A6007017E3 /* links_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = links_white.png; sourceTree = "<group>"; };
@@ -2246,7 +2259,7 @@
 		67E1F4ED16E9D323002D70AF /* module_today@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "module_today@2x.png"; sourceTree = "<group>"; };
 		67E1F4EE16E9D323002D70AF /* pattern_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pattern_dark.png; sourceTree = "<group>"; };
 		67E1F4EF16E9D323002D70AF /* pattern_dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pattern_dark@2x.png"; sourceTree = "<group>"; };
-		67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TimeZoneDict.dat; sourceTree = "<group>"; };
+		67E26D7E1741DC1B00638879 /* TimeZone.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TimeZone.dat; sourceTree = "<group>"; };
 		67E26D811741F0D500638879 /* SD_aboutUS_768.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SD_aboutUS_768.html; sourceTree = "<group>"; };
 		67E26D821741F0D500638879 /* SD_css_768.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SD_css_768.css; sourceTree = "<group>"; };
 		67E26D831741F0D500638879 /* SmartDayiPhone_205.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmartDayiPhone_205.png; sourceTree = "<group>"; };
@@ -2901,6 +2914,8 @@
 				67CF2C7216195196001FE1AA /* WorkingTime7ViewController.m */,
 				67CF2C7316195196001FE1AA /* WWWTableViewController.h */,
 				67CF2C7416195196001FE1AA /* WWWTableViewController.m */,
+				67D4EFD617433B43002B3483 /* TimeZonePickerViewController.h */,
+				67D4EFD717433B43002B3483 /* TimeZonePickerViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -2985,7 +3000,7 @@
 		67CF2D6A161951B7001FE1AA /* DB */ = {
 			isa = PBXGroup;
 			children = (
-				67E26D7E1741DC1B00638879 /* TimeZoneDict.dat */,
+				67E26D7E1741DC1B00638879 /* TimeZone.dat */,
 				67DCDDAC165F790F000DAE8B /* PresetTagDict.dat */,
 				67DCDDAD165F790F000DAE8B /* TagDict.dat */,
 				67CF2D6D161951B7001FE1AA /* SmartCalDB.sql */,
@@ -3065,6 +3080,7 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				67D4EFDA17437394002B3483 /* none.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
 				67CF2D9D161951B8001FE1AA /* 2-mash-blue.png */,
@@ -3484,6 +3500,8 @@
 		67CF2FE3161951C2001FE1AA /* WEB */ = {
 			isa = PBXGroup;
 			children = (
+				67D4EFE117438C2C002B3483 /* SmartApps_768_css.css */,
+				67D4EFE217438C2C002B3483 /* Smartapps_bg_768.jpg */,
 				67E26D811741F0D500638879 /* SD_aboutUS_768.html */,
 				67E26D821741F0D500638879 /* SD_css_768.css */,
 				67E26D831741F0D500638879 /* SmartDayiPhone_205.png */,
@@ -4162,11 +4180,14 @@
 				67EABEA3171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 				67E7789917374853004D227F /* NoteInputAccessoryView.xib in Resources */,
 				67F83B0D173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
-				67E26D7F1741DC1B00638879 /* TimeZoneDict.dat in Resources */,
+				67E26D7F1741DC1B00638879 /* TimeZone.dat in Resources */,
 				67E26D871741F0D600638879 /* SD_aboutUS_768.html in Resources */,
 				67E26D891741F0D600638879 /* SD_css_768.css in Resources */,
 				67E26D8B1741F0D600638879 /* SmartDayiPhone_205.png in Resources */,
 				67E26D8D1741F0D600638879 /* SO_bg_768.jpg in Resources */,
+				67D4EFDB17437394002B3483 /* none.png in Resources */,
+				67D4EFE317438C2C002B3483 /* SmartApps_768_css.css in Resources */,
+				67D4EFE517438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4701,11 +4722,14 @@
 				67EABEA4171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */,
 				67E7789A17374853004D227F /* NoteInputAccessoryView.xib in Resources */,
 				67F83B0E173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
-				67E26D801741DC1B00638879 /* TimeZoneDict.dat in Resources */,
+				67E26D801741DC1B00638879 /* TimeZone.dat in Resources */,
 				67E26D881741F0D600638879 /* SD_aboutUS_768.html in Resources */,
 				67E26D8A1741F0D600638879 /* SD_css_768.css in Resources */,
 				67E26D8C1741F0D600638879 /* SmartDayiPhone_205.png in Resources */,
 				67E26D8E1741F0D600638879 /* SO_bg_768.jpg in Resources */,
+				67D4EFDC17437394002B3483 /* none.png in Resources */,
+				67D4EFE417438C2C002B3483 /* SmartApps_768_css.css in Resources */,
+				67D4EFE617438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4904,6 +4928,7 @@
 				A2E036B61724DDFA0039A2DF /* YearView.m in Sources */,
 				A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */,
 				A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */,
+				67D4EFD817433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5099,6 +5124,7 @@
 				A2E036B71724DDFA0039A2DF /* YearView.m in Sources */,
 				A2E036BB1724ECA10039A2DF /* MonthInYearView.m in Sources */,
 				A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */,
+				67D4EFD917433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

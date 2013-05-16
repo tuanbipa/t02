@@ -12,6 +12,8 @@
 #import <CommonCrypto/CommonCryptor.h>
 
 #import "Common.h"
+#import "Settings.h"
+
 #import "ImageManager.h"
 #import "Reachability.h"
 
@@ -763,11 +765,25 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return [Common dateByAddNumSecond:[[NSTimeZone defaultTimeZone] daylightSavingTimeOffsetForDate:date] toDate:date];
 }
 
++ (NSInteger) getSecondsFromTimeZoneID:(NSInteger)tzID
+{
+    NSInteger ret = tzID%64;
+    
+    NSInteger min = ret%4;
+    
+    NSInteger hour = (ret-min)/4;
+    
+    ret = hour*3600 + min*15*60;
+    
+    return ret;
+}
+
 + (NSDate *)toDBDate:(NSDate *)localDate
 {
 	NSInteger dstOffset = [[NSTimeZone defaultTimeZone] daylightSavingTimeOffset] - [[NSTimeZone defaultTimeZone] daylightSavingTimeOffsetForDate:localDate];
 	
-	NSInteger gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+	//NSInteger gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    NSInteger gmtSeconds = [[NSTimeZone systemTimeZone] secondsFromGMT];
 	
 	NSDate *dbDate = [localDate dateByAddingTimeInterval:gmtSeconds-dstOffset];
 	
@@ -778,7 +794,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSDate *)fromDBDate:(NSDate *)dbDate
 {
-	NSInteger gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+	NSInteger gmtSeconds = [[NSTimeZone systemTimeZone] secondsFromGMT];
 	
 	NSDate *localDate = [dbDate dateByAddingTimeInterval:-gmtSeconds];
 	

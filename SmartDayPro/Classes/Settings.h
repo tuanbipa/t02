@@ -235,6 +235,9 @@
 
 @property NSInteger mustDoDays;
 
+@property BOOL timeZoneSupport;
+@property NSInteger timeZoneID;
+
 @property (nonatomic, copy) NSDate *updateTime;
 
 @property (nonatomic, copy) NSString *dbVersion;

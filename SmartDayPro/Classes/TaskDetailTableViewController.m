@@ -1601,9 +1601,12 @@ extern BOOL _isiPad;
                 return 55;
             }
             
-            if (taskTypeSegmentedControl.selectedSegmentIndex == 1 && indexPath.row >= 1 && indexPath.row <= 1)
+            //if (taskTypeSegmentedControl.selectedSegmentIndex == 1 && indexPath.row >= 1 && indexPath.row <= 1)
+            if (taskTypeSegmentedControl.selectedSegmentIndex == 1 && indexPath.row == 1)
             {
-                return 55;
+                Settings *settings = [Settings getInstance];
+                
+                return settings.timeZoneSupport?75:55;
             }            
         }
 	}

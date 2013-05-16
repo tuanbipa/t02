@@ -667,5 +667,8 @@
 
 #define _taskSyncText NSLocalizedString(@"_taskSyncText", "")
 
+#define _timeZoneSupport NSLocalizedString(@"_timeZoneSupport", "")
+#define _timeZone NSLocalizedString(@"_timeZone", "")
+
 
 

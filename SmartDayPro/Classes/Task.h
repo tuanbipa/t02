@@ -94,6 +94,8 @@
 @property NSInteger extraStatus;
 @property NSInteger duration;
 
+@property NSInteger timeZoneId;
+
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy)	NSString *contactName;
 @property (nonatomic, copy)	NSString *location;
@@ -195,6 +197,10 @@
 -(BOOL)isPartial;
 -(BOOL)isDone;
 -(BOOL) isShared;
+-(BOOL) isManual;
+
+- (void) setManual:(BOOL)enabled;
+
 -(BOOL)checkMustDo;
 
 - (NSString *) getRepeatTypeString;
