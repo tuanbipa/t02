@@ -11,6 +11,7 @@
 @interface PlannerMovableController : DummyMovableController
 {
     BOOL moveInMM;
+    BOOL moveInPlannerDayCal;
 }
 
 - (void) doTaskMovementInMM;

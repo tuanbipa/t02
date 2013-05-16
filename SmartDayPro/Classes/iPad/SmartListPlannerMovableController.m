@@ -46,40 +46,40 @@
     
     dummyView.hidden = YES;
     
-    if (dummyView != nil && [dummyView superview])
-    { 
-        Task *task = ((TaskView *) self.activeMovableView).task;
-        
-        [[task retain] autorelease];
-        
-        if (moveInMM)
-        {
-            [self doTaskMovementInMM];
-        }
-        else if (rightMovableView != nil)
-        {
-            Task *destTask = ((TaskView *)rightMovableView).task;
-            [[destTask retain] autorelease];
-            
-            [super endMove:view];
-            
-            if ([task isTask] && [destTask isTask])
-            {
-                [[TaskManager getInstance] changeOrder:task destTask:destTask];
-            }
-        }
-        else
-        {
-            [super endMove:view];
-        }
-        
-        /*
-        if (!moveInMM)
-        {
-            [super endMove:view];
-        }*/
-    }
-    
+//    if (dummyView != nil && [dummyView superview])
+//    { 
+//        Task *task = ((TaskView *) self.activeMovableView).task;
+//        
+//        [[task retain] autorelease];
+//        
+//        if (moveInMM)
+//        {
+//            [self doTaskMovementInMM];
+//        }
+//        else if (rightMovableView != nil)
+//        {
+//            Task *destTask = ((TaskView *)rightMovableView).task;
+//            [[destTask retain] autorelease];
+//            
+//            [super endMove:view];
+//            
+//            if ([task isTask] && [destTask isTask])
+//            {
+//                [[TaskManager getInstance] changeOrder:task destTask:destTask];
+//            }
+//        }
+//        else
+//        {
+//            [super endMove:view];
+//        }
+//        
+//        /*
+//        if (!moveInMM)
+//        {
+//            [super endMove:view];
+//        }*/
+//    }
+    [super endMove:view];
     [view release];
 }
 

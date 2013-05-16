@@ -27,10 +27,11 @@
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
 #import "PlannerBottomDayCal.h"
+#import "PlannerScheduleView.h"
+#import "PlannerCalendarLayoutController.h"
+#import "TimeSlotView.h"
 
-//extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
-//extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 extern PlannerViewController *_plannerViewCtrler;
 
@@ -44,26 +45,6 @@ extern PlannerViewController *_plannerViewCtrler;
     }
     
     return self;
-}
-
-- (BOOL)checkSeparate:(TaskView *)view
-{
-    //Task *task = (Task *) view.tag;
-    Task *task = view.task;
-    
-    return ![task checkMustDo];
-}
-
--(void) endMove:(MovableView *)view
-{
-    if (moveInMM)
-    {
-        [self doTaskMovementInMM];
-    }
-    else
-    {
-        [super endMove:self.activeMovableView];
-    }
 }
 
 -(void)move:(NSSet *)touches withEvent:(UIEvent *)event
@@ -112,22 +93,92 @@ extern PlannerViewController *_plannerViewCtrler;
     }
     else
     {
-        if (frm.size.width < 100)
-        {
-            if ([self.activeMovableView isKindOfClass:[TaskView class]])
+        // check move in planner day cal
+        CGRect dayCalFrm = [self getMovableRect:_plannerViewCtrler.plannerBottomDayCal];
+        //tp = [self.activeMovableView.superview convertPoint:touchPoint toView:_plannerViewCtrler.contentView];
+        moveInPlannerDayCal = CGRectContainsPoint(dayCalFrm, tp);
+        
+        if (moveInPlannerDayCal) {
+            if (frm.size.width > 100)
             {
-                TaskView *tv = (TaskView *) self.activeMovableView;
+                if ([self.activeMovableView isKindOfClass:[TaskView class]])
+                {
+                    ((TaskView *)dummyView).starEnable = NO;
+                }
                 
-                ((TaskView *) dummyView).starEnable = tv.starEnable;
+                [dummyView setNeedsDisplay];
             }
             
-            [dummyView setNeedsDisplay];
-        }
+            frm.origin.x = tp.x;
+            frm.origin.y = tp.y - 40;
+            
+            frm.size.width = 80;
+            frm.size.height = 25;
+            
+            CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];
+            [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView highlight:frm];
+        } else {
         
-        frm = [self getMovableRect:self.activeMovableView];
+            if (frm.size.width < 100)
+            {
+                if ([self.activeMovableView isKindOfClass:[TaskView class]])
+                {
+                    TaskView *tv = (TaskView *) self.activeMovableView;
+                    
+                    ((TaskView *) dummyView).starEnable = tv.starEnable;
+                }
+                
+                [dummyView setNeedsDisplay];
+            }
+            
+            frm = [self getMovableRect:self.activeMovableView];
+        }
     }
     
     dummyView.frame = frm;
+}
+
+-(void) endMove:(MovableView *)view
+{
+    if (moveInMM)
+    {
+        [self doTaskMovementInMM];
+    } else if (moveInPlannerDayCal) {
+        [self doTaskMovementInPlannerDayCal];
+    }
+    else
+    {
+        [super endMove:self.activeMovableView];
+    }
+}
+
+#pragma mark Common methods
+
+- (BOOL)checkSeparate:(TaskView *)view
+{
+    //Task *task = (Task *) view.tag;
+    Task *task = view.task;
+    
+    return ![task checkMustDo];
+}
+
+- (void)resizeFrameDuringMoving: (CGPoint) tp {
+    CGRect frm = dummyView.frame;
+    if (frm.size.width > 100)
+    {
+        if ([self.activeMovableView isKindOfClass:[TaskView class]])
+        {
+            ((TaskView *)dummyView).starEnable = NO;
+        }
+        
+        [dummyView setNeedsDisplay];
+    }
+    
+    frm.origin.x = tp.x;
+    frm.origin.y = tp.y - 40;
+    
+    frm.size.width = 80;
+    frm.size.height = 25;
 }
 
 - (void) doTaskMovementInMM
@@ -162,6 +213,23 @@ extern PlannerViewController *_plannerViewCtrler;
         [alertView show];
         [alertView release];
     }
+}
+
+- (void)doTaskMovementInPlannerDayCal {
+    Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+    
+    if ([task isEvent]) { // change evnt datetime
+        [self changeEventDateTime:task];
+    } else {
+        // convert task to STask
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+        
+        alertView.tag = -11001;
+        
+        [alertView show];
+        [alertView release];
+    }
+    //[_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView unhighlight];
 }
 
 - (void) changeTaskDeadline:(Task *)task
@@ -222,13 +290,47 @@ extern PlannerViewController *_plannerViewCtrler;
     }
 }
 
+- (void)changeEventDateTime: (Task *) task {
+    // if this is a task, will be convert to STask
+    
+    // calculate date
+    CGPoint touchPoint = [self.activeMovableView getTouchPoint];
+    
+    if ([task isTask]) {
+        // convert to STask
+        unichar rectangleChar = 0x25A2;
+        task.name = [[NSString stringWithFormat:@"%C ", rectangleChar] stringByAppendingString:task.name];
+        
+        touchPoint = [self.activeMovableView.superview convertPoint:touchPoint toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];
+    }
+    
+    NSDate *startDate = [[_plannerViewCtrler.plannerBottomDayCal.calendarLayoutController.startDate copy] autorelease];
+    
+    CGFloat dayWidth = (_plannerViewCtrler.plannerBottomDayCal.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
+    NSInteger dayNumber = (touchPoint.x-TIMELINE_TITLE_WIDTH)/dayWidth;
+    
+    TimeSlotView *timeSlot = [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView getTimeSlot];
+    
+    startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
+    NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
+    
+    Task *copyTask = [[task copy] autorelease];
+    copyTask.original = task;
+    [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView unhighlight];
+    //[_plannerViewCtrler changeTime:task time:toDate];
+    [_plannerViewCtrler changeTime:copyTask time:toDate];
+    
+    [_plannerViewCtrler.plannerBottomDayCal refreshLayout];
+}
+
+#pragma mark Alert delegate
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     TaskView *tv = (TaskView *) self.activeMovableView;
     
     Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
     
-    [super endMove:self.activeMovableView];
+    //[super endMove:self.activeMovableView];
     
     NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
     
@@ -253,7 +355,7 @@ extern PlannerViewController *_plannerViewCtrler;
                 break;
         }
         
-	}else if (alertVw.tag == -10001)
+	} else if (alertVw.tag == -10001)
 	{
         switch (buttonIndex)
         {
@@ -269,7 +371,13 @@ extern PlannerViewController *_plannerViewCtrler;
                 break;
         }
         
-    }
+    } else if (alertVw.tag == -11001)
+	{
+        if (buttonIndex == 1)
+        {
+            [self changeEventDateTime: task];
+        }
+	}
     
     if (moveInMM)
     {
@@ -291,5 +399,7 @@ extern PlannerViewController *_plannerViewCtrler;
             [_plannerViewCtrler editItem:task inView:tv];
         }
     }
+    
+    [super endMove:self.activeMovableView];
 }
 @end
