@@ -47,6 +47,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 @synthesize timerStatus;
 @synthesize extraStatus;
 @synthesize duration;
+@synthesize timeZoneId;
 
 @synthesize name;
 @synthesize contactName;
@@ -113,6 +114,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         self.timerStatus = TASK_TIMER_STATUS_NONE;
         self.extraStatus = TASK_EXTRA_STATUS_NONE;
 		self.duration = [[Settings getInstance] taskDuration];
+        self.timeZoneId = -1;
 		
 		self.name = @"";
 		self.contactName = @"";
@@ -181,7 +183,8 @@ static sqlite3_stmt *task_delete_statement = nil;
 	
 	self.status = task.status;
     self.extraStatus = task.extraStatus;
-	self.duration = task.duration;	
+	self.duration = task.duration;
+    self.timeZoneId = task.timeZoneId;
 	
 	self.name = task.name;
 	self.contactName = task.contactName;
@@ -265,6 +268,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 	copy.status = status;
     copy.extraStatus = extraStatus;
 	copy.duration = duration;
+    copy.timeZoneId = timeZoneId;
 	
 	copy.name = name;
 	copy.contactName = contactName;
@@ -423,7 +427,7 @@ static sqlite3_stmt *task_delete_statement = nil;
             const char *sql = "SELECT Task_ID, Task_GroupID, Task_ProjectID, Task_SeqNo, Task_GoalID, Task_Type, \
 			Task_Status, Task_Name, Task_ContactName, Task_ContactEmail, Task_ContactPhone, Task_Location, \
 			Task_Note, Task_Duration, Task_CreationTime, Task_StartTime, Task_EndTime, Task_Deadline, Task_UpdateTime, \
-			Task_RepeatData, Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime,Task_SDWID,Task_TimerStatus,Task_ExtraStatus FROM TaskTable WHERE Task_ID = ?";
+			Task_RepeatData, Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime,Task_SDWID,Task_TimerStatus,Task_ExtraStatus,Task_TimeZoneID FROM TaskTable WHERE Task_ID = ?";
 			
 			if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -470,6 +474,10 @@ static sqlite3_stmt *task_delete_statement = nil;
 			NSTimeInterval updateTimeValue = sqlite3_column_double(statement, 18);
 			
 			self.creationTime = (creationTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:creationTimeValue]]);
+            
+            //NSDate *sDate = [NSDate dateWithTimeIntervalSince1970:startTimeValue];
+            //printf("item %s - db start:%s\n", [self.name UTF8String], [[sDate description] UTF8String]);
+            
 			self.startTime = (startTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]]);
 			
 			self.endTime = (endTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:endTimeValue]]);
@@ -513,6 +521,8 @@ static sqlite3_stmt *task_delete_statement = nil;
             self.timerStatus = sqlite3_column_int(statement, 25);
 
             self.extraStatus = sqlite3_column_int(statement, 26);
+
+            self.timeZoneId = sqlite3_column_int(statement, 27);
             
 			self.smartTime = self.startTime;
 			
@@ -589,8 +599,8 @@ static sqlite3_stmt *task_delete_statement = nil;
         static char *sql = "INSERT INTO TaskTable (Task_GroupID, Task_ProjectID, Task_SeqNo, Task_GoalID, Task_Type, \
 		Task_Status, Task_Name, Task_ContactName, Task_ContactEmail, Task_ContactPhone, Task_Location, Task_Note, \
 		Task_Duration, Task_CreationTime, Task_StartTime, Task_EndTime, Task_Deadline, Task_UpdateTime, Task_RepeatData, \
-		Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime, Task_SDWID, Task_Link, Task_TimerStatus, Task_ExtraStatus) \
-		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";		
+		Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime, Task_SDWID, Task_Link, Task_TimerStatus, Task_ExtraStatus,Task_TimeZoneID) \
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";		
 		
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -679,6 +689,8 @@ static sqlite3_stmt *task_delete_statement = nil;
     sqlite3_bind_int(statement, 26, self.timerStatus);
     
     sqlite3_bind_int(statement, 27, self.extraStatus);
+
+    sqlite3_bind_int(statement, 28, self.timeZoneId);
 	
     int success = sqlite3_step(statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
@@ -712,7 +724,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         static char *sql = "UPDATE TaskTable SET Task_GroupID = ?, Task_ProjectID = ?, Task_SeqNo = ?, Task_GoalID = ?, Task_Type = ?, \
 		Task_Status = ?, Task_Name = ?, Task_ContactName = ?, Task_ContactEmail = ?, Task_ContactPhone = ?, Task_Location = ?, \
 		Task_Note = ?, Task_Duration = ?, Task_CreationTime = ?, Task_StartTime = ?, Task_EndTime = ?, Task_Deadline = ?, Task_UpdateTime = ?, \
-		Task_RepeatData = ?, Task_Tag = ?, Task_MergedSeqNo = ?, Task_CompletionTime = ?, Task_Link = ?, Task_TimerStatus = ?, Task_ExtraStatus = ? WHERE Task_ID = ?";		
+		Task_RepeatData = ?, Task_Tag = ?, Task_MergedSeqNo = ?, Task_CompletionTime = ?, Task_Link = ?, Task_TimerStatus = ?, Task_ExtraStatus = ?, Task_TimeZoneID = ? WHERE Task_ID = ?";		
 		
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -800,8 +812,10 @@ static sqlite3_stmt *task_delete_statement = nil;
     sqlite3_bind_int(statement, 24, self.timerStatus);
     
     sqlite3_bind_int(statement, 25, self.extraStatus);
+    
+    sqlite3_bind_int(statement, 26, self.timeZoneId);
 	
-	sqlite3_bind_int(statement, 26, self.primaryKey);
+	sqlite3_bind_int(statement, 27, self.primaryKey);
 	
 	////////printf("Update DB - task %s, key: %d, project: %d, group: %d, seq: %d\n", [self.name UTF8String], self.primaryKey, self.project, self.groupKey, self.sequenceNo);
 	
@@ -1937,7 +1951,24 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 -(BOOL) isShared
 {
-    return self.extraStatus == TASK_EXTRA_STATUS_SHARED;
+    return (self.extraStatus & TASK_EXTRA_STATUS_SHARED) != 0;
+}
+
+-(BOOL) isManual
+{
+    return (self.extraStatus & TASK_EXTRA_STATUS_MANUAL) != 0;
+}
+
+- (void) setManual:(BOOL)enabled
+{
+    if (enabled)
+    {
+        self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+    }
+    else
+    {
+        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+    }
 }
 
 -(BOOL)checkMustDo
