@@ -99,7 +99,7 @@ extern PlannerViewController *_plannerViewCtrler;
         moveInPlannerDayCal = CGRectContainsPoint(dayCalFrm, tp);
         
         if (moveInPlannerDayCal) {
-            if (frm.size.width > 100)
+            /*if (frm.size.width > 100)
             {
                 if ([self.activeMovableView isKindOfClass:[TaskView class]])
                 {
@@ -113,10 +113,10 @@ extern PlannerViewController *_plannerViewCtrler;
             frm.origin.y = tp.y - 40;
             
             frm.size.width = 80;
-            frm.size.height = 25;
+            frm.size.height = 25;*/
             
-            CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];
-            [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView highlight:frm];
+            CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];
+            [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView highlight:rect];
         } else {
         
             if (frm.size.width < 100)
@@ -131,8 +131,9 @@ extern PlannerViewController *_plannerViewCtrler;
                 [dummyView setNeedsDisplay];
             }
             
-            frm = [self getMovableRect:self.activeMovableView];
+            //frm = [self getMovableRect:self.activeMovableView];
         }
+        frm = [self getMovableRect:self.activeMovableView];
     }
     
     dummyView.frame = frm;
@@ -295,11 +296,12 @@ extern PlannerViewController *_plannerViewCtrler;
     
     // calculate date
     CGPoint touchPoint = [self.activeMovableView getTouchPoint];
-    
+
     if ([task isTask]) {
         // convert to STask
         unichar rectangleChar = 0x25A2;
         task.name = [[NSString stringWithFormat:@"%C ", rectangleChar] stringByAppendingString:task.name];
+        [task setManual:YES];
         
         touchPoint = [self.activeMovableView.superview convertPoint:touchPoint toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];
     }
