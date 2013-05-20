@@ -223,7 +223,7 @@ extern PlannerViewController *_plannerViewCtrler;
         [self changeEventDateTime:task];
     } else {
         // convert task to STask
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoSTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
         
         alertView.tag = -11001;
         
@@ -299,8 +299,8 @@ extern PlannerViewController *_plannerViewCtrler;
 
     if ([task isTask]) {
         // convert to STask
-        unichar rectangleChar = 0x25A2;
-        task.name = [[NSString stringWithFormat:@"%C ", rectangleChar] stringByAppendingString:task.name];
+        //unichar rectangleChar = 0x25A2;
+        task.name = [[NSString stringWithFormat:@"%C ", STASK_CHARACTER] stringByAppendingString:task.name];
         [task setManual:YES];
         
         touchPoint = [self.activeMovableView.superview convertPoint:touchPoint toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];

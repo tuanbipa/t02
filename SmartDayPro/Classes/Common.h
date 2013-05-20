@@ -138,6 +138,10 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 #define URL_ALSOLCL			@"http://leftcoastlogic.com/lclproducts/"
 #define URL_SYNC            @"http://www.leftcoastlogic.com/blog/smartday/synchronizing/"
 
+// for STask
+#define STASK_CHARACTER 0x1F552
+//const unichar STASK_CHARACTER = 0x1F552;
+
 typedef enum
 {
 	BUSY_NO = 0,

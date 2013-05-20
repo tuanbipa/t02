@@ -1487,6 +1487,16 @@ BOOL _autoPushPending = NO;
     
     BOOL isRE = [task isRE];
     
+    // check if this is STask
+    if ([taskCopy isManual]) {
+        [taskCopy setManual:NO];
+        
+        // remove special charater in title
+        NSRange titleRange = NSMakeRange (0, 4);
+        NSString *specialStr = [NSString stringWithFormat:@"%C ", STASK_CHARACTER];
+        taskCopy.name = [taskCopy.name stringByReplacingOccurrencesOfString:specialStr withString:@"" options:0 range:titleRange];
+    }
+    
     TaskManager *tm = [TaskManager getInstance];
     
     [tm updateTask:task withTask:taskCopy];
