@@ -1492,9 +1492,10 @@ BOOL _autoPushPending = NO;
         [taskCopy setManual:NO];
         
         // remove special charater in title
-        NSRange titleRange = NSMakeRange (0, 4);
+        //NSRange titleRange = NSMakeRange (0, 4);
         NSString *specialStr = [NSString stringWithFormat:@"%C ", STASK_CHARACTER];
-        taskCopy.name = [taskCopy.name stringByReplacingOccurrencesOfString:specialStr withString:@"" options:0 range:titleRange];
+        //taskCopy.name = [taskCopy.name stringByReplacingOccurrencesOfString:specialStr withString:@"" options:0 range:titleRange];
+        taskCopy.name = [taskCopy.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
     }
     
     TaskManager *tm = [TaskManager getInstance];

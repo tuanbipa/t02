@@ -422,9 +422,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     taskView.task = task;
     
     taskView.starEnable = (task.status != TASK_STATUS_DONE);    
-	[taskView refreshStarImage];
-    [taskView refreshCheckImage];
+	//[taskView refreshStarImage];
+    //[taskView refreshCheckImage];
     [taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
+    if ([task isManual]) {
+        [taskView enableMove:NO];
+        taskView.starEnable = NO;
+        taskView.checkEnable = YES;
+    }
+    [taskView refreshStarImage];
+    [taskView refreshCheckImage];
     
     [taskView setNeedsDisplay];
 	

@@ -1127,11 +1127,11 @@ extern PlannerViewController *_plannerViewCtrler;
     
     UIImage *img = nil;
     
-    if ([task isEvent])
+    if ([task isEvent] && ![task isManual])
     {
         img = [pm getEventIcon:task.project];
     }
-    else if ([task isTask])
+    else if ([task isTask] || ([task isEvent] && [task isManual]))
     {
         img = [pm getTaskIcon:task.project];
     }

@@ -2436,6 +2436,41 @@ TaskManager *_sctmSingleton = nil;
 	return ret;
 }
 
+- (NSMutableArray *)getManualTaskList {
+	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:10];
+    
+	DBManager *dbm = [DBManager getInstance];
+	ret = [dbm getManualTaskList];
+    
+    ret = [self filterList:ret];
+	
+    return ret;
+}
+
+- (NSMutableArray *)getManualTaskListFor7DaysLogic {
+    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:10];
+	
+    NSMutableArray *list = [self getManualTaskList];
+    
+    NSDate *fromDate = [NSDate date];
+    //fromDate = [Common dat]
+    NSDate *toDate = [Common dateByAddNumDay:6 toDate:fromDate];
+	@synchronized(self)
+	{
+        for (Task *task in list)
+        {
+            if ([task.smartTime compare:fromDate] != NSOrderedAscending && [task.smartTime compare:toDate] == NSOrderedAscending)
+            {
+                [ret addObject:task];
+            }
+        }
+	}
+	
+	ret = [self filterList:ret];
+	
+	return ret;
+}
+
 - (BOOL) checkSortInBackground
 {
 	return sortBGInProgress;
@@ -2481,6 +2516,18 @@ TaskManager *_sctmSingleton = nil;
         if (self.mustDoTaskList.count > 0)
         {
             [list addObjectsFromArray:self.mustDoTaskList];
+        }
+        
+        if (self.taskTypeFilter == TASK_FILTER_ALL) {
+            NSMutableArray *scheduleTaskList = [self getManualTaskListFor7DaysLogic];
+            if (scheduleTaskList.count > 0) {
+                [list addObjectsFromArray:scheduleTaskList];
+            }
+        } else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
+            NSMutableArray *scheduleTaskList = [self getManualTaskList];
+            if (scheduleTaskList.count > 0) {
+                [list addObjectsFromArray:scheduleTaskList];
+            }
         }
     }
     
@@ -4259,13 +4306,49 @@ TaskManager *_sctmSingleton = nil;
 -(void) markDoneTask:(Task *)task
 {
     Task *slTask = [self getTask2Update:task];
+    
+    BOOL isManual = NO;
+    if ([slTask isManual]) {
+        [slTask setManual:NO];
+        slTask.type = TYPE_TASK;
+        
+        NSString *specialStr = [NSString stringWithFormat:@"%C ", STASK_CHARACTER];
+        slTask.name = [slTask.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
+        
+        isManual = YES;
+    }
     	
 	if ([slTask isRT])
 	{
 		[self doneRT:slTask];	
         
         //task.deadline = slTask.deadline;
-	}
+	} else if (isManual) {
+        slTask.status = TASK_STATUS_DONE;
+        slTask.completionTime = [NSDate date];
+        
+        [slTask updateIntoDB:[[DBManager getInstance] getDatabase]];
+        
+        if (self.taskTypeFilter == TASK_FILTER_DONE)
+        {
+            [self.taskList removeObject:slTask];
+        }
+        else
+        {
+            [self.mustDoTaskList removeObject:slTask];
+            
+            [self.taskList removeObject:slTask];
+        }
+        
+        if (self.taskTypeFilter == TASK_FILTER_TOP)
+		{
+			[self initSmartListData]; //to refresh next GTDo
+		}
+		else
+		{
+			[self scheduleTasks];
+		}
+    }
 	else if ([slTask isTask])
 	{
         //[self removeTask:slTask status:TASK_STATUS_DONE];
