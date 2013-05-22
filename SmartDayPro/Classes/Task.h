@@ -147,6 +147,7 @@
 - (void) initialUpdate;
 - (void) insertIntoDB:(sqlite3 *)database;
 - (void) updateIntoDB:(sqlite3 *)database;
+- (void) updateTimeZoneIDIntoDB:(sqlite3 *)database;
 - (void) updateSeqNoIntoDB:(sqlite3 *)database;
 - (void) updateMergedSeqNoIntoDB:(sqlite3 *)database;
 - (void) updateDurationIntoDB:(sqlite3 *)database;
@@ -205,6 +206,9 @@
 
 - (NSString *) getRepeatTypeString;
 - (NSString *) getRepeatUntilString;
+
+- (NSString *) getDisplayStartTime;
+- (NSString *) getDisplayEndTime;
 
 + (void)finalizeStatements;
 

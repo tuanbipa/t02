@@ -61,8 +61,6 @@ AbstractSDViewController *_abstractViewCtrler = nil;
 
 extern CalendarViewController *_sc2ViewCtrler;
 
-NSInteger _gmtSeconds; 
-
 BOOL _isiPad = NO;
 BOOL _scFreeVersion = NO;
 BOOL _is24HourFormat = NO;
@@ -131,6 +129,71 @@ BOOL _fromBackground = NO;
             [busyIndicatorView removeFromSuperview];
         }
 	}
+}
+
+- (void) testZone
+{
+    Settings *settings = [Settings getInstance];
+    
+    NSArray *zones = [[[[Settings getInstance] timeZoneDict] objectEnumerator] allObjects];
+    
+    NSDictionary *zoneDict = [NSDictionary dictionaryWithObjects:zones forKeys:zones];
+    
+    NSArray *list = [NSTimeZone knownTimeZoneNames];
+    
+    printf("zone num: %d - %d\n", list.count, zones.count);
+    
+    for (NSString *s in list)
+    {
+        NSTimeZone *tz = [NSTimeZone timeZoneWithName:s];
+        
+        NSInteger hour = abs(tz.secondsFromGMT)/3600;
+        NSInteger minute = (abs(tz.secondsFromGMT) - hour*3600)/60;
+        
+        NSString *prefix = [NSString stringWithFormat:@"(GMT%@%02d%02d)",tz.secondsFromGMT<0?@"-":@"+",hour, minute];
+        
+        NSString *query = [NSString stringWithFormat:@"%@ %@", prefix, s];
+        
+        NSString *zone = [zoneDict objectForKey:query];
+        
+        if (zone == nil)
+        {
+            printf("zone: %s NOT FOUND\n", [query UTF8String]);
+        }
+    }
+    
+    //check offset
+    
+    NSArray *keys = [settings.timeZoneDict allKeys];
+    
+    for (NSNumber *key in keys)
+    {
+        NSInteger offset = [Common getSecondsFromTimeZoneID:[key intValue]];
+        
+        NSInteger hour = abs(offset)/3600;
+        NSInteger minute = (abs(offset) - hour*3600)/60;
+        
+        NSString *prefix = [NSString stringWithFormat:@"(GMT%@%02d%02d)",offset<0?@"-":@"+",hour, minute];
+        
+        NSString *name = [settings.timeZoneDict objectForKey:key];
+        
+        if (![[name substringToIndex:10] isEqualToString:prefix])
+        {
+            printf("zone %s - ID incorrect - prefix: %s\n", [name UTF8String], [prefix UTF8String]);
+        }
+    }
+    
+    NSInteger tokyoID = 40264;
+    
+    NSInteger secs = [Common getSecondsFromTimeZoneID:tokyoID];
+    
+    NSInteger hour = abs(secs)/3600;
+    NSInteger minute = (abs(secs) - hour*3600)/60;
+    
+    NSString *prefix = [NSString stringWithFormat:@"(GMT%@%02d%02d)",secs<0?@"-":@"+",hour, minute];
+
+    printf("Tokyo offset: %s\n", [prefix UTF8String]);
+    
 }
 
 - (void) testSound
@@ -345,7 +408,6 @@ BOOL _fromBackground = NO;
 */
     _isiPad = [self checkiPad];
 	_is24HourFormat = [self check24HourFormat];
-	_gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
     
     self.alertDict = [NSMutableDictionary dictionaryWithCapacity:5];
 		
@@ -362,6 +424,8 @@ BOOL _fromBackground = NO;
     [TimerManager startup];
     
     [TaskManager startup];
+    
+    //[self testZone];
 	
     //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

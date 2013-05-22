@@ -26,6 +26,7 @@
 
 - (void) tabBarChanged:(BOOL)mini;
 - (void) refreshMustDoCell;
+- (void) refreshTimeZone;
 - (void) save;
 
 @end

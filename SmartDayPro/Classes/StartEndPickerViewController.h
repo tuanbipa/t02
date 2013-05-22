@@ -8,23 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+@class Task;
+
 @interface StartEndPickerViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
-	NSObject *objectEdit;
-	NSObject *objectCopy;
-	
 	NSDate *minStartTime;
 	
 	NSInteger selectedIndex;
 	
 	UITableView *pickerTableView;
 	UIDatePicker *datePicker;
-	
-	UIBarButtonItem *saveButton;
 }
 
 @property (nonatomic, copy) NSDate *minStartTime;
 
-@property (nonatomic, assign) NSObject *objectEdit;
-@property (nonatomic, copy) NSObject *objectCopy;
+@property (nonatomic, assign) Task *task;
+@property (nonatomic, copy) Task *taskCopy;
+
+- (void) refreshTimeZone;
 
 @end

@@ -18,8 +18,6 @@
 #import "DBManager.h"
 #import "TaskLinkManager.h"
 
-//extern NSInteger _gmtSeconds;
-
 static sqlite3_stmt *prj_init_statement = nil;
 static sqlite3_stmt *prj_insert_statement = nil;
 static sqlite3_stmt *prj_update_statement = nil;
@@ -939,8 +937,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
         }
     }
 	
-	//NSTimeInterval actualStartTimeValue = (self.actualStartTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.actualStartTime] timeIntervalSince1970]);		
-	NSTimeInterval actualStartTimeValue = (self.actualStartTime == nil? -1: [[Common toDBDate:self.actualStartTime] timeIntervalSince1970]);		
+	NSTimeInterval actualStartTimeValue = (self.actualStartTime == nil? -1: [[Common toDBDate:self.actualStartTime] timeIntervalSince1970]);
 	
 	sqlite3_bind_double(statement, 1, actualStartTimeValue);
 	sqlite3_bind_int(statement, 2, self.primaryKey);
@@ -969,8 +966,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
         }
     }
 	
-	//NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.endTime] timeIntervalSince1970]);		
-	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);		
+	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);
 	
 	sqlite3_bind_double(statement, 1, endTimeValue);
 	sqlite3_bind_int(statement, 2, self.primaryKey);
@@ -1000,7 +996,6 @@ static sqlite3_stmt *prj_delete_statement = nil;
         }
     }
 	
-	//NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.endTime] timeIntervalSince1970]);		
 	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);		
 	
 	sqlite3_bind_double(statement, 1, endTimeValue);

@@ -160,6 +160,7 @@ extern BOOL _isiPad;
 {
 	[self highlightCell:cell];
 	
+    /*
 	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
 	NSDateComponents *comps = [gregorian components:0xFF fromDate:[NSDate date]];
@@ -169,7 +170,7 @@ extern BOOL _isiPad;
 	[comps setDay:cell.day];
 	
 	NSDate *date = [gregorian dateFromComponents:comps];
-	
+	*/
 	UIView *parent = [self superview];
 	
 	/*if ([parent isKindOfClass:[MonthlyView class]])
@@ -183,7 +184,7 @@ extern BOOL _isiPad;
 		{
 			[_sc2ViewCtrler jumpToDate:date];
 		}*/
-        [(MiniMonthView *)parent jumpToDate:date];
+        [(MiniMonthView *)parent jumpToDate:[cell getCellDate]];
 	}
 }
 

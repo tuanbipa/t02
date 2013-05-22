@@ -1395,9 +1395,9 @@ extern BOOL _isiPad;
     
     for (NSDictionary *dict in list)
     {
-        int tzID = [[dict objectForKey:@"id"] intValue];
+        int tzID = [[dict objectForKey:@"timezone_key"] intValue];
         
-        NSString *tzName = [dict objectForKey:@"name"];
+        NSString *tzName = [dict objectForKey:@"timezone_name"];
         
         [idList addObject:[NSNumber numberWithInt:tzID]];
         [nameList addObject:tzName];
@@ -2579,6 +2579,75 @@ extern BOOL _isiPad;
 	[self clearHintFlags];
 }
 
+- (void) refreshTimeZone
+{
+    if (self.timeZoneSupport)
+    {
+        if (self.timeZoneID == -1)
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+        }
+        else
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.timeZoneID]]];
+        }
+    }
+}
+
++ (NSInteger) findTimeZoneIDByDisplayName:(NSString *)name
+{
+    if ([name isEqualToString:@"America/Port-au-Prince"])
+    {
+        return -68008; //(GMT-0500) US/Central
+    }
+    
+    Settings *settings = [Settings getInstance];
+    
+    NSArray *keys = [settings.timeZoneDict allKeys];
+
+    NSMutableArray *names = [NSMutableArray arrayWithCapacity:keys.count];
+    
+    for (NSNumber *key in keys)
+    {
+        NSString *tzName = [settings.timeZoneDict objectForKey:key];
+        [names addObject:[tzName substringFromIndex:11]];
+    }
+    
+    NSDictionary *nameDict = [NSDictionary dictionaryWithObjects:keys forKeys:names];
+    
+    NSNumber *key = [nameDict objectForKey:name];
+    
+    if (key != nil)
+    {
+        return [key intValue];
+    }
+    
+    return -1;
+}
+
++ (NSString *) getTimeZoneDisplayNameByID:(NSInteger)tzID
+{
+    Settings *settings = [Settings getInstance];
+
+    NSString *name = [settings.timeZoneDict objectForKey:[NSNumber numberWithInt:tzID]];
+    
+    if (name != nil)
+    {
+        return [name substringFromIndex:11];
+    }
+    
+    return @"Unknown";
+}
+
++ (NSString *) getTimeZoneNameByID:(NSInteger)tzID
+{
+    Settings *settings = [Settings getInstance];
+    
+    NSString *name = [settings.timeZoneDict objectForKey:[NSNumber numberWithInt:tzID]];
+        
+    return name != nil?name:@"Unknown";
+}
+
 + (void)createTimeZoneDictIfNeeded {
 	BOOL success;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -2606,10 +2675,7 @@ extern BOOL _isiPad;
     
 	[settings clearHintFlags];
     
-    if (settings.timeZoneSupport)
-    {
-        [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];          
-    }
+    [settings refreshTimeZone];
 }
 
 +(id)getInstance

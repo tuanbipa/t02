@@ -786,7 +786,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	NSDate *tomorrow = [Common dateByAddNumDay:1 toDate:[NSDate date]];
 	
-	//NSDate *start = [Common dateByAddNumSecond:_gmtSeconds toDate:[Common clearTimeForDate:tomorrow]];
 	NSDate *start = [Common toDBDate:[Common clearTimeForDate:tomorrow]];
 	
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
@@ -822,7 +821,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	NSDate *tomorrow = [Common dateByAddNumDay:1 toDate:[NSDate date]];
 	
-	//NSDate *start = [Common dateByAddNumSecond:_gmtSeconds toDate:[Common clearTimeForDate:tomorrow]];
 	NSDate *start = [Common toDBDate:[Common clearTimeForDate:tomorrow]];
 	
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
@@ -1466,9 +1464,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 
 - (NSMutableArray *) getADEsOnDate:(NSDate *)date
 {
-	//NSDate *tmp = [Common clearTimeForDate:date];
-	
-	//NSDate *start = [Common dateByAddNumSecond:_gmtSeconds toDate:tmp];
 	NSDate *start = [Common toDBDate:[Common clearTimeForDate:date]];
 	
 	NSDate *end = [Common dateByAddNumDay:1 toDate:start];
@@ -1578,9 +1573,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 
 - (NSMutableArray *) getDueTasksOnDate:(NSDate *)date
 {
-	//NSDate *tmp = [Common clearTimeForDate:date];
-	
-	//NSDate *start = [Common dateByAddNumSecond:_gmtSeconds toDate:tmp];
 	NSDate *start = [Common toDBDate:[Common clearTimeForDate:date]];
 	NSDate *end = [Common dateByAddNumDay:1 toDate:start];
 	
@@ -1655,9 +1647,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	BOOL ret = NO;
 	
-	//NSDate *tmp = [Common clearTimeForDate:date];
-	
-	//NSDate *start = [Common dateByAddNumSecond:_gmtSeconds toDate:tmp];
 	NSDate *start = [Common toDBDate:[Common clearTimeForDate:date]];
 	NSDate *end = [Common dateByAddNumDay:1 toDate:start];
 	
@@ -4257,12 +4246,14 @@ static sqlite3_stmt *_top_task_statement = nil;
 	
 	sqlite3_finalize(statement);
     
-    sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?, Task_TimeZoneID = -1";
+    NSInteger tzID = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+    
+    sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?, Task_TimeZoneID = ?";
     
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK)
 	{
 		sqlite3_bind_int(statement, 1, TASK_EXTRA_STATUS_NONE);
-		
+		sqlite3_bind_int(statement, 2, tzID);
 		int success = sqlite3_step(statement);
 		
 		if (success != SQLITE_DONE)

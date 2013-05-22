@@ -42,7 +42,7 @@
 - (void) editTimeZone
 {
     TimeZonePickerViewController *ctrler = [[TimeZonePickerViewController alloc] init];
-    ctrler.settings = self.setting;
+    ctrler.objectEdit = self.setting;
     
     [self.navigationController pushViewController:ctrler animated:YES];
     
@@ -55,7 +55,15 @@
 	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
 	
 	self.setting.timeZoneSupport = (segmentedStyleControl.selectedSegmentIndex==0);
-    self.setting.timeZoneID = 2624; //UTC
+    
+    self.setting.timeZoneID = -1;
+    
+    if (self.setting.timeZoneSupport)
+    {
+        NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+        
+        self.setting.timeZoneID = [Settings findTimeZoneIDByDisplayName:tz.name];
+    }
     
     //[settingTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     [settingTableView reloadData];
@@ -483,7 +491,7 @@
                     
                 case 1:
                 {
-                    NSString *timeZoneName = [self.setting.timeZoneDict objectForKey:[NSNumber numberWithInt: self.setting.timeZoneID]];
+                    NSString *timeZoneName = [Settings getTimeZoneDisplayNameByID:self.setting.timeZoneID];
                     
                     cell.textLabel.text = _timeZone;
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -564,7 +572,10 @@
     {
         case 0:
         {
-            [self editTimeZone];
+            if (indexPath.row == 1)
+            {
+                [self editTimeZone];
+            }
         }
             break;
             

@@ -9,17 +9,21 @@
 #import "StartEndPickerViewController.h"
 
 #import "Common.h"
+#import "Settings.h"
 #import "Colors.h"
 #import "Task.h"
 
 #import "DBManager.h"
 #import "ImageManager.h"
 
+#import "TimeZonePickerViewController.h"
+#import "TaskDetailTableViewController.h"
+
 @implementation StartEndPickerViewController
 
 @synthesize minStartTime;
-@synthesize objectEdit;
-@synthesize objectCopy;
+@synthesize task;
+@synthesize taskCopy;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -35,7 +39,7 @@
 {
 	if (self = [super init])
 	{
-		saveButton = nil;
+		//saveButton = nil;
         
         self.contentSizeForViewInPopover = CGSizeMake(320,416);
 	}
@@ -43,23 +47,66 @@
 	return self;
 }
 
+- (void)dealloc {
+	self.minStartTime = nil;
+	
+	self.taskCopy = nil;
+	
+    [super dealloc];
+}
+
 -(void) refreshPicker
 {
 	switch (selectedIndex) 
 	{
 		case 0:
-			datePicker.date = [self.objectCopy startTime];			
+			datePicker.date = [self.taskCopy startTime];
 			break;
 		case 1:
-			datePicker.date = [self.objectCopy endTime];			
+			datePicker.date = [self.taskCopy endTime];
 			break;			
 	}	
+}
+
+- (void) editTimeZone
+{
+    TimeZonePickerViewController *ctrler = [[TimeZonePickerViewController alloc] init];
+    ctrler.objectEdit = self.taskCopy;
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    
+    [ctrler release];
+}
+
+- (void) refreshTimeZone
+{
+    //[pickerTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
+    
+    self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
+    self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
+    
+    datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+    
+    [self refreshPicker];
+    
+    [pickerTableView reloadData];
+    
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	
-	self.objectCopy = self.objectEdit;
+	self.taskCopy = self.task;
+    
+    /*
+    //convert time to event timezone
+    NSInteger secs = [Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    
+    self.taskCopy.startTime = [self.task.startTime dateByAddingTimeInterval:secs];
+    self.taskCopy.endTime = [self.task.endTime dateByAddingTimeInterval:secs];
+    */
     
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
@@ -69,20 +116,20 @@
 	UIView *contentView = [[UIView alloc] initWithFrame:frm];
 	contentView.backgroundColor = [UIColor colorWithRed:161.0/255 green:162.0/255 blue:169.0/255 alpha:1];
 	
-	datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 100, 0, 0)];
+	datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 150, 0, 0)];
 	[datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
 	datePicker.minuteInterval=5;
-	BOOL isADE = [self.objectCopy isKindOfClass:[Task class]] && [(Task *)self.objectCopy isADE];
+    
+    datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+    
+	datePicker.datePickerMode = ([self.taskCopy isADE]? UIDatePickerModeDate: UIDatePickerModeDateAndTime);
 	
-	datePicker.datePickerMode = (isADE? UIDatePickerModeDate: UIDatePickerModeDateAndTime);
-	NSDate *startTime = [self.objectEdit startTime];
-	
-	datePicker.date = (startTime == nil?[NSDate date]:startTime);
+    datePicker.date = (self.taskCopy.startTime == nil?[NSDate date]:self.taskCopy.startTime);
 	
 	[contentView addSubview: datePicker];
 	[datePicker release];
 	
-	pickerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 100) style:UITableViewStyleGrouped];
+	pickerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 150) style:UITableViewStyleGrouped];
     pickerTableView.delegate = self;
     pickerTableView.dataSource = self;
 	pickerTableView.scrollEnabled=NO;
@@ -96,19 +143,6 @@
 	[contentView release];
 	
 	self.navigationItem.title = _timeEditTitle;	
-	
-	if(![self.objectCopy isKindOfClass:[Task class]])
-	{
-		saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
-																  target:self action:@selector(save:)];
-		saveButton.enabled = NO;
-		
-		self.navigationItem.rightBarButtonItem = saveButton;	
-		self.navigationItem.title = _progressEditTitle;
-		
-		[saveButton release];
-	}
-	
 	
 	selectedIndex = 0;
 	[self refreshPicker];
@@ -153,107 +187,76 @@
 	label.textColor = [UIColor whiteColor];	
 }
 
-- (void)dealloc {
-	self.minStartTime = nil;
-	
-	self.objectCopy = nil;
-	
-    [super dealloc];
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self save];
+    
+    if ([self.navigationController.topViewController isKindOfClass:[TaskDetailTableViewController class]])
+    {
+        TaskDetailTableViewController *ctrler = (TaskDetailTableViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshWhen];
+    }
 }
 
 #pragma mark Actions
 - (void)timeChanged:(id)sender
 {
 	UIDatePicker *picker = (UIDatePicker *) sender;
+    
+    //NSInteger secs = [[NSTimeZone defaultTimeZone] secondsFromGMT]-[picker.timeZone secondsFromGMT];
+    
+    NSDate *dt = picker.date;
 	
-	if ([picker.date compare:self.minStartTime] == NSOrderedAscending)
+	if ([dt compare:self.minStartTime] == NSOrderedAscending)
 	{
-		picker.date = self.minStartTime;		
+		dt = self.minStartTime;		
 	}
 	
 	if (selectedIndex == 0)
 	{
-		if ([self.objectCopy isKindOfClass:[Task class]] && [self.objectCopy type] == TYPE_ADE)
-		{
-			[self.objectCopy setStartTime:[Common clearTimeForDate:picker.date]];
-		}
-		else 
-		{
-			[self.objectCopy setStartTime:picker.date];			
-		}
+        self.taskCopy.startTime = [self.taskCopy isADE]?[Common clearTimeForDate:dt]:dt;
 	}
 	else
 	{
-		if ([self.objectCopy isKindOfClass:[Task class]] && [self.objectCopy type] == TYPE_ADE)
-		{
-			//[self.objectCopy setEndTime:[Common dateByAddNumSecond:-1 toDate:[Common getEndDate:picker.date]]];
-            [self.objectCopy setEndTime:[Common getEndDate:picker.date]];
-		}
-		else 
-		{			
-			[self.objectCopy setEndTime:picker.date];
-		}
+        self.taskCopy.endTime = [self.taskCopy isADE]?[Common clearTimeForDate:dt]:dt;
 	}
 	
-	if ([[self.objectCopy endTime] compare:[self.objectCopy startTime]] != NSOrderedDescending)
+	if ([self.taskCopy.endTime compare:self.taskCopy.startTime] != NSOrderedDescending)
 	{
 		if (selectedIndex == 1)
 		{
-			if ([self.objectCopy isKindOfClass:[Task class]] && [self.objectCopy type] == TYPE_ADE)
-			{
-				[self.objectCopy setStartTime:[Common clearTimeForDate:[self.objectCopy endTime]]];
-			}
-			else 
-			{				
-				[self.objectCopy setStartTime:[Common dateByAddNumSecond:-3600 toDate:[self.objectCopy endTime]]];
-			}
+            self.taskCopy.startTime = [self.taskCopy isADE]?[Common clearTimeForDate:self.taskCopy.endTime]:[Common dateByAddNumSecond:-3600 toDate:self.taskCopy.endTime];
 		}
 		else
 		{
-			if ([self.objectCopy isKindOfClass:[Task class]] && [self.objectCopy type] == TYPE_ADE)
-			{
-				//[self.objectCopy setEndTime:[Common dateByAddNumSecond:-1 toDate:[Common getEndDate:[self.objectCopy startTime]]]];
-                [self.objectCopy setEndTime:[Common getEndDate:[self.objectCopy startTime]]];
-			}
-			else 
-			{								
-				[self.objectCopy setEndTime:[Common dateByAddNumSecond:3600 toDate:[self.objectCopy startTime]]];
-			}
+            self.taskCopy.endTime = [self.taskCopy isADE]?[Common getEndDate:self.taskCopy.startTime]:[Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
 		}
 	}
-
-	if (saveButton != nil)
-	{
-		saveButton.enabled = YES;
-	}
-	else 
-	{
-		[self.objectEdit setStartTime:[self.objectCopy startTime]];
-		[self.objectEdit setEndTime:[self.objectCopy endTime]];		
-	}
-	
-	NSString *startTime = [self.objectCopy isADE]?[Common getFullDateString3:[self.objectCopy startTime]]
-	:[Common getFullDateTimeString:[self.objectCopy startTime]];
-	
-	NSString *endTime = [self.objectCopy isADE]?[Common getFullDateString3:[self.objectCopy endTime]]
-	:[Common getFullDateTimeString:[self.objectCopy endTime]];
-	
+    
 	UITableViewCell *cell = [pickerTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 	
-	UILabel *label = (UILabel *)[cell viewWithTag:10000];
-	label.text = startTime;
+    cell.detailTextLabel.text = [self.taskCopy getDisplayStartTime];
 	
 	cell = [pickerTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-	label = (UILabel *)[cell viewWithTag:10001];
-	label.text = endTime;
+	
+    cell.detailTextLabel.text = [self.taskCopy getDisplayEndTime];
 }
 
-- (void)save:(id)sender
+- (void)save
 {
-	[self.objectEdit setStartTime:[self.objectCopy startTime]];
-	[self.objectEdit setEndTime:[self.objectCopy endTime]];
-	
-	[self.navigationController popViewControllerAnimated:YES];
+    task.timeZoneId = taskCopy.timeZoneId;
+    
+    task.startTime = taskCopy.startTime;
+    task.endTime = taskCopy.endTime;
+    
+    //convert to default time zone
+    /*NSInteger secs = [Common getSecondsFromTimeZoneID:task.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
+    
+    task.startTime = [taskCopy.startTime dateByAddingTimeInterval:secs];
+    task.endTime = [taskCopy.endTime dateByAddingTimeInterval:secs];*/
 }
 
 
@@ -266,7 +269,10 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+
+    Settings *settings = [Settings getInstance];
+    
+    return settings.timeZoneSupport?3:2;
 }
 
 
@@ -277,7 +283,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
 	else
 	{
@@ -287,34 +293,51 @@
 			{
 				[view removeFromSuperview];
 			}
-		}			
+		}
 	}
 	
     // Set up the cell...
 	
-	//cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	NSString *titles[2] = {_startText, _endText};
+	NSString *titles[3] = {_startText, _endText, _timeZone};
 	
 	cell.textLabel.text = titles[indexPath.row]; 
 	
+    /*
 	UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
 	label.tag = 10000 + indexPath.row;
 	label.textAlignment=NSTextAlignmentRight;
 	label.backgroundColor=[UIColor clearColor];
 	label.font=[UIFont systemFontOfSize:15];
-	label.textColor= [Colors darkSteelBlue];
+	label.textColor= [Colors darkSteelBlue];*/
 	
+    /*
 	NSString *startTime = [self.objectCopy isADE]?[Common getFullDateString3:[self.objectCopy startTime]]
 	:[Common getFullDateTimeString:[self.objectCopy startTime]];
 
 	NSString *endTime = [self.objectCopy isADE]?[Common getFullDateString3:[self.objectCopy endTime]]
 	:[Common getFullDateTimeString:[self.objectCopy endTime]];
-	
+    
+    NSInteger tzId = ((Task *)self.objectCopy).timeZoneId;
+    
+    NSString *details[3] = {startTime, endTime,tzId == -1?@"None":[Settings getTimeZoneDisplayNameByID:tzId]};
+    */
+
+    NSInteger tzId = self.taskCopy.timeZoneId;
+
+    /*NSString *details[3] = {[self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.startTime]:[Common getFullDateTimeString:self.taskCopy.startTime],[self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.endTime]:[Common getFullDateTimeString:self.taskCopy.endTime],tzId == -1?@"None":[Settings getTimeZoneDisplayNameByID:tzId]};*/
+    NSString *details[3] = {[self.taskCopy getDisplayStartTime],[self.taskCopy getDisplayEndTime],tzId == -1?@"None":[Settings getTimeZoneDisplayNameByID:tzId]};
+    
+    cell.detailTextLabel.text = details[indexPath.row];
+    
+    cell.accessoryType = indexPath.row == 2?UITableViewCellAccessoryDisclosureIndicator:UITableViewCellAccessoryNone;
+    	
+    /*
 	label.text = (indexPath.row == 0?startTime:endTime);
 	
 	[cell.contentView addSubview:label];
-	[label release];
+	[label release];*/
+    
+    
 	
     return cell;
 }
@@ -325,19 +348,26 @@
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
-	
-	UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
-	
-	UILabel *label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
-	label.textColor = [Colors darkSteelBlue];		
-	
-	selectedIndex = indexPath.row;
-	
-	cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
-	label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
-	label.textColor = [UIColor whiteColor];	
-	
-	[self refreshPicker];
+    
+    if (indexPath.row == 2)
+    {
+        [self editTimeZone];
+    }
+	else
+    {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
+        
+        UILabel *label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
+        label.textColor = [Colors darkSteelBlue];
+        
+        selectedIndex = indexPath.row;
+        
+        cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
+        label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
+        label.textColor = [UIColor whiteColor];
+        
+        [self refreshPicker];        
+    }
 }
 
 

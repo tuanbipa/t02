@@ -24,10 +24,10 @@
         
 		activeSlot = nil;
 		
-		NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+		//NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 		
-		unsigned unitFlags = 0xFFFF;
-		NSDateComponents *comps = [gregorian components:unitFlags fromDate:[NSDate date]];
+		//unsigned unitFlags = 0xFFFF;
+		//NSDateComponents *comps = [gregorian components:unitFlags fromDate:[NSDate date]];
 		
 		int startHour = 0;
 		int endHour = 24;
@@ -42,12 +42,13 @@
 			
 			for (int j=0; j<numSlots;j++)
 			{
-				[comps setHour:i];
-				[comps setMinute:j*30];
-				[comps setSecond:0];
+				//[comps setHour:i];
+				//[comps setMinute:j*30];
+				//[comps setSecond:0];
                 
 				TimeSlotView *tsView = [[TimeSlotView alloc] initWithFrame:CGRectMake(0, dy, frame.size.width, TIME_SLOT_HEIGHT)];
-				tsView.time = [gregorian dateFromComponents:comps];
+				//tsView.time = [gregorian dateFromComponents:comps];
+                tsView.timeSegment = i*64+j*30;
                 
 				//[self addSubview:tsView];
                 [slotViews addObject:tsView];

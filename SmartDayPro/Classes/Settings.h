@@ -322,6 +322,11 @@
 
 -(void)enableHints;
 
+- (void) refreshTimeZone;
+
++ (NSInteger) findTimeZoneIDByDisplayName:(NSString *)name;
++ (NSString *) getTimeZoneDisplayNameByID:(NSInteger)tzID;
++ (NSString *) getTimeZoneNameByID:(NSInteger)tzID;
 +(void)startup;
 +(id)getInstance;
 +(void)free;

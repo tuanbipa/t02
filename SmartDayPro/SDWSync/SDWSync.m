@@ -672,6 +672,10 @@ NSInteger _sdwColor[32] = {
     
     ret.hideFutureTasks = ([[dict objectForKey:@"hide_future_task"] intValue] == 1?YES:NO);
     
+    ret.timeZoneSupport = [[dict objectForKey:@"time_zone_support"] boolValue];
+     
+    ret.timeZoneID = [[dict objectForKey:@"time_zone_key"] intValue];
+    
     //NSInteger dt = [[dict objectForKey:@"last_update"] intValue];
     NSDictionary *lastUpdateDict = [dict objectForKey:@"last_updates"];
     
@@ -698,6 +702,8 @@ NSInteger _sdwColor[32] = {
                              [NSNumber numberWithInt:settings.taskDuration/60], @"default_task_dur",
                              [NSNumber numberWithInt:(settings.eventCombination == 0?1:0)], @"show_task",
                              [NSNumber numberWithInt:settings.hideFutureTasks?1:0], @"hide_future_task",
+                             [NSNumber numberWithInt:(settings.timeZoneSupport?1:0)],@"time_zone_support",
+                             [NSNumber numberWithInt:settings.timeZoneID],@"time_zone_key",
                              nil];
     
     return catDict;
@@ -709,6 +715,8 @@ NSInteger _sdwColor[32] = {
     settings.taskDefaultProject = sdwSettings.taskDefaultProject;
     settings.taskDuration = sdwSettings.taskDuration;
     settings.eventCombination = sdwSettings.eventCombination;
+    settings.timeZoneSupport = sdwSettings.timeZoneSupport;
+    settings.timeZoneID = sdwSettings.timeZoneID;
 }
 
 - (void) updateSDWSettings:(Settings *)settings
@@ -781,7 +789,7 @@ NSInteger _sdwColor[32] = {
     {
         //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        ////printf("settings:\n%s\n", [str UTF8String]);
+        //printf("settings:\n%s\n", [str UTF8String]);
         
         NSDictionary *result = [self getDictionaryResult:urlData];
         
@@ -1421,6 +1429,7 @@ NSInteger _sdwColor[32] = {
     ret.name = [dict objectForKey:@"title"];
     ret.note = [dict objectForKey:@"content"];
     ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
+    ret.timeZoneId = [[dict objectForKey:@"timezone_key"] intValue];
     
     //NSLog(@"Task from SDW: %@ - name: %@", ret.note, ret.name);
     
@@ -1825,6 +1834,7 @@ NSInteger _sdwColor[32] = {
                              task.location, @"location",
                               task.tag, @"tags",
                              [NSNumber numberWithInt: task.duration/60], @"duration",
+                             [NSNumber numberWithInt: task.timeZoneId], @"timezone_key",
                              [NSNumber numberWithInt:startTime], @"start_time",
                               [NSNumber numberWithInt:([task isTask]?dueTime:endTime)], @"end_time",
                              [NSNumber numberWithInt:doneTime], @"completed_date",
@@ -1854,6 +1864,7 @@ NSInteger _sdwColor[32] = {
     task.location = sdwTask.location;
     task.tag = sdwTask.tag;
     task.duration = sdwTask.duration;
+    task.timeZoneId = sdwTask.timeZoneId;
     task.startTime = sdwTask.startTime;
     task.endTime = sdwTask.endTime;
     task.deadline = sdwTask.deadline;
@@ -2042,8 +2053,7 @@ NSInteger _sdwColor[32] = {
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwTaskList options:0 error:&error];
     
-    NSString* body = [[NSString alloc] initWithData:jsonBody
-                                           encoding:NSUTF8StringEncoding];
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
     //printf("update task body:\n%s\n", [body UTF8String]);
     
@@ -2726,7 +2736,7 @@ NSInteger _sdwColor[32] = {
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwPrjList options:0 error:&error];
     
-    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
     //printf("update project order body:\n%s\n", [body UTF8String]);
     
@@ -3528,8 +3538,7 @@ NSInteger _sdwColor[32] = {
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwList options:0 error:&error];
     
-    NSString* body = [[NSString alloc] initWithData:jsonBody
-                                           encoding:NSUTF8StringEncoding];
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
     //printf("add tag body:\n%s\n", [body UTF8String]);
     
@@ -3548,7 +3557,7 @@ NSInteger _sdwColor[32] = {
 	
     if (urlData)
     {
-        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
         //printf("add tags return:\n%s\n", [str UTF8String]);
         

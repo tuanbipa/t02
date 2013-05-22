@@ -313,7 +313,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     TimeSlotView *timeSlot = [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView getTimeSlot];
     
-    startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
+    startDate = [Common copyTimeFromDate:[timeSlot getTime] toDate:startDate];
     NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
     
     Task *copyTask = [[task copy] autorelease];

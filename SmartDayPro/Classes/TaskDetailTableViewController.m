@@ -569,7 +569,7 @@ extern BOOL _isiPad;
 - (void)editWhen
 {
 	StartEndPickerViewController *ctrler = [[StartEndPickerViewController alloc] init];
-	ctrler.objectEdit = self.taskCopy;
+	ctrler.task = self.taskCopy;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];	
@@ -628,6 +628,11 @@ extern BOOL _isiPad;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];		
+}
+
+- (void) refreshWhen
+{
+    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void) showTimerHistory
@@ -1436,8 +1441,10 @@ extern BOOL _isiPad;
 	startValLabel.font=[UIFont systemFontOfSize:15];
 	startValLabel.backgroundColor=[UIColor clearColor];
 	
-	startValLabel.text = [self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.startTime]
-							:[Common getFullDateTimeString:self.taskCopy.startTime];
+	//startValLabel.text = [self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.startTime]
+	//						:[Common getFullDateTimeString:self.taskCopy.startTime];
+    
+    startValLabel.text = [self.taskCopy getDisplayStartTime];
 	
 	[cell.contentView addSubview:startValLabel];
 	[startValLabel release];
@@ -1459,11 +1466,41 @@ extern BOOL _isiPad;
 	endValueLabel.font=[UIFont systemFontOfSize:15];
 	endValueLabel.backgroundColor=[UIColor clearColor];
 	
-	endValueLabel.text = [self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.endTime]
-						:[Common getFullDateTimeString:self.taskCopy.endTime];
+	//endValueLabel.text = [self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.endTime]
+	//					:[Common getFullDateTimeString:self.taskCopy.endTime];
 	
+    endValueLabel.text = [self.taskCopy getDisplayEndTime];
+    
 	[cell.contentView addSubview:endValueLabel];
 	[endValueLabel release];
+    
+    Settings *settings = [Settings getInstance];
+    
+    if (settings.timeZoneSupport && [self.taskCopy isEvent])
+    {
+        UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 50, 80, 25)];
+        tzLabel.tag = baseTag + 5;
+        tzLabel.text=_timeZone;
+        tzLabel.backgroundColor=[UIColor clearColor];
+        tzLabel.font=[UIFont boldSystemFontOfSize:16];
+        tzLabel.textColor=[UIColor blackColor];
+        
+        [cell.contentView addSubview:tzLabel];
+        [tzLabel release];
+        
+        UILabel *tzValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(90, 50, 175, 25)];
+        tzValueLabel.tag = baseTag + 6;
+        tzValueLabel.textAlignment=NSTextAlignmentRight;
+        tzValueLabel.textColor= [Colors darkSteelBlue];
+        tzValueLabel.font=[UIFont systemFontOfSize:15];
+        tzValueLabel.backgroundColor=[UIColor clearColor];
+        
+        tzValueLabel.text = (self.taskCopy.timeZoneId == -1? @"None":[Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId]);
+        
+        [cell.contentView addSubview:tzValueLabel];
+        [tzValueLabel release];
+        
+    }
 }
 
 - (void) createRepeatCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag

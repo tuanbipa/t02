@@ -190,12 +190,34 @@ iPadSettingViewController *_iPadSettingViewCtrler;
         }
         else
         {
-            [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];
+            //[NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];
+            
+            if (settings.timeZoneID == -1)
+            {
+                [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+            }
+            else
+            {
+                NSString *tzName = [Settings getTimeZoneDisplayNameByID:settings.timeZoneID];
+                
+                [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:tzName]];
+            }
         }
     }
     else if (timeZoneChange)
     {
-        [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];        
+        //[NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];
+        
+        if (settings.timeZoneID == -1)
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+        }
+        else
+        {            
+            NSString *tzName = [Settings getTimeZoneDisplayNameByID:settings.timeZoneID];
+            
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:tzName]];
+        }
     }
     
     if (weekStartChange)
@@ -465,10 +487,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     [super viewWillDisappear:animated];
     
     if ([self.navigationController.topViewController isKindOfClass:[iPadViewController class]])
-    {
-        [navView removeFromSuperview];
-        
+    {        
         [self save];
+        
+        [navView removeFromSuperview];
     }
     
     _iPadSettingViewCtrler = nil;

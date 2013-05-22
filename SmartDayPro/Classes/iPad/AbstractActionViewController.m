@@ -334,6 +334,9 @@ BOOL _autoPushPending = NO;
     TaskManager *tm = [TaskManager getInstance];
     ProjectManager *pm = [ProjectManager getInstance];
     DBManager *dbm = [DBManager getInstance];
+    Settings *settings = [Settings getInstance];
+    
+    [settings refreshTimeZone];
     
     [pm initProjectList:[dbm getProjects]];
     
