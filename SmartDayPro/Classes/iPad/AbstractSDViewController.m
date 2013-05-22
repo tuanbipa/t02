@@ -249,6 +249,9 @@ extern PlannerViewController *_plannerViewCtrler;
         case TASK_FILTER_DONE:
             title = _doneText;
             break;
+        case TASK_FILTER_SCHEDULED:
+            title = _scheduledText;
+            break;
     }
     
     return title;

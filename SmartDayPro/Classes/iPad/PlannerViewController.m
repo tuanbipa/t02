@@ -331,13 +331,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(void) createTaskOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+	//optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -491,6 +493,33 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	doneButton.titleLabel.font=[UIFont systemFontOfSize:18];
     doneButton.tag = TASK_FILTER_DONE;
 	[optionView addSubview:doneButton];
+    
+    // scheduled filert
+    UIImageView *scheduledImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 235, 20, 20)];
+	scheduledImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+	[optionView addSubview:scheduledImageView];
+	[scheduledImageView release];
+	
+	UILabel *scheduledLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 232, 120, 25)];
+	scheduledLabel.text = _scheduledText;
+	scheduledLabel.textColor = [UIColor whiteColor];
+	scheduledLabel.backgroundColor = [UIColor clearColor];
+	scheduledLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:scheduledLabel];
+	[scheduledLabel release];
+	
+	UIButton *scheduledButton=[Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(0, 232, 160, 30)
+                                        titleColor:nil
+                                            target:self
+                                          selector:@selector(showTaskWithOption:)
+                                  normalStateImage:nil
+                                selectedStateImage:nil];
+	scheduledButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    scheduledButton.tag = TASK_FILTER_SCHEDULED;
+	[optionView addSubview:scheduledButton];
+    // end scheduled filter
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2;

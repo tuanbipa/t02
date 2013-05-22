@@ -2123,6 +2123,9 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             self.taskList = [dbm getDoneTasks];
             break;
+        case TASK_FILTER_SCHEDULED:
+            self.taskList = [self getManualTaskList];
+            break;
 	}
         /*
         printf("before exclude MustDo\n");
@@ -2523,12 +2526,12 @@ TaskManager *_sctmSingleton = nil;
             if (scheduleTaskList.count > 0) {
                 [list addObjectsFromArray:scheduleTaskList];
             }
-        } else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
+        } /*else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
             NSMutableArray *scheduleTaskList = [self getManualTaskList];
             if (scheduleTaskList.count > 0) {
                 [list addObjectsFromArray:scheduleTaskList];
             }
-        }
+        }*/
     }
     
     if (self.taskList.count > 0)

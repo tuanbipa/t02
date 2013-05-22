@@ -16,6 +16,7 @@
 #define _saveText NSLocalizedString(@"_saveText" , "Save")
 #define _titleGuideText NSLocalizedString(@"_titleGuideText" , @"Title                 Tap or Type")
 #define _doneText NSLocalizedString(@"_doneText" , @"Done")
+#define _scheduledText NSLocalizedString(@"_scheduledText" , @"Scheduled")
 #define _gotoDateText NSLocalizedString(@"_gotoDateText" , @"Goto Date")
 #define _filterText NSLocalizedString(@"_filterText" , @"Filter")
 #define _noFilterText NSLocalizedString(@"_noFilterText" , @"No Filter") 
