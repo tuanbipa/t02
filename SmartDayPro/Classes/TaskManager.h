@@ -137,7 +137,7 @@
 //- (NSMutableArray *) scheduleTasksWithEvents:(NSMutableArray *)eventList;
 - (void) clearScheduledFlag;
 - (void) scheduleTasks;
-- (Task *)findScheduledTask:(Task *)original;
+- (NSMutableArray *)findScheduledTasks:(Task *)original;
 - (NSMutableArray *)getScheduledTasksOnDate:(NSDate *)date;
 - (NSMutableArray *)getUnSplittedScheduledTasksOnDate:(NSDate *)date;
 - (NSMutableArray *)getScheduledTasksFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;

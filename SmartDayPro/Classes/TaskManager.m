@@ -2318,18 +2318,19 @@ TaskManager *_sctmSingleton = nil;
 	[self fastSchedule];
 }
 
-- (Task *)findScheduledTask:(Task *)original
+- (NSMutableArray *)findScheduledTasks:(Task *)original
 {
-	//for (Task *task in self.todayTaskList)
+    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:5];
+    
 	for (Task *task in self.scheduledTaskList)
 	{
 		if (task.original == original)
 		{
-			return task;
+			[ret addObject:task];
 		}
 	}
 	
-	return nil;
+	return ret;
 }
 
 - (NSMutableArray *)getScheduledTasksOnDate:(NSDate *)date
@@ -3110,8 +3111,7 @@ TaskManager *_sctmSingleton = nil;
         
         BOOL alertDataChange = ![[slTask alertsToString] isEqualToString:[task alertsToString]];
         
-        BOOL alertTimeChange = ([slTask isTask] && [slTask.deadline compare:task.deadline] != NSOrderedSame) || 
-        ([slTask isEvent] && [slTask.startTime compare:task.startTime] != NSOrderedSame);
+        BOOL alertTimeChange = ([slTask isTask] && [slTask.deadline compare:task.deadline] != NSOrderedSame) || ([slTask isEvent] && [slTask.startTime compare:task.startTime] != NSOrderedSame);
         
         BOOL durationChange = (slTask.duration != task.duration);
         
@@ -3335,7 +3335,7 @@ TaskManager *_sctmSingleton = nil;
         }
         else //if (dummyUpdate)
         {
-            Task *tmp = [self findScheduledTask:slTask];
+            /*Task *tmp = [self findScheduledTask:slTask];
             
             if (tmp != nil)
             {
@@ -3344,7 +3344,19 @@ TaskManager *_sctmSingleton = nil;
                 [tmp updateByTask:slTask];
                 tmp.startTime = startTime;
                 tmp.endTime = endTime;						
-            }					
+            }	
+            */
+            
+            NSMutableArray *list = [self findScheduledTasks:slTask];
+
+            for (Task *tmp in list)
+            {
+                NSDate *startTime = [[tmp.startTime retain] autorelease];
+                NSDate *endTime = [[tmp.endTime retain] autorelease];
+                [tmp updateByTask:slTask];
+                tmp.startTime = startTime;
+                tmp.endTime = endTime;
+            }
         }
         
         if (taskChange || typeChange)
@@ -4239,16 +4251,6 @@ TaskManager *_sctmSingleton = nil;
         
         [self scheduleTasks];
 	}
-
-    /*
-    Task *scheduledTask = [self findScheduledTask:rt];
-    
-    if (scheduledTask != nil)
-    {
-        scheduledTask.startTime = rt.startTime;
-        scheduledTask.deadline = rt.deadline;
-    }        
-	*/
 	
 	[[AlertManager getInstance] generateAlertsForTask:rt];
 	

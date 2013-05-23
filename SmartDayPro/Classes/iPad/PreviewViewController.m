@@ -288,6 +288,8 @@ PreviewViewController *_previewCtrler;
 #pragma mark Actions
 - (void) editItem:(id) sender
 {
+    [noteView finishEdit];
+    
     //[_iPadSDViewCtrler editItem:self.item];
     if (_plannerViewCtrler != nil)
     {

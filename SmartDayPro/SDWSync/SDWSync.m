@@ -672,9 +672,9 @@ NSInteger _sdwColor[32] = {
     
     ret.hideFutureTasks = ([[dict objectForKey:@"hide_future_task"] intValue] == 1?YES:NO);
     
-    ret.timeZoneSupport = [[dict objectForKey:@"time_zone_support"] boolValue];
+    ret.timeZoneSupport = [[dict objectForKey:@"timezone_support"] boolValue];
      
-    ret.timeZoneID = [[dict objectForKey:@"time_zone_key"] intValue];
+    ret.timeZoneID = [[dict objectForKey:@"timezone_key"] intValue];
     
     //NSInteger dt = [[dict objectForKey:@"last_update"] intValue];
     NSDictionary *lastUpdateDict = [dict objectForKey:@"last_updates"];
@@ -702,8 +702,8 @@ NSInteger _sdwColor[32] = {
                              [NSNumber numberWithInt:settings.taskDuration/60], @"default_task_dur",
                              [NSNumber numberWithInt:(settings.eventCombination == 0?1:0)], @"show_task",
                              [NSNumber numberWithInt:settings.hideFutureTasks?1:0], @"hide_future_task",
-                             [NSNumber numberWithInt:(settings.timeZoneSupport?1:0)],@"time_zone_support",
-                             [NSNumber numberWithInt:settings.timeZoneID],@"time_zone_key",
+                             [NSNumber numberWithInt:(settings.timeZoneSupport?1:0)],@"timezone_support",
+                             [NSNumber numberWithInt:settings.timeZoneID],@"timezone_key",
                              nil];
     
     return catDict;
@@ -736,6 +736,10 @@ NSInteger _sdwColor[32] = {
     NSArray *bodyData = [NSArray arrayWithObject:dict];
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:bodyData options:0 error:&error];
 	
+    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    
+    printf("update settings body:\n%s\n", [body UTF8String]);    
+    
     [request setHTTPBody:jsonBody];
     
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -1056,8 +1060,7 @@ NSInteger _sdwColor[32] = {
     
     [request setHTTPBody:jsonBody];
     
-    NSString* body = [[NSString alloc] initWithData:jsonBody
-                                           encoding:NSUTF8StringEncoding];
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
     //printf("update category body:\n%s\n", [body UTF8String]);    
 	
@@ -2053,10 +2056,9 @@ NSInteger _sdwColor[32] = {
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwTaskList options:0 error:&error];
     
-    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
-    //printf("update task body:\n%s\n", [body UTF8String]);
-    
+    printf("update task body:\n%s\n", [body UTF8String]);
     
     [request setHTTPBody:jsonBody];
 	

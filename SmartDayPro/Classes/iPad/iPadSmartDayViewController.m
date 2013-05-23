@@ -158,6 +158,10 @@ iPadViewController *_iPadViewCtrler;
         {
             expandNum += 1;
         }
+        
+        UIView *actionView = (UIButton *)[headerViews[i] viewWithTag:30000+i];
+        
+        actionView.hidden = !buttons[i].selected;
     }
     
     NSInteger moduleHeight = (expandNum == 0?0:(contentView.bounds.size.height-160)/expandNum);
@@ -1276,6 +1280,14 @@ iPadViewController *_iPadViewCtrler;
         [headView addSubview:label];
         [label release];
         
+        UIView *actionView = [[UIView alloc] initWithFrame:CGRectMake(headView.bounds.size.width-220, 5, 180, 30)];
+        actionView.backgroundColor = [UIColor clearColor];
+        actionView.tag = 30000+i;
+        actionView.hidden = YES;
+        
+        [headView addSubview:actionView];
+        [actionView release];
+        
         UIButton *addButton = [Common createButton:@""
                                            buttonType:UIButtonTypeCustom
                                                 frame:CGRectMake(headView.bounds.size.width-35, 5, 30, 30)
@@ -1287,18 +1299,19 @@ iPadViewController *_iPadViewCtrler;
         addButton.tag = 22000+i;
         
         [headView addSubview:addButton];
-        
+                
         UIButton *filterButton = [Common createButton:@""
                                            buttonType:UIButtonTypeCustom
-                                                frame:CGRectMake(headView.bounds.size.width-70, 5, 30, 30)
+                                                //frame:CGRectMake(headView.bounds.size.width-70, 5, 30, 30)
+                                  frame:CGRectMake(actionView.bounds.size.width-30, 0, 30, 30)
                                            titleColor:[UIColor whiteColor]
                                                target:self
                                              selector:@selector(filter:)
                                      normalStateImage:nil
                                    selectedStateImage:nil];
         filterButton.tag = 23000+i;
-        [headView addSubview:filterButton];
-        
+        //[headView addSubview:filterButton];
+        [actionView addSubview:filterButton];
         
         UIImageView *filterImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 10, 10)];
         
@@ -1307,13 +1320,16 @@ iPadViewController *_iPadViewCtrler;
         [filterButton addSubview:filterImgView];
         [filterImgView release];
         
-        UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(headView.bounds.size.width-70, 5, 1, 30)];
+        //UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(headView.bounds.size.width-70, 5, 1, 30)];
+        UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(actionView.bounds.size.width-30, 0, 1, 30)];
         filterSeparatorView.backgroundColor = [UIColor whiteColor];
         
-        [headView addSubview:filterSeparatorView];
+        //[headView addSubview:filterSeparatorView];
+        [actionView addSubview:filterSeparatorView];
         [filterSeparatorView release];
         
-        UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(headView.bounds.size.width-180, 5, 100, 30)];
+        //UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(headView.bounds.size.width-180, 5, 100, 30)];
+        UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(actionView.bounds.size.width-140, 0, 100, 30)];
         filterLabel.backgroundColor = [UIColor clearColor];
         filterLabel.textAlignment =  NSTextAlignmentRight;
         filterLabel.textColor = [UIColor whiteColor];
@@ -1321,14 +1337,16 @@ iPadViewController *_iPadViewCtrler;
         filterLabel.tag = 24000+i;
         filterLabel.text = filters[i];
         
-        [headView addSubview:filterLabel];
+        //[headView addSubview:filterLabel];
+        [actionView addSubview:filterLabel];
         [filterLabel release];
         
         if (i==0 || i==1)
         {
             UIButton *taskMultiEditButton = [Common createButton:@"Edit"
                                               buttonType:UIButtonTypeCustom
-                                                   frame:CGRectMake(160, 10, 60, 20)
+                                                   //frame:CGRectMake(160, 10, 60, 20)
+                                             frame:CGRectMake(0, 5, 60, 20)
                                               titleColor:[UIColor whiteColor]
                                                   target:self
                                                 selector:@selector(startMultiEdit:)
@@ -1337,13 +1355,15 @@ iPadViewController *_iPadViewCtrler;
             taskMultiEditButton.tag = 25000+i;
             taskMultiEditButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
             
-            [headView addSubview:taskMultiEditButton];
+            //[headView addSubview:taskMultiEditButton];
+            [actionView addSubview:taskMultiEditButton];
         }
         else if (i==2)
         {
             projectShowDoneButton = [Common createButton:@""
                                                buttonType:UIButtonTypeCustom
-                                                    frame:CGRectMake(180, 10, 20, 20)
+                                                    //frame:CGRectMake(180, 10, 20, 20)
+                                     frame:CGRectMake(20, 5, 20, 20)
                                                titleColor:[UIColor whiteColor]
                                                    target:self
                                                  selector:@selector(showDone:)
@@ -1353,7 +1373,8 @@ iPadViewController *_iPadViewCtrler;
             CategoryViewController *ctrler = [self getCategoryViewController];
             projectShowDoneButton.selected = ctrler.showDone;
             
-            [headView addSubview:projectShowDoneButton];
+            //[headView addSubview:projectShowDoneButton];
+            [actionView addSubview:projectShowDoneButton];
         }
         
     }
