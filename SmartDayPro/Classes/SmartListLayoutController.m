@@ -461,7 +461,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     //[tm garbage:self.taskList];
 	
-	NSMutableArray *list = [tm getDisplayList];
+	//NSMutableArray *list = [tm getDisplayList];
+    // task list include manual tasks
+    NSMutableArray *list = [tm getDisplayListWithManualTasks];
+    [Common sortList:list byKey:@"smartTime" ascending:YES];
 	
 	self.taskList = list;
 	

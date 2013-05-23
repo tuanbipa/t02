@@ -2455,9 +2455,8 @@ TaskManager *_sctmSingleton = nil;
 	
     NSMutableArray *list = [self getManualTaskList];
     
-    NSDate *fromDate = [NSDate date];
-    //fromDate = [Common dat]
-    NSDate *toDate = [Common dateByAddNumDay:6 toDate:fromDate];
+    NSDate *fromDate = [Common clearTimeForDate:[NSDate date]];
+    NSDate *toDate = [Common getEndDate: [Common dateByAddNumDay:7 toDate:fromDate]];
 	@synchronized(self)
 	{
         for (Task *task in list)
@@ -2521,12 +2520,13 @@ TaskManager *_sctmSingleton = nil;
             [list addObjectsFromArray:self.mustDoTaskList];
         }
         
-        if (self.taskTypeFilter == TASK_FILTER_ALL) {
+        /*if (self.taskTypeFilter == TASK_FILTER_ALL) {
             NSMutableArray *scheduleTaskList = [self getManualTaskListFor7DaysLogic];
             if (scheduleTaskList.count > 0) {
                 [list addObjectsFromArray:scheduleTaskList];
             }
-        } /*else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
+        } */
+        /*else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
             NSMutableArray *scheduleTaskList = [self getManualTaskList];
             if (scheduleTaskList.count > 0) {
                 [list addObjectsFromArray:scheduleTaskList];
@@ -2537,6 +2537,18 @@ TaskManager *_sctmSingleton = nil;
     if (self.taskList.count > 0)
     {
         [list addObjectsFromArray:self.taskList];
+    }
+    
+    return list;
+}
+
+- (NSMutableArray *) getDisplayListWithManualTasks {
+    NSMutableArray *list = [self getDisplayList];
+    if (self.taskTypeFilter != TASK_FILTER_DONE && self.taskTypeFilter == TASK_FILTER_ALL) {
+        NSMutableArray *scheduleTaskList = [self getManualTaskListFor7DaysLogic];
+        if (scheduleTaskList.count > 0) {
+            [list addObjectsFromArray:scheduleTaskList];
+        }
     }
     
     return list;
