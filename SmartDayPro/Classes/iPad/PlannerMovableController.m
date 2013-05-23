@@ -237,7 +237,7 @@ extern PlannerViewController *_plannerViewCtrler;
 {
     DBManager *dbm = [DBManager getInstance];
     
-    if (task.original != nil)
+    if (task.original != nil && ![task isREException])
     {
         task = task.original;
     }

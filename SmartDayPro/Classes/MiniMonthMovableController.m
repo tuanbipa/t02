@@ -158,7 +158,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     //Task *task = ((TaskView *) self.activeMovableView).task;
     
-    if (task.original != nil)
+    if (task.original != nil && ![task isREException])
     {
         task = task.original;
     }    

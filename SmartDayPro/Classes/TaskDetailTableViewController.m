@@ -1574,7 +1574,7 @@ extern BOOL _isiPad;
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {	
-	return _isiPad?(showMore?3:2):2;
+	return _isiPad?(showMore?([self.taskCopy isEvent]?2:3):2):2;
 }
 
 

@@ -23,6 +23,7 @@
 #import "Project.h"
 #import "Task.h"
 #import "TaskView.h"
+#import "TaskLinkView.h"
 #import "TimeSlotView.h"
 #import "DateJumpView.h"
 #import "FilterView.h"
@@ -623,7 +624,7 @@ CalendarViewController *_sc2ViewCtrler;
                         
             Task *task = taskView.task;
             
-            if (task.original != nil)
+            if (task.original != nil && ![task isREException])
             {
                 task = task.original;
             }
@@ -632,12 +633,12 @@ CalendarViewController *_sc2ViewCtrler;
             {
                 [taskView setNeedsDisplay];
                 [taskView refreshStarImage];
-                [taskView refreshCheckImage];  
-                
+                [taskView refreshCheckImage];
+
                 break;
             }
-		}		 
-	}	
+		}
+	}
 }
 
 - (void)beginResize:(TaskView *)view
@@ -905,7 +906,7 @@ CalendarViewController *_sc2ViewCtrler;
 	}
 	*/
     
-	if (task.original != nil)
+	if (task.original != nil && ![task isREException])
 	{
 		task = task.original;
 	}

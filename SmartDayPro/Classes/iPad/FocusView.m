@@ -356,7 +356,7 @@ AbstractSDViewController *_abstractViewCtrler;
             
             Task *task = taskView.task;
             
-            if (task.original != nil)
+            if (task.original != nil && ![task isREException])
             {
                 task = task.original;
             }

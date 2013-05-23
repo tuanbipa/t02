@@ -1598,9 +1598,15 @@ BOOL _autoPushPending = NO;
         
         [slTask updateIntoDB:[dbm getDatabase]];
 
-        Task *schedTask = [tm findScheduledTask:slTask];
+        //Task *schedTask = [tm findScheduledTask:slTask];
+        //schedTask.project = prjKey;
         
-        schedTask.project = prjKey;
+        NSMutableArray *list = [tm findScheduledTasks:slTask];
+        
+        for (Task *tmp in list)
+        {
+            tmp.project = prjKey;
+        }
        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
     }

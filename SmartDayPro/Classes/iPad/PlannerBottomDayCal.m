@@ -161,7 +161,7 @@ extern PlannerViewController *_plannerViewCtrler;
             
             Task *task = taskView.task;
             
-            if (task.original != nil)
+            if (task.original != nil && ![task isREException])
             {
                 task = task.original;
             }
@@ -234,15 +234,6 @@ extern PlannerViewController *_plannerViewCtrler;
 				task.endTime = [Common dateByAddNumSecond:segments*15*60 toDate:task.endTime];
 			}
 		}
-		/*else if ([task isTask])
-		{
-			if (task.original != nil)
-			{
-				task = task.original;
-			}
-			
-			task.duration += segments*15*60;
-		}*/
         
 		[[TaskManager getInstance] resizeTask:task];
         

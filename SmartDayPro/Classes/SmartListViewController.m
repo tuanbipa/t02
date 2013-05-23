@@ -686,79 +686,6 @@ SmartListViewController *_smartListViewCtrler;
     }    
 }
 
-/*
-- (void) pinTaskInView:(TaskView *)taskView
-{
-	TaskManager *tm = [TaskManager getInstance];
-	
-	//Task *task = (Task *)taskView.tag;
-    Task *task = taskView.task;
-	
-	if (task.status == TASK_STATUS_PINNED)
-	{
-		task.status = TASK_STATUS_NONE;
-	}
-	else 
-	{
-		task.status = TASK_STATUS_PINNED;
-	}
-	
-	[task updateStatusIntoDB:[[DBManager getInstance] getDatabase]];
-	
-	if (tm.taskTypeFilter == TASK_FILTER_PINNED && task.status == TASK_STATUS_NONE)
-	{
-		[tm.taskList removeObject:task];
-		
-		[taskView removeFromSuperview];
-		
-		[self refreshSmartList:YES];		
-	}
-	else 
-	{
-		[taskView refreshStarImage];
-		
-		//update Calendar Task
-		Task *tmp = [[TaskManager getInstance] findScheduledTask:task];
-		if (tmp != nil)
-		{
-			tmp.status = task.status;
-		}
-	}
-}
-
-- (void) unPinTaskInView:(TaskView *)taskView
-{
-	TaskManager *tm = [TaskManager getInstance];
-	
-	//Task *task = (Task *)taskView.tag;
-    Task *task = taskView.task;
-	
-	if (task.status == TASK_STATUS_PINNED)
-	{
-		task.status = TASK_STATUS_NONE;
-		[task updateStatusIntoDB:[[DBManager getInstance] getDatabase]];
-		
-		if (tm.taskTypeFilter == TASK_FILTER_PINNED)
-		{
-			[tm.taskList removeObject:task];
-
-			[self refreshSmartList:YES];
-		}
-		else 
-		{
-			[taskView refreshStarImage];
-			[taskView setNeedsDisplay]; 
-			
-			//update Calendar Task
-			Task *tmp = [[TaskManager getInstance] findScheduledTask:task];
-			if (tmp != nil)
-			{
-				tmp.status = task.status;
-			}			
-		}	
-	}
-}
-*/
 -(void) refreshTopTaskForPlan:(NSInteger)plan
 {
 	Task *topTask = [[DBManager getInstance] getTopTaskForPlan:plan];
@@ -1085,7 +1012,7 @@ SmartListViewController *_smartListViewCtrler;
 	//Task *task = [smartListMovableController getActiveTask];
     Task *task = [self getSelectedTask];
     
-	if (task.original != nil)
+	if (task.original != nil && ![task isREException])
 	{
 		task = task.original;
 	}
