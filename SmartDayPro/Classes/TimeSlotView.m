@@ -25,7 +25,8 @@ extern BOOL _is24HourFormat;
 
 @implementation TimeSlotView
 
-@synthesize time;
+//@synthesize time;
+@synthesize timeSegment;
 
 - (id)initWithFrame:(CGRect)frame {
 	
@@ -50,13 +51,16 @@ extern BOOL _is24HourFormat;
 	
 	CGContextClearRect(ctx, rect);
 	
-	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+	//NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
-	unsigned unitFlags = 0xFFFF;
-	NSDateComponents *comps = [gregorian components:unitFlags fromDate:self.time];
+	//unsigned unitFlags = 0xFFFF;
+	//NSDateComponents *comps = [gregorian components:unitFlags fromDate:self.time];
 	
-	NSInteger minute = [comps minute];
-	NSInteger hour = [comps hour];
+	//NSInteger minute = [comps minute];
+	//NSInteger hour = [comps hour];
+    
+    NSInteger minute = self.timeSegment%64;
+    NSInteger hour = (self.timeSegment - minute)/64;
 
 	NSString *timestr = nil;
 	
@@ -235,21 +239,41 @@ extern BOOL _is24HourFormat;
 	[self setNeedsDisplay];
 }
 
+- (NSDate *) getTime
+{
+    NSInteger minute = self.timeSegment%64;
+    NSInteger hour = (self.timeSegment - minute)/64;
+    
+    NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+    
+    unsigned unitFlags = 0xFFFF;
+    NSDateComponents *comps = [gregorian components:unitFlags fromDate:[NSDate date]];
+    
+    [comps setHour:hour];
+    [comps setMinute:minute];
+    [comps setSecond:0];
+    
+    return [gregorian dateFromComponents:comps];
+}
+
 -(void)longPressHandler:(UILongPressGestureRecognizer *)gestureRecognizer
 {
 	if (gestureRecognizer.state != UIGestureRecognizerStateEnded) 
 	{
-        if (_plannerViewCtrler != nil) {
+        if (_plannerViewCtrler != nil)
+        {
             [_plannerViewCtrler.plannerBottomDayCal showQuickAdd:self sender:gestureRecognizer];
-        } else {
+        }
+        else
+        {
             CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-            [ctrler showQuickAdd:self.time];
+            [ctrler showQuickAdd:[self getTime]];
         }
 	}
 }
 
 - (void)dealloc {
-	self.time = nil;
+	//self.time = nil;
 	
 	[super dealloc];
 }

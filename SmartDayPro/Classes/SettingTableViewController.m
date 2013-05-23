@@ -40,6 +40,7 @@
 #import "CalendarSelectionTableViewController.h"
 #import "DefaultDurationViewController.h"
 #import "SnoozeDurationViewController.h"
+#import "TimeZonePickerViewController.h"
 
 #import "AboutTableViewController.h"
 
@@ -213,6 +214,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     BOOL defaultCatChange = (settings.taskDefaultProject != self.settingCopy.taskDefaultProject);
     
     BOOL ekSyncWindowChange = (settings.syncWindowStart != self.settingCopy.syncWindowStart) || (settings.syncWindowEnd != self.settingCopy.syncWindowEnd);
+    
+    BOOL timeZoneSupportChange = settings.timeZoneSupport != self.settingCopy.timeZoneSupport;
+    
+    BOOL timeZoneChange = settings.timeZoneID != self.settingCopy.timeZoneID;
     	
 	if (settings.taskDuration != self.settingCopy.taskDuration)
 	{
@@ -253,6 +258,40 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 	[settings updateSettings:self.settingCopy];
     
+    if (timeZoneSupportChange)
+    {
+        if (!settings.timeZoneSupport)
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+        }
+        else
+        {
+            if (settings.timeZoneID == -1)
+            {
+                [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+            }
+            else
+            {
+                NSString *tzName = [Settings getTimeZoneDisplayNameByID:settings.timeZoneID];
+                
+                [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:tzName]];
+            }
+        }
+    }
+    else if (timeZoneChange)
+    {
+        if (settings.timeZoneID == -1)
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+        }
+        else
+        {
+            NSString *tzName = [Settings getTimeZoneDisplayNameByID:settings.timeZoneID];
+            
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:tzName]];
+        }
+    }    
+    
     if (weekStartChange)
     {
         [[NSCalendar currentCalendar] setFirstWeekday:settings.weekStart==0?1:2];
@@ -263,7 +302,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TabBarModeChangeNotification" object:nil];
     }
 	
-	if (reSchedule && !mustDoDaysChange)
+    if (timeZoneSupportChange || timeZoneChange)
+    {
+        [tm initData];
+    }
+	else if (reSchedule && !mustDoDaysChange)
 	{
 		[tm scheduleTasks];
 	}
@@ -464,6 +507,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[ctrler release];	
 }
 
+-(void) editTimeZone
+{
+    TimeZonePickerViewController *ctrler = [[TimeZonePickerViewController alloc] init];
+    ctrler.objectEdit = self.settingCopy;
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    
+    [ctrler release];    
+}
+
 -(void) editTagList
 {	
 	TagListViewController *ctrler = [[TagListViewController alloc] init];
@@ -535,6 +588,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         label.text = [NSString stringWithFormat:@"%d", self.settingCopy.mustDoDays];
     }
+}
+
+- (void) refreshTimeZone
+{
+    [settingTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:3 inSection:3]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void) back:(id)sender
@@ -720,6 +778,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
 	
 	self.settingCopy.weekStart = segmentedStyleControl.selectedSegmentIndex;	
+}
+
+- (void) changeTimeZoneSupport: (id) sender
+{
+	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
+	
+	self.settingCopy.timeZoneSupport = (segmentedStyleControl.selectedSegmentIndex == 0);
+    
+    self.settingCopy.timeZoneID = -1;
+    
+    if (self.settingCopy.timeZoneSupport)
+    {
+        NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+        
+        self.settingCopy.timeZoneID = [Settings findTimeZoneIDByDisplayName:tz.name];
+    }
+    
+    //[settingTableView reloadData];
+    [settingTableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void) changeEventCombination: (id) sender
@@ -1096,6 +1173,43 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[cell.contentView addSubview:segmentedStyleControl];
 	[segmentedStyleControl release];		
 }
+
+- (void) createTimeZoneSupportCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.textLabel.text = _timeZoneSupport;
+	
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(170, 5, 120, 30);
+	[segmentedStyleControl addTarget:self action:@selector(changeTimeZoneSupport:) forControlEvents:UIControlEventValueChanged];
+	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.timeZoneSupport?0:1;
+	segmentedStyleControl.tag = baseTag;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];
+}
+
+- (void) createTimeZoneCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = _timeZone;
+	
+	UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
+	tzLabel.tag = baseTag;
+	tzLabel.textAlignment=NSTextAlignmentRight;
+	tzLabel.backgroundColor=[UIColor clearColor];
+	tzLabel.font=[UIFont systemFontOfSize:15];
+	tzLabel.textColor= [Colors darkSteelBlue];
+	
+	tzLabel.text = [Settings getTimeZoneDisplayNameByID:self.settingCopy.timeZoneID];
+	
+	[cell.contentView addSubview:tzLabel];
+	[tzLabel release];
+	
+}
+
 
 - (void) createLandscapeEnableCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
@@ -1937,7 +2051,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		case 2: //Task
 			return 4;
 		case 3: //Calendar
-			return 2;
+			return self.settingCopy.timeZoneSupport?4:3;
         case 4: //Syncronization
             return (self.settingCopy.autoSyncEnabled?3:(self.settingCopy.syncEnabled?2:1));
 		case 5: //Split Source
@@ -2131,6 +2245,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 					[self createWeekStartCell:cell baseTag:13010];
 				}
 					break;
+                case 2:
+                {
+                    [self createTimeZoneSupportCell:cell baseTag:13020];
+                }
+                    break;
+                case 3:
+                {
+                    [self createTimeZoneCell:cell baseTag:13030];
+                }
+                    break;
 			}
 		}
 			break;
@@ -2282,6 +2406,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 					[self editWorkingTime];
 				}
 					break;
+                case 3:
+                {
+                    [self editTimeZone];
+                }
+                    break;
 			}
 		}
 			break;

@@ -235,6 +235,11 @@ extern BOOL _syncMatchHintShown;
 
 -(void) updateSCEvent:(Task *)scEvent withEKEvent:(EKEvent *)ekEvent
 {
+    if (ekEvent.timeZone != nil)
+    {
+        scEvent.timeZoneId = [Settings findTimeZoneIDByDisplayName:ekEvent.timeZone.name];
+    }
+    
 	scEvent.syncId = ekEvent.eventIdentifier;
 	scEvent.name = ekEvent.title;
 	scEvent.location = ekEvent.location;
@@ -307,6 +312,8 @@ extern BOOL _syncMatchHintShown;
 -(void) updateEKEvent:(EKEvent *)ekEvent withSCEvent:(Task *)scEvent
 {
     ekEvent.allDay = NO;
+    ekEvent.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId]];
+    
 	ekEvent.title = scEvent.name;
 	ekEvent.location = scEvent.location;
 	ekEvent.notes = scEvent.note;

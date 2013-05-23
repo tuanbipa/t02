@@ -372,7 +372,9 @@ extern PlannerViewController *_plannerViewCtrler;
 	
 	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
-	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:timeSlot.time];
+//	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:timeSlot.time];
+	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:[timeSlot getTime]];
+    
 	NSInteger hour = [comps hour];
 	NSInteger minute = [comps minute];
 	
@@ -417,7 +419,8 @@ extern PlannerViewController *_plannerViewCtrler;
     
     // calculate time
     NSDate *startDate = [[self.calendarLayoutController.startDate copy] autorelease];
-    startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
+    //startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
+    startDate = [Common copyTimeFromDate:[timeSlot getTime] toDate:startDate];
     NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
 	quickAddTextView.tag = [toDate timeIntervalSince1970];
 	

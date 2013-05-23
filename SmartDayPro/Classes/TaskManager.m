@@ -679,7 +679,7 @@ TaskManager *_sctmSingleton = nil;
 
         [[AlertManager getInstance] generateAlerts];
 	
-        self.today = date;
+        self.today = [Common copyTimeFromDate:[NSDate date] toDate:date];
 	}
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
@@ -4592,8 +4592,16 @@ TaskManager *_sctmSingleton = nil;
 
 - (void)moveTime:(NSDate *)date forEvent:(Task *)event
 {
-	//NSDate *oldTime = [[event.startTime copy] autorelease];
 	NSDate *oldTime = [event.startTime copy];
+    
+    NSDate *dt = date;
+    
+    if ([event isEvent])
+    {        
+        NSInteger secs = [Common getSecondsFromTimeZoneID:event.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        
+        dt = [date dateByAddingTimeInterval:secs];
+    }
 	
 	Task *longEvent = nil;
 	
@@ -4632,7 +4640,8 @@ TaskManager *_sctmSingleton = nil;
 		}
 
 		event.type = TYPE_EVENT;
-        event.startTime = date;
+        //event.startTime = date;
+        event.startTime = dt;
         event.endTime = [Common dateByAddNumSecond:duration toDate:event.startTime];
 
 		if (![event.syncId isEqualToString:@""]) //already synced
@@ -4698,7 +4707,7 @@ TaskManager *_sctmSingleton = nil;
 			[self createREException:event originalTime:oldTime];
 		}
         
-        event.startTime = date;
+        event.startTime = dt;
         event.endTime = [Common dateByAddNumSecond:duration toDate:event.startTime];
 
         [event updateTimeIntoDB:[[DBManager getInstance] getDatabase]];
@@ -4709,7 +4718,7 @@ TaskManager *_sctmSingleton = nil;
 	}
 	else 
 	{
-        event.startTime = date;
+        event.startTime = dt;
         event.endTime = [Common dateByAddNumSecond:duration toDate:event.startTime];
         
 		[event updateTimeIntoDB:[[DBManager getInstance] getDatabase]];				

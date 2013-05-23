@@ -767,23 +767,23 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSInteger) getSecondsFromTimeZoneID:(NSInteger)tzID
 {
-    NSInteger ret = tzID%64;
+    NSInteger ret = abs(tzID)%128;
     
-    NSInteger min = ret%4;
+    NSInteger min = ret%8;
     
-    NSInteger hour = (ret-min)/4;
+    NSInteger hour = (ret-min)/8;
     
-    ret = hour*3600 + min*15*60;
+    ret = hour*3600 + (min==7?7*60:min*15*60);
     
-    return ret;
+    return tzID>0?ret:-ret;
 }
 
 + (NSDate *)toDBDate:(NSDate *)localDate
 {
 	NSInteger dstOffset = [[NSTimeZone defaultTimeZone] daylightSavingTimeOffset] - [[NSTimeZone defaultTimeZone] daylightSavingTimeOffsetForDate:localDate];
 	
-	//NSInteger gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
-    NSInteger gmtSeconds = [[NSTimeZone systemTimeZone] secondsFromGMT];
+	NSInteger gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    //NSInteger gmtSeconds = [[NSTimeZone systemTimeZone] secondsFromGMT];
 	
 	NSDate *dbDate = [localDate dateByAddingTimeInterval:gmtSeconds-dstOffset];
 	
@@ -794,7 +794,8 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSDate *)fromDBDate:(NSDate *)dbDate
 {
-	NSInteger gmtSeconds = [[NSTimeZone systemTimeZone] secondsFromGMT];
+	//NSInteger gmtSeconds = [[NSTimeZone systemTimeZone] secondsFromGMT];
+    NSInteger gmtSeconds = [[NSTimeZone defaultTimeZone] secondsFromGMT];
 	
 	NSDate *localDate = [dbDate dateByAddingTimeInterval:-gmtSeconds];
 	

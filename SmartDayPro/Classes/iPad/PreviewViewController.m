@@ -486,7 +486,7 @@ PreviewViewController *_previewCtrler;
 {
     [super viewWillAppear:animated];
     
-    if ([self.item isTask] && _plannerViewCtrler == nil)
+    if ([self.item isTask] && ![self.item isDone] && _plannerViewCtrler == nil)
     {
         UIButton *timerButton = [Common createButton:@""
                                           buttonType:UIButtonTypeCustom
@@ -526,8 +526,8 @@ PreviewViewController *_previewCtrler;
         {
             [_abstractViewCtrler reconcileItem:noteView.note reSchedule:NO];
         }
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil]; //to auto-sync mSD
-
     }
 
     _previewCtrler = nil;

@@ -68,4 +68,6 @@
 - (void) refreshHistory;
 - (void) tabBarChanged:(BOOL)mini;
 
+- (void) refreshWhen;
+
 @end

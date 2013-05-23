@@ -18,7 +18,8 @@
 	NSInteger selectedIndex;
 }
 
-@property (nonatomic, assign) Settings *settings;
+//@property (nonatomic, assign) Settings *settings;
+@property (nonatomic, assign) NSObject *objectEdit;
 
 @property (nonatomic, retain) NSMutableDictionary *searchDict;
 

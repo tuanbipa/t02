@@ -10,13 +10,19 @@
 
 #import "Common.h"
 #import "Settings.h"
+#import "Task.h"
 
 #import "iPadCalendarSettingViewController.h"
+#import "StartEndPickerViewController.h"
+#import "SettingTableViewController.h"
+
+extern BOOL _isiPad;
 
 @implementation TimeZonePickerViewController
 
 @synthesize searchDict;
 @synthesize tzIDList;
+@synthesize objectEdit;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,6 +30,16 @@
     if (self) {
         // Custom initialization
     }
+    return self;
+}
+
+- (id) init
+{
+    if (self = [super init])
+    {
+        self.contentSizeForViewInPopover = CGSizeMake(320,416);
+    }
+    
     return self;
 }
 
@@ -71,15 +87,22 @@
 {
     self.searchDict = [NSMutableDictionary dictionaryWithCapacity:100];
     
-    NSArray *list = [self.settings.timeZoneDict allKeys];
+    Settings *settings = [Settings getInstance];
+    
+    NSArray *list = [settings.timeZoneDict allKeys];
     
     for (NSNumber *key in list)
     {
-        NSString *name = [self.settings.timeZoneDict objectForKey:key];
+        NSString *name = [[settings.timeZoneDict objectForKey:key] substringFromIndex:11];
         
-        name = [name substringFromIndex:11];
+        NSRange range = [name rangeOfString:@"/" options:NSBackwardsSearch range:NSMakeRange(0, name.length-1)];
         
-        [self createSearchForName:name timeZoneID:[key intValue]];
+        if (range.location != NSNotFound)
+        {
+            name = [name substringFromIndex:range.location+1];
+        }
+        
+        [self createSearchForName:[name uppercaseString] timeZoneID:[key intValue]];
     }
 }
 
@@ -94,7 +117,9 @@
 {
     if ([name isEqualToString:@""])
     {
-        self.tzIDList = [NSMutableArray arrayWithArray:[self.settings.timeZoneDict keysSortedByValueUsingComparator:^NSComparisonResult(NSString *name1, NSString *name2)
+        Settings *settings = [Settings getInstance];
+        
+        self.tzIDList = [NSMutableArray arrayWithArray:[settings.timeZoneDict keysSortedByValueUsingComparator:^NSComparisonResult(NSString *name1, NSString *name2)
             {
                 NSRange range;
                 range.location = 4;
@@ -118,6 +143,11 @@
                 return NSOrderedSame;
             }
                                                         ]];
+        
+        /*for (NSNumber *key in self.tzIDList)
+        {
+            printf("%s,%d\n", [[settings.timeZoneDict objectForKey:key] UTF8String], [key intValue]);
+        }*/
     }
     else
     {
@@ -134,22 +164,29 @@
     
     UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
+    CGFloat pad = 0;
+    
     if ([ctrler isKindOfClass:[iPadCalendarSettingViewController class]])
     {
         frm.size.width = 2*frm.size.width/3;
+        
+        pad = 60;
     }
     else
     {
         frm.size.width = 320;
+        
+        pad = 20;
     }
     
     contentView = [[UIView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(30, 10, frm.size.width-60, 30)];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(pad/2, 10, frm.size.width-pad, 30)];
     searchBar.placeholder = @"";
-    searchBar.translucent = NO;
-    searchBar.barStyle = UIBarStyleBlackTranslucent;
+    searchBar.backgroundColor = [UIColor clearColor];
+    //searchBar.translucent = NO;
+    //searchBar.barStyle = UIBarStyleBlackTranslucent;
     searchBar.delegate = self;
     searchBar.backgroundImage = [UIImage imageNamed:@"none.png"];
     
@@ -163,7 +200,7 @@
     listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
 	listTableView.delegate = self;
 	listTableView.dataSource = self;
-	listTableView.sectionHeaderHeight=5;
+	//listTableView.sectionHeaderHeight=5;
 	
 	[contentView addSubview:listTableView];
 	[listTableView release];
@@ -180,6 +217,24 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([self.navigationController.topViewController isKindOfClass:[StartEndPickerViewController class]])
+    {
+        StartEndPickerViewController *ctrler = (StartEndPickerViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshTimeZone];
+    }
+    else if ([self.navigationController.topViewController isKindOfClass:[SettingTableViewController class]])
+    {
+        SettingTableViewController *ctrler = (SettingTableViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshTimeZone];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -218,14 +273,31 @@
 
     NSNumber *key = [self.tzIDList objectAtIndex:indexPath.row];
     
-	cell.textLabel.text = [self.settings.timeZoneDict objectForKey:key];
+    Settings *settings = [Settings getInstance];
     
-	if (self.settings.timeZoneID == [key intValue])
-	{
-		cell.accessoryType = UITableViewCellAccessoryCheckmark;
-		selectedIndex = indexPath.row;
-	}
-	
+	cell.textLabel.text = [settings.timeZoneDict objectForKey:key];
+    
+    if ([self.objectEdit isKindOfClass:[Settings class]])
+    {
+        settings = (Settings *)self.objectEdit;
+
+        if (settings.timeZoneID == [key intValue])
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            selectedIndex = indexPath.row;
+        }
+    }
+    else if ([self.objectEdit isKindOfClass:[Task class]])
+    {
+        Task *task = (Task *)self.objectEdit;
+        
+        if (task.timeZoneId == [key intValue])
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            selectedIndex = indexPath.row;
+        }
+    }
+    
     return cell;
 }
 
@@ -242,7 +314,17 @@
 	selectedIndex = indexPath.row;
 	
     NSNumber *key = [self.tzIDList objectAtIndex:indexPath.row];
-    self.settings.timeZoneID = [key intValue];
+    
+    //self.settings.timeZoneID = [key intValue];
+    
+    if ([self.objectEdit isKindOfClass:[Settings class]])
+    {
+        ((Settings *)self.objectEdit).timeZoneID = [key intValue];
+    }
+    else if ([self.objectEdit isKindOfClass:[Task class]])
+    {
+        ((Task *)self.objectEdit).timeZoneId = [key intValue];
+    }
 }
 
 #pragma mark UISearchBar delegate
@@ -253,6 +335,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [searchBar resignFirstResponder];   
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -261,7 +344,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [self searchForName:searchBar.text];
+    [self searchForName:[searchBar.text uppercaseString]];
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar

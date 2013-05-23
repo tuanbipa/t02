@@ -10,7 +10,7 @@
 
 
 @interface TimeSlotView : UIView<UIGestureRecognizerDelegate> {
-	NSDate *time;
+	//NSDate *time;
 	
 	BOOL isHighLighted;
 }
@@ -19,7 +19,11 @@
 - (void) highlight;
 - (void) unhighlight;
 
-@property (nonatomic, copy) 	NSDate *time;
+//@property (nonatomic, copy) 	NSDate *time;
+
+@property NSInteger timeSegment; //value is hour*64 + minute
+
+- (NSDate *) getTime;
 
 + (CGSize) calculateTimePaneSize;
 

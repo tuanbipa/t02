@@ -49,9 +49,11 @@
 				[comps setSecond:0];
 			
 				TimeSlotView *tsView = [[TimeSlotView alloc] initWithFrame:CGRectMake(0, dy, frame.size.width, TIME_SLOT_HEIGHT)];
-				tsView.time = [gregorian dateFromComponents:comps];
+                tsView.timeSegment = i*64+j*30;
+                
+				//tsView.time = [gregorian dateFromComponents:comps];
 			
-				//[self addSubview:tsView];
+			
                 [slotViews addObject:tsView];
 				[tsView release];
 				
@@ -237,7 +239,7 @@
 	if (activeSlot != nil)
 	{
 		//ILOG(@"ScheduleView getTimeSlot] NOT NIL\n")
-		return activeSlot.time;
+		return [activeSlot getTime];
 	}
 	
 	//ILOG(@"ScheduleView getTimeSlot]\n")

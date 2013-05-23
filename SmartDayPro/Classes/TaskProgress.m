@@ -14,8 +14,6 @@
 #import "Task.h"
 #import "DBManager.h"
 
-//extern NSInteger _gmtSeconds;
-
 static sqlite3_stmt *task_progress_init_statement = nil;
 static sqlite3_stmt *task_progress_insert_statement = nil;
 static sqlite3_stmt *task_progress_update_statement = nil;
@@ -90,8 +88,6 @@ static sqlite3_stmt *task_progress_delete_statement = nil;
 			NSTimeInterval startTimeValue = sqlite3_column_double(task_progress_init_statement, 0);
 			NSTimeInterval endTimeValue = sqlite3_column_double(task_progress_init_statement, 1);			
 			
-  			//self.startTime = (startTimeValue == -1? nil:[Common dateByAddNumSecond:-_gmtSeconds toDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]]);
-			//self.endTime = (endTimeValue == -1? nil:[Common dateByAddNumSecond:-_gmtSeconds toDate:[NSDate dateWithTimeIntervalSince1970:endTimeValue]]);
   			self.startTime = (startTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]]);
 			self.endTime = (endTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:endTimeValue]]);
       } 
@@ -118,8 +114,6 @@ static sqlite3_stmt *task_progress_delete_statement = nil;
 		
     }
 	
-	//NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.startTime] timeIntervalSince1970]);
-	//NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.endTime] timeIntervalSince1970]);	
 	NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common toDBDate:self.startTime] timeIntervalSince1970]);
 	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);	
 	
@@ -159,8 +153,6 @@ static sqlite3_stmt *task_progress_delete_statement = nil;
         }
     }
 	
-	//NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.startTime] timeIntervalSince1970]);
-	//NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.endTime] timeIntervalSince1970]);		
 	NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common toDBDate:self.startTime] timeIntervalSince1970]);
 	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);	
 	
@@ -192,7 +184,6 @@ static sqlite3_stmt *task_progress_delete_statement = nil;
         }
     }
 	
-	//NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common dateByAddNumSecond:_gmtSeconds toDate:self.endTime] timeIntervalSince1970]);		
 	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);		
 	
 	sqlite3_bind_int(task_progress_endtime_update_statement, 1, endTimeValue);
