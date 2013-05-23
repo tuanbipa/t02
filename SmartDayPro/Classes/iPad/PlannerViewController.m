@@ -685,7 +685,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     TaskManager *tm = [TaskManager getInstance];
     NSDate *dt = nil;
     if (tm.today != nil) {
-        dt = tm.today;
+        dt = [[tm.today copy] autorelease];
     } else {
         dt = [NSDate date];
     }

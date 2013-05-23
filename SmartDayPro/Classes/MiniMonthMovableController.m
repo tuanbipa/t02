@@ -31,6 +31,9 @@
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
 
+#import "ScheduleView.h"
+#import "CalendarViewController.h"
+
 extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
@@ -105,6 +108,11 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             
             moveInFocus = CGRectContainsPoint(focusFrm, p);
         }
+        
+        // check move in Day Calendar
+        CalendarViewController *calendarViewCtrl =  [_abstractViewCtrler getCalendarViewController];
+        CGRect smartListFrm = [self getMovableRect:calendarViewCtrl.view];
+        moveInDayCalendar = CGRectContainsPoint(smartListFrm, p);
                 
     }
     
@@ -316,6 +324,18 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     }
 }
 
+- (void)convertTaskToSTask: (Task *) task time: (NSDate *) time {
+    
+    // convert to STask
+    task.name = [[NSString stringWithFormat:@"%C ", STASK_CHARACTER] stringByAppendingString:task.name];
+    [task setManual:YES];
+    
+    Task *copyTask = [[task copy] autorelease];
+    copyTask.original = task;
+    
+    [_abstractViewCtrler changeTime:copyTask time:time];
+}
+
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     TaskView *tv = (TaskView *) self.activeMovableView;
@@ -400,6 +420,17 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             }
                 break;
         }
+    }
+    else if (alertVw.tag == -11001)
+    {
+        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        if (buttonIndex == 1)
+        {
+            NSDate *time = [[[ctrler.todayScheduleView getTimeSlot] retain] autorelease];
+            
+            [self convertTaskToSTask:task time:time];
+        }
+        [ctrler.todayScheduleView unhighlight];
     }
     
     if (moveInMM)

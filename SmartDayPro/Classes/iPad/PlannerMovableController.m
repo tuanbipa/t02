@@ -98,22 +98,8 @@ extern PlannerViewController *_plannerViewCtrler;
         //tp = [self.activeMovableView.superview convertPoint:touchPoint toView:_plannerViewCtrler.contentView];
         moveInPlannerDayCal = CGRectContainsPoint(dayCalFrm, tp);
         
+        [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView unhighlight];
         if (moveInPlannerDayCal) {
-            /*if (frm.size.width > 100)
-            {
-                if ([self.activeMovableView isKindOfClass:[TaskView class]])
-                {
-                    ((TaskView *)dummyView).starEnable = NO;
-                }
-                
-                [dummyView setNeedsDisplay];
-            }
-            
-            frm.origin.x = tp.x;
-            frm.origin.y = tp.y - 40;
-            
-            frm.size.width = 80;
-            frm.size.height = 25;*/
             
             CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];
             [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView highlight:rect];
@@ -378,6 +364,8 @@ extern PlannerViewController *_plannerViewCtrler;
         if (buttonIndex == 1)
         {
             [self changeEventDateTime: task];
+        } else {
+            [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView unhighlight];
         }
 	}
     

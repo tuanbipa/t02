@@ -26,6 +26,8 @@
 //#import "ListViewController.h"
 
 #import "AbstractSDViewController.h"
+#import "CalendarViewController.h"
+#import "ScheduleView.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 
@@ -47,6 +49,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
     if ([[TaskManager getInstance] taskTypeFilter] != TASK_FILTER_DONE)
     {
         [super beginMove:view];
+    }
+}
+
+-(void)move:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super move:touches withEvent:event];
+    
+    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+    if (moveInDayCalendar) {
+        
+        //CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:ctrler.todayScheduleView];
+        [ctrler.todayScheduleView highlight:rect];
+    } else {
+        [ctrler.todayScheduleView unhighlight];
     }
 }
 
@@ -74,6 +91,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
         else if (moveInMM)
         {
             [self doTaskMovementInMM];
+        }
+        else if (moveInDayCalendar)
+        {
+            [self doMoveTaskInDayCalendar];
         }
         else if (rightMovableView != nil)
         {
@@ -103,5 +124,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [view release];
 }
 
+#pragma mark After end move
 
+- (void)doMoveTaskInDayCalendar {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoSTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+    
+    alertView.tag = -11001;
+    
+    [alertView show];
+    [alertView release];
+}
 @end

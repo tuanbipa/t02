@@ -2124,7 +2124,8 @@ TaskManager *_sctmSingleton = nil;
             self.taskList = [dbm getDoneTasks];
             break;
         case TASK_FILTER_SCHEDULED:
-            self.taskList = [self getManualTaskList];
+            //self.taskList = [self getManualTaskList];
+            self.taskList = [NSMutableArray array];
             break;
 	}
         /*
@@ -2546,6 +2547,11 @@ TaskManager *_sctmSingleton = nil;
     NSMutableArray *list = [self getDisplayList];
     if (self.taskTypeFilter != TASK_FILTER_DONE && self.taskTypeFilter == TASK_FILTER_ALL) {
         NSMutableArray *scheduleTaskList = [self getManualTaskListFor7DaysLogic];
+        if (scheduleTaskList.count > 0) {
+            [list addObjectsFromArray:scheduleTaskList];
+        }
+    } else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
+        NSMutableArray *scheduleTaskList = [self getManualTaskList];
         if (scheduleTaskList.count > 0) {
             [list addObjectsFromArray:scheduleTaskList];
         }

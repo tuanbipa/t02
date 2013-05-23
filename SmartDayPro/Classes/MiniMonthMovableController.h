@@ -18,6 +18,8 @@
     BOOL moveInMM;
     
     BOOL moveInFocus;
+    
+    BOOL moveInDayCalendar;
 }
 
 - (void) doTaskMovementInMM;
