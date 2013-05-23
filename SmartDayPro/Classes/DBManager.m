@@ -418,22 +418,19 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;
 }
 
-- (NSMutableArray *)getManualTaskList {
-    Settings *settings = [Settings getInstance];
+- (NSMutableArray *)getManualTasks {
     
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
     
-    NSDate *start = [Common toDBDate:[Common getEndDate:[NSDate date]]];
-	
-	const char *sql = settings.hideFutureTasks?"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND Task_Status == ? AND (Task_StartTime = -1 OR (Task_StartTime <> -1 AND Task_StartTime < ?)) ORDER BY Task_SeqNo ASC":"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND Task_Status == ? ORDER BY Task_SeqNo ASC";
+    const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND Task_Status <> ? AND Task_Status <> ? ORDER BY Task_StartTime ASC";
     
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, TYPE_EVENT);
         sqlite3_bind_int(statement, 2, TASK_EXTRA_STATUS_MANUAL);
-		sqlite3_bind_int(statement, 3, TASK_STATUS_NONE);
-        sqlite3_bind_double(statement, 4, [start timeIntervalSince1970]);
+		sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
+        sqlite3_bind_double(statement, 4, TASK_STATUS_DELETED);
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -447,6 +444,51 @@ static sqlite3_stmt *_top_task_statement = nil;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement);
 	
+	return taskList;
+}
+
+- (NSMutableArray *)getManualTasksFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate {
+    NSDate *start = [Common toDBDate:fromDate];
+	NSDate *end = [Common toDBDate:toDate];
+	
+	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
+    
+	sqlite3_stmt *statement = _event_list_statement;
+	
+	if (statement == nil)
+	{
+		const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND \
+		Task_Status <> ? AND Task_Status <> ? \
+        AND (Task_StartTime > ? AND Task_StartTime < ?) \
+        ORDER BY Task_StartTime";
+		
+		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+		{
+			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
+    
+	sqlite3_bind_int(statement, 1, TYPE_EVENT);
+    sqlite3_bind_int(statement, 2, TASK_EXTRA_STATUS_MANUAL);
+    sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
+	sqlite3_bind_int(statement, 4, TASK_STATUS_DELETED);
+	sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
+	sqlite3_bind_double(statement, 6, [end timeIntervalSince1970]);
+	//sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
+	//sqlite3_bind_double(statement, 8, [start timeIntervalSince1970]);
+	
+	while (sqlite3_step(statement) == SQLITE_ROW) {
+		int primaryKey = sqlite3_column_int(statement, 0);
+		Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
+		
+		[taskList addObject:task];
+		[task release];
+	}
+	
+	// "Finalize" the statement - releases the resources associated with the statement.
+	//sqlite3_finalize(statement);
+	sqlite3_reset(statement);
+    
 	return taskList;
 }
 

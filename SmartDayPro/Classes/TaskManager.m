@@ -2442,37 +2442,25 @@ TaskManager *_sctmSingleton = nil;
 }
 
 - (NSMutableArray *)getManualTaskList {
-	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:10];
     
 	DBManager *dbm = [DBManager getInstance];
-	ret = [dbm getManualTaskList];
-    
+	NSMutableArray *ret = [dbm getManualTasks];
     ret = [self filterList:ret];
 	
     return ret;
 }
 
-- (NSMutableArray *)getManualTaskListFor7DaysLogic {
-    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:10];
-	
-    NSMutableArray *list = [self getManualTaskList];
+- (NSMutableArray *)getManualTaskListFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate {
     
-    NSDate *fromDate = [Common clearTimeForDate:[NSDate date]];
-    NSDate *toDate = [Common getEndDate: [Common dateByAddNumDay:7 toDate:fromDate]];
-	@synchronized(self)
-	{
-        for (Task *task in list)
-        {
-            if ([task.smartTime compare:fromDate] != NSOrderedAscending && [task.smartTime compare:toDate] == NSOrderedAscending)
-            {
-                [ret addObject:task];
-            }
-        }
-	}
-	
-	ret = [self filterList:ret];
-	
-	return ret;
+    // get list from DB
+	DBManager *dbm = [DBManager getInstance];
+	NSMutableArray *ret = [dbm getManualTasksFromDate:fromDate toDate:toDate];
+    
+    // filter and split
+    ret = [self filterList:ret];
+    //[self splitEvents:ret fromDate:fromDate toDate:toDate];
+    
+    return ret;
 }
 
 - (BOOL) checkSortInBackground
@@ -2521,19 +2509,6 @@ TaskManager *_sctmSingleton = nil;
         {
             [list addObjectsFromArray:self.mustDoTaskList];
         }
-        
-        /*if (self.taskTypeFilter == TASK_FILTER_ALL) {
-            NSMutableArray *scheduleTaskList = [self getManualTaskListFor7DaysLogic];
-            if (scheduleTaskList.count > 0) {
-                [list addObjectsFromArray:scheduleTaskList];
-            }
-        } */
-        /*else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
-            NSMutableArray *scheduleTaskList = [self getManualTaskList];
-            if (scheduleTaskList.count > 0) {
-                [list addObjectsFromArray:scheduleTaskList];
-            }
-        }*/
     }
     
     if (self.taskList.count > 0)
@@ -2547,7 +2522,11 @@ TaskManager *_sctmSingleton = nil;
 - (NSMutableArray *) getDisplayListWithManualTasks {
     NSMutableArray *list = [self getDisplayList];
     if (self.taskTypeFilter != TASK_FILTER_DONE && self.taskTypeFilter == TASK_FILTER_ALL) {
-        NSMutableArray *scheduleTaskList = [self getManualTaskListFor7DaysLogic];
+        
+        // get follow seven days logic
+        NSDate *fromDate = [Common clearTimeForDate:[NSDate date]];
+        NSDate *toDate = [Common getEndDate: [Common dateByAddNumDay:7 toDate:fromDate]];
+        NSMutableArray *scheduleTaskList = [self getManualTaskListFromDate:fromDate toDate:toDate];
         if (scheduleTaskList.count > 0) {
             [list addObjectsFromArray:scheduleTaskList];
         }
