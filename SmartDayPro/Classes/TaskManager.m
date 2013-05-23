@@ -4597,13 +4597,6 @@ TaskManager *_sctmSingleton = nil;
 	NSDate *oldTime = [event.startTime copy];
     
     NSDate *dt = date;
-    
-    if ([event isEvent])
-    {        
-        NSInteger secs = [Common getSecondsFromTimeZoneID:event.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
-        
-        dt = [date dateByAddingTimeInterval:secs];
-    }
 	
 	Task *longEvent = nil;
 	
