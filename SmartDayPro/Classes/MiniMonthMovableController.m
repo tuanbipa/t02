@@ -327,7 +327,6 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 - (void)convertTaskToSTask: (Task *) task time: (NSDate *) time {
     
     // convert to STask
-    task.name = [[NSString stringWithFormat:@"%C ", STASK_CHARACTER] stringByAppendingString:task.name];
     [task setManual:YES];
     
     Task *copyTask = [[task copy] autorelease];

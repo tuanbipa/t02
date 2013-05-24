@@ -285,8 +285,6 @@ extern PlannerViewController *_plannerViewCtrler;
 
     if ([task isTask]) {
         // convert to STask
-        //unichar rectangleChar = 0x25A2;
-        task.name = [[NSString stringWithFormat:@"%C ", STASK_CHARACTER] stringByAppendingString:task.name];
         [task setManual:YES];
         
         touchPoint = [self.activeMovableView.superview convertPoint:touchPoint toView:_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView];

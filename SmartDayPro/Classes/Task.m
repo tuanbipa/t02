@@ -2044,13 +2044,22 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void) setManual:(BOOL)enabled
 {
+    unichar clock = 0x1F552;
+    NSString *specialStr = [NSString stringWithFormat:@"%C ", clock];
+    
     if (enabled)
     {
         self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+        
+        // add prefix in name
+        self.name = [specialStr stringByAppendingString:self.name];
     }
     else
     {
         self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+        
+        // remove prefix if exist
+        self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
     }
 }
 

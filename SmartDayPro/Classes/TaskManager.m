@@ -4314,9 +4314,6 @@ TaskManager *_sctmSingleton = nil;
         [slTask setManual:NO];
         slTask.type = TYPE_TASK;
         
-        NSString *specialStr = [NSString stringWithFormat:@"%C ", STASK_CHARACTER];
-        slTask.name = [slTask.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
-        
         isManual = YES;
     }
     	
