@@ -453,6 +453,8 @@ extern BOOL _isiPad;
     }
     else 
     {
+        self.taskCopy.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+        
         NSDate *date = [[TaskManager getInstance] today];
         
         if (self.taskCopy.type == TYPE_ADE)

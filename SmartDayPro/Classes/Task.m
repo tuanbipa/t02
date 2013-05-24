@@ -409,14 +409,14 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 	[self updateTimeIntoDB:[dbm getDatabase]];
     
-    if ([self isEvent])
-    {
+    //if ([self isEvent])
+    //{
         NSTimeZone *tz = [NSTimeZone defaultTimeZone];
         
         self.timeZoneId = [Settings findTimeZoneIDByDisplayName:tz.name];
         
         [self updateTimeZoneIDIntoDB:[dbm getDatabase]];
-    }
+    //}
 }
 
 // Creates the object with primary key and title is brought into memory.
