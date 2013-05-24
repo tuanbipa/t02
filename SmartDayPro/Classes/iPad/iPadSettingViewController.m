@@ -10,8 +10,10 @@
 
 #import "Common.h"
 #import "Settings.h"
-#import "ContentView.h"
 #import "Task.h"
+
+#import "ContentView.h"
+#import "MiniMonthView.h"
 
 #import "TaskManager.h"
 #import "ProjectManager.h"
@@ -250,7 +252,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 		[tm scheduleTasks];
 	}
 	
-	if (weekStartChange && !mustDoDaysChange)
+	if ((weekStartChange && !mustDoDaysChange) || timeZoneSupportChange || timeZoneChange)
 	{
         [_abstractViewCtrler.miniMonthView initCalendar:tm.today];
 	}

@@ -450,32 +450,50 @@ static sqlite3_stmt *_top_task_statement = nil;
 - (NSMutableArray *)getManualTasksFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate {
     NSDate *start = [Common toDBDate:fromDate];
 	NSDate *end = [Common toDBDate:toDate];
+    
+    NSInteger defaultOffset = [[NSTimeZone defaultTimeZone] secondsFromGMT];
 	
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
     
-	sqlite3_stmt *statement = _event_list_statement;
+	sqlite3_stmt *statement = nil;
 	
-	if (statement == nil)
-	{
+	//if (statement == nil)
+	//{
+/*
 		const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND \
 		Task_Status <> ? AND Task_Status <> ? \
         AND (Task_StartTime > ? AND Task_StartTime < ?) \
+        ORDER BY Task_StartTime";
+*/
+		const char *sql = "SELECT Task_ID,(Task_StartTime + ? - Task_TimeZoneOffset) AS StartTime, (Task_EndTime + ? - Task_TimeZoneOffset) AS EndTime FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND \
+		Task_Status <> ? AND Task_Status <> ? \
+        AND (StartTime > ? AND StartTime < ?) \
         ORDER BY Task_StartTime";
 		
 		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
 		{
 			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
 		}
-	}
-    
+	//}
+
+    /*
 	sqlite3_bind_int(statement, 1, TYPE_EVENT);
     sqlite3_bind_int(statement, 2, TASK_EXTRA_STATUS_MANUAL);
     sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 4, TASK_STATUS_DELETED);
 	sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
 	sqlite3_bind_double(statement, 6, [end timeIntervalSince1970]);
-	//sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
-	//sqlite3_bind_double(statement, 8, [start timeIntervalSince1970]);
+    */
+    
+	sqlite3_bind_int(statement, 1, defaultOffset);
+	sqlite3_bind_int(statement, 2, defaultOffset);
+	sqlite3_bind_int(statement, 3, TYPE_EVENT);
+    sqlite3_bind_int(statement, 4, TASK_EXTRA_STATUS_MANUAL);
+    sqlite3_bind_int(statement, 5, TASK_STATUS_DONE);
+	sqlite3_bind_int(statement, 6, TASK_STATUS_DELETED);
+	sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
+	sqlite3_bind_double(statement, 8, [end timeIntervalSince1970]);
+    
 	
 	while (sqlite3_step(statement) == SQLITE_ROW) {
 		int primaryKey = sqlite3_column_int(statement, 0);
@@ -486,8 +504,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	}
 	
 	// "Finalize" the statement - releases the resources associated with the statement.
-	//sqlite3_finalize(statement);
-	sqlite3_reset(statement);
+	sqlite3_finalize(statement);
     
 	return taskList;
 }
@@ -1469,19 +1486,23 @@ static sqlite3_stmt *_top_task_statement = nil;
 	NSDate *end = [Common dateByAddNumDay:1 toDate:start];
 	
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
-	
-    //v3.2
-	//const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_RepeatData = '' AND Task_GroupID = -1 AND Task_Type = ? AND \
-	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";
-    
+
+    /*
     const char *sql = "SELECT Task_ID FROM TaskTable WHERE ((Task_RepeatData = '' AND Task_GroupID = -1) OR (Task_GroupID <> -1)) AND Task_Type = ? AND \
 	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";    
+	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";  
+    */
+    
+    NSInteger defaultOffset = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    
+    const char *sql = "SELECT Task_ID, (Task_StartTime + ? - Task_TimeZoneOffset) AS StartTime, (Task_EndTime + ? - Task_TimeZoneOffset) AS EndTime FROM TaskTable WHERE ((Task_RepeatData = '' AND Task_GroupID = -1) OR (Task_GroupID <> -1)) AND Task_Type = ? AND \
+	((StartTime >= ? AND StartTime < ?) OR \
+	(StartTime < ? AND EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";
 	
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+/*
 		sqlite3_bind_int(statement, 1, TYPE_EVENT);
 		sqlite3_bind_double(statement, 2, [start timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 3, [end timeIntervalSince1970]);
@@ -1489,7 +1510,17 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
 		sqlite3_bind_int(statement, 6, TASK_STATUS_DONE);
 		sqlite3_bind_int(statement, 7, TASK_STATUS_DELETED);		
-		
+*/
+		sqlite3_bind_int(statement, 1, defaultOffset);
+		sqlite3_bind_int(statement, 2, defaultOffset);
+		sqlite3_bind_int(statement, 3, TYPE_EVENT);
+		sqlite3_bind_double(statement, 4, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 5, [end timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
+		sqlite3_bind_int(statement, 8, TASK_STATUS_DONE);
+		sqlite3_bind_int(statement, 9, TASK_STATUS_DELETED);
+        
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
 			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
@@ -1727,16 +1758,20 @@ static sqlite3_stmt *_top_task_statement = nil;
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
 
 	sqlite3_stmt *statement = _event_list_statement;
-	
+
+    NSInteger defaultOffset = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    	
 	if (statement == nil)
 	{
-		//const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_RepeatData = '' AND Task_GroupID = -1 AND Task_Type = ?  AND \
-		((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-		(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";
-
+        /*
 		const char *sql = "SELECT Task_ID FROM TaskTable WHERE ((Task_RepeatData = '' AND Task_GroupID = -1) OR (Task_GroupID <> -1)) AND Task_Type = ?  AND \
 		((Task_StartTime >= ? AND Task_StartTime < ?) OR \
 		(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";
+        */
+        
+		const char *sql = "SELECT Task_ID, (Task_StartTime + ? - Task_TimeZoneOffset) AS StartTime, (Task_EndTime + ? - Task_TimeZoneOffset) AS EndTime FROM TaskTable WHERE ((Task_RepeatData = '' AND Task_GroupID = -1) OR (Task_GroupID <> -1)) AND Task_Type = ?  AND \
+		((StartTime >= ? AND StartTime < ?) OR \
+		(StartTime < ? AND EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";
 		
 		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)	
 		{
@@ -1744,13 +1779,24 @@ static sqlite3_stmt *_top_task_statement = nil;
 		}
 	}
 
+/*
 	sqlite3_bind_int(statement, 1, TYPE_EVENT);
 	sqlite3_bind_double(statement, 2, [start timeIntervalSince1970]);
 	sqlite3_bind_double(statement, 3, [end timeIntervalSince1970]);
 	sqlite3_bind_double(statement, 4, [start timeIntervalSince1970]);
 	sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
 	sqlite3_bind_int(statement, 6, TASK_STATUS_DONE);
-	sqlite3_bind_int(statement, 7, TASK_STATUS_DELETED);		
+	sqlite3_bind_int(statement, 7, TASK_STATUS_DELETED);
+*/
+	sqlite3_bind_int(statement, 1, defaultOffset);
+	sqlite3_bind_int(statement, 2, defaultOffset);
+	sqlite3_bind_int(statement, 3, TYPE_EVENT);
+	sqlite3_bind_double(statement, 4, [start timeIntervalSince1970]);
+	sqlite3_bind_double(statement, 5, [end timeIntervalSince1970]);
+	sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
+	sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
+	sqlite3_bind_int(statement, 8, TASK_STATUS_DONE);
+	sqlite3_bind_int(statement, 9, TASK_STATUS_DELETED);
 	
 	while (sqlite3_step(statement) == SQLITE_ROW) {
 		int primaryKey = sqlite3_column_int(statement, 0);
@@ -1895,19 +1941,11 @@ static sqlite3_stmt *_top_task_statement = nil;
 
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
     
+    NSInteger defaultOffset = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    
     NSString *invisibleProjectListStr = [[ProjectManager getInstance] stringOfInvisibleProjectList];    
 	
-    /*
-	const char *sql = invisibleProjectListStr== nil?"SELECT Task_ID FROM TaskTable WHERE \
-	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
-	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?))":
-    "SELECT Task_ID FROM TaskTable WHERE \
-	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
-	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_ProjectID NOT IN (?)";
-    */
-	
+/*
 	NSString *sql = invisibleProjectListStr== nil?@"SELECT Task_ID FROM TaskTable WHERE \
 	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
 	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
@@ -1916,6 +1954,16 @@ static sqlite3_stmt *_top_task_statement = nil;
 	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
 	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
 	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)";
+*/
+    
+	NSString *sql = invisibleProjectListStr== nil?@"SELECT Task_ID,(Task_StartTime + ? - Task_TimeZoneOffset) AS StartTime, (Task_EndTime + ? - Task_TimeZoneOffset) AS EndTime FROM TaskTable WHERE \
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
+	((StartTime >= ? AND StartTime < ?) OR \
+	(StartTime < ? AND EndTime > ?))":
+    @"SELECT Task_ID,(Task_StartTime + ? - Task_TimeZoneOffset) AS StartTime, (Task_EndTime + ? - Task_TimeZoneOffset) AS EndTime FROM TaskTable WHERE \
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
+	((StartTime >= ? AND StartTime < ?) OR \
+	(StartTime < ? AND EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)";
     
     if (invisibleProjectListStr != nil)
     {
@@ -1925,19 +1973,23 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) {
+/*
 		sqlite3_bind_int(statement, 1, TYPE_EVENT);
 		sqlite3_bind_int(statement, 2, TYPE_ADE);
 		sqlite3_bind_double(statement, 3, [start timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 4, [end timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
+*/
+		sqlite3_bind_int(statement, 1, defaultOffset);
+		sqlite3_bind_int(statement, 2, defaultOffset);
+		sqlite3_bind_int(statement, 3, TYPE_EVENT);
+		sqlite3_bind_int(statement, 4, TYPE_ADE);
+		sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 6, [end timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 8, [start timeIntervalSince1970]);
 		
-        /*
-        if (invisibleProjectListStr != nil)
-        {
-            sqlite3_bind_text(statement, 7, [invisibleProjectListStr UTF8String], -1, SQLITE_TRANSIENT);
-        }
-        */
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
 			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
@@ -4268,6 +4320,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_ExtraStatus NUMERIC;", nil, nil, nil);
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_TimeZoneID NUMERIC;", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_TimeZoneOffset NUMERIC;", nil, nil, nil);
 	sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_ExtraStatus NUMERIC;", nil, nil, nil);
     sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_OnwerName TEXT;", nil, nil, nil);
     
@@ -4290,7 +4343,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     
     NSInteger tzID = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
     
-    sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?, Task_TimeZoneID = ?";
+    sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?, Task_TimeZoneID = ?, Task_TimeZoneOffset = 0";
     
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK)
 	{
