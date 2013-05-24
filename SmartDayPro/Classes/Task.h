@@ -87,7 +87,7 @@
 @property NSInteger mergedSeqNo;
 @property NSInteger project;
 @property NSInteger goal;
-@property NSInteger type;
+@property (nonatomic) NSInteger type;
 
 @property NSInteger status;
 @property NSInteger timerStatus;

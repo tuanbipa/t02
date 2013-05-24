@@ -2044,8 +2044,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void) setManual:(BOOL)enabled
 {
-    unichar clock = 0x1F552;
-    NSString *specialStr = [NSString stringWithFormat:@"%C ", clock];
+    NSString *specialStr=@"\U0001F552";
     
     if (enabled)
     {
@@ -2182,4 +2181,15 @@ static sqlite3_stmt *task_delete_statement = nil;
 	
 }
 
+#pragma mark Properties
+
+- (void)setType:(NSInteger)_type {
+    if ([self isEvent] && [self isManual] && _type != TYPE_EVENT) {
+        NSString *specialStr=@"\U0001F552";
+        self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
+        
+        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+    }
+    type = _type;
+}
 @end
