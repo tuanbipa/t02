@@ -38,9 +38,9 @@ extern PlannerViewController *_plannerViewCtrler;
         [self addSubview:checkView];
         [checkView release];
         
-        /*checkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 8, 12, 12)];
+        checkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 12, 12)];
         [checkView addSubview:checkImageView];
-        [checkImageView release];*/
+        [checkImageView release];
         
         [self refreshCheckImage];
         
