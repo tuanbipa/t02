@@ -10,5 +10,8 @@
 #import "PlannerMovableController.h"
 
 @interface CalendarPlannerMovableController : PlannerMovableController
+{
+    BOOL moveInSmartList;
+}
 
 @end

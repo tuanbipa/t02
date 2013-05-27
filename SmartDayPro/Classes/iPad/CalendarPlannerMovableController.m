@@ -17,6 +17,7 @@
 #import "PlannerScheduleView.h"
 #import "TimeSlotView.h"
 #import "PlannerCalendarLayoutController.h"
+#import "SmartListViewController.h"
 
 extern PlannerViewController *_plannerViewCtrler;
 
@@ -31,11 +32,17 @@ extern PlannerViewController *_plannerViewCtrler;
 	return self;
 }
 
-//-(void)move:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    [super move:touches withEvent:event];
-//    [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView highlight:self.activeMovableView.frame];
-//}
+-(void)move:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    moveInSmartList = NO;
+    [super move:touches withEvent:event];
+    
+    if (!moveInSmartList && !moveInPlannerDayCal) {
+        CGPoint touchPoint = [self.activeMovableView getTouchPoint];
+        SmartListViewController *smartlistViewController = [_plannerViewCtrler getSmartListViewController];
+        moveInSmartList = CGRectContainsPoint(smartlistViewController.view.frame, touchPoint);
+    }
+}
 
 -(void) endMove:(MovableView *)view
 {
@@ -49,9 +56,55 @@ extern PlannerViewController *_plannerViewCtrler;
     
     dummyView.hidden = YES;
 
-    [super endMove:view];
+    if (moveInSmartList) {
+        Task *task = [((TaskView *) self.activeMovableView).task retain];
+        if ([task isREInstance])
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertREIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
+            
+            alertView.tag = -11002;
+            
+            [alertView show];
+            [alertView release];
+            
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoEventConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+            
+            alertView.tag = -11000;
+            
+            [alertView show];
+            [alertView release];
+        }
+        [task release];
+    } else {
+        [super endMove:view];
+    }
     [view release];
 }
 
-
+#pragma mark Alert
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertVw.tag == -11002) {
+        
+        if (buttonIndex != 0)
+        {
+            Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+            [_plannerViewCtrler convertRE2Task:buttonIndex task:task];
+        }
+        [super endMove:self.activeMovableView];
+    } else if (alertVw.tag == -11000) {
+        
+        if (buttonIndex == 1)
+        {
+            Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+            [_plannerViewCtrler convert2Task:task];
+        }
+        [super endMove:self.activeMovableView];
+    } else {
+        [super alertView:alertVw clickedButtonAtIndex:buttonIndex];
+    }
+}
 @end

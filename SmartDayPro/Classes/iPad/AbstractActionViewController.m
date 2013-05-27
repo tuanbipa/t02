@@ -827,6 +827,14 @@ BOOL _autoPushPending = NO;
 {
     TaskManager *tm = [TaskManager getInstance];
     
+    // check Manual task on title
+    if ([taskCopy isManual]) {
+        NSRange range = [taskCopy.name rangeOfString:@"\U0001F552"];
+        if (range.location == NSNotFound) {
+            [taskCopy setManual:NO];
+        }
+    }
+    
     actionTask = task;
     actionTaskCopy = taskCopy;
     
@@ -1472,6 +1480,9 @@ BOOL _autoPushPending = NO;
         [mmView refresh];
     }
     
+    PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+    [plannerDayCal refreshLayout];
+    
     [self reconcileItem:task reSchedule:YES];
 }
 
@@ -1526,6 +1537,9 @@ BOOL _autoPushPending = NO;
             }            
         }
     }
+    
+    PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+    [plannerDayCal refreshLayout];
     
     [self reconcileItem:task reSchedule:YES];
 }
