@@ -516,7 +516,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
             self.timeZoneId = sqlite3_column_int(statement, 27);
             
-            if ([self isEvent])
+            if ([self isNormalEvent])
             {
                 NSInteger secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:self.timeZoneId];
                 
@@ -646,7 +646,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 	NSTimeInterval deadlineValue = (self.deadline == nil? -1: [[Common toDBDate:self.deadline] timeIntervalSince1970]);
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
     
-    if ([self isEvent])
+    if ([self isNormalEvent])
     {
         NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
         
@@ -763,7 +763,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 	NSTimeInterval deadlineValue = (self.deadline == nil? -1: [[Common toDBDate:self.deadline] timeIntervalSince1970]);
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
     
-    if ([self isEvent])
+    if ([self isNormalEvent])
     {
         NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId]- [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
@@ -811,7 +811,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     
     sqlite3_bind_int(statement, 26, self.timeZoneId);
     
-    sqlite3_bind_int(statement, 27, [self isEvent]?[Common getSecondsFromTimeZoneID:self.timeZoneId]:0);
+    sqlite3_bind_int(statement, 27, [self isNormalEvent]?[Common getSecondsFromTimeZoneID:self.timeZoneId]:0);
 	
 	sqlite3_bind_int(statement, 28, self.primaryKey);
 	
@@ -858,7 +858,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
         
         sqlite3_bind_int(statement, 1, self.timeZoneId);
-        sqlite3_bind_int(statement, 2, [self isEvent]?[Common getSecondsFromTimeZoneID:self.timeZoneId]:0);
+        sqlite3_bind_int(statement, 2, [self isNormalEvent]?[Common getSecondsFromTimeZoneID:self.timeZoneId]:0);
         sqlite3_bind_double(statement, 3, updateTimeValue);
         sqlite3_bind_int(statement, 4, self.primaryKey);
         
@@ -1906,7 +1906,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 {
     NSDate *dt = self.startTime;
     
-    if ([self isEvent] && [[Settings getInstance] timeZoneSupport])
+    if ([self isNormalEvent] && [[Settings getInstance] timeZoneSupport])
     {
         NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
@@ -1920,7 +1920,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 {
     NSDate *dt = self.endTime;
     
-    if ([self isEvent] && [[Settings getInstance] timeZoneSupport])
+    if ([self isNormalEvent] && [[Settings getInstance] timeZoneSupport])
     {
         NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         

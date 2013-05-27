@@ -355,12 +355,21 @@ CalendarViewController *_sc2ViewCtrler;
 	calendarView.userInteractionEnabled = YES;		
 }
 
+- (void) stopQuickAdd
+{
+    quickAddTextView.text = @"";
+        
+    [quickAddTextView resignFirstResponder];
+}
+
 -(void)deselect
 {
     [super deselect];
 	
     suggestedTimeLabel.hidden = YES;
+    
 	[self stopResize];
+    [self stopQuickAdd];
 }
 
 - (void) showAddMenu: (id) sender
@@ -660,6 +669,8 @@ CalendarViewController *_sc2ViewCtrler;
 - (void)finishResize
 {
 	Task *task = (Task *)outlineView.tag;
+    
+    [task retain];
 	
 	int segments = [outlineView getResizedSegments];
 	
@@ -692,6 +703,8 @@ CalendarViewController *_sc2ViewCtrler;
     [_abstractViewCtrler reconcileItem:task reSchedule:YES];
 
 	[self stopResize];
+    
+    [task release];
 }
 
 - (void) reloadAlert4Task:(NSInteger)taskId

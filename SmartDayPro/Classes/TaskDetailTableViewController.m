@@ -1478,7 +1478,7 @@ extern BOOL _isiPad;
     
     Settings *settings = [Settings getInstance];
     
-    if (settings.timeZoneSupport && [self.taskCopy isEvent])
+    if (settings.timeZoneSupport && [self.taskCopy isNormalEvent])
     {
         UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 50, 80, 25)];
         tzLabel.tag = baseTag + 5;
@@ -1645,7 +1645,7 @@ extern BOOL _isiPad;
             {
                 Settings *settings = [Settings getInstance];
                 
-                return settings.timeZoneSupport?75:55;
+                return settings.timeZoneSupport && [self.taskCopy isNormalEvent]?75:55;
             }            
         }
 	}

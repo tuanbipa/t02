@@ -1619,7 +1619,8 @@ extern PlannerViewController *_plannerViewCtrler;
 {
     if (self.task.listSource == SOURCE_CALENDAR) //only allow resize in Calendar View
     {
-        [_abstractViewCtrler hidePreview];
+        //[_abstractViewCtrler hidePreview];
+        [_abstractViewCtrler deselect];
         
         CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
         
