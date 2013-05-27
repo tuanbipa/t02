@@ -828,7 +828,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     NSDate *endDate = (minDate == dt1?[Common clearTimeForDate:dt1]:[Common getEndDate:dt1]);
     NSDate *startDate = (minDate == dt1?[Common getEndDate:dt2]:[Common clearTimeForDate:dt2]);
     
-    return [endDate timeIntervalSinceDate:startDate]/24/60/60;
+    return ([endDate timeIntervalSinceDate:startDate]+1)/24/60/60;
 }
 
 + (NSInteger)timeIntervalNoDST:(NSDate *)date sinceDate:(NSDate *)sinceDate

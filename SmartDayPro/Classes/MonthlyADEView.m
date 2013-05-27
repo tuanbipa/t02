@@ -110,11 +110,13 @@ extern TaskManager *taskmanager;
 			ade.endTime = self.endDate;
 		}
 		
-		NSTimeInterval diff = [Common timeIntervalNoDST:ade.startTime sinceDate:self.startDate];
+		//NSTimeInterval diff = [Common timeIntervalNoDST:ade.startTime sinceDate:self.startDate];
+        NSTimeInterval diff = [ade.startTime timeIntervalSinceDate:self.startDate];
 		
 		NSInteger index = diff/(24*60*60) ;
 		
-		NSInteger days = ([Common timeIntervalNoDST:ade.endTime sinceDate:ade.startTime] + 1)/(24*60*60);
+		//NSInteger days = ([Common timeIntervalNoDST:ade.endTime sinceDate:ade.startTime] + 1)/(24*60*60);
+        NSInteger days = [Common daysBetween:ade.endTime sinceDate:ade.startTime];
 		
 		for (int j=0; j<MAX_ADE_NUM; j++)
 		{

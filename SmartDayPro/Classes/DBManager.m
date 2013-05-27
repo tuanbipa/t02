@@ -1955,7 +1955,8 @@ static sqlite3_stmt *_top_task_statement = nil;
 	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
 	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)";
 */
-    
+
+/*
 	NSString *sql = invisibleProjectListStr== nil?@"SELECT Task_ID,(Task_StartTime + ? - Task_TimeZoneOffset) AS StartTime, (Task_EndTime + ? - Task_TimeZoneOffset) AS EndTime FROM TaskTable WHERE \
 	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
 	((StartTime >= ? AND StartTime < ?) OR \
@@ -1964,6 +1965,16 @@ static sqlite3_stmt *_top_task_statement = nil;
 	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
 	((StartTime >= ? AND StartTime < ?) OR \
 	(StartTime < ? AND EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)";
+*/
+    
+	NSString *sql = invisibleProjectListStr== nil?@"SELECT Task_ID, (CASE WHEN Task_Type = ? THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset)) AS StartTime, (CASE WHEN Task_Type = ? THEN Task_StartTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset)) AS EndTime FROM TaskTable WHERE \
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
+	((StartTime >= ? AND StartTime < ?) OR \
+	(StartTime < ? AND EndTime > ?))":
+    @"SELECT Task_ID, (CASE WHEN Task_Type = ? THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset)) AS StartTime, (CASE WHEN Task_Type = ? THEN Task_StartTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset)) AS EndTime FROM TaskTable WHERE \
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
+	((StartTime >= ? AND StartTime < ?) OR \
+	(StartTime < ? AND EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)";    
     
     if (invisibleProjectListStr != nil)
     {
@@ -1981,6 +1992,8 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
 */
+        
+/*
 		sqlite3_bind_int(statement, 1, defaultOffset);
 		sqlite3_bind_int(statement, 2, defaultOffset);
 		sqlite3_bind_int(statement, 3, TYPE_EVENT);
@@ -1989,6 +2002,17 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_double(statement, 6, [end timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 8, [start timeIntervalSince1970]);
+*/
+        sqlite3_bind_int(statement, 1, TYPE_ADE);
+		sqlite3_bind_int(statement, 2, defaultOffset);
+        sqlite3_bind_int(statement, 3, TYPE_ADE);
+		sqlite3_bind_int(statement, 4, defaultOffset);
+		sqlite3_bind_int(statement, 5, TYPE_EVENT);
+		sqlite3_bind_int(statement, 6, TYPE_ADE);
+		sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 8, [end timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 9, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 10, [start timeIntervalSince1970]);
 		
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);

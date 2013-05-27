@@ -82,12 +82,15 @@
 {
     //[pickerTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     
-    NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
-    
-    self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
-    self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
-    
-    datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+    if ([self.taskCopy isNormalEvent])
+    {
+        NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
+        
+        self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
+        self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
+        
+        datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];        
+    }
     
     [self refreshPicker];
     
@@ -120,7 +123,10 @@
 	[datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
 	datePicker.minuteInterval=5;
     
-    datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+    if ([self.taskCopy isNormalEvent])
+    {
+        datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+    }
     
 	datePicker.datePickerMode = ([self.taskCopy isADE]? UIDatePickerModeDate: UIDatePickerModeDateAndTime);
 	
@@ -272,7 +278,7 @@
 
     Settings *settings = [Settings getInstance];
     
-    return settings.timeZoneSupport?3:2;
+    return settings.timeZoneSupport?([self.taskCopy isADE]?2:3):2;
 }
 
 

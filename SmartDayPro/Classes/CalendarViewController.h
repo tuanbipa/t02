@@ -114,4 +114,6 @@
 - (void)refreshPanes;
 - (void) refreshCalendarDay;
 
+- (void) stopQuickAdd;
+
 @end

@@ -17,6 +17,7 @@
 #import "TaskManager.h"
 #import "MusicManager.h"
 
+#import "CalendarViewController.h"
 #import "iPadSmartDayViewController.h"
 #import "PlannerViewController.h"
 #import "iPadSettingViewController.h"
@@ -310,6 +311,13 @@ iPadViewController *_iPadViewCtrler;
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[_iPadSDViewCtrler getCalendarViewController] stopQuickAdd];
 }
 
 -(NSUInteger)supportedInterfaceOrientations
