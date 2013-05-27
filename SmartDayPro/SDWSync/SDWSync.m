@@ -1432,6 +1432,8 @@ NSInteger _sdwColor[32] = {
     ret.name = [dict objectForKey:@"title"];
     ret.note = [dict objectForKey:@"content"];
     ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
+    // sync Manual Task
+    [ret setExtraManual:[[dict objectForKey:@"stask"] intValue]];
     ret.timeZoneId = [[dict objectForKey:@"timezone_key"] intValue];
     
     //NSLog(@"Task from SDW: %@ - name: %@", ret.note, ret.name);
@@ -1828,11 +1830,15 @@ NSInteger _sdwColor[32] = {
         }
     }
     
+    // sync Manual Task
+    NSInteger stask = [task isManual]? 1:0;
+    
     NSDictionary *taskDict = [NSDictionary dictionaryWithObjectsAndKeys:
                              task.sdwId,@"id",
                              task.name, @"title",
                               task.note, @"content",
                              [NSNumber numberWithInt:type], @"task_type",
+                              [NSNumber numberWithInt:stask], @"stask",
                              [self.scSDWMappingDict objectForKey:[NSNumber numberWithInt:task.project]], @"category_id",
                              task.location, @"location",
                               task.tag, @"tags",

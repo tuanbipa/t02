@@ -2044,6 +2044,14 @@ static sqlite3_stmt *task_delete_statement = nil;
     return (self.extraStatus & TASK_EXTRA_STATUS_MANUAL) != 0;
 }
 
+- (void) setExtraManual:(NSInteger)intValue {
+    if (intValue != 0) {
+        self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+    } else {
+        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+    }
+}
+
 - (void) setManual:(BOOL)enabled
 {
     NSString *specialStr=@"\U0001F552";

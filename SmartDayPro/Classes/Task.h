@@ -200,6 +200,7 @@
 -(BOOL) isShared;
 -(BOOL) isManual;
 
+- (void) setExtraManual:(NSInteger)intValue;
 - (void) setManual:(BOOL)enabled;
 
 -(BOOL)checkMustDo;
