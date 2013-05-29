@@ -828,12 +828,7 @@ BOOL _autoPushPending = NO;
     TaskManager *tm = [TaskManager getInstance];
     
     // check Manual task on title
-    if ([taskCopy isManual]) {
-        NSRange range = [taskCopy.name rangeOfString:@"\U0001F4CC"];
-        if (range.location == NSNotFound) {
-            [taskCopy setManual:NO];
-        }
-    }
+    [taskCopy checkHasPinnedCharacterInTitle];
     
     actionTask = task;
     actionTaskCopy = taskCopy;

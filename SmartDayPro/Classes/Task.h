@@ -213,4 +213,6 @@
 
 + (void)finalizeStatements;
 
+#pragma mark Properties
+- (void)checkHasPinnedCharacterInTitle;
 @end

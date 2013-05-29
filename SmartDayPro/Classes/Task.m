@@ -2202,4 +2202,13 @@ static sqlite3_stmt *task_delete_statement = nil;
     }
     type = _type;
 }
+
+- (void)checkHasPinnedCharacterInTitle{
+    NSRange range = [self.name rangeOfString:@"\U0001F4CC"];
+    if (range.location == NSNotFound) {
+        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+    } else {
+        self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+    }
+}
 @end

@@ -242,6 +242,7 @@ extern BOOL _syncMatchHintShown;
     
 	scEvent.syncId = ekEvent.eventIdentifier;
 	scEvent.name = ekEvent.title;
+    [scEvent checkHasPinnedCharacterInTitle];
 	scEvent.location = ekEvent.location;
 	scEvent.note = ekEvent.notes;
 	scEvent.startTime = ekEvent.startDate;

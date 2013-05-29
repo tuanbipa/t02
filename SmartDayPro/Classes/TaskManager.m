@@ -4338,12 +4338,18 @@ TaskManager *_sctmSingleton = nil;
         if ([slTask isRecurring]) {
             [self doneRepeatManualTask:slTask instance:task];
         } else {
-            [slTask setManual:NO];
-            slTask.type = TYPE_TASK;
-            slTask.status = TASK_STATUS_DONE;
-            slTask.completionTime = [NSDate date];
+            // delete event
+            Task *newTask = [[slTask copy] autorelease];
+            [self deleteTask:slTask];
             
-            [slTask updateIntoDB:[[DBManager getInstance] getDatabase]];
+            // insert new task
+            newTask.primaryKey = -1;
+            [newTask setManual:NO];
+            newTask.type = TYPE_TASK;
+            newTask.status = TASK_STATUS_DONE;
+            newTask.completionTime = [NSDate date];
+            
+            [newTask insertIntoDB:[[DBManager getInstance] getDatabase]];
         }
         
         if (self.taskTypeFilter == TASK_FILTER_DONE)
