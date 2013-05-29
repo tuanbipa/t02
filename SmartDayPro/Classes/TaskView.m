@@ -1095,6 +1095,14 @@ extern PlannerViewController *_plannerViewCtrler;
         
         CGContextStrokeRect(ctx, rect);
     }
+    
+    if ([task isManual]) {
+        // draw dash border
+        //CGRect dashRect = CGRectInset(rect, 1, 1);
+        CGFloat dashPattern[]= {4.0, 3};
+        CGContextSetLineDash(ctx, 0.0, dashPattern, 2);
+        strokeRoundedRect(ctx, rect, 5, 5);
+    }
 
     /*
     UIColor *separatorColor = [UIColor colorWithRed:243.0/255 green:243.0/255 blue:243.0/255 alpha:1];
