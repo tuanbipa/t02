@@ -888,7 +888,7 @@ CalendarViewController *_sc2ViewCtrler;
 	
 	switch (tm.taskTypeFilter) 
 	{
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 		{
 			newTask.status = TASK_STATUS_PINNED;
 		}

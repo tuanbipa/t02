@@ -2114,7 +2114,7 @@ TaskManager *_sctmSingleton = nil;
 		case TASK_FILTER_ACTIVE:
 			[self sortStart];
 			break;
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 			self.taskList = [dbm getPinnedTasks];
 			break;
 		case TASK_FILTER_TOP:
@@ -2123,7 +2123,7 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             self.taskList = [dbm getDoneTasks];
             break;
-        case TASK_FILTER_SCHEDULED:
+        case TASK_FILTER_PINNED:
             //self.taskList = [self getManualTaskList];
             self.taskList = [NSMutableArray array];
             break;
@@ -2530,7 +2530,7 @@ TaskManager *_sctmSingleton = nil;
         if (scheduleTaskList.count > 0) {
             [list addObjectsFromArray:scheduleTaskList];
         }
-    } else if (self.taskTypeFilter == TASK_FILTER_SCHEDULED) {
+    } else if (self.taskTypeFilter == TASK_FILTER_PINNED) {
         NSMutableArray *scheduleTaskList = [self getManualTaskList];
         if (scheduleTaskList.count > 0) {
             [list addObjectsFromArray:scheduleTaskList];
@@ -4287,7 +4287,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	[slTask updateStatusIntoDB:[[DBManager getInstance] getDatabase]];
     
-/*	if (self.taskTypeFilter == TASK_FILTER_PINNED && slTask.status == TASK_STATUS_NONE)
+/*	if (self.taskTypeFilter == TASK_FILTER_STAR && slTask.status == TASK_STATUS_NONE)
     {
         if (![task checkMustDo])
         {
@@ -4297,7 +4297,7 @@ TaskManager *_sctmSingleton = nil;
         }
     }
 */
-	if (self.taskTypeFilter == TASK_FILTER_PINNED && ![task checkMustDo])
+	if (self.taskTypeFilter == TASK_FILTER_STAR && ![task checkMustDo])
     {
         BOOL reSchedule = NO;
         
@@ -4823,7 +4823,7 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) reconcilePinTask:(Task *)task
 {
-	if (self.taskTypeFilter == TASK_FILTER_PINNED)
+	if (self.taskTypeFilter == TASK_FILTER_STAR)
 	{
 		[self initSmartListData];
 	}
@@ -4880,7 +4880,7 @@ TaskManager *_sctmSingleton = nil;
 		case TASK_FILTER_INACTIVE:
 			ret = (task.startTime != nil && [Common compareDateNoTime:[NSDate date] withDate:task.startTime] == NSOrderedAscending);
 			break;
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 			ret = (task.status == TASK_STATUS_PINNED);
 			break;
         case TASK_FILTER_DONE:
@@ -5092,7 +5092,7 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_ALL:
             title = _allText;
             break;
-        case TASK_FILTER_PINNED:
+        case TASK_FILTER_STAR:
             title = _starText;
             break;
         case TASK_FILTER_TOP:
@@ -5107,7 +5107,7 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             title = _doneText;
             break;
-        case TASK_FILTER_SCHEDULED:
+        case TASK_FILTER_PINNED:
             title = _pinnedText;
             break;
     }

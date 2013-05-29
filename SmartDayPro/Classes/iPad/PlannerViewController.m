@@ -217,7 +217,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 	switch (tm.taskTypeFilter)
 	{
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 		{
 			task.status = TASK_STATUS_PINNED;
 		}
@@ -391,7 +391,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
                              normalStateImage:nil
                            selectedStateImage:nil];
 	starButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    starButton.tag = TASK_FILTER_PINNED;
+    starButton.tag = TASK_FILTER_STAR;
 	[optionView addSubview:starButton];
     
     UIImageView *gtdImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
@@ -517,7 +517,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
                                   normalStateImage:nil
                                 selectedStateImage:nil];
 	scheduledButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    scheduledButton.tag = TASK_FILTER_SCHEDULED;
+    scheduledButton.tag = TASK_FILTER_PINNED;
 	[optionView addSubview:scheduledButton];
     // end scheduled filter
     

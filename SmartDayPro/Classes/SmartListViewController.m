@@ -674,7 +674,7 @@ SmartListViewController *_smartListViewCtrler;
     //Task *task = (Task *)taskView.tag;
     Task *task = taskView.task;
     
-	if (tm.taskTypeFilter == TASK_FILTER_PINNED && task.status == TASK_STATUS_NONE)
+	if (tm.taskTypeFilter == TASK_FILTER_STAR && task.status == TASK_STATUS_NONE)
 	{
 		[taskView removeFromSuperview];
 		
@@ -736,7 +736,7 @@ SmartListViewController *_smartListViewCtrler;
 	
 	switch (tm.taskTypeFilter) 
 	{
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 		{
 			task.status = TASK_STATUS_PINNED;
 		}
@@ -1188,7 +1188,7 @@ SmartListViewController *_smartListViewCtrler;
 		}
 	}
 	
-	if ([[TaskManager getInstance] taskTypeFilter] == TASK_FILTER_PINNED)
+	if ([[TaskManager getInstance] taskTypeFilter] == TASK_FILTER_STAR)
 	{
 		UIButton *tmp = [[[UIButton alloc] init] autorelease];
 		tmp.tag = TASK_FILTER_ALL;
@@ -1224,7 +1224,7 @@ SmartListViewController *_smartListViewCtrler;
 	
 	switch (tm.taskTypeFilter) 
 	{
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 		{
 			task.status = TASK_STATUS_PINNED;
 		}
@@ -1263,7 +1263,7 @@ SmartListViewController *_smartListViewCtrler;
 	selectedTabButton.selected = NO;
 		
 	UIButton *buttons[6];
-	//NSInteger taskFilterTypes[6] = {TASK_FILTER_DONE, TASK_FILTER_ACTIVE, TASK_FILTER_DUE, TASK_FILTER_TOP, TASK_FILTER_PINNED, TASK_FILTER_ALL}; 
+	//NSInteger taskFilterTypes[6] = {TASK_FILTER_DONE, TASK_FILTER_ACTIVE, TASK_FILTER_DUE, TASK_FILTER_TOP, TASK_FILTER_STAR, TASK_FILTER_ALL}; 
 	
 	for (UIView *button in tabPane.subviews)
 	{
@@ -1278,7 +1278,7 @@ SmartListViewController *_smartListViewCtrler;
                 case TASK_FILTER_ALL:
                     i = 5;
                     break;
-                case TASK_FILTER_PINNED:
+                case TASK_FILTER_STAR:
                     i = 4;
                     break;
                 case TASK_FILTER_TOP:
@@ -1328,28 +1328,28 @@ SmartListViewController *_smartListViewCtrler;
 		[[Settings getInstance] changeFilterTab:filterType];
 	}
 	
-	if (filterType == TASK_FILTER_PINNED || filterType == TASK_FILTER_TOP)
+	if (filterType == TASK_FILTER_STAR || filterType == TASK_FILTER_TOP)
 	{
-		BOOL showHint = (filterType == TASK_FILTER_PINNED?
+		BOOL showHint = (filterType == TASK_FILTER_STAR?
 						 [[Settings getInstance] starTabHint]:
 						 [[Settings getInstance] gtdoTabHint]);
 		
-		BOOL hintShown = (filterType == TASK_FILTER_PINNED?_starTabHintShown:_gtdoTabHintShown);
+		BOOL hintShown = (filterType == TASK_FILTER_STAR?_starTabHintShown:_gtdoTabHintShown);
 		
 		if (showHint && !hintShown)
 		{
-			NSString *msg = (filterType == TASK_FILTER_PINNED?_starTabHintText:_gtdoTabHintText);
+			NSString *msg = (filterType == TASK_FILTER_STAR?_starTabHintText:_gtdoTabHintText);
 							 
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_hintText message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
 			
-			alertView.tag = (filterType == TASK_FILTER_PINNED?-10004:-10005);
+			alertView.tag = (filterType == TASK_FILTER_STAR?-10004:-10005);
 			
 			[alertView addButtonWithTitle:_dontShowText];
 			
 			[alertView show];
 			[alertView release];
 			
-			if (filterType == TASK_FILTER_PINNED)
+			if (filterType == TASK_FILTER_STAR)
 			{
 				_starTabHintShown = YES;
 			}
@@ -1378,28 +1378,28 @@ SmartListViewController *_smartListViewCtrler;
         [self hideQuickAdd];
 	}
 	
-	if (filterType == TASK_FILTER_PINNED || filterType == TASK_FILTER_TOP)
+	if (filterType == TASK_FILTER_STAR || filterType == TASK_FILTER_TOP)
 	{
-		BOOL showHint = (filterType == TASK_FILTER_PINNED?
+		BOOL showHint = (filterType == TASK_FILTER_STAR?
 						 [[Settings getInstance] starTabHint]:
 						 [[Settings getInstance] gtdoTabHint]);
 		
-		BOOL hintShown = (filterType == TASK_FILTER_PINNED?_starTabHintShown:_gtdoTabHintShown);
+		BOOL hintShown = (filterType == TASK_FILTER_STAR?_starTabHintShown:_gtdoTabHintShown);
 		
 		if (showHint && !hintShown)
 		{
-			NSString *msg = (filterType == TASK_FILTER_PINNED?_starTabHintText:_gtdoTabHintText);
+			NSString *msg = (filterType == TASK_FILTER_STAR?_starTabHintText:_gtdoTabHintText);
             
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_hintText message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
 			
-			alertView.tag = (filterType == TASK_FILTER_PINNED?-10004:-10005);
+			alertView.tag = (filterType == TASK_FILTER_STAR?-10004:-10005);
 			
 			[alertView addButtonWithTitle:_dontShowText];
 			
 			[alertView show];
 			[alertView release];
 			
-			if (filterType == TASK_FILTER_PINNED)
+			if (filterType == TASK_FILTER_STAR)
 			{
 				_starTabHintShown = YES;
 			}
@@ -2097,7 +2097,7 @@ SmartListViewController *_smartListViewCtrler;
 {
     return [NSArray arrayWithObjects:
             [NSNumber numberWithInt:TASK_FILTER_ALL],
-            [NSNumber numberWithInt:TASK_FILTER_PINNED],
+            [NSNumber numberWithInt:TASK_FILTER_STAR],
             [NSNumber numberWithInt:TASK_FILTER_TOP],
             [NSNumber numberWithInt:TASK_FILTER_DUE],
             [NSNumber numberWithInt:TASK_FILTER_ACTIVE],
@@ -2268,7 +2268,7 @@ SmartListViewController *_smartListViewCtrler;
 		case TASK_FILTER_ALL:
 			selectedTabButton = allButton;
 			break;
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 			selectedTabButton = starButton;
 			break;
 		case TASK_FILTER_TOP:

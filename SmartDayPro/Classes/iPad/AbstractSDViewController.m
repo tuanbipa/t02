@@ -234,7 +234,7 @@ extern PlannerViewController *_plannerViewCtrler;
         case TASK_FILTER_ALL:
             title = _allText;
             break;
-        case TASK_FILTER_PINNED:
+        case TASK_FILTER_STAR:
             title = _starText;
             break;
         case TASK_FILTER_TOP:
@@ -249,7 +249,7 @@ extern PlannerViewController *_plannerViewCtrler;
         case TASK_FILTER_DONE:
             title = _doneText;
             break;
-        case TASK_FILTER_SCHEDULED:
+        case TASK_FILTER_PINNED:
             title = _pinnedText;
             break;
     }

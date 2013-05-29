@@ -279,7 +279,7 @@ extern BOOL _gtdoTabHintShown;
             case TASK_FILTER_ALL:
                 title = _allText;
                 break;
-            case TASK_FILTER_PINNED:
+            case TASK_FILTER_STAR:
                 title = _starText;
                 break;
             case TASK_FILTER_TOP:
@@ -363,7 +363,7 @@ extern BOOL _gtdoTabHintShown;
                     case TASK_FILTER_ALL:
                         title = _allText;
                         break;
-                    case TASK_FILTER_PINNED:
+                    case TASK_FILTER_STAR:
                         title = _starText;
                         break;
                     case TASK_FILTER_TOP:
@@ -1564,7 +1564,7 @@ extern BOOL _gtdoTabHintShown;
 	
 	switch (tm.taskTypeFilter) 
 	{
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 		{
 			newTask.status = TASK_STATUS_PINNED;
 		}
@@ -1600,7 +1600,7 @@ extern BOOL _gtdoTabHintShown;
 	
 	switch (tm.taskTypeFilter) 
 	{
-		case TASK_FILTER_PINNED:
+		case TASK_FILTER_STAR:
 		{
 			newTask.status = TASK_STATUS_PINNED;
 		}
@@ -1956,7 +1956,7 @@ extern BOOL _gtdoTabHintShown;
         case TASK_FILTER_ALL:
             title = _allText;
             break;
-        case TASK_FILTER_PINNED:
+        case TASK_FILTER_STAR:
             title = _starText;
             break;
         case TASK_FILTER_TOP:
@@ -3046,7 +3046,7 @@ extern BOOL _gtdoTabHintShown;
                               normalStateImage:nil
                             selectedStateImage:nil];
 	starButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    starButton.tag = TASK_FILTER_PINNED;
+    starButton.tag = TASK_FILTER_STAR;
 	[optionView addSubview:starButton];
     
     UIImageView *gtdImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];

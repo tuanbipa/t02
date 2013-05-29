@@ -1351,7 +1351,7 @@ BOOL _autoPushPending = NO;
         
         switch (tm.taskTypeFilter)
         {
-            case TASK_FILTER_PINNED:
+            case TASK_FILTER_STAR:
             {
                 task.status = TASK_STATUS_PINNED;
             }
