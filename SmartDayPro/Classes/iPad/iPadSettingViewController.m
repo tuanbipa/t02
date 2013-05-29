@@ -246,6 +246,8 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     if (timeZoneSupportChange || timeZoneChange)
     {
         [tm initData];
+        
+        [_abstractViewCtrler refreshData];
     }
 	else if (reSchedule && !mustDoDaysChange)
 	{
