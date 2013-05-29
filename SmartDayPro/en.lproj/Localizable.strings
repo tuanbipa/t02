@@ -493,6 +493,7 @@
 //"_sdwSignupSuccessText" = "Your account has been successfully registered to mySmartDay, please check the email to activate the account";
 "_sdwSignupSuccessText" = "Congratulations!\nPlease check your email to activate your account. If you do not receive an email within 1 hour, please contact support@leftcoastlogic.com.";
 "_sdwSignupFailedText" = "Account registration is failed.";
+"_sdwTokenAcquiryFailedText" = "Token acquiry is failed.";
 "_sdwSyncFailedText" = "mySmartDay.com sync has failed. Please try again later.";
 "_emailInvalidText" = "Email format is invalid. Please specify another one.";
 "_wifiConnectionOffText" = "Could not connect to server. Please check your WIFI connection.";

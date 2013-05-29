@@ -44,6 +44,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	return self;
 }
 
+- (BOOL)checkSeparate:(TaskView *)view
+{
+    Task *task = view.task;
+    
+    return ![task checkMustDo] && ![task isManual];
+}
+
 -(void) beginMove:(MovableView *)view
 {
     if ([[TaskManager getInstance] taskTypeFilter] != TASK_FILTER_DONE)

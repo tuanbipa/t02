@@ -216,6 +216,7 @@ extern BOOL _isiPad;
     
     NSDate *dt = (mode==1?date:[Common getFirstMonthDate:date]);
     
+    /*
     if (mode == 0)
     {
         //NSInteger weeks = [Common getWeeksInMonth:date];
@@ -223,7 +224,9 @@ extern BOOL _isiPad;
         NSInteger weeks = [Common getWeeksInMonth:date mondayAsWeekStart:st.isMondayAsWeekStart];
         
         [self.calView changeWeekPlanner:7 weeks:weeks];        
-    }
+    }*/
+
+    [self updateWeeks:dt];
     
     [self.calView initCalendar:dt];
     
@@ -291,24 +294,6 @@ extern BOOL _isiPad;
 
 - (void) finishInitCalendar
 {
-	//if (initCalBGInProgress)
-	//{
-		////NSLog(@"finish WeekPlanner initCalendar -> notify");
-		
-		//initCalBGInProgress = NO;
-    
-    TaskManager *tm = [TaskManager getInstance];
-		
-    //[tm initMiniMonth:NO];
-    
-    //NSInteger mode = [headerView getMWMode];
-    
-    //NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:tm.today]);
-    
-    //[self.calView changeWeekPlanner:7 weeks:weeks];
-    
-    //[self.calView highlightCellOnDate:tm.today];
-    
     NSInteger weeks = self.calView.nWeeks;
 	
     CGRect frm = CGRectMake(_isiPad?10:0, _isiPad?10:0, self.frame.size.width, (_isiPad?48:40)*weeks + MINI_MONTH_HEADER_HEIGHT + (_isiPad?0:6));
@@ -329,12 +314,13 @@ extern BOOL _isiPad;
     
     NSDate *calDate = (mode == 1?tm.today:[Common getFirstMonthDate:tm.today]);
     
+    /*
     //NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
     Settings *st = [Settings getInstance];
     NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate mondayAsWeekStart:st.isMondayAsWeekStart]);
     
     [self.calView changeWeekPlanner:7 weeks:weeks];
-    
+    */
     [self initCalendar:calDate];
     
     [[_abstractViewCtrler getCalendarViewController] focusNow];
@@ -370,13 +356,15 @@ extern BOOL _isiPad;
 
 - (void) updateWeeks:(NSDate *)date
 {
+    Settings *settings = [Settings getInstance];
+    
     NSInteger mode = [headerView getMWMode];
     
     NSDate *calDate = (mode == 1?date:[Common getFirstMonthDate:date]);
     
-    //NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
-    Settings *st = [Settings getInstance];
-    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate mondayAsWeekStart:st.isMondayAsWeekStart]);
+    NSDate *lastWeekDate = [Common getLastWeekDate:calDate mondayAsWeekStart:settings.isMondayAsWeekStart];
+    
+    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:lastWeekDate mondayAsWeekStart:settings.isMondayAsWeekStart]);
     
     [self.calView changeWeekPlanner:7 weeks:weeks];
 }

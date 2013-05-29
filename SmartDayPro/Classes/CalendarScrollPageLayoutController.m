@@ -93,11 +93,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
         dt = [Common dateByAddNumDay:1 toDate:dt];
     }
     
-    //printf("get object list for page: %d, date: %s\n", page, [[dt description] UTF8String]);
-    
     NSDate *start = [Common clearTimeForDate:dt];
     NSDate *end = [Common getEndDate:dt];
-    
+
+    //printf("get object list for page: %d, from: %s - to: %s\n", page, [[start description] UTF8String], [[end description] UTF8String]);
+        
     NSMutableArray *list = [tm getEventListFromDate:start toDate:end];
     
 	if ([[Settings getInstance] eventCombination] == 0)

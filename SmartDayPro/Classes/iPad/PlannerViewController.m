@@ -750,12 +750,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)changeTime:(Task *)task time:(NSDate *)time {
     
-    NSDate *sDate = [task.startTime copy];
-    NSDate *dDate = [task.deadline copy];
+    //NSDate *sDate = [task.startTime copy];
+    //NSDate *dDate = [task.deadline copy];
     
     TaskManager *tm = [TaskManager getInstance];
     [tm moveTime:time forEvent:task];
     
+    /*
     if ([task isRE])
     {
         MiniMonthView *mmView = [self getMiniMonth];
@@ -791,6 +792,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
             [calView refreshCellByDate:task.startTime];
             //[plannerCalView refreshCellByDate:task.startTime];
         }
-    }
+    }*/
+    
+    [self reconcileItem:task reSchedule:YES];
 }
 @end

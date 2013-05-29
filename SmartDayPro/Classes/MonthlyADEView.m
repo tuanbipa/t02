@@ -52,6 +52,8 @@ extern TaskManager *taskmanager;
 
 -(void) setStartDate:(NSDate *)startDateVal endDate:(NSDate *)endDateVal
 {
+    //printf("get ADE list from %s - to %s\n", [[startDateVal description] UTF8String], [[endDateVal description] UTF8String]);
+    
 	self.startDate = startDateVal;
 	self.endDate = endDateVal;
 	
@@ -116,7 +118,9 @@ extern TaskManager *taskmanager;
 		NSInteger index = diff/(24*60*60) ;
 		
 		//NSInteger days = ([Common timeIntervalNoDST:ade.endTime sinceDate:ade.startTime] + 1)/(24*60*60);
-        NSInteger days = [Common daysBetween:ade.endTime sinceDate:ade.startTime];
+        //NSInteger days = [Common daysBetween:ade.endTime sinceDate:ade.startTime];
+        
+        NSInteger days = ([ade.endTime timeIntervalSinceDate:ade.startTime] + 1)/(24*60*60);
 		
 		for (int j=0; j<MAX_ADE_NUM; j++)
 		{

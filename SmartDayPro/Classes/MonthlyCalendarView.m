@@ -94,6 +94,8 @@ extern BOOL _isiPad;
 
 - (void)changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks
 {
+    //printf("change weeks: %d\n", weeks);
+    
 	nDays = days;
 	nWeeks = weeks;
 	
@@ -386,25 +388,6 @@ extern BOOL _isiPad;
 			[self highlightCell:cell];
 		}
 	}
-	
-	//NSDate *fromDate = [Common clearTimeForDate:startDate];
-	//NSDate *toDate = [Common getEndDate:lastDate];
-    
-    /*
-    if (nDays > 0 && nWeeks > 0)
-    {
-        NSInteger days = nWeeks*nDays;
-        
-        toDate = [Common getEndDate:[Common dateByAddNumDay:days toDate:fromDate]];
-    }
-	*/
-    
-	//[self updateBusyTimeFromDate:fromDate toDate:toDate];
-	
-	//[adeView setStartDate:fromDate endDate:toDate];
-    
-	////NSLog(@"end show week calendar");
-	//[pool release];
 }
 
 - (void) showCalendar:(NSDate *)date
@@ -483,21 +466,19 @@ extern BOOL _isiPad;
 
 - (void) refreshADEView
 {
+    /*
 	MonthlyCellView *cell = [[self subviews] objectAtIndex:0];
 	
 	NSDate *fromDate = [cell getCellDate];
 	
 	cell = [[self subviews] objectAtIndex:41];
 	
-	NSDate *toDate = [cell getCellDate];
-
-    /*
-    if (nDays > 0 && nWeeks > 0)
-    {
-        NSInteger days = nWeeks*nDays;
-        
-        toDate = [Common getEndDate:[Common dateByAddNumDay:days toDate:fromDate]];
-    }*/   
+	NSDate *toDate = [cell getCellDate]; 
+    */
+    
+    NSDate *fromDate = [self getFirstDate];
+    
+    NSDate *toDate = [self getLastDate];
     
     [adeView setStartDate:fromDate endDate:toDate];
 }
@@ -560,11 +541,15 @@ extern BOOL _isiPad;
 - (void) refresh
 {
 	//////NSLog(@"begin refresh all cells");
+    /*
     MonthlyCellView *firstCell = [[self subviews] objectAtIndex:0];
     MonthlyCellView *lastCell = [[self subviews] objectAtIndex:7*nWeeks-1];
     
     NSDate *fromDate = [firstCell getCellDate];
-    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
+    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];*/
+    
+    NSDate *fromDate = [self getFirstDate];
+    NSDate *toDate = [self getLastDate];
     
 	[self updateBusyTimeFromDate:fromDate toDate:toDate];
 	[self updateDotFromDate:fromDate toDate:toDate];
@@ -576,20 +561,6 @@ extern BOOL _isiPad;
 - (void)refreshBackground
 {
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    
-    /*
-    MonthlyCellView *firstCell = [[self subviews] objectAtIndex:0];
-    MonthlyCellView *lastCell = [[self subviews] objectAtIndex:7*nWeeks-1];
-    
-    NSDate *fromDate = [firstCell getCellDate];
-    NSDate *toDate = [Common dateByAddNumDay:1 toDate:[lastCell getCellDate]];
-    
-	[self updateBusyTimeFromDate:fromDate toDate:toDate];
-	
-	[adeView setStartDate:fromDate endDate:toDate];
-    
-    [self refreshDot];
-    */
     
     [self refresh];
     
@@ -770,7 +741,11 @@ extern BOOL _isiPad;
 
 - (NSDate *) getLastDate
 {
-    return [Common getEndDate:[Common dateByAddNumDay:7*nWeeks-1 toDate:[self getFirstDate]]];
+    NSDate *ret = [Common getEndDate:[Common dateByAddNumDay:7*nWeeks-1 toDate:[self getFirstDate]]];
+    
+    //printf("get last date: %s - weeks:%d\n", [[ret description] UTF8String], nWeeks);
+    
+    return ret;
 }
 
 - (void)dealloc {

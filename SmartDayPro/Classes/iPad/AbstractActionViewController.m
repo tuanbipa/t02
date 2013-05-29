@@ -763,10 +763,10 @@ BOOL _autoPushPending = NO;
     
     MiniMonthView *mmView = [self getMiniMonth];
     
-    if (mmView != nil)
+    /*if (mmView != nil)
     {
         [mmView updateWeeks:date];
-    }
+    }*/
     
     [[TaskManager getInstance] initCalendarData:date];
 
@@ -782,11 +782,11 @@ BOOL _autoPushPending = NO;
 
 - (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule
 {
+    CalendarViewController *calCtrler = [self getCalendarViewController];
+    
     if (!reSchedule)
     {
         //don't need to refresh Calendar View and Task List when re-scheduling because they are refreshed when schedule is finished
-        
-        CalendarViewController *calCtrler = [self getCalendarViewController];
         
         [calCtrler reconcileItem:item];
         
@@ -810,6 +810,7 @@ BOOL _autoPushPending = NO;
         [focusView reconcileItem:item];
     }
     
+    /*
     //if ([item isADE]) -> need to update when convert from ADE -> Event also
     {
         AbstractMonthCalendarView *calView = [self getMonthCalendarView];
@@ -820,7 +821,14 @@ BOOL _autoPushPending = NO;
         AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
         
         [plannerCalView refreshADEView];
-    }
+    }*/
+    
+    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+
+    [calView refresh];
+    [plannerCalView refresh];
+    [calCtrler refreshADEPane];
 }
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy
@@ -887,6 +895,7 @@ BOOL _autoPushPending = NO;
     
     [self reconcileItem:task reSchedule:reSchedule];
     
+    /*
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     
     AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
@@ -925,6 +934,7 @@ BOOL _autoPushPending = NO;
             [plannerCalView refreshCellByDate:taskCopy.startTime];
         }
     }
+    */
     
     [self deselect];
 }
@@ -959,9 +969,10 @@ BOOL _autoPushPending = NO;
     TaskManager *tm = [TaskManager getInstance];
     
     Task *task = [self getActiveTask];
-    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     
-    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    
+    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     [task retain];
     
@@ -988,9 +999,10 @@ BOOL _autoPushPending = NO;
         
         [tm deleteREInstance:instance deleteOption:2];
         
+        /*
         [calView refresh];
         
-        [plannerCalView refresh];
+        [plannerCalView refresh];*/
 
         [self reconcileItem:task reSchedule:YES];
     }
@@ -1002,9 +1014,9 @@ BOOL _autoPushPending = NO;
 {
     Task *task = [self getActiveTask];
     
-    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     
-    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     NSInteger pk = task.primaryKey;
     
@@ -1024,9 +1036,10 @@ BOOL _autoPushPending = NO;
 	
 	[[TaskManager getInstance] deleteREInstance:task deleteOption:deleteOption];
     
+    /*
     [calView refresh];
     
-    [plannerCalView refresh];
+    [plannerCalView refresh];*/
     
     CalendarViewController *calCtrler = [self getCalendarViewController];
     
@@ -1042,8 +1055,8 @@ BOOL _autoPushPending = NO;
     TaskManager *tm = [TaskManager getInstance];
     
     Task *task = [self getActiveTask];
-    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     NSInteger pk = task.primaryKey;
     
@@ -1057,6 +1070,7 @@ BOOL _autoPushPending = NO;
         self.task2Link = nil;
     }
     
+    /*
     if ([task isNote])
     {
         [tm deleteTask:task];
@@ -1064,12 +1078,14 @@ BOOL _autoPushPending = NO;
     else
     {
         //note: task original could be removed from task list so need to store neccessary information instead of directly call methods on the task after done
+        
         BOOL isRE = [task isRE];
         NSInteger type = task.type;
         NSDate *start = [[task.startTime copy] autorelease];
         NSDate *deadline = [[task.deadline copy] autorelease];
         
         [tm deleteTask:task];
+        
         
         if (isRE)
         {
@@ -1109,6 +1125,8 @@ BOOL _autoPushPending = NO;
         }
 
     }
+    */
+    [tm deleteTask:task];
     
     [self reconcileItem:task reSchedule:YES];
     
@@ -1269,60 +1287,12 @@ BOOL _autoPushPending = NO;
 {
     Task *task = [self getActiveTask];
     
-    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
-    
     if (task != nil)
     {
         [task retain];
         
         [self deselect];
-        
-        /*
-        TaskManager *tm = [TaskManager getInstance];
-        
-        NSDate *oldDeadline = [[task.deadline copy] autorelease];
-        BOOL isRT = [task isRT];
-        
-        //[tm markDoneTask:task];
-        
-        if ([task isDone])
-        {
-            [tm unDone:task];
-        }
-        else
-        {
-            [tm markDoneTask:task];
-        }
-        
-        if (oldDeadline != nil)
-        {
-            [calView refreshCellByDate:oldDeadline];
-            [plannerCalView refreshCellByDate:oldDeadline];
-            
-            if ([Common daysBetween:oldDeadline sinceDate:tm.today] <= 0)
-            {
-                [[self getFocusView] refreshData];
-            }
-        }
-        
-        if ([self checkControllerActive:3])
-        {
-            CategoryViewController *ctrler = [self getCategoryViewController];
-            
-            if (ctrler.filterType == TYPE_TASK)
-            {
-                [ctrler loadAndShowList];
-            }
-        }
-        
-        if (isRT)
-        {
-            [calView refreshCellByDate:task.deadline];
-            [plannerCalView refreshCellByDate:task.deadline];
-        }
-        */
-        
+                
         [self markDoneTask:task];
         
         [task release];
@@ -1505,7 +1475,7 @@ BOOL _autoPushPending = NO;
         task = task.original;
     }
     
-    BOOL isRE = [task isRE];
+    //BOOL isRE = [task isRE];
     
     // check if this is STask
     if ([taskCopy isManual]) {
@@ -1516,6 +1486,7 @@ BOOL _autoPushPending = NO;
     
     [tm updateTask:task withTask:taskCopy];
     
+    /*
     if (isRE)
     {
         MiniMonthView *mmView = [self getMiniMonth];
@@ -1543,6 +1514,7 @@ BOOL _autoPushPending = NO;
             }            
         }
     }
+    */
     
     PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
     [plannerDayCal refreshLayout];
@@ -1554,11 +1526,12 @@ BOOL _autoPushPending = NO;
 {
     TaskManager *tm = [TaskManager getInstance];
     
-    NSDate *sDate = [task.startTime copy];
-    NSDate *dDate = [task.deadline copy];
+    //NSDate *sDate = [task.startTime copy];
+    //NSDate *dDate = [task.deadline copy];
     
     [tm moveTime:[Common copyTimeFromDate:time toDate:tm.today] forEvent:task];
     
+    /*
     if ([task isRE])
     {
         MiniMonthView *mmView = [self getMiniMonth];
@@ -1594,7 +1567,7 @@ BOOL _autoPushPending = NO;
             [calView refreshCellByDate:task.startTime];
             [plannerCalView refreshCellByDate:task.startTime];
         }
-    }
+    }*/
     
     [self reconcileItem:task reSchedule:YES];
 }

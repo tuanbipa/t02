@@ -520,6 +520,7 @@ typedef struct
 + (NSInteger)getHour:(NSDate *)date;
 + (NSInteger)getMinute:(NSDate *)date;
 + (NSInteger)getWeekday:(NSDate *)date;
++ (NSInteger)getWeekday:(NSDate *)date timeZoneID:(NSInteger)timeZoneID;
 + (NSInteger)getWeekdayOrdinal:(NSDate *)date;
 + (NSInteger) getWeeksInMonth:(NSDate *)date;
 + (NSInteger) getWeeksInMonth:(NSDate *)date mondayAsWeekStart:(BOOL)mondayAsWeekStart;

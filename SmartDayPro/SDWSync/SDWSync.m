@@ -736,9 +736,9 @@ NSInteger _sdwColor[32] = {
     NSArray *bodyData = [NSArray arrayWithObject:dict];
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:bodyData options:0 error:&error];
 	
-    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
-    printf("update settings body:\n%s\n", [body UTF8String]);    
+    //printf("update settings body:\n%s\n", [body UTF8String]);
     
     [request setHTTPBody:jsonBody];
     
@@ -2062,9 +2062,9 @@ NSInteger _sdwColor[32] = {
     
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwTaskList options:0 error:&error];
     
-    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
     
-    printf("update task body:\n%s\n", [body UTF8String]);
+    //printf("update task body:\n%s\n", [body UTF8String]);
     
     [request setHTTPBody:jsonBody];
 	
@@ -4261,8 +4261,8 @@ NSInteger _sdwColor[32] = {
     
     if (urlData)
     {
-        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
-        //printf("getToken return:\n%s\n", [str UTF8String]);
+        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        printf("getToken return:\n%s\n", [str UTF8String]);
         
         NSDictionary *result = [self getDictionaryResult:urlData];
         
@@ -4284,12 +4284,12 @@ NSInteger _sdwColor[32] = {
                 }
                 else
                 {
-                    self.errorDescription = _sdwSignupFailedText;
+                    self.errorDescription = _sdwTokenAcquiryFailedText;
                 }
                 
                 //self.errorDescription = [dic valueForKey:@"error_description"];
                 
-                //printf("get token failed: %s - %d!\n", [self.errorDescription UTF8String], errorId);
+                printf("get token failed: %s - %d!\n", [self.errorDescription UTF8String], errorId);
                 return nil;
             }
         }
