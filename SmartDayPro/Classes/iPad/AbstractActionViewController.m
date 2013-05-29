@@ -370,7 +370,7 @@ BOOL _autoPushPending = NO;
     
     NSInteger pk = (task.original != nil && ![task isREException]?task.original.primaryKey:task.primaryKey);
     
-    BOOL calendarTask = [task isTask] && task.original != nil;
+    BOOL calendarTask = ([task isTask] && task.original != nil) || [task isManual];
     
     contentView.actionType = calendarTask?ACTION_TASK_EDIT:([task isNote]?ACTION_NOTE_EDIT:ACTION_ITEM_EDIT);
     contentView.tag = pk;
@@ -829,7 +829,7 @@ BOOL _autoPushPending = NO;
     
     // check Manual task on title
     if ([taskCopy isManual]) {
-        NSRange range = [taskCopy.name rangeOfString:@"\U0001F552"];
+        NSRange range = [taskCopy.name rangeOfString:@"\U0001F4CC"];
         if (range.location == NSNotFound) {
             [taskCopy setManual:NO];
         }
@@ -1220,6 +1220,10 @@ BOOL _autoPushPending = NO;
     BOOL isRT = [task isRT];
     
     //[tm markDoneTask:task];
+    NSDate *startTime = nil;
+    if ([task isManual]) {
+        startTime = [[task.startTime copy] autorelease];
+    }
     
     if ([task isDone])
     {
@@ -1228,6 +1232,13 @@ BOOL _autoPushPending = NO;
     else
     {
         [tm markDoneTask:task];
+    }
+    
+    if (startTime != nil) {
+        [calView refreshCellByDate:startTime];
+        // refresh planner day cal
+        PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+        [plannerDayCal refreshLayout];
     }
     
     if (oldDeadline != nil)

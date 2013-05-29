@@ -2054,7 +2054,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void) setManual:(BOOL)enabled
 {
-    NSString *specialStr=@"\U0001F552";
+    NSString *specialStr=@"\U0001F4CC";
     
     if (enabled)
     {
@@ -2195,7 +2195,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void)setType:(NSInteger)_type {
     if ([self isEvent] && [self isManual] && _type != TYPE_EVENT) {
-        NSString *specialStr=@"\U0001F552";
+        NSString *specialStr=@"\U0001F4CC";
         self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
         
         self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;

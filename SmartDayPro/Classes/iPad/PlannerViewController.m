@@ -501,7 +501,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[scheduledImageView release];
 	
 	UILabel *scheduledLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 232, 120, 25)];
-	scheduledLabel.text = _scheduledText;
+	scheduledLabel.text = _pinnedText;
 	scheduledLabel.textColor = [UIColor whiteColor];
 	scheduledLabel.backgroundColor = [UIColor clearColor];
 	scheduledLabel.font=[UIFont systemFontOfSize:18];

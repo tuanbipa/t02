@@ -14,7 +14,7 @@
 "_saveText" = "Save";
 "_titleGuideText" = "Title                 Tap or Type";
 "_doneText" = "Done";
-"_scheduledText" = "Scheduled";
+"_pinnedText" = "Pinned";
 "_gotoDateText" = "Goto Date";
 "_filterText" = "Filter";
 "_noFilterText" = "No Filter"; 

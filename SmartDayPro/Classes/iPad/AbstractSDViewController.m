@@ -250,7 +250,7 @@ extern PlannerViewController *_plannerViewCtrler;
             title = _doneText;
             break;
         case TASK_FILTER_SCHEDULED:
-            title = _scheduledText;
+            title = _pinnedText;
             break;
     }
     

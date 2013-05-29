@@ -4251,6 +4251,25 @@ TaskManager *_sctmSingleton = nil;
 	return instance;
 }
 
+- (void)doneRepeatManualTask: (Task *) rt instance: (Task *) instance {
+    
+    if (![instance isREInstance]) {
+        instance.primaryKey = -1;
+        instance.original = rt;
+    }
+    // delete instance
+    [self deleteREInstance:instance deleteOption:1];
+    
+    // insert done task into DB
+    instance.type = TYPE_TASK;
+    [instance setManual:NO];
+    instance.status = TASK_STATUS_DONE;
+    instance.completionTime = [NSDate date];
+    instance.repeatData = nil;
+    
+    [instance insertIntoDB:[[DBManager getInstance] getDatabase]];
+}
+
 -(void) starTask:(Task *)task
 {
     Task *slTask = [self getTask2Update:task];
@@ -4309,28 +4328,28 @@ TaskManager *_sctmSingleton = nil;
 {
     Task *slTask = [self getTask2Update:task];
     
-    BOOL isManual = NO;
-    if ([slTask isManual]) {
-        [slTask setManual:NO];
-        slTask.type = TYPE_TASK;
-        
-        isManual = YES;
-    }
-    	
 	if ([slTask isRT])
 	{
 		[self doneRT:slTask];	
         
         //task.deadline = slTask.deadline;
-	} else if (isManual) {
-        slTask.status = TASK_STATUS_DONE;
-        slTask.completionTime = [NSDate date];
+	} else if ([slTask isManual]) {
         
-        [slTask updateIntoDB:[[DBManager getInstance] getDatabase]];
+        if ([slTask isRecurring]) {
+            [self doneRepeatManualTask:slTask instance:task];
+        } else {
+            [slTask setManual:NO];
+            slTask.type = TYPE_TASK;
+            slTask.status = TASK_STATUS_DONE;
+            slTask.completionTime = [NSDate date];
+            
+            [slTask updateIntoDB:[[DBManager getInstance] getDatabase]];
+        }
         
         if (self.taskTypeFilter == TASK_FILTER_DONE)
         {
-            [self.taskList removeObject:slTask];
+            // add to done list
+            [self.taskList addObject:task];
         }
         else
         {
@@ -4340,13 +4359,13 @@ TaskManager *_sctmSingleton = nil;
         }
         
         if (self.taskTypeFilter == TASK_FILTER_TOP)
-		{
-			[self initSmartListData]; //to refresh next GTDo
-		}
-		else
-		{
-			[self scheduleTasks];
-		}
+        {
+            [self initSmartListData]; //to refresh next GTDo
+        }
+        else
+        {
+            [self scheduleTasks];
+        }
     }
 	else if ([slTask isTask])
 	{
@@ -5087,6 +5106,9 @@ TaskManager *_sctmSingleton = nil;
             break;
         case TASK_FILTER_DONE:
             title = _doneText;
+            break;
+        case TASK_FILTER_SCHEDULED:
+            title = _pinnedText;
             break;
     }
     
