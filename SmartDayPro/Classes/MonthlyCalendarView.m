@@ -94,6 +94,8 @@ extern BOOL _isiPad;
 
 - (void)changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks
 {
+    //printf("change weeks: %d\n", weeks);
+    
 	nDays = days;
 	nWeeks = weeks;
 	
@@ -483,21 +485,19 @@ extern BOOL _isiPad;
 
 - (void) refreshADEView
 {
+    /*
 	MonthlyCellView *cell = [[self subviews] objectAtIndex:0];
 	
 	NSDate *fromDate = [cell getCellDate];
 	
 	cell = [[self subviews] objectAtIndex:41];
 	
-	NSDate *toDate = [cell getCellDate];
-
-    /*
-    if (nDays > 0 && nWeeks > 0)
-    {
-        NSInteger days = nWeeks*nDays;
-        
-        toDate = [Common getEndDate:[Common dateByAddNumDay:days toDate:fromDate]];
-    }*/   
+	NSDate *toDate = [cell getCellDate]; 
+    */
+    
+    NSDate *fromDate = [self getFirstDate];
+    
+    NSDate *toDate = [self getLastDate];
     
     [adeView setStartDate:fromDate endDate:toDate];
 }
@@ -770,7 +770,11 @@ extern BOOL _isiPad;
 
 - (NSDate *) getLastDate
 {
-    return [Common getEndDate:[Common dateByAddNumDay:7*nWeeks-1 toDate:[self getFirstDate]]];
+    NSDate *ret = [Common getEndDate:[Common dateByAddNumDay:7*nWeeks-1 toDate:[self getFirstDate]]];
+    
+    //printf("get last date: %s - weeks:%d\n", [[ret description] UTF8String], nWeeks);
+    
+    return ret;
 }
 
 - (void)dealloc {

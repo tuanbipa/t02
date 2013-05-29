@@ -805,7 +805,10 @@ TaskManager *_sctmSingleton = nil;
             }
         }
         
-        int wkday = [Common getWeekday:reStartTime];
+        //NSTimeZone *tz = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:re.timeZoneId]];
+        
+        int wkday = re.repeatData.type == REPEAT_WEEKLY? [Common getWeekday:reStartTime timeZoneID:re.timeZoneId]:[Common getWeekday:reStartTime];
+        //int wkday = [Common getWeekday:reStartTime timezone:tz];
         int wkOrdinal = [Common getWeekdayOrdinal:reStartTime];
         
         NSDateComponents *re_comps = [gregorian components:unitFlags fromDate:reStartTime];
@@ -1305,6 +1308,8 @@ TaskManager *_sctmSingleton = nil;
         
         for (Task *task in list)
         {
+            //printf("task %s - start: %s\n", [task.name UTF8String], [[task.startTime description] UTF8String]);
+
             task.smartTime = nil;
             
             if (segments.count == 0)

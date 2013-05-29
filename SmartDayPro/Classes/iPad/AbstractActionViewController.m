@@ -763,10 +763,10 @@ BOOL _autoPushPending = NO;
     
     MiniMonthView *mmView = [self getMiniMonth];
     
-    if (mmView != nil)
+    /*if (mmView != nil)
     {
         [mmView updateWeeks:date];
-    }
+    }*/
     
     [[TaskManager getInstance] initCalendarData:date];
 

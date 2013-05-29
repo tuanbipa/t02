@@ -821,7 +821,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     {
         dt2 = [NSDate dateWithTimeIntervalSince1970:0];
     }
-    
+/*
     //dt2: since Date
     NSDate *minDate = [dt1 compare:dt2]==NSOrderedAscending?dt1:dt2;
     
@@ -829,6 +829,14 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     NSDate *startDate = (minDate == dt1?[Common getEndDate:dt2]:[Common clearTimeForDate:dt2]);
     
     return ([endDate timeIntervalSinceDate:startDate]+1)/24/60/60;
+*/
+    
+    NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+    
+    NSUInteger dayOfYear1 = [gregorian ordinalityOfUnit:NSDayCalendarUnit inUnit:NSYearCalendarUnit forDate:dt1];
+    NSUInteger dayOfYear2 = [gregorian ordinalityOfUnit:NSDayCalendarUnit inUnit:NSYearCalendarUnit forDate:dt2];
+    
+    return dayOfYear1 - dayOfYear2;
 }
 
 + (NSInteger)timeIntervalNoDST:(NSDate *)date sinceDate:(NSDate *)sinceDate
@@ -996,9 +1004,24 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	if (date==nil) return 0;
 	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	NSDateComponents *dayComponents =[gregorian components:NSWeekdayCalendarUnit fromDate:date];
+
 	NSInteger wd = [dayComponents weekday];
 	return wd;
 }
+
++ (NSInteger)getWeekday:(NSDate *)date timeZoneID:(NSInteger)timeZoneID
+{
+	if (date==nil) return 0;
+    
+    NSInteger secs = [Common getSecondsFromTimeZoneID:timeZoneID] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    
+	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+	NSDateComponents *dayComponents =[gregorian components:NSWeekdayCalendarUnit fromDate:[date dateByAddingTimeInterval:secs]];
+    
+	NSInteger wd = [dayComponents weekday];
+	return wd;
+}
+
 
 + (NSInteger)getWeekdayOrdinal:(NSDate *)date
 {

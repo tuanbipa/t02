@@ -485,6 +485,7 @@
 #define _sdwAccountInvalidText NSLocalizedString(@"_sdwAccountInvalidText", "")
 #define _sdwSignupSuccessText NSLocalizedString(@"_sdwSignupSuccessText", "")
 #define _sdwSignupFailedText NSLocalizedString(@"_sdwSignupFailedText", "")
+#define _sdwTokenAcquiryFailedText NSLocalizedString(@"_sdwTokenAcquiryFailedText", "")
 #define _sdwSyncFailedText NSLocalizedString(@"_sdwSyncFailedText", "")
 #define _emailInvalidText NSLocalizedString(@"_emailInvalidText", "")
 #define _wifiConnectionOffText NSLocalizedString(@"_wifiConnectionOffText", "")
