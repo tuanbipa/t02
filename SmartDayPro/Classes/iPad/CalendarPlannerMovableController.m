@@ -94,7 +94,7 @@ extern PlannerViewController *_plannerViewCtrler;
             Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
             [_plannerViewCtrler convertRE2Task:buttonIndex task:task];
         }
-        [super endMove:self.activeMovableView];
+        //[super endMove:self.activeMovableView];
     } else if (alertVw.tag == -11000) {
         
         if (buttonIndex == 1)
@@ -102,7 +102,7 @@ extern PlannerViewController *_plannerViewCtrler;
             Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
             [_plannerViewCtrler convert2Task:task];
         }
-        [super endMove:self.activeMovableView];
+        //[super endMove:self.activeMovableView];
     } else {
         [super alertView:alertVw clickedButtonAtIndex:buttonIndex];
     }
