@@ -2524,6 +2524,36 @@ TaskManager *_sctmSingleton = nil;
     return list;
 }
 
+- (void)mergeNormalTask: (NSMutableArray *) normalTask withManualTasks: (NSMutableArray *) manualTasks {
+    if (normalTask.count > 0 && manualTasks.count > 0) {
+        // merge
+        int i = 0;
+        int j = 0;
+        while (i < normalTask.count && j < manualTasks.count) {
+            Task *norTask = [normalTask objectAtIndex:i];
+            Task *manTask = [manualTasks objectAtIndex:j];
+            if ([Common compareDateNoTime:norTask.smartTime withDate:manTask.smartTime] != NSOrderedAscending) {
+                [normalTask insertObject:manTask atIndex:i];
+                j++;
+                i++;
+            } else {
+                i++;
+            }
+        }
+        
+        if (i == normalTask.count &&  j < manualTasks.count) {
+            for (; j < manualTasks.count; j++) {
+                Task *manTask = [manualTasks objectAtIndex:j];
+                [normalTask addObject:manTask];
+            }
+        }
+    } else {
+        if (normalTask.count == 0) {
+            [normalTask addObjectsFromArray:manualTasks];
+        }
+    }
+}
+
 - (NSMutableArray *) getDisplayListWithManualTasks {
     NSMutableArray *list = [self getDisplayList];
     if (self.taskTypeFilter != TASK_FILTER_DONE && self.taskTypeFilter == TASK_FILTER_ALL) {
@@ -2531,14 +2561,16 @@ TaskManager *_sctmSingleton = nil;
         // get follow seven days logic
         NSDate *fromDate = [Common clearTimeForDate:[NSDate date]];
         NSDate *toDate = [Common getEndDate: [Common dateByAddNumDay:7 toDate:fromDate]];
-        NSMutableArray *scheduleTaskList = [self getManualTaskListFromDate:fromDate toDate:toDate];
-        if (scheduleTaskList.count > 0) {
+        NSMutableArray *manualTaskList = [self getManualTaskListFromDate:fromDate toDate:toDate];
+        /*if (manualTaskList.count > 0) {
             [list addObjectsFromArray:scheduleTaskList];
-        }
+        }*/
+        
+        [self mergeNormalTask:list withManualTasks:manualTaskList];
     } else if (self.taskTypeFilter == TASK_FILTER_PINNED) {
-        NSMutableArray *scheduleTaskList = [self getManualTaskList];
-        if (scheduleTaskList.count > 0) {
-            [list addObjectsFromArray:scheduleTaskList];
+        NSMutableArray *manualTaskList = [self getManualTaskList];
+        if (manualTaskList.count > 0) {
+            [list addObjectsFromArray:manualTaskList];
         }
     }
     
