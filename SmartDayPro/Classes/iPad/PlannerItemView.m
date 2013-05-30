@@ -42,7 +42,7 @@ extern PlannerViewController *_plannerViewCtrler;
         [checkView addSubview:checkImageView];
         [checkImageView release];
         
-        [self refreshCheckImage];
+        //[self refreshCheckImage];
         
         self.transparent = NO;
         
@@ -73,6 +73,10 @@ extern PlannerViewController *_plannerViewCtrler;
     else
     {
         [self drawBoxStyle:rect ctx:ctx];
+    }
+    
+    if ([task isTask]) {
+        [self refreshCheckImage];
     }
 }
 
@@ -216,52 +220,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     NSString *infoStr = task.location;
     
-//    if ([task isNote])
-//    {
-//        //NSString *name = [task.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//        
-//        infoStr = [task.note stringByReplacingOccurrencesOfString:task.name withString:@""];
-//        
-//        ////printf("text after replace: %s, note:%s, name:%s\n", [infoStr UTF8String], [task.note UTF8String], [task.name UTF8String]);
-//        
-//        infoStr = [[infoStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%C%C",0x2705,0x274E]]] componentsJoinedByString:@""];
-//        
-//        infoStr = [infoStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//        
-//        CGRect textRec = rect;
-//        textRec.size.height = oneCharSize.height;
-//        
-//        if (task.name.length <= lineMaxChars && [infoStr isEqualToString:@""])
-//        {
-//            //1 line name only without note content -> align center
-//            textRec.origin.y += (rect.size.height - oneCharSize.height)/2;
-//        }
-//        
-//        CGRect embossedRec = CGRectOffset(textRec, 0, -1);
-//        
-//        [embossedColor set];
-//        [task.name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
-//        
-//        [textColor set];
-//        [task.name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
-//        
-//        if (![infoStr isEqualToString:@""])
-//        {
-//            textRec = rect;
-//            textRec.origin.y += oneCharSize.height;
-//            textRec.size.height -= oneCharSize.height;
-//            
-//            embossedRec = CGRectOffset(textRec, 0, -1);
-//            
-//            [embossedColor set];
-//            [infoStr drawInRect:embossedRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
-//            
-//            [textColor set];
-//            [infoStr drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
-//        }
-//    }
-//    else
-//    {
+    
         NSString *firstLine = infoStr;
         NSString *secondLine = nil;
         
@@ -361,7 +320,6 @@ extern PlannerViewController *_plannerViewCtrler;
                 [secondLine drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
             }
         }
-//    }
 }
 
 -(void)refreshCheckImage

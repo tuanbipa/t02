@@ -30,6 +30,6 @@
 
 @property (nonatomic, retain) Task *task;
 
-- (void) refresh;
+//- (void) refresh;
 - (void) refreshCheckImage;
 @end
