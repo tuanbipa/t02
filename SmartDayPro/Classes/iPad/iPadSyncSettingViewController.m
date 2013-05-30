@@ -348,6 +348,23 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	[nameLabel release];
 }
 
+- (void) createEventSyncCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
+	
+    UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 120, 10, 120, 20)];
+	nameLabel.tag = baseTag;
+	nameLabel.textAlignment=NSTextAlignmentRight;
+	nameLabel.backgroundColor=[UIColor clearColor];
+	nameLabel.font=[UIFont systemFontOfSize:15];
+	nameLabel.text = self.setting.ekSyncEnabled?_onText:_offText;
+    
+	[cell.contentView addSubview:nameLabel];
+	[nameLabel release];
+}
+
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -462,8 +479,9 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
                     break;
 				case 2:
 				{
-                    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    //cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
+                    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    [self createEventSyncCell:cell baseTag:11020];
                 }
                     break;
             }

@@ -57,6 +57,8 @@ extern BOOL _syncMatchHintShown;
 
 @synthesize syncMode;
 
+@synthesize resultCode;
+
 -(void) reset
 {
     if (createList != nil)
@@ -73,6 +75,8 @@ extern BOOL _syncMatchHintShown;
     self.dupCategoryList = nil;
 	
 	self.eventStore = nil;
+    
+    self.resultCode = 0;
 }
 
 -(id) init
@@ -1295,6 +1299,8 @@ extern BOOL _syncMatchHintShown;
 	{
 		self.syncMode = mode;
         
+        self.resultCode = 0;
+        
         self.eventStore = [[[EKEventStore alloc] init] autorelease];
         
         NSString *dupName = [self checkCalendarNameDuplication];
@@ -1363,6 +1369,7 @@ extern BOOL _syncMatchHintShown;
         }
         else 
         {
+            self.resultCode = -1;
             [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];
         }
     }
@@ -1376,6 +1383,7 @@ extern BOOL _syncMatchHintShown;
         {
             case 0:
             {
+                self.resultCode = -2;
                 [self syncComplete];
             }
                 break;

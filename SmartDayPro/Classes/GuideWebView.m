@@ -129,8 +129,13 @@
 		
 		if (![url isEqualToString:@"about:blank"])
 		{
+            self.isLoaded = NO;
+            
 			[[UIApplication sharedApplication] openURL:[request URL]];
-		}		
+            
+            return NO;
+		}
+
 	}
 	
 	return YES;

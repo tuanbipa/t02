@@ -41,6 +41,7 @@
 @property (nonatomic, retain) 	EKEventStore *eventStore;
 
 @property NSInteger syncMode;
+@property NSInteger resultCode; //0:OK, -1:cancel of Cal name duplication, -2:cancel of choosing sync source
 
 -(void)initBackgroundSync;
 -(void)initBackgroundSyncBack;
