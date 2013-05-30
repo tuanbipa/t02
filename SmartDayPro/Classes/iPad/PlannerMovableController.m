@@ -207,6 +207,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     if ([task isEvent]) { // change evnt datetime
         [self changeEventDateTime:task];
+        [super endMove:self.activeMovableView];
     } else {
         // convert task to STask
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoSTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
