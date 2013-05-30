@@ -161,6 +161,9 @@ extern BOOL _isiPad;
 - (void) selectOption: (id) sender
 {	
 	UISegmentedControl *segmentControl = sender;
+    
+    GuideWebView *webView = self.view;
+    webView.isLoaded = NO;
 	
 	switch (segmentControl.selectedSegmentIndex) 
 	{

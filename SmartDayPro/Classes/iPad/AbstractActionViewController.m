@@ -2025,6 +2025,12 @@ BOOL _autoPushPending = NO;
     
     TaskManager *tm = [TaskManager getInstance];
     Settings *settings = [Settings getInstance];
+    EKSync *ekSync = [EKSync getInstance];
+    
+    if (ekSync.resultCode != 0)
+    {
+        return;
+    }
     
     int mode = [[notification.userInfo objectForKey:@"SyncMode"] intValue];
     
