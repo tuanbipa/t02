@@ -837,6 +837,7 @@ BOOL _autoPushPending = NO;
     
     // check Manual task on title
     [taskCopy checkHasPinnedCharacterInTitle];
+    BOOL isManual = [task isManual];
     
     actionTask = task;
     actionTaskCopy = taskCopy;
@@ -891,6 +892,11 @@ BOOL _autoPushPending = NO;
         {
             reSchedule = [tm updateTask:task withTask:taskCopy];
         }
+    }
+    // refresh smartlist
+    if (isManual) {
+        SmartListViewController *smartlistController = [self getSmartListViewController];
+        [smartlistController refreshData];
     }
     
     [self reconcileItem:task reSchedule:reSchedule];

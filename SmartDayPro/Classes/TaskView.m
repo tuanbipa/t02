@@ -1634,7 +1634,8 @@ extern PlannerViewController *_plannerViewCtrler;
         
         [ctrler beginResize:self];
     } else if (self.task.listSource == SOURCE_PLANNER_CALENDAR) {
-        [_abstractViewCtrler hidePreview];
+        //[_abstractViewCtrler hidePreview];
+        [_abstractViewCtrler deselect];
         
         [_plannerViewCtrler.plannerBottomDayCal beginResize:self];
     }
