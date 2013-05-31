@@ -60,6 +60,7 @@
 - (void) changeTime:(Task *)task time:(NSDate *)time;
 -(void) changeTask:(Task *)task toProject:(NSInteger)prjKey;
 -(void)quickAddEvent:(NSString *)name startTime:(NSDate *)startTime;
+- (void) quickAddItem:(NSString *)name type:(NSInteger)type;
 
 - (void) editItem:(Task *)item;
 - (void) editItem:(Task *)task inRect:(CGRect)inRect;

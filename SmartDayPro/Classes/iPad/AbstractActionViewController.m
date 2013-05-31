@@ -1633,6 +1633,40 @@ BOOL _autoPushPending = NO;
     [event release];
 }
 
+- (void) quickAddItem:(NSString *)name type:(NSInteger)type
+{
+	TaskManager *tm = [TaskManager getInstance];
+	
+	Task *task = [[Task alloc] init];
+	task.type = type;
+	task.name = name;
+	task.duration = tm.lastTaskDuration;
+	task.project = tm.lastTaskProjectKey;
+
+    task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+    task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];
+	
+	switch (tm.taskTypeFilter)
+	{
+		case TASK_FILTER_STAR:
+		{
+			task.status = TASK_STATUS_PINNED;
+		}
+			break;
+		case TASK_FILTER_DUE:
+		{
+			task.deadline = [NSDate date];
+		}
+			break;
+	}
+    
+    [tm addTask:task];
+    
+    [self reconcileItem:task reSchedule:(type != TYPE_NOTE)];
+    
+	[task release];
+}
+
 #pragma mark Project Actions
 - (void) doDeleteCategory:(BOOL) cleanFromDB
 {

@@ -355,14 +355,61 @@ iPadViewController *_iPadViewCtrler;
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL) quickCreate:(NSString *)text
+{
+    NSString *str = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (str.length > 2)
+    {
+        NSString *prefix = [str substringToIndex:2];
+        
+        BOOL taskPrefix = [prefix isEqualToString:@"#t"];
+        BOOL eventPrefix = [prefix isEqualToString:@"#e"];
+        BOOL notePrefix = [prefix isEqualToString:@"#n"];
+        
+        if (taskPrefix || eventPrefix || notePrefix)
+        {
+            str = [[str substringFromIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            NSInteger type = eventPrefix?TYPE_EVENT:(notePrefix?TYPE_NOTE:TYPE_TASK);
+            
+            [_iPadSDViewCtrler quickAddItem:str type:type];
+            
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (void) search:(NSString *)text
+{
+    NSString *str = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (str.length > 1 && [str characterAtIndex:0] == '#')
+    {
+        NSInteger n = 1;
+        
+        if (str.length > 1 && ([str characterAtIndex:1] == 't' || [str characterAtIndex:1] == 'e' || [str characterAtIndex:1] == 'n'))
+        {
+            n = 2;
+        }
+        
+        str = [[text substringFromIndex:n] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
+    
+    [_iPadSDViewCtrler showSeekOrCreate:str];
+}
+
 #pragma mark UISearchBar delegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
 	return YES;
 }
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [_iPadSDViewCtrler showSeekOrCreate:searchBar.text];
+    [self search:searchBar.text];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -371,11 +418,31 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [_iPadSDViewCtrler showSeekOrCreate:searchBar.text];
+    [self search:searchBar.text];
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
+}
+
+- (BOOL) searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"])
+    {
+        //printf("return \n");
+        
+        if ([self quickCreate:searchBar.text])
+        {
+            searchBar.text = @"";
+            [searchBar resignFirstResponder];
+            
+            [_iPadSDViewCtrler showSeekOrCreate:@""];//dismiss
+            
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 
