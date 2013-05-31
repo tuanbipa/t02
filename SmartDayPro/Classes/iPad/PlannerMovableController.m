@@ -269,13 +269,15 @@ extern PlannerViewController *_plannerViewCtrler;
     
     NSDate *oldDate = [[task.startTime copy] autorelease];
     
-    [[TaskManager getInstance] moveTime:[Common copyTimeFromDate:oldDate toDate:calDate] forEvent:task];
+    //[[TaskManager getInstance] moveTime:[Common copyTimeFromDate:oldDate toDate:calDate] forEvent:task];
+    [_plannerViewCtrler changeTime:task time:[Common copyTimeFromDate:oldDate toDate:calDate]];
     
-    //[_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
-    BOOL expanded = [_plannerViewCtrler.plannerView.monthView collapseExpandByDate:calDate];
+    
+    [_plannerViewCtrler.plannerView.monthView collapseExpandByDate:calDate];
+    /*BOOL expanded = [_plannerViewCtrler.plannerView.monthView collapseExpandByDate:calDate];
     if (!expanded) {
         [_plannerViewCtrler.plannerBottomDayCal refreshLayout];
-    }
+    }*/
 }
 
 - (void)changeEventDateTime: (Task *) task {
@@ -310,7 +312,7 @@ extern PlannerViewController *_plannerViewCtrler;
     //[_plannerViewCtrler changeTime:task time:toDate];
     [_plannerViewCtrler changeTime:copyTask time:toDate];
     
-    [_plannerViewCtrler.plannerBottomDayCal refreshLayout];
+    //[_plannerViewCtrler.plannerBottomDayCal refreshLayout];
 }
 
 #pragma mark Alert delegate
