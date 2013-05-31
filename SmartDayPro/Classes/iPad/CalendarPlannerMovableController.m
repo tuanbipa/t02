@@ -88,21 +88,21 @@ extern PlannerViewController *_plannerViewCtrler;
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertVw.tag == -11002) {
+        Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+        [super endMove:self.activeMovableView];
         
         if (buttonIndex != 0)
         {
-            Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
             [_plannerViewCtrler convertRE2Task:buttonIndex task:task];
         }
-        //[super endMove:self.activeMovableView];
     } else if (alertVw.tag == -11000) {
+        Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+        [super endMove:self.activeMovableView];
         
         if (buttonIndex == 1)
         {
-            Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
             [_plannerViewCtrler convert2Task:task];
         }
-        //[super endMove:self.activeMovableView];
     } else {
         [super alertView:alertVw clickedButtonAtIndex:buttonIndex];
     }

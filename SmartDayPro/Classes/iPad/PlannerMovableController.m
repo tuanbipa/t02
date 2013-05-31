@@ -302,7 +302,10 @@ extern PlannerViewController *_plannerViewCtrler;
     NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
     
     Task *copyTask = [[task copy] autorelease];
-    copyTask.original = task;
+    if ([task isTask]) { // for only convert task -> event 
+        copyTask.original = task;
+    }
+    
     [_plannerViewCtrler.plannerBottomDayCal.plannerScheduleView unhighlight];
     //[_plannerViewCtrler changeTime:task time:toDate];
     [_plannerViewCtrler changeTime:copyTask time:toDate];
