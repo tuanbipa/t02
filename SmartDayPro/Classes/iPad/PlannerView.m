@@ -43,29 +43,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		[self addSubview:monthView];
 		[monthView release];
         
-        // init calendar
-//        TaskManager *tm = [TaskManager getInstance];
-//        NSDate *dt = nil;
-//        if (tm.today != nil) {
-//            dt = tm.today;
-//        } else {
-//            dt = [NSDate date];
-//        }
-        
-//        NSDate *calDate = [Common getFirstMonthDate:dt];
-//        //NSInteger weeks = [Common getWeeksInMonth:calDate];
-//        Settings *st = [Settings getInstance];
-//        NSInteger weeks = [Common getWeeksInMonth:calDate mondayAsWeekStart:st.isMondayAsWeekStart];
-//        [monthView changeWeekPlanner:7 weeks:weeks];
-//        [monthView initCalendar:calDate];
-//        [self finishInitCalendar];
-        //[self goToDate:dt];
-        /*
-        // open today week
-        PlannerMonthCellView *cell = [self.monthView findCellByDate:dt];
-        [self.monthView collapseExpand: cell.weekNumberInMonth];
-        [self.monthView highlightCellOnDate:tm.today];
-        // end init calendar*/
     }
     return self;
 }

@@ -72,6 +72,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
         activeView = nil;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustSubFrame:) name:@"NotificationAdjustPlannerMiniMonthHeight" object:nil];
+        
+        firstOpen = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(scheduleFinished:)
+													 name:@"ScheduleFinishedNotification" object:nil];
     }
     
     return self;
@@ -802,5 +807,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }*/
     
     [self reconcileItem:task reSchedule:YES];
+}
+
+- (void)scheduleFinished:(NSNotification *)notification
+{
+    if (firstOpen) {
+        firstOpen = NO;
+        [plannerView.monthView refreshOpeningWeek:nil];
+    }
 }
 @end

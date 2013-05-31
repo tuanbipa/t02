@@ -23,6 +23,7 @@
     
     UIView *optionView;
     UIImageView *optionImageView;
+    BOOL firstOpen;
 }
 
 @property (nonatomic, readonly) PlannerView *plannerView;
