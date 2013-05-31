@@ -145,6 +145,33 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 */
 
+- (void)showPreview: (TaskView *) view {
+    [self deselect];
+    PreviewViewController *ctrler = [[PreviewViewController alloc] init];
+    ctrler.item = view.task;
+    
+    SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+    [ctrler release];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+    
+    self.popoverCtrler.passthroughViews = [NSArray arrayWithObjects:view,nil];
+    
+    [navController release];
+    
+    CGRect frm = [view.superview convertRect:view.frame toView:contentView];
+    
+    if (view.task.listSource == SOURCE_PLANNER_CALENDAR) {
+        if (frm.origin.x <= ctrler.view.frame.size.width) {
+            [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+        } else {
+            [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        }
+    } else {
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
+    }
+}
+
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
     BOOL showPopover = activeView != view;
@@ -152,32 +179,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super enableActions:enable onView:view];
     
     if (showPopover) {
-        
-        PreviewViewController *ctrler = [[PreviewViewController alloc] init];
-        ctrler.item = view.task;
-        
-        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
-        [ctrler release];
-        
-        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-        
-        self.popoverCtrler.passthroughViews = [NSArray arrayWithObjects:view,nil];
-        
-        [navController release];
-        
-        CGRect frm = [view.superview convertRect:view.frame toView:contentView];
-        
-        //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
-        //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
-        if (view.task.listSource == SOURCE_PLANNER_CALENDAR) {
-            if (frm.origin.x <= ctrler.view.frame.size.width) {
-                [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
-            } else {
-                [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
-            }
-        } else {
-            [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
-        }
+        [self showPreview:view];
     }
 }
 
@@ -192,10 +194,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super reconcileItem:item reSchedule:reSchedule];
     
     if ([item isNote]) {
-        PlannerMonthView *monthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
-        [monthView refreshCellByDate:item.startTime];
+        //PlannerMonthView *monthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
+        [plannerView.monthView refreshCellByDate:item.startTime];
+    } else if ([item isADE]) {
+        //PlannerMonthView *monthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
+        [plannerView.monthView refreshOpeningWeek:nil];
     } else if ([item isEvent]) {
         [plannerBottomDayCal refreshLayout];
+    } else if ([item isTask]) {
+        [plannerView.monthView refreshCellByDate:item.deadline];
     }
 }
 

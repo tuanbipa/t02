@@ -328,6 +328,7 @@ extern PlannerViewController *_plannerViewCtrler;
     checkImageView.image = [[ImageManager getInstance] getImageWithName:@"markdone.png"];
 }
 
+#pragma mark Touch
 - (void) doubleTouch
 {
 	[super doubleTouch];
@@ -336,6 +337,11 @@ extern PlannerViewController *_plannerViewCtrler;
     {
         [_plannerViewCtrler editItem:self.task inView:self];
     }
+}
+
+- (void) singleTouch
+{
+    [_plannerViewCtrler showPreview:self];
 }
 
 - (void)dealloc {

@@ -34,4 +34,5 @@
 - (void) hidePopover;
 - (void) refreshTaskFilterTitle;
 - (void)showYearView: (UIView *) view;
+- (void)showPreview: (UIView *) view;
 @end
