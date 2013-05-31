@@ -551,7 +551,7 @@
 "_convertREIntoTaskConfirmation" = "Do you want to convert this recurring Event into Task?"; 
 "_convertIntoEventConfirmation" = "Do you want to convert this Event into Task?"; 
 "_convertIntoTaskConfirmation" = "Do you want to convert this Task into Event?";
-"_convertIntoSTaskConfirmation" = "Do you want to convert this Task into Schedule Task?";
+"_convertIntoPinnedTaskConfirmation" = "Do you want to convert this Task into Pinned Task?";
 
 "_linkSearchHintText" = "Search to link to any item";
 

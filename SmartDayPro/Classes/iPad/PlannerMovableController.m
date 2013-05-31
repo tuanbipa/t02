@@ -210,7 +210,7 @@ extern PlannerViewController *_plannerViewCtrler;
         [super endMove:self.activeMovableView];
     } else {
         // convert task to STask
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoSTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
         
         alertView.tag = -11001;
         

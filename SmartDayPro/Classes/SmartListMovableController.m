@@ -134,7 +134,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 #pragma mark After end move
 
 - (void)doMoveTaskInDayCalendar {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoSTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
     
     alertView.tag = -11001;
     
