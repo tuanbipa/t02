@@ -12,7 +12,7 @@
 
 @class ContentView;
 
-@interface iPadViewController : UIViewController
+@interface iPadViewController : UIViewController<UISearchBarDelegate>
 {
     ContentView *contentView;
     

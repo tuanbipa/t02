@@ -724,6 +724,7 @@ SmartListViewController *_smartListViewCtrler;
 	}		
 }
 
+/*
 - (void) quickAddTask:(NSString *)name
 {
 	TaskManager *tm = [TaskManager getInstance];
@@ -759,6 +760,7 @@ SmartListViewController *_smartListViewCtrler;
     
 	[task release];
 }
+*/
 
 - (void) showCalendarView
 {
@@ -1806,7 +1808,8 @@ SmartListViewController *_smartListViewCtrler;
     }
 	else if (![text isEqualToString:@""])
 	{
-		[self quickAddTask:text];
+		//[self quickAddTask:text];
+        [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
 	}
     
     quickAddTextField.text = @"";
@@ -1847,7 +1850,8 @@ SmartListViewController *_smartListViewCtrler;
         
         if (![text isEqualToString:@""])
         {
-            [self quickAddTask:text];
+            //[self quickAddTask:text];
+            [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
         }
     }
     

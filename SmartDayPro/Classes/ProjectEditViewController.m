@@ -278,6 +278,11 @@ extern BOOL _isiPad;
 	[self tagInputReset];
     
     [self check2EnableSave];
+    
+    if (self.projectCopy.primaryKey == -1)
+    {
+        [projectNameTextField becomeFirstResponder];
+    }
 }
 
 /*

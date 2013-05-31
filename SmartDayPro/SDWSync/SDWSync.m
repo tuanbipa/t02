@@ -4231,10 +4231,13 @@ NSInteger _sdwColor[32] = {
 }
 
 - (NSString *)getToken:(NSString *)email password:(NSString *)pass {
-    NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",email,pass,SDWAppRegId]];
-    NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&pass=%@&appreg=%@&sig=%@",SDWSite,email,pass,SDWAppRegId,sig];
+    //NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",email,pass,SDWAppRegId]];
+    //NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&pass=%@&appreg=%@&sig=%@",SDWSite,email,pass,SDWAppRegId,sig];
     
-    //printf("getToken: %s\n", [url UTF8String]);
+    NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",[email lowercaseString],pass,SDWAppRegId]];
+    NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&appreg=%@&sig=%@",SDWSite,email,SDWAppRegId,sig];
+    
+    printf("getToken: %s\n", [url UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 

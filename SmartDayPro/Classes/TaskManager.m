@@ -3060,6 +3060,10 @@ TaskManager *_sctmSingleton = nil;
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
         }
+        else if ([task isNote])
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
+        }
 	}
 
 	if (reSchedule)
