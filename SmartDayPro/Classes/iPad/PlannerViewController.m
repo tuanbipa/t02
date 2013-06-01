@@ -151,7 +151,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 */
 
 - (void)showPreview: (TaskView *) view {
-    [self deselect];
+    
     PreviewViewController *ctrler = [[PreviewViewController alloc] init];
     ctrler.item = view.task;
     
