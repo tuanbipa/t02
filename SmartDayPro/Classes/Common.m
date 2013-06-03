@@ -767,6 +767,11 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSInteger) getSecondsFromTimeZoneID:(NSInteger)tzID
 {
+    if (tzID == 0)
+    {
+        return [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    }
+    
     NSInteger ret = abs(tzID)%128;
     
     NSInteger min = ret%8;

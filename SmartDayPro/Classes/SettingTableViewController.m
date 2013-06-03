@@ -266,7 +266,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         else
         {
-            if (settings.timeZoneID == -1)
+            if (settings.timeZoneID == 0)
             {
                 [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
             }
@@ -280,7 +280,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     else if (timeZoneChange)
     {
-        if (settings.timeZoneID == -1)
+        if (settings.timeZoneID == 0)
         {
             [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
         }
@@ -786,7 +786,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	self.settingCopy.timeZoneSupport = (segmentedStyleControl.selectedSegmentIndex == 0);
     
-    self.settingCopy.timeZoneID = -1;
+    self.settingCopy.timeZoneID = 0;
     
     if (self.settingCopy.timeZoneSupport)
     {

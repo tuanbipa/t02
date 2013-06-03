@@ -225,7 +225,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	}
     
     task.listSource = SOURCE_CALENDAR;
-    task.isSplitted = NO;
+    
+    if ([task isTask])
+    {
+        task.isSplitted = NO;
+    }
     
     taskView.alpha = 1;
     taskView.task = task;

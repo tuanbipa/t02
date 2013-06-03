@@ -125,7 +125,11 @@
 	}
     
     task.listSource = SOURCE_PLANNER_CALENDAR;
-    task.isSplitted = NO;
+    
+    if ([task isTask])
+    {
+        task.isSplitted = NO;
+    }
     
     taskView.alpha = 1;
 	//taskView.tag = task;

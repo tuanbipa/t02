@@ -79,7 +79,26 @@
 //            [super endMove:view];
 //        }*/
 //    }
-    [super endMove:view];
+    
+    if (!moveInMM && rightMovableView != nil)
+    {
+        Task *task = ((TaskView *) self.activeMovableView).task;
+        Task *destTask = ((TaskView *)rightMovableView).task;
+        
+        [[task retain] autorelease];
+        [[destTask retain] autorelease];
+        
+        [super endMove:view];
+        if ([task isTask] && [destTask isTask])
+        {
+            [[TaskManager getInstance] changeOrder:task destTask:destTask];
+        }
+    }
+    else
+    {
+        [super endMove:view];
+    }
+    
     [view release];
 }
 

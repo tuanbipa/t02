@@ -194,7 +194,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
         {
             //[NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];
             
-            if (settings.timeZoneID == -1)
+            if (settings.timeZoneID == 0)
             {
                 [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
             }
@@ -210,7 +210,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     {
         //[NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:settings.timeZoneID]]];
         
-        if (settings.timeZoneID == -1)
+        if (settings.timeZoneID == 0)
         {
             [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
         }

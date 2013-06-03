@@ -82,14 +82,23 @@
 {
     //[pickerTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     
-    if ([self.taskCopy isNormalEvent])
+    //if ([self.taskCopy isNormalEvent])
     {
+/*        NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
+        
+        self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
+        self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
+        
+        datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];    
+*/
+        
+//        NSInteger secs = self.taskCopy.timeZoneId == 0?[datePicker.timeZone secondsFromGMT]:[datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
         NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
         
         self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
         self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
         
-        datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];        
+        datePicker.timeZone = self.taskCopy.timeZoneId == 0? [NSTimeZone defaultTimeZone]:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
     }
     
     [self refreshPicker];
@@ -123,9 +132,9 @@
 	[datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
 	datePicker.minuteInterval=5;
     
-    if ([self.taskCopy isNormalEvent])
+    //if ([self.taskCopy isNormalEvent])
     {
-        datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+        datePicker.timeZone =  self.taskCopy.timeZoneId == 0?[NSTimeZone defaultTimeZone]:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
     }
     
 	datePicker.datePickerMode = ([self.taskCopy isADE]? UIDatePickerModeDate: UIDatePickerModeDateAndTime);

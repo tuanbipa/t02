@@ -172,11 +172,24 @@ extern BOOL _isiPad;
 	{
 		self.taskCopy = task;	
 	}
-    	
-	if (self.taskCopy.type == TYPE_EVENT && (self.taskCopy.startTime == nil || self.taskCopy.endTime == nil)) // new Event
-	{
-		self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
-		self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
+    
+	if ([self.taskCopy isEvent])
+    {
+        if ((self.taskCopy.startTime == nil || self.taskCopy.endTime == nil)) // new Event
+        {
+            self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
+            self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
+            
+        }
+        else if (self.task.isSplitted)
+        {
+            Task *longEvent = [[Task alloc] initWithPrimaryKey:self.task.primaryKey database:[[DBManager getInstance] getDatabase]];
+            
+            self.taskCopy.startTime = longEvent.startTime;
+            self.taskCopy.endTime = longEvent.endTime;
+            
+            [longEvent release];
+        }
 	}
 	
 	/*if (self.taskCopy.name == nil || [self.taskCopy.name isEqualToString:@""])
@@ -461,6 +474,8 @@ extern BOOL _isiPad;
         {
             self.taskCopy.startTime = [Common clearTimeForDate:date];
             self.taskCopy.endTime = [Common getEndDate:date];
+            
+            self.taskCopy.timeZoneId = 0;
         }
         else 
         {
@@ -488,12 +503,15 @@ extern BOOL _isiPad;
     
 	self.taskCopy.type = (segment.selectedSegmentIndex == 0? TYPE_ADE: TYPE_EVENT);
 	
+    self.taskCopy.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+    
     if (self.taskCopy.type == TYPE_ADE)
     {
 		self.taskCopy.startTime = [Common clearTimeForDate:self.taskCopy.startTime];
-		//self.taskCopy.endTime = [Common dateByAddNumSecond:-1 toDate:[Common getEndDate:self.taskCopy.endTime]];
         self.taskCopy.endTime = [Common getEndDate:self.taskCopy.endTime];
         self.taskCopy.alerts = [NSMutableArray arrayWithCapacity:0];
+        
+        self.taskCopy.timeZoneId = 0;
     }
     else 
     {
@@ -1486,7 +1504,7 @@ extern BOOL _isiPad;
         tzValueLabel.font=[UIFont systemFontOfSize:15];
         tzValueLabel.backgroundColor=[UIColor clearColor];
         
-        tzValueLabel.text = (self.taskCopy.timeZoneId == -1? @"None":[Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId]);
+        tzValueLabel.text = (self.taskCopy.timeZoneId == 0? @"Floating":[Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId]);
         
         [cell.contentView addSubview:tzValueLabel];
         [tzValueLabel release];

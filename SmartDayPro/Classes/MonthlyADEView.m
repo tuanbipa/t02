@@ -57,7 +57,12 @@ extern TaskManager *taskmanager;
 	self.startDate = startDateVal;
 	self.endDate = endDateVal;
 	
-	self.adeList = [[TaskManager getInstance] getADEListFromDate:self.startDate toDate:self.endDate];	
+	self.adeList = [[TaskManager getInstance] getADEListFromDate:self.startDate toDate:self.endDate];
+	
+    /*for (Task *ade in self.adeList)
+    {
+        printf("ade %s - start: %s - end: %s\n",[ade.name UTF8String], [[ade.startTime description] UTF8String], [[ade.endTime description] UTF8String]);
+    }*/
 	
 	[self setNeedsDisplay];
 }
@@ -74,7 +79,7 @@ extern TaskManager *taskmanager;
 	
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	
-	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+	//NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
 	NSInteger duration[42][MAX_ADE_NUM];
 	NSInteger project[42][MAX_ADE_NUM];
@@ -121,6 +126,8 @@ extern TaskManager *taskmanager;
         //NSInteger days = [Common daysBetween:ade.endTime sinceDate:ade.startTime];
         
         NSInteger days = ([ade.endTime timeIntervalSinceDate:ade.startTime] + 1)/(24*60*60);
+        
+        //printf("ade %s - start: %s - end: %s - days: %d\n",[ade.name UTF8String], [[ade.startTime description] UTF8String], [[ade.endTime description] UTF8String], days);
 		
 		for (int j=0; j<MAX_ADE_NUM; j++)
 		{

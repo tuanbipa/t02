@@ -2583,7 +2583,7 @@ extern BOOL _isiPad;
 {
     if (self.timeZoneSupport)
     {
-        if (self.timeZoneID == -1)
+        if (self.timeZoneID == 0)
         {
             [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
         }

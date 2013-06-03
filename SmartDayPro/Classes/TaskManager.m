@@ -4645,6 +4645,14 @@ TaskManager *_sctmSingleton = nil;
 	NSDate *oldTime = [event.startTime copy];
     
     NSDate *dt = date;
+    
+    /*if (event.timeZoneId == 0 && [event isEvent])
+    {
+        //convert to GMT+0
+        NSInteger secs = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        
+        dt = [date dateByAddingTimeInterval:secs];
+    }*/
 	
 	Task *longEvent = nil;
 	
@@ -4654,9 +4662,9 @@ TaskManager *_sctmSingleton = nil;
 	}
 	
 	NSInteger duration = ([event isTask]? event.duration:
-						  (longEvent? [Common timeIntervalNoDST:longEvent.endTime sinceDate:longEvent.startTime]:
-						  [Common timeIntervalNoDST:event.endTime sinceDate:event.startTime]));
-	
+						  (longEvent? [longEvent.endTime timeIntervalSinceDate:longEvent.startTime]:
+                           [event.endTime timeIntervalSinceDate:event.startTime]));
+    
 	[longEvent release];
 	
 	BOOL isLong = [event isLong];
@@ -4672,8 +4680,6 @@ TaskManager *_sctmSingleton = nil;
 			event.primaryKey = event.original.primaryKey;
 			event.syncId = event.original.syncId;
             event.links = event.original.links;
-			
-            //[self garbage:event.original];
             
             [self removeTask:event.original status:-1];
 			
@@ -4683,7 +4689,6 @@ TaskManager *_sctmSingleton = nil;
 		}
 
 		event.type = TYPE_EVENT;
-        //event.startTime = date;
         event.startTime = dt;
         event.endTime = [Common dateByAddNumSecond:duration toDate:event.startTime];
         event.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
