@@ -153,6 +153,13 @@ extern BOOL _isiPad;
     {
         self.tzIDList = [self.searchDict objectForKey:name];
     }
+
+    [self.tzIDList removeObject:[NSNumber numberWithInt:0]];
+
+    if (![self.objectEdit isKindOfClass:[Settings class]])
+    {
+        [self.tzIDList insertObject:[NSNumber numberWithInt:0] atIndex:0];
+    }
     
     [listTableView reloadData];
 }
@@ -175,6 +182,11 @@ extern BOOL _isiPad;
     else
     {
         frm.size.width = 320;
+        
+        if (_isiPad)
+        {
+            frm.size.height = 416;
+        }
         
         pad = 20;
     }

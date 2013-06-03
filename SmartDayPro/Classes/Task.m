@@ -409,11 +409,11 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 	[self updateTimeIntoDB:[dbm getDatabase]];
     
-    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+    //NSTimeZone *tz = [NSTimeZone defaultTimeZone];
         
-    self.timeZoneId = [Settings findTimeZoneIDByDisplayName:tz.name];
+    //self.timeZoneId = [Settings findTimeZoneIDByDisplayName:tz.name];
         
-    [self updateTimeZoneIDIntoDB:[dbm getDatabase]];
+    //[self updateTimeZoneIDIntoDB:[dbm getDatabase]];
 }
 
 // Creates the object with primary key and title is brought into memory.
@@ -1906,7 +1906,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 {
     NSDate *dt = self.startTime;
     
-    if ([self isNormalEvent] && [[Settings getInstance] timeZoneSupport])
+    if ([self isNormalEvent] && self.timeZoneId != 0 && [[Settings getInstance] timeZoneSupport])
     {
         NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
@@ -1920,7 +1920,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 {
     NSDate *dt = self.endTime;
     
-    if ([self isNormalEvent] && [[Settings getInstance] timeZoneSupport])
+    if ([self isNormalEvent] && self.timeZoneId != 0 && [[Settings getInstance] timeZoneSupport])
     {
         NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         

@@ -1532,48 +1532,7 @@ BOOL _autoPushPending = NO;
 {
     TaskManager *tm = [TaskManager getInstance];
     
-    //NSDate *sDate = [task.startTime copy];
-    //NSDate *dDate = [task.deadline copy];
-    
     [tm moveTime:[Common copyTimeFromDate:time toDate:tm.today] forEvent:task];
-    
-    /*
-    if ([task isRE])
-    {
-        MiniMonthView *mmView = [self getMiniMonth];
-        
-        if (mmView != nil)
-        {
-            [mmView refresh];
-        }
-    }
-    else
-    {
-        AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-        
-        AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
-        
-        //if (calView != nil)
-        {
-            if (sDate != nil)
-            {
-                [calView refreshCellByDate:sDate];
-                [plannerCalView refreshCellByDate:sDate];
-                
-                [sDate release];
-            }
-            
-            if (dDate != nil)
-            {
-                [calView refreshCellByDate:dDate];
-                [plannerCalView refreshCellByDate:dDate];
-                [dDate release];
-            }
-            
-            [calView refreshCellByDate:task.startTime];
-            [plannerCalView refreshCellByDate:task.startTime];
-        }
-    }*/
     
     [self reconcileItem:task reSchedule:YES];
 }

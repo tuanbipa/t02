@@ -56,7 +56,7 @@
 	
 	self.setting.timeZoneSupport = (segmentedStyleControl.selectedSegmentIndex==0);
     
-    self.setting.timeZoneID = -1;
+    self.setting.timeZoneID = 0;
     
     if (self.setting.timeZoneSupport)
     {
