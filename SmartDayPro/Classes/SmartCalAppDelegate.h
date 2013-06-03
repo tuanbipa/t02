@@ -35,6 +35,8 @@
 
 - (void) showFocusPane;
 
+- (void) dismissAllAlertViews;
+
 + (void)backupDB;
 
 @end

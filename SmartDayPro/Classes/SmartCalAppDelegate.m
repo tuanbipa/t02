@@ -368,13 +368,13 @@ BOOL _fromBackground = NO;
             
             UIAlertView *alertView = (UIAlertView *) subview;
             
-            NSObject *obj = alertView.tag;
+            /*NSObject *obj = alertView.tag;
             
             if (obj != nil && [obj isKindOfClass:[UILocalNotification class]])
             {
                 continue;
             }
-            else
+            else*/
             {
                 [alertView dismissWithClickedButtonIndex:-1 animated:NO];
             }

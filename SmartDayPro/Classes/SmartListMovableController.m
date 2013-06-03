@@ -88,9 +88,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (dummyView != nil && [dummyView superview])
     {
-        Task *task = ((TaskView *) self.activeMovableView).task;
-        [[task retain] autorelease];
-        
         if (moveInFocus)
         {
             [self doTaskMovementInFocus];
@@ -105,6 +102,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         else if (rightMovableView != nil)
         {
+            Task *task = ((TaskView *) self.activeMovableView).task;
+            [[task retain] autorelease];
+            
             Task *destTask = ((TaskView *)rightMovableView).task;
             [[destTask retain] autorelease];
             

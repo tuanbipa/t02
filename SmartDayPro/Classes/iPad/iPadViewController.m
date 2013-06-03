@@ -22,7 +22,11 @@
 #import "PlannerViewController.h"
 #import "iPadSettingViewController.h"
 
+#import "SmartCalAppDelegate.h"
+
 extern BOOL _isiPad;
+
+extern SmartCalAppDelegate *_appDelegate;
 
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
@@ -327,6 +331,8 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [_appDelegate dismissAllAlertViews];
+    
     CGSize sz = [Common getScreenSize];
     sz.height += 20 + 44;
     
