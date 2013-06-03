@@ -218,9 +218,6 @@
 {
     TaskManager *tm = [TaskManager getInstance];
     
-//    NSDate *start = [Common clearTimeForDate:[Common dateByAddNumDay:-1 toDate:dt]];
-//    NSDate *end = [Common getEndDate:[Common dateByAddNumDay:1 toDate:dt]];
-    
     if (startDate == nil) {
         NSDate *dt = tm.today;
         Settings *settings = [Settings getInstance];

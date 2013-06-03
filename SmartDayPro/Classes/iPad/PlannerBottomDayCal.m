@@ -24,6 +24,8 @@
 #import "Common.h"
 #import "Settings.h"
 
+#import "TaskLinkManager.h"
+
 extern PlannerViewController *_plannerViewCtrler;
 
 @implementation PlannerBottomDayCal
@@ -473,29 +475,41 @@ extern PlannerViewController *_plannerViewCtrler;
     [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
 }
 
-#pragma mark TextFieldDelegate
-//
-//-(BOOL)textFieldShouldReturn:(UITextField *)textField
-//{
-//	[textField resignFirstResponder];
-//	textField.hidden = YES;
-//	scrollView.scrollEnabled = YES;
-//	scrollView.userInteractionEnabled = YES;
-//	//addButton.enabled = YES;
-//	
-//	if (![textField.text isEqualToString:@""])
-//	{
-//		NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:textField.tag];
-//		
-//		//TaskManager *tm = [TaskManager getInstance];
-//		
-//		[self quickAdd:textField.text startTime:startTime];
-//	}
-//	
-//    // expand current week
-//    if (_plannerViewCtrler != nil) {
-//        [_plannerViewCtrler.plannerView.monthView expandCurrentWeek];
-//    }
-//	return YES;
-//}
+#pragma mark Links
+
+- (void) reconcileLinks:(NSDictionary *)dict
+{
+    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    
+    int sourceId = [[dict objectForKey:@"LinkSourceID"] intValue];
+    int destId = [[dict objectForKey:@"LinkDestID"] intValue];
+    
+    NSArray *list = calendarLayoutController.objList;
+    
+    for (Task *task in list)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == sourceId)
+            {
+                task.links = [tlm getLinkIds4Task:sourceId];
+            }
+            else if (task.primaryKey == destId)
+            {
+                task.links = [tlm getLinkIds4Task:destId];
+            }
+        }
+    }
+}
+
+- (void)setNeedsDisplay
+{
+	for (UIView *view in scrollView.subviews)
+	{
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            [view refresh];
+        }
+	}
+}
 @end

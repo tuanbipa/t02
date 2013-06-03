@@ -46,4 +46,7 @@
 
 #pragma mark quick add event
 -(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender;
+
+#pragma mark Links
+- (void) reconcileLinks:(NSDictionary *)dict;
 @end

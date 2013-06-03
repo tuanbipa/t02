@@ -1340,7 +1340,9 @@ extern PlannerViewController *_plannerViewCtrler;
 		hasFlag = NO;
 		hasHashMark = NO;
         hasDue = NO;
-        hasLink = NO;
+        if (task.listSource != SOURCE_PLANNER_CALENDAR) {
+            hasLink = NO;
+        }
 	} 
     
 	UIColor *lightColor = [[ProjectManager getInstance] getProjectColor2:task.project];

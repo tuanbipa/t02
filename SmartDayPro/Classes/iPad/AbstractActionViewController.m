@@ -1370,6 +1370,8 @@ BOOL _autoPushPending = NO;
     NSDate *oldDue = [[task.deadline copy] autorelease];
     BOOL isRT = [task isRT]; //note: task original could be removed from task list so need to store this information instead of directly call the method after done
     
+    BOOL isManual = [task isManual]; // for refesh minimonth
+    
     TaskManager *tm = [TaskManager getInstance];
     
     if ([task isDone])
@@ -1407,6 +1409,10 @@ BOOL _autoPushPending = NO;
         [plannerCalView refreshCellByDate:task.deadline];
         
         [view setNeedsDisplay];
+    }
+    
+    if (isManual) {
+        [calView refresh];
     }
     
     [task release];
@@ -1800,6 +1806,13 @@ BOOL _autoPushPending = NO;
         [ctrler reconcileLinks:notification.userInfo];
         
         [ctrler setNeedsDisplay];
+    }
+    
+    // refresh link icons in Planner Day Cal
+    PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+    if (plannerDayCal != nil) {
+        [plannerDayCal reconcileLinks:notification.userInfo];
+        [plannerDayCal setNeedsDisplay];
     }
     
     FocusView *focusView = [self getFocusView];
