@@ -172,11 +172,24 @@ extern BOOL _isiPad;
 	{
 		self.taskCopy = task;	
 	}
-    	
-	if (self.taskCopy.type == TYPE_EVENT && (self.taskCopy.startTime == nil || self.taskCopy.endTime == nil)) // new Event
-	{
-		self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
-		self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
+    
+	if ([self.taskCopy isEvent])
+    {
+        if ((self.taskCopy.startTime == nil || self.taskCopy.endTime == nil)) // new Event
+        {
+            self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
+            self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
+            
+        }
+        else if (self.task.isSplitted)
+        {
+            Task *longEvent = [[Task alloc] initWithPrimaryKey:self.task.primaryKey database:[[DBManager getInstance] getDatabase]];
+            
+            self.taskCopy.startTime = longEvent.startTime;
+            self.taskCopy.endTime = longEvent.endTime;
+            
+            [longEvent release];
+        }
 	}
 	
 	/*if (self.taskCopy.name == nil || [self.taskCopy.name isEqualToString:@""])

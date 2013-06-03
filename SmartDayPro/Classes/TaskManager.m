@@ -4652,11 +4652,16 @@ TaskManager *_sctmSingleton = nil;
 	{
 		longEvent = [[Task alloc] initWithPrimaryKey:event.primaryKey database:[[DBManager getInstance] getDatabase]];
 	}
-	
+/*
 	NSInteger duration = ([event isTask]? event.duration:
 						  (longEvent? [Common timeIntervalNoDST:longEvent.endTime sinceDate:longEvent.startTime]:
 						  [Common timeIntervalNoDST:event.endTime sinceDate:event.startTime]));
+*/
 	
+	NSInteger duration = ([event isTask]? event.duration:
+						  (longEvent? [longEvent.endTime timeIntervalSinceDate:longEvent.startTime]:
+                           [event.endTime timeIntervalSinceDate:event.startTime]));
+    
 	[longEvent release];
 	
 	BOOL isLong = [event isLong];
