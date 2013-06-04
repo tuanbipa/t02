@@ -70,7 +70,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         if (buttonIndex == 1)
         {
-            [_abstractViewCtrler changeTime:task time:time];
+            //[_abstractViewCtrler changeTime:task time:time];
+            [self convertTaskToSTask:task time:time];
         }
 	}
 	else if (alertVw.tag == -11002)
@@ -87,6 +88,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
         //to handle MiniMonth actions
         [super alertView:alertVw clickedButtonAtIndex:buttonIndex];
     }
+}
+
+#pragma mark action methods
+
+- (void)convertTaskToSTask: (Task *) task time: (NSDate *) time {
+    
+    // convert to STask
+    [task setManual:YES];
+    
+    //Task *copyTask = [[task copy] autorelease];
+    //copyTask.original = task;
+    
+    //[_abstractViewCtrler changeTime:copyTask time:time];
+    [_abstractViewCtrler changeTime:task time:time];
 }
 
 #pragma mark MovableController Interface Customization
@@ -183,7 +198,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
         {
             if ([task isTask])
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+                //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
                 
                 alertView.tag = -11001;
                 
