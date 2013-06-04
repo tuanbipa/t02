@@ -273,16 +273,18 @@ extern BOOL _isiPad;
 {
     //use for scrolling in Calendar view
     
-    NSDate *firstDate = [self.calView getFirstDate];
-    NSDate *lastDate = [self.calView getLastDate];
+    //NSDate *firstDate = [self.calView getFirstDate];
+    //NSDate *lastDate = [self.calView getLastDate];
     
-    if ([Common compareDateNoTime:firstDate withDate:date] == NSOrderedDescending ||
-        [Common compareDateNoTime:lastDate withDate:date] == NSOrderedAscending)
+    //if ([Common compareDateNoTime:firstDate withDate:date] == NSOrderedDescending ||
+    //    [Common compareDateNoTime:lastDate withDate:date] == NSOrderedAscending)
+    if (![self.calView checkDateInCalendar:date])
     {
         NSInteger mode = [headerView getMWMode];
         
         NSDate *dt = (mode==1?date:[Common getFirstMonthDate:date]);
         
+        [self updateWeeks:dt];
         [self.calView initCalendar:dt];
         
         [headerView setNeedsDisplay];

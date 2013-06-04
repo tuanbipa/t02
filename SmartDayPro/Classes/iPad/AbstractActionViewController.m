@@ -763,10 +763,10 @@ BOOL _autoPushPending = NO;
     
     MiniMonthView *mmView = [self getMiniMonth];
     
-    if (mmView != nil)
+    /*if (mmView != nil)
     {
         [mmView updateWeeks:date];
-    }
+    }*/
     
     [[TaskManager getInstance] initCalendarData:date];
 
@@ -842,12 +842,12 @@ BOOL _autoPushPending = NO;
     actionTask = task;
     actionTaskCopy = taskCopy;
     
-    NSDate *dDate = [[(task.original != nil?task.original.deadline:task.deadline) copy] autorelease];
-    NSDate *sDate = [[(task.original != nil?task.original.startTime:task.startTime) copy] autorelease];
+    //NSDate *dDate = [[(task.original != nil?task.original.deadline:task.deadline) copy] autorelease];
+    //NSDate *sDate = [[(task.original != nil?task.original.startTime:task.startTime) copy] autorelease];
     
     //BOOL isADE = ([task isADE] || [task.original isADE] || [taskCopy isADE]);
     
-    BOOL reChange = [task isRE] || [task.original isRE] || [taskCopy isRE];
+    //BOOL reChange = [task isRE] || [task.original isRE] || [taskCopy isRE];
     
     BOOL reSchedule = NO;
     
@@ -1823,6 +1823,8 @@ BOOL _autoPushPending = NO;
             
 			[[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:buttonIndex];
             
+            [self reconcileItem:actionTask reSchedule:YES];
+            
             if ([self isKindOfClass:[PlannerViewController class]]) {
                 if (isADE) {
                     PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
@@ -1832,7 +1834,7 @@ BOOL _autoPushPending = NO;
                     PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
                     [plannerDayCal refreshLayout];
                 }
-            } else {
+            } /*else {
                 MiniMonthView *mmView = [self getMiniMonth];
                 
                 if (isADE)
@@ -1844,7 +1846,7 @@ BOOL _autoPushPending = NO;
                 {
                     [mmView refresh];
                 }
-            }
+            }*/
 		}
         
         [self hidePopover];

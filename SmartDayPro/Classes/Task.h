@@ -116,6 +116,7 @@
 @property (nonatomic, copy) NSDate *completionTime;
 
 @property (nonatomic, copy) NSDate *smartTime;
+@property (nonatomic, copy) NSDate *reInstanceStartTime;
 
 @property (nonatomic, copy) RepeatData *repeatData;
 

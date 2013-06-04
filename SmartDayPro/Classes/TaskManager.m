@@ -499,12 +499,20 @@ TaskManager *_sctmSingleton = nil;
 	//for (Task *re in self.REList)
 	for (Task *re in reList)
 	{
-		NSMutableArray *reInstanceList = [self expandRE:re fromDate:fromDate toDate:toDate excludeException:YES];
+        NSTimeInterval reDuration = [re.endTime timeIntervalSinceDate:re.startTime];
+        
+        NSDate *start = [fromDate dateByAddingTimeInterval:-reDuration];
+        
+		//NSMutableArray *reInstanceList = [self expandRE:re fromDate:fromDate toDate:toDate excludeException:YES];
+		NSMutableArray *reInstanceList = [self expandRE:re fromDate:start toDate:toDate excludeException:YES];
 		
 		for (Task *reInstance in reInstanceList)
 		{
-			[eventList addObject:reInstance];
-		}        
+            if ([TaskManager checkTaskInTimeRange:reInstance startTime:fromDate endTime:toDate])
+            {
+                [eventList addObject:reInstance];
+            }
+		}
 	}
     }
 	
@@ -746,7 +754,7 @@ TaskManager *_sctmSingleton = nil;
 		
 		if (exc == nil)
 		{
-			////printf("Add RE Instance %s on date: %s in range [%s - %s]\n", [exc.name UTF8String], [[onDate description] UTF8String], [[fromDate description] UTF8String], [[toDate description] UTF8String]);
+			//printf("Add RE Instance %s on date: %s in range [%s - %s]\n", [exc.name UTF8String], [[onDate description] UTF8String], [[fromDate description] UTF8String], [[toDate description] UTF8String]);
 			
 			Task *task = [re copy];
 			
@@ -757,6 +765,7 @@ TaskManager *_sctmSingleton = nil;
 			NSInteger duration = [Common timeIntervalNoDST:re.endTime sinceDate:re.startTime];
 			task.duration = duration;
 			
+            task.reInstanceStartTime = onDate;
 			task.startTime = onDate;
 			task.endTime = [Common dateByAddNumSecond:duration toDate:task.startTime];
 			task.smartTime = task.startTime;
@@ -3641,7 +3650,13 @@ TaskManager *_sctmSingleton = nil;
             }
             else
             {
+                NSDate *rootStart = [Common copyTimeFromDate:re.startTime toDate:rootRE.startTime];
+                NSTimeInterval duration = [re.endTime timeIntervalSinceDate:re.startTime];
+                
                 [rootRE updateByTask:re];
+                
+                rootRE.startTime = rootStart;
+                rootRE.endTime = [rootStart dateByAddingTimeInterval:duration];
                 
                 [rootRE updateIntoDB:[dbm getDatabase]];
                 

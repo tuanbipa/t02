@@ -207,10 +207,26 @@ extern BOOL _isiPad;
 
 - (void) noteBeginEdit:(NSNotification *)notification
 {
+    /*
     noteHeightAlternate = noteView.bounds.size.height;
+    
     CGFloat h = contentView.bounds.size.height - (_isiPad?0:[Common getKeyboardHeight]);
     
     [noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, h-30)];
+    */
+    noteFrm = noteView.frame;
+    CGRect frm = noteFrm;
+    
+    if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
+    {
+        frm.size.height = 250;
+    }
+    else
+    {
+        frm.size.height -= (_isiPad?0:[Common getKeyboardHeight]);
+    }
+    
+    [noteView changeFrame:frm];
     
     saveButton.enabled = NO;
 }
@@ -219,8 +235,9 @@ extern BOOL _isiPad;
 {
     saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
     
-    //[noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, contentView.bounds.size.height-30)];
-    [noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, noteHeightAlternate)];
+    //[noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, noteHeightAlternate)];
+
+    [noteView changeFrame:noteFrm];
 }
 
 #pragma mark View

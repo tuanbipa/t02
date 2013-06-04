@@ -161,13 +161,7 @@ extern BOOL _isiPad;
         //printf("task original: %s\n", [[task.original name] UTF8String]);
         
 		self.taskCopy = task.original;
-        
-        if ([task isREInstance])
-        {
-            self.taskCopy.startTime = task.startTime;
-            self.taskCopy.endTime = task.endTime;
-        }
-	}
+    }
 	else
 	{
 		self.taskCopy = task;	
@@ -180,6 +174,13 @@ extern BOOL _isiPad;
             self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
             self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
             
+        }
+        else if ([task isREInstance])
+        {
+            NSTimeInterval reDuration = [task.original.endTime timeIntervalSinceDate:task.original.startTime];
+            
+            self.taskCopy.startTime = task.reInstanceStartTime;
+            self.taskCopy.endTime = [task.reInstanceStartTime dateByAddingTimeInterval:reDuration];
         }
         else if (self.task.isSplitted)
         {

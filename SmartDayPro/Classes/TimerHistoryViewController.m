@@ -60,7 +60,7 @@
     
     NSString *mailBody = [NSString stringWithFormat:@"Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.", self.task.name];
     
-    NSString *csvContent = @"Project, Task Name, Duration, Due Date, Start Date, Completed Date, Timer Duration, Segment No, From Time, To Time, Sub Total \n";
+    NSString *csvContent = @"Project, Task Name, Duration, Start Date, Due Date, Completed Date, Timer Duration, Segment No, From Time, To Time, Sub Total \n";
     
     TaskProgress *progress = [self.progressList objectAtIndex:0];
     NSInteger duration = [Common timeIntervalNoDST:progress.endTime sinceDate:progress.startTime];

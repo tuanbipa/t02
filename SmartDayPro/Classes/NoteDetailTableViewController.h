@@ -33,7 +33,8 @@
     
     Task *note;
     
-    CGFloat noteHeightAlternate;
+    //CGFloat noteHeightAlternate;
+    CGRect noteFrm;
 }
 
 @property (nonatomic, retain) Task *note;

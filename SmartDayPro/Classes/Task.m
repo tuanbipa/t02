@@ -67,6 +67,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 @synthesize completionTime;
 
 @synthesize smartTime;
+@synthesize reInstanceStartTime;
 
 @synthesize repeatData;
 @synthesize alerts;
@@ -169,6 +170,43 @@ static sqlite3_stmt *task_delete_statement = nil;
 	}
 	
 	return self;
+}
+
+- (void)dealloc {
+	
+	self.name = nil;
+	
+	self.contactName = nil;
+	self.location = nil;
+	self.contactEmail = nil;
+	self.contactPhone = nil;
+	self.note = nil;
+	self.tag = nil;
+	self.syncId = nil;
+	
+	self.creationTime = nil;
+	self.startTime = nil;
+	self.endTime = nil;
+	self.deadline = nil;
+	self.updateTime = nil;
+	self.completionTime = nil;
+	
+	self.smartTime = nil;
+    self.reInstanceStartTime = nil;
+	
+	self.repeatData = nil;
+	self.alerts = nil;
+	
+    self.original = nil;
+	self.subTasks = nil;
+	self.lastProgress = nil;
+	
+	self.exceptions = nil;
+    self.links = nil;
+	
+    // for planner
+    self.plannerStartTime = nil;
+    [super dealloc];
 }
 
 - (void) updateByTask:(Task*) task 
@@ -283,6 +321,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 	copy.updateTime = updateTime;
 	copy.completionTime = completionTime;
 	copy.smartTime = (smartTime != nil?[Common dateByAddNumSecond:1 toDate:smartTime]:smartTime);
+    copy.reInstanceStartTime = reInstanceStartTime;
 	
 	copy.repeatData = repeatData;
 	copy.alerts = [[NSMutableArray alloc] initWithArray:alerts copyItems:YES];
@@ -2021,7 +2060,8 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 -(BOOL)isLong //long event
 {
-	return [self isEvent] && ([Common getDay:self.startTime] != [Common getDay:self.endTime]);
+	//return [self isEvent] && ([Common getDay:self.startTime] != [Common getDay:self.endTime]);
+    return [self isEvent] && [Common daysBetween:self.endTime sinceDate:self.startTime] > 0;
 }
 
 -(BOOL)isPartial //partial task
@@ -2134,42 +2174,6 @@ static sqlite3_stmt *task_delete_statement = nil;
 	}
 	
 	return _noneText;
-}
-
-- (void)dealloc {
-	
-	self.name = nil;
-	
-	self.contactName = nil;
-	self.location = nil;
-	self.contactEmail = nil;
-	self.contactPhone = nil;
-	self.note = nil;
-	self.tag = nil;
-	self.syncId = nil;
-	
-	self.creationTime = nil;
-	self.startTime = nil;
-	self.endTime = nil;
-	self.deadline = nil;
-	self.updateTime = nil;
-	self.completionTime = nil;
-	
-	self.smartTime = nil;
-	
-	self.repeatData = nil;
-	self.alerts = nil;
-	
-    self.original = nil;
-	self.subTasks = nil;
-	self.lastProgress = nil;
-	
-	self.exceptions = nil;
-    self.links = nil;
-	
-    // for planner
-    self.plannerStartTime = nil;
-    [super dealloc];
 }
 
 // Finalize (delete) all of the SQLite compiled queries.

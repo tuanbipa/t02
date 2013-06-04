@@ -236,7 +236,7 @@
 	}
 	else
 	{
-        self.taskCopy.endTime = [self.taskCopy isADE]?[Common clearTimeForDate:dt]:dt;
+        self.taskCopy.endTime = [self.taskCopy isADE]?[Common getEndDate:dt]:dt;
 	}
 	
 	if ([self.taskCopy.endTime compare:self.taskCopy.startTime] != NSOrderedDescending)

@@ -320,20 +320,26 @@ extern BOOL _syncMatchHintShown;
 
 -(void) updateEKEvent:(EKEvent *)ekEvent withSCEvent:(Task *)scEvent
 {
-    ekEvent.allDay = NO;
+    //NSInteger secs = scEvent.timeZoneId == 0?[Common getSecondsFromTimeZoneID:0]:0;
     
-    ekEvent.timeZone = scEvent.timeZoneId==0?nil:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId]];
-    
+    ekEvent.allDay = NO;    
 	ekEvent.title = scEvent.name;
 	ekEvent.location = scEvent.location;
 	ekEvent.notes = scEvent.note;
-	ekEvent.startDate = scEvent.startTime;
-	ekEvent.endDate = scEvent.endTime;
-    
+	ekEvent.startDate = scEvent.startTime;//[scEvent.startTime dateByAddingTimeInterval:secs];
+	ekEvent.endDate = scEvent.endTime;//[scEvent.endTime dateByAddingTimeInterval:secs];
+
+    ekEvent.timeZone = scEvent.timeZoneId==0?nil:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId]];
+    /*
+    if (scEvent.timeZoneId == 0)
+    {
+        ekEvent.startDate = [ekEvent.startDate dateByAddingTimeInterval:[[NSTimeZone defaultTimeZone] secondsFromGMT]];
+        ekEvent.endDate = [ekEvent.endDate dateByAddingTimeInterval:[[NSTimeZone defaultTimeZone] secondsFromGMT]];
+    }*/
+        
 	if ([scEvent isADE])
 	{
 		ekEvent.allDay = YES;
-        ekEvent.endDate = scEvent.endTime;
 	}
 
 	if (scEvent.repeatData != nil && scEvent.groupKey == -1)

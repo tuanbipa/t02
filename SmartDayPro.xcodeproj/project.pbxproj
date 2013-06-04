@@ -76,7 +76,6 @@
 		67CF2CC016195196001FE1AA /* CalendarADEView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6816195195001FE1AA /* CalendarADEView.m */; };
 		67CF2CC116195196001FE1AA /* CalendarDayLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */; };
 		67CF2CC216195196001FE1AA /* CalendarEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */; };
-		67CF2CC316195196001FE1AA /* CalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6E16195195001FE1AA /* CalendarLayoutController.m */; };
 		67CF2CC416195196001FE1AA /* CalendarMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7016195195001FE1AA /* CalendarMovableController.m */; };
 		67CF2CC516195196001FE1AA /* CalendarSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7216195195001FE1AA /* CalendarSelectionTableViewController.m */; };
 		67CF2CC616195196001FE1AA /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7416195195001FE1AA /* CalendarViewController.m */; };
@@ -752,7 +751,6 @@
 		67EC0C8C16F8081F00929BFD /* CalendarADEView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6816195195001FE1AA /* CalendarADEView.m */; };
 		67EC0C8D16F8081F00929BFD /* CalendarDayLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */; };
 		67EC0C8E16F8081F00929BFD /* CalendarEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */; };
-		67EC0C8F16F8081F00929BFD /* CalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6E16195195001FE1AA /* CalendarLayoutController.m */; };
 		67EC0C9016F8081F00929BFD /* CalendarMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7016195195001FE1AA /* CalendarMovableController.m */; };
 		67EC0C9116F8081F00929BFD /* CalendarSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7216195195001FE1AA /* CalendarSelectionTableViewController.m */; };
 		67EC0C9216F8081F00929BFD /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7416195195001FE1AA /* CalendarViewController.m */; };
@@ -1572,8 +1570,6 @@
 		67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayLayoutController.m; sourceTree = "<group>"; };
 		67CF2B6B16195195001FE1AA /* CalendarEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarEditTableViewController.h; sourceTree = "<group>"; };
 		67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarEditTableViewController.m; sourceTree = "<group>"; };
-		67CF2B6D16195195001FE1AA /* CalendarLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarLayoutController.h; sourceTree = "<group>"; };
-		67CF2B6E16195195001FE1AA /* CalendarLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarLayoutController.m; sourceTree = "<group>"; };
 		67CF2B6F16195195001FE1AA /* CalendarMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMovableController.h; sourceTree = "<group>"; };
 		67CF2B7016195195001FE1AA /* CalendarMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMovableController.m; sourceTree = "<group>"; };
 		67CF2B7116195195001FE1AA /* CalendarSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarSelectionTableViewController.h; sourceTree = "<group>"; };
@@ -2665,8 +2661,6 @@
 				67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */,
 				67CF2B6B16195195001FE1AA /* CalendarEditTableViewController.h */,
 				67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */,
-				67CF2B6D16195195001FE1AA /* CalendarLayoutController.h */,
-				67CF2B6E16195195001FE1AA /* CalendarLayoutController.m */,
 				67CF2B6F16195195001FE1AA /* CalendarMovableController.h */,
 				67CF2B7016195195001FE1AA /* CalendarMovableController.m */,
 				67CE6FE6163F6C66000C641E /* CalendarScrollPageLayoutController.h */,
@@ -4756,7 +4750,6 @@
 				67CF2CC016195196001FE1AA /* CalendarADEView.m in Sources */,
 				67CF2CC116195196001FE1AA /* CalendarDayLayoutController.m in Sources */,
 				67CF2CC216195196001FE1AA /* CalendarEditTableViewController.m in Sources */,
-				67CF2CC316195196001FE1AA /* CalendarLayoutController.m in Sources */,
 				67CF2CC416195196001FE1AA /* CalendarMovableController.m in Sources */,
 				67CF2CC516195196001FE1AA /* CalendarSelectionTableViewController.m in Sources */,
 				67CF2CC616195196001FE1AA /* CalendarViewController.m in Sources */,
@@ -4952,7 +4945,6 @@
 				67EC0C8C16F8081F00929BFD /* CalendarADEView.m in Sources */,
 				67EC0C8D16F8081F00929BFD /* CalendarDayLayoutController.m in Sources */,
 				67EC0C8E16F8081F00929BFD /* CalendarEditTableViewController.m in Sources */,
-				67EC0C8F16F8081F00929BFD /* CalendarLayoutController.m in Sources */,
 				67EC0C9016F8081F00929BFD /* CalendarMovableController.m in Sources */,
 				67EC0C9116F8081F00929BFD /* CalendarSelectionTableViewController.m in Sources */,
 				67EC0C9216F8081F00929BFD /* CalendarViewController.m in Sources */,

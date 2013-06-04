@@ -717,11 +717,14 @@ extern BOOL _isiPad;
 
 - (BOOL) checkDateInCalendar:(NSDate *)date
 {
-	MonthlyCellView *firstCell = [self.subviews objectAtIndex:0];
+	/*MonthlyCellView *firstCell = [self.subviews objectAtIndex:0];
 	MonthlyCellView *lastCell = [self.subviews objectAtIndex:34];
 	
 	NSDate *firstDate = [firstCell getCellDate];
-	NSDate *lastDate = [lastCell getCellDate];
+	NSDate *lastDate = [lastCell getCellDate];*/
+    
+    NSDate *firstDate = [self getFirstDate];
+    NSDate *lastDate = [self getLastDate];
 
 	if ([Common compareDateNoTime:firstDate withDate:date] != NSOrderedDescending &&
 		[Common compareDateNoTime:lastDate withDate:date] != NSOrderedAscending)

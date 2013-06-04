@@ -19,7 +19,6 @@
 
 #import "SmartDayViewController.h"
 #import "CalendarViewController.h"
-#import "CalendarLayoutController.h"
 
 @implementation CalendarADEView
 
