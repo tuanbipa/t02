@@ -584,7 +584,7 @@ CalendarViewController *_sc2ViewCtrler;
     CGPoint contentOffset = calendarView.contentOffset;
     
     contentOffset.x = calendarView.bounds.size.width;//show page 1
-    contentOffset.y = y;
+    contentOffset.y = (y<0?0:y);
     
     calendarView.contentOffset = contentOffset;
 }

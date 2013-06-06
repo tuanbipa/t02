@@ -358,6 +358,30 @@ BOOL _autoPushPending = NO;
     [[self getCalendarViewController] refreshADEPane];
 }
 
+- (void) applyFilter
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSDate *dt = [tm.today copy];
+    
+    [tm initCalendarData:dt];
+    [tm initSmartListData];
+    
+    [dt release];
+
+    /*
+    [miniMonthView initCalendar:tm.today];
+    
+    NoteViewController *noteCtrler = [self getNoteViewController];
+    [noteCtrler loadAndShowList];
+    
+    CategoryViewController *catCtrler = [self getCategoryViewController];
+    [catCtrler loadAndShowList];
+    */
+    
+    [self refreshData];
+}
+
 #pragma mark Action Menu
 - (void)showActionMenu:(TaskView *)view
 {
@@ -1601,6 +1625,7 @@ BOOL _autoPushPending = NO;
 - (void) quickAddItem:(NSString *)name type:(NSInteger)type
 {
 	TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
 	
 	Task *task = [[Task alloc] init];
 	task.type = type;
@@ -1608,7 +1633,7 @@ BOOL _autoPushPending = NO;
 	task.duration = tm.lastTaskDuration;
 	task.project = tm.lastTaskProjectKey;
 
-    task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+    task.startTime = type==TYPE_TASK? [settings getWorkingStartTimeForDate:tm.today]:[Common dateByRoundMinute:15 toDate:tm.today];
     task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];
 	
 	switch (tm.taskTypeFilter)

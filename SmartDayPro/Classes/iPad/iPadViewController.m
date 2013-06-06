@@ -15,6 +15,7 @@
 
 #import "ImageManager.h"
 #import "TaskManager.h"
+#import "ProjectManager.h"
 #import "MusicManager.h"
 
 #import "CalendarViewController.h"
@@ -141,7 +142,7 @@ iPadViewController *_iPadViewCtrler;
         
         UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
         
-        UIButton *eyeButton = [Common createButton:@""
+        eyeButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
                                              frame:CGRectMake(0, 0, 40, 40)
                                         titleColor:[UIColor whiteColor]
@@ -209,6 +210,18 @@ iPadViewController *_iPadViewCtrler;
         if (tm.filterData != nil && ![tm.filterData.tag isEqualToString:@""])
         {
             [tagButton setImage:[UIImage imageNamed:@"bar_tag_blue.png"] forState:UIControlStateNormal];            
+        }
+    }
+
+    if (eyeButton != nil)
+    {
+        [eyeButton setImage:[UIImage imageNamed:@"bar_eye.png"] forState:UIControlStateNormal];
+
+        BOOL checkInvisible = [[[ProjectManager getInstance] getInvisibleProjectDict] count] > 0;
+        
+        if (checkInvisible)
+        {
+            [eyeButton setImage:[UIImage imageNamed:@"bar_eye_blue.png"] forState:UIControlStateNormal];
         }
     }
 }
@@ -305,6 +318,8 @@ iPadViewController *_iPadViewCtrler;
     {
         [self showPortraitView];
     }
+    
+    [self refreshFilterStatus];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -410,6 +425,8 @@ iPadViewController *_iPadViewCtrler;
 #pragma mark UISearchBar delegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
+    [_iPadSDViewCtrler hideDropDownMenu];
+    
 	return YES;
 }
 

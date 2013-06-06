@@ -341,7 +341,7 @@ extern PlannerViewController *_plannerViewCtrler;
         self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
     }*/
 }
-
+/*
 - (void) applyFilter
 {
     TaskManager *tm = [TaskManager getInstance];
@@ -361,7 +361,7 @@ extern PlannerViewController *_plannerViewCtrler;
     CategoryViewController *catCtrler = [self getCategoryViewController];
     [catCtrler loadAndShowList];    
 }
-/*
+
 #pragma mark Alert Handle
 
 - (void)reloadAlerts:(NSNotification *)notification

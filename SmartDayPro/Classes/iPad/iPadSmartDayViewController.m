@@ -213,6 +213,9 @@ iPadViewController *_iPadViewCtrler;
     Task *task = [[[Task alloc] init] autorelease];
     
     TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
+    
+    task.startTime = [settings getWorkingStartTimeForDate:tm.today];
     
 	switch (tm.taskTypeFilter)
 	{
@@ -248,7 +251,10 @@ iPadViewController *_iPadViewCtrler;
 {
 	NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
     
+    TaskManager *tm = [TaskManager getInstance];
+    
     Task *note = [[[Task alloc] init] autorelease];
+    note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
     note.type = TYPE_NOTE;
     note.listSource = SOURCE_NOTE;
 	
@@ -492,7 +498,10 @@ iPadViewController *_iPadViewCtrler;
 - (void) createItem:(NSInteger)index title:(NSString *)title
 {
     [self.popoverCtrler dismissPopoverAnimated:NO];
-    
+
+    TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
+       
     Task *task = [[[Task alloc] init] autorelease];
     task.name = title;
     
@@ -503,8 +512,7 @@ iPadViewController *_iPadViewCtrler;
         case 0:
         {
             task.type = TYPE_TASK;
-            
-            TaskManager *tm = [TaskManager getInstance];
+            task.startTime = [settings getWorkingStartTimeForDate:tm.today];
             
             switch (tm.taskTypeFilter)
             {
@@ -531,10 +539,8 @@ iPadViewController *_iPadViewCtrler;
             task.type = TYPE_EVENT;
             
             task.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
-            
-            NSDate *date = [[TaskManager getInstance] today];
-            
-            task.startTime = [Common dateByRoundMinute:15 toDate:date];
+
+            task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
             task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];            
             
             TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
