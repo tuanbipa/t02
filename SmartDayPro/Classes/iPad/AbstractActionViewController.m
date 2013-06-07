@@ -211,7 +211,7 @@ BOOL _autoPushPending = NO;
 
 - (Task *) getActiveTask
 {
-    if (activeView != nil && [activeView isKindOfClass:[TaskView class]])
+    if (activeView != nil && [activeView isKindOfClass:[MovableView class]])
     {
         return ((TaskView *) activeView).task;
     }
@@ -604,9 +604,16 @@ BOOL _autoPushPending = NO;
 	
 	[navController release];
     
-    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    /*
-    [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:task.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(task.listSource == SOURCE_CALENDAR || task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES]; */   
+    //[self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (task.listSource == SOURCE_PLANNER_CALENDAR) {
+        if (inRect.origin.x <= ctrler.view.frame.size.width) {
+            [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+        } else {
+            [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+        }
+    } else {
+        [self.popoverCtrler presentPopoverFromRect:inRect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
 }
 
 /*

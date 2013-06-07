@@ -329,6 +329,12 @@ extern PlannerViewController *_plannerViewCtrler;
 }
 
 #pragma mark Touch
+
+- (void) enableActions:(BOOL)enable
+{
+    [_plannerViewCtrler enableActions:enable onView:self];
+}
+
 - (void) doubleTouch
 {
 	[super doubleTouch];
@@ -341,7 +347,8 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) singleTouch
 {
-    [_plannerViewCtrler showPreview:self];
+    //[_plannerViewCtrler showPreview:self];
+    [self enableActions:YES];
 }
 
 - (void)dealloc {

@@ -214,8 +214,8 @@ extern BOOL _isiPad;
     
     [noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, h-30)];
     */
-    noteFrm = noteView.frame;
-    CGRect frm = noteFrm;
+    //noteFrm = noteView.frame;
+    CGRect frm = noteView.frame;
     
     if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
     {
@@ -324,7 +324,7 @@ extern BOOL _isiPad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    noteFrm = noteView.frame;
     if (self.note.primaryKey == -1)
     {
         [noteView startEdit];

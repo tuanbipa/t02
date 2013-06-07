@@ -238,7 +238,11 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void)createTask:(id)sender
 {
-    [_abstractViewCtrler createTaskFromNote:nil];
+    if (_plannerViewCtrler != nil) {
+        [_plannerViewCtrler createTaskFromNote:nil];
+    } else {
+        [_abstractViewCtrler createTaskFromNote:nil];
+    }
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

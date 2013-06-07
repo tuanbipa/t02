@@ -199,13 +199,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super reconcileItem:item reSchedule:reSchedule];
     
     if ([item isNote]) {
-        //PlannerMonthView *monthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
         [plannerView.monthView refreshCellByDate:item.startTime];
-    } else if ([item isADE]) {
-        //PlannerMonthView *monthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
-        [plannerView.monthView refreshOpeningWeek:nil];
+    /*} else if ([item isADE]) {
+        [plannerView.monthView refreshOpeningWeek:nil];*/
     } else if ([item isEvent]) {
-        [plannerBottomDayCal refreshLayout];
+        [plannerView.monthView refreshOpeningWeek:nil];
+        //[plannerBottomDayCal refreshLayout];
     } else if ([item isTask]) {
         [plannerView.monthView refreshCellByDate:item.deadline];
     }
