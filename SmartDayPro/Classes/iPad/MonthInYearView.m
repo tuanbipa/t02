@@ -84,7 +84,7 @@ extern PlannerViewController *_plannerViewCtrler;
 	CGContextSetLineWidth(ctx, 1);
 	CGContextStrokeRect(ctx, rect);
     
-    // drawing monthi title
+    // drawing month title
     UIFont *font = [UIFont systemFontOfSize:16];
     NSString *title = [Common getFullMonthYearString:self.monthDate];
     
@@ -180,7 +180,7 @@ extern PlannerViewController *_plannerViewCtrler;
 			todayCellIndex = i;
 		}
         
-        lastDate = [Common dateByAddNumDay:i toDate:startDate];
+        lastDate = [Common dateByAddNumDay:i+1 toDate:startDate];
 	}
 }
 
