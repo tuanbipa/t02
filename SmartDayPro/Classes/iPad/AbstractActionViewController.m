@@ -1839,10 +1839,18 @@ BOOL _autoPushPending = NO;
             
             if (buttonIndex == 2) //all series
             {
-                if ([actionTask.startTime compare:actionTaskCopy.startTime] == NSOrderedSame && [actionTask.endTime compare:actionTaskCopy.endTime] == NSOrderedSame) //user does not change time -> keep root time
+                /*
+                if ([actionTask.startTime compare:actionTaskCopy.startTime] == NSOrderedSame && [actionTask.endTime compare:actionTaskCopy.endTime] == NSOrderedSame && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change time -> keep root time
                 {
                     actionTaskCopy.startTime = actionTask.original.startTime;
                     actionTaskCopy.endTime = actionTask.original.endTime;
+                }
+                */
+                
+                if ([Common daysBetween:actionTask.startTime sinceDate:actionTaskCopy.startTime] == 0 && [Common daysBetween:actionTask.endTime sinceDate:actionTaskCopy.endTime] == 0 && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change date -> keep root date
+                {
+                    actionTaskCopy.startTime = [Common copyTimeFromDate:actionTaskCopy.startTime toDate:actionTask.original.startTime];
+                    actionTaskCopy.endTime = [Common copyTimeFromDate:actionTaskCopy.endTime toDate:actionTask.original.endTime];
                 }
             }
             
@@ -2260,9 +2268,11 @@ BOOL _autoPushPending = NO;
 
 - (void)reloadAlerts:(NSNotification *)notification
 {
-    NSInteger taskId = [[notification.userInfo objectForKey:@"TaskId"] intValue];
+    //NSInteger taskId = [[notification.userInfo objectForKey:@"TaskId"] intValue];
     
-    [self reloadAlert4Task:taskId];
+    //[self reloadAlert4Task:taskId];
+    
+    [self applyFilter];
 }
 
 - (void) reloadAlert4Task:(NSInteger)taskId

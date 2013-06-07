@@ -217,6 +217,7 @@ AlertManager *_alarmSingleton = nil;
         
         Task *task = [[Task alloc] initWithPrimaryKey:dat.taskKey database:[dbm getDatabase]];
         
+        /*
         NSDate *alertTime = [dat getAlertTime:task];
         
         switch (postponeType)
@@ -241,6 +242,23 @@ AlertManager *_alarmSingleton = nil;
         dat.absoluteTime = alertTime;
         
         [dat updateIntoDB:[dbm getDatabase]];
+        */
+        
+        //change task deadline and start
+        Settings *settings = [Settings getInstance];
+                
+        if (task.startTime == nil)
+        {
+            task.startTime = [settings getWorkingStartTimeForDate:[Common dateByAddNumDay:-7 toDate:task.deadline]];
+        }
+        
+        NSInteger diff = [task.deadline timeIntervalSinceDate:task.startTime];
+        
+        task.deadline = postponeType == 2?[Common dateByAddNumMonth:1 toDate:task.deadline]:[Common dateByAddNumDay:(postponeType == 1?7:1) toDate:task.deadline];
+        
+        task.startTime = [settings getWorkingStartTimeForDate:[task.deadline dateByAddingTimeInterval:-diff]];
+        
+        [task updateTimeIntoDB:[dbm getDatabase]];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"AlertPostponeChangeNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:task.primaryKey] forKey:@"TaskId"]];
         

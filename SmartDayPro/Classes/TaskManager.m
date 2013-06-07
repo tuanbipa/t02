@@ -3650,17 +3650,15 @@ TaskManager *_sctmSingleton = nil;
             }
             else
             {
-                NSDate *rootStart = [Common copyTimeFromDate:re.startTime toDate:rootRE.startTime];
-                NSTimeInterval duration = [re.endTime timeIntervalSinceDate:re.startTime];
+                //NSDate *rootStart = [Common copyTimeFromDate:re.startTime toDate:rootRE.startTime];
+                //NSTimeInterval duration = [re.endTime timeIntervalSinceDate:re.startTime];
                 
                 [rootRE updateByTask:re];
                 
-                rootRE.startTime = rootStart;
-                rootRE.endTime = [rootStart dateByAddingTimeInterval:duration];
+                //rootRE.startTime = rootStart;
+                //rootRE.endTime = [rootStart dateByAddingTimeInterval:duration];
                 
                 [rootRE updateIntoDB:[dbm getDatabase]];
-                
-                //[self populateRE:rootRE isNew:typeChange];
                 
                 if ([rootRE isRE])
                 {
