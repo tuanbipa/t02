@@ -95,7 +95,7 @@
 - (NSMutableArray *)getProjects;
 - (NSMutableArray *)getPlans;
 - (NSMutableArray *) getDeletedPlans;
-- (Task *) getTopTaskForPlan:(NSInteger)key;
+- (Task *) getTopTaskForPlan:(NSInteger)key excludeFutureTasks:(BOOL)excludeFutureTasks;
 - (void) resetEventSyncIdForProject:(NSInteger) prjKey;
 - (void) resetProjectSyncIds;
 - (void) resetTaskSyncIds;

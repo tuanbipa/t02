@@ -2469,7 +2469,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return planList;
 }
 
-- (Task *) getTopTaskForPlan:(NSInteger)key
+- (Task *) getTopTaskForPlan:(NSInteger)key excludeFutureTasks:(BOOL)excludeFutureTasks
 {
 	Task *ret = nil;
     	
@@ -2483,7 +2483,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     
 	if (statement == nil)
 	{
-		const char *sql = settings.hideFutureTasks?"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND Task_ProjectID = ? AND (Task_StartTime = -1 OR (Task_StartTime <> -1 AND Task_StartTime < ?)) ORDER BY Task_SeqNo ASC LIMIT 1":"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC LIMIT 1";
+		const char *sql = (excludeFutureTasks && settings.hideFutureTasks)?"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND Task_ProjectID = ? AND (Task_StartTime = -1 OR (Task_StartTime <> -1 AND Task_StartTime < ?)) ORDER BY Task_SeqNo ASC LIMIT 1":"SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC LIMIT 1";
 		
 		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)	
 		{

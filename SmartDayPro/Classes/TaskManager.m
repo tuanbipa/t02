@@ -1400,7 +1400,7 @@ TaskManager *_sctmSingleton = nil;
 	//{
 	for (Project *prj in prjList)
 	{
-		Task *topTask = [dbm getTopTaskForPlan:prj.primaryKey];
+		Task *topTask = [dbm getTopTaskForPlan:prj.primaryKey excludeFutureTasks:YES];
 		
 		if (topTask != nil)
 		{
@@ -2437,7 +2437,7 @@ TaskManager *_sctmSingleton = nil;
 	{
 		if (prj.type != TYPE_LIST && prj.status != PROJECT_STATUS_INVISIBLE)
 		{
-			Task *task = [dbm getTopTaskForPlan:prj.primaryKey];
+			Task *task = [dbm getTopTaskForPlan:prj.primaryKey excludeFutureTasks:YES];
 			
 			if (task != nil)
 			{
@@ -4939,7 +4939,6 @@ TaskManager *_sctmSingleton = nil;
 			ret = (task.deadline != nil);
 			break;
 		case TASK_FILTER_ACTIVE:
-			//ret = (task.startTime != nil && [Common compareDateNoTime:[NSDate date] withDate:task.startTime] != NSOrderedAscending);
             ret = (task.startTime != nil);
 			break;
 		case TASK_FILTER_INACTIVE:
@@ -4951,15 +4950,6 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             ret = (task.status == TASK_STATUS_DONE);
             break;
-		/*
-		case TASK_FILTER_TOP:
-		{
-			Task *topTask = [[DBManager getInstance] getTopTaskForPlan:task.project];
-			
-			return (topTask.primaryKey == task.primaryKey);
-		}
-			break;
-		*/
 	}
 	
 	return ret;
@@ -4976,15 +4966,6 @@ TaskManager *_sctmSingleton = nil;
 
 - (BOOL) checkGlobalFilterIn:(Task *)task tagDict:(NSDictionary *)tagDict  catDict:(NSDictionary *)catDict
 {
-    /*
-	if (self.filterData == nil)
-	{
-		return YES;
-	}
-	*/
-    
-    //NSString *catId = (catDict == nil? @"YES":[catDict objectForKey:[NSString stringWithFormat:@"%d", task.project]]);
-    
     Project *prj = [catDict objectForKey:[NSNumber numberWithInt:task.project]];
     
     if (prj == nil)

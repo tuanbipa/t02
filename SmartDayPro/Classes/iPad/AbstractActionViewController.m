@@ -207,6 +207,20 @@ BOOL _autoPushPending = NO;
     [self hidePopover];
     
     activeView = nil;
+    
+    PageAbstractViewController *ctrlers[4] = {
+        [self getCalendarViewController],
+        [self getSmartListViewController],
+        [self getNoteViewController],
+        [self getCategoryViewController]
+    };
+    
+    for (int i=0; i<4; i++)
+    {
+        PageAbstractViewController *ctrler = ctrlers[i];
+        
+        [ctrler deselect];
+    }
 }
 
 - (Task *) getActiveTask
@@ -1579,9 +1593,6 @@ BOOL _autoPushPending = NO;
         slTask.project = prjKey;
         
         [slTask updateIntoDB:[dbm getDatabase]];
-
-        //Task *schedTask = [tm findScheduledTask:slTask];
-        //schedTask.project = prjKey;
         
         NSMutableArray *list = [tm findScheduledTasks:slTask];
         
@@ -1589,6 +1600,9 @@ BOOL _autoPushPending = NO;
         {
             tmp.project = prjKey;
         }
+        
+        [tm refreshTopTasks];
+        [self setNeedsDisplay];
        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
     }
@@ -1746,6 +1760,8 @@ BOOL _autoPushPending = NO;
     {
         self.task2Link = task;
     }
+    
+    [self deselect];
 }
 
 - (void) pasteLink

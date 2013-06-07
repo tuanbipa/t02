@@ -555,6 +555,8 @@ iPadViewController *_iPadViewCtrler;
             task.listSource = SOURCE_NOTE;
             task.note = title;
             
+            task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+            
             NoteDetailTableViewController *noteCtrler = [[NoteDetailTableViewController alloc] init];
             noteCtrler.note = task;
             

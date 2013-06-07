@@ -591,7 +591,7 @@ SmartListViewController *_smartListViewCtrler;
 {
 	[[UIMenuController sharedMenuController] setMenuVisible:NO animated:YES];
 	
-	[self hideSuggestedTime];	
+	[self hideSuggestedTime];
 }
 
 /*
@@ -642,7 +642,6 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void)refreshView
 {
-	//[self refreshLayout];
     [self setNeedsDisplay];
 }
 
@@ -688,7 +687,7 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void) refreshTopTaskForPlan:(NSInteger)plan
 {
-	Task *topTask = [[DBManager getInstance] getTopTaskForPlan:plan];
+	Task *topTask = [[DBManager getInstance] getTopTaskForPlan:plan excludeFutureTasks:YES];
 	
 	BOOL found = NO;
 	

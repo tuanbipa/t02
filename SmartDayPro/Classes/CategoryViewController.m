@@ -161,7 +161,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
 			if (prj.isExpanded)
 			{
-                Task *topTask = [dbm getTopTaskForPlan:prj.primaryKey];
+                Task *topTask = [dbm getTopTaskForPlan:prj.primaryKey excludeFutureTasks:NO];
                 
 				NSMutableArray *activeTasks = [dbm getItems:self.filterType inPlan:prj.primaryKey];
 
@@ -288,7 +288,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         DBManager *dbm = [DBManager getInstance];
         
-        Task *topTask = [dbm getTopTaskForPlan:prjKey];
+        Task *topTask = [dbm getTopTaskForPlan:prjKey excludeFutureTasks:NO];
         
         for (NSObject *obj in self.list)
         {
