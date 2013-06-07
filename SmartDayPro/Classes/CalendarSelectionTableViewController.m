@@ -301,7 +301,8 @@ extern BOOL _isiPad;
     
 	if (visibilityChange)
 	{
-        [_abstractViewCtrler resetAllData];
+        //[_abstractViewCtrler resetAllData];
+        [_abstractViewCtrler applyFilter];
 	}
 		
     if (becomeVisible)

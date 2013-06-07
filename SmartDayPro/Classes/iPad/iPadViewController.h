@@ -19,6 +19,7 @@
     UISearchBar *searchBar;
     UIButton *timerButton;
     UIButton *tagButton;
+    UIButton *eyeButton;
 }
 
 @property (nonatomic, retain) UIViewController *activeViewCtrler;

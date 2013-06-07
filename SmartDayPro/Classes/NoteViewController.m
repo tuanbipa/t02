@@ -102,11 +102,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self filter:self.filterType];
 }
 
+- (void) deselect
+{
+    [self multiEdit:NO];
+}
+
 - (void) filter:(NSInteger)type
 {
     self.filterType = type;
     
-    DBManager *dbm = [DBManager getInstance];
+    //DBManager *dbm = [DBManager getInstance];
     TaskManager *tm = [TaskManager getInstance];
     
     NSDictionary *tagDict = [tm getFilterTagDict];

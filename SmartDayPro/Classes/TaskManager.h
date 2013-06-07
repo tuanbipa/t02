@@ -186,6 +186,7 @@
 -(NSDictionary *) getFilterCategoryDict;
 - (NSString *) getFilterTitle:(NSInteger)filterType;
 - (NSString *) getFilterTitle;
+- (void) refreshTopTasks;
 
 - (Task *) getTask2Update:(Task *)taskEdit;
 - (Task *) findTaskByKey:(NSInteger)key;

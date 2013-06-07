@@ -720,6 +720,10 @@
 		67E79F2C165A331800FBB0DA /* SC_bg_320_ip5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67E79F29165A331800FBB0DA /* SC_bg_320_ip5.jpg */; };
 		67E79F2D165A331800FBB0DA /* SC_css_ip5.css in Resources */ = {isa = PBXBuildFile; fileRef = 67E79F2A165A331800FBB0DA /* SC_css_ip5.css */; };
 		67E7B42616AE2BF8009C5F6D /* iOSCalSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E7B42516AE2BF8009C5F6D /* iOSCalSyncViewController.m */; };
+		67E7F7A417602DBD0019FAFF /* bar_eye_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */; };
+		67E7F7A517602DBD0019FAFF /* bar_eye_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */; };
+		67E7F7A617602DBD0019FAFF /* bar_eye_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E7F7A317602DBD0019FAFF /* bar_eye_blue@2x.png */; };
+		67E7F7A717602DBD0019FAFF /* bar_eye_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E7F7A317602DBD0019FAFF /* bar_eye_blue@2x.png */; };
 		67E8362B1671928F0024C02A /* MiniMonthWeekHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E8362A1671928F0024C02A /* MiniMonthWeekHeaderView.m */; };
 		67E839D416D5B2DC00155ADE /* iPadSyncSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E839D316D5B2DC00155ADE /* iPadSyncSettingViewController.m */; };
 		67E839D716D6054900155ADE /* iPadAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E839D616D6054900155ADE /* iPadAboutUsViewController.m */; };
@@ -2329,6 +2333,8 @@
 		67E79F2A165A331800FBB0DA /* SC_css_ip5.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SC_css_ip5.css; sourceTree = "<group>"; };
 		67E7B42416AE2BF8009C5F6D /* iOSCalSyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSCalSyncViewController.h; sourceTree = "<group>"; };
 		67E7B42516AE2BF8009C5F6D /* iOSCalSyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSCalSyncViewController.m; sourceTree = "<group>"; };
+		67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_eye_blue.png; sourceTree = "<group>"; };
+		67E7F7A317602DBD0019FAFF /* bar_eye_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_eye_blue@2x.png"; sourceTree = "<group>"; };
 		67E836291671928F0024C02A /* MiniMonthWeekHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthWeekHeaderView.h; sourceTree = "<group>"; };
 		67E8362A1671928F0024C02A /* MiniMonthWeekHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniMonthWeekHeaderView.m; sourceTree = "<group>"; };
 		67E839D216D5B2DC00155ADE /* iPadSyncSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSyncSettingViewController.h; sourceTree = "<group>"; };
@@ -3074,6 +3080,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */,
+				67E7F7A317602DBD0019FAFF /* bar_eye_blue@2x.png */,
 				67D4EFDA17437394002B3483 /* none.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
@@ -4182,6 +4190,8 @@
 				67D4EFDB17437394002B3483 /* none.png in Resources */,
 				67D4EFE317438C2C002B3483 /* SmartApps_768_css.css in Resources */,
 				67D4EFE517438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */,
+				67E7F7A417602DBD0019FAFF /* bar_eye_blue.png in Resources */,
+				67E7F7A617602DBD0019FAFF /* bar_eye_blue@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4724,6 +4734,8 @@
 				67D4EFDC17437394002B3483 /* none.png in Resources */,
 				67D4EFE417438C2C002B3483 /* SmartApps_768_css.css in Resources */,
 				67D4EFE617438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */,
+				67E7F7A517602DBD0019FAFF /* bar_eye_blue.png in Resources */,
+				67E7F7A717602DBD0019FAFF /* bar_eye_blue@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

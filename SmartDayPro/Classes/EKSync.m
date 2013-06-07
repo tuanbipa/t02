@@ -330,12 +330,6 @@ extern BOOL _syncMatchHintShown;
 	ekEvent.endDate = scEvent.endTime;//[scEvent.endTime dateByAddingTimeInterval:secs];
 
     ekEvent.timeZone = scEvent.timeZoneId==0?nil:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId]];
-    /*
-    if (scEvent.timeZoneId == 0)
-    {
-        ekEvent.startDate = [ekEvent.startDate dateByAddingTimeInterval:[[NSTimeZone defaultTimeZone] secondsFromGMT]];
-        ekEvent.endDate = [ekEvent.endDate dateByAddingTimeInterval:[[NSTimeZone defaultTimeZone] secondsFromGMT]];
-    }*/
         
 	if ([scEvent isADE])
 	{

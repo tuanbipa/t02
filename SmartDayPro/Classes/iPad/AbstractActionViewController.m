@@ -207,6 +207,20 @@ BOOL _autoPushPending = NO;
     [self hidePopover];
     
     activeView = nil;
+    
+    PageAbstractViewController *ctrlers[4] = {
+        [self getCalendarViewController],
+        [self getSmartListViewController],
+        [self getNoteViewController],
+        [self getCategoryViewController]
+    };
+    
+    for (int i=0; i<4; i++)
+    {
+        PageAbstractViewController *ctrler = ctrlers[i];
+        
+        [ctrler deselect];
+    }
 }
 
 - (Task *) getActiveTask
@@ -356,6 +370,30 @@ BOOL _autoPushPending = NO;
     [plannerCalView refreshADEView];
     
     [[self getCalendarViewController] refreshADEPane];
+}
+
+- (void) applyFilter
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSDate *dt = [tm.today copy];
+    
+    [tm initCalendarData:dt];
+    [tm initSmartListData];
+    
+    [dt release];
+
+    /*
+    [miniMonthView initCalendar:tm.today];
+    
+    NoteViewController *noteCtrler = [self getNoteViewController];
+    [noteCtrler loadAndShowList];
+    
+    CategoryViewController *catCtrler = [self getCategoryViewController];
+    [catCtrler loadAndShowList];
+    */
+    
+    [self refreshData];
 }
 
 #pragma mark Action Menu
@@ -1562,9 +1600,6 @@ BOOL _autoPushPending = NO;
         slTask.project = prjKey;
         
         [slTask updateIntoDB:[dbm getDatabase]];
-
-        //Task *schedTask = [tm findScheduledTask:slTask];
-        //schedTask.project = prjKey;
         
         NSMutableArray *list = [tm findScheduledTasks:slTask];
         
@@ -1572,6 +1607,9 @@ BOOL _autoPushPending = NO;
         {
             tmp.project = prjKey;
         }
+        
+        [tm refreshTopTasks];
+        [self setNeedsDisplay];
        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
     }
@@ -1608,6 +1646,7 @@ BOOL _autoPushPending = NO;
 - (void) quickAddItem:(NSString *)name type:(NSInteger)type
 {
 	TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
 	
 	Task *task = [[Task alloc] init];
 	task.type = type;
@@ -1615,7 +1654,7 @@ BOOL _autoPushPending = NO;
 	task.duration = tm.lastTaskDuration;
 	task.project = tm.lastTaskProjectKey;
 
-    task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+    task.startTime = type==TYPE_TASK? [settings getWorkingStartTimeForDate:tm.today]:[Common dateByRoundMinute:15 toDate:tm.today];
     task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];
 	
 	switch (tm.taskTypeFilter)
@@ -1728,6 +1767,8 @@ BOOL _autoPushPending = NO;
     {
         self.task2Link = task;
     }
+    
+    [self deselect];
 }
 
 - (void) pasteLink
@@ -1821,10 +1862,18 @@ BOOL _autoPushPending = NO;
             
             if (buttonIndex == 2) //all series
             {
-                if ([actionTask.startTime compare:actionTaskCopy.startTime] == NSOrderedSame && [actionTask.endTime compare:actionTaskCopy.endTime] == NSOrderedSame) //user does not change time -> keep root time
+                /*
+                if ([actionTask.startTime compare:actionTaskCopy.startTime] == NSOrderedSame && [actionTask.endTime compare:actionTaskCopy.endTime] == NSOrderedSame && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change time -> keep root time
                 {
                     actionTaskCopy.startTime = actionTask.original.startTime;
                     actionTaskCopy.endTime = actionTask.original.endTime;
+                }
+                */
+                
+                if ([Common daysBetween:actionTask.startTime sinceDate:actionTaskCopy.startTime] == 0 && [Common daysBetween:actionTask.endTime sinceDate:actionTaskCopy.endTime] == 0 && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change date -> keep root date
+                {
+                    actionTaskCopy.startTime = [Common copyTimeFromDate:actionTaskCopy.startTime toDate:actionTask.original.startTime];
+                    actionTaskCopy.endTime = [Common copyTimeFromDate:actionTaskCopy.endTime toDate:actionTask.original.endTime];
                 }
             }
             
@@ -2242,9 +2291,11 @@ BOOL _autoPushPending = NO;
 
 - (void)reloadAlerts:(NSNotification *)notification
 {
-    NSInteger taskId = [[notification.userInfo objectForKey:@"TaskId"] intValue];
+    //NSInteger taskId = [[notification.userInfo objectForKey:@"TaskId"] intValue];
     
-    [self reloadAlert4Task:taskId];
+    //[self reloadAlert4Task:taskId];
+    
+    [self applyFilter];
 }
 
 - (void) reloadAlert4Task:(NSInteger)taskId

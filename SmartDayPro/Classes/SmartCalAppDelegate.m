@@ -28,6 +28,7 @@
 #import "BusyController.h"
 #import "TimerManager.h"
 #import "Task.h"
+#import "AlertData.h"
 
 #import "TagDictionary.h"
 
@@ -591,20 +592,37 @@ BOOL _fromBackground = NO;
 {
     [[MusicManager getInstance] playSound:SOUND_ALARM];
     
-    //UIApplicationState state = [application applicationState];
-    //if (state != UIApplicationStateInactive)
-	{
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_alertText
-												   message:notification.alertBody 
-												  delegate:self
-										 cancelButtonTitle:_okText
-										 otherButtonTitles:_snooze, _postpone, nil];
+    NSNumber *alertKeyNum = [notification.userInfo objectForKey:@"alertKey"];
+    
+    if (alertKeyNum != nil)
+    {
+        DBManager *dbm = [DBManager getInstance];
+        
+        AlertData *dat = [[AlertData alloc] initWithPrimaryKey:[alertKeyNum intValue] database:[dbm getDatabase]];
+        
+        Task *task = [[Task alloc] initWithPrimaryKey:dat.taskKey database:[dbm getDatabase]];
+        
+        UIAlertView *alertView = [task isTask]?
+                                        [[UIAlertView alloc] initWithTitle:_alertText
+                                                            message:notification.alertBody
+                                                           delegate:self
+                                                  cancelButtonTitle:_okText
+                                                                otherButtonTitles:_snooze, _postpone, nil]:
+                                        [[UIAlertView alloc] initWithTitle:_alertText
+                                                                   message:notification.alertBody
+                                                                  delegate:self
+                                                         cancelButtonTitle:_okText
+                                                         otherButtonTitles:_snooze, nil];
+
         [self.alertDict setObject:notification forKey:notification];
         alertView.tag = notification;
         
-		[alertView show];
-		[alertView release];
-	}
+        [alertView show];
+        [alertView release];
+        
+        [dat release];
+        [task release];
+    }
     
 }
 

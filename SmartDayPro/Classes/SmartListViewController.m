@@ -591,7 +591,7 @@ SmartListViewController *_smartListViewCtrler;
 {
 	[[UIMenuController sharedMenuController] setMenuVisible:NO animated:YES];
 	
-	[self hideSuggestedTime];	
+	[self hideSuggestedTime];
 }
 
 /*
@@ -642,7 +642,6 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void)refreshView
 {
-	//[self refreshLayout];
     [self setNeedsDisplay];
 }
 
@@ -688,7 +687,7 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void) refreshTopTaskForPlan:(NSInteger)plan
 {
-	Task *topTask = [[DBManager getInstance] getTopTaskForPlan:plan];
+	Task *topTask = [[DBManager getInstance] getTopTaskForPlan:plan excludeFutureTasks:YES];
 	
 	BOOL found = NO;
 	
@@ -1818,9 +1817,9 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void) quickAddDidChange:(id) sender
 {
-    UITextField *textField = (UITextField *) sender;
+    //UITextField *textField = (UITextField *) sender;
     
-    NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    //NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
     //saveAndMoreItem.enabled = ![text isEqualToString:@""];
 }
@@ -1829,6 +1828,8 @@ SmartListViewController *_smartListViewCtrler;
 {
     //quickAddEditBarView.hidden = NO;
     maskView.hidden = NO;
+    
+    [_abstractViewCtrler hideDropDownMenu];
     
 	return YES;
 }
