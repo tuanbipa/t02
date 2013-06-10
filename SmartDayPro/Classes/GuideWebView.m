@@ -123,7 +123,7 @@
 	
 	if (self.safariEnabled && self.isLoaded)
 	{
-		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+		//[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 		
 		NSString *url = [[request URL] relativeString];
 		
@@ -141,8 +141,10 @@
 	return YES;
 }
 
-- (void)dealloc {
-	
+- (void)dealloc
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
 	self.content = nil;
 	
     [super dealloc];

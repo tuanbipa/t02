@@ -1587,16 +1587,14 @@ extern BOOL _gtdoTabHintShown;
 - (void) addTask:(id) sender
 {
 	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-	
+    
+	TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
+
 	Task *newTask = [[Task alloc] init];
 	newTask.type = TYPE_TASK;
 	
-	//newTask.startTime = [Common dateByRoundMinute:15 toDate:[[TaskManager getInstance] today]];
-	//newTask.endTime = [Common dateByAddNumSecond:3600 toDate:newTask.startTime];
-    
-    newTask.startTime = [[Settings getInstance] getWorkingStartTimeForDate:[NSDate date]];
-	
-	TaskManager *tm = [TaskManager getInstance];
+    newTask.startTime = [settings getWorkingStartTimeForDate:tm.today];
 	
 	switch (tm.taskTypeFilter) 
 	{
@@ -1607,7 +1605,7 @@ extern BOOL _gtdoTabHintShown;
 			break;
 		case TASK_FILTER_DUE:
 		{
-			newTask.deadline = [[Settings getInstance] getWorkingEndTimeForDate:[NSDate date]];
+			newTask.deadline = [settings getWorkingEndTimeForDate:tm.today];
 		}
 			break;
 	}	

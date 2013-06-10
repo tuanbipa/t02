@@ -208,6 +208,7 @@ BOOL _autoPushPending = NO;
     
     activeView = nil;
     
+    /*
     PageAbstractViewController *ctrlers[4] = {
         [self getCalendarViewController],
         [self getSmartListViewController],
@@ -220,7 +221,9 @@ BOOL _autoPushPending = NO;
         PageAbstractViewController *ctrler = ctrlers[i];
         
         [ctrler deselect];
-    }
+    }*/
+    
+    [[self getCalendarViewController] deselect]; //remove outline if event is resized
 }
 
 - (Task *) getActiveTask
@@ -1353,6 +1356,7 @@ BOOL _autoPushPending = NO;
 -(void) createTaskFromNote:(Task *)fromNote
 {
     TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
     
     Task *note = fromNote != nil?fromNote:[self getActiveTask];
@@ -1365,6 +1369,8 @@ BOOL _autoPushPending = NO;
         
         Task *task = [[Task alloc] init];
         
+        task.startTime = [settings getWorkingStartTimeForDate:tm.today];
+        
         switch (tm.taskTypeFilter)
         {
             case TASK_FILTER_STAR:
@@ -1374,7 +1380,7 @@ BOOL _autoPushPending = NO;
                 break;
             case TASK_FILTER_DUE:
             {
-                task.deadline = [NSDate date];
+                task.deadline = [settings getWorkingEndTimeForDate:tm.today];
             }
                 break;
         }
@@ -1666,7 +1672,7 @@ BOOL _autoPushPending = NO;
 			break;
 		case TASK_FILTER_DUE:
 		{
-			task.deadline = [NSDate date];
+			task.deadline = [settings getWorkingEndTimeForDate:tm.today];
 		}
 			break;
 	}

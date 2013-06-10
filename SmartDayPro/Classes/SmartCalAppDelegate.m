@@ -136,7 +136,7 @@ BOOL _fromBackground = NO;
 {
     Settings *settings = [Settings getInstance];
     
-    NSArray *zones = [[[[Settings getInstance] timeZoneDict] objectEnumerator] allObjects];
+    NSMutableArray *zones = [NSMutableArray arrayWithArray:[[[[Settings getInstance] timeZoneDict] objectEnumerator] allObjects]];
     
     NSDictionary *zoneDict = [NSDictionary dictionaryWithObjects:zones forKeys:zones];
     
@@ -161,11 +161,26 @@ BOOL _fromBackground = NO;
         {
             printf("zone: %s NOT FOUND\n", [query UTF8String]);
         }
+        else
+        {
+            [zones removeObject:zone];
+        }
     }
+    
+/*
+    printf("TimeZones NOT Support: %d\n", zones.count);
+    for (NSString *zone in zones)
+    {
+        printf("%s\n", [zone UTF8String]);
+    }
+    printf("\n\n");
+*/
     
     //check offset
     
     NSArray *keys = [settings.timeZoneDict allKeys];
+    
+    NSMutableArray *names = [NSMutableArray arrayWithCapacity:keys.count];
     
     for (NSNumber *key in keys)
     {
@@ -178,11 +193,24 @@ BOOL _fromBackground = NO;
         
         NSString *name = [settings.timeZoneDict objectForKey:key];
         
+        [names addObject:name];
+        
         if (![[name substringToIndex:10] isEqualToString:prefix])
         {
             printf("zone %s - ID incorrect - prefix: %s\n", [name UTF8String], [prefix UTF8String]);
         }
     }
+    
+    NSDictionary *nameDict = [NSDictionary dictionaryWithObjects:keys forKeys:names];
+    
+    printf("TimeZones NOT Support: %d\n", zones.count);
+    for (NSString *zone in zones)
+    {
+        NSNumber *key = [nameDict objectForKey:zone];
+        //printf("%d,", [key intValue]);
+        printf("%d, %s\n", [key intValue], [zone UTF8String]);
+    }
+    printf("\n\n");
     
     NSInteger tokyoID = 40264;
     
@@ -389,8 +417,7 @@ BOOL _fromBackground = NO;
     //[self testSound];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    
-    //[self test];
+
 #ifdef _SC_FREE
 	_scFreeVersion = YES;
 #endif
@@ -426,7 +453,7 @@ BOOL _fromBackground = NO;
     
     [TaskManager startup];
     
-    //[self testZone];
+    [self testZone];
 	
     //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
