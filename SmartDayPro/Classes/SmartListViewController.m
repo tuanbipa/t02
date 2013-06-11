@@ -194,7 +194,7 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void) reconcileItem:(Task *)item
 {
-    if (([item isTask] || ([item isEvent] && [item isManual])) && [self checkControllerActive])
+    if ([item isTask] && [self checkControllerActive])
     {
         if (item.listSource == SOURCE_SMARTLIST)
         {

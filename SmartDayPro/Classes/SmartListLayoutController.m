@@ -422,16 +422,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     taskView.task = task;
     
     taskView.starEnable = (task.status != TASK_STATUS_DONE);    
-	//[taskView refreshStarImage];
-    //[taskView refreshCheckImage];
+	[taskView refreshStarImage];
+    [taskView refreshCheckImage];
     [taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
-    if ([task isManual]) {
+    /*if ([task isManual]) {
         [taskView enableMove:NO];
         taskView.starEnable = NO;
         taskView.checkEnable = YES;
     }
     [taskView refreshStarImage];
-    [taskView refreshCheckImage];
+    [taskView refreshCheckImage];*/
     
     [taskView setNeedsDisplay];
 	
@@ -461,9 +461,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     //[tm garbage:self.taskList];
 	
-	//NSMutableArray *list = [tm getDisplayList];
+	NSMutableArray *list = [tm getDisplayList];
     // task list include manual tasks
-    NSMutableArray *list = [tm getDisplayListWithManualTasks];
+    //NSMutableArray *list = [tm getDisplayListWithManualTasks];
 	
 	self.taskList = list;
 	

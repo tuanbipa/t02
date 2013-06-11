@@ -2137,10 +2137,10 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             self.taskList = [dbm getDoneTasks];
             break;
-        case TASK_FILTER_PINNED:
+        /*case TASK_FILTER_PINNED:
             //self.taskList = [self getManualTaskList];
             self.taskList = [NSMutableArray array];
-            break;
+            break;*/
 	}
         /*
         printf("before exclude MustDo\n");
@@ -4387,7 +4387,7 @@ TaskManager *_sctmSingleton = nil;
 		[self doneRT:slTask];	
         
         //task.deadline = slTask.deadline;
-	} else if ([slTask isManual]) {
+	/*} else if ([slTask isManual]) {
         
         if ([slTask isRecurring]) {
             [self doneRepeatManualTask:slTask instance:task];
@@ -4425,7 +4425,7 @@ TaskManager *_sctmSingleton = nil;
         else
         {
             [self scheduleTasks];
-        }
+        }*/
     }
 	else if ([slTask isTask])
 	{
@@ -5153,9 +5153,9 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             title = _doneText;
             break;
-        case TASK_FILTER_PINNED:
+        /*case TASK_FILTER_PINNED:
             title = _pinnedText;
-            break;
+            break;*/
     }
     
     return title;

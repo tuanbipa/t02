@@ -408,7 +408,7 @@ BOOL _autoPushPending = NO;
     
     NSInteger pk = (task.original != nil && ![task isREException]?task.original.primaryKey:task.primaryKey);
     
-    BOOL calendarTask = ([task isTask] && task.original != nil) || [task isManual];
+    BOOL calendarTask = ([task isTask] && task.original != nil);
     
     contentView.actionType = calendarTask?ACTION_TASK_EDIT:([task isNote]?ACTION_NOTE_EDIT:ACTION_ITEM_EDIT);
     contentView.tag = pk;
@@ -882,7 +882,7 @@ BOOL _autoPushPending = NO;
     
     // check Manual task on title
     [taskCopy checkHasPinnedCharacterInTitle];
-    BOOL isManual = [task isManual];
+    //BOOL isManual = [task isManual];
     
     actionTask = task;
     actionTaskCopy = taskCopy;
@@ -939,10 +939,10 @@ BOOL _autoPushPending = NO;
         }
     }
     // refresh smartlist
-    if (isManual) {
+    /*if (isManual) {
         SmartListViewController *smartlistController = [self getSmartListViewController];
         [smartlistController refreshData];
-    }
+    }*/
     
     [self reconcileItem:task reSchedule:reSchedule];
     
@@ -1284,10 +1284,10 @@ BOOL _autoPushPending = NO;
     BOOL isRT = [task isRT];
     
     //[tm markDoneTask:task];
-    NSDate *startTime = nil;
+    /*NSDate *startTime = nil;
     if ([task isManual]) {
         startTime = [[task.startTime copy] autorelease];
-    }
+    }*/
     
     if ([task isDone])
     {
@@ -1298,12 +1298,12 @@ BOOL _autoPushPending = NO;
         [tm markDoneTask:task];
     }
     
-    if (startTime != nil) {
+    /*if (startTime != nil) {
         [calView refreshCellByDate:startTime];
         // refresh planner day cal
         PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
         [plannerDayCal refreshLayout];
-    }
+    }*/
     
     if (oldDeadline != nil)
     {
@@ -1415,7 +1415,7 @@ BOOL _autoPushPending = NO;
     NSDate *oldDue = [[task.deadline copy] autorelease];
     BOOL isRT = [task isRT]; //note: task original could be removed from task list so need to store this information instead of directly call the method after done
     
-    BOOL isManual = [task isManual]; // for refesh minimonth
+    //BOOL isManual = [task isManual]; // for refesh minimonth
     
     TaskManager *tm = [TaskManager getInstance];
     
@@ -1456,9 +1456,9 @@ BOOL _autoPushPending = NO;
         [view setNeedsDisplay];
     }
     
-    if (isManual) {
+    /*if (isManual) {
         [calView refresh];
-    }
+    }*/
     
     [task release];
 }

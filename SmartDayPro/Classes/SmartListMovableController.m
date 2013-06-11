@@ -48,7 +48,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     Task *task = view.task;
     
-    return ![task checkMustDo] && ![task isManual];
+    return ![task checkMustDo];// && ![task isManual];
 }
 
 -(void) beginMove:(MovableView *)view

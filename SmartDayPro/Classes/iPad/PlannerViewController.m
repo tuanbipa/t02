@@ -342,15 +342,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(void) createTaskOptionView
 {
-	//optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
-    optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
+	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+    //optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
-    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
+	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+    //optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -506,7 +506,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[optionView addSubview:doneButton];
     
     // scheduled filert
-    UIImageView *scheduledImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 235, 20, 20)];
+    /*UIImageView *scheduledImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 235, 20, 20)];
 	scheduledImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
 	[optionView addSubview:scheduledImageView];
 	[scheduledImageView release];
@@ -529,7 +529,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
                                 selectedStateImage:nil];
 	scheduledButton.titleLabel.font=[UIFont systemFontOfSize:18];
     scheduledButton.tag = TASK_FILTER_PINNED;
-	[optionView addSubview:scheduledButton];
+	[optionView addSubview:scheduledButton];*/
     // end scheduled filter
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
@@ -540,14 +540,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [menu release];
 }
 
-- (void)markDoneTaskInView: (TaskView *)view {
+/*- (void)markDoneTaskInView: (TaskView *)view {
     BOOL refreshDayCal = view.task.isManual;
     [super markDoneTaskInView: view];
     
     if (refreshDayCal) {
         [plannerBottomDayCal refreshLayout];
     }
-}
+}*/
 
 #pragma mark Views
 - (void) createTaskModuleHeader

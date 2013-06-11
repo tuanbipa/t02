@@ -1220,22 +1220,33 @@ static sqlite3_stmt *_top_task_statement = nil;
 
 - (NSMutableArray *) getItems: (NSInteger)type inPlan:(NSInteger)inPlan
 {
-    BOOL eventQuery = (type == TYPE_EVENT || type == TYPE_NOTE);
+    BOOL eventQuery = (type == TYPE_EVENT || type == TASK_FILTER_PINNED);
     
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
 	
-	const char *sql = (eventQuery?
+	/*const char *sql = (eventQuery?
                        "SELECT Task_ID FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND (Task_Type = ? OR Task_Type = ?) AND Task_ExtraStatus != ? AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC"
-                       :"SELECT Task_ID FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND ((Task_Type = ? AND Task_Type = ?) OR Task_ExtraStatus == ?) AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC");
+                       :"SELECT Task_ID FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND ((Task_Type = ? AND Task_Type = ?) OR Task_ExtraStatus == ?) AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC");*/
+    
+    NSString *string = nil;
+    if (eventQuery) {
+        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_MANUAL] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_MANUAL];
+        
+        string = [NSString stringWithFormat:@"SELECT Task_ID FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND (Task_Type = %d OR Task_Type = %d) AND Task_ProjectID = %d AND %@ ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, TYPE_EVENT, TYPE_ADE, inPlan, exstraParam];
+    } else {
+        string = [NSString stringWithFormat:@"SELECT Task_ID FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND Task_Type = %d AND Task_ProjectID = %d ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, type, inPlan];
+    }
+    const char *sql = [string cStringUsingEncoding:NSASCIIStringEncoding];
+    
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
-		sqlite3_bind_int(statement, 1, TASK_STATUS_DONE);
+		/*sqlite3_bind_int(statement, 1, TASK_STATUS_DONE);
 		sqlite3_bind_int(statement, 2, TASK_STATUS_DELETED);
 		sqlite3_bind_int(statement, 3, type);
         sqlite3_bind_int(statement, 4, type==TYPE_EVENT?TYPE_ADE:type);
         sqlite3_bind_int(statement, 5, TASK_EXTRA_STATUS_MANUAL);
-        sqlite3_bind_int(statement, 6, inPlan);
+        sqlite3_bind_int(statement, 6, inPlan);*/
         
         /*if (eventQuery)
         {
