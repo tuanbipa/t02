@@ -173,34 +173,43 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     
-    NSDate *dDate = nil;
+    //NSDate *dDate = nil;
     NSDate *deadline = task.deadline;
+    
+    Settings *settings = [Settings getInstance];
     
     if (deadline != nil)
     {
-        dDate = [[deadline copy] autorelease];
+        //dDate = [[deadline copy] autorelease];
+        deadline = [settings getWorkingEndTimeForDate:calDate];
         
-        deadline = [[Settings getInstance] getWorkingEndTimeForDate:calDate];
+        if (task.startTime != nil)
+        {
+            NSTimeInterval diff = [task.deadline timeIntervalSinceDate:task.startTime];
+            
+            task.startTime = [settings getWorkingStartTimeForDate:[deadline dateByAddingTimeInterval:-diff]];
+        }
     }
     else 
     {
-        deadline = [[Settings getInstance] getWorkingEndTimeForDate:calDate];
+        deadline = [settings getWorkingEndTimeForDate:calDate];
     }
     
     task.deadline = deadline;
     
-    [task updateDeadlineIntoDB:[dbm getDatabase]];
+    [task updateTimeIntoDB:[dbm getDatabase]];
     
+    /*
     if (dDate != nil)
     {
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:dDate];
     }
     
-    [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];
+    [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];*/
     
     [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
-    [_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
+    [_abstractViewCtrler reconcileItem:task reSchedule:YES]; //refresh Category module
     
 }
 
@@ -214,6 +223,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     [[TaskManager getInstance] moveTime:[Common copyTimeFromDate:oldDate toDate:calDate] forEvent:task];
     
+    /*
     if ([task isADE])
     {
         [_abstractViewCtrler.miniMonthView refresh]; 
@@ -222,7 +232,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     {
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:oldDate];
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];
-    }
+    }*/
     
     [_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
 }

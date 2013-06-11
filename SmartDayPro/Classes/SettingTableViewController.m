@@ -857,6 +857,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	self.settingCopy.deleteWarning = (segmentedStyleControl.selectedSegmentIndex == 0);	
 }
 
+- (void) enableSound: (id) sender
+{
+	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
+	
+	self.settingCopy.soundEnable = (segmentedStyleControl.selectedSegmentIndex == 0);
+}
+
 - (void) changeDoneWarning: (id) sender
 {
 	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
@@ -1654,6 +1661,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[segmentedStyleControl release];		
 }
 
+- (void) createSoundEnabledCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.textLabel.text = _soundEnabledText;
+	
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	[segmentedStyleControl addTarget:self action:@selector(enableSound:) forControlEvents:UIControlEventValueChanged];
+	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+	segmentedStyleControl.selectedSegmentIndex = (self.settingCopy.soundEnable?0:1);
+	segmentedStyleControl.tag = baseTag;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];
+}
+
 - (void) createTabBarAutoHideCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _tabBarAutoHideText;
@@ -2191,12 +2214,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
 					break;
 				case 6:
 				{
-                    [self createTabBarAutoHideCell:cell baseTag:11060];
+                    [self createSoundEnabledCell:cell baseTag:11060];
 				}
 					break;
 				case 7:
 				{
-                    [self createDeleteSuspectedDuplicationCell:cell baseTag:11070];
+                    [self createTabBarAutoHideCell:cell baseTag:11070];
+				}
+					break;
+				case 8:
+				{
+                    [self createDeleteSuspectedDuplicationCell:cell baseTag:11080];
 				}
 					break;
 			}

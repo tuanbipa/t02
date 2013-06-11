@@ -138,6 +138,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	self.setting.deleteWarning = (segmentedStyleControl.selectedSegmentIndex == 0);
 }
 
+- (void) enableSound:(id)sender
+{
+	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
+	
+	self.setting.soundEnable = (segmentedStyleControl.selectedSegmentIndex == 0);
+}
+
 - (void) deleteSuspectedDuplication:(id) sender
 {
     [[DBManager getInstance] deleteSuspectedDuplication];
@@ -266,6 +273,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[segmentedStyleControl release];
 }
 
+- (void) createSoundEnabledCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.textLabel.text = _soundEnabledText;
+	
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	[segmentedStyleControl addTarget:self action:@selector(enableSound:) forControlEvents:UIControlEventValueChanged];
+	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+	segmentedStyleControl.selectedSegmentIndex = (self.setting.soundEnable?0:1);
+	segmentedStyleControl.tag = baseTag;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];
+}
+
 - (void) createDeleteSuspectedDuplicationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _deleteSyncDuplicationText;
@@ -292,7 +315,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+    return 7;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -355,7 +378,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
             break;
         case 5:
         {
-            [self createDeleteSuspectedDuplicationCell:cell baseTag:10050];
+            [self createSoundEnabledCell:cell baseTag:10050];
+        }
+            break;
+        case 6:
+        {
+            [self createDeleteSuspectedDuplicationCell:cell baseTag:10060];
         }
             break;
     }

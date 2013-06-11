@@ -62,7 +62,7 @@ AlertManager *_alarmSingleton = nil;
 {
 	[self cancelAlert:alertKey];
 	
-	//////printf("notify %s at time %s\n", [info UTF8String], [[time description] UTF8String]);
+	printf("notify %s at time %s\n", [info UTF8String], [[time description] UTF8String]);
 	
 	UILocalNotification *notif = [[UILocalNotification alloc] init];
 	notif.fireDate = time;
