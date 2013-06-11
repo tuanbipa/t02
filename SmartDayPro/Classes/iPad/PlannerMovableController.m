@@ -231,6 +231,8 @@ extern PlannerViewController *_plannerViewCtrler;
     
     NSDate *calDate = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
     
+    Settings *settings = [Settings getInstance];
+    
     NSDate *dDate = nil;
     NSDate *deadline = task.deadline;
     
@@ -238,7 +240,14 @@ extern PlannerViewController *_plannerViewCtrler;
     {
         dDate = [[deadline copy] autorelease];
         
-        deadline = [[Settings getInstance] getWorkingEndTimeForDate:calDate];
+        deadline = [settings getWorkingEndTimeForDate:calDate];
+        
+        if (task.startTime != nil)
+        {
+            NSTimeInterval diff = [task.deadline timeIntervalSinceDate:task.startTime];
+            
+            task.startTime = [settings getWorkingStartTimeForDate:[deadline dateByAddingTimeInterval:-diff]];
+        }
     }
     else
     {
@@ -247,7 +256,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     task.deadline = deadline;
     
-    [task updateDeadlineIntoDB:[dbm getDatabase]];
+    [task updateTimeIntoDB:[dbm getDatabase]];
     
     [_plannerViewCtrler.plannerView.monthView refreshCellByDate:calDate];
     if (dDate != nil && [Common compareDateNoTime:dDate withDate:calDate] != NSOrderedSame) {

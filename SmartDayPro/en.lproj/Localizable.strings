@@ -687,3 +687,5 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 
 "_timeZoneSupport" = "TimeZone Support";
 "_timeZone" = "TimeZone";
+
+"_soundEnabledText" = "Sound Enabled";

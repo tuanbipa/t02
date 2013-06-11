@@ -1830,7 +1830,14 @@ SmartListViewController *_smartListViewCtrler;
     //quickAddEditBarView.hidden = NO;
     maskView.hidden = NO;
     
-    [_abstractViewCtrler hideDropDownMenu];
+    if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler hideDropDownMenu];
+    }
+    else
+    {
+        [_abstractViewCtrler hideDropDownMenu];
+    }
     
 	return YES;
 }

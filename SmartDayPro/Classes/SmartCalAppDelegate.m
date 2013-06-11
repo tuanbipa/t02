@@ -406,6 +406,7 @@ BOOL _fromBackground = NO;
                 continue;
             }
             else*/
+            if (alertView.tag != -50000 && alertView.tag != -50001)
             {
                 [alertView dismissWithClickedButtonIndex:-1 animated:NO];
             }
@@ -643,8 +644,8 @@ BOOL _fromBackground = NO;
                                                          cancelButtonTitle:_okText
                                                          otherButtonTitles:_snooze, nil];
 
-        [self.alertDict setObject:notification forKey:notification];
-        alertView.tag = notification;
+        [self.alertDict setObject:notification forKey:[NSNumber numberWithInt:-50001]];
+        alertView.tag = -50001;
         
         [alertView show];
         [alertView release];
@@ -837,8 +838,8 @@ BOOL _fromBackground = NO;
 												  otherButtonTitles:nil];
 		
 		//[url retain];
-        [self.alertDict setObject:url forKey:url];
-		importAlert.tag = url;
+        [self.alertDict setObject:url forKey:[NSNumber numberWithInt:-50000]];
+		importAlert.tag = -50000;
 		
 		[importAlert addButtonWithTitle:@"Ok"];
 		[importAlert show];
@@ -888,7 +889,9 @@ BOOL _fromBackground = NO;
 	}*/
     else if (buttonIndex >= 0)
     {
-        NSObject *obj = [self.alertDict objectForKey:alertView.tag];
+        NSNumber *key = [NSNumber numberWithInt:alertView.tag];
+        
+        NSObject *obj = [self.alertDict objectForKey:key];
         
         BOOL remove = YES;
         
@@ -931,7 +934,7 @@ BOOL _fromBackground = NO;
          
             if (remove)
             {
-                [self.alertDict removeObjectForKey:alertView.tag];
+                [self.alertDict removeObjectForKey:key];
             }
         }
     }

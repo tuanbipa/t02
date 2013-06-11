@@ -479,6 +479,7 @@ extern BOOL _isiPad;
 	copy.minimumSplitSize = minimumSplitSize;
     copy.mustDoDays = mustDoDays;
     copy.hideFutureTasks = hideFutureTasks;
+    copy.soundEnable = soundEnable;
 	
 	copy.weekdayStartTime = weekdayStartTime;
 	copy.weekdayEndTime = weekdayEndTime;
@@ -555,6 +556,7 @@ extern BOOL _isiPad;
 	self.minimumSplitSize = settings.minimumSplitSize;
     self.mustDoDays = settings.mustDoDays;
     self.hideFutureTasks = settings.hideFutureTasks;
+    self.soundEnable = settings.soundEnable;
 	
 	self.weekdayStartTime = settings.weekdayStartTime;
 	self.weekdayEndTime = settings.weekdayEndTime;
@@ -716,12 +718,19 @@ extern BOOL _isiPad;
 		{
 			self.eventCombination = [eventCombinationSetting intValue];
 		}
-        
+
 		NSNumber *hideFutureTasksSetting = [self.settingDict objectForKey:@"HideFutureTasks"];
 		
 		if (hideFutureTasksSetting != nil)
 		{
 			self.hideFutureTasks = [hideFutureTasksSetting boolValue];
+		}
+        
+		NSNumber *soundEnabledSetting = [self.settingDict objectForKey:@"SoundEnabled"];
+		
+		if (soundEnabledSetting != nil)
+		{
+			self.soundEnable = [soundEnabledSetting boolValue];
 		}
         
 		NSNumber *minimumSplitSizeSetting = [self.settingDict objectForKey:@"MinimumSplitSize"];
@@ -1446,6 +1455,9 @@ extern BOOL _isiPad;
     
 	NSNumber *hideFutureTasksSetting = [NSNumber numberWithBool:self.hideFutureTasks];
 	[settingDict setValue:hideFutureTasksSetting forKey:@"HideFutureTasks"];
+
+	NSNumber *soundEnabledSetting = [NSNumber numberWithBool:self.soundEnable];
+	[settingDict setValue:soundEnabledSetting forKey:@"SoundEnabled"];
 	
 	[settingDict setValue:self.weekdayStartTime forKey:@"WeekdayStartTime"];
 	[settingDict setValue:self.weekdayEndTime forKey:@"WeekdayEndTime"];

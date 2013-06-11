@@ -32,6 +32,7 @@
 //@property (nonatomic, retain) UIPopoverController *popoverCtrler;
 
 - (void) editItem:(Task *)item inView:(UIView *)inView;
+- (void) hideDropDownMenu;
 - (void) hidePopover;
 - (void) refreshTaskFilterTitle;
 - (void)showYearView: (UIView *) view;
