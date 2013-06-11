@@ -103,6 +103,7 @@ extern BOOL _isiPad;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
+    [anchorLabel release];
     [titleTextView release];
     
 	self.task = nil;
@@ -139,7 +140,12 @@ extern BOOL _isiPad;
 	self.view = contentView;
 	[contentView release];
     
-	titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(0, 0, 300-30, 30)];
+    // lable anchor
+    anchorLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 0, 16, 30)];
+    anchorLabel.text = ANCHOR_CHARACTER;
+    anchorLabel.font = [UIFont systemFontOfSize:15.0f];
+    
+	titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(20, 0, 300-50, 30)];
     //titleTextView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
     titleTextView.placeholder = _titleGuideText;
     
@@ -203,7 +209,10 @@ extern BOOL _isiPad;
 	
     showMore = NO;
     deadlineEnabled = self.taskCopy.deadline != nil;
-    titleTextView.text = self.taskCopy.name;
+    //titleTextView.text = self.taskCopy.name;
+    // split anchor
+    titleTextView.text = [self.taskCopy titleWithoutAnchor];
+    
     
 	selectedDurationButton = nil;
 	selectedDeadlineButton = nil;
@@ -918,6 +927,10 @@ extern BOOL _isiPad;
 #pragma mark Task Cell Creation
 - (void) createTitleCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
+    // anchor label
+    [cell.contentView addSubview:anchorLabel];
+    anchorLabel.hidden = !([taskCopy isManual] && [taskCopy isEvent]);
+    
 	//task title
     titleTextView.text = self.taskCopy.name;
     [cell.contentView addSubview:titleTextView];

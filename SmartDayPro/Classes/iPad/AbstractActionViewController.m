@@ -871,7 +871,8 @@ BOOL _autoPushPending = NO;
     TaskManager *tm = [TaskManager getInstance];
     
     // check Manual task on title
-    [taskCopy checkHasPinnedCharacterInTitle];
+    //[taskCopy checkHasPinnedCharacterInTitle];
+    [taskCopy addAnchorInTitle];
     //BOOL isManual = [task isManual];
     
     actionTask = task;

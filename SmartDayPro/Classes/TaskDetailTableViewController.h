@@ -16,6 +16,7 @@
 	UITableView *taskTableView;
 	UITableView *historyTableView;
 	
+    UILabel *anchorLabel;
 	//UITextField *taskTitleTextField;
     HPGrowingTextView *titleTextView;
     //UITextField *taskLocation;

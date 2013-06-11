@@ -2094,21 +2094,30 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void) setManual:(BOOL)enabled
 {
-    NSString *specialStr=@"\U00002693";
     
     if (enabled)
     {
         self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
         
         // add prefix in name
-        self.name = [specialStr stringByAppendingString:self.name];
+        //self.name = [specialStr stringByAppendingString:self.name];
+        
+        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
+        if (range.location == NSNotFound) {
+            self.name = [ANCHOR_CHARACTER stringByAppendingString:self.name];
+        }
     }
     else
     {
         self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
         
         // remove prefix if exist
-        self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
+        //self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
+        
+        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
+        if (range.location != NSNotFound) {
+            self.name = [self.name stringByReplacingCharactersInRange:range withString:@""];
+        }
     }
 }
 
@@ -2197,22 +2206,43 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 #pragma mark Properties
 
-- (void)setType:(NSInteger)_type {
+/*- (void)setType:(NSInteger)_type {
     if ([self isEvent] && [self isManual] && _type != TYPE_EVENT) {
-        NSString *specialStr=@"\U00002693";
+        NSString *specialStr=ANCHOR_CHARACTER;
         self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
         
         self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
     }
     type = _type;
-}
+}*/
 
 - (void)checkHasPinnedCharacterInTitle{
-    NSRange range = [self.name rangeOfString:@"\U00002693"];
+    NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
     if (range.location == NSNotFound) {
         self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
     } else {
         self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+    }
+}
+
+- (NSString *)titleWithoutAnchor {
+    if ([self isManual]) {
+        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
+        if (range.location != NSNotFound) {
+            return [self.name substringFromIndex:range.location + range.length];
+        }
+    }
+    return self.name;
+}
+
+- (void)addAnchorInTitle {
+    if ([self isManual] && [self isEvent]) {
+        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
+        if (range.location == NSNotFound) {
+            self.name = [ANCHOR_CHARACTER stringByAppendingString:self.name];
+        }
+    } else {
+        [self setManual:NO];
     }
 }
 @end

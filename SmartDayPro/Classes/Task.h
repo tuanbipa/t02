@@ -216,4 +216,6 @@
 
 #pragma mark Properties
 - (void)checkHasPinnedCharacterInTitle;
+- (NSString *)titleWithoutAnchor;
+- (void)addAnchorInTitle;
 @end
