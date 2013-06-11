@@ -503,7 +503,6 @@ typedef struct
 + (NSDate *)copyTimeFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 + (NSDate *)clearTimeForDate:(NSDate *)date;
 + (NSDate *)getEndDate:(NSDate *)date;
-+ (NSInteger) getSecondsFromTimeZoneID:(NSInteger)tzID;
 + (NSDate *)dateNoDST:(NSDate *)date;
 + (NSDate *)toDBDate:(NSDate *)localDate;
 + (NSDate *)fromDBDate:(NSDate *)dbDate;
@@ -551,6 +550,8 @@ typedef struct
 + (NSString *) getNoteTitle:(NSString *)content;
 + (NSString *) toTime12String:(NSString *)time24String;
 + (NSString *)convertWorkingTimeString:(NSString *)time24String;
++ (NSInteger) getSecondsFromTimeZoneID:(NSInteger)tzID;
++ (NSInteger) createTimeZoneIDByOffset:(NSInteger) offset;
 + (CGSize) getTimeSize: (CGFloat) size;
 + (CGSize) getScreenSize;
 + (CGRect) getFrame;

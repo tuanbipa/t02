@@ -340,7 +340,7 @@
     NSInteger tzId = self.taskCopy.timeZoneId;
 
     /*NSString *details[3] = {[self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.startTime]:[Common getFullDateTimeString:self.taskCopy.startTime],[self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.endTime]:[Common getFullDateTimeString:self.taskCopy.endTime],tzId == -1?@"None":[Settings getTimeZoneDisplayNameByID:tzId]};*/
-    NSString *details[3] = {[self.taskCopy getDisplayStartTime],[self.taskCopy getDisplayEndTime],tzId == -1?@"None":[Settings getTimeZoneDisplayNameByID:tzId]};
+    NSString *details[3] = {[self.taskCopy getDisplayStartTime],[self.taskCopy getDisplayEndTime],[Settings getTimeZoneDisplayNameByID:tzId]};
     
     cell.detailTextLabel.text = details[indexPath.row];
     

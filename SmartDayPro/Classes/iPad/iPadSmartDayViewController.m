@@ -226,7 +226,7 @@ iPadViewController *_iPadViewCtrler;
 			break;
 		case TASK_FILTER_DUE:
 		{
-			task.deadline = [NSDate date];
+			task.deadline = [settings getWorkingEndTimeForDate:tm.today];
 		}
 			break;
 	}
@@ -523,7 +523,7 @@ iPadViewController *_iPadViewCtrler;
                     break;
                 case TASK_FILTER_DUE:
                 {
-                    task.deadline = [NSDate date];
+                    task.deadline = [settings getWorkingEndTimeForDate:tm.today];
                 }
                     break;
             }

@@ -208,6 +208,7 @@ BOOL _autoPushPending = NO;
     
     activeView = nil;
     
+    /*
     PageAbstractViewController *ctrlers[4] = {
         [self getCalendarViewController],
         [self getSmartListViewController],
@@ -220,7 +221,9 @@ BOOL _autoPushPending = NO;
         PageAbstractViewController *ctrler = ctrlers[i];
         
         [ctrler deselect];
-    }
+    }*/
+    
+    [[self getCalendarViewController] deselect]; //remove outline if event is resized
 }
 
 - (Task *) getActiveTask
@@ -855,19 +858,6 @@ BOOL _autoPushPending = NO;
         [focusView reconcileItem:item];
     }
     
-    /*
-    //if ([item isADE]) -> need to update when convert from ADE -> Event also
-    {
-        AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-        
-        [calView refreshADEView];
-        [[self getCalendarViewController] refreshADEPane];
-        
-        AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
-        
-        [plannerCalView refreshADEView];
-    }*/
-    
     AbstractMonthCalendarView *calView = [self getMonthCalendarView];
     AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
 
@@ -886,13 +876,6 @@ BOOL _autoPushPending = NO;
     
     actionTask = task;
     actionTaskCopy = taskCopy;
-    
-    //NSDate *dDate = [[(task.original != nil?task.original.deadline:task.deadline) copy] autorelease];
-    //NSDate *sDate = [[(task.original != nil?task.original.startTime:task.startTime) copy] autorelease];
-    
-    //BOOL isADE = ([task isADE] || [task.original isADE] || [taskCopy isADE]);
-    
-    //BOOL reChange = [task isRE] || [task.original isRE] || [taskCopy isRE];
     
     BOOL reSchedule = NO;
     
@@ -945,48 +928,7 @@ BOOL _autoPushPending = NO;
     }*/
     
     [self reconcileItem:task reSchedule:reSchedule];
-    
-    /*
-    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    
-    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
-    
-    //if (calView != nil)
-    {
-        if (sDate != nil)
-        {
-            //refresh Calendar cell when convert Task -> Event
-            [calView refreshCellByDate:sDate];
-            [plannerCalView refreshCellByDate:sDate];
-        }
         
-        if (dDate != nil)
-        {
-            [calView refreshCellByDate:dDate];
-            [plannerCalView refreshCellByDate:dDate];
-        }
-        
-        if (reChange)
-        {
-            [calView refresh];
-            [plannerCalView refresh];
-        }
-        else if ([taskCopy isTask])
-        {
-            if (taskCopy.deadline != nil)
-            {
-                [calView refreshCellByDate:taskCopy.deadline];
-                [plannerCalView refreshCellByDate:taskCopy.deadline];
-            }
-        }
-        else
-        {
-            [calView refreshCellByDate:taskCopy.startTime];
-            [plannerCalView refreshCellByDate:taskCopy.startTime];
-        }
-    }
-    */
-    
     [self deselect];
 }
 
@@ -1020,12 +962,10 @@ BOOL _autoPushPending = NO;
     TaskManager *tm = [TaskManager getInstance];
     
     Task *task = [self getActiveTask];
-    
-    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    
-    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
-    
+    Task *rootRE = [tm findREByKey:task.primaryKey];
+        
     [task retain];
+    [rootRE retain];
     
     [self deselect];
     
@@ -1040,8 +980,6 @@ BOOL _autoPushPending = NO;
     {
         self.task2Link = nil;
     }
-    
-    Task *rootRE = [tm findREByKey:task.primaryKey];
     
     if (rootRE != nil)
     {
@@ -1049,26 +987,20 @@ BOOL _autoPushPending = NO;
         instance.original = rootRE;
         
         [tm deleteREInstance:instance deleteOption:2];
-        
-        /*
-        [calView refresh];
-        
-        [plannerCalView refresh];*/
 
         [self reconcileItem:task reSchedule:YES];
     }
     
     [task release];
+    [rootRE release];
 }
 
 -(void) deleteRE:(NSInteger)deleteOption
 {
     Task *task = [self getActiveTask];
-    
-    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    
-    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
-    
+
+    [task retain];
+        
     NSInteger pk = task.primaryKey;
     
     if (task.original != nil && ![task isREException])
@@ -1081,20 +1013,13 @@ BOOL _autoPushPending = NO;
         self.task2Link = nil;
     }
     
-    [task retain];
-    
     [self deselect];
 	
 	[[TaskManager getInstance] deleteREInstance:task deleteOption:deleteOption];
     
-    /*
-    [calView refresh];
+    //CalendarViewController *calCtrler = [self getCalendarViewController];
     
-    [plannerCalView refresh];*/
-    
-    CalendarViewController *calCtrler = [self getCalendarViewController];
-    
-    [calCtrler refreshView];
+    //[calCtrler refreshView];
     
     [self reconcileItem:task reSchedule:YES];
     
@@ -1106,8 +1031,8 @@ BOOL _autoPushPending = NO;
     TaskManager *tm = [TaskManager getInstance];
     
     Task *task = [self getActiveTask];
-    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+
+    [task retain];
     
     NSInteger pk = task.primaryKey;
     
@@ -1120,68 +1045,14 @@ BOOL _autoPushPending = NO;
     {
         self.task2Link = nil;
     }
-    
-    /*
-    if ([task isNote])
-    {
-        [tm deleteTask:task];
-    }
-    else
-    {
-        //note: task original could be removed from task list so need to store neccessary information instead of directly call methods on the task after done
-        
-        BOOL isRE = [task isRE];
-        NSInteger type = task.type;
-        NSDate *start = [[task.startTime copy] autorelease];
-        NSDate *deadline = [[task.deadline copy] autorelease];
-        
-        [tm deleteTask:task];
-        
-        
-        if (isRE)
-        {
-            [calView refresh];
-        }
 
-        if (type == TYPE_TASK)
-        {
-            if (start != nil)
-            {
-                [calView refreshCellByDate:start];
-                [plannerCalView refreshCellByDate:start];
-            }
-            
-            if (deadline != nil)
-            {
-                [calView refreshCellByDate:deadline];
-                [plannerCalView refreshCellByDate:deadline];
-                
-                if ([Common daysBetween:deadline sinceDate:tm.today] <= 0)
-                {
-                    [[self getFocusView] refreshData];
-                }
-            }
-        }
-        else if (type == TYPE_EVENT)
-        {
-            [calView refreshCellByDate:start];
-            [plannerCalView refreshCellByDate:start];
-        }
-        else if (type == TYPE_ADE)
-        {
-            if ([TaskManager checkTaskInTimeRange:task startTime:[Common clearTimeForDate:tm.today] endTime:[Common getEndDate:tm.today]])
-            {
-                [[self getFocusView] refreshData];
-            }
-        }
-
-    }
-    */
     [tm deleteTask:task];
     
     [self reconcileItem:task reSchedule:YES];
     
     [self deselect];
+    
+    [task release];
 }
 
 - (void) deleteTask
@@ -1353,6 +1224,7 @@ BOOL _autoPushPending = NO;
 -(void) createTaskFromNote:(Task *)fromNote
 {
     TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
     
     Task *note = fromNote != nil?fromNote:[self getActiveTask];
@@ -1365,6 +1237,8 @@ BOOL _autoPushPending = NO;
         
         Task *task = [[Task alloc] init];
         
+        task.startTime = [settings getWorkingStartTimeForDate:tm.today];
+        
         switch (tm.taskTypeFilter)
         {
             case TASK_FILTER_STAR:
@@ -1374,7 +1248,7 @@ BOOL _autoPushPending = NO;
                 break;
             case TASK_FILTER_DUE:
             {
-                task.deadline = [NSDate date];
+                task.deadline = [settings getWorkingEndTimeForDate:tm.today];
             }
                 break;
         }
@@ -1666,7 +1540,7 @@ BOOL _autoPushPending = NO;
 			break;
 		case TASK_FILTER_DUE:
 		{
-			task.deadline = [NSDate date];
+			task.deadline = [settings getWorkingEndTimeForDate:tm.today];
 		}
 			break;
 	}

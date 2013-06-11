@@ -1213,6 +1213,7 @@ SmartListViewController *_smartListViewCtrler;
 - (void) quickEdit:(id)sender
 {
 	TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
 	
 	//TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
 	
@@ -1221,7 +1222,7 @@ SmartListViewController *_smartListViewCtrler;
 	task.name = quickAddTextField.text;
 	task.duration = tm.lastTaskDuration;
 	task.project = tm.lastTaskProjectKey;
-	//task.tag = [[ProjectManager getInstance] getProjectTagByKey:task.project];
+	task.startTime = [settings getWorkingStartTimeForDate:tm.today];
 	
 	switch (tm.taskTypeFilter) 
 	{
@@ -1232,10 +1233,10 @@ SmartListViewController *_smartListViewCtrler;
 			break;
 		case TASK_FILTER_DUE:
 		{
-			task.deadline = [NSDate date];
+			task.deadline = [settings getWorkingEndTimeForDate:tm.today];
 		}
 			break;
-	}	
+	}
 	
     quickAddTextField.text = @"";
     [quickAddTextField resignFirstResponder];

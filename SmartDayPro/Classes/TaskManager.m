@@ -3801,6 +3801,8 @@ TaskManager *_sctmSingleton = nil;
     
     Task *rootRE = instance.original;
     
+    [rootRE retain];
+    
 	[self removeEvent:rootRE];
 	
 	switch (deleteOption) 
@@ -3867,34 +3869,6 @@ TaskManager *_sctmSingleton = nil;
                 //[self removeEvent:rootRE];
                 [self removeExceptions4RE:rootRE];
                 
-                /*
-                NSMutableArray *excList = [NSMutableArray arrayWithCapacity:rootRE.exceptions.count];
-                
-                NSEnumerator *excEnum = [rootRE.exceptions objectEnumerator];
-                
-                Task *exc;
-                
-                while ((exc = [excEnum nextObject]) != nil)
-                {
-                    if (exc.type != TYPE_RE_DELETED_EXCEPTION)
-                    {
-                        [excList addObject:exc];
-                    }
-                }
-                
-                for (Task *exc in excList)
-                {
-                    if ([Common compareDate:exc.startTime withDate:instance.startTime] == NSOrderedAscending)
-                    {
-                        exc.repeatData = nil;
-                        exc.groupKey = -1;
-                        [exc updateIntoDB:[dbm getDatabase]];
-                        
-                        [self populateEvent:exc];                        
-                    }
-                }
-                */
-                
                 NSMutableArray *excList = [dbm getExceptionsForRE:rootRE.primaryKey];
                 
                 for (Task *exc in excList)
@@ -3925,6 +3899,8 @@ TaskManager *_sctmSingleton = nil;
 		}
 			break;
 	}
+    
+    [rootRE release];
 	
 	[self scheduleTasks];
 	

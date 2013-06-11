@@ -10,6 +10,7 @@
 #import "PlannerViewController.h"
 
 #import "Common.h"
+#import "Settings.h"
 #import "Task.h"
 
 #import "TaskManager.h"
@@ -225,6 +226,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     Task *task = [[[Task alloc] init] autorelease];
     
     TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
+    
+    task.startTime = [settings getWorkingStartTimeForDate:tm.today];
     
 	switch (tm.taskTypeFilter)
 	{
@@ -235,7 +239,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			break;
 		case TASK_FILTER_DUE:
 		{
-			task.deadline = [NSDate date];
+			task.deadline = [settings getWorkingEndTimeForDate:tm.today];
 		}
 			break;
 	}    

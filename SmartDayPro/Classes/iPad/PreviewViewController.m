@@ -186,11 +186,12 @@ PreviewViewController *_previewCtrler;
 {
     DBManager *dbm = [DBManager getInstance];
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    TaskManager *tm = [TaskManager getInstance];
     
     Task *note = [[Task alloc] init];
     
     note.type = TYPE_NOTE;
-    note.startTime = [NSDate date];
+    note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
     note.note = text;
     note.name = [Common getNoteTitle:text];
     

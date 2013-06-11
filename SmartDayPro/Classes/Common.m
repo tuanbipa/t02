@@ -783,6 +783,32 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return tzID>0?ret:-ret;
 }
 
++ (NSInteger) createTimeZoneIDByOffset:(NSInteger) offset
+{
+    NSInteger hour = abs(offset)/3600;
+    
+    NSInteger minute = ((abs(offset)-hour*3600))/60;
+    
+    NSInteger mod = minute;
+    
+    switch (minute)
+    {
+        case 15:
+            mod = 1;
+            break;
+        case 30:
+            mod = 2;
+            break;
+        case 45:
+            mod = 3;
+            break;
+    }
+    
+    NSInteger tzId = hour*8 + mod;
+    
+    return offset<0?-tzId:tzId;
+}
+
 + (NSDate *)toDBDate:(NSDate *)localDate
 {
 	NSInteger dstOffset = [[NSTimeZone defaultTimeZone] daylightSavingTimeOffset] - [[NSTimeZone defaultTimeZone] daylightSavingTimeOffsetForDate:localDate];

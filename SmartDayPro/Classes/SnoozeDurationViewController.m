@@ -89,7 +89,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return 5;
 }
 
 // Customize the appearance of table view cells.
@@ -101,7 +101,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    NSInteger durations[7] = {5*60, 10*60, 15*60, 30*60, 60*60, 120*60, 180*60};
+    NSInteger durations[5] = {5*60, 10*60, 15*60, 30*60, 60*60};
     
     NSInteger duration = durations[indexPath.row];
     
@@ -119,7 +119,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger durations[7] = {5*60, 10*60, 15*60, 30*60, 60*60, 120*60, 180*60};
+    NSInteger durations[5] = {5*60, 10*60, 15*60, 30*60, 60*60};
     
     if (selectedIndex >= 0)
     {
