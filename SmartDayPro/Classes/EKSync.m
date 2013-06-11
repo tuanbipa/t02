@@ -242,6 +242,13 @@ extern BOOL _syncMatchHintShown;
     if (ekEvent.timeZone != nil)
     {
         scEvent.timeZoneId = [Settings findTimeZoneIDByDisplayName:ekEvent.timeZone.name];
+        
+        printf("timezone id: %d - map for event tz name: %s\n", scEvent.timeZoneId, [ekEvent.timeZone.name UTF8String]);
+        
+        if (scEvent.timeZoneId == -1)
+        {
+            scEvent.timeZoneId = [Common createTimeZoneIDByOffset:ekEvent.timeZone.secondsFromGMT];            
+        }
     }
     else
     {
@@ -328,9 +335,27 @@ extern BOOL _syncMatchHintShown;
 	ekEvent.notes = scEvent.note;
 	ekEvent.startDate = scEvent.startTime;//[scEvent.startTime dateByAddingTimeInterval:secs];
 	ekEvent.endDate = scEvent.endTime;//[scEvent.endTime dateByAddingTimeInterval:secs];
-
-    ekEvent.timeZone = scEvent.timeZoneId==0?nil:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId]];
+    
+    //ekEvent.timeZone = scEvent.timeZoneId==0?nil:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId]];
+    
+    if (scEvent.timeZoneId == 0)
+    {
+        ekEvent.timeZone = nil;
+    }
+    else
+    {
+        NSString *tzName = [Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId];
         
+        if ([tzName isEqualToString:@"Unknown"])
+        {
+            ekEvent.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:scEvent.timeZoneId]];
+        }
+        else
+        {
+            ekEvent.timeZone = [NSTimeZone timeZoneWithName:tzName];
+        }
+    }
+
 	if ([scEvent isADE])
 	{
 		ekEvent.allDay = YES;

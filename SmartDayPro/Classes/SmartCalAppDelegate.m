@@ -163,6 +163,8 @@ BOOL _fromBackground = NO;
         }
         else
         {
+            printf("%s map to %s\n", [s UTF8String], [zone UTF8String]);
+            
             [zones removeObject:zone];
         }
     }
@@ -453,7 +455,7 @@ BOOL _fromBackground = NO;
     
     [TaskManager startup];
     
-    [self testZone];
+    //[self testZone];
 	
     //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
