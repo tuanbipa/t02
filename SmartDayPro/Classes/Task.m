@@ -2094,7 +2094,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void) setManual:(BOOL)enabled
 {
-    NSString *specialStr=@"\U0001F4CC";
+    NSString *specialStr=@"\U00002693";
     
     if (enabled)
     {
@@ -2199,7 +2199,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void)setType:(NSInteger)_type {
     if ([self isEvent] && [self isManual] && _type != TYPE_EVENT) {
-        NSString *specialStr=@"\U0001F4CC";
+        NSString *specialStr=@"\U00002693";
         self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
         
         self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
@@ -2208,7 +2208,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 }
 
 - (void)checkHasPinnedCharacterInTitle{
-    NSRange range = [self.name rangeOfString:@"\U0001F4CC"];
+    NSRange range = [self.name rangeOfString:@"\U00002693"];
     if (range.location == NSNotFound) {
         self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
     } else {
