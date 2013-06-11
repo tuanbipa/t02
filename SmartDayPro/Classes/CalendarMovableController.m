@@ -184,7 +184,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
             }
             else 
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoEventConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+                NSString *mss = [task isManual] ? _convertATaskIntoTaskConfirmation : _convertIntoEventConfirmation;
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
                 
                 alertView.tag = -11000;
                 

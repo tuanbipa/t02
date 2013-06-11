@@ -547,6 +547,7 @@
 #define _convertIntoEventConfirmation NSLocalizedString(@"_convertIntoEventConfirmation", "")
 #define _convertIntoTaskConfirmation NSLocalizedString(@"_convertIntoTaskConfirmation", "")
 #define _convertIntoPinnedTaskConfirmation NSLocalizedString(@"_convertIntoPinnedTaskConfirmation", "")
+#define _convertATaskIntoTaskConfirmation NSLocalizedString(@"_convertATaskIntoTaskConfirmation", "")
 
 #define _linkSearchHintText NSLocalizedString(@"_linkSearchHintText", "")
 
