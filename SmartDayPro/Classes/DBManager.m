@@ -1188,15 +1188,25 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
     NSInteger count = 0;
     
-    BOOL eventQuery = (type == TYPE_EVENT);
+    BOOL eventQuery = (type == TYPE_EVENT || type == TASK_FILTER_PINNED);
     
-	const char *sql = (eventQuery?
+	/*const char *sql = (eventQuery?
                        "SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND (Task_Type = ? OR Task_Type = ?) AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC"
-                       :"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND Task_Type = ? AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC");
+                       :"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND Task_Type = ? AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC");*/
+    NSString *string = nil;
+    if (eventQuery) {
+        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_MANUAL] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_MANUAL];
+        
+        string = [NSString stringWithFormat:@"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND (Task_Type = %d OR Task_Type = %d) AND Task_ProjectID = %d AND %@ ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, TYPE_EVENT, TYPE_ADE, inPlan, exstraParam];
+    } else {
+        string = [NSString stringWithFormat:@"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND Task_Type = %d AND Task_ProjectID = %d ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, type, inPlan];
+    }
+    const char *sql = [string cStringUsingEncoding:NSASCIIStringEncoding];
+    
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
-		sqlite3_bind_int(statement, 1, TASK_STATUS_DONE);
+		/*sqlite3_bind_int(statement, 1, TASK_STATUS_DONE);
 		sqlite3_bind_int(statement, 2, TASK_STATUS_DELETED);
 		sqlite3_bind_int(statement, 3, type);        
 		sqlite3_bind_int(statement, 4, eventQuery?TYPE_ADE:inPlan);
@@ -1204,7 +1214,7 @@ static sqlite3_stmt *_top_task_statement = nil;
         if (eventQuery)
         {
             sqlite3_bind_int(statement, 5, inPlan);
-        }
+        }*/
         
 		if (sqlite3_step(statement) == SQLITE_ROW) 
         {
