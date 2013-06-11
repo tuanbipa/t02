@@ -1591,6 +1591,11 @@ extern BOOL _isiPad;
 	adeSegmentedControl.frame = CGRectMake(190, 5, 100, 30);
 	
 	[cell.contentView addSubview:adeSegmentedControl];
+    // disable ade button
+    if ([taskCopy isManual] && [taskCopy isEvent]) {
+        adeSegmentedControl.userInteractionEnabled = NO;
+        cell.textLabel.textColor = [UIColor grayColor];
+    }
 	[adeSegmentedControl release];	
 }
 

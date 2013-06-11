@@ -1521,7 +1521,7 @@
 		67B170681717C3B800FBD56A /* timer_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_item.png; sourceTree = "<group>"; };
 		67B170691717C3B800FBD56A /* timer_item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timer_item@2x.png"; sourceTree = "<group>"; };
 		67B41506166C5A5A00AB3B5C /* iPadSmartDayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSmartDayViewController.h; sourceTree = "<group>"; };
-		67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadSmartDayViewController.m; sourceTree = "<group>"; };
+		67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iPadSmartDayViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		67C8F0DD1638D3F00098CFEB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		67C8F0E11638EA5A0098CFEB /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
 		67C8F0E21638EA5A0098CFEB /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
@@ -1725,7 +1725,7 @@
 		67CF2C3316195196001FE1AA /* SmartListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartListViewController.m; sourceTree = "<group>"; };
 		67CF2C3416195196001FE1AA /* StartEndPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartEndPickerViewController.h; sourceTree = "<group>"; };
 		67CF2C3516195196001FE1AA /* StartEndPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartEndPickerViewController.m; sourceTree = "<group>"; };
-		67CF2C3816195196001FE1AA /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
+		67CF2C3816195196001FE1AA /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Strings.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		67CF2C3916195196001FE1AA /* SyncDirectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncDirectionTableViewController.h; sourceTree = "<group>"; };
 		67CF2C3A16195196001FE1AA /* SyncDirectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncDirectionTableViewController.m; sourceTree = "<group>"; };
 		67CF2C3B16195196001FE1AA /* SyncWindow2TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncWindow2TableViewController.h; sourceTree = "<group>"; };
@@ -2160,7 +2160,7 @@
 		67CF3009161951C2001FE1AA /* ST_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ST_80.png; sourceTree = "<group>"; };
 		67CF300A161951C2001FE1AA /* STu_205.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = STu_205.png; sourceTree = "<group>"; };
 		67CF300B161951C2001FE1AA /* STu_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = STu_80.png; sourceTree = "<group>"; };
-		67CF306F161951F2001FE1AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		67CF306F161951F2001FE1AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; lineEnding = 0; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		67CF3071161952D4001FE1AA /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		67CF3072161952D4001FE1AA /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		67CF3074161952D4001FE1AA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -2321,11 +2321,11 @@
 		67E5E2051652521500B41134 /* menu_export@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_export@2x.png"; sourceTree = "<group>"; };
 		67E5E2061652521500B41134 /* week_separator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "week_separator@2x.png"; sourceTree = "<group>"; };
 		67E6BA3216A920AF00F14E12 /* PlannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerViewController.h; sourceTree = "<group>"; };
-		67E6BA3316A920AF00F14E12 /* PlannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerViewController.m; sourceTree = "<group>"; };
+		67E6BA3316A920AF00F14E12 /* PlannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PlannerViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		67E6BA3616A924EC00F14E12 /* iPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadViewController.h; sourceTree = "<group>"; };
 		67E6BA3716A924EC00F14E12 /* iPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadViewController.m; sourceTree = "<group>"; };
 		67E6E42D166DB86200018988 /* AbstractSDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractSDViewController.h; sourceTree = "<group>"; };
-		67E6E42E166DB86200018988 /* AbstractSDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractSDViewController.m; sourceTree = "<group>"; };
+		67E6E42E166DB86200018988 /* AbstractSDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AbstractSDViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		67E7789817374853004D227F /* NoteInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteInputAccessoryView.xib; sourceTree = "<group>"; };
 		67E79F261659C73500FBB0DA /* handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle@2x.png"; sourceTree = "<group>"; };
 		67E79F28165A331800FBB0DA /* SC_aboutUS_320_ip5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SC_aboutUS_320_ip5.html; sourceTree = "<group>"; };

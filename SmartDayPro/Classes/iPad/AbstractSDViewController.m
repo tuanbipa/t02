@@ -250,7 +250,7 @@ extern PlannerViewController *_plannerViewCtrler;
             title = _doneText;
             break;
         /*case TASK_FILTER_PINNED:
-            title = _pinnedText;
+            title = _anchoredText;
             break;*/
     }
     
@@ -332,7 +332,7 @@ extern PlannerViewController *_plannerViewCtrler;
         case 3:
         {
             ctrler.filterType = TASK_FILTER_PINNED;
-            title = _pinnedText;
+            title = _anchoredText;
         }
             break;
     }

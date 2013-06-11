@@ -5130,7 +5130,7 @@ TaskManager *_sctmSingleton = nil;
             title = _doneText;
             break;
         /*case TASK_FILTER_PINNED:
-            title = _pinnedText;
+            title = _anchoredText;
             break;*/
     }
     

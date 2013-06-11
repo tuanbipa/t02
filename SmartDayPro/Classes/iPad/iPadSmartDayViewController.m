@@ -962,7 +962,7 @@ iPadViewController *_iPadViewCtrler;
 	[scheduledImageView release];
 	
 	UILabel *scheduledLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 232, 120, 25)];
-	scheduledLabel.text = _pinnedText;
+	scheduledLabel.text = _anchoredText;
 	scheduledLabel.textColor = [UIColor whiteColor];
 	scheduledLabel.backgroundColor = [UIColor clearColor];
 	scheduledLabel.font=[UIFont systemFontOfSize:18];
@@ -1189,7 +1189,7 @@ iPadViewController *_iPadViewCtrler;
 	[anchorImageView release];
 	
 	UILabel *anchorLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
-	anchorLabel.text = _pinnedText;
+	anchorLabel.text = _anchoredText;
 	anchorLabel.textColor = [UIColor whiteColor];
 	anchorLabel.backgroundColor = [UIColor clearColor];
 	anchorLabel.font=[UIFont systemFontOfSize:18];
