@@ -4672,7 +4672,7 @@ TaskManager *_sctmSingleton = nil;
             
             [self removeTask:event.original status:-1];
 			
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
+			//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 			
 			event.original = nil;
 		}
