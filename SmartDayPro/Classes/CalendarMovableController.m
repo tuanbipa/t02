@@ -202,26 +202,29 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         else if (moveAsEvent)
         {
-            if ([task isTask])
-            {
-                //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_convertATaskHeader message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
-                
-                alertView.tag = -11001;
-                
-                [alertView show];
-                [alertView release]; 
-                
-                return;
-
-            }
-            
             NSDate *time = [[[ctrler.todayScheduleView getTimeSlot] retain] autorelease];
             
-            [self doneMove];
-            
-            [_abstractViewCtrler changeTime:task time:time];
-            
+            if (time != nil) {
+                
+                if ([task isTask])
+                {
+                    //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_convertATaskHeader message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+                    
+                    alertView.tag = -11001;
+                    
+                    [alertView show];
+                    [alertView release]; 
+                    
+                    return;
+
+                }
+                [self doneMove];
+                
+                [_abstractViewCtrler changeTime:task time:time];
+            } else {
+                [self doneMove];
+            }
         }
         else 
         {
