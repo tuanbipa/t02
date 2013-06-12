@@ -257,7 +257,6 @@ extern BOOL _syncMatchHintShown;
     
 	scEvent.syncId = ekEvent.eventIdentifier;
 	scEvent.name = ekEvent.title;
-    [scEvent checkHasPinnedCharacterInTitle];
 	scEvent.location = ekEvent.location;
 	scEvent.note = ekEvent.notes;
 	scEvent.startTime = ekEvent.startDate;
@@ -268,7 +267,6 @@ extern BOOL _syncMatchHintShown;
 	if (ekEvent.allDay)
 	{
 		scEvent.type = TYPE_ADE;
-        [scEvent setManual:NO];
 		//scEvent.endTime = [Common getEndDate:ekEvent.endDate]; //EK returns 11:59pm instead of 12:00am
         
         //printf("ADE from iCal: %s - start: %s, end: %s\n", [scEvent.name UTF8String], [[scEvent.startTime description] UTF8String], [[scEvent.endTime description] UTF8String]);

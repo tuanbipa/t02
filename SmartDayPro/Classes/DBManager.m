@@ -418,7 +418,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;
 }
 
-- (NSMutableArray *)getManualTasks {
+/*- (NSMutableArray *)getManualTasks {
     
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
     
@@ -489,7 +489,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_finalize(statement);
     
 	return taskList;
-}
+}*/
 
 - (NSMutableArray *) getVisibleTasks
 {

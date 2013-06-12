@@ -2455,7 +2455,7 @@ TaskManager *_sctmSingleton = nil;
 	return ret;
 }
 
-- (NSMutableArray *)getManualTaskList {
+/*- (NSMutableArray *)getManualTaskList {
     
 	DBManager *dbm = [DBManager getInstance];
 	NSMutableArray *ret = [dbm getManualTasks];
@@ -2475,7 +2475,7 @@ TaskManager *_sctmSingleton = nil;
     //[self splitEvents:ret fromDate:fromDate toDate:toDate];
     
     return ret;
-}
+}*/
 
 - (BOOL) checkSortInBackground
 {
@@ -2533,58 +2533,58 @@ TaskManager *_sctmSingleton = nil;
     return list;
 }
 
-- (void)mergeNormalTask: (NSMutableArray *) normalTask withManualTasks: (NSMutableArray *) manualTasks {
-    if (normalTask.count > 0 && manualTasks.count > 0) {
-        // merge
-        int i = 0;
-        int j = 0;
-        while (i < normalTask.count && j < manualTasks.count) {
-            Task *norTask = [normalTask objectAtIndex:i];
-            Task *manTask = [manualTasks objectAtIndex:j];
-            if ([Common compareDateNoTime:norTask.smartTime withDate:manTask.smartTime] != NSOrderedAscending) {
-                [normalTask insertObject:manTask atIndex:i];
-                j++;
-                i++;
-            } else {
-                i++;
-            }
-        }
-        
-        if (i == normalTask.count &&  j < manualTasks.count) {
-            for (; j < manualTasks.count; j++) {
-                Task *manTask = [manualTasks objectAtIndex:j];
-                [normalTask addObject:manTask];
-            }
-        }
-    } else {
-        if (normalTask.count == 0) {
-            [normalTask addObjectsFromArray:manualTasks];
-        }
-    }
-}
-
-- (NSMutableArray *) getDisplayListWithManualTasks {
-    NSMutableArray *list = [self getDisplayList];
-    if (self.taskTypeFilter != TASK_FILTER_DONE && self.taskTypeFilter == TASK_FILTER_ALL) {
-        
-        // get follow seven days logic
-        NSDate *fromDate = [Common clearTimeForDate:[NSDate date]];
-        NSDate *toDate = [Common getEndDate: [Common dateByAddNumDay:7 toDate:fromDate]];
-        NSMutableArray *manualTaskList = [self getManualTaskListFromDate:fromDate toDate:toDate];
-        /*if (manualTaskList.count > 0) {
-            [list addObjectsFromArray:scheduleTaskList];
-        }*/
-        
-        [self mergeNormalTask:list withManualTasks:manualTaskList];
-    } else if (self.taskTypeFilter == TASK_FILTER_PINNED) {
-        NSMutableArray *manualTaskList = [self getManualTaskList];
-        if (manualTaskList.count > 0) {
-            [list addObjectsFromArray:manualTaskList];
-        }
-    }
-    
-    return list;
-}
+//- (void)mergeNormalTask: (NSMutableArray *) normalTask withManualTasks: (NSMutableArray *) manualTasks {
+//    if (normalTask.count > 0 && manualTasks.count > 0) {
+//        // merge
+//        int i = 0;
+//        int j = 0;
+//        while (i < normalTask.count && j < manualTasks.count) {
+//            Task *norTask = [normalTask objectAtIndex:i];
+//            Task *manTask = [manualTasks objectAtIndex:j];
+//            if ([Common compareDateNoTime:norTask.smartTime withDate:manTask.smartTime] != NSOrderedAscending) {
+//                [normalTask insertObject:manTask atIndex:i];
+//                j++;
+//                i++;
+//            } else {
+//                i++;
+//            }
+//        }
+//        
+//        if (i == normalTask.count &&  j < manualTasks.count) {
+//            for (; j < manualTasks.count; j++) {
+//                Task *manTask = [manualTasks objectAtIndex:j];
+//                [normalTask addObject:manTask];
+//            }
+//        }
+//    } else {
+//        if (normalTask.count == 0) {
+//            [normalTask addObjectsFromArray:manualTasks];
+//        }
+//    }
+//}
+//
+//- (NSMutableArray *) getDisplayListWithManualTasks {
+//    NSMutableArray *list = [self getDisplayList];
+//    if (self.taskTypeFilter != TASK_FILTER_DONE && self.taskTypeFilter == TASK_FILTER_ALL) {
+//        
+//        // get follow seven days logic
+//        NSDate *fromDate = [Common clearTimeForDate:[NSDate date]];
+//        NSDate *toDate = [Common getEndDate: [Common dateByAddNumDay:7 toDate:fromDate]];
+//        NSMutableArray *manualTaskList = [self getManualTaskListFromDate:fromDate toDate:toDate];
+//        /*if (manualTaskList.count > 0) {
+//            [list addObjectsFromArray:scheduleTaskList];
+//        }*/
+//        
+//        [self mergeNormalTask:list withManualTasks:manualTaskList];
+//    } else if (self.taskTypeFilter == TASK_FILTER_PINNED) {
+//        NSMutableArray *manualTaskList = [self getManualTaskList];
+//        if (manualTaskList.count > 0) {
+//            [list addObjectsFromArray:manualTaskList];
+//        }
+//    }
+//    
+//    return list;
+//}
 
 #pragma mark Task Operation Support
 -(void) unDone:(Task *)task
@@ -4281,24 +4281,24 @@ TaskManager *_sctmSingleton = nil;
 	return instance;
 }
 
-- (void)doneRepeatManualTask: (Task *) rt instance: (Task *) instance {
-    
-    if (![instance isREInstance]) {
-        instance.primaryKey = -1;
-        instance.original = rt;
-    }
-    // delete instance
-    [self deleteREInstance:instance deleteOption:1];
-    
-    // insert done task into DB
-    instance.type = TYPE_TASK;
-    [instance setManual:NO];
-    instance.status = TASK_STATUS_DONE;
-    instance.completionTime = [NSDate date];
-    instance.repeatData = nil;
-    
-    [instance insertIntoDB:[[DBManager getInstance] getDatabase]];
-}
+//- (void)doneRepeatManualTask: (Task *) rt instance: (Task *) instance {
+//    
+//    if (![instance isREInstance]) {
+//        instance.primaryKey = -1;
+//        instance.original = rt;
+//    }
+//    // delete instance
+//    [self deleteREInstance:instance deleteOption:1];
+//    
+//    // insert done task into DB
+//    instance.type = TYPE_TASK;
+//    [instance setManual:NO];
+//    instance.status = TASK_STATUS_DONE;
+//    instance.completionTime = [NSDate date];
+//    instance.repeatData = nil;
+//    
+//    [instance insertIntoDB:[[DBManager getInstance] getDatabase]];
+//}
 
 -(void) starTask:(Task *)task
 {

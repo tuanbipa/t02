@@ -145,7 +145,7 @@
 - (void)reconcileSeqNo:(NSArray *)checkList;
 - (NSInteger) getDisplayListCount;
 - (NSMutableArray *) getDisplayList;
-- (NSMutableArray *) getDisplayListWithManualTasks;
+//- (NSMutableArray *) getDisplayListWithManualTasks;
 -(void) unDone:(Task *)task;
 - (void) populateRE:(Task *)re isNew:(BOOL)isNew;
 //-(void) changeTask:(Task *)task toProject:(NSInteger)prjKey;

@@ -37,8 +37,8 @@
 - (NSMutableArray *) getTasks2Sync;
 - (NSMutableArray *) getModifiedTasks2Sync:(NSDate *)afterDate;
 - (NSMutableArray *) getTasks;
-- (NSMutableArray *)getManualTasks;
-- (NSMutableArray *)getManualTasksFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate;
+//- (NSMutableArray *)getManualTasks;
+//- (NSMutableArray *)getManualTasksFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate;
 - (NSMutableArray *) getVisibleTasks;
 - (NSMutableArray *) getRecurringTasks;
 - (NSMutableArray *) getMustDoTasks;
