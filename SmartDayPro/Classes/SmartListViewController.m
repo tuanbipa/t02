@@ -1809,7 +1809,11 @@ SmartListViewController *_smartListViewCtrler;
 	else if (![text isEqualToString:@""])
 	{
 		//[self quickAddTask:text];
-        [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
+        if (_plannerViewCtrler != nil) {
+            [_plannerViewCtrler quickAddItem:text type:TYPE_TASK];
+        } else {
+            [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
+        }
 	}
     
     quickAddTextField.text = @"";
