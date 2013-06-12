@@ -4680,7 +4680,7 @@ TaskManager *_sctmSingleton = nil;
 		event.type = TYPE_EVENT;
         event.startTime = dt;
         event.endTime = [Common dateByAddNumSecond:duration toDate:event.startTime];
-        event.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+        event.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
 
 		if (![event.syncId isEqualToString:@""]) //already synced
 		{

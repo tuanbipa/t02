@@ -792,7 +792,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         NSTimeZone *tz = [NSTimeZone defaultTimeZone];
         
-        self.settingCopy.timeZoneID = [Settings findTimeZoneIDByDisplayName:tz.name];
+        self.settingCopy.timeZoneID = [Settings findTimeZoneIDe:tz];
     }
     
     //[settingTableView reloadData];

@@ -476,7 +476,7 @@ extern BOOL _isiPad;
     }
     else 
     {
-        self.taskCopy.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+        self.taskCopy.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
         
         NSDate *date = [[TaskManager getInstance] today];
         
@@ -513,7 +513,7 @@ extern BOOL _isiPad;
     
 	self.taskCopy.type = (segment.selectedSegmentIndex == 0? TYPE_ADE: TYPE_EVENT);
 	
-    self.taskCopy.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+    self.taskCopy.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
     
     if (self.taskCopy.type == TYPE_ADE)
     {

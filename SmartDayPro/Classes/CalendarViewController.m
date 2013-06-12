@@ -575,13 +575,21 @@ CalendarViewController *_sc2ViewCtrler;
 
 - (void) focusNow
 {
+    CGPoint contentOffset = calendarView.contentOffset;
+    CGSize contentSize = calendarView.contentSize;
+    
     CGSize sz = [Common getScreenSize];
     
-    CGFloat h = sz.height - calendarView.frame.origin.y - 40;
+    CGFloat h = sz.height - calendarView.frame.origin.y;
     
-    CGFloat y = [todayScheduleView getTodayLineY] - h/2;
+    CGFloat todayY = [todayScheduleView getTodayLineY];
     
-    CGPoint contentOffset = calendarView.contentOffset;
+    CGFloat y = todayY - h/2;
+    
+    if (y > contentSize.height - h)
+    {
+        y = contentSize.height - h;
+    }
     
     contentOffset.x = calendarView.bounds.size.width;//show page 1
     contentOffset.y = (y<0?0:y);

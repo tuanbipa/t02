@@ -113,7 +113,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         self.timerStatus = TASK_TIMER_STATUS_NONE;
         self.extraStatus = TASK_EXTRA_STATUS_NONE;
 		self.duration = [[Settings getInstance] taskDuration];
-        self.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+        self.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
 		
 		self.name = @"";
 		self.contactName = @"";
@@ -448,11 +448,6 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 	[self updateTimeIntoDB:[dbm getDatabase]];
     
-    //NSTimeZone *tz = [NSTimeZone defaultTimeZone];
-        
-    //self.timeZoneId = [Settings findTimeZoneIDByDisplayName:tz.name];
-        
-    //[self updateTimeZoneIDIntoDB:[dbm getDatabase]];
 }
 
 // Creates the object with primary key and title is brought into memory.

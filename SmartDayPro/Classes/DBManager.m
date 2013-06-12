@@ -4303,8 +4303,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 	
 	sqlite3_finalize(statement);
     
-    //NSInteger tzID = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
-    
     sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?, Task_TimeZoneID = 0, Task_TimeZoneOffset = 0";
     
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK)

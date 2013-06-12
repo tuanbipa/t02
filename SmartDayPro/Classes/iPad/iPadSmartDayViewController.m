@@ -538,7 +538,7 @@ iPadViewController *_iPadViewCtrler;
         {
             task.type = TYPE_EVENT;
             
-            task.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+            task.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
 
             task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
             task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];            
