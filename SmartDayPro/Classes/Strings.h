@@ -548,6 +548,8 @@
 #define _convertIntoTaskConfirmation NSLocalizedString(@"_convertIntoTaskConfirmation", "")
 #define _convertIntoPinnedTaskConfirmation NSLocalizedString(@"_convertIntoPinnedTaskConfirmation", "")
 #define _convertATaskIntoTaskConfirmation NSLocalizedString(@"_convertATaskIntoTaskConfirmation", "")
+#define _convertATaskHeader NSLocalizedString(@"_convertATaskHeader", "")
+#define _convertATaskIntoTaskHeader NSLocalizedString(@"_convertATaskIntoTaskHeader", "")
 
 #define _linkSearchHintText NSLocalizedString(@"_linkSearchHintText", "")
 

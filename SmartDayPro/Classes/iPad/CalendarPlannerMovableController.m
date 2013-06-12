@@ -60,7 +60,10 @@ extern PlannerViewController *_plannerViewCtrler;
         Task *task = [((TaskView *) self.activeMovableView).task retain];
         if ([task isREInstance])
         {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertREIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
+            NSString *mss = [task isManual] ? _convertATaskIntoTaskConfirmation : _convertREIntoTaskConfirmation;
+            NSString *headMss = [task isManual] ? _convertATaskIntoTaskHeader : _warningText;
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:headMss  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
             
             alertView.tag = -11002;
             
@@ -71,7 +74,8 @@ extern PlannerViewController *_plannerViewCtrler;
         else
         {
             NSString *mss = [task isManual] ? _convertATaskIntoTaskConfirmation : _convertIntoEventConfirmation;
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+            NSString *headMss = [task isManual] ? _convertATaskIntoTaskHeader : _warningText;
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:headMss  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
             
             alertView.tag = -11000;
             

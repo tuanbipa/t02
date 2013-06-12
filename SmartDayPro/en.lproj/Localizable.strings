@@ -123,15 +123,15 @@
 "_offText" = "OFF";
 "_allDayText" = "All Day";
 
-"_changeRETitleText" = "Change Recurring Event";
-"_changeREInstanceText" = "Would you like to change only this event, all events in the series, or this and future events in the series?";
+"_changeRETitleText" = "Change Recurring Item";
+"_changeREInstanceText" = "Would you like to change only this item, all items in the series, or this and future items in the series?";
 
-"_deleteRETitleText" = "Delete Recurring Event";
-"_deleteREInstanceText" = "Would you like to delete only this event, all events in the series, or this and future events in the series?";
-"_deleteAllInSeriesText" = "Are you sure you want to delete all events in the series?";
+"_deleteRETitleText" = "Delete Recurring Item";
+"_deleteREInstanceText" = "Would you like to delete only this item, all items in the series, or this and future items in the series?";
+"_deleteAllInSeriesText" = "Are you sure you want to delete all items in the series?";
 
 "_onlyInstanceText" = "Only this instance";
-"_allEventsText" = "All events in the series";
+"_allEventsText" = "All items in the series";
 "_allFollowingText" = "All following";
 "_alertsText" = "Alerts";
 
@@ -551,8 +551,10 @@
 "_convertREIntoTaskConfirmation" = "Do you want to convert this recurring Event into Task?"; 
 "_convertIntoEventConfirmation" = "Do you want to convert this Event into Task?"; 
 "_convertIntoTaskConfirmation" = "Do you want to convert this Task into Event?";
-"_convertIntoPinnedTaskConfirmation" = "Do you want to convert this Task into Anchored Task?";
-"_convertATaskIntoTaskConfirmation" = "Do you want to convert this Anchored Task into Task?";
+"_convertIntoPinnedTaskConfirmation" = "If so, this will remove the task from your list and place it in the Calendar. You can return it to the task list for auto scheduling by dragging it from the Calendar back into the task list.";
+"_convertATaskIntoTaskConfirmation" = "This will remove the anchored task from the timeline of your calendar, and place it back into the task list for automatic scheduling.";
+"_convertATaskHeader" = "Anchor your task to a specific time?";
+"_convertATaskIntoTaskHeader" = "Convert an anchored task back into an auto-scheduled task?";
 
 "_linkSearchHintText" = "Search to link to any item";
 

@@ -896,7 +896,10 @@ BOOL _autoPushPending = NO;
         
         if (convertRE2Task)
         {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertREIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
+            NSString *mss = [task isManual] ? _convertATaskIntoTaskConfirmation : _convertREIntoTaskConfirmation;
+            NSString *headMss = [task isManual] ? _convertATaskIntoTaskHeader : _warningText;
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:headMss  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
             
             alertView.tag = -13001;
             

@@ -174,7 +174,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
         {
             if ([task isREInstance])
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertREIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
+                NSString *mss = [task isManual] ? _convertATaskIntoTaskConfirmation : _convertREIntoTaskConfirmation;
+                NSString *headMss = [task isManual] ? _convertATaskIntoTaskHeader : _warningText;
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:headMss  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_onlyInstanceText, _allFollowingText, nil];
                 
                 alertView.tag = -11002;
                 
@@ -185,7 +188,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
             else 
             {
                 NSString *mss = [task isManual] ? _convertATaskIntoTaskConfirmation : _convertIntoEventConfirmation;
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+                NSString *headMss = [task isManual] ? _convertATaskIntoTaskHeader : _warningText;
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:headMss  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
                 
                 alertView.tag = -11000;
                 
@@ -200,7 +205,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             if ([task isTask])
             {
                 //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_convertATaskHeader message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
                 
                 alertView.tag = -11001;
                 
