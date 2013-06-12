@@ -64,13 +64,6 @@ extern PlannerViewController *_plannerViewCtrler;
         
         calendarLayoutController.viewContainer = scrollView;
         TaskManager *tm = [TaskManager getInstance];
-        /*NSDate *dt = tm.today;
-        if (dt == nil) {
-            dt = [NSDate date];
-        }
-        Settings *settings = [Settings getInstance];
-        dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart==1)];
-        [self changeWeek:dt];*/
         
         scrollView.contentSize = CGSizeMake(plannerScheduleView.frame.size.width, plannerScheduleView.frame.size.height);
         //scrollView.contentOffset = CGPointMake(self.bounds.size.width, 0);
@@ -116,6 +109,8 @@ extern PlannerViewController *_plannerViewCtrler;
 }
 
 - (void)changeWeek: (NSDate*) startDate {
+    [self stopResize];
+    
     [UIView beginAnimations:@"resize_animation" context:NULL];
     [UIView setAnimationDuration:0.3];
 
@@ -200,9 +195,6 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void)beginResize:(TaskView *)view
 {
-	//[self deselect];
-	
-	//outlineView.tag = view.tag;
     outlineView.tag = view.task;
 	
 	CGRect frm = view.frame;
@@ -255,86 +247,6 @@ extern PlannerViewController *_plannerViewCtrler;
 
 
 #pragma mark quick add event
-
-//-(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender
-//{
-//    // collapse current week
-//    if (_plannerViewCtrler != nil) {
-//        [_plannerViewCtrler.plannerView.monthView collapseCurrentWeek];
-//    }
-//    
-//    scrollView.scrollEnabled = NO;
-//	scrollView.userInteractionEnabled = NO;
-//    
-//    // 1, calculate X
-//    CGPoint coords = [sender locationInView:sender.view];
-//    //CGFloat dayWidth = (self.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
-//    CGFloat dayWidth = quickAddTextField.frame.size.width;
-//    NSInteger dayNumber = (coords.x-TIMELINE_TITLE_WIDTH)/dayWidth;
-//    
-//    CGFloat x = dayNumber * dayWidth + TIMELINE_TITLE_WIDTH;
-//    
-//    CGRect frm = quickAddTextField.frame;
-//    
-//    frm.origin.x = x;
-//    
-//    // 2, calculate Y
-//    CGFloat ymargin = TIME_SLOT_HEIGHT/2;
-//	
-//	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
-//	
-//	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:timeSlot.time];
-//	NSInteger hour = [comps hour];
-//	NSInteger minute = [comps minute];
-//	
-//	NSInteger slotIdx = 2*hour + minute/30;
-//	
-//	CGPoint offset = scrollView.contentOffset;
-//	
-//	frm.origin.y = ymargin + slotIdx * TIME_SLOT_HEIGHT + 1;
-//	
-//	if (minute >= 30)
-//	{
-//		minute -= 30;
-//	}
-//	
-//	frm.origin.y += minute*TIME_SLOT_HEIGHT/30;
-//	
-//	CGPoint p = [scrollView convertPoint:frm.origin toView:self];
-//	p.x = frm.origin.x;
-//    
-//    CGFloat kbH = 352;//[Common getKeyboardHeight];
-//	
-//    //if (p.y + frm.size.height > contentView.bounds.size.height - kbH)
-//    {
-//        CGFloat dy = (p.y + frm.size.height - self.bounds.size.height + kbH) + 20;
-//        
-//		p.y -= dy;
-//		offset.y += dy;
-//		
-//		[scrollView setContentOffset:offset animated:NO];
-//    }
-//	
-//	frm.origin = p;
-//    if (offset.y < 0) {
-//        frm.origin.y += offset.y;
-//        offset.y = 0;
-//    }
-//    
-//    // 3, show quick-add
-//    quickAddTextField.frame = frm;
-//	quickAddTextField.text = @"";
-//	quickAddTextField.hidden = NO;
-//    
-//    // calculate time
-//    NSDate *startDate = [[self.calendarLayoutController.startDate copy] autorelease];
-//    startDate = [Common copyTimeFromDate:timeSlot.time toDate:startDate];
-//    NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
-//	quickAddTextField.tag = [toDate timeIntervalSince1970];
-//	
-//	[quickAddTextField becomeFirstResponder];
-//    scrollView.contentOffset = offset;
-//}
 
 -(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender
 {

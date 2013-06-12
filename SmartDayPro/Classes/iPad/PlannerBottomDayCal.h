@@ -42,7 +42,7 @@
 #pragma mark resizing handle
 - (void)beginResize:(TaskView *)view;
 - (void)finishResize;
-
+- (void) stopResize;
 
 #pragma mark quick add event
 -(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender;

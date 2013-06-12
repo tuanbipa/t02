@@ -216,6 +216,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super deselect];
     
     [self hideDropDownMenu];
+    
+    [plannerBottomDayCal stopResize];
 }
 
 #pragma mark Actions
