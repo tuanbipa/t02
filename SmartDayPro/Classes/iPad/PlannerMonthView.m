@@ -17,6 +17,7 @@
 #import "PlannerView.h"
 #import "HighlightView.h"
 #import "AbstractSDViewController.h"
+#import "TaskLinkManager.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -766,5 +767,33 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self expandCurrentWeek];
     PlannerMonthCellView *cell = (PlannerMonthCellView *)highlightView.tag;
     [self highlightCell:cell];
+}
+
+#pragma mark Links
+
+- (void) reconcileLinks:(NSDictionary *)dict
+{
+    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    
+    int sourceId = [[dict objectForKey:@"LinkSourceID"] intValue];
+    int destId = [[dict objectForKey:@"LinkDestID"] intValue];
+    
+    //NSArray *list = calendarLayoutController.objList;
+    
+    for (PlannerItemView *plannerItemView in self.plannerItemsList)
+    {
+        Task *task = plannerItemView.task;
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == sourceId)
+            {
+                task.links = [tlm getLinkIds4Task:sourceId];
+            }
+            else if (task.primaryKey == destId)
+            {
+                task.links = [tlm getLinkIds4Task:destId];
+            }
+        }
+    }
 }
 @end

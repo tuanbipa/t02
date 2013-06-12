@@ -59,4 +59,6 @@
 - (void) highlightCellAtPoint:(CGPoint) point;
 - (void) unhighlight;
 - (void) refreshOpeningWeek: (NSNotification *)notification;
+#pragma mark Links
+- (void) reconcileLinks:(NSDictionary *)dict;
 @end

@@ -1697,6 +1697,12 @@ BOOL _autoPushPending = NO;
         [plannerDayCal setNeedsDisplay];
     }
     
+    // refresh link planner month view
+    PlannerMonthView *plannerMonthView = (PlannerMonthView *)[self getPlannerMonthCalendarView];
+    if (plannerMonthView != nil) {
+        [plannerMonthView reconcileLinks:notification.userInfo];
+    }
+    
     FocusView *focusView = [self getFocusView];
     
     if (focusView != nil)
