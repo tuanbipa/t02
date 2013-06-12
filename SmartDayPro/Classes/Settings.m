@@ -2606,9 +2606,9 @@ extern BOOL _isiPad;
     }
 }
 
-+ (NSInteger) findTimeZoneIDByDisplayName:(NSString *)name
++ (NSInteger) findTimeZoneID:(NSTimeZone *)tz
 {
-    if ([name isEqualToString:@"America/Port-au-Prince"])
+    if ([tz.name isEqualToString:@"America/Port-au-Prince"])
     {
         return -68008; //(GMT-0500) US/Central
     }
@@ -2627,14 +2627,14 @@ extern BOOL _isiPad;
     
     NSDictionary *nameDict = [NSDictionary dictionaryWithObjects:keys forKeys:names];
     
-    NSNumber *key = [nameDict objectForKey:name];
+    NSNumber *key = [nameDict objectForKey:tz.name];
     
     if (key != nil)
     {
         return [key intValue];
     }
     
-    return -1;
+    return [Common createTimeZoneIDByOffset:tz.secondsFromGMT];
 }
 
 + (NSString *) getTimeZoneDisplayNameByID:(NSInteger)tzID
@@ -2646,6 +2646,18 @@ extern BOOL _isiPad;
     if (name != nil)
     {
         return [name substringFromIndex:11];
+    }
+    else if (tzID != -1)
+    {
+        NSInteger offset = abs(tzID)%128;
+        
+        NSInteger min = offset%8;
+        
+        NSInteger hour = (offset-min)/8;
+
+        name = [NSString stringWithFormat:@"(GMT%@%02d%02d)", tzID<0?@"-":@"+", hour, min==7?7:min*15];
+        
+        return name;
     }
     
     return @"Unknown";

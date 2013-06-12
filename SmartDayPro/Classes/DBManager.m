@@ -428,7 +428,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, TYPE_EVENT);
-        sqlite3_bind_int(statement, 2, TASK_EXTRA_STATUS_MANUAL);
+        sqlite3_bind_int(statement, 2, TASK_EXTRA_STATUS_ANCHORED);
 		sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
         sqlite3_bind_double(statement, 4, TASK_STATUS_DELETED);
         
@@ -470,7 +470,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_bind_int(statement, 1, defaultOffset);
 	sqlite3_bind_int(statement, 2, defaultOffset);
 	sqlite3_bind_int(statement, 3, TYPE_EVENT);
-    sqlite3_bind_int(statement, 4, TASK_EXTRA_STATUS_MANUAL);
+    sqlite3_bind_int(statement, 4, TASK_EXTRA_STATUS_ANCHORED);
     sqlite3_bind_int(statement, 5, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 6, TASK_STATUS_DELETED);
 	sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
@@ -1195,7 +1195,7 @@ static sqlite3_stmt *_top_task_statement = nil;
                        :"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND Task_Type = ? AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC");*/
     NSString *string = nil;
     if (eventQuery) {
-        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_MANUAL] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_MANUAL];
+        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_ANCHORED] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_ANCHORED];
         
         string = [NSString stringWithFormat:@"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND (Task_Type = %d OR Task_Type = %d) AND Task_ProjectID = %d AND %@ ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, TYPE_EVENT, TYPE_ADE, inPlan, exstraParam];
     } else {
@@ -1240,7 +1240,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     
     NSString *string = nil;
     if (eventQuery) {
-        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_MANUAL] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_MANUAL];
+        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_ANCHORED] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_ANCHORED];
         
         string = [NSString stringWithFormat:@"SELECT Task_ID FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND (Task_Type = %d OR Task_Type = %d) AND Task_ProjectID = %d AND %@ ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, TYPE_EVENT, TYPE_ADE, inPlan, exstraParam];
     } else {
@@ -1255,7 +1255,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_int(statement, 2, TASK_STATUS_DELETED);
 		sqlite3_bind_int(statement, 3, type);
         sqlite3_bind_int(statement, 4, type==TYPE_EVENT?TYPE_ADE:type);
-        sqlite3_bind_int(statement, 5, TASK_EXTRA_STATUS_MANUAL);
+        sqlite3_bind_int(statement, 5, TASK_EXTRA_STATUS_ANCHORED);
         sqlite3_bind_int(statement, 6, inPlan);*/
         
         /*if (eventQuery)
@@ -1875,12 +1875,14 @@ static sqlite3_stmt *_top_task_statement = nil;
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:100];
     
     NSString *invisibleProjectListStr = [[ProjectManager getInstance] stringOfInvisibleProjectList];
-	
-	//const char *sql = invisibleProjectListStr==nil?"SELECT Task_ID FROM TaskTable WHERE (Task_Type = ? OR Task_Type = ?) AND Task_Status <> ?":
-    //    "SELECT Task_ID FROM TaskTable WHERE (Task_Type = ? OR Task_Type = ?) AND Task_Status <> ? AND Task_ProjectID NOT IN (?)";
 
+	/*
     NSString *sql = invisibleProjectListStr==nil?@"SELECT Task_ID FROM TaskTable WHERE (Task_Type = ? OR Task_Type = ?) AND Task_Status <> ?":
     @"SELECT Task_ID FROM TaskTable WHERE (Task_Type = ? OR Task_Type = ?) AND Task_Status <> ? AND Task_ProjectID NOT IN (_PROJECT_LIST)";
+    */
+    
+    NSString *sql = invisibleProjectListStr==nil?@"SELECT Task_ID FROM TaskTable WHERE (Task_Type = ? OR Task_Type = ?) AND Task_Status <> ? AND ((Task_ExtraStatus & ?) = 0)":
+    @"SELECT Task_ID FROM TaskTable WHERE (Task_Type = ? OR Task_Type = ?) AND Task_Status <> ? AND ((Task_ExtraStatus & ?) = 0) AND Task_ProjectID NOT IN (_PROJECT_LIST)";    
 
     if (invisibleProjectListStr != nil)
     {
@@ -1893,13 +1895,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_int(statement, 1, TYPE_EVENT);
 		sqlite3_bind_int(statement, 2, TYPE_ADE);
 		sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
-        
-        /*
-        if (invisibleProjectListStr != nil)
-        {
-            sqlite3_bind_text(statement, 4, [invisibleProjectListStr UTF8String], -1, SQLITE_TRANSIENT);
-        }
-		*/
+ 		sqlite3_bind_int(statement, 4, TASK_EXTRA_STATUS_ANCHORED);
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -1926,6 +1922,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     
     NSString *invisibleProjectListStr = [[ProjectManager getInstance] stringOfInvisibleProjectList];    
 
+    /*
 	NSString *sql = invisibleProjectListStr== nil?@"SELECT Task_ID, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset) END AS StartTime, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_EndTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset) END AS EndTime FROM TaskTable WHERE \
 	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
 	((StartTime >= ? AND StartTime < ?) OR \
@@ -1933,7 +1930,17 @@ static sqlite3_stmt *_top_task_statement = nil;
     @"SELECT Task_ID, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset) END AS StartTime, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_EndTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset) END AS EndTime FROM TaskTable WHERE \
 	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
 	((StartTime >= ? AND StartTime < ?) OR \
-	(StartTime < ? AND EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)";    
+	(StartTime < ? AND EndTime > ?)) AND Task_ProjectID NOT IN (_PROJECT_LIST)"; 
+    */
+    
+	NSString *sql = invisibleProjectListStr== nil?@"SELECT Task_ID, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset) END AS StartTime, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_EndTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset) END AS EndTime FROM TaskTable WHERE \
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
+	((StartTime >= ? AND StartTime < ?) OR \
+	(StartTime < ? AND EndTime > ?)) AND ((Task_ExtraStatus & ?) = 0)":
+    @"SELECT Task_ID, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset) END AS StartTime, CASE WHEN Task_TimeZoneOffset = 0 THEN Task_EndTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset) END AS EndTime FROM TaskTable WHERE \
+	Task_GroupID = -1 AND (Task_Type = ? OR Task_Type = ?) AND \
+	((StartTime >= ? AND StartTime < ?) OR \
+	(StartTime < ? AND EndTime > ?)) AND ((Task_ExtraStatus & ?) = 0) AND Task_ProjectID NOT IN (_PROJECT_LIST)";    
     
     if (invisibleProjectListStr != nil)
     {
@@ -1951,6 +1958,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_double(statement, 6, [end timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 8, [start timeIntervalSince1970]);
+        sqlite3_bind_int(statement, 9, TASK_EXTRA_STATUS_ANCHORED);
 		
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -4302,8 +4310,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 	}
 	
 	sqlite3_finalize(statement);
-    
-    //NSInteger tzID = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
     
     sql = @"UPDATE TaskTable SET Task_ExtraStatus = ?, Task_TimeZoneID = 0, Task_TimeZoneOffset = 0";
     

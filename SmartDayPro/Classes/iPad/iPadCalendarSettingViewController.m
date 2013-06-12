@@ -62,7 +62,9 @@
     {
         NSTimeZone *tz = [NSTimeZone defaultTimeZone];
         
-        self.setting.timeZoneID = [Settings findTimeZoneIDByDisplayName:tz.name];
+        //printf("tz name: %s\n", [tz.name UTF8String]);
+        
+        self.setting.timeZoneID = [Settings findTimeZoneID:tz];
     }
     
     //[settingTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];

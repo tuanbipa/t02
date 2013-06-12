@@ -200,7 +200,7 @@ typedef enum
 {
 	TASK_EXTRA_STATUS_NONE,
     TASK_EXTRA_STATUS_SHARED = 1,
-    TASK_EXTRA_STATUS_MANUAL = 2
+    TASK_EXTRA_STATUS_ANCHORED = 2
 } TaskExtraStatus;
 
 typedef enum

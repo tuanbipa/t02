@@ -113,7 +113,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         self.timerStatus = TASK_TIMER_STATUS_NONE;
         self.extraStatus = TASK_EXTRA_STATUS_NONE;
 		self.duration = [[Settings getInstance] taskDuration];
-        self.timeZoneId = [Settings findTimeZoneIDByDisplayName:[[NSTimeZone defaultTimeZone] name]];
+        self.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
 		
 		self.name = @"";
 		self.contactName = @"";
@@ -448,11 +448,6 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 	[self updateTimeIntoDB:[dbm getDatabase]];
     
-    //NSTimeZone *tz = [NSTimeZone defaultTimeZone];
-        
-    //self.timeZoneId = [Settings findTimeZoneIDByDisplayName:tz.name];
-        
-    //[self updateTimeZoneIDIntoDB:[dbm getDatabase]];
 }
 
 // Creates the object with primary key and title is brought into memory.
@@ -2081,14 +2076,14 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 -(BOOL) isManual
 {
-    return (self.extraStatus & TASK_EXTRA_STATUS_MANUAL) != 0;
+    return (self.extraStatus & TASK_EXTRA_STATUS_ANCHORED) != 0;
 }
 
 - (void) setExtraManual:(NSInteger)intValue {
     if (intValue != 0) {
-        self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+        self.extraStatus |= TASK_EXTRA_STATUS_ANCHORED;
     } else {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
     }
 }
 
@@ -2097,7 +2092,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     
     if (enabled)
     {
-        self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+        self.extraStatus |= TASK_EXTRA_STATUS_ANCHORED;
         
         // add prefix in name
         //self.name = [specialStr stringByAppendingString:self.name];
@@ -2109,7 +2104,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     }
     else
     {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
         
         // remove prefix if exist
         //self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
@@ -2211,7 +2206,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         NSString *specialStr=ANCHOR_CHARACTER;
         self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
         
-        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
     }
     type = _type;
 }*/
@@ -2219,9 +2214,9 @@ static sqlite3_stmt *task_delete_statement = nil;
 - (void)checkHasPinnedCharacterInTitle{
     NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
     if (range.location == NSNotFound) {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_MANUAL;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
     } else {
-        self.extraStatus |= TASK_EXTRA_STATUS_MANUAL;
+        self.extraStatus |= TASK_EXTRA_STATUS_ANCHORED;
     }
 }
 

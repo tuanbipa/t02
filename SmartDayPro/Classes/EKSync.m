@@ -241,7 +241,7 @@ extern BOOL _syncMatchHintShown;
 {
     if (ekEvent.timeZone != nil)
     {
-        scEvent.timeZoneId = [Settings findTimeZoneIDByDisplayName:ekEvent.timeZone.name];
+        scEvent.timeZoneId = [Settings findTimeZoneID:ekEvent.timeZone];
         
         printf("timezone id: %d - map for event tz name: %s\n", scEvent.timeZoneId, [ekEvent.timeZone.name UTF8String]);
         
