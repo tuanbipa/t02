@@ -2094,25 +2094,19 @@ static sqlite3_stmt *task_delete_statement = nil;
     {
         self.extraStatus |= TASK_EXTRA_STATUS_ANCHORED;
         
-        // add prefix in name
-        //self.name = [specialStr stringByAppendingString:self.name];
-        
-        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
+        /*NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
         if (range.location == NSNotFound) {
             self.name = [ANCHOR_CHARACTER stringByAppendingString:self.name];
-        }
+        }*/
     }
     else
     {
         self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
         
-        // remove prefix if exist
-        //self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
-        
-        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
+        /*NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
         if (range.location != NSNotFound) {
             self.name = [self.name stringByReplacingCharactersInRange:range withString:@""];
-        }
+        }*/
     }
 }
 
@@ -2201,17 +2195,14 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 #pragma mark Properties
 
-/*- (void)setType:(NSInteger)_type {
+- (void)setType:(NSInteger)_type {
     if ([self isEvent] && [self isManual] && _type != TYPE_EVENT) {
-        NSString *specialStr=ANCHOR_CHARACTER;
-        self.name = [self.name stringByReplacingOccurrencesOfString:specialStr withString:@""];
-        
         self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
     }
     type = _type;
-}*/
+}
 
-- (void)checkHasPinnedCharacterInTitle{
+/*- (void)checkHasPinnedCharacterInTitle{
     NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
     if (range.location == NSNotFound) {
         self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
@@ -2239,5 +2230,5 @@ static sqlite3_stmt *task_delete_statement = nil;
     } else {
         [self setManual:NO];
     }
-}
+}*/
 @end

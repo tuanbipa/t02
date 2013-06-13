@@ -873,7 +873,7 @@ BOOL _autoPushPending = NO;
     
     // check Manual task on title
     //[taskCopy checkHasPinnedCharacterInTitle];
-    [taskCopy addAnchorInTitle];
+    //[taskCopy addAnchorInTitle];
     //BOOL isManual = [task isManual];
     
     actionTask = task;

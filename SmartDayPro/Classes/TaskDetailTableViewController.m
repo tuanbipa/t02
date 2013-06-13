@@ -103,7 +103,7 @@ extern BOOL _isiPad;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [anchorLabel release];
+    //[anchorLabel release];
     [titleTextView release];
     
 	self.task = nil;
@@ -141,11 +141,11 @@ extern BOOL _isiPad;
 	[contentView release];
     
     // lable anchor
-    anchorLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 0, 16, 30)];
+    /*anchorLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 0, 16, 30)];
     anchorLabel.text = ANCHOR_CHARACTER;
-    anchorLabel.font = [UIFont systemFontOfSize:15.0f];
+    anchorLabel.font = [UIFont systemFontOfSize:15.0f];*/
     
-	titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(20, 0, 300-50, 30)];
+	titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(0, 0, 300-30, 30)];
     //titleTextView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
     titleTextView.placeholder = _titleGuideText;
     
@@ -209,10 +209,7 @@ extern BOOL _isiPad;
 	
     showMore = NO;
     deadlineEnabled = self.taskCopy.deadline != nil;
-    //titleTextView.text = self.taskCopy.name;
-    // split anchor
-    titleTextView.text = [self.taskCopy titleWithoutAnchor];
-    
+    titleTextView.text = self.taskCopy.name;
     
 	selectedDurationButton = nil;
 	selectedDeadlineButton = nil;
@@ -928,8 +925,8 @@ extern BOOL _isiPad;
 - (void) createTitleCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     // anchor label
-    [cell.contentView addSubview:anchorLabel];
-    anchorLabel.hidden = !([taskCopy isManual] && [taskCopy isEvent]);
+    //[cell.contentView addSubview:anchorLabel];
+    //anchorLabel.hidden = !([taskCopy isManual] && [taskCopy isEvent]);
     
 	//task title
     titleTextView.text = self.taskCopy.name;

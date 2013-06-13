@@ -215,7 +215,7 @@
 + (void)finalizeStatements;
 
 #pragma mark Properties
-- (void)checkHasPinnedCharacterInTitle;
+/*- (void)checkHasPinnedCharacterInTitle;
 - (NSString *)titleWithoutAnchor;
-- (void)addAnchorInTitle;
+- (void)addAnchorInTitle;*/
 @end
