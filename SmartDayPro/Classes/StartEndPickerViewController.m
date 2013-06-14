@@ -80,31 +80,17 @@
 
 - (void) refreshTimeZone
 {
-    //[pickerTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
     
-    //if ([self.taskCopy isNormalEvent])
-    {
-/*        NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
-        
-        self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
-        self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
-        
-        datePicker.timeZone = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];    
-*/
-        
-//        NSInteger secs = self.taskCopy.timeZoneId == 0?[datePicker.timeZone secondsFromGMT]:[datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
-        NSInteger secs = [datePicker.timeZone secondsFromGMT]-[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId];
-        
-        self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
-        self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
-        
-        datePicker.timeZone = self.taskCopy.timeZoneId == 0? [NSTimeZone defaultTimeZone]:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
-    }
+    self.taskCopy.startTime = [self.taskCopy.startTime dateByAddingTimeInterval:secs];
+    self.taskCopy.endTime = [self.taskCopy.endTime dateByAddingTimeInterval:secs];
+    
+    //datePicker.timeZone = self.taskCopy.timeZoneId == 0? [NSTimeZone defaultTimeZone]:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+    datePicker.timeZone =[Settings getTimeZoneByID:self.taskCopy.timeZoneId];
     
     [self refreshPicker];
     
-    [pickerTableView reloadData];
-    
+    [pickerTableView reloadData];    
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -132,10 +118,8 @@
 	[datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
 	datePicker.minuteInterval=5;
     
-    //if ([self.taskCopy isNormalEvent])
-    {
-        datePicker.timeZone =  self.taskCopy.timeZoneId == 0?[NSTimeZone defaultTimeZone]:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
-    }
+    //datePicker.timeZone =  self.taskCopy.timeZoneId == 0?[NSTimeZone defaultTimeZone]:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]];
+    datePicker.timeZone = [Settings getTimeZoneByID:self.taskCopy.timeZoneId];
     
 	datePicker.datePickerMode = ([self.taskCopy isADE]? UIDatePickerModeDate: UIDatePickerModeDateAndTime);
 	
@@ -316,43 +300,13 @@
 	NSString *titles[3] = {_startText, _endText, _timeZone};
 	
 	cell.textLabel.text = titles[indexPath.row]; 
-	
-    /*
-	UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
-	label.tag = 10000 + indexPath.row;
-	label.textAlignment=NSTextAlignmentRight;
-	label.backgroundColor=[UIColor clearColor];
-	label.font=[UIFont systemFontOfSize:15];
-	label.textColor= [Colors darkSteelBlue];*/
-	
-    /*
-	NSString *startTime = [self.objectCopy isADE]?[Common getFullDateString3:[self.objectCopy startTime]]
-	:[Common getFullDateTimeString:[self.objectCopy startTime]];
-
-	NSString *endTime = [self.objectCopy isADE]?[Common getFullDateString3:[self.objectCopy endTime]]
-	:[Common getFullDateTimeString:[self.objectCopy endTime]];
-    
-    NSInteger tzId = ((Task *)self.objectCopy).timeZoneId;
-    
-    NSString *details[3] = {startTime, endTime,tzId == -1?@"None":[Settings getTimeZoneDisplayNameByID:tzId]};
-    */
-
     NSInteger tzId = self.taskCopy.timeZoneId;
 
-    /*NSString *details[3] = {[self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.startTime]:[Common getFullDateTimeString:self.taskCopy.startTime],[self.taskCopy isADE]?[Common getFullDateString3:self.taskCopy.endTime]:[Common getFullDateTimeString:self.taskCopy.endTime],tzId == -1?@"None":[Settings getTimeZoneDisplayNameByID:tzId]};*/
     NSString *details[3] = {[self.taskCopy getDisplayStartTime],[self.taskCopy getDisplayEndTime],[Settings getTimeZoneDisplayNameByID:tzId]};
     
     cell.detailTextLabel.text = details[indexPath.row];
     
     cell.accessoryType = indexPath.row == 2?UITableViewCellAccessoryDisclosureIndicator:UITableViewCellAccessoryNone;
-    	
-    /*
-	label.text = (indexPath.row == 0?startTime:endTime);
-	
-	[cell.contentView addSubview:label];
-	[label release];*/
-    
-    
 	
     return cell;
 }

@@ -260,6 +260,8 @@ BOOL _fromBackground = NO;
     Settings *settings = [Settings getInstance];
     
 	[[TaskManager getInstance] initData];
+    
+    [[AlertManager getInstance] generateAlerts];
 	
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
     
@@ -285,6 +287,8 @@ BOOL _fromBackground = NO;
 	
 	[[TaskManager getInstance] recover];
     
+    [[AlertManager getInstance] generateAlerts];
+    
     [TimerManager startup];
     
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
@@ -302,6 +306,8 @@ BOOL _fromBackground = NO;
 - (void) autoSync
 {
     Settings *settings = [Settings getInstance];
+    
+    [_abstractViewCtrler performSelectorOnMainThread:@selector(deselect) withObject:nil waitUntilDone:NO];
     
     if (settings.autoSyncEnabled)
     {
@@ -322,8 +328,6 @@ BOOL _fromBackground = NO;
             [[EKReminderSync getInstance] initBackgroundAuto2WaySync];
         }
     }
-    
-    [_abstractViewCtrler deselect];
 }
 
 - (void) confirmAutoSync
@@ -406,7 +410,7 @@ BOOL _fromBackground = NO;
                 continue;
             }
             else*/
-            if (alertView.tag != -50000 && alertView.tag != -50001)
+            if (alertView.tag != -50000 && alertView.tag != -50001 && alertView.tag != -50002)
             {
                 [alertView dismissWithClickedButtonIndex:-1 animated:NO];
             }
@@ -658,7 +662,7 @@ BOOL _fromBackground = NO;
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application
 {
-   [[AlertManager getInstance] generateAlerts];    
+   //[[AlertManager getInstance] generateAlerts];
 }
 
 - (void)dealloc {
@@ -862,12 +866,25 @@ BOOL _fromBackground = NO;
 
 - (void) showPostponeOption:(UILocalNotification *)notif
 {
+    /*
     UIActionSheet *postponeActionSheet = [[UIActionSheet alloc] initWithTitle:_postpone delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:nil otherButtonTitles: _1DayText, _1WeekText, _1MonthText, nil];
     postponeActionSheet.tag = notif;
     
     [postponeActionSheet showInView:self.window];
     
-    [postponeActionSheet release];    
+    [postponeActionSheet release]; 
+    */
+    
+    [self.alertDict setObject:notif forKey:[NSNumber numberWithInt:-50002]];
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_postpone
+                                                      message:@""
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                            otherButtonTitles:_1DayText, _1WeekText, _1MonthText,nil];
+    alertView.tag = -50002;
+    [alertView show];
+    [alertView release];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -883,10 +900,6 @@ BOOL _fromBackground = NO;
             [self autoSync];
         }
 	}
-	/*else if(buttonIndex == 1)
-	{
-		[self restoreDB:(NSURL *)alertView.tag];
-	}*/
     else if (buttonIndex >= 0)
     {
         NSNumber *key = [NSNumber numberWithInt:alertView.tag];
@@ -904,31 +917,33 @@ BOOL _fromBackground = NO;
             else if ([obj isKindOfClass:[UILocalNotification class]])
             {
                 [[MusicManager getInstance] stopSound];
-                 
-                if (buttonIndex == 0)
+                
+                if (alertView.tag == -50002) //postpone
                 {
-                    [[AlertManager getInstance] stopAlert:(UILocalNotification *)obj];
+                    if (buttonIndex != 3)
+                    {
+                        [[AlertManager getInstance] postponeAlert:(UILocalNotification *)obj postponeType:buttonIndex];
+                    }
                 }
-                else if (buttonIndex == 1)
+                else
                 {
-                    [[AlertManager getInstance] snoozeAlert:(UILocalNotification *)obj];
-                }
-                else if (buttonIndex == 2)
-                {
-                    remove = NO;
-                    
-                    //postpone
-                    /*
-                    UIActionSheet *postponeActionSheet = [[UIActionSheet alloc] initWithTitle:_postpone delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:nil otherButtonTitles: _1DayText, _1WeekText, _1MonthText, nil];
-                    postponeActionSheet.tag = obj;
-                    
-                    [postponeActionSheet showInView:self.window];
-                    
-                    [postponeActionSheet release];*/
-                    
-                    [alertView dismissWithClickedButtonIndex:-1 animated:NO];
-                    
-                    [self performSelector:@selector(showPostponeOption:) withObject:obj];
+                    if (buttonIndex == 0)
+                    {
+                        [[AlertManager getInstance] stopAlert:(UILocalNotification *)obj];
+                    }
+                    else if (buttonIndex == 1)
+                    {
+                        [[AlertManager getInstance] snoozeAlert:(UILocalNotification *)obj];
+                    }
+                    else if (buttonIndex == 2)
+                    {
+                        //remove = NO;
+                        
+                        //[alertView dismissWithClickedButtonIndex:-1 animated:NO];
+                        
+                        //[self performSelector:@selector(showPostponeOption:) withObject:obj];
+                        [self showPostponeOption:(UILocalNotification *)obj];
+                    }                    
                 }
             }
          

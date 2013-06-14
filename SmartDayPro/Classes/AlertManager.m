@@ -205,6 +205,8 @@ AlertManager *_alarmSingleton = nil;
 
 - (void) postponeAlert:(UILocalNotification *)notif postponeType:(NSInteger)postponeType
 {
+    printf("postpone type:%d\n", postponeType);
+    
     NSNumber *alertKey = [notif.userInfo objectForKey:@"alertKey"];
     
     if (alertKey != nil)

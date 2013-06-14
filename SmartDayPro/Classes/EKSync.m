@@ -343,6 +343,7 @@ extern BOOL _syncMatchHintShown;
     }
     else
     {
+        /*
         NSString *tzName = [Settings getTimeZoneDisplayNameByID:scEvent.timeZoneId];
         
         if ([tzName isEqualToString:@"Unknown"])
@@ -353,6 +354,9 @@ extern BOOL _syncMatchHintShown;
         {
             ekEvent.timeZone = [NSTimeZone timeZoneWithName:tzName];
         }
+        */
+        
+        ekEvent.timeZone = [Settings getTimeZoneByID:scEvent.timeZoneId];
     }
 
 	if ([scEvent isADE])

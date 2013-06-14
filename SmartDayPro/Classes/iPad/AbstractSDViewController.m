@@ -254,6 +254,18 @@ extern PlannerViewController *_plannerViewCtrler;
             break;*/
     }
     
+    if ([self checkControllerActive:3] && (button.tag == TASK_FILTER_DUE || button.tag == TASK_FILTER_ACTIVE))
+    {
+        //fix bug: change Due filter -> task order in project module is not the same
+        CategoryViewController *catCtrler = [self getCategoryViewController];
+        
+        if (catCtrler.filterType == TYPE_TASK)
+        {
+            [catCtrler loadAndShowList];
+        }
+    }
+    
+    
     return title;
     
     /*

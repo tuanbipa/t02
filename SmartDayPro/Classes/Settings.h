@@ -327,6 +327,7 @@
 + (NSInteger) findTimeZoneID:(NSTimeZone *)tz;
 + (NSString *) getTimeZoneDisplayNameByID:(NSInteger)tzID;
 + (NSString *) getTimeZoneNameByID:(NSInteger)tzID;
++ (NSTimeZone *) getTimeZoneByID:(NSInteger)tzID;
 +(void)startup;
 +(id)getInstance;
 +(void)free;

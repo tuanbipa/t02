@@ -2595,14 +2595,17 @@ extern BOOL _isiPad;
 {
     if (self.timeZoneSupport)
     {
+        /*
         if (self.timeZoneID == 0)
         {
             [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
         }
         else
         {
-            [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:self.timeZoneID]]];
-        }
+            [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:self.timeZoneID]];
+        }*/
+        
+        [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:self.timeZoneID]];
     }
 }
 
@@ -2647,6 +2650,10 @@ extern BOOL _isiPad;
     {
         return [name substringFromIndex:11];
     }
+    else if (tzID == 0)
+    {
+        return @"Floating";
+    }
     else if (tzID != -1)
     {
         NSInteger offset = abs(tzID)%128;
@@ -2670,6 +2677,25 @@ extern BOOL _isiPad;
     NSString *name = [settings.timeZoneDict objectForKey:[NSNumber numberWithInt:tzID]];
         
     return name != nil?name:@"Unknown";
+}
+
++ (NSTimeZone *) getTimeZoneByID:(NSInteger)tzID
+{
+    NSTimeZone *tz = [NSTimeZone defaultTimeZone];
+    
+    if (tzID != 0)
+    {
+        if (tzID/128 == 0)
+        {
+            tz = [NSTimeZone timeZoneForSecondsFromGMT:[Common getSecondsFromTimeZoneID:tzID]];
+        }
+        else
+        {
+            tz = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:tzID]];
+        }
+    }
+    
+    return tz;
 }
 
 + (void)createTimeZoneDictIfNeeded {
