@@ -508,6 +508,8 @@
 #define _newDateIsText NSLocalizedString(@"_newDateIsText", "")
 #define _noteAssociatedText NSLocalizedString(@"_noteAssociatedText", "")
 #define _visitText NSLocalizedString(@"_visitText", "")
+#define _newDeadlineText NSLocalizedString(@"_newDeadlineText", "")
+#define _newDateText NSLocalizedString(@"_newDateText", "")
 
 #define _newPresetText NSLocalizedString(@"_newPresetText", "")
 #define _presetText NSLocalizedString(@"_presetText", "")

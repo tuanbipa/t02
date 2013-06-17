@@ -410,7 +410,7 @@ BOOL _fromBackground = NO;
                 continue;
             }
             else*/
-            if (alertView.tag != -50000 && alertView.tag != -50001 && alertView.tag != -50002)
+            if (alertView.tag > -50000)
             {
                 [alertView dismissWithClickedButtonIndex:-1 animated:NO];
             }
@@ -590,6 +590,8 @@ BOOL _fromBackground = NO;
 	[[Settings getInstance] saveDayManager]; //save change of DayManager
     
     [[TimerManager getInstance] interrupt];
+    
+    [[BusyController getInstance] reset];
 
 	UIApplication*	app = [UIApplication sharedApplication];
 	
@@ -647,9 +649,10 @@ BOOL _fromBackground = NO;
                                                                   delegate:self
                                                          cancelButtonTitle:_okText
                                                          otherButtonTitles:_snooze, nil];
+        alertView.tag = -60000-dat.taskKey;
+        
+        [self.alertDict setObject:notification forKey:[NSNumber numberWithInt:alertView.tag]];
 
-        [self.alertDict setObject:notification forKey:[NSNumber numberWithInt:-50001]];
-        alertView.tag = -50001;
         
         [alertView show];
         [alertView release];
@@ -875,14 +878,14 @@ BOOL _fromBackground = NO;
     [postponeActionSheet release]; 
     */
     
-    [self.alertDict setObject:notif forKey:[NSNumber numberWithInt:-50002]];
+    [self.alertDict setObject:notif forKey:[NSNumber numberWithInt:-50001]];
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_postpone
                                                       message:@""
                                                      delegate:self
                                             cancelButtonTitle:nil
                                             otherButtonTitles:_1DayText, _1WeekText, _1MonthText,nil];
-    alertView.tag = -50002;
+    alertView.tag = -50001;
     [alertView show];
     [alertView release];
 }
@@ -918,7 +921,7 @@ BOOL _fromBackground = NO;
             {
                 [[MusicManager getInstance] stopSound];
                 
-                if (alertView.tag == -50002) //postpone
+                if (alertView.tag == -50001) //postpone
                 {
                     if (buttonIndex != 3)
                     {

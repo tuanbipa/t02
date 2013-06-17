@@ -123,6 +123,7 @@ extern BOOL _isiPad;
 @synthesize deleteWarning;
 @synthesize doneWarning;
 @synthesize hideWarning;
+@synthesize move2MMConfirmation;
 
 @synthesize tdAutoSyncEnabled;
 @synthesize tdSyncEnabled;
@@ -254,6 +255,7 @@ extern BOOL _isiPad;
 		self.deleteWarning = YES;
 		self.doneWarning = YES;
 		self.hideWarning = YES;
+        self.move2MMConfirmation = YES;
 		
 		self.tdAutoSyncEnabled = NO;
 		self.tdSyncEnabled = NO;
@@ -1176,7 +1178,14 @@ extern BOOL _isiPad;
 		if (msdBackupHintSetting != nil)
 		{
 			self.msdBackupHint = [msdBackupHintSetting boolValue];
-		}        
+		}
+        
+		NSNumber *move2MMConfirmationSetting = [self.hintDict objectForKey:@"Move2MMConfirmation"];
+		
+		if (move2MMConfirmationSetting != nil)
+		{
+			self.move2MMConfirmation = [move2MMConfirmationSetting boolValue];
+		}
     }
 }
 
@@ -1596,6 +1605,9 @@ extern BOOL _isiPad;
 	
 	NSNumber *msdBackupHintSetting = [NSNumber numberWithBool:self.msdBackupHint];
 	[self.hintDict setValue:msdBackupHintSetting forKey:@"MSDBackupHint"];
+
+	NSNumber *move2MMConfirmationSetting = [NSNumber numberWithBool:self.move2MMConfirmation];
+	[self.hintDict setValue:move2MMConfirmationSetting forKey:@"Move2MMConfirmation"];
     
 	[self.hintDict writeToFile:[Common getFilePath:@"Hints.dat"] atomically:YES];
 }
@@ -2585,6 +2597,7 @@ extern BOOL _isiPad;
     self.featureHint = YES;
     self.transparentHint = YES;
 	self.msdBackupHint = YES;
+    self.move2MMConfirmation = YES;
     
     [self saveHintDict];
     

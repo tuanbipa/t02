@@ -209,6 +209,7 @@
 @property BOOL deleteWarning;
 @property BOOL doneWarning;
 @property BOOL hideWarning;
+@property BOOL move2MMConfirmation;
 
 @property BOOL tdAutoSyncEnabled;
 @property BOOL tdSyncEnabled;

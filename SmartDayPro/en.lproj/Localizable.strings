@@ -515,6 +515,8 @@
 "_newDateIsText" = "New Date is";
 "_noteAssociatedText" = "This Note is now associated with";
 "_visitText" = "Visit";
+"_newDeadlineText" = "New Deadline";
+"_newDateText" = "New Date";
 
 "_newPresetText" = "New Preset";
 "_presetText" = "Preset";

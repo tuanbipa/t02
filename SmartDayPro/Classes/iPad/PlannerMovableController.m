@@ -176,29 +176,55 @@ extern PlannerViewController *_plannerViewCtrler;
         [super endMove:self.activeMovableView];
         return;
     }
+    
+    Settings *settings = [Settings getInstance];
+    
     Task *task = ((TaskView *) self.activeMovableView).task;
     
-    if ([task isTask])
+    if (settings.move2MMConfirmation)
     {
-        NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
-        
-        alertView.tag = -10000;
-        
-        [alertView show];
-        [alertView release];
-        
-    } else if ([task isEvent]) {
-        
-        NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
-        
-        alertView.tag = -10001;
-        
-        [alertView show];
-        [alertView release];
+        if ([task isTask])
+        {
+            /*
+            NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+            */
+            NSString *msg = [Common getCalendarDateString:calDate];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDeadlineText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
+            
+            alertView.tag = -10000;
+            
+            [alertView show];
+            [alertView release];
+            
+        } else if ([task isEvent]) {
+            /*
+            NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
+             
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];*/
+            
+            NSString *msg = [Common getCalendarDateString:calDate];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDateText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
+            
+            alertView.tag = -10001;
+            
+            [alertView show];
+            [alertView release];
+        }
+    }
+    else
+    {
+        if ([task isTask])
+        {
+            [self changeTaskDeadline:task];
+        }
+        else if ([task isEvent])
+        {
+            [self changeEventDate:task];
+        }
     }
 }
 
@@ -327,6 +353,8 @@ extern PlannerViewController *_plannerViewCtrler;
 #pragma mark Alert delegate
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    Settings *settings = [Settings getInstance];
+    
     TaskView *tv = (TaskView *) self.activeMovableView;
     
     Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
@@ -343,14 +371,19 @@ extern PlannerViewController *_plannerViewCtrler;
 	{
         switch (buttonIndex)
         {
+                /*
             case 0: //Edit
             {
                 [self changeTaskDeadline:task];
                 
                 needEdit = YES;
             }
-                break;
-                
+                break;*/
+            case 0: //Don't Show
+            {
+                settings.move2MMConfirmation = NO;
+                [settings saveHintDict];
+            }
             case 1: //OK
                 [self changeTaskDeadline:task];
                 break;
@@ -360,13 +393,19 @@ extern PlannerViewController *_plannerViewCtrler;
 	{
         switch (buttonIndex)
         {
+                /*
             case 0: //Edit
             {
                 [self changeEventDate:task];
                 
                 needEdit = YES;
             }
-                break;
+                break;*/
+            case 0: //Don't Show
+            {
+                settings.move2MMConfirmation = NO;
+                [settings saveHintDict];
+            }                
             case 1: //OK
                 [self changeEventDate:task];
                 break;

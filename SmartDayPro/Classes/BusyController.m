@@ -32,6 +32,12 @@ BusyController *_busyCtrlerSingleton = nil;
 	[super dealloc];
 }
 
+- (void) reset
+{
+    busyFlag = 0;
+    [_appDelegate showBusyIndicator:NO];
+}
+
 - (void)setBusy:(BOOL)isBusy withCode:(NSInteger) withCode
 {
 	////printf("setBusy %s with code:%d\n", isBusy?"YES":"NO", withCode);
