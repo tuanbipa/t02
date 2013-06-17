@@ -129,8 +129,6 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void)showWeekCalendar:(NSDate *)date
 {
-	////NSLog(@"begin show week calendar");
-	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
 	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
@@ -189,21 +187,8 @@ extern PlannerViewController *_plannerViewCtrler;
     [self showWeekCalendar:self.monthDate];
 }
 
-//- (void)highlightCell: (MonthlyCellView *) cell {
-//    
-//}
-//
-//- (void)highlightCellOnDate: (NSDate *) dt {
-//    
-//}
-
 - (void) refresh
 {
-//    MonthlyCellView *cell = [[self subviews] objectAtIndex:7];
-//    NSDate *fromDate = [Common getFirstMonthDate:[cell getCellDate]];
-//    NSDate *toDate = [Common getEndMonthDate:fromDate withMonths:1];
-//    
-//	[self updateBusyTimeFromDate:fromDate toDate:toDate];
 	[self performSelectorInBackground:@selector(updateBusyTimeFromDate) withObject:nil];
 }
 

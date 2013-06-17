@@ -94,9 +94,6 @@
 }
 
 - (void)initCalendar {
-//    TaskManager *tm = [TaskManager getInstance];
-//    NSDate *dt = tm.today;
-//    NSDate *firstDate = [Common getFirstYearDate:dt];
     NSDate *firstDate = [[self.date copy] autorelease];
     // set day for month calendar
     for (int i = 0; i < 12; i++) {
@@ -104,7 +101,7 @@
         monthView.monthDate = firstDate;
         //[monthView setNeedsDisplay];
         [monthView initCalendar];//:firstDate];
-        [monthView refresh];
+        //[monthView refresh];
         firstDate = [Common dateByAddNumMonth:1 toDate:firstDate];
     }
 }

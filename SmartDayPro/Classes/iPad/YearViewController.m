@@ -38,6 +38,12 @@
         
         self.view = contentView;
         [contentView release];
+        
+        TaskManager *tm = [TaskManager getInstance];
+        NSDate *dt = tm.today;
+        NSDate *firstDate = [Common getFirstYearDate:dt];
+        contentView.date = firstDate;
+        [contentView initCalendar];
     }
     
     return self;
@@ -51,11 +57,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    TaskManager *tm = [TaskManager getInstance];
+    /*TaskManager *tm = [TaskManager getInstance];
     NSDate *dt = tm.today;
     NSDate *firstDate = [Common getFirstYearDate:dt];
     contentView.date = firstDate;
-    [contentView initCalendar];
+    [contentView initCalendar];*/
 }
 
 - (void)didReceiveMemoryWarning
