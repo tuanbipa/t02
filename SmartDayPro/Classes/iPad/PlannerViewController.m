@@ -546,15 +546,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [menu release];
 }
 
-/*- (void)markDoneTaskInView: (TaskView *)view {
-    BOOL refreshDayCal = view.task.isManual;
-    [super markDoneTaskInView: view];
-    
-    if (refreshDayCal) {
-        [plannerBottomDayCal refreshLayout];
-    }
-}*/
-
 #pragma mark Views
 - (void) createTaskModuleHeader
 {

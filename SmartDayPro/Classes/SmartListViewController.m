@@ -1563,7 +1563,12 @@ SmartListViewController *_smartListViewCtrler;
                 printf("6\n");
         */
         
-        [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
+        //[_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
+        if (_plannerViewCtrler) {
+            [_plannerViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
+        } else {
+            [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
+        }
     }
 }
 
