@@ -34,6 +34,8 @@
 }
 
 @property (nonatomic, retain) Task *task2Link;
+@property (nonatomic, retain) Task *actionTaskCopy;
+
 
 @property (nonatomic, readonly) ContentView *contentView;
 

@@ -21,6 +21,8 @@
 - (BOOL) checkMMBusy;
 - (BOOL) checkBusy;
 
+- (void) reset;
+
 +(id)getInstance;
 +(void)free;
 

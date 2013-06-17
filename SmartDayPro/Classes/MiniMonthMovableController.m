@@ -293,45 +293,84 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 - (void) doTaskMovementInMM
 {
+    Settings *settings = [Settings getInstance];
+    
     NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     
     Task *task = ((TaskView *) self.activeMovableView).task;
     
-    if ([task isTask])
+    if (settings.move2MMConfirmation)
     {
-        NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
-        
-        alertView.tag = -10000;
-        
-        [alertView show];
-        [alertView release];
-        
-    }    
-    else if ([task isEvent])
-    {
-        NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
-        
-        alertView.tag = -10001;
-        
-        [alertView show];
-        [alertView release];        
+        if ([task isTask])
+        {
+            /*
+             NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
+             
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+             */
+            
+            NSString *msg = [Common getCalendarDateString:calDate];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDeadlineText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
+            
+            alertView.tag = -10000;
+            
+            [alertView show];
+            [alertView release];
+            
+        }
+        else if ([task isEvent])
+        {
+            /*
+             NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
+             
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
+             */
+            
+            NSString *msg = [Common getCalendarDateString:calDate];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDateText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
+            
+            alertView.tag = -10001;
+            
+            [alertView show];
+            [alertView release];
+        }
+        else if ([task isNote])
+        {
+            /*
+             NSString *msg = [NSString stringWithFormat:@"%@ %@", _noteAssociatedText, [Common getCalendarDateString:calDate]];
+             
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];*/
+            
+            
+            NSString *msg = [Common getCalendarDateString:calDate];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDateText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
+            
+            alertView.tag = -10002;
+            
+            [alertView show];
+            [alertView release];
+            
+        }
     }
-    else if ([task isNote])
+    else
     {
-        NSString *msg = [NSString stringWithFormat:@"%@ %@", _noteAssociatedText, [Common getCalendarDateString:calDate]];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
-        
-        alertView.tag = -10002;
-        
-        [alertView show];
-        [alertView release];
-        
+        if ([task isTask])
+        {
+            [self changeTaskDeadline:task];
+        }
+        else if ([task isEvent])
+        {
+            [self changeEventDate:task];
+        }
+        else if ([task isNote])
+        {
+            [self changeNoteDate:task];
+        }
     }
+
 }
 
 - (void)convertTaskToSTask: (Task *) task time: (NSDate *) time {
@@ -347,7 +386,9 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    TaskView *tv = (TaskView *) self.activeMovableView;
+    Settings *settings = [Settings getInstance];
+    
+    //TaskView *tv = (TaskView *) self.activeMovableView;
     
     Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
     
@@ -363,13 +404,20 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	{
         switch (buttonIndex) 
         {
+            /*
             case 0: //Edit
             {
                 [self changeTaskDeadline:task];
                 
                 needEdit = YES;
             }
-                break;
+                break;*/
+            case 0: //Don't Show
+            {
+                settings.move2MMConfirmation = NO;
+                [settings saveHintDict];
+            }
+                //break;
                 
             case 1: //OK
                 [self changeTaskDeadline:task];
@@ -381,21 +429,20 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	{
         switch (buttonIndex) 
         {
-            /*case 0: //Visit
-            {
-                [self changeEventDate:task];
-                
-                visitDate = [[task.startTime copy] autorelease];
-                
-            }
-                break;*/
+                /*
             case 0: //Edit
             {
                 [self changeEventDate:task];
                 
                 needEdit = YES;
             }
-                break;
+                break;*/
+            case 0: //Don't Show
+            {
+                settings.move2MMConfirmation = NO;
+                [settings saveHintDict];
+            }
+                //break;
             case 1: //OK
                 [self changeEventDate:task];
                 break;
@@ -406,25 +453,23 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	{
         switch (buttonIndex) 
         {
+                /*
             case 0: //Edit
             {
-                /*
-                task.startTime = [Common copyTimeFromDate:task.startTime toDate:calDate];
-                
-                [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];*/
-                
                 [self changeNoteDate:task];
                 
                 needEdit = YES;
             }
-                break;
+                break;*/
+            case 0: //Don't Show
+            {
+                settings.move2MMConfirmation = NO;
+                [settings saveHintDict];
+            }
+                //break;
+                
             case 1: //OK
             {
-                /*
-                task.startTime = [Common copyTimeFromDate:task.startTime toDate:calDate];
-                
-                [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];*/
-                
                 [self changeNoteDate:task];
             }
                 break;

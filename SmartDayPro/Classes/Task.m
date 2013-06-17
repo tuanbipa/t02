@@ -422,11 +422,11 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 - (void) initialUpdate
 {
-	NSDate *today = [self isEvent]?[NSDate date]:[Common copyTimeFromDate:self.creationTime toDate:[NSDate date]];
+	NSDate *today = [self isEvent]?[Common dateByRoundMinute:5 toDate:[NSDate date]]:[Common copyTimeFromDate:self.creationTime toDate:[NSDate date]];
 	
-	NSInteger startDiff = (self.startTime == nil?0:[Common timeIntervalNoDST:self.startTime sinceDate:self.creationTime]);
-	NSInteger dueDiff = (self.deadline == nil?0:[Common timeIntervalNoDST:self.deadline sinceDate:self.creationTime]);
-	NSInteger endDiff = [Common timeIntervalNoDST:self.endTime sinceDate:self.startTime];
+	NSInteger startDiff = (self.startTime == nil?0:[self.startTime timeIntervalSinceDate:self.creationTime]);
+	NSInteger dueDiff = (self.deadline == nil?0:[self.deadline timeIntervalSinceDate:self.creationTime]);
+	NSInteger endDiff = [self.endTime timeIntervalSinceDate:self.startTime];
 	
 	if (self.startTime != nil)
 	{
@@ -436,7 +436,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 		if (self.endTime != nil)
 		{
 			self.endTime = [Common dateByAddNumSecond:endDiff toDate:self.startTime];
-		}		
+		}
 	}
 	
 	if (self.deadline != nil)

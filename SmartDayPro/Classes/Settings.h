@@ -209,6 +209,7 @@
 @property BOOL deleteWarning;
 @property BOOL doneWarning;
 @property BOOL hideWarning;
+@property BOOL move2MMConfirmation;
 
 @property BOOL tdAutoSyncEnabled;
 @property BOOL tdSyncEnabled;
@@ -327,6 +328,7 @@
 + (NSInteger) findTimeZoneID:(NSTimeZone *)tz;
 + (NSString *) getTimeZoneDisplayNameByID:(NSInteger)tzID;
 + (NSString *) getTimeZoneNameByID:(NSInteger)tzID;
++ (NSTimeZone *) getTimeZoneByID:(NSInteger)tzID;
 +(void)startup;
 +(id)getInstance;
 +(void)free;

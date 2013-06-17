@@ -1515,7 +1515,8 @@ extern BOOL _isiPad;
         tzValueLabel.font=[UIFont systemFontOfSize:15];
         tzValueLabel.backgroundColor=[UIColor clearColor];
         
-        tzValueLabel.text = (self.taskCopy.timeZoneId == 0? @"Floating":[Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId]);
+        //tzValueLabel.text = (self.taskCopy.timeZoneId == 0? @"Floating":[Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId]);
+        tzValueLabel.text = [Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId];
         
         [cell.contentView addSubview:tzValueLabel];
         [tzValueLabel release];

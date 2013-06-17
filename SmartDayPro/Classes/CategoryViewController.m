@@ -163,6 +163,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			{
                 Task *topTask = [dbm getTopTaskForPlan:prj.primaryKey excludeFutureTasks:NO];
                 
+                //printf("top task: %s - prj: %s\n",[topTask.name UTF8String], [prj.name UTF8String]);
+                
 				NSMutableArray *activeTasks = [dbm getItems:self.filterType inPlan:prj.primaryKey];
 
                 if (self.showDone && self.filterType == TYPE_TASK)

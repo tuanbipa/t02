@@ -1373,7 +1373,8 @@ SmartListViewController *_smartListViewCtrler;
 	{
 		[self deselect];
 		
-		[self performSelector:@selector(tabFilter:) withObject:[NSNumber numberWithInt:filterType] afterDelay:0];
+		//[self performSelector:@selector(tabFilter:) withObject:[NSNumber numberWithInt:filterType] afterDelay:0];
+        [self tabFilter:[NSNumber numberWithInt:filterType]];
         
 		[[Settings getInstance] changeFilterTab:filterType];
         

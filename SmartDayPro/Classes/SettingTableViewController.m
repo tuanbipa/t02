@@ -266,30 +266,32 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         else
         {
+            /*
             if (settings.timeZoneID == 0)
             {
                 [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
             }
             else
             {
-                NSString *tzName = [Settings getTimeZoneDisplayNameByID:settings.timeZoneID];
-                
-                [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:tzName]];
-            }
+                [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
+            }*/
+            
+            [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
         }
     }
     else if (timeZoneChange)
     {
+        /*
         if (settings.timeZoneID == 0)
         {
             [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
         }
         else
         {
-            NSString *tzName = [Settings getTimeZoneDisplayNameByID:settings.timeZoneID];
-            
-            [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:tzName]];
-        }
+            [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
+        }*/
+        
+        [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
     }    
     
     if (weekStartChange)

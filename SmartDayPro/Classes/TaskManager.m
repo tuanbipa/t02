@@ -685,7 +685,7 @@ TaskManager *_sctmSingleton = nil;
 	{
         //self.todayEventList = [self getEventListOnDate:date];
 
-        [[AlertManager getInstance] generateAlerts];
+        //[[AlertManager getInstance] generateAlerts];
 	
         self.today = [Common copyTimeFromDate:[NSDate date] toDate:date];
 	}
@@ -814,10 +814,7 @@ TaskManager *_sctmSingleton = nil;
             }
         }
         
-        //NSTimeZone *tz = [NSTimeZone timeZoneWithName:[Settings getTimeZoneDisplayNameByID:re.timeZoneId]];
-        
         int wkday = re.repeatData.type == REPEAT_WEEKLY? [Common getWeekday:reStartTime timeZoneID:re.timeZoneId]:[Common getWeekday:reStartTime];
-        //int wkday = [Common getWeekday:reStartTime timezone:tz];
         int wkOrdinal = [Common getWeekdayOrdinal:reStartTime];
         
         NSDateComponents *re_comps = [gregorian components:unitFlags fromDate:reStartTime];
@@ -2014,6 +2011,7 @@ TaskManager *_sctmSingleton = nil;
 		
 		if (!sortBGInProgress)
 		{
+            //printf("update seq no: %d for task:%s\n", task.sequenceNo, [task.name UTF8String]);
 			[task updateSeqNoIntoDB:[dbm getDatabase]];
 		}
 	}

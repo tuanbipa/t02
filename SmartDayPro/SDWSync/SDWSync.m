@@ -1458,6 +1458,13 @@ NSInteger _sdwColor[32] = {
         ret.type = TYPE_ADE;
     }
     
+    NSInteger secs = 0;
+    
+    if (ret.type == TYPE_EVENT || ret.type == TYPE_ADE)
+    {
+        secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:ret.timeZoneId];
+    }
+    
     NSString *catId = [[dict objectForKey:@"category_id"] stringValue];
     
     NSNumber *prjNum = [self.sdwSCMappingDict objectForKey:catId];
@@ -1471,8 +1478,7 @@ NSInteger _sdwColor[32] = {
     ret.duration = ([[dict objectForKey:@"duration"] intValue])*60;
     
     NSInteger dt = [[dict valueForKey:@"start_time"] intValue];
-    ret.startTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]]);
-    //ret.startTime = (dt == 0?nil:[NSDate dateWithTimeIntervalSince1970:dt]);
+    ret.startTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt+secs]]);
     
     dt = [[dict objectForKey:@"end_time"] intValue];
     
@@ -1484,13 +1490,11 @@ NSInteger _sdwColor[32] = {
     if (due && isTask)
     {
         ret.deadline = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]];
-        //ret.deadline = [NSDate dateWithTimeIntervalSince1970:dt];
     }
     
     if (isEvent)
     {
-        ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]]);
-        //ret.endTime = (dt == 0?nil:[NSDate dateWithTimeIntervalSince1970:dt]);
+        ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt+secs]]);
     }
         
     BOOL star = [[dict objectForKey:@"star"] boolValue];
@@ -1727,13 +1731,7 @@ NSInteger _sdwColor[32] = {
     NSInteger endTime = (task.endTime != nil?[[Common toDBDate:task.endTime] timeIntervalSince1970]:0);
     NSInteger dueTime = (task.deadline != nil?[[Common toDBDate:task.deadline] timeIntervalSince1970]:0);
     NSInteger doneTime = (task.completionTime != nil?[[Common toDBDate:task.completionTime] timeIntervalSince1970]:0);
-
-/*
-    NSInteger startTime = (task.startTime != nil?[task.startTime timeIntervalSince1970]:0);
-    NSInteger endTime = (task.endTime != nil?[task.endTime timeIntervalSince1970]:0);
-    NSInteger dueTime = (task.deadline != nil?[task.deadline timeIntervalSince1970]:0);
-    NSInteger doneTime = (task.completionTime != nil?[task.completionTime timeIntervalSince1970]:0);
-*/    
+ 
     NSInteger type = 0;
     
     switch (task.type)
@@ -1751,6 +1749,14 @@ NSInteger _sdwColor[32] = {
         case TYPE_SHOPPING_ITEM:
             type = 4;
             break;
+    }
+    
+    if (type == 3)
+    {
+        NSInteger secs = [Common getSecondsFromTimeZoneID:task.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
+        
+        startTime += secs;
+        endTime += secs;
     }
     
     NSMutableDictionary *repeatDict = [NSMutableDictionary dictionaryWithCapacity:0];

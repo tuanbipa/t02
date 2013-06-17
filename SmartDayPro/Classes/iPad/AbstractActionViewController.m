@@ -61,6 +61,8 @@ BOOL _autoPushPending = NO;
 
 @synthesize popoverCtrler;
 
+@synthesize actionTaskCopy;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -77,6 +79,7 @@ BOOL _autoPushPending = NO;
         activeView = nil;
         
         self.task2Link = nil;
+        self.actionTaskCopy = nil;
         
         self.popoverCtrler = nil;
         
@@ -138,6 +141,7 @@ BOOL _autoPushPending = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     self.task2Link = nil;
+    self.actionTaskCopy = nil;
     
     self.popoverCtrler = nil;    
     
@@ -877,7 +881,7 @@ BOOL _autoPushPending = NO;
     //BOOL isManual = [task isManual];
     
     actionTask = task;
-    actionTaskCopy = taskCopy;
+    self.actionTaskCopy = taskCopy;
     
     BOOL reSchedule = NO;
     
