@@ -99,9 +99,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		[highlightView release];
         
         openningWeek = -1;
-        
-        /*[[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refreshOpeningWeek:)                                   name:@"FastScheduleFinishedNotification" object:nil];*/
     }
     return self;
 }
@@ -230,58 +227,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
 	//nDays = days;
 	nWeeks = weeks;
-	
-	/*BOOL weekStartOnMonday = [[Settings getInstance] isMondayAsWeekStart];
-	
-	CGFloat yoffset = 0;
-	
-	CGFloat height = _isiPad?48:40;
-	CGFloat width = (nDays == 5? 64:(_isiPad?48:46));
-	
-	for (int i=0; i<42; i++)
-	{
-		int mod = i%7;
-		
-		PlannerMonthCellView *cell = [self.subviews objectAtIndex:i];
-		
-		CGRect frm = CGRectMake(mod*width, yoffset, width, height);
-        
-		if (nDays == 5 && !weekStartOnMonday)
-		{
-			frm.origin.x -= width; //shift left 1 column to start as Monday
-		}
-		
-		cell.frame = frm;
-		
-		if (mod == 6)
-		{
-			yoffset += height;
-		}
-	}
-	
-	CGRect frm = CGRectMake(0, 0, 7*width, 6*height);
-	
-	if (nDays == 5 && !weekStartOnMonday)
-	{
-		frm.origin.x -= width; //shift left 1 column to start as Monday
-	}*/
-    
-    /*if (weeks < 6) {
-        
-        PlannerMonthCellView *cell = [[self subviews] objectAtIndex:42];
-        
-        CGFloat alterHeight = (6-weeks) * cell.frame.size.height;
-        // update height
-        CGRect selfFrm = self.frame;
-        selfFrm.size.height = selfFrm.size.height - alterHeight;
-        self.frame = selfFrm;
-
-        // update height of supper view
-        PlannerView *plannerView = (PlannerView *) self.superview;
-        CGRect supperFrm = plannerView.frame;
-        supperFrm.size.height = supperFrm.size.height - alterHeight;
-        plannerView.frame = supperFrm;
-    }*/
 
 	self.clipsToBounds = YES;
 }
@@ -584,17 +529,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self collapseWeek];
     openningWeek = currentWeek;
     
-    PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
-    NSDate *firstDate = [cell getCellDate];
-    [self sendAdjustNotification:firstDate];
+    //PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
+    //NSDate *firstDate = [cell getCellDate];
+    [self sendAdjustNotification:nil];
 }
 
 - (void)expandCurrentWeek {
     [self expandWeek:openningWeek];
     
-    PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
-    NSDate *firstDate = [cell getCellDate];
-    [self sendAdjustNotification:firstDate];
+    //PlannerMonthCellView *cell = [[self subviews] objectAtIndex:openningWeek*7];
+    //NSDate *firstDate = [cell getCellDate];
+    [self sendAdjustNotification:nil];
 }
 
 - (void)sendAdjustNotification: (NSDate *) firstDate {
@@ -728,11 +673,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             [self collapseWeek];
             [self collapseExpand: cell.weekNumberInMonth];
             [self highlightCellOnDate:date];
-        }/* else {
-            [self collapseExpand:cell.weekNumberInMonth];
         }
-        
-        [self highlightCellOnDate:date];*/
 	}
 }
 
@@ -763,10 +704,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 - (void) refreshOpeningWeek: (NSNotification *)notification {
-    [self collapseCurrentWeek];
-    [self expandCurrentWeek];
-    PlannerMonthCellView *cell = (PlannerMonthCellView *)highlightView.tag;
-    [self highlightCell:cell];
+    //[self collapseCurrentWeek];
+    //[self expandCurrentWeek];
+    //PlannerMonthCellView *cell = (PlannerMonthCellView *)highlightView.tag;
+    //[self highlightCell:cell];
+    NSInteger currentWeek = openningWeek;
+    [self collapseWeek];
+    openningWeek = currentWeek;
+    [self expandWeek:openningWeek];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    [self highlightCellOnDate:tm.today];
+    
+    [self sendAdjustNotification:nil];
 }
 
 #pragma mark Links

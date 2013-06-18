@@ -253,6 +253,8 @@ extern PlannerViewController *_plannerViewCtrler;
     // collapse current week
     if (_plannerViewCtrler != nil) {
         [_plannerViewCtrler.plannerView.monthView collapseCurrentWeek];
+        NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+        [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
     }
     
     scrollView.scrollEnabled = NO;
@@ -277,7 +279,6 @@ extern PlannerViewController *_plannerViewCtrler;
 	
 	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
-//	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:timeSlot.time];
 	NSDateComponents *comps = [gregorian components:NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:[timeSlot getTime]];
     
 	NSInteger hour = [comps hour];
@@ -331,9 +332,6 @@ extern PlannerViewController *_plannerViewCtrler;
 	
 	[quickAddTextView becomeFirstResponder];
     scrollView.contentOffset = offset;
-    
-    NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
-    [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
 }
 
 -(void)quickAdd:(NSString *)name startTime:(NSDate *)startTime

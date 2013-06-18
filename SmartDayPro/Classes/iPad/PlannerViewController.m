@@ -199,16 +199,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
     // comment this line to fix deleting default task error
     [super reconcileItem:item reSchedule:reSchedule];
     
-    if ([item isNote]) {
-        [plannerView.monthView refreshCellByDate:item.startTime];
-    /*} else if ([item isADE]) {
-        [plannerView.monthView refreshOpeningWeek:nil];*/
-    } else if ([item isEvent]) {
-        [plannerView.monthView refreshOpeningWeek:nil];
-        //[plannerBottomDayCal refreshLayout];
-    } else if ([item isTask]) {
-        [plannerView.monthView refreshCellByDate:item.deadline];
-    }
+    [plannerView.monthView refreshOpeningWeek:nil];
+//    if ([item isNote]) {
+//        [plannerView.monthView refreshCellByDate:item.startTime];
+//    /*} else if ([item isADE]) {
+//        [plannerView.monthView refreshOpeningWeek:nil];*/
+//    } else if ([item isEvent]) {
+//        [plannerView.monthView refreshOpeningWeek:nil];
+//        //[plannerBottomDayCal refreshLayout];
+//    } else if ([item isTask]) {
+//        [plannerView.monthView refreshCellByDate:item.deadline];
+//    }
 }
 
 - (void) deselect
@@ -734,7 +735,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     NSDictionary *userInfo = [notification userInfo];
     NSDate *firstDate = [userInfo objectForKey:@"firstDate"];
     
-    [plannerBottomDayCal changeWeek:firstDate];
+    if (firstDate == nil) {
+        [plannerBottomDayCal refreshLayout];
+    } else {
+        [plannerBottomDayCal changeWeek:firstDate];
+    }
 }
 
 - (void)didReceiveMemoryWarning
