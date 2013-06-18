@@ -1672,17 +1672,10 @@ SmartListViewController *_smartListViewCtrler;
         [focusView refreshData];
     }
     
-    /*
-    if (_plannerViewCtrler) {
-        PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
-        [monthView refreshOpeningWeek:nil];
-        [monthView refresh];
-    } else {
-        [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh ret dot for any done Tasks
-    }
-    */
+    PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
+    [monthView refreshOpeningWeek:nil];
+    [monthView refresh];
     
-    [[_abstractViewCtrler getPlannerMonthCalendarView] refresh];
     [[_abstractViewCtrler getMonthCalendarView] refresh];
 }
 
