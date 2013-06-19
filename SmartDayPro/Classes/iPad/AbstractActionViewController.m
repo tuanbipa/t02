@@ -47,10 +47,13 @@
 #import "SmartCalAppDelegate.h"
 #import "PlannerViewController.h"
 #import "PlannerMonthView.h"
+#import "iPadViewController.h"
 
 extern BOOL _isiPad;
 
 BOOL _autoPushPending = NO;
+
+iPadViewController *_iPadViewCtrler;
 
 @interface AbstractActionViewController ()
 
@@ -365,6 +368,8 @@ BOOL _autoPushPending = NO;
     [tm initData];
     
     [self refreshData];
+    
+    [_iPadViewCtrler refreshFilterStatus];
     
     self.task2Link = nil;
 }
