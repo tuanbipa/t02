@@ -417,7 +417,8 @@ typedef enum
 	ICON_LIST,
     ICON_TASK,
     ICON_NOTE,
-    ICON_EVENT
+    ICON_EVENT,
+    ICON_ANCHORED
 } IconType;
 
 typedef enum

@@ -28,6 +28,7 @@ ProjectManager *_projectManagerSingleton = nil;
 @synthesize adeIconList;
 @synthesize taskIconList;
 @synthesize noteIconList;
+@synthesize anchoredIconList;
 
 /*
 @synthesize squareIconList;
@@ -81,6 +82,14 @@ ProjectManager *_projectManagerSingleton = nil;
 	icon = [Common takeSnapshot:iconView size:CGSizeMake(20, 20)];
 	
 	[self.taskIconList setObject:icon forKey:[NSNumber numberWithInt:prj.primaryKey]];
+    
+    iconView.type = ICON_ANCHORED;
+    iconView.frame = CGRectMake(0, 0, 16, 16);
+	[iconView setNeedsDisplay];
+	
+	icon = [Common takeSnapshot:iconView size:CGSizeMake(16, 16)];
+	
+	[self.anchoredIconList setObject:icon forKey:[NSNumber numberWithInt:prj.primaryKey]];
 	
 	[iconView release];	
 }
@@ -103,6 +112,11 @@ ProjectManager *_projectManagerSingleton = nil;
 - (UIImage *) getTaskIcon:(NSInteger)key
 {
 	return [self.taskIconList objectForKey:[NSNumber numberWithInt:key]];
+}
+
+- (UIImage *) getAnchoredIcon:(NSInteger)key
+{
+	return [self.anchoredIconList objectForKey:[NSNumber numberWithInt:key]];
 }
 
 #pragma mark Sync
@@ -200,6 +214,7 @@ ProjectManager *_projectManagerSingleton = nil;
 	self.adeIconList = [NSMutableDictionary dictionaryWithCapacity:list.count];
 	self.taskIconList = [NSMutableDictionary dictionaryWithCapacity:list.count];
 	self.noteIconList = [NSMutableDictionary dictionaryWithCapacity:list.count];
+    self.anchoredIconList = [NSMutableDictionary dictionaryWithCapacity:list.count];
 	
 	for (Project *prj in self.projectList)
 	{
@@ -794,6 +809,7 @@ ProjectManager *_projectManagerSingleton = nil;
 	self.adeIconList = nil;
 	self.taskIconList = nil;
     self.noteIconList = nil;
+    self.anchoredIconList = nil;
 	
 	self.cascadeDictionary = nil;
 	

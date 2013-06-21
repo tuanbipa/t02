@@ -128,7 +128,19 @@
             [noteImg drawInRect:rect];
             
         }
-            break;			
+            break;
+        case ICON_ANCHORED:
+        {
+            CGContextFillRect(ctx, rect);
+            
+            [[UIColor whiteColor] setStroke];
+            CGContextSetLineWidth(ctx, 2);
+            CGContextStrokeRect(ctx, rect);
+            
+            UIImage *eventImg = [[ImageManager getInstance] getImageWithName:@"atask.png"];
+            [eventImg drawInRect:rect];
+        }
+            break;
 	}
 }
 

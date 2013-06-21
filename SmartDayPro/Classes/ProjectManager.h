@@ -17,6 +17,7 @@
 	NSMutableDictionary *adeIconList;
 	NSMutableDictionary *taskIconList;
 	NSMutableDictionary *noteIconList;
+    NSMutableDictionary *anchoredIconList;
 
     /*
     NSMutableDictionary *squareIconList;
@@ -36,6 +37,7 @@
 @property (nonatomic, retain) NSMutableDictionary *adeIconList;
 @property (nonatomic, retain) NSMutableDictionary *taskIconList;
 @property (nonatomic, retain) NSMutableDictionary *noteIconList;
+@property (nonatomic, retain) NSMutableDictionary *anchoredIconList;
 
 /*
 @property (nonatomic, retain) NSMutableDictionary *squareIconList;
@@ -64,6 +66,7 @@
 - (UIImage *) getADEIcon:(NSInteger)key;
 - (UIImage *) getNoteIcon:(NSInteger)key;
 - (UIImage *) getTaskIcon:(NSInteger)key;
+- (UIImage *) getAnchoredIcon:(NSInteger)key;
 - (void) resetSyncIds;
 - (void) resetSDWIds;
 - (NSMutableArray *) getCascadeList;
