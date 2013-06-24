@@ -664,7 +664,12 @@ NSInteger _sdwColor[32] = {
     ret.deleteWarning = [[dict objectForKey:@"confirm_delete"] boolValue];
     
     NSString *catId = [[dict objectForKey:@"default_category_id"] stringValue];
-    ret.taskDefaultProject = [[self.sdwSCMappingDict objectForKey:catId] intValue];
+    
+    NSNumber *catNum = [self.sdwSCMappingDict objectForKey:catId];
+    
+    //printf("default prj swd id: %s, id:%d\n", [catId UTF8String],[catNum intValue]);
+    
+    ret.taskDefaultProject = catNum == nil?-1:[catNum intValue];
     
     ret.taskDuration = [[dict objectForKey:@"default_task_dur"] intValue]*60;
     
@@ -696,15 +701,19 @@ NSInteger _sdwColor[32] = {
 
 - (NSDictionary *) toSDWSettingsDict:(Settings *)settings
 {
+    NSString *sdwId = [self.scSDWMappingDict objectForKey:[NSNumber numberWithInt:settings.taskDefaultProject]];
+    
     NSDictionary *catDict = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithInt:(settings.deleteWarning?1:0)],@"confirm_delete",
-                             [self.scSDWMappingDict objectForKey:[NSNumber numberWithInt:settings.taskDefaultProject]], @"default_category_id",
+                             sdwId, @"default_category_id",
                              [NSNumber numberWithInt:settings.taskDuration/60], @"default_task_dur",
                              [NSNumber numberWithInt:(settings.eventCombination == 0?1:0)], @"show_task",
                              [NSNumber numberWithInt:settings.hideFutureTasks?1:0], @"hide_future_task",
                              [NSNumber numberWithInt:(settings.timeZoneSupport?1:0)],@"timezone_support",
                              [NSNumber numberWithInt:settings.timeZoneID],@"timezone_key",
                              nil];
+    
+    //printf("to SDW - default prj id: %s\n", [sdwId UTF8String]);
     
     return catDict;
 }
@@ -807,19 +816,19 @@ NSInteger _sdwColor[32] = {
             
             //printf("sc settings time: %s, sdw settings time: %s\n", [[settings.updateTime description] UTF8String], [[sdwSettings.updateTime description] UTF8String]);
             
-            if (compRes == NSOrderedAscending) //update SDW->SC
+            if (sdwSettings.taskDefaultProject == -1 || compRes == NSOrderedDescending) //update SC->SDW
+            {
+                //printf("update settings SC->SDW\n");
+                
+                [self updateSDWSettings:settings];
+            }
+            else if (compRes == NSOrderedAscending) //update SDW->SC
             {
                 //printf("update settings SDW->SC\n");
                 
                 [settings enableExternalUpdate];
                 
                 [settings updateSettings:sdwSettings];
-            }
-            else if (compRes == NSOrderedDescending) //update SC->SDW
-            {
-                //printf("update settings SC->SDW\n");
-                
-                [self updateSDWSettings:settings];
             }
         }
     }

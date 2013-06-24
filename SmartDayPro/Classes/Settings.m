@@ -2608,17 +2608,11 @@ extern BOOL _isiPad;
 {
     if (self.timeZoneSupport)
     {
-        /*
-        if (self.timeZoneID == 0)
-        {
-            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
-        }
-        else
-        {
-            [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:self.timeZoneID]];
-        }*/
-        
         [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:self.timeZoneID]];
+    }
+    else
+    {
+        [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
     }
 }
 

@@ -228,7 +228,7 @@ extern PlannerViewController *_plannerViewCtrler;
         return;
     }
     
-    [self retain];
+    //[self retain];
     
     UIButton *button = (UIButton *) sender;
     
@@ -237,16 +237,19 @@ extern PlannerViewController *_plannerViewCtrler;
 	if (!self.multiSelectionEnable)
 	{
         //[_abstractViewCtrler markDoneTaskInView:self];
-        if (_plannerViewCtrler) {
+        if (_plannerViewCtrler)
+        {
             [_plannerViewCtrler markDoneTaskInView:self];
-        } else {
+        }
+        else
+        {
             [_abstractViewCtrler markDoneTaskInView:self];
         }
     }
     
     [self refreshCheckImage];
     
-    [self release];
+    //[self release];
 }
 
 -(void)star:(id)sender
@@ -608,9 +611,11 @@ extern PlannerViewController *_plannerViewCtrler;
 {	
 	//Task *task = (Task *) self.tag;
 	
-	if ([task isDTask])
+	if ([self.task isDTask])
 	{
-		NSTimeInterval diff = [Common timeIntervalNoDST:task.deadline sinceDate:[Common clearTimeForDate:[NSDate date]]];
+		//NSTimeInterval diff = [Common timeIntervalNoDST:task.deadline sinceDate:[Common clearTimeForDate:[NSDate date]]];
+        
+        NSTimeInterval diff = [self.task.deadline timeIntervalSinceDate:[Common clearTimeForDate:[NSDate date]]];
 		
 		NSInteger dueDays = floor(diff/24/3600);
 		
@@ -712,7 +717,7 @@ extern PlannerViewController *_plannerViewCtrler;
 {	
 	//Task *task = (Task *) self.tag;
 	
-	if ((task.type == TYPE_TASK || task.type == TYPE_SHOPPING_ITEM) && task.status == TASK_STATUS_PINNED)
+	if ((self.task.type == TYPE_TASK || self.task.type == TYPE_SHOPPING_ITEM) && self.task.status == TASK_STATUS_PINNED)
 	{
 		//UIImage *pinImage = [UIImage imageNamed:@"pin.png"];
 		
@@ -726,7 +731,7 @@ extern PlannerViewController *_plannerViewCtrler;
 {	
 	//Task *task = (Task *) self.tag;
 	
-	if (task.alerts != nil && task.alerts.count > 0)
+	if (self.task.alerts != nil && self.task.alerts.count > 0)
 	{
 		//UIImage *alertImage = [UIImage imageNamed:@"alert.png"];
 		
@@ -761,17 +766,17 @@ extern PlannerViewController *_plannerViewCtrler;
 {
     ProjectManager *pm = [ProjectManager getInstance];
     
-    BOOL hasAlert = (task.original != nil && ![task isREException]?task.original.alerts.count > 0:task.alerts.count > 0);
-	BOOL hasDue = [task isDTask];
-    BOOL hasFlag = [task isTask] && (task.isTop || (task.original != nil && task.original.isTop));
+    BOOL hasAlert = (self.task.original != nil && ![self.task isREException]?self.task.original.alerts.count > 0:self.task.alerts.count > 0);
+	BOOL hasDue = [self.task isDTask];
+    BOOL hasFlag = [self.task isTask] && (self.task.isTop || (self.task.original != nil && self.task.original.isTop));
     BOOL hasHashMark = NO;
     BOOL hasTime = NO;
-    BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
-    BOOL hasHand = [task isShared];
+    BOOL hasLink = (self.task.original != nil && ![self.task isREException]? self.task.original.links.count > 0: self.task.links.count > 0);
+    BOOL hasHand = [self.task isShared];
     
     //printf("task %s link count: %d\n", [task.name UTF8String], task.links.count);
     
-    UIColor *dimProjectColor = [pm getProjectColor1:task.project];
+    UIColor *dimProjectColor = [pm getProjectColor1:self.task.project];
     
     if (isSelected)
     {
@@ -795,7 +800,7 @@ extern PlannerViewController *_plannerViewCtrler;
         rect.size.width -= 30;
     }
     
-    if (task.type == TYPE_ADE)
+    if (self.task.type == TYPE_ADE)
     {
         /*CGRect frm = CGRectOffset(rect, SPACE_PAD, 0);
         
@@ -846,17 +851,17 @@ extern PlannerViewController *_plannerViewCtrler;
     
     UIImage *img = nil;
     
-    if ([task isEvent] && ![task isADE])
+    if ([self.task isEvent] && ![self.task isADE])
     {
-        img = [pm getEventIcon:task.project];
+        img = [pm getEventIcon:self.task.project];
     }
-    else if ([task isTask])
+    else if ([self.task isTask])
     {
-        img = [pm getTaskIcon:task.project];
+        img = [pm getTaskIcon:self.task.project];
     }
-    else if ([task isNote])
+    else if ([self.task isNote])
     {
-        img = [pm getNoteIcon:task.project];
+        img = [pm getNoteIcon:self.task.project];
     }
     
     ////printf("icon w=%f, h=%f\n", img.size.width, img.size.height);
@@ -868,7 +873,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     [img drawInRect:frm];
     
-    if (self.multiSelectionEnable && [task isDone])
+    if (self.multiSelectionEnable && [self.task isDone])
     {
         img = [[ImageManager getInstance] getImageWithName:@"checkmark.png"];
         

@@ -367,6 +367,8 @@ iPadViewController *_iPadViewCtrler;
     
     [tm initData];
     
+    [[self getMiniMonth] initCalendar:[NSDate date]];
+    
     [self refreshData];
     
     [_iPadViewCtrler refreshFilterStatus];

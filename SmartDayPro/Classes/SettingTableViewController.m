@@ -258,6 +258,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 	[settings updateSettings:self.settingCopy];
     
+    if (!settings.timeZoneSupport)
+    {
+        settings.timeZoneID = [Settings findTimeZoneID:[NSTimeZone systemTimeZone]];
+    }
+    
     if (timeZoneSupportChange)
     {
         if (!settings.timeZoneSupport)
@@ -266,33 +271,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         else
         {
-            /*
-            if (settings.timeZoneID == 0)
-            {
-                [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
-            }
-            else
-            {
-                [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
-            }*/
-            
             [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
         }
     }
     else if (timeZoneChange)
     {
-        /*
-        if (settings.timeZoneID == 0)
-        {
-            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
-        }
-        else
-        {
-            [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
-        }*/
-        
         [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
-    }    
+    }
     
     if (weekStartChange)
     {

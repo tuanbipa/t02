@@ -157,19 +157,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
             [[TDSync getInstance] resetSyncSection];
         }
 	}
-    
-    /*
-    if (self.sdwAccountChange)
-	{
-		[settings resetSDWSync];
-		
-		[dbm resetSDWIds];
-        [pm resetSDWIds];
         
-        [[SDWSync getInstance] resetSyncSection];
-	}
-    */
-    
     if (self.sdwAccountChange || taskSyncChange)
 	{
 		[settings resetSDWSync];
@@ -184,6 +172,11 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
 	[settings updateSettings:self.settingCopy];
     
+    if (!settings.timeZoneSupport)
+    {
+        settings.timeZoneID = [Settings findTimeZoneID:[NSTimeZone systemTimeZone]];
+    }
+    
     if (timeZoneSupportChange)
     {
         if (!settings.timeZoneSupport)
@@ -192,31 +185,11 @@ iPadSettingViewController *_iPadSettingViewCtrler;
         }
         else
         {
-            /*
-            if (settings.timeZoneID == 0)
-            {
-                [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
-            }
-            else
-            {
-                [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
-
-            }*/
             [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
         }
     }
     else if (timeZoneChange)
-    {
-        /*
-        if (settings.timeZoneID == 0)
-        {
-            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
-        }
-        else
-        {
-            [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
-        }*/
-        
+    {        
         [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
     }
     
