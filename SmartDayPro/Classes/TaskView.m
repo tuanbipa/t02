@@ -1432,7 +1432,7 @@ extern PlannerViewController *_plannerViewCtrler;
     if ([task isEvent] || [task isNote])
     {
 		//UIImage *image = [[ImageManager getInstance] getImageWithName:@"event.png"];
-        UIImage *image = [task isManual] ? [[ProjectManager getInstance] getAnchoredIcon:task.project] : [[ImageManager getInstance] getImageWithName:@"event.png"];
+        UIImage *image = [task isManual] ? [[ImageManager getInstance] getImageWithName:@"atask_lines.png"] : [[ImageManager getInstance] getImageWithName:@"event.png"];
         
         //v4.0
         if (task.groupKey != -1)

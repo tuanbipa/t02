@@ -1461,10 +1461,10 @@
 		67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */; };
 		67FB71BE16781D9E0033C3A1 /* FocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB71BD16781D9E0033C3A1 /* FocusView.m */; };
 		67FB7F251640C9930049DA1A /* MiniMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */; };
-		A22A62431774426300AD1634 /* atask.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62421774426300AD1634 /* atask.png */; };
-		A22A62441774426300AD1634 /* atask.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62421774426300AD1634 /* atask.png */; };
-		A22A624617745DE000AD1634 /* atask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A624517745DE000AD1634 /* atask@2x.png */; };
-		A22A624717745DE000AD1634 /* atask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A624517745DE000AD1634 /* atask@2x.png */; };
+		A22A624A1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
+		A22A624B1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
+		A22A624C1778293900AD1634 /* atask_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62491778293900AD1634 /* atask_lines@2x.png */; };
+		A22A624D1778293A00AD1634 /* atask_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62491778293900AD1634 /* atask_lines@2x.png */; };
 		A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 		A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 		A2E036B61724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
@@ -2409,8 +2409,8 @@
 		67FB71BD16781D9E0033C3A1 /* FocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusView.m; sourceTree = "<group>"; };
 		67FB7F231640C9920049DA1A /* MiniMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthHeaderView.h; sourceTree = "<group>"; };
 		67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniMonthHeaderView.m; sourceTree = "<group>"; };
-		A22A62421774426300AD1634 /* atask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atask.png; sourceTree = "<group>"; };
-		A22A624517745DE000AD1634 /* atask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atask@2x.png"; sourceTree = "<group>"; };
+		A22A62481778293800AD1634 /* atask_lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atask_lines.png; sourceTree = "<group>"; };
+		A22A62491778293900AD1634 /* atask_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atask_lines@2x.png"; sourceTree = "<group>"; };
 		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
 		A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarPlannerMovableController.m; sourceTree = "<group>"; };
 		A2E036B41724DDFA0039A2DF /* YearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearView.h; sourceTree = "<group>"; };
@@ -3086,8 +3086,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				A22A624517745DE000AD1634 /* atask@2x.png */,
-				A22A62421774426300AD1634 /* atask.png */,
+				A22A62481778293800AD1634 /* atask_lines.png */,
+				A22A62491778293900AD1634 /* atask_lines@2x.png */,
 				67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */,
 				67E7F7A317602DBD0019FAFF /* bar_eye_blue@2x.png */,
 				67D4EFDA17437394002B3483 /* none.png */,
@@ -4200,8 +4200,8 @@
 				67D4EFE517438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */,
 				67E7F7A417602DBD0019FAFF /* bar_eye_blue.png in Resources */,
 				67E7F7A617602DBD0019FAFF /* bar_eye_blue@2x.png in Resources */,
-				A22A62431774426300AD1634 /* atask.png in Resources */,
-				A22A624617745DE000AD1634 /* atask@2x.png in Resources */,
+				A22A624A1778293900AD1634 /* atask_lines.png in Resources */,
+				A22A624C1778293900AD1634 /* atask_lines@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4746,8 +4746,8 @@
 				67D4EFE617438C2C002B3483 /* Smartapps_bg_768.jpg in Resources */,
 				67E7F7A517602DBD0019FAFF /* bar_eye_blue.png in Resources */,
 				67E7F7A717602DBD0019FAFF /* bar_eye_blue@2x.png in Resources */,
-				A22A62441774426300AD1634 /* atask.png in Resources */,
-				A22A624717745DE000AD1634 /* atask@2x.png in Resources */,
+				A22A624B1778293900AD1634 /* atask_lines.png in Resources */,
+				A22A624D1778293A00AD1634 /* atask_lines@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
