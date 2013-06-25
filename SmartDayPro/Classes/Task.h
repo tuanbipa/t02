@@ -198,11 +198,14 @@
 -(BOOL)isLong;
 -(BOOL)isPartial;
 -(BOOL)isDone;
+-(BOOL) isMeetingInvited;
 -(BOOL) isShared;
 -(BOOL) isManual;
 
 - (void) setExtraManual:(NSInteger)intValue;
 - (void) setManual:(BOOL)enabled;
+- (void) setMeetingInvited:(BOOL)enabled;
+- (void) setShared:(BOOL)enabled;
 
 -(BOOL)checkMustDo;
 

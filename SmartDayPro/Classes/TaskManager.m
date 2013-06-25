@@ -1027,7 +1027,7 @@ TaskManager *_sctmSingleton = nil;
 	{
 		Project *transPrj = [transProjectDict objectForKey:[NSNumber numberWithInt:event.project]];
         
-		if (event.type != TYPE_EVENT || transPrj != nil)
+		if (event.type != TYPE_EVENT || (transPrj != nil && ![event isMeetingInvited]))
 		{
 			continue;
 		}

@@ -93,7 +93,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     CGPoint p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
     
-    if ([self.activeMovableView isKindOfClass:[TaskView class]])
+    if ([self.activeMovableView isKindOfClass:[TaskView class]] && ![((TaskView *)self.activeMovableView).task isShared])
     {
         CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
         

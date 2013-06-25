@@ -1637,9 +1637,13 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) touchAndHold
 {
+    if ([self.task isShared])
+    {
+        return;
+    }
+    
     if (self.task.listSource == SOURCE_CALENDAR) //only allow resize in Calendar View
     {
-        //[_abstractViewCtrler hidePreview];
         [_abstractViewCtrler deselect];
         
         CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];

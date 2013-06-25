@@ -1218,7 +1218,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
-    printf("getCategories: %s\n", [url UTF8String]);
+    //printf("getCategories: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -1239,9 +1239,9 @@ NSInteger _sdwColor[32] = {
     
     if (urlData) 
     {
-        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        printf("get categories returns:\n%s\n", [str UTF8String]);
+        //printf("get categories returns:\n%s\n", [str UTF8String]);
 
         NSMutableArray *prjList = [NSMutableArray arrayWithArray: pm.projectList];
         
@@ -1442,7 +1442,12 @@ NSInteger _sdwColor[32] = {
     ret.sdwId = [[dict objectForKey:@"id"] stringValue];
     ret.name = [dict objectForKey:@"title"];
     ret.note = [dict objectForKey:@"content"];
-    ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
+    
+    //ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
+    [ret setShared:[[dict objectForKey:@"shared"] intValue]];
+    
+    [ret setMeetingInvited:[[dict objectForKey:@"meeting_invite_flag"] intValue]];
+    
     // sync Manual Task
     [ret setExtraManual:[[dict objectForKey:@"stask"] intValue]];
     ret.timeZoneId = [[dict objectForKey:@"timezone_key"] intValue];

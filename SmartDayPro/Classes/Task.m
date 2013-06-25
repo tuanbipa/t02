@@ -2069,6 +2069,11 @@ static sqlite3_stmt *task_delete_statement = nil;
     return self.status == TASK_STATUS_DONE;
 }
 
+-(BOOL) isMeetingInvited
+{
+    return (self.extraStatus & TASK_EXTRA_STATUS_MEETING_INVITED) != 0;
+}
+
 -(BOOL) isShared
 {
     return (self.extraStatus & TASK_EXTRA_STATUS_SHARED) != 0;
@@ -2093,20 +2098,34 @@ static sqlite3_stmt *task_delete_statement = nil;
     if (enabled)
     {
         self.extraStatus |= TASK_EXTRA_STATUS_ANCHORED;
-        
-        /*NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
-        if (range.location == NSNotFound) {
-            self.name = [ANCHOR_CHARACTER stringByAppendingString:self.name];
-        }*/
     }
     else
     {
         self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
-        
-        /*NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
-        if (range.location != NSNotFound) {
-            self.name = [self.name stringByReplacingCharactersInRange:range withString:@""];
-        }*/
+    }
+}
+
+- (void) setMeetingInvited:(BOOL)enabled
+{
+    if (enabled)
+    {
+        self.extraStatus |= TASK_EXTRA_STATUS_MEETING_INVITED;
+    }
+    else
+    {
+        self.extraStatus &= ~TASK_EXTRA_STATUS_MEETING_INVITED;
+    }
+}
+
+- (void) setShared:(BOOL)enabled
+{
+    if (enabled)
+    {
+        self.extraStatus |= TASK_EXTRA_STATUS_SHARED;
+    }
+    else
+    {
+        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
     }
 }
 
