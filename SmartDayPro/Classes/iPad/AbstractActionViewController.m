@@ -1411,8 +1411,6 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) convert2Task:(Task *)task
 {
-    NSDate *sDate = [[task.startTime copy] autorelease];
-    
     Task *taskCopy = [[task copy] autorelease];
     
     taskCopy.type = TYPE_TASK;
@@ -1422,8 +1420,6 @@ iPadViewController *_iPadViewCtrler;
         task = task.original;
     }
     
-    //BOOL isRE = [task isRE];
-    
     // check if this is STask
     if ([taskCopy isManual]) {
         [taskCopy setManual:NO];
@@ -1432,37 +1428,7 @@ iPadViewController *_iPadViewCtrler;
     TaskManager *tm = [TaskManager getInstance];
     
     [tm updateTask:task withTask:taskCopy];
-    
-    /*
-    if (isRE)
-    {
-        MiniMonthView *mmView = [self getMiniMonth];
-
-        if (mmView != nil)
-        {
-            [mmView refresh];
-        }
-    }
-    else
-    {
-        AbstractMonthCalendarView *calView = [self getMonthCalendarView];
         
-        AbstractMonthCalendarView *plannerCalView = [self getMonthCalendarView];
-        
-        //if (calView != nil)
-        {
-            [calView refreshCellByDate:sDate];
-            [plannerCalView refreshCellByDate:sDate];
-            
-            if (task.deadline != nil)
-            {
-                [calView refreshCellByDate:task.deadline];
-                [plannerCalView refreshCellByDate:task.deadline];
-            }            
-        }
-    }
-    */
-    
     PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
     [plannerDayCal refreshLayout];
     

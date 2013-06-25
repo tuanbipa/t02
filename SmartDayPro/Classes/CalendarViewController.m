@@ -110,10 +110,10 @@ CalendarViewController *_sc2ViewCtrler;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(dayManagerReady:)
 													 name:@"DayManagerReadyNotification" object:nil];
-        
+        /*
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(fastScheduleFinished:)
-													 name:@"FastScheduleFinishedNotification" object:nil];
+													 name:@"FastScheduleFinishedNotification" object:nil];*/
 
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(calendarDayReady:)
@@ -123,9 +123,10 @@ CalendarViewController *_sc2ViewCtrler;
 												 selector:@selector(calendarDayChange:)
 													 name:@"CalendarDayChangeNotification" object:nil];
         
-/*		[[NSNotificationCenter defaultCenter] addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
 													 name:@"ScheduleFinishedNotification" object:nil];
+        /*
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(calendarDayReset:)
 													 name:@"CalendarDayResetNotification" object:nil];
@@ -1879,7 +1880,13 @@ CalendarViewController *_sc2ViewCtrler;
     [todayScheduleView refreshDayManagerView];
 }
 
+/*
 - (void)fastScheduleFinished:(NSNotification *)notification
+{
+    [self refreshLayout];
+}
+*/
+- (void)scheduleFinished:(NSNotification *)notification
 {
     [self refreshLayout];
 }

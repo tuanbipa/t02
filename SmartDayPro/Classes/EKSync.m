@@ -76,7 +76,7 @@ extern BOOL _syncMatchHintShown;
 	
 	self.eventStore = nil;
     
-    self.resultCode = 0;
+    //self.resultCode = 0;
 }
 
 -(id) init
