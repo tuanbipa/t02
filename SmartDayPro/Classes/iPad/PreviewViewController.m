@@ -584,7 +584,7 @@ PreviewViewController *_previewCtrler;
     
     CGFloat w = linkTableView.bounds.size.width;
     
-    UIImage *img = [pm getEventIcon:item.project];
+    UIImage *img = [item isManual]?[pm getAnchoredIcon:item.project]:[pm getEventIcon:item.project];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     imgView.frame = CGRectMake(10, 10, img.size.width, img.size.height);

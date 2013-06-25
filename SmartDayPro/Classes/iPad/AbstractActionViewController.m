@@ -53,7 +53,7 @@ extern BOOL _isiPad;
 
 BOOL _autoPushPending = NO;
 
-iPadViewController *_iPadViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @interface AbstractActionViewController ()
 

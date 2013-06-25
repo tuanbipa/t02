@@ -314,9 +314,9 @@
 			break;
 	}
 	
-	UITableViewCell *cell = [settingTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:1]];
+	UITableViewCell *cell = [settingTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:2]];
 	
-	UILabel *label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
+	UILabel *label = (UILabel *)[cell viewWithTag:12000+selectedIndex];
 	
 	label.text = workingTimeStr;
 }

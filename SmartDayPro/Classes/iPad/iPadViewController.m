@@ -110,6 +110,7 @@ iPadViewController *_iPadViewCtrler;
         searchBar = nil;
         timerButton = nil;
         tagButton = nil;
+        eyeButton = nil;
         
         [[self navigationController] setNavigationBarHidden:YES animated:YES];
     }

@@ -562,8 +562,7 @@ ProjectManager *_projectManagerSingleton = nil;
 	
 	for (Project *project in self.projectList)
 	{
-		//if (project.status == PROJECT_STATUS_TRANSPARENT)
-        if (project.isTransparent)
+        if (project.isTransparent || [project isShared])
 		{
 			[ret addObject:project];
 		}

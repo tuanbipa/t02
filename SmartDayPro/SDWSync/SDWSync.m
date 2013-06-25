@@ -897,6 +897,8 @@ NSInteger _sdwColor[32] = {
     
     if ([ret isShared])
     {
+        printf("project %s is a shared project\n", [ret.name UTF8String]);
+        
         NSDictionary *ownerDict = [dict objectForKey:@"owner"];
         
         if (ownerDict != nil)
@@ -917,7 +919,7 @@ NSInteger _sdwColor[32] = {
             //ret.ownerName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
             ret.ownerName = firstName;
             
-            //printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
+            printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
         }
     }
     
@@ -1216,7 +1218,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
-    //printf("getCategories: %s\n", [url UTF8String]);
+    printf("getCategories: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -1237,9 +1239,9 @@ NSInteger _sdwColor[32] = {
     
     if (urlData) 
     {
-        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        //printf("get categories returns:\n%s\n", [str UTF8String]);
+        printf("get categories returns:\n%s\n", [str UTF8String]);
 
         NSMutableArray *prjList = [NSMutableArray arrayWithArray: pm.projectList];
         

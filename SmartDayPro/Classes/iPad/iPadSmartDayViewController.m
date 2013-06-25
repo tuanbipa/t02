@@ -317,7 +317,7 @@ iPadViewController *_iPadViewCtrler;
         
         if (timerButton != nil)
         {
-            self.popoverCtrler.passthroughViews = [NSArray arrayWithObjects:timerButton,view,nil];
+            self.popoverCtrler.passthroughViews = [NSArray arrayWithObjects:timerButton,view,_iPadViewCtrler.view,nil];
         }
         
         [navController release];
