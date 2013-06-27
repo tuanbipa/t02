@@ -87,8 +87,6 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
     }
     
-    [self zoom:onView];
-    
     if ([self.activeMovableView isKindOfClass:[TaskView class]])
     {
         Task *item = ((TaskView *) self.activeMovableView).task;
@@ -99,7 +97,14 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             leftView = nil;
             rightView = nil;
         }
+        
+        if ([item isShared])
+        {
+            onView = nil;
+        }
     }
+    
+    [self zoom:onView];
     
     //if ([self canSeparate])
     {

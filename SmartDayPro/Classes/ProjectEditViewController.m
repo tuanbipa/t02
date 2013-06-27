@@ -71,20 +71,9 @@ extern BOOL _isiPad;
 	[mainView setContentSize:CGSizeMake(320, 600)];
 	mainView.canCancelContentTouches = NO;
 	mainView.delaysContentTouches = YES;
-	
-    /*
-	NSArray *segmentTextContent = [NSArray arrayWithObjects: _normalText, _listText, nil];
-	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(10, 10, 145, 30);
-	[segmentedStyleControl addTarget:self action:@selector(changeProjectType:) forControlEvents:UIControlEventValueChanged];
-	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;	
-	segmentedStyleControl.selectedSegmentIndex = (self.projectCopy.type == TYPE_LIST?1:0);
-	
-	[mainView addSubview:segmentedStyleControl];
-	[segmentedStyleControl release];
-    */
     
-    //transparentView = [[UIView alloc] initWithFrame:CGRectMake(190, 10, 130, 30)];
+    mainView.userInteractionEnabled = ![self.project isShared];
+
     transparentView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 130, 30)];
     transparentView.backgroundColor = [UIColor clearColor];
     [mainView addSubview:transparentView];
@@ -213,10 +202,17 @@ extern BOOL _isiPad;
 	//self.navigationItem.title = _calendarText;
 	self.navigationItem.title = _projectText;
     
-	saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
-                                                                               target:self action:@selector(save:)];
-	self.navigationItem.rightBarButtonItem = saveButton;
-	[saveButton release];
+    if ([self.project isShared])
+    {
+        saveButton = nil;
+    }
+    else
+    {
+        saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                                                  target:self action:@selector(save:)];
+        self.navigationItem.rightBarButtonItem = saveButton;
+        [saveButton release];        
+    }
     
     [self check2EnableSave];
 }
@@ -415,7 +411,10 @@ extern BOOL _isiPad;
 
 - (void) check2EnableSave
 {
-    saveButton.enabled = [self.projectCopy isShared] || [self.projectCopy.name isEqualToString:@""]?NO:YES;
+    if (saveButton != nil)
+    {
+        saveButton.enabled = [self.projectCopy.name isEqualToString:@""]?NO:YES;
+    }
 }
 
 - (void) save:(id)sender
