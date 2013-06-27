@@ -130,10 +130,12 @@ extern BOOL _isiPad;
 	
 	self.view = contentView;
 	[contentView release];
+    
+    contentView.userInteractionEnabled = ![self.task isShared];
 	
 	UIBarButtonItem *saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
 															  target:self action:@selector(save:)];
-	self.navigationItem.rightBarButtonItem = saveButton;
+	self.navigationItem.rightBarButtonItem = [self.task isShared]?nil:saveButton;
 	[saveButton release];	
 		
 	self.navigationItem.title = _repeatText;

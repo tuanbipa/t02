@@ -551,10 +551,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		}
 	}
     
-	[self tagInputReset];  
-    
-    //[self refreshFilterCategories];
-    
+	[self tagInputReset];      
 }
 
 - (void) refreshPresetButtonTitles
@@ -562,20 +559,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     Settings *settings = [Settings getInstance];
     
     NSString *presetTexts[3] = {_newPresetText, _newPresetText, _newPresetText};
-    
-    /*
-    if (settings.filterPresets.count > 0)
-    {
-        int max = (settings.filterPresets.count > 3?3:settings.filterPresets.count);
-        
-        for (int i=0; i<max; i++)
-        {
-            NSDictionary *dict = [settings.filterPresets objectAtIndex:i];
-            
-            presetTexts[i] = [dict objectForKey:@"Preset"];
-        }
-    }
-    */
     
     NSEnumerator *keyEnum = settings.filterPresets.keyEnumerator;
     
@@ -595,6 +578,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+/*
 - (void) refreshFilterCategories
 {
     int count = 0;
@@ -614,6 +598,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     categoryCountLabel.text = [NSString stringWithFormat:@"%d categories", count];    
 }
+*/
 
 #pragma mark Actions
 - (void) editPreset:(id) sender

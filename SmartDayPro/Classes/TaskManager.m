@@ -1942,7 +1942,7 @@ TaskManager *_sctmSingleton = nil;
 	return [rtInstances objectAtIndex:0];
 }
 
-- (void) updateSortOrderBackground:(NSMutableArray *)taskList
+- (void) updateSortOrderBackground:(NSMutableArray *)list
 {
 	////NSLog(@"begin updateSortOrderBackground");
 	
@@ -1954,7 +1954,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	DBManager *dbm = [DBManager getInstance];
 	
-	for (Task *task in taskList)
+	for (Task *task in list)
 	{
 		[task updateSeqNoIntoDB:[dbm getDatabase]];
 	}		
@@ -1967,14 +1967,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	[sortCond signal];
 	[sortCond unlock];	
-	
-    /*
-	if (!scheduleBGInProgress)
-	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskInitFinishedNotification" object:nil];
-	}	
-	*/
-    
+
 	[[BusyController getInstance] setBusy:NO withCode:BUSY_TASK_SORT_ORDER];
 	
 	[pool release];	
@@ -4831,33 +4824,82 @@ TaskManager *_sctmSingleton = nil;
 		return;
 	}
     
+    NSLog(@"begin 1\n");
+    
+    NSDictionary *taskDict = [TaskManager getTaskDictionary:self.taskList];
+    
     srcTask.sequenceNo = destTask.sequenceNo;
     
     int seqNo = destTask.sequenceNo + 1;
     
 	NSMutableArray *list = [dbm getVisibleTasks];
+ 
+	sortBGInProgress = (list.count > 30);
     
     BOOL seqNoIncrease = NO;
 
     for (Task *task in list)
     {
-        if (seqNoIncrease)
+        if (seqNoIncrease && task.primaryKey != srcTask.primaryKey)
         {
-            task.sequenceNo = seqNo ++; 
-            [task updateSeqNoIntoDB:[dbm getDatabase]];
+            task.sequenceNo = seqNo ++;
+            
+            if (!sortBGInProgress)
+            {
+                [task updateSeqNoIntoDB:[dbm getDatabase]];
+            }
+            
+            Task *tmp = [taskDict objectForKey:[NSNumber numberWithInt:task.primaryKey]];
+            
+            if (tmp != nil)
+            {
+                tmp.sequenceNo = task.sequenceNo;
+            }
         }
         else if (task.primaryKey == destTask.primaryKey)
         {
             seqNoIncrease = YES;
             
             task.sequenceNo = seqNo ++;
-            [task updateSeqNoIntoDB:[dbm getDatabase]];
+            
+            if (!sortBGInProgress)
+            {
+                [task updateSeqNoIntoDB:[dbm getDatabase]];
+            }
+            
+            Task *tmp = [taskDict objectForKey:[NSNumber numberWithInt:task.primaryKey]];
+            
+            if (tmp != nil)
+            {
+                tmp.sequenceNo = task.sequenceNo;
+            }           
         }
     }
     
-    [srcTask updateSeqNoIntoDB:[dbm getDatabase]];
+    if (!sortBGInProgress)
+    {
+        [srcTask updateSeqNoIntoDB:[dbm getDatabase]];
+    }
     
-    [self initSmartListData];
+    Task *tmp = [taskDict objectForKey:[NSNumber numberWithInt:srcTask.primaryKey]];
+    
+    if (tmp != nil)
+    {
+        tmp.sequenceNo = srcTask.sequenceNo;
+    }
+    
+    NSLog(@"begin 2\n");    
+    
+	if (sortBGInProgress)
+	{
+		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
+		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:list];
+	}
+    
+    //[self initSmartListData];
+    [Common sortList:self.taskList byKey:@"sequenceNo" ascending:YES];
+    
+    [self scheduleTasks];
 }
 
 - (void) reconcilePinTask:(Task *)task

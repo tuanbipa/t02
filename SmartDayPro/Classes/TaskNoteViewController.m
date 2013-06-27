@@ -50,8 +50,8 @@
 	contentView.backgroundColor=[UIColor darkGrayColor];
     
 	self.view = contentView;
-	[contentView release];    
-	
+	[contentView release];
+    
 	//editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 20, frm.size.width - 20, 140)];
     editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - [Common getKeyboardHeight] - 40 - 20)];
     
@@ -59,6 +59,8 @@
 	//editTextView.backgroundColor=[UIColor clearColor];
 	editTextView.keyboardType=UIKeyboardTypeDefault;
 	editTextView.font=[UIFont systemFontOfSize:18];
+    
+    editTextView.editable = ![self.task isShared];
 	
 	editTextView.text = self.task.note;
 	[editTextView becomeFirstResponder];
@@ -66,46 +68,6 @@
 	[contentView addSubview:editTextView];
 	[editTextView release];	
 
-    /*
-    doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height - [Common getKeyboardHeight] - 40, frm.size.width, 40)];
-	doneBarView.backgroundColor=[UIColor clearColor];
-	doneBarView.hidden = YES;
-	
-	[contentView addSubview:doneBarView];
-	[doneBarView release];	
-	
-	UIView *backgroundView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-	backgroundView.backgroundColor=[UIColor viewFlipsideBackgroundColor];
-	backgroundView.alpha=0.3;
-	
-	[doneBarView addSubview:backgroundView];
-	[backgroundView release];
-	
-	UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-
-    doneButton.frame = CGRectMake(frm.size.width-70, 5, 60, 30);
-	doneButton.alpha=1;
-	[doneButton setTitle:_doneText forState:UIControlStateNormal];
-	doneButton.titleLabel.font=[UIFont systemFontOfSize:14];
-	[doneButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];		
-	[doneButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
-	
-	[doneButton addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
-	
-	UIButton *cleanButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	cleanButton.frame = CGRectMake(10, 5, 60, 30);
-	cleanButton.alpha=1;
-	[cleanButton setTitle:_cleanText forState:UIControlStateNormal];
-	cleanButton.titleLabel.font=[UIFont systemFontOfSize:14];
-	[cleanButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];		
-	[cleanButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
-	
-	[cleanButton addTarget:self action:@selector(clean:) forControlEvents:UIControlEventTouchUpInside];	
-	
-	[doneBarView addSubview:doneButton];
-	[doneBarView addSubview:cleanButton];
-	*/
-	
 	self.navigationItem.title = _descriptionText;
 }
 

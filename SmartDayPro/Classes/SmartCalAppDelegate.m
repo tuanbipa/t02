@@ -909,7 +909,7 @@ BOOL _fromBackground = NO;
         
         NSObject *obj = [self.alertDict objectForKey:key];
         
-        BOOL remove = YES;
+        //BOOL remove = YES;
         
         if (obj != nil)
         {
@@ -950,7 +950,7 @@ BOOL _fromBackground = NO;
                 }
             }
          
-            if (remove)
+            //if (remove)
             {
                 [self.alertDict removeObjectForKey:key];
             }

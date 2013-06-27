@@ -1434,6 +1434,8 @@
 		67EC5BD716E47FDD006B22F0 /* addmore.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EC5BD516E47FDD006B22F0 /* addmore.png */; };
 		67EC5BD816E47FDD006B22F0 /* addmore@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EC5BD616E47FDD006B22F0 /* addmore@2x.png */; };
 		67EC603216AF8CCE00A47744 /* DataRecoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EC603116AF8CCE00A47744 /* DataRecoveryViewController.m */; };
+		67ECF561177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67ECF560177BD4200064BE5F /* TaskReadonlyDetailViewController.m */; };
+		67ECF562177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67ECF560177BD4200064BE5F /* TaskReadonlyDetailViewController.m */; };
 		67EE9BB716AD1E8400B8BF6A /* ToodledoSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EE9BB616AD1E8400B8BF6A /* ToodledoSyncViewController.m */; };
 		67EEF93816D20A6000D0A7D0 /* bar_eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93216D20A5F00D0A7D0 /* bar_eye.png */; };
 		67EEF93916D20A6000D0A7D0 /* bar_eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */; };
@@ -2376,6 +2378,8 @@
 		67EC5BD616E47FDD006B22F0 /* addmore@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addmore@2x.png"; sourceTree = "<group>"; };
 		67EC603016AF8CCD00A47744 /* DataRecoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataRecoveryViewController.h; sourceTree = "<group>"; };
 		67EC603116AF8CCE00A47744 /* DataRecoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataRecoveryViewController.m; sourceTree = "<group>"; };
+		67ECF55F177BD4200064BE5F /* TaskReadonlyDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskReadonlyDetailViewController.h; sourceTree = "<group>"; };
+		67ECF560177BD4200064BE5F /* TaskReadonlyDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskReadonlyDetailViewController.m; sourceTree = "<group>"; };
 		67EE9BB516AD1E8400B8BF6A /* ToodledoSyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToodledoSyncViewController.h; sourceTree = "<group>"; };
 		67EE9BB616AD1E8400B8BF6A /* ToodledoSyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToodledoSyncViewController.m; sourceTree = "<group>"; };
 		67EEF93216D20A5F00D0A7D0 /* bar_eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_eye.png; sourceTree = "<group>"; };
@@ -2890,6 +2894,8 @@
 				67CF2C5216195196001FE1AA /* TaskOutlineView.m */,
 				67CF2C5316195196001FE1AA /* TaskProgress.h */,
 				67CF2C5416195196001FE1AA /* TaskProgress.m */,
+				67ECF55F177BD4200064BE5F /* TaskReadonlyDetailViewController.h */,
+				67ECF560177BD4200064BE5F /* TaskReadonlyDetailViewController.m */,
 				67CF2C5516195196001FE1AA /* TaskSyncTableViewController.h */,
 				67CF2C5616195196001FE1AA /* TaskSyncTableViewController.m */,
 				67E57B3817125B1C00491846 /* TaskSyncViewController.h */,
@@ -2902,6 +2908,8 @@
 				67E3485016DF02E600AA19EE /* TimerManager.m */,
 				67CF2C5916195196001FE1AA /* TimeSlotView.h */,
 				67CF2C5A16195196001FE1AA /* TimeSlotView.m */,
+				67D4EFD617433B43002B3483 /* TimeZonePickerViewController.h */,
+				67D4EFD717433B43002B3483 /* TimeZonePickerViewController.m */,
 				67CF2C5B16195196001FE1AA /* TodayLine.h */,
 				67CF2C5C16195196001FE1AA /* TodayLine.m */,
 				67CF2C5D16195196001FE1AA /* ToodledoAccountViewController.h */,
@@ -2920,8 +2928,6 @@
 				67CF2C7216195196001FE1AA /* WorkingTime7ViewController.m */,
 				67CF2C7316195196001FE1AA /* WWWTableViewController.h */,
 				67CF2C7416195196001FE1AA /* WWWTableViewController.m */,
-				67D4EFD617433B43002B3483 /* TimeZonePickerViewController.h */,
-				67D4EFD717433B43002B3483 /* TimeZonePickerViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -4946,6 +4952,7 @@
 				A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */,
 				A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD817433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
+				67ECF561177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5141,6 +5148,7 @@
 				A2E036BB1724ECA10039A2DF /* MonthInYearView.m in Sources */,
 				A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD917433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
+				67ECF562177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

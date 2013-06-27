@@ -577,7 +577,7 @@ ProjectManager *_projectManagerSingleton = nil;
 	
 	for (Project *project in self.projectList)
 	{
-		if (project.status != PROJECT_STATUS_INVISIBLE)
+		if (project.status != PROJECT_STATUS_INVISIBLE && ![project isShared])
 		{
 			[ret addObject:project];
 		}

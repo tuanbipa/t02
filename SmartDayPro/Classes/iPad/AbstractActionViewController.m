@@ -39,6 +39,7 @@
 #import "AbstractMonthCalendarView.h"
 
 #import "TaskDetailTableViewController.h"
+#import "TaskReadonlyDetailViewController.h"
 #import "NoteDetailTableViewController.h"
 #import "ProjectEditViewController.h"
 
@@ -582,6 +583,15 @@ extern iPadViewController *_iPadViewCtrler;
             [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
             [ctrler release];
         }
+        else if ([item isShared])
+        {
+            TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
+            
+            ctrler.task = item;
+            
+            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
         else
         {
             TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
@@ -602,6 +612,15 @@ extern iPadViewController *_iPadViewCtrler;
             [self.navigationController pushViewController:ctrler animated:YES];
             [ctrler release];
         }
+        else if ([item isShared])
+        {
+            TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
+            
+            ctrler.task = item;
+            
+            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
         else
         {
             TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
@@ -614,13 +633,6 @@ extern iPadViewController *_iPadViewCtrler;
 
     }
 }
-
-/*
-- (void) editItem:(Task *)item inRect:(CGRect)inRect
-{
-    [self editItem:item];
-}
-*/
 
 - (void) editItem:(Task *)task inRect:(CGRect)inRect
 {
@@ -641,6 +653,14 @@ extern iPadViewController *_iPadViewCtrler;
         noteCtrler.note = task;
         
         ctrler = noteCtrler;
+    }
+    else if ([task isShared])
+    {
+        TaskReadonlyDetailViewController *taskCtrler = [[TaskReadonlyDetailViewController alloc] init];
+        
+        taskCtrler.task = task;
+        
+        ctrler = taskCtrler;
     }
     else
     {
@@ -692,6 +712,14 @@ extern iPadViewController *_iPadViewCtrler;
         NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
         
         ctrler.note = item;
+        
+        editCtrler = ctrler;
+    }
+    else if ([item isShared])
+    {
+        TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
+        
+        ctrler.task = item;
         
         editCtrler = ctrler;
     }
