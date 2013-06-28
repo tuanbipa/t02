@@ -677,6 +677,7 @@
 
 #define _timeZoneSupport NSLocalizedString(@"_timeZoneSupport", "")
 #define _timeZone NSLocalizedString(@"_timeZone", "")
+#define _floatingText NSLocalizedString(@"_floatingText", "")
 
 #define _soundEnabledText NSLocalizedString(@"_soundEnabledText", "")
 

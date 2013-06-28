@@ -447,12 +447,18 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (BOOL) checkRemovableView:(UIView *) view
 {
-	if ([view isKindOfClass:[TaskView class]] || [view isKindOfClass:[DayHeaderView class]] || [view isKindOfClass:[TodayLine class]])
+	/*if ([view isKindOfClass:[TaskView class]] || [view isKindOfClass:[DayHeaderView class]] || [view isKindOfClass:[TodayLine class]])
 	{
 		return YES;
-	}
+	}*/
+    
+    if (view.tag == -30000)
+    {
+        //don't remove quick add
+        return NO;
+    }
 	
-	return NO;
+	return YES;
 }
 
 - (NSMutableArray *) getObjectList

@@ -54,7 +54,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     UIView *container = [self.activeMovableView superview];
     
-    CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:container];
+    CGRect frm = self.activeMovableView.frame;
     
     for (UIView *checkView in container.subviews)
     {
@@ -74,6 +74,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
                 
                 leftView = nil;
                 rightView = nil;
+                
             }
             
             break;
@@ -84,7 +85,6 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         {
             leftView = checkView;
         }
-        
     }
     
     if ([self.activeMovableView isKindOfClass:[TaskView class]])
@@ -99,6 +99,16 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         }
         
         if ([item isShared])
+        {
+            onView = nil;
+        }
+    }
+    
+    if (onView != nil && [onView isKindOfClass:[PlanView class]])
+    {
+        Project *prj = ((PlanView *) onView).project;
+        
+        if ([prj isShared])
         {
             onView = nil;
         }

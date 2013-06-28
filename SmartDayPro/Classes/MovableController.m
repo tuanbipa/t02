@@ -307,7 +307,7 @@
 		
 		if (needHighlight)
 		{
-			self.activeMovableView = view;
+			//self.activeMovableView = view;
 			[view doSelect:YES];
 		}
 	}
@@ -341,6 +341,8 @@
 	if (self.activeMovableView != view)
 	{
 		[self highlight:view];
+        
+        self.activeMovableView = view;
 	}
 	
 	[[view superview] bringSubviewToFront:view];

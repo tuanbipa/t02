@@ -11,6 +11,7 @@
 #import "Common.h"
 #import "Task.h"
 #import "Project.h"
+#import "Settings.h"
 
 #import "ProjectManager.h"
 
@@ -154,20 +155,47 @@ extern BOOL _isiPad;
             break;
         case 1:
         {
-            cell.textLabel.text = _durationText;
-            cell.detailTextLabel.text = [Common getDurationString:self.task.duration];
+            if ([self.task isEvent])
+            {
+                Settings *settings = [Settings getInstance];
+                
+                cell.textLabel.text = _timeZone;
+                cell.detailTextLabel.text = settings.timeZoneSupport? [Settings getTimeZoneDisplayNameByID:self.task.timeZoneId]:_floatingText;
+            }
+            else
+            {
+                cell.textLabel.text = _durationText;
+                cell.detailTextLabel.text = [Common getDurationString:self.task.duration];                
+            }
         }
             break;
         case 2:
         {
-            cell.textLabel.text = _startText;
-            cell.detailTextLabel.text = (self.task.startTime == nil? _noneText: [Common getFullDateString3:self.task.startTime]);
+            if ([self.task isEvent])
+            {
+                cell.textLabel.text = _startText;
+                cell.detailTextLabel.text = [self.task getDisplayStartTime];
+            }
+            else
+            {
+                cell.textLabel.text = _startText;
+                cell.detailTextLabel.text = (self.task.startTime == nil? _noneText: [Common getFullDateString3:self.task.startTime]);                
+            }
         }
             break;
         case 3:
         {
-            cell.textLabel.text = _dueText;
-            cell.detailTextLabel.text = (self.task.deadline == nil? _noneText: [Common getFullDateString3:self.task.deadline]);
+            if ([self.task isEvent])
+            {
+                cell.textLabel.text = _endText;
+                cell.detailTextLabel.text = [self.task getDisplayEndTime];
+            }
+            else
+            {
+                cell.textLabel.text = _dueText;
+                cell.detailTextLabel.text = (self.task.deadline == nil? _noneText: [Common getFullDateString3:self.task.deadline]);
+            }
+            
         }
             break;
         case 4:

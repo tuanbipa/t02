@@ -4824,7 +4824,7 @@ TaskManager *_sctmSingleton = nil;
 		return;
 	}
     
-    NSLog(@"begin 1\n");
+    //NSLog(@"begin 1\n");
     
     NSDictionary *taskDict = [TaskManager getTaskDictionary:self.taskList];
     
@@ -4888,7 +4888,7 @@ TaskManager *_sctmSingleton = nil;
         tmp.sequenceNo = srcTask.sequenceNo;
     }
     
-    NSLog(@"begin 2\n");    
+    //NSLog(@"begin 2\n");
     
 	if (sortBGInProgress)
 	{

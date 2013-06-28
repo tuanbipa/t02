@@ -157,6 +157,8 @@
 	NSInteger idx = 0;
 	
 	lastView = nil;
+    
+    NSMutableArray *removeList = [NSMutableArray arrayWithCapacity:50];
 	
 	for (UIView *view in self.viewContainer.subviews)
 	{
@@ -170,9 +172,15 @@
         }
         else if ([self checkRemovableView:view])
         {
-            [view removeFromSuperview];
+            //[view removeFromSuperview];
+            [removeList addObject:view];
         }
 	}
+    
+    for (UIView *view in removeList)
+    {
+        [view removeFromSuperview];
+    }
 	
 	for (int i=idx; i<objList.count; i++)
 	{

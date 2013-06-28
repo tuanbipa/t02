@@ -105,6 +105,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return ctrler.list;
 }
 
+/*
 - (BOOL) checkRemovableView:(UIView *) view
 {
 	if ([view isKindOfClass:[TaskView class]] || [view isKindOfClass:[PlanView class]])
@@ -114,5 +115,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	return NO;
 }
+*/
 
 @end
