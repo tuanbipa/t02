@@ -4894,6 +4894,8 @@ TaskManager *_sctmSingleton = nil;
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
 		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:list];
+        
+        sortBGInProgress = NO; //does not need to wait sort complete when scheduling
 	}
     
     //[self initSmartListData];

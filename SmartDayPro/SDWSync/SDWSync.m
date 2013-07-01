@@ -1216,7 +1216,7 @@ NSInteger _sdwColor[32] = {
     self.scSDWMappingDict = [NSMutableDictionary dictionaryWithCapacity:10];
     self.dupCategoryList = [NSMutableArray arrayWithCapacity:10];
     
-    NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@",SDWSite,self.sdwSection.key];
+    NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
 	
     //printf("getCategories: %s\n", [url UTF8String]);
     
@@ -2279,7 +2279,7 @@ NSInteger _sdwColor[32] = {
     
     [self syncDeletedTasks];
     
-    NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@",SDWSite,self.sdwSection.key];
+    NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
 	
     //printf("getTasks: %s\n", [url UTF8String]);
     
