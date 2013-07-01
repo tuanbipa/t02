@@ -1469,6 +1469,8 @@
 		A22A624D1778293A00AD1634 /* atask_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62491778293900AD1634 /* atask_lines@2x.png */; };
 		A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 		A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
+		A25C051217813BA300FA84FE /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A25C051117813BA300FA84FE /* RestoreViewController.m */; };
+		A25C051317813BA300FA84FE /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A25C051117813BA300FA84FE /* RestoreViewController.m */; };
 		A2E036B61724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
 		A2E036B71724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
 		A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B91724ECA10039A2DF /* MonthInYearView.m */; };
@@ -2417,6 +2419,8 @@
 		A22A62491778293900AD1634 /* atask_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atask_lines@2x.png"; sourceTree = "<group>"; };
 		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
 		A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarPlannerMovableController.m; sourceTree = "<group>"; };
+		A25C051017813BA300FA84FE /* RestoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestoreViewController.h; sourceTree = "<group>"; };
+		A25C051117813BA300FA84FE /* RestoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoreViewController.m; sourceTree = "<group>"; };
 		A2E036B41724DDFA0039A2DF /* YearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearView.h; sourceTree = "<group>"; };
 		A2E036B51724DDFA0039A2DF /* YearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YearView.m; sourceTree = "<group>"; };
 		A2E036B81724ECA10039A2DF /* MonthInYearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthInYearView.h; sourceTree = "<group>"; };
@@ -2542,6 +2546,8 @@
 				A2E036B91724ECA10039A2DF /* MonthInYearView.m */,
 				A2E036BC1724F5880039A2DF /* YearViewController.h */,
 				A2E036BD1724F5890039A2DF /* YearViewController.m */,
+				A25C051017813BA300FA84FE /* RestoreViewController.h */,
+				A25C051117813BA300FA84FE /* RestoreViewController.m */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -4953,6 +4959,7 @@
 				A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD817433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
 				67ECF561177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
+				A25C051217813BA300FA84FE /* RestoreViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5149,6 +5156,7 @@
 				A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD917433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
 				67ECF562177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
+				A25C051317813BA300FA84FE /* RestoreViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

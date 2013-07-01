@@ -16,6 +16,7 @@
 #import "SettingTableViewController.h"
 
 #import "iPadSettingViewController.h"
+#import "RestoreViewController.h"
 
 extern BOOL _isiPad;
 
@@ -117,6 +118,14 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     [alertView release];
 }
 
+- (void)showRestoreView: (id) sender
+{
+    RestoreViewController *ctrler = [[RestoreViewController alloc] init];
+	
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
+}
+
 #pragma mark View
 
 - (void) loadView
@@ -164,7 +173,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 
@@ -244,6 +253,25 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
                                                  titleColor:[UIColor whiteColor]
                                                      target:self
                                                    selector:@selector(confirmSync1way2SD:)
+                                           normalStateImage:@"replace_mSDtoSD.png"
+                                         selectedStateImage:nil];
+                toSDButton.tag = 11000;
+                [cell.contentView addSubview:toSDButton];
+            }
+            
+        }
+            break;
+        case 2:
+        {
+            if (indexPath.row == 0)
+            {
+                cell.textLabel.text = @"Restore Data";
+                UIButton *toSDButton = [Common createButton:@""
+                                                 buttonType:UIButtonTypeCustom
+                                                      frame:CGRectMake((settingTableView.bounds.size.width-(_isiPad?70:30)-135)/2, 5, 135, 60)
+                                                 titleColor:[UIColor whiteColor]
+                                                     target:self
+                                                   selector:@selector(showRestoreView:)
                                            normalStateImage:@"replace_mSDtoSD.png"
                                          selectedStateImage:nil];
                 toSDButton.tag = 11000;
