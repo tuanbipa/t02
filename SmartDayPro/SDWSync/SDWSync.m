@@ -2831,7 +2831,7 @@ NSInteger _sdwColor[32] = {
     
     if (fromSDW)
     {
-        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&fields=id,order_number,last_update&type=2",SDWSite,self.sdwSection.key];
+        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&fields=id,order_number,last_update&type=2&get_share=1",SDWSite,self.sdwSection.key];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:url]]; 
@@ -3935,7 +3935,7 @@ NSInteger _sdwColor[32] = {
     self.sdwSCMappingDict = [NSMutableDictionary dictionaryWithCapacity:10];
     self.scSDWMappingDict = [NSMutableDictionary dictionaryWithCapacity:10];
     
-    NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@",SDWSite,self.sdwSection.key];
+    NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -3992,7 +3992,7 @@ NSInteger _sdwColor[32] = {
         
         [self get1wayTags];
         
-        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@",SDWSite,self.sdwSection.key];
+        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:url]];
