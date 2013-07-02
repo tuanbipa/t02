@@ -101,6 +101,16 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         if ([item isShared])
         {
             onView = nil;
+            
+            if (rightView != nil)
+            {
+                Task *task = ((TaskView *) rightView).task;
+                
+                if (task.project != item.project)
+                {
+                    rightView = nil;
+                }
+            }
         }
     }
     

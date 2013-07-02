@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
 
-#import "DummyMovableController.h"
+//#import "DummyMovableController.h"
+#import "PlannerTaskMovableController.h"
 
-@interface PlannerMovableController : DummyMovableController
+//@interface PlannerMovableController : DummyMovableController
+@interface PlannerMovableController : PlannerTaskMovableController
 {
-    BOOL moveInMM;
-    BOOL moveInPlannerDayCal;
+    //BOOL moveInMM;
+    //BOOL moveInPlannerDayCal;
 }
 
 - (void) doTaskMovementInMM;

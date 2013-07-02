@@ -18,8 +18,10 @@
 #import "ImageManager.h"
 
 #import "TaskDetailTableViewController.h"
-#import "SmartListMovableController.h"
-#import "SmartListLayoutController.h"
+//#import "SmartListMovableController.h"
+//#import "SmartListLayoutController.h"
+#import "TaskLayoutController.h"
+#import "TaskMovableController.h"
 #import "SettingTableViewController.h"
 
 #import "Task.h"
@@ -27,6 +29,7 @@
 #import "TaskView.h"
 #import "ContentView.h"
 #import "ContentScrollView.h"
+#import "ContentTableView.h"
 #import "FilterView.h"
 #import "GuideWebView.h"
 #import "MiniMonthView.h"
@@ -72,7 +75,9 @@ SmartListViewController *_smartListViewCtrler;
 
 @implementation SmartListViewController
 
-@synthesize smartListLayoutController;
+//@synthesize smartListLayoutController;
+@synthesize layoutController;
+@synthesize quickAddPlaceHolder;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -88,11 +93,14 @@ SmartListViewController *_smartListViewCtrler;
 {
 	if (self = [super init]) 
 	{
-        movableController = [[SmartListMovableController alloc] init];
+        //movableController = [[SmartListMovableController alloc] init];
 		
-		smartListLayoutController = [[SmartListLayoutController alloc] init];
-        smartListLayoutController.movableController = movableController;
-		
+		//smartListLayoutController = [[SmartListLayoutController alloc] init];
+        //smartListLayoutController.movableController = movableController;
+        
+        movableController = [[TaskMovableController alloc] init];
+        layoutController = [[TaskLayoutController alloc] init];
+        layoutController.movableCtrler = movableController;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
@@ -152,19 +160,24 @@ SmartListViewController *_smartListViewCtrler;
     if (movableController != nil)
     {
         [movableController release];
-        smartListLayoutController.movableController = nil;
+        //smartListLayoutController.movableController = nil;
+        layoutController.movableCtrler = nil;
     }
     
     if (forPlanner)
     {
         movableController = [[SmartListPlannerMovableController alloc] init];
-        smartListLayoutController.movableController = movableController;
+        //smartListLayoutController.movableController = movableController;
     }
     else
     {
-        movableController = [[SmartListMovableController alloc] init];
-        smartListLayoutController.movableController = movableController;
+        //movableController = [[SmartListMovableController alloc] init];
+        //smartListLayoutController.movableController = movableController;
+        
+        movableController = [[TaskMovableController alloc] init];
     }
+    
+    layoutController.movableCtrler = movableController;
     
 	for (UIView *view in smartListView.subviews)
 	{
@@ -221,14 +234,16 @@ SmartListViewController *_smartListViewCtrler;
 	[addButtonItem release];
 	[moreButtonItem release];
 	
-	//[smartListMovableController release];
     [movableController release];
-	[smartListLayoutController release];
+	//[smartListLayoutController release];
+    [layoutController release];
 	
 	[editButtonItem release];
 	[cancelButtonItem release];
 	
 	[hintView release];
+    
+    self.quickAddPlaceHolder = nil;
 	
     [super dealloc];
 }
@@ -236,26 +251,6 @@ SmartListViewController *_smartListViewCtrler;
 #pragma mark Support
 -(void)changeSkin
 {
-    /*
-	quickAddPlaceHolder.backgroundColor = [[Settings getInstance] getBackgroundColor];
-	
-	if ([[Settings getInstance] skinStyle] == 1)
-	{
-		self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-		menuImageView.image = [[[ImageManager getInstance] getImageWithName:@"black_menu.png"] stretchableImageWithLeftCapWidth:35 topCapHeight:35];
-		multiSelectionMenuImageView.image = [[[ImageManager getInstance] getImageWithName:@"black_menu.png"] stretchableImageWithLeftCapWidth:35 topCapHeight:35];
-	}
-	else 
-	{
-		self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-		menuImageView.image = [[[ImageManager getInstance] getImageWithName:@"blue_menu.png"] stretchableImageWithLeftCapWidth:35 topCapHeight:35];
-		multiSelectionMenuImageView.image = [[[ImageManager getInstance] getImageWithName:@"blue_menu.png"] stretchableImageWithLeftCapWidth:35 topCapHeight:35];
-	}
-	
-	tabPane.backgroundColor = [[Settings getInstance] getBackgroundColor];	
-	contentView.backgroundColor = [[Settings getInstance] getBackgroundColor];
-    */
-    
     contentView.backgroundColor = [UIColor colorWithPatternImage:[[ImageManager getInstance] getImageWithName:@"bg_pattern.png"]];
     
     smartListView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];    
@@ -337,7 +332,7 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void)clearLayout
 {
-    [self.smartListLayoutController wait4LayoutComplete];
+    //[self.smartListLayoutController wait4LayoutComplete];
     
 	for (UIView *view in smartListView.subviews)
 	{
@@ -368,28 +363,8 @@ SmartListViewController *_smartListViewCtrler;
 		[filterView tagInputReset];
 	}
     	
-	//[self.smartListLayoutController performSelector:@selector(layout) withObject:nil afterDelay:0];
-    [self.smartListLayoutController layout];
+    [self.layoutController layout];
 }
-
-/*
-- (void) refreshSmartList:(BOOL) needSchedule
-{
-	if (needSchedule)
-	{
-		TaskManager *tm = [TaskManager getInstance];
-		
-		tm.dayManagerStartTime = dayManagerView.startTime;
-		tm.dayManagerEndTime = dayManagerView.endTime;
-		
-		[tm scheduleTasks];
-	}
-	else
-    {
-        [self refreshLayout];
-    }
-}
-*/
 
 -(void)showSuggestedTime
 {
@@ -594,20 +569,6 @@ SmartListViewController *_smartListViewCtrler;
 	[self hideSuggestedTime];
 }
 
-/*
--(void)deselect
-{
-    [super deselect];
-    
-    [self hideDropDownMenu];
-    
-	//[smartListMovableController unhighlight];
-    [movableController unhighlight];
-
-	[self hideBars];
-}
-*/
-
 - (void) deselect
 {
     [self stopQuickAdd];
@@ -631,13 +592,33 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void)setNeedsDisplay
 {
-	for (UIView *view in smartListView.subviews)
+	/*for (UIView *view in smartListView.subviews)
 	{
         if ([view isKindOfClass:[TaskView class]])
         {
             [view refresh];
         }
-	}
+	}*/
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if (taskView != nil)
+            {
+                [taskView refresh];
+            }
+        }
+    }
+
 }
 
 -(void)refreshView
@@ -647,6 +628,7 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void) refreshTaskView4Key:(NSInteger)taskKey
 {
+    /*
 	for (UIView *view in smartListView.subviews)
 	{
 		if ([view isKindOfClass:[TaskView class]])
@@ -662,7 +644,35 @@ SmartListViewController *_smartListViewCtrler;
 				break;
 			}
 		}
-	}
+	}*/
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if (taskView != nil)
+            {
+                Task *tmp = (Task *) taskView.task;
+                
+                if (tmp.primaryKey == taskKey)
+                {
+                    [taskView setNeedsDisplay];
+                    [taskView refreshStarImage];
+                    [taskView refreshCheckImage];
+                    
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
@@ -723,44 +733,6 @@ SmartListViewController *_smartListViewCtrler;
 	}		
 }
 
-/*
-- (void) quickAddTask:(NSString *)name
-{
-	TaskManager *tm = [TaskManager getInstance];
-	
-	Task *task = [[Task alloc] init];
-	task.type = TYPE_TASK;
-	task.name = name;
-	task.duration = tm.lastTaskDuration;
-	task.project = tm.lastTaskProjectKey;
-	
-	switch (tm.taskTypeFilter) 
-	{
-		case TASK_FILTER_STAR:
-		{
-			task.status = TASK_STATUS_PINNED;
-		}
-			break;
-		case TASK_FILTER_DUE:
-		{
-			task.deadline = [NSDate date];
-		}
-			break;
-	}
-    
-    [tm addTask:task];
-    
-    [_abstractViewCtrler reconcileItem:task reSchedule:YES];
-	
-    if (task.deadline != nil)
-    {
-        [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:task.deadline];
-    }
-    
-	[task release];
-}
-*/
-
 - (void) showCalendarView
 {
 	self.tabBarController.selectedIndex = 0;	
@@ -774,7 +746,8 @@ SmartListViewController *_smartListViewCtrler;
 
 - (BOOL) checkMoveEnable
 {
-	return !self.smartListLayoutController.layoutInProgress && tabPane.userInteractionEnabled && ![[TaskManager getInstance] checkSortInBackground];
+	//return !self.layoutController.layoutInProgress && tabPane.userInteractionEnabled && ![[TaskManager getInstance] checkSortInBackground];
+    return tabPane.userInteractionEnabled && ![[TaskManager getInstance] checkSortInBackground];
 }
 
 - (void) finishLayout
@@ -1816,6 +1789,7 @@ SmartListViewController *_smartListViewCtrler;
 	}
     
     quickAddTextField.text = @"";
+    quickAddTextField.tag = -2;
     //saveAndMoreItem.enabled = NO;
 }
 
@@ -1869,9 +1843,9 @@ SmartListViewController *_smartListViewCtrler;
                 [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
             }
         }
+        
+        quickAddTextField.tag = -1;
     }
-    
-    quickAddTextField.tag = -1;
     
     quickAddTextField.text = @"";
     
@@ -2762,8 +2736,8 @@ SmartListViewController *_smartListViewCtrler;
 	self.view = contentView;
 	[contentView release];
 	
-	//smartListView = [[ContentScrollView alloc] initWithFrame:CGRectMake(0, TASK_HEIGHT, frm.size.width, contentView.frame.size.height-TASK_HEIGHT)];
-    smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
+    //smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
+    smartListView = [[ContentTableView alloc] initWithFrame:contentView.bounds];
     smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
 
 	//smartListView.scrollEnabled = YES;
@@ -2781,13 +2755,14 @@ SmartListViewController *_smartListViewCtrler;
     maskView.hidden = YES;
     [maskView release];
 
-	smartListLayoutController.viewContainer = smartListView;
+	//smartListLayoutController.viewContainer = smartListView;
+    layoutController.listTableView = smartListView;
 	
-    quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-	quickAddPlaceHolder.backgroundColor = [UIColor clearColor];
-    quickAddPlaceHolder.tag = -30000;
-	[smartListView addSubview:quickAddPlaceHolder];
-	[quickAddPlaceHolder release];
+    self.quickAddPlaceHolder = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)] autorelease];
+	self.quickAddPlaceHolder.backgroundColor = [UIColor clearColor];
+    self.quickAddPlaceHolder.tag = -30000;
+	//[smartListView addSubview:quickAddPlaceHolder];
+	//[quickAddPlaceHolder release];
     
     quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-50, 30)];
 	quickAddTextField.delegate = self;
@@ -2799,15 +2774,9 @@ SmartListViewController *_smartListViewCtrler;
 	quickAddTextField.placeholder = _quickAddNewTask;
     [quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
 	
-	[quickAddPlaceHolder addSubview:quickAddTextField];
+	[self.quickAddPlaceHolder addSubview:quickAddTextField];
 	[quickAddTextField release];
 	
-    /*
-	UIButton *quickEditButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    quickEditButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
-	[quickEditButton addTarget:self action:@selector(quickEdit:) forControlEvents:UIControlEventTouchUpInside];
-    */
-    
 	UIButton *moreButton = [Common createButton:@""
 									  buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(frm.size.width-35, 4, 30, 30)
@@ -2818,7 +2787,7 @@ SmartListViewController *_smartListViewCtrler;
 							  selectedStateImage:nil];
     moreButton.tag = 10000;
 	
-	[quickAddPlaceHolder addSubview:moreButton];
+	[self.quickAddPlaceHolder addSubview:moreButton];
 	
     timePlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-60, frm.size.width, 20)];
 	timePlaceHolder.backgroundColor = [UIColor clearColor];

@@ -11,10 +11,12 @@
 #import "PageAbstractViewController.h"
 
 @class SmartListMovableController;
-@class SmartListLayoutController;
+//@class SmartListLayoutController;
+@class TaskLayoutController;
 @class DayManagerView;
 @class ContentView;
-@class ContentScrollView;
+//@class ContentScrollView;
+@class ContentTableView;
 @class FilterView;
 @class GuideWebView;
 @class TaskView;
@@ -22,10 +24,12 @@
 @class Task;
 
 @interface SmartListViewController : PageAbstractViewController<UIScrollViewDelegate, UITextFieldDelegate> {
-	SmartListLayoutController *smartListLayoutController;
+	//SmartListLayoutController *smartListLayoutController;
+    TaskLayoutController *layoutController;
 	
 	DayManagerView *dayManagerView;
-    ContentScrollView *smartListView;
+    //ContentScrollView *smartListView;
+    ContentTableView *smartListView;
 	
     UIView *maskView;
 	UIView *barPlaceHolder;
@@ -70,7 +74,9 @@
 	BOOL firstLoad;
 }
 
-@property (nonatomic, readonly) SmartListLayoutController *smartListLayoutController;
+//@property (nonatomic, readonly) SmartListLayoutController *smartListLayoutController;
+@property (nonatomic, readonly) TaskLayoutController *layoutController;
+@property (nonatomic, retain) UIView *quickAddPlaceHolder;
 
 -(id) init4Planner;
 -(id) initWithTabBar;
