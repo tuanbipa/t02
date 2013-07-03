@@ -85,7 +85,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         //taskView.tag = obj;
         taskView.task = obj;
         taskView.listStyle = YES;
-        taskView.starEnable = ([task isTask] && task.status != TASK_STATUS_DONE);
+        taskView.starEnable = ([task isTask] && task.status != TASK_STATUS_DONE && ![task isShared]);
         
         [taskView refreshStarImage];
         [taskView refreshCheckImage];

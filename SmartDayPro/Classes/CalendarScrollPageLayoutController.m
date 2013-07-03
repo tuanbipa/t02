@@ -232,6 +232,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     
     taskView.alpha = 1;
+    taskView.transparent = NO;
     taskView.task = task;
     [taskView enableMove:![task checkMustDo] && ![task isShared]];
     taskView.checkEnable = NO;
@@ -299,6 +300,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             if ([task isEvent] && ![task isMeetingInvited])
             {
+                //printf("trans event:%s\n", [task.name UTF8String]);
                 Project *transPrj = [transparentProjectDict objectForKey:[NSNumber numberWithInt:task.project]];
                 
                 tskView.alpha = (transPrj != nil?0.5:1);

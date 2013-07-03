@@ -897,7 +897,7 @@ NSInteger _sdwColor[32] = {
     
     if ([ret isShared])
     {
-        printf("project %s is a shared project\n", [ret.name UTF8String]);
+        //printf("project %s is a shared project\n", [ret.name UTF8String]);
         
         NSDictionary *ownerDict = [dict objectForKey:@"owner"];
         
@@ -919,7 +919,7 @@ NSInteger _sdwColor[32] = {
             //ret.ownerName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
             ret.ownerName = firstName;
             
-            printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
+            //printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
         }
     }
     
@@ -4259,7 +4259,7 @@ NSInteger _sdwColor[32] = {
     NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",[email lowercaseString],pass,SDWAppRegId]];
     NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&appreg=%@&sig=%@",SDWSite,email,SDWAppRegId,sig];
     
-    printf("getToken: %s\n", [url UTF8String]);
+    //printf("getToken: %s\n", [url UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -4287,7 +4287,7 @@ NSInteger _sdwColor[32] = {
     if (urlData)
     {
         NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
-        printf("getToken return:\n%s\n", [str UTF8String]);
+        //printf("getToken return:\n%s\n", [str UTF8String]);
         
         NSDictionary *result = [self getDictionaryResult:urlData];
         

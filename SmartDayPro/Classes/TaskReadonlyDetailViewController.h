@@ -15,6 +15,8 @@
     UITableView *taskTableView;
 }
 
-@property (nonatomic, retain) Task *task;
+@property (nonatomic, assign) Task *task;
+
+@property (nonatomic, retain) Task *taskCopy;
 
 @end
