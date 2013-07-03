@@ -169,6 +169,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self createLinkViews:page];
 }
 
+- (BOOL) checkOverlap:(UIView *)view
+{
+	if (lastView != nil && ((TaskView *)lastView).task.type == ((TaskView *)view).task.type)
+	{
+		return CGRectIntersectsRect(lastView.frame, CGRectOffset(view.frame, 0, 5));
+	}
+	
+	return NO;
+}
+
 - (UIView *) layoutObject:(NSObject *)obj forPage:(NSInteger)page
 {
     Task *task = (Task *)obj;

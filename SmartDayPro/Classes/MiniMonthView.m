@@ -105,6 +105,8 @@ extern BOOL _isiPad;
         self.layer.borderWidth = 1;
         //self.layer.borderColor = [[UIColor grayColor] CGColor];
         self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
+        
+        [headerView changeMWMode:0];
     }
     return self;
 }
@@ -314,15 +316,10 @@ extern BOOL _isiPad;
 {
     TaskManager *tm = [TaskManager getInstance];
     
-    NSDate *calDate = (mode == 1?tm.today:[Common getFirstMonthDate:tm.today]);
+    NSDate *dt = (tm.today==nil?[NSDate date]:tm.today);
     
-    /*
-    //NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate]);
-    Settings *st = [Settings getInstance];
-    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:calDate mondayAsWeekStart:st.isMondayAsWeekStart]);
+    NSDate *calDate = (mode == 1?dt:[Common getFirstMonthDate:dt]);
     
-    [self.calView changeWeekPlanner:7 weeks:weeks];
-    */
     [self initCalendar:calDate];
     
     [[_abstractViewCtrler getCalendarViewController] focusNow];

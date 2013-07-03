@@ -418,79 +418,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;
 }
 
-/*- (NSMutableArray *)getManualTasks {
-    
-	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
-    
-    const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND Task_Status <> ? AND Task_Status <> ? ORDER BY Task_StartTime ASC";
-    
-	sqlite3_stmt *statement;
-	
-	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
-		sqlite3_bind_int(statement, 1, TYPE_EVENT);
-        sqlite3_bind_int(statement, 2, TASK_EXTRA_STATUS_ANCHORED);
-		sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
-        sqlite3_bind_double(statement, 4, TASK_STATUS_DELETED);
-        
-		while (sqlite3_step(statement) == SQLITE_ROW) {
-			int primaryKey = sqlite3_column_int(statement, 0);
-			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
-			
-			[taskList addObject:task];
-			[task release];
-		}
-	}
-    
-	// "Finalize" the statement - releases the resources associated with the statement.
-	sqlite3_finalize(statement);
-	
-	return taskList;
-}
-
-- (NSMutableArray *)getManualTasksFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate {
-    NSDate *start = [Common toDBDate:fromDate];
-	NSDate *end = [Common toDBDate:toDate];
-    
-    NSInteger defaultOffset = [[NSTimeZone defaultTimeZone] secondsFromGMT];
-	
-	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
-    
-	sqlite3_stmt *statement = nil;
-	
-    const char *sql = "SELECT Task_ID, CASE WHEN Task_TimeZoneID = 0 THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset) END AS StartTime, CASE WHEN Task_TimeZoneID = 0 THEN Task_EndTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset) END AS EndTime FROM TaskTable WHERE Task_Type = ? AND Task_ExtraStatus = ? AND \
-    Task_Status <> ? AND Task_Status <> ? \
-    AND (StartTime > ? AND StartTime < ?) \
-    ORDER BY Task_StartTime";
-    
-    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
-    {
-        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-    }
-    
-	sqlite3_bind_int(statement, 1, defaultOffset);
-	sqlite3_bind_int(statement, 2, defaultOffset);
-	sqlite3_bind_int(statement, 3, TYPE_EVENT);
-    sqlite3_bind_int(statement, 4, TASK_EXTRA_STATUS_ANCHORED);
-    sqlite3_bind_int(statement, 5, TASK_STATUS_DONE);
-	sqlite3_bind_int(statement, 6, TASK_STATUS_DELETED);
-	sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
-	sqlite3_bind_double(statement, 8, [end timeIntervalSince1970]);
-    
-	
-	while (sqlite3_step(statement) == SQLITE_ROW) {
-		int primaryKey = sqlite3_column_int(statement, 0);
-		Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
-		
-		[taskList addObject:task];
-		[task release];
-	}
-	
-	// "Finalize" the statement - releases the resources associated with the statement.
-	sqlite3_finalize(statement);
-    
-	return taskList;
-}*/
-
 - (NSMutableArray *) getVisibleTasks
 {
     Settings *settings = [Settings getInstance];
@@ -1895,7 +1822,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_int(statement, 1, TYPE_EVENT);
 		sqlite3_bind_int(statement, 2, TYPE_ADE);
 		sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
- 		sqlite3_bind_int(statement, 4, TASK_EXTRA_STATUS_ANCHORED);
+ 		sqlite3_bind_int(statement, 4, TASK_EXTRA_STATUS_ANCHORED | TASK_EXTRA_STATUS_SHARED);
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -1958,7 +1885,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_double(statement, 6, [end timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 8, [start timeIntervalSince1970]);
-        sqlite3_bind_int(statement, 9, TASK_EXTRA_STATUS_ANCHORED);
+        sqlite3_bind_int(statement, 9, TASK_EXTRA_STATUS_ANCHORED | TASK_EXTRA_STATUS_SHARED);
 		
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);

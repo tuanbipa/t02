@@ -1304,6 +1304,11 @@ iPadViewController *_iPadViewCtrler;
                                        selectedStateImage:nil];
         expandButton.tag = 21000+i;
         
+        if (i==0 || i==1)
+        {
+            expandButton.selected = YES;
+        }
+        
         [headView addSubview:expandButton];
         
         UIImageView *expandImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 25, 25)];
@@ -1506,6 +1511,8 @@ iPadViewController *_iPadViewCtrler;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [self resizeModules];
 }
 
 - (void) viewWillAppear:(BOOL)animated
