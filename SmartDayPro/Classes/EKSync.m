@@ -1148,13 +1148,9 @@ extern BOOL _syncMatchHintShown;
     
 	delList = [NSMutableArray arrayWithCapacity:5];
     
-    //prjList = [pm getVisibleProjectList];
-    
-    //NSInteger defaultPrjKey = [[Settings getInstance] taskDefaultProject];
-	
 	for (Project *prj in prjList)
 	{
-        if (prj.status == PROJECT_STATUS_INVISIBLE)
+        if (prj.status == PROJECT_STATUS_INVISIBLE || [prj isShared])
         {
             continue;
         }
@@ -1165,45 +1161,11 @@ extern BOOL _syncMatchHintShown;
             
             if (ekCal == nil)
             {
-                /*NSInteger countTask = [dbm getTaskCountForProject:prj.primaryKey];
-                
-                if (countTask == 0 && prj.primaryKey != defaultPrjKey)
-                {
-                    [delList addObject:prj];
-                }
-                else
-                {
-                    [dbm cleanAllEventsForProject:prj.primaryKey];
-                }
-                
-                prj.ekId = @"";
-                
-                [prj updateEKIDIntoDB:[dbm getDatabase]];
-                */
-                
                 [delList addObject:prj];
             }
         }
         else //comment out to don't sync Local project to iCal 
         {
-            /*
-            //create calendar in EK
-            EKCalendar *cal = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")?[EKCalendar calendarForEntityType:EKEntityTypeEvent eventStore:self.eventStore]:[EKCalendar calendarWithEventStore:self.eventStore];
-            
-            cal.title = prj.name;
-            cal.source = ekSourceDefault;
-            
-            NSError *err = nil;
-            [eventStore saveCalendar:cal commit:YES error:&err];
-            
-            if (err != nil)
-            {
-                [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInt:prj.primaryKey]];
-                [self.ekSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:cal.calendarIdentifier];
-            
-                prj.ekId = cal.calendarIdentifier;
-            }
-            */
             [createList addObject:prj];
         }
 	}
@@ -1211,14 +1173,6 @@ extern BOOL _syncMatchHintShown;
 	for (Project *prj in delList)
 	{
         //printf("EK sync - delete project: %s\n", [prj.name UTF8String]);
-        
-        /*
-        prj.ekId = @"";
-        [prj updateEKIDIntoDB:[dbm getDatabase]];
-        
-		[pm deleteProject:prj cleanFromDB:NO];
-        */
-        
         [self deleteProjectBySync:prj];
 	}
     

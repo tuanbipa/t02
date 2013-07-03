@@ -370,7 +370,7 @@ EKReminderSync *_ekReminderSyncSingleton;
     
 	for (Project *prj in prjList)
 	{
-        if (prj.status == PROJECT_STATUS_INVISIBLE)
+        if (prj.status == PROJECT_STATUS_INVISIBLE || [prj isShared])
         {
             continue;
         }
@@ -1162,6 +1162,11 @@ EKReminderSync *_ekReminderSyncSingleton;
     
     for (Task *task in taskList) //new Tasks from SD
     {
+        if ([task isShared])
+        {
+            continue;
+        }
+        
         EKCalendar *cal = [self.scEKMappingDict objectForKey:[NSNumber numberWithInt:task.project]];
         
         if (![task.syncId isEqualToString:@""]) //Event was deleted from iCal

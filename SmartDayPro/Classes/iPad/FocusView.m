@@ -64,7 +64,7 @@ AbstractSDViewController *_abstractViewCtrler;
                                            selector:@selector(zoom:)
                                    normalStateImage:nil
                                  selectedStateImage:nil];
-        zoomButton.selected = YES;
+        zoomButton.selected = NO;
         
         [self addSubview:zoomButton];
         
