@@ -140,7 +140,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     NSDate *key = [self.listKeys objectAtIndex:section-1];
     
-    return [Common getFullDateString3:key];
+    NSString *dayStr = [Common getDayLineString:key];
+    
+    NSString *weekdays[7] = {_sundayText, _mondayText, _tuesdayText, _wednesdayText, _thursdayText, _fridayText, _saturdayText};
+    
+    NSInteger wkday = [Common getWeekday:key];
+    
+    if ([Common daysBetween:key sinceDate:[NSDate date]] == 0)
+    {
+        dayStr = [NSString stringWithFormat:@"%@ - %@", _todayText, weekdays[wkday-1]];
+        
+    }
+    else if ([Common daysBetween:key sinceDate:[Common dateByAddNumDay:1 toDate:[NSDate date]]] == 0)
+    {
+        dayStr = [NSString stringWithFormat:@"%@ - %@", _tomorrowText, weekdays[wkday-1]];
+    }
+    
+    return dayStr;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

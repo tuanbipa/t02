@@ -60,7 +60,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     {
         if (CGRectIntersectsRect(checkView.frame, frm))
         {
-            if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]]) ||
+            if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]] && ![((TaskView *)checkView).task isShared]) ||
                 ([self.activeMovableView isKindOfClass:[PlanView class]] && [checkView isKindOfClass:[PlanView class]]))
             {
                 leftView = nil;
@@ -80,11 +80,11 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             break;
         }
         
-        if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]]) ||
+        /*if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]]) ||
             ([self.activeMovableView isKindOfClass:[PlanView class]] && [checkView isKindOfClass:[PlanView class]]))
         {
             leftView = checkView;
-        }
+        }*/
     }
     
     if ([self.activeMovableView isKindOfClass:[TaskView class]])

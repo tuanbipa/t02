@@ -14,7 +14,9 @@
 #import "TaskManager.h"
 
 #import "TaskView.h"
+#import "ScheduleView.h"
 
+#import "CalendarViewController.h"
 #import "CategoryViewController.h"
 #import "AbstractSDViewController.h"
 
@@ -42,6 +44,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super beginMove:view];
 }
 
+-(void)move:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super move:touches withEvent:event];
+    
+    CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+    if (moveInDayCalendar) {
+
+        CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:ctrler.todayScheduleView];
+        [ctrler.todayScheduleView highlight:rect];
+    } else {
+        [ctrler.todayScheduleView unhighlight];
+    }
+}
+
 -(void) endMove:(MovableView *)view
 {
     self.listTableView.scrollEnabled = YES;
@@ -66,10 +82,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
         {
             [self doTaskMovementInMM];
         }
-        /*else if (moveInDayCalendar)
-         {
-         [self doMoveTaskInDayCalendar];
-         }*/
+        else if (moveInDayCalendar)
+        {
+            [self doMoveTaskInDayCalendar];
+        }
         else if (rightMovableView != nil)
         {
             Task *task = ((TaskView *) self.activeMovableView).task;
@@ -101,6 +117,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [view release];
 }
 
+#pragma mark After end move
+
+- (void)doMoveTaskInDayCalendar {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_convertATaskHeader  message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+    
+    alertView.tag = -11001;
+    
+    [alertView show];
+    [alertView release];
+}
 
 - (void) animateRelations
 {

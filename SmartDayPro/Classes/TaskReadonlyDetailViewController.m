@@ -23,6 +23,7 @@ extern BOOL _isiPad;
 @implementation TaskReadonlyDetailViewController
 
 @synthesize task;
+@synthesize taskCopy;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,9 +47,23 @@ extern BOOL _isiPad;
 
 - (void) dealloc
 {
-    self.task = nil;
+    self.taskCopy = nil;
     
     [super dealloc];
+}
+
+- (void) setTask:(Task *)taskParam
+{
+	if (taskParam.original != nil && ![taskParam isREException]) //Calendar Task or REException
+	{
+        //printf("task original: %s\n", [[task.original name] UTF8String]);
+        
+		self.taskCopy = taskParam.original;
+    }
+	else
+	{
+		self.taskCopy = taskParam;
+	}
 }
 
 - (void)loadView
@@ -80,7 +95,7 @@ extern BOOL _isiPad;
 	
 	//[taskTypeSegmentedControl addTarget:self action:@selector(changeTaskType:) forControlEvents:UIControlEventValueChanged];
 	taskTypeSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBordered;
-	taskTypeSegmentedControl.selectedSegmentIndex = ([self.task isTask]?0:1);
+	taskTypeSegmentedControl.selectedSegmentIndex = ([self.taskCopy isTask]?0:1);
 	taskTypeSegmentedControl.tintColor = [UIColor blueColor];
     taskTypeSegmentedControl.enabled = NO;
 	
@@ -149,58 +164,58 @@ extern BOOL _isiPad;
     {
         case 0:
         {
-            cell.textLabel.text = self.task.name;
+            cell.textLabel.text = self.taskCopy.name;
             cell.textLabel.font = [UIFont systemFontOfSize:14];
         }
             break;
         case 1:
         {
-            if ([self.task isEvent])
+            if ([self.taskCopy isEvent])
             {
                 Settings *settings = [Settings getInstance];
                 
                 cell.textLabel.text = _timeZone;
-                cell.detailTextLabel.text = settings.timeZoneSupport? [Settings getTimeZoneDisplayNameByID:self.task.timeZoneId]:_floatingText;
+                cell.detailTextLabel.text = settings.timeZoneSupport? [Settings getTimeZoneDisplayNameByID:self.taskCopy.timeZoneId]:_floatingText;
             }
             else
             {
                 cell.textLabel.text = _durationText;
-                cell.detailTextLabel.text = [Common getDurationString:self.task.duration];                
+                cell.detailTextLabel.text = [Common getDurationString:self.taskCopy.duration];
             }
         }
             break;
         case 2:
         {
-            if ([self.task isEvent])
+            if ([self.taskCopy isEvent])
             {
                 cell.textLabel.text = _startText;
-                cell.detailTextLabel.text = [self.task getDisplayStartTime];
+                cell.detailTextLabel.text = [self.taskCopy getDisplayStartTime];
             }
             else
             {
                 cell.textLabel.text = _startText;
-                cell.detailTextLabel.text = (self.task.startTime == nil? _noneText: [Common getFullDateString3:self.task.startTime]);                
+                cell.detailTextLabel.text = (self.taskCopy.startTime == nil? _noneText: [Common getFullDateString3:self.taskCopy.startTime]);
             }
         }
             break;
         case 3:
         {
-            if ([self.task isEvent])
+            if ([self.taskCopy isEvent])
             {
                 cell.textLabel.text = _endText;
-                cell.detailTextLabel.text = [self.task getDisplayEndTime];
+                cell.detailTextLabel.text = [self.taskCopy getDisplayEndTime];
             }
             else
             {
                 cell.textLabel.text = _dueText;
-                cell.detailTextLabel.text = (self.task.deadline == nil? _noneText: [Common getFullDateString3:self.task.deadline]);
+                cell.detailTextLabel.text = (self.taskCopy.deadline == nil? _noneText: [Common getFullDateString3:self.taskCopy.deadline]);
             }
             
         }
             break;
         case 4:
         {
-            Project *prj = [[ProjectManager getInstance] getProjectByKey:self.task.project];
+            Project *prj = [[ProjectManager getInstance] getProjectByKey:self.taskCopy.project];
             
             cell.textLabel.text = _projectText;
             cell.detailTextLabel.text = prj.name;
@@ -209,7 +224,7 @@ extern BOOL _isiPad;
             break;
         case 5:
         {
-            cell.accessoryType = [self.task isREException]?UITableViewCellAccessoryNone: UITableViewCellAccessoryDisclosureIndicator;
+            cell.accessoryType = [self.taskCopy isREException]?UITableViewCellAccessoryNone: UITableViewCellAccessoryDisclosureIndicator;
             
             UILabel *repeatLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 80, 25)];
             repeatLabel.text=_repeatText;
@@ -226,7 +241,7 @@ extern BOOL _isiPad;
             repeatValueLabel.font=[UIFont systemFontOfSize:15];
             repeatValueLabel.backgroundColor=[UIColor clearColor];
             
-            repeatValueLabel.text = [self.task getRepeatTypeString];
+            repeatValueLabel.text = [self.taskCopy getRepeatTypeString];
             
             [cell.contentView addSubview:repeatValueLabel];
             [repeatValueLabel release];
@@ -246,7 +261,7 @@ extern BOOL _isiPad;
             repeatUntilValueLabel.font=[UIFont systemFontOfSize:15];
             repeatUntilValueLabel.backgroundColor=[UIColor clearColor];
             
-            repeatUntilValueLabel.text = [self.task getRepeatUntilString];
+            repeatUntilValueLabel.text = [self.taskCopy getRepeatUntilString];
             
             [cell.contentView addSubview:repeatUntilValueLabel];
             [repeatUntilValueLabel release];
@@ -256,7 +271,7 @@ extern BOOL _isiPad;
         case 6:
         {
             cell.textLabel.text = _descriptionText;
-            cell.detailTextLabel.text = self.task.note;
+            cell.detailTextLabel.text = self.taskCopy.note;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             break;
@@ -271,10 +286,10 @@ extern BOOL _isiPad;
     {
         case 5:
         {
-            if (![self.task isREException])
+            if (![self.taskCopy isREException])
             {
                 RepeatTableViewController *ctrler = [[RepeatTableViewController alloc] init];
-                ctrler.task = self.task;
+                ctrler.task = self.taskCopy;
                 
                 [self.navigationController pushViewController:ctrler animated:YES];
                 [ctrler release];
@@ -285,7 +300,7 @@ extern BOOL _isiPad;
         case 6:
         {
             TaskNoteViewController *ctrler = [[TaskNoteViewController alloc] init];
-            ctrler.task = self.task;
+            ctrler.task = self.taskCopy;
             
             [self.navigationController pushViewController:ctrler animated:YES];
             [ctrler release];
