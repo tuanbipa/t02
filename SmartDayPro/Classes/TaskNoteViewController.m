@@ -13,6 +13,8 @@
 
 #import "ImageManager.h"
 
+extern BOOL _isiPad;
+
 @implementation TaskNoteViewController
 
 @synthesize task;
@@ -45,6 +47,11 @@
     
     frm.size.width = 320;
     
+    if (_isiPad)
+    {
+        frm.size.height = 416;
+    }
+    
 	//UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
 	contentView.backgroundColor=[UIColor darkGrayColor];
@@ -52,9 +59,9 @@
 	self.view = contentView;
 	[contentView release];
     
-	//editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 20, frm.size.width - 20, 140)];
-    editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - [Common getKeyboardHeight] - 40 - 20)];
-    
+    //editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - [Common getKeyboardHeight] - 40 - 20)];
+    editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - (_isiPad?0:[Common getKeyboardHeight] + 40) - 20)];
+
 	editTextView.delegate=self;
 	//editTextView.backgroundColor=[UIColor clearColor];
 	editTextView.keyboardType=UIKeyboardTypeDefault;
