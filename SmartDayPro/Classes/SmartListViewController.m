@@ -1472,6 +1472,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSMutableArray *viewList = [NSMutableArray arrayWithCapacity:10];
     
+    /*
     for (UIView *view in smartListView.subviews)
     {
         if ([view isKindOfClass:[TaskView class]])
@@ -1485,6 +1486,28 @@ SmartListViewController *_smartListViewCtrler;
                 
                 [viewList addObject:view];            
             }            
+        }
+    }*/
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                [taskList addObject:taskView.task];
+                
+                [viewList addObject:taskView];
+            }
+            
         }
     }
     
@@ -1573,6 +1596,7 @@ SmartListViewController *_smartListViewCtrler;
     
     BOOL needConfirm = NO;
     
+    /*
     for (UIView *view in smartListView.subviews)
     {
         if ([view isKindOfClass:[TaskView class]])
@@ -1587,7 +1611,30 @@ SmartListViewController *_smartListViewCtrler;
             }
         }
     }
-	
+	*/
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                needConfirm = YES;
+                
+                break;
+            }
+            
+        }
+    }
+    
     if (needConfirm)
 	{
 		[self confirmMultiDeleteTask];
@@ -1600,6 +1647,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSMutableArray *viewList = [NSMutableArray arrayWithCapacity:10];
     
+    /*
     for (UIView *view in smartListView.subviews)
     {
         if ([view isKindOfClass:[TaskView class]])
@@ -1613,6 +1661,28 @@ SmartListViewController *_smartListViewCtrler;
                 
                 [viewList addObject:view];            
             }            
+        }
+    }*/
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                [taskList addObject:taskView.task];
+                
+                [viewList addObject:taskView];
+            }
+            
         }
     }
     
@@ -1678,18 +1748,42 @@ SmartListViewController *_smartListViewCtrler;
 
     BOOL needConfirm = NO;
     
+    /*
     for (UIView *view in smartListView.subviews)
     {
         if ([view isKindOfClass:[TaskView class]])
         {
             TaskView *tv = (TaskView *)view;
-            
+     
             if ([tv isMultiSelected])
             {
                 needConfirm = YES;
                 
                 break;
             }
+        }
+    }
+    */
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                needConfirm = YES;
+                
+                break;
+            }
+
         }
     }
 	
@@ -1716,11 +1810,28 @@ SmartListViewController *_smartListViewCtrler;
 {
     [self cancelQuickAdd];
     
+    /*
     for (UIView *view in smartListView.subviews)
     {
         if ([view isKindOfClass:[MovableView class]])
         {
             [(MovableView *) view multiSelect:enabled];
+        }
+    }*/
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            [taskView multiSelect:enabled];
         }
     }
     
@@ -1729,11 +1840,6 @@ SmartListViewController *_smartListViewCtrler;
     TaskManager *tm = [TaskManager getInstance];
     
     doneButton.hidden = (tm.taskTypeFilter == TASK_FILTER_DONE);
-    
-    if (enabled)
-    {
-        //[smartListView setContentOffset:CGPointMake(0, 0)];
-    }
 }
 
 - (BOOL)isInMultiEditMode
