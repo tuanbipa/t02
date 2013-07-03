@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
 
-@interface RestoreViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface RestoreViewController : ViewController <UITableViewDataSource, UITableViewDelegate> {
     UITableView *listFileTableView;
     
     NSArray * backupDirectoryContents;
+    
+    NSInteger *selectedItem;
 }
 
 @end

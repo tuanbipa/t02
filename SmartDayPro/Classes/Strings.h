@@ -613,6 +613,10 @@
 #define _dataRecovery NSLocalizedString(@"_dataRecovery", "")
 #define _dataRecoveryHint NSLocalizedString(@"_dataRecoveryHint", "")
 
+#define _autoBackup NSLocalizedString(@"_autoBackup", "")
+#define _autoBackupHint NSLocalizedString(@"_autoBackupHint", "")
+#define _backupOn NSLocalizedString(@"_backupOn", "")
+
 #define _multiSourceWarningText NSLocalizedString(@"_multiSourceWarningText", "")
 #define _noSourceFoundText NSLocalizedString(@"_noSourceFoundText", "")
 #define _sourceLocalText NSLocalizedString(@"_sourceLocalText", "")

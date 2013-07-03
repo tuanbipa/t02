@@ -49,6 +49,8 @@
 #import "AbstractSDViewController.h"
 #import "iPadViewController.h"
 
+#import "RestoreViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
 
 iPadSettingViewController *_iPadSettingViewCtrler;
@@ -420,6 +422,13 @@ iPadSettingViewController *_iPadSettingViewCtrler;
             break;
         case 4:
         {
+            RestoreViewController *ctrler = [[[RestoreViewController alloc] init] autorelease];
+            
+            detailCtrler = ctrler;
+        }
+            break;
+        case 5:
+        {
             DataRecoveryViewController *ctrler = [[[DataRecoveryViewController alloc] init] autorelease];
             
             detailCtrler = ctrler;
@@ -489,7 +498,8 @@ iPadSettingViewController *_iPadSettingViewCtrler;
                       [viewController isKindOfClass:[iPadCalendarSettingViewController class]] ||
                         [viewController isKindOfClass:[iPadTaskSettingViewController class]] ||
                         [viewController isKindOfClass:[iPadSyncSettingViewController class]] ||
-                        [viewController isKindOfClass:[DataRecoveryViewController class]];
+                        [viewController isKindOfClass:[DataRecoveryViewController class]] ||
+                        [viewController isKindOfClass:[RestoreViewController class]];
     
     if ([viewController isKindOfClass:[ProjectSelectionTableViewController class]])
     {
@@ -552,7 +562,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:masterTableView])
     {
-        return self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?5:4;
+        return self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?6:5;
     }
     
     return 0;
@@ -629,7 +639,13 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 						cell.textLabel.text = _synchronizationText;
 					}
 						break;
-					case 4:
+                    case 4:
+					{
+						cell.imageView.image = [UIImage imageNamed:@"settings_backup.png"];
+						cell.textLabel.text = _autoBackup;
+					}
+						break;
+					case 5:
 					{
 						cell.imageView.image = [UIImage imageNamed:@"settings_recovery.png"];
 						cell.textLabel.text = _dataRecovery;

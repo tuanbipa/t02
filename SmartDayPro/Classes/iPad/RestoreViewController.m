@@ -28,7 +28,9 @@ extern BOOL _isiPad;
         NSString *backupPath = [documentsDirectory stringByAppendingPathComponent:@"Backup"];
         NSError * error = nil;
         
-        backupDirectoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:backupPath error:&error];
+        backupDirectoryContents = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:backupPath error:&error] copy];
+        
+        selectedItem = -1;
     }
     return self;
 }
@@ -65,12 +67,7 @@ extern BOOL _isiPad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.title = _autoBackup;
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,17 +79,24 @@ extern BOOL _isiPad;
 - (void)dealloc
 {
     [super dealloc];
-    backupDirectoryContents = nil;
+    //backupDirectoryContents = nil;
+    [backupDirectoryContents release];
 }
 
 #pragma mark - Actions
-- (void)restoreDBFromLocalFile: (NSString *) filePath
+- (void)restoreDBFromLocalFile//: (NSString *) filePath
 {
+    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *dBPath = [documentsDirectory stringByAppendingPathComponent:@"SmartCalDB.sql"];
     NSError * error = nil;
+    
+    // get backup file path
+    NSString *fileName = [backupDirectoryContents objectAtIndex:selectedItem];
+    NSString *backupPath = [documentsDirectory stringByAppendingPathComponent:@"Backup"];
+    NSString *filePath = [backupPath stringByAppendingPathComponent:fileName];
     
     if ([fileManager fileExistsAtPath:dBPath] == YES) {
         [fileManager removeItemAtPath:dBPath error:&error];
@@ -100,6 +104,22 @@ extern BOOL _isiPad;
     [fileManager copyItemAtPath:filePath toPath:dBPath error:&error];
     
     exit(0);
+}
+
+- (NSDate *)getFileMoficationDate: (NSString *) fileName
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *backupPath = [documentsDirectory stringByAppendingPathComponent:@"Backup"];
+    NSString *filePath = [backupPath stringByAppendingPathComponent:fileName];
+    NSError *error;
+    
+    NSDictionary* properties = [[NSFileManager defaultManager]
+                                attributesOfItemAtPath:filePath
+                                error:&error];
+    NSDate* modDate = [properties objectForKey:NSFileModificationDate];
+    
+    return modDate;
 }
 
 #pragma mark - Table view data source
@@ -114,6 +134,16 @@ extern BOOL _isiPad;
 {
     // Return the number of rows in the section.
     return backupDirectoryContents.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	switch (section)
+    {
+		case 0:
+			return _autoBackupHint;
+	}
+    
+	return @"";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -137,8 +167,12 @@ extern BOOL _isiPad;
     // Set up the cell...
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    NSString *fileTile = [_backupOn stringByAppendingString:@" "];
     NSString *fileName = [backupDirectoryContents objectAtIndex:indexPath.row];
-	cell.textLabel.text = fileName;
+    fileTile = [fileTile stringByAppendingString:[Common getFullDateTimeString2:[self getFileMoficationDate:fileName]]];
+	cell.textLabel.text = fileTile;
+    
 	cell.textLabel.backgroundColor = [UIColor clearColor];
     
     return cell;
@@ -187,16 +221,37 @@ extern BOOL _isiPad;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *backupPath = [documentsDirectory stringByAppendingPathComponent:@"Backup"];
-    NSError * error = nil;
+    //NSError * error = nil;
     
-    backupDirectoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:backupPath error:&error];
+    //backupDirectoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:backupPath error:&error];
     
     NSString *fileName = [backupDirectoryContents objectAtIndex:indexPath.row];
     NSString *filePath = [backupPath stringByAppendingPathComponent:fileName];
-    [self restoreDBFromLocalFile:filePath];
+    [self restoreDBFromLocalFile:filePath];*/
+    
+    selectedItem = indexPath.row;
+    [self confirmRestore];
 }
 
+#pragma mark Alert
+
+- (void)confirmRestore
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_restoreDBTitle message:_restoreDBText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText,nil];
+    alertView.tag = -10000;
+    
+    [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+    [alertView release];
+}
+
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertVw.tag == -10000 && buttonIndex != 0 && selectedItem >= 0) //not Cancel
+	{
+        [self restoreDBFromLocalFile];
+	}
+}
 @end

@@ -626,6 +626,10 @@
 5) Confirm your iOS Calendar source on SmartDay by selecting one of the buttons shown below. \
 Note: If you select a source that is not showing in your iOS Calendar, your calendars will become duplicated.";
 
+"_autoBackup" = "Auto Backup";
+"_autoBackupHint" = "Auto - Backup will be stored for 5 days. If there are multiple backups of day a day, the newest backup will overwrite old one. Auto - backup created whenever you make change your data.";
+"_backupOn" = "Backup on";
+
 "_noSourceFoundText" = "You must have at least one calendar source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Cal to have that.";
 "_sourceLocalText" = "Local (From My iPhone/iPad)";
 "_sourceiCloudText" = "iCloud";
