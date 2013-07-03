@@ -188,7 +188,11 @@ extern PlannerViewController *_plannerViewCtrler;
 }
 
 - (void)scrollToCurrentTimeAnimated: (BOOL) animate{
-    [scrollView scrollRectToVisible:[plannerScheduleView getTodayLineCGRect] animated:animate];
+    CGRect frm = [plannerScheduleView getTodayLineCGRect];
+    frm.origin.y -= self.frame.size.height/2;
+    
+    //[scrollView scrollRectToVisible:frm animated:animate];
+    scrollView.contentOffset = frm.origin;
 }
 
 #pragma mark resizing handle
