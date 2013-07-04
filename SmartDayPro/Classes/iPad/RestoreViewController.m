@@ -221,16 +221,8 @@ extern BOOL _isiPad;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *backupPath = [documentsDirectory stringByAppendingPathComponent:@"Backup"];
-    //NSError * error = nil;
-    
-    //backupDirectoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:backupPath error:&error];
-    
-    NSString *fileName = [backupDirectoryContents objectAtIndex:indexPath.row];
-    NSString *filePath = [backupPath stringByAppendingPathComponent:fileName];
-    [self restoreDBFromLocalFile:filePath];*/
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
     selectedItem = indexPath.row;
     [self confirmRestore];
@@ -252,6 +244,9 @@ extern BOOL _isiPad;
 	if (alertVw.tag == -10000 && buttonIndex != 0 && selectedItem >= 0) //not Cancel
 	{
         [self restoreDBFromLocalFile];
-	}
+	} else {
+        UITableViewCell *cell = [listFileTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedItem inSection:0]];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
 }
 @end
