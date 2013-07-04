@@ -56,7 +56,7 @@ extern BOOL _isiPad;
     taskView.starEnable = NO;
     taskView.checkEnable = YES;
     taskView.showSeparator = YES;
-    [taskView enableMove:_isiPad?YES:NO];
+    [taskView enableMove:_isiPad?![task isShared]:NO];
     
     [taskView setNeedsDisplay];
 	
