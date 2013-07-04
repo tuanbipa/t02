@@ -18,6 +18,7 @@
 
 #define MAX_IDLE_TIME 2
 #define AUTOSYNC_IDLE_TIME 10
+#define AUTO_BACKUP_IDLE_TIME 10
 
 BOOL _screenTouch = NO;
 
@@ -70,10 +71,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(idleTimerExceeded) object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(idleAutoSync) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(idleAutoBackup) object:nil];
     
     [self performSelector:@selector(idleTimerExceeded) withObject:nil afterDelay:MAX_IDLE_TIME];
     [self performSelector:@selector(idleAutoSync) withObject:nil afterDelay:AUTOSYNC_IDLE_TIME];
-    [self performSelector:@selector(idleAutoBackup) withObject:nil afterDelay:AUTOSYNC_IDLE_TIME];
+    [self performSelector:@selector(idleAutoBackup) withObject:nil afterDelay:AUTO_BACKUP_IDLE_TIME];
 }
 
 - (void)idleTimerExceeded {
@@ -99,7 +101,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *dBPath = [documentsDirectory stringByAppendingPathComponent:@"SmartCalDB.sql"];
         if ([fileManager fileExistsAtPath:dBPath]) {
-            
             // 1. create backup folder if it does not exist
             NSString *backupPath = [documentsDirectory stringByAppendingPathComponent:@"Backup"];
             
@@ -111,22 +112,45 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             // 2. backup
             NSString *fileName = [Common getFullDateString2:[NSDate date]];
-            NSString *backupFilePath = [backupPath stringByAppendingPathComponent:fileName];
-            if ([fileManager fileExistsAtPath:backupFilePath] == YES) {
-                [fileManager removeItemAtPath:backupFilePath error:&error];
-            }
-            [fileManager copyItemAtPath:dBPath toPath:backupFilePath error:&error];
             
-            // 3. remove old backup
-            NSArray * directoryContents = [fileManager contentsOfDirectoryAtPath:backupPath error:&error];
-            //NSLog(@"directoryContents ====== %@",directoryContents);
-            NSInteger maxFile = 5;
-            if (directoryContents.count > maxFile) {
-                for (int i = 0; i < directoryContents.count - maxFile; i++) {
-                    NSString *removedFile = [backupPath stringByAppendingPathComponent:[directoryContents objectAtIndex:i]];
-                    [fileManager removeItemAtPath:removedFile error:&error];
+            NSString *backupFilePath = [backupPath stringByAppendingPathComponent:fileName];
+            
+            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:dBPath error:nil];
+            
+            NSDate *dbDate = [attributes fileModificationDate];
+            
+            //printf("DB modified date: %s\n", [dbDate.description UTF8String]);
+            
+            attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:backupFilePath error:nil];
+            
+            NSDate *bkDate = [attributes fileModificationDate];
+            
+            //printf("Backup modified date: %s\n", [bkDate.description UTF8String]);
+            
+            if (bkDate == nil || [bkDate compare:dbDate] != NSOrderedSame)
+            {
+                //printf("Back up ...\n");
+                
+                if ([fileManager fileExistsAtPath:backupFilePath] == YES) {
+                    [fileManager removeItemAtPath:backupFilePath error:&error];
                 }
+                [fileManager copyItemAtPath:dBPath toPath:backupFilePath error:&error];
+                
+                // 3. remove old backup
+                NSArray * directoryContents = [fileManager contentsOfDirectoryAtPath:backupPath error:&error];
+                //NSLog(@"directoryContents ====== %@",directoryContents);
+                NSInteger maxFile = 5;
+                if (directoryContents.count > maxFile) {
+                    for (int i = 0; i < directoryContents.count - maxFile; i++) {
+                        NSString *removedFile = [backupPath stringByAppendingPathComponent:[directoryContents objectAtIndex:i]];
+                        [fileManager removeItemAtPath:removedFile error:&error];
+                    }
+                }                
             }
+            /*else
+            {
+                printf("DB file has not modified - Don't backup\n");
+            }*/
         }
     }
 }
