@@ -1249,13 +1249,18 @@ TaskManager *_sctmSingleton = nil;
             {
                 [self assignTimeForTask:task durationLeft:task.duration segments:segments list:self.scheduledTaskList];
                 
+                if (task.smartTime == nil)
+                {
+                    task.smartTime = lastScheduleDate;
+                }
+                
                 lastScheduleDate = task.smartTime;
             }
             
-            if (task.smartTime == nil)
-            {
+            //if (task.smartTime == nil)
+            //{
                 //printf("**** BG Smart Time NIL: %s\n", [task.name UTF8String]);
-            }
+            //}
         }
 	}
     
@@ -1341,14 +1346,19 @@ TaskManager *_sctmSingleton = nil;
             {
                 [self assignTimeForTask:task durationLeft:task.duration segments:segments list:self.scheduledTaskList];
                 
+                if (task.smartTime == nil)
+                {
+                    task.smartTime = lastScheduleDate;
+                }
+                
                 lastScheduleDate = task.smartTime;
                 scheduledIndex++;
                 
                 ////printf("Assign 3 %s - smart time: %s - last schedule: %s\n", [task.name UTF8String], [[task.smartTime description] UTF8String], [[lastScheduleDate description] UTF8String]);
                 
             }
-            /*
-            if (task.smartTime == nil)
+            
+            /*if (task.smartTime == nil)
             {
                 printf("**** Smart Time NIL: %s\n", [task.name UTF8String]);
             }*/
@@ -2242,8 +2252,8 @@ TaskManager *_sctmSingleton = nil;
 	
 	TaskProgress *segment = [segments objectAtIndex:0];
 	
-	NSInteger slotDuration = [Common timeIntervalNoDST:segment.endTime sinceDate:segment.startTime];
-	
+	//NSInteger slotDuration = [Common timeIntervalNoDST:segment.endTime sinceDate:segment.startTime];
+    NSInteger slotDuration = [segment.endTime timeIntervalSinceDate:segment.startTime];
 	
 	if (durationLeft <= slotDuration)
 	{
