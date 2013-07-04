@@ -202,19 +202,14 @@ extern BOOL _isiPad;
 {
     self.navigationItem.title = self.noteCopy.name;
     
-    saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
+    if (saveButton != nil)
+    {
+        saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
+    }
 }
 
 - (void) noteBeginEdit:(NSNotification *)notification
 {
-    /*
-    noteHeightAlternate = noteView.bounds.size.height;
-    
-    CGFloat h = contentView.bounds.size.height - (_isiPad?0:[Common getKeyboardHeight]);
-    
-    [noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, h-30)];
-    */
-    //noteFrm = noteView.frame;
     CGRect frm = noteView.frame;
     
     if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
@@ -228,14 +223,18 @@ extern BOOL _isiPad;
     
     [noteView changeFrame:frm];
     
-    saveButton.enabled = NO;
+    if (saveButton != nil)
+    {
+        saveButton.enabled = NO;
+    }
 }
 
 - (void) noteFinishEdit:(NSNotification *)notification
 {
-    saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
-    
-    //[noteView changeFrame:CGRectMake(0, 30, contentView.bounds.size.width, noteHeightAlternate)];
+    if (saveButton != nil)
+    {
+        saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
+    }
 
     [noteView changeFrame:noteFrm];
 }
@@ -314,10 +313,19 @@ extern BOOL _isiPad;
     
     self.navigationItem.title = self.noteCopy.name;
     
-	saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
+	saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
 															  target:self action:@selector(save:)];
-	self.navigationItem.rightBarButtonItem = saveButton;
-	[saveButton release];  
+	self.navigationItem.rightBarButtonItem = [self.note isShared]?nil:saveButton;
+	[saveButton release];
+    
+    if ([self.note isShared])
+    {
+        saveButton = nil;
+        
+        noteView.editEnabled = NO;
+        
+        detailButton.enabled = NO;
+    }
     
 }
 
