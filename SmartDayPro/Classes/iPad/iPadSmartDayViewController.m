@@ -73,6 +73,7 @@ iPadViewController *_iPadViewCtrler;
 {
     if (self = [super init])
     {
+        selectedModuleButton = nil;
     }
     
     return self;
@@ -87,6 +88,7 @@ iPadViewController *_iPadViewCtrler;
 
 - (BOOL) checkControllerActive:(NSInteger)index
 {
+    /*
     UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
     UIView *noteHeaderView = (UIView *)[contentView viewWithTag:20001];
     UIView *projectHeaderView = (UIView *)[contentView viewWithTag:20002];
@@ -98,6 +100,18 @@ iPadViewController *_iPadViewCtrler;
     UIButton *buttons[4] = {nil, taskModuleButton, noteModuleButton, projectModuleButton};
     
     if (index == 0 || (index > 0 && buttons[index].selected))
+    {
+        return YES;
+    }
+    
+    return NO;*/
+    
+    if (index == 0)
+    {
+        return YES;
+    }
+    
+    if (selectedModuleButton != nil && (selectedModuleButton.tag-31000+1) == index)
     {
         return YES;
     }
@@ -733,6 +747,39 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+- (void) showModule:(id)sender
+{
+    UIButton *btn = (UIButton *)sender;
+    
+    if (selectedModuleButton != btn)
+    {
+        UIView *moduleView = [contentView viewWithTag:33000];
+        
+        if (selectedModuleButton != nil)
+        {
+            [[moduleView.subviews lastObject] removeFromSuperview];
+        }
+        
+        PageAbstractViewController *ctrler = viewCtrlers[btn.tag - 31000 + 1];
+        
+        [ctrler changeFrame:moduleView.bounds];
+        
+        [moduleView addSubview:ctrler.view];
+        
+        selectedModuleButton.selected = NO;
+        
+        selectedModuleButton.backgroundColor = [UIColor grayColor];
+        
+        selectedModuleButton = btn;
+        
+        selectedModuleButton.selected = YES;
+        
+        selectedModuleButton.backgroundColor = [UIColor cyanColor];
+        
+        [self refreshHeaderView];
+    }
+}
+
 #pragma mark Filter
 - (NSString *) showProjectWithOption:(id)sender
 {
@@ -1228,6 +1275,98 @@ iPadViewController *_iPadViewCtrler;
     contentView.backgroundColor = [UIColor clearColor];
     
     self.view = contentView;
+    
+    CGFloat w = frm.size.width/2-10;
+    
+    UIImageView *leftDecoView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, w, frm.size.height-10)];
+    leftDecoView.image = [UIImage imageNamed:@"module_bg.png"];
+    //leftDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    [contentView addSubview:leftDecoView];
+    [leftDecoView release];
+    
+    UIImageView *rightDecoView = [[UIImageView alloc] initWithFrame:CGRectMake(w+15, 5, w, frm.size.height-10)];
+    //rightDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    rightDecoView.image = [UIImage imageNamed:@"module_bg.png"];
+    [contentView addSubview:rightDecoView];
+    [rightDecoView release];
+    
+    CalendarViewController *ctrler = [self getCalendarViewController];
+    
+    [ctrler changeFrame:CGRectMake(5, 10, w-5, frm.size.height-20)];
+    
+    [contentView addSubview:ctrler.view];
+    
+	//miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT + 6)];
+    
+	miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT)];
+	
+	[contentView addSubview:miniMonthView];
+	[miniMonthView release];
+    
+    //[miniMonthView.headerView changeMWMode:0];
+    
+    focusView = [[FocusView alloc] initWithFrame:_isiPad?CGRectMake(10, miniMonthView.bounds.origin.y + miniMonthView.bounds.size.height, w-10, 40):CGRectZero];
+    focusView.hidden = !_isiPad;
+    
+    [contentView addSubview:focusView];
+    [focusView release];
+    
+    NSString *titles[3] = {_tasksText, _notesText, _projectsText};
+    //NSString *filters[3] = {_allText, _allText, _tasksText};
+    
+    CGFloat btnWidth = (w-10)/3;
+    
+    UIButton *taskButton = nil;
+    
+    for (int i=0; i<3; i++)
+    {
+        UIButton *moduleButton = [Common createButton:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:CGRectMake(w+20 + i*btnWidth, 10, btnWidth, 40)
+                                           titleColor:[UIColor whiteColor]
+                                               target:self
+                                             selector:@selector(showModule:)
+                                     normalStateImage:nil
+                                   selectedStateImage:nil];
+        moduleButton.backgroundColor = [UIColor grayColor]
+        ;
+        [moduleButton setTitle:titles[i] forState:UIControlStateNormal];
+        moduleButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+        moduleButton.tag = 31000+i;
+        
+        [contentView addSubview:moduleButton];
+        
+        if (i==0)
+        {
+            taskButton = moduleButton;
+        }
+    }
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 50, w-10, 40)];
+    headerView.backgroundColor = [UIColor brownColor];
+    headerView.tag = 32000;
+    
+    [contentView addSubview:headerView];
+    [headerView release];
+    
+    UIView *moduleView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 90, w-10, frm.size.height-100)];
+    moduleView.backgroundColor = [UIColor greenColor];
+    moduleView.tag = 33000;
+    
+    [contentView addSubview:moduleView];
+    [moduleView release];
+}
+
+- (void) loadView_old
+{
+    CGRect frm = [Common getFrame];
+    
+    contentView = [[ContentView alloc] initWithFrame:frm];
+    
+    //contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor clearColor];
+    
+    self.view = contentView;
 
     CGFloat w = frm.size.width/2-10;
     
@@ -1439,6 +1578,66 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+- (void) refreshHeaderView
+{
+    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    
+    for (UIView *view in headerView.subviews)
+    {
+        [view removeFromSuperview];
+    }
+    
+    NSString *filters[3] = {_allText, _allText, _tasksText};
+   
+    UIButton *addButton = [Common createButton:@""
+                                    buttonType:UIButtonTypeCustom
+                                         frame:CGRectMake(headerView.bounds.size.width-35, 5, 30, 30)
+                                    titleColor:[UIColor whiteColor]
+                                        target:self
+                                      selector:@selector(add:)
+                              normalStateImage:@"module_add.png"
+                            selectedStateImage:nil];
+    addButton.tag = 22000;
+    
+    [headerView addSubview:addButton];
+    
+    UIButton *filterButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                              frame:CGRectMake(headerView.bounds.size.width-70, 5, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(filter:)
+                                 normalStateImage:nil
+                               selectedStateImage:nil];
+    filterButton.tag = 23000;
+    [headerView addSubview:filterButton];
+    
+    UIImageView *filterImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 10, 10)];
+    
+    filterImgView.image = [UIImage imageNamed:@"arrow_down.png"];
+    
+    [filterButton addSubview:filterImgView];
+    [filterImgView release];
+    
+    UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(headerView.bounds.size.width-70, 5, 1, 30)];
+    filterSeparatorView.backgroundColor = [UIColor whiteColor];
+    
+    [headerView addSubview:filterSeparatorView];
+    [filterSeparatorView release];
+    
+    UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(headerView.bounds.size.width-180, 5, 100, 30)];
+    filterLabel.backgroundColor = [UIColor clearColor];
+    filterLabel.textAlignment =  NSTextAlignmentRight;
+    filterLabel.textColor = [UIColor whiteColor];
+    filterLabel.font = [UIFont boldSystemFontOfSize:16];
+    filterLabel.tag = 24000;
+    filterLabel.text = filters[selectedModuleButton.tag-31000];
+    
+    [headerView addSubview:filterLabel];
+    [filterLabel release];
+    
+}
+
 - (void) showTaskModule:(BOOL)enabled
 {
     SmartListViewController *ctrler = [self getSmartListViewController];
@@ -1512,7 +1711,14 @@ iPadViewController *_iPadViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self resizeModules];
+    //[self resizeModules];
+    UIButton *taskButton = (UIButton *)[contentView viewWithTag:31000];
+    
+    if (taskButton != nil)
+    {
+        //[self showModule:taskButton];
+        [self performSelector:@selector(showModule:) withObject:taskButton afterDelay:0];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
