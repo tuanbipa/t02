@@ -14,6 +14,8 @@
 {
     UIButton *projectShowDoneButton;
     
+    UIButton *selectedModuleButton;
+    
     //UIButton *taskMultiEditButton;
 }
 
