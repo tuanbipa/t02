@@ -644,13 +644,16 @@ iPadViewController *_iPadViewCtrler;
     
     UIView *modules[3] = {taskHeaderView, noteHeaderView, projectHeaderView};
     
-    UIView *moduleView = modules[button.tag - 23000];
+    //UIView *moduleView = modules[button.tag - 23000];
+    UIView *moduleView = (UIView *)[contentView viewWithTag:32000];
     
     CGRect moduleFrm = [moduleView.superview convertRect:moduleView.frame toView:contentView];
     
+    //UIButton *expandedButton = (UIButton *) [moduleView viewWithTag:21000+button.tag-23000];
     UIButton *expandedButton = (UIButton *) [moduleView viewWithTag:21000+button.tag-23000];
     
-    if (optionView.tag != button.tag)
+    //if (optionView.tag != button.tag)
+    if (optionView.tag != selectedModuleButton.tag)
     {
         if ([optionView superview] != nil)
         {
@@ -659,9 +662,10 @@ iPadViewController *_iPadViewCtrler;
             optionView = nil;
         }
 
-        if (expandedButton.selected)
+        //if (expandedButton.selected)
         {
-            switch (button.tag - 23000)
+            //switch (button.tag - 23000)
+            switch (selectedModuleButton.tag - 31000)
             {
                 case 0:
                 {
@@ -783,7 +787,8 @@ iPadViewController *_iPadViewCtrler;
 #pragma mark Filter
 - (NSString *) showProjectWithOption:(id)sender
 {
-    NSString *title = [super showProjectWithOption:sender];
+    
+    /*NSString *title = [super showProjectWithOption:sender];
     
     UILabel *filterLabel = (UILabel *)[contentView viewWithTag:24002];
     
@@ -792,29 +797,89 @@ iPadViewController *_iPadViewCtrler;
     CategoryViewController *ctrler = [self getCategoryViewController];
     
     projectShowDoneButton.hidden = (ctrler.filterType != TYPE_TASK);
-    projectShowDoneButton.selected = ctrler.showDone;
+    projectShowDoneButton.selected = ctrler.showDone;*/
+    
+    UISegmentedControl *segmented = (UISegmentedControl *)sender;
+    
+    NSString *title = [segmented titleForSegmentAtIndex:segmented.selectedSegmentIndex];
+    
+    segmented.tag = segmented.selectedSegmentIndex;
+    [super showProjectWithOption:segmented];
     
     return title;
 }
 
 - (NSString *) showTaskWithOption:(id)sender
 {
-    NSString *title = [super showTaskWithOption:sender];
+    /*NSString *title = [super showTaskWithOption:sender];
     
     UILabel *filterLabel = (UILabel *)[contentView viewWithTag:24000];
     
-    filterLabel.text = title;
+    filterLabel.text = title;*/
+    
+    UISegmentedControl *segmented = (UISegmentedControl *)sender;
+    
+    NSString *title = [segmented titleForSegmentAtIndex:segmented.selectedSegmentIndex];
+    
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            segmented.tag = TASK_FILTER_ALL;
+            break;
+            
+        case 1:
+            segmented.tag = TASK_FILTER_STAR;
+            break;
+            
+        case 2:
+            segmented.tag = TASK_FILTER_TOP;
+            break;
+            
+        case 3:
+            segmented.tag = TASK_FILTER_DUE;
+            break;
+            
+        case 4:
+            segmented.tag = TASK_FILTER_ACTIVE;
+            break;
+            
+        case 5:
+            segmented.tag = TASK_FILTER_DONE;
+            break;
+            
+        default:
+            break;
+    }
+    [super showTaskWithOption:segmented];
     
     return title;
 }
 
 - (NSString *) showNoteWithOption:(id)sender
 {
-    NSString *title = [super showNoteWithOption:sender];
+    /*NSString *title = [super showNoteWithOption:sender];
     
     UILabel *filterLabel = (UILabel *)[contentView viewWithTag:24001];
     
-    filterLabel.text = title;
+    filterLabel.text = title;*/
+    
+    UISegmentedControl *segmented = (UISegmentedControl *)sender;
+    
+    NSString *title = [segmented titleForSegmentAtIndex:segmented.selectedSegmentIndex];
+    
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            segmented.tag = NOTE_FILTER_ALL;
+            break;
+            
+        case 1:
+            segmented.tag = NOTE_FILTER_CURRENT;
+            break;
+            
+        case 2:
+            segmented.tag = NOTE_FILTER_WEEK;
+            break;
+    }
+    [super showNoteWithOption:segmented];
     
     return title;
 }
@@ -835,6 +900,91 @@ iPadViewController *_iPadViewCtrler;
 		//[Common animateGrowViewFromPoint:CGPointMake(160,0) toPoint:CGPointMake(160, optionView.bounds.size.height/2) forView:optionView];
         [Common animateGrowViewFromPoint:optionView.frame.origin toPoint:CGPointMake(optionView.frame.origin.x, optionView.frame.origin.y + optionView.bounds.size.height/2) forView:optionView];
 	}
+}
+
+- (void)createTaskOptionFilter
+{
+    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    
+    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _startText, _doneText, nil];
+    
+    filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    filterSegmentedControl.frame = headerView.bounds;
+    filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.selectedSegmentIndex = 0;
+    
+    [filterSegmentedControl addTarget:self action:@selector(showTaskWithOption:) forControlEvents:UIControlEventValueChanged];
+    
+    // set selected
+    NSString *title = [[TaskManager getInstance] getFilterTitle];
+    for (int i = 0; i < filterSegmentedControl.numberOfSegments; i++) {
+        NSString *segmentText = [filterSegmentedControl titleForSegmentAtIndex:i];
+        if (title == segmentText) {
+            filterSegmentedControl.selectedSegmentIndex = i;
+            break;
+        }
+    }
+    
+    [headerView addSubview:filterSegmentedControl];
+    [filterSegmentedControl release];
+}
+
+- (void) createNoteOptionFilter
+{
+    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    
+    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _todayText, nil];
+    
+    filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    filterSegmentedControl.frame = headerView.bounds;
+    filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.selectedSegmentIndex = 0;
+    
+    [filterSegmentedControl addTarget:self action:@selector(showNoteWithOption:) forControlEvents:UIControlEventValueChanged];
+    
+    // set selected
+    NoteViewController *ctrler = [self getNoteViewController];
+    filterSegmentedControl.selectedSegmentIndex = ctrler.filterType;
+    
+    [headerView addSubview:filterSegmentedControl];
+    [filterSegmentedControl release];
+}
+
+- (void)createProjectOptionFilter
+{
+    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    
+    NSArray *itemArray = [NSArray arrayWithObjects: _tasksText, _eventsText, _notesText, _anchoredText, nil];
+    
+    filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    filterSegmentedControl.frame = headerView.bounds;
+    filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.selectedSegmentIndex = 0;
+    
+    [filterSegmentedControl addTarget:self action:@selector(showProjectWithOption:) forControlEvents:UIControlEventValueChanged];
+    
+    // set selected
+    CategoryViewController *ctrler = [self getCategoryViewController];
+    switch (ctrler.filterType) {
+        case TYPE_TASK:
+            filterSegmentedControl.selectedSegmentIndex = 0;
+            break;
+            
+        case TYPE_EVENT:
+            filterSegmentedControl.selectedSegmentIndex = 1;
+            break;
+        
+        case TYPE_NOTE:
+            filterSegmentedControl.selectedSegmentIndex = 2;
+            break;
+            
+        case TASK_FILTER_PINNED:
+            filterSegmentedControl.selectedSegmentIndex = 3;
+            break;
+    }
+    
+    [headerView addSubview:filterSegmentedControl];
+    [filterSegmentedControl release];
 }
 
 -(void) createTaskOptionView
@@ -1587,6 +1737,33 @@ iPadViewController *_iPadViewCtrler;
         [view removeFromSuperview];
     }
     
+    switch (selectedModuleButton.tag - 31000)
+    {
+        case 0:
+        {
+            [self createTaskOptionFilter];
+        }
+            break;
+            
+        case 1:
+            [self createNoteOptionFilter];
+            break;
+            
+        case 2:
+            [self createProjectOptionFilter];
+            break;
+    }
+}
+
+- (void) refreshHeaderView_old
+{
+    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    
+    for (UIView *view in headerView.subviews)
+    {
+        [view removeFromSuperview];
+    }
+    
     NSString *filters[3] = {_allText, _allText, _tasksText};
    
     UIButton *addButton = [Common createButton:@""
@@ -1636,6 +1813,10 @@ iPadViewController *_iPadViewCtrler;
     [headerView addSubview:filterLabel];
     [filterLabel release];
     
+    // hide option filter
+    optionView.hidden = YES;
+    
+    [self refreshTaskFilterTitle];
 }
 
 - (void) showTaskModule:(BOOL)enabled

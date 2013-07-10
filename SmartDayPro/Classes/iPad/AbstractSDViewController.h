@@ -25,6 +25,7 @@
 @interface AbstractSDViewController : AbstractActionViewController
 {
     UIView *optionView;
+    UISegmentedControl *filterSegmentedControl;
     UIImageView *optionImageView;    
     
     MiniMonthView *miniMonthView;
