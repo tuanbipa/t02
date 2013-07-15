@@ -700,3 +700,10 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 
 "_soundEnabledText" = "Sound Enabled";
 
+// new layout
+"_selectedText" = "Selected";
+"_overDueText" = "Overdue";
+"_dueInTex" = "Due in";
+"_daysText" = "day(s)";
+"_longText" = "Long";
+"_shortText" = "Short";

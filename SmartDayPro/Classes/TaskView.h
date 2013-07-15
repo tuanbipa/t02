@@ -24,11 +24,20 @@
 	BOOL starEnable;
     
     BOOL transparent;
+    
+    // for view in filter mode
+    BOOL showDue;
+    BOOL showFlag;
+    BOOL showDuration;
 }
 
 @property BOOL checkEnable;
 @property BOOL starEnable;
 @property BOOL transparent;
+
+@property BOOL showDue;
+@property BOOL showFlag;
+@property BOOL showDuration;
 
 @property BOOL listStyle;
 @property BOOL focusStyle;

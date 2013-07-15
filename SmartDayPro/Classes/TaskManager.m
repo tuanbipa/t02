@@ -2078,6 +2078,100 @@ TaskManager *_sctmSingleton = nil;
 	
 }
 
+- (void) sortStar
+{
+	////NSLog(@"begin sort start");
+	
+	DBManager *dbm = [DBManager getInstance];
+	
+	self.taskList = [dbm getStartTasks];
+	
+	NSMutableArray *seqNoList = [NSMutableArray arrayWithCapacity:self.taskList.count];
+	
+	for (Task *task in self.taskList)
+	{
+		[seqNoList addObject:[NSNumber numberWithInt:task.sequenceNo]];
+	}
+	
+	////NSLog(@"sort start 1");
+	
+	[Common sortList:self.taskList byKey:@"status" ascending:NO];
+	
+	////NSLog(@"sort start 2");
+	
+	sortBGInProgress = (self.taskList.count > 30);
+	
+	for (int i=0; i<self.taskList.count; i++)
+	{
+		Task *task = [self.taskList objectAtIndex:i];
+		
+		task.sequenceNo = [[seqNoList objectAtIndex:i] intValue];
+		
+		if (!sortBGInProgress)
+		{
+			[task updateSeqNoIntoDB:[dbm getDatabase]];
+		}
+	}
+	
+	////NSLog(@"sort start 3");
+	
+	if (sortBGInProgress)
+	{
+		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
+		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+	}
+	
+	////NSLog(@"end sort start");
+	
+}
+
+- (void) sortDurationWithAsc: (BOOL) asc
+{
+	////NSLog(@"begin sort start");
+	
+	DBManager *dbm = [DBManager getInstance];
+	
+	self.taskList = [dbm getStartTasks];
+	
+	NSMutableArray *seqNoList = [NSMutableArray arrayWithCapacity:self.taskList.count];
+	
+	for (Task *task in self.taskList)
+	{
+		[seqNoList addObject:[NSNumber numberWithInt:task.sequenceNo]];
+	}
+	
+	////NSLog(@"sort start 1");
+	
+	[Common sortList:self.taskList byKey:@"duration" ascending:asc];
+	
+	////NSLog(@"sort start 2");
+	
+	sortBGInProgress = (self.taskList.count > 30);
+	
+	for (int i=0; i<self.taskList.count; i++)
+	{
+		Task *task = [self.taskList objectAtIndex:i];
+		
+		task.sequenceNo = [[seqNoList objectAtIndex:i] intValue];
+		
+		if (!sortBGInProgress)
+		{
+			[task updateSeqNoIntoDB:[dbm getDatabase]];
+		}
+	}
+	
+	////NSLog(@"sort start 3");
+	
+	if (sortBGInProgress)
+	{
+		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
+		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+	}
+	
+	////NSLog(@"end sort start");
+	
+}
+
 - (void) resort
 {
     switch (self.taskTypeFilter)
@@ -2130,7 +2224,8 @@ TaskManager *_sctmSingleton = nil;
 			[self sortStart];
 			break;
 		case TASK_FILTER_STAR:
-			self.taskList = [dbm getPinnedTasks];
+			//self.taskList = [dbm getPinnedTasks];
+            [self sortStar];
 			break;
 		case TASK_FILTER_TOP:
 			self.taskList = [self getTopTasks];
@@ -2138,10 +2233,12 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             self.taskList = [dbm getDoneTasks];
             break;
-        /*case TASK_FILTER_PINNED:
-            //self.taskList = [self getManualTaskList];
-            self.taskList = [NSMutableArray array];
-            break;*/
+        case TASK_FILTER_LONG:
+            [self sortDurationWithAsc:NO];
+            break;
+        case TASK_FILTER_SHORT:
+            [self sortDurationWithAsc:YES];
+            break;
 	}
         /*
         printf("before exclude MustDo\n");

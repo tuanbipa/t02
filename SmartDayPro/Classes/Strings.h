@@ -685,6 +685,9 @@
 
 #define _soundEnabledText NSLocalizedString(@"_soundEnabledText", "")
 
-
-
-
+#define _selectedText NSLocalizedString(@"_selectedText", "")
+#define _overDueText NSLocalizedString(@"_overDueText", "")
+#define _dueInTex NSLocalizedString(@"_dueInTex", "")
+#define _daysText NSLocalizedString(@"_daysText", "")
+#define _longText NSLocalizedString(@"_longText", "")
+#define _shortText NSLocalizedString(@"_shortText", "")

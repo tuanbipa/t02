@@ -839,11 +839,13 @@ iPadViewController *_iPadViewCtrler;
             break;
             
         case 4:
-            segmented.tag = TASK_FILTER_ACTIVE;
+            //segmented.tag = TASK_FILTER_ACTIVE;
+            segmented.tag = TASK_FILTER_LONG;
             break;
             
         case 5:
-            segmented.tag = TASK_FILTER_DONE;
+            //segmented.tag = TASK_FILTER_DONE;
+            segmented.tag = TASK_FILTER_SHORT;
             break;
             
         default:
@@ -906,7 +908,7 @@ iPadViewController *_iPadViewCtrler;
 {
     UIView *headerView = (UIView *)[contentView viewWithTag:32000];
     
-    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _startText, _doneText, nil];
+    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _longText, _shortText, nil];
     
     filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     filterSegmentedControl.frame = headerView.bounds;
@@ -1726,6 +1728,18 @@ iPadViewController *_iPadViewCtrler;
 
         [contentView addSubview:view];
     }
+}
+
+- (void)changeHeaderToEdit
+{
+//    NSLog(@"ipad");
+//    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+//    
+//    for (UIView *view in headerView.subviews)
+//    {
+//        [view removeFromSuperview];
+//    }
+    
 }
 
 - (void) refreshHeaderView

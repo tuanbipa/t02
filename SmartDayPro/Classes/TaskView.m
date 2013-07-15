@@ -43,6 +43,9 @@ extern PlannerViewController *_plannerViewCtrler;
 @synthesize focusStyle;
 @synthesize showListBorder;
 @synthesize showSeparator;
+@synthesize showDue;
+@synthesize showFlag;
+@synthesize showDuration;
 
 @synthesize task;
 
@@ -111,6 +114,9 @@ extern PlannerViewController *_plannerViewCtrler;
         self.showListBorder = NO;
         self.showSeparator = YES;
         
+        self.showDue = NO;
+        self.showFlag = NO;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(appBusy:)
 													 name:@"AppBusyNotification" object:nil];
@@ -170,7 +176,7 @@ extern PlannerViewController *_plannerViewCtrler;
     starView.userInteractionEnabled = self.starEnable;
 }
 
--(void)refreshCheckImage
+-(void)refreshCheckImage_old
 {
     //Task *task = (Task *)self.tag;
     
@@ -185,6 +191,11 @@ extern PlannerViewController *_plannerViewCtrler;
     }
     
     checkView.userInteractionEnabled = self.checkEnable;
+}
+
+-(void)refreshCheckImage
+{
+    checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
 }
 
 - (void) refresh
@@ -221,7 +232,7 @@ extern PlannerViewController *_plannerViewCtrler;
 
 #pragma mark Actions
 
--(void)check:(id)sender
+-(void)check_old:(id)sender
 {
     if (!checkEnable)
     {
@@ -250,6 +261,21 @@ extern PlannerViewController *_plannerViewCtrler;
     [self refreshCheckImage];
     
     //[self release];
+}
+
+-(void)check:(id)sender
+{
+    if (!checkEnable)
+    {
+        return;
+    }
+    
+    UIButton *button = (UIButton *) sender;
+    button.selected = !button.selected;
+        
+    [self refreshCheckImage];
+    
+    [_abstractViewCtrler changeHeaderToEdit];
 }
 
 -(void)star:(id)sender
@@ -426,7 +452,7 @@ extern PlannerViewController *_plannerViewCtrler;
     }
 }
 
-- (void)drawHashmark:(CGRect)rect context:(CGContextRef) ctx
+- (void)drawHashmark_old:(CGRect)rect context:(CGContextRef) ctx
 {
     //Task *task = (Task *) self.tag;
     
@@ -456,6 +482,23 @@ extern PlannerViewController *_plannerViewCtrler;
     UIImage *img = [UIImage imageNamed:imgNames[imgIdx]];
     
     [img drawInRect:rect];
+}
+
+- (CGSize)drawHashmark:(CGRect)rect context:(CGContextRef) ctx
+{
+    NSString *durationString = [Common getDurationString:self.task.duration];
+    
+    UIFont *infoFont = [UIFont fontWithName:@"Helvetica" size:12];
+    
+    // calculate size
+    CGSize sz = [durationString sizeWithFont:infoFont];
+    rect.origin.x += rect.size.width - sz.width;
+    rect.origin.y += (rect.size.height - sz.height)/2;
+    rect.size = sz;
+    
+    [[UIColor blackColor] setFill];
+    [durationString drawInRect:rect withFont:infoFont];
+    return sz;
 }
 
 - (void) drawHours:(CGRect)rect context:(CGContextRef) ctx
@@ -607,7 +650,7 @@ extern PlannerViewController *_plannerViewCtrler;
 	
 }
 
-- (void) drawDue:(CGRect)rect context:(CGContextRef) ctx
+- (void) drawDue_old:(CGRect)rect context:(CGContextRef) ctx
 {	
 	//Task *task = (Task *) self.tag;
 	
@@ -711,6 +754,42 @@ extern PlannerViewController *_plannerViewCtrler;
 		[s drawInRect:rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentCenter];
 		
 	}
+}
+
+- (CGSize) drawDue:(CGRect)rect context:(CGContextRef) ctx
+{
+    if ([self.task isDTask]) {
+        NSDate *today = [NSDate date];
+        
+        //NSComparisonResult result = [today compare:self.task.deadline];
+        NSComparisonResult result = [Common compareDateNoTime:self.task.deadline withDate:today];
+        
+        NSString *dueString = @"";
+        if (result == NSOrderedAscending) {
+            dueString = _overDueText;
+        } else if (result == NSOrderedSame) {
+            
+            dueString = [_dueText stringByAppendingFormat:@" %@", _todayText];
+        } else {
+            NSTimeInterval diff = [self.task.deadline timeIntervalSinceDate:[Common clearTimeForDate:today]];
+            NSInteger dueDays = floor(diff/24/3600);
+            
+            dueString = [NSString stringWithFormat:@"%@ %d %@", _dueInTex, dueDays, _daysText];
+        }
+    
+        UIFont *infoFont = [UIFont fontWithName:@"Helvetica" size:12];
+        
+        // calculate size
+        CGSize sz = [dueString sizeWithFont:infoFont];
+        rect.origin.x += rect.size.width - sz.width;
+        rect.origin.y += (rect.size.height - sz.height)/2;
+        rect.size = sz;
+        
+        [[UIColor blackColor] setFill];
+        [dueString drawInRect:rect withFont:infoFont];
+        return sz;
+    }
+    return CGSizeZero;
 }
 
 - (void) drawPin:(CGRect)rect context:(CGContextRef) ctx
@@ -1031,7 +1110,7 @@ extern PlannerViewController *_plannerViewCtrler;
 }
 
     
-- (void) drawListStyle:(CGRect)rect ctx:(CGContextRef)ctx
+- (void) drawListStyle_old:(CGRect)rect ctx:(CGContextRef)ctx
 {
     ProjectManager *pm = [ProjectManager getInstance];
     
@@ -1306,6 +1385,316 @@ extern PlannerViewController *_plannerViewCtrler;
 		
         rect.origin.x += FLAG_SIZE + SPACE_PAD/2;
         rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
+	}
+    
+	if (hasHand)
+	{
+		frm.size.width = HAND_SIZE;
+		frm.size.height = HAND_SIZE;
+        
+		frm.origin.x = rect.origin.x + SPACE_PAD/2;
+		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		[self drawHand:frm context:ctx];
+		
+        rect.origin.x += HAND_SIZE + SPACE_PAD/2;
+        rect.size.width -= HAND_SIZE + SPACE_PAD/2;
+	}
+    
+    [self drawText:rect context:ctx];
+}
+
+- (void) drawListStyle:(CGRect)rect ctx:(CGContextRef)ctx
+{
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+    //Task *task = (Task *) self.tag;
+    //BOOL hasAlert = (task.original != nil && ![task isREException]?task.original.alerts.count > 0:task.alerts.count > 0);
+    BOOL hasAlert = NO;
+	BOOL hasDue = [task isDTask];
+    BOOL hasFlag = [task isTask] && (task.isTop || (task.original != nil && task.original.isTop));
+    //BOOL hasHashMark = YES;
+    BOOL hasHashMark = NO;
+    BOOL hasTime = YES;
+    BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
+    BOOL hasHand = [task isShared];
+    
+    //printf("task %s link count: %d\n", [task.name UTF8String], task.links.count);
+    
+    UIColor *dimProjectColor = [pm getProjectColor1:task.project];
+    
+    [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
+    CGContextFillRect(ctx, rect);
+    
+    if (isSelected)
+    {
+        CGRect frm = rect;
+        
+        frm.origin.x += 1;
+        frm.size.width -= 2;
+        frm.size.height -= 2;
+        
+        //[[[UIColor magentaColor] colorWithAlphaComponent:0.2] setFill];
+        UIColor *highlightColor = [UIColor colorWithRed:149.0/255 green:185.0/255 blue:239.0/255 alpha:1];
+        
+        [highlightColor setFill];
+        
+        CGContextFillRect(ctx, frm);
+    }
+    
+    //if (self.multiSelectionEnable)
+    {
+        rect = CGRectOffset(rect, 30, 0);
+        rect.size.width -= 30;
+        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+        //checkView.userInteractionEnabled = NO;
+    }
+    
+//    if (task.type == TYPE_ADE)
+//    {
+//        /*
+//         CGRect frm = CGRectOffset(rect, SPACE_PAD, 0);
+//         
+//         frm.size.height -= 2;
+//         frm.size.width -= 2*SPACE_PAD;
+//         */
+//        
+//        rect = CGRectOffset(rect, SPACE_PAD, 0);
+//        rect.size.width -= 2*SPACE_PAD;
+//        
+//        CGRect frm = rect;
+//        frm.size.height -= 2;
+//        
+//        [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
+//        fillRoundedRect(ctx, frm, 5, 5);
+//    }
+    
+    if (self.showListBorder)
+    {
+        //[[UIColor colorWithRed:113.0/255 green:116.0/255 blue:123.0/255 alpha:1] setFill];
+        [[UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1] setFill];
+        
+        CGContextFillRect(ctx, rect);
+        
+        [[UIColor grayColor] setStroke];
+        
+        CGContextStrokeRect(ctx, rect);
+    }
+    
+    if (self.showSeparator)
+    {
+        UIColor *separatorColor = [UIColor colorWithRed:195.0/255 green:195.0/255 blue:195.0/255 alpha:1];
+        [separatorColor setStroke];
+        
+        CGContextMoveToPoint(ctx, rect.origin.x, rect.origin.y + rect.size.height);
+        CGContextAddLineToPoint( ctx, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
+        CGContextStrokePath(ctx);
+    }
+    
+	if (rect.size.width <= 120) //no need to draw these in WeekPlanner
+	{
+		hasAlert = NO;
+		hasFlag = NO;
+		hasHashMark = NO;
+        hasDue = NO;
+        hasTime = NO;
+        hasLink = NO;
+	}
+    
+//    UIImage *img = nil;
+//    
+//    if ([task isEvent] && ![task isManual])
+//    {
+//        img = [pm getEventIcon:task.project];
+//    }
+//    else if ([task isEvent] && [task isManual])
+//    {
+//        img = [pm getAnchoredIcon:task.project];
+//    }
+//    else if ([task isTask])
+//    {
+//        img = [pm getTaskIcon:task.project];
+//    }
+//    else if ([task isNote])
+//    {
+//        img = [pm getNoteIcon:task.project];
+//    }
+    
+    ////printf("icon w=%f, h=%f\n", img.size.width, img.size.height);
+    
+    CGRect frm = CGRectZero;
+//    frm.size = img.size;
+//    frm.origin.y = (rect.size.height-frm.size.height)/2;
+//    //frm.origin.y = SPACE_PAD;
+//    frm.origin.x = rect.origin.x + SPACE_PAD;
+//    
+//    [img drawInRect:frm];
+//    
+//    if (self.multiSelectionEnable && [task isDone])
+//    {
+//        img = [[ImageManager getInstance] getImageWithName:@"checkmark.png"];
+//        
+//        [img drawInRect:frm];
+//    }
+    
+    rect.origin.x += frm.size.width + 2*SPACE_PAD;
+    rect.size.width -= frm.size.width + 2*SPACE_PAD;
+    
+    if (self.starEnable)
+    {
+        rect.size.width -= 20;
+    }
+    
+    if (([task isEvent] || [task isNote]) && hasTime)
+    {
+        frm = CGRectMake(0, 0, [task isNote] || [task isADE]?70:90, rect.size.height);
+        
+        frm.origin.x = rect.origin.x + rect.size.width - frm.size.width - SPACE_PAD;
+        frm.origin.y = (rect.size.height-frm.size.height)/2;
+        
+        [self drawDateTime:frm context:ctx];
+        
+        rect.size.width -= frm.size.width + SPACE_PAD;
+    } else {
+        if (self.showDuration) {
+            
+            frm.size.width = HASHMARK_WIDTH;
+            frm.size.height = HASHMARK_HEIGHT;
+
+            frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+            frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+
+            CGSize sz = [self drawHashmark:frm context:ctx];
+
+            rect.size.width -= sz.width + SPACE_PAD;
+        }
+    }
+//    else if ([task isRT])
+//	{
+//		frm.size.width = HASHMARK_WIDTH/2;
+//		frm.size.height = HASHMARK_HEIGHT;
+//        
+//        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//        
+//        if (hasHashMark)
+//        {
+//            [self drawHashmark:frm context:ctx];
+//            
+//            rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
+//		}
+//        else
+//        {
+//            rect.size.width -= HASHMARK_WIDTH/2 + SPACE_PAD;
+//        }
+//        
+//		frm = CGRectOffset(frm, HASHMARK_WIDTH/2 + SPACE_PAD/2, 0);
+//		frm.size.height /= 2;
+//		
+//		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
+//        
+//		[image drawInRect:frm];
+//	}
+//	else if ([task isTask] && hasHashMark)
+//	{
+//		frm.size.width = HASHMARK_WIDTH;
+//		frm.size.height = HASHMARK_HEIGHT;
+//        
+//        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//		
+//		[self drawHashmark:frm context:ctx];
+//        
+//        rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
+//	}
+    
+	if (self.showDue && hasDue)
+	{
+        
+        frm = CGRectMake(0, 0, 90, rect.size.height);
+        
+        frm.origin.x = rect.origin.x + rect.size.width - frm.size.width - SPACE_PAD;
+        frm.origin.y = (rect.size.height-frm.size.height)/2;
+        
+        CGSize realSize = [self drawDue:frm context:ctx];
+        
+        rect.size.width -= realSize.width + SPACE_PAD;
+	}
+    
+	if (hasAlert)
+	{
+		frm.size.width = ALERT_SIZE;
+		frm.size.height = ALERT_SIZE;
+        
+        frm.origin.x = rect.origin.x + rect.size.width - ALERT_SIZE;
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+		//[self drawAlert:frm context:ctx];
+        UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"alert_black.png"];
+        
+        [alertImage drawInRect:frm];
+        
+        rect.size.width -= DUE_SIZE;
+	}
+    
+//    if (hasLink)
+//    {
+//        //printf("task %s has link\n", [task.name UTF8String]);
+//		frm.size.width = LINK_SIZE;
+//		frm.size.height = LINK_SIZE;
+//        
+//		frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE - SPACE_PAD;
+//		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//		
+//		[self drawLink:frm context:ctx];
+//        
+//        rect.size.width -= LINK_SIZE + SPACE_PAD;
+//    }
+//    else
+//    {
+//        //printf("task %s has no link\n", [task.name UTF8String]);
+//    }
+    
+    if ([task isRE])
+    {
+		frm.size.width = REPEAT_SIZE;
+		frm.size.height = REPEAT_SIZE;
+        
+		frm.origin.x = rect.origin.x + rect.size.width - REPEAT_SIZE;
+		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
+        
+        [image drawInRect:frm];
+        
+        rect.size.width -= REPEAT_SIZE;
+    }
+    
+	if (self.showFlag && hasFlag)
+	{
+		frm.size.width = FLAG_SIZE;
+		frm.size.height = FLAG_SIZE;
+        
+		//frm.origin.x = rect.origin.x + SPACE_PAD/2;
+		//frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        frm.origin.x = rect.origin.x + rect.size.width - FLAG_SIZE - SPACE_PAD/2;
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		[self drawFlag:frm context:ctx];
+		
+        //rect.origin.x += FLAG_SIZE + SPACE_PAD/2;
+        //rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
+        rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
+        
+//        frm.size.width = DUE_SIZE;
+//		frm.size.height = DUE_SIZE;
+//        
+//        frm.origin.x = rect.origin.x + rect.size.width - DUE_SIZE - SPACE_PAD/2;
+//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//        
+//		[self drawDue:frm context:ctx];
+//        
+//        rect.size.width -= DUE_SIZE + SPACE_PAD/2;
 	}
     
 	if (hasHand)

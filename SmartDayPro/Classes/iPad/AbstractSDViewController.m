@@ -249,9 +249,12 @@ extern PlannerViewController *_plannerViewCtrler;
         case TASK_FILTER_DONE:
             title = _doneText;
             break;
-        /*case TASK_FILTER_PINNED:
-            title = _anchoredText;
-            break;*/
+        case TASK_FILTER_LONG:
+            title = _longText;
+            break;
+        case TASK_FILTER_SHORT:
+            title = _shortText;
+            break;
     }
     
     if ([self checkControllerActive:3] && (button.tag == TASK_FILTER_DUE || button.tag == TASK_FILTER_ACTIVE))

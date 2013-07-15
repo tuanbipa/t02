@@ -32,5 +32,5 @@
 
 - (void) refreshTaskFilterTitle;
 - (void) showTaskModule:(BOOL)enabled;
-
+- (void)changeHeaderToEdit;
 @end

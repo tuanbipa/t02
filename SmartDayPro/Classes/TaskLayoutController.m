@@ -212,10 +212,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         task.listSource = SOURCE_SMARTLIST;
         taskView.task = task;
-        
-        taskView.starEnable = (task.status != TASK_STATUS_DONE && ![task isShared]);
+        taskView.starEnable = (tm.taskTypeFilter == TASK_FILTER_STAR && task.status != TASK_STATUS_DONE && ![task isShared]);
+        taskView.showDue = (tm.taskTypeFilter == TASK_FILTER_DUE);
+        taskView.showFlag = (tm.taskTypeFilter == TASK_FILTER_TOP);
+        taskView.showDuration = (tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT);
         [taskView refreshStarImage];
-        [taskView refreshCheckImage];
+        //[taskView refreshCheckImage];
         [taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
         
         taskView.movableController = self.movableCtrler;
