@@ -124,6 +124,8 @@ DetailViewController *_detailViewCtrler = nil;
 -(void)changeSkin
 {
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 - (void) changeFrame:(CGRect)frm
@@ -242,13 +244,13 @@ DetailViewController *_detailViewCtrler = nil;
     
     [doneItem release];
     
-    UIButton *deleteButton = [Common createButton:@"DEL"
+    UIButton *deleteButton = [Common createButton:@""
                                        buttonType:UIButtonTypeCustom
                                             frame:CGRectMake(0, 0, 30, 30)
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(delete:)
-                                 normalStateImage:nil
+                                 normalStateImage:@"menu_trash.png"
                                selectedStateImage:nil];
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
@@ -270,29 +272,29 @@ DetailViewController *_detailViewCtrler = nil;
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(star:)
-                               normalStateImage:@"unstar.png"
+                               normalStateImage:@"menu_star.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
     
-    UIButton *deferButton = [Common createButton:@"DF"
+    UIButton *deferButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
                                           frame:CGRectMake(0, 0, 30, 30)
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(defer:)
-                               normalStateImage:nil
+                               normalStateImage:@"menu_defer.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
 
-    UIButton *todayButton = [Common createButton:@"TD"
+    UIButton *todayButton = [Common createButton:@""
                                       buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(0, 0, 30, 30)
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                         selector:@selector(doToday:)
-                                normalStateImage:nil
+                                normalStateImage:@"menu_dotoday.png"
                               selectedStateImage:nil];
     
     UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
@@ -303,7 +305,7 @@ DetailViewController *_detailViewCtrler = nil;
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                            selector:@selector(markDone:)
-                                normalStateImage:@"markdone.png"
+                                normalStateImage:@"menu_done.png"
                               selectedStateImage:nil];
     
     UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
