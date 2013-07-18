@@ -241,6 +241,85 @@ DetailViewController *_detailViewCtrler = nil;
     self.navigationItem.leftBarButtonItem = doneItem;
     
     [doneItem release];
+    
+    UIButton *deleteButton = [Common createButton:@"DEL"
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(0, 0, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(delete:)
+                                 normalStateImage:nil
+                               selectedStateImage:nil];
+    
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+
+    UIButton *copyButton = [Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(0, 0, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                       selector:@selector(copy:)
+                               normalStateImage:@"duplicate.png"
+                             selectedStateImage:nil];
+    
+    UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
+    
+    UIButton *starButton = [Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(0, 0, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                       selector:@selector(star:)
+                               normalStateImage:@"unstar.png"
+                             selectedStateImage:nil];
+    
+    UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
+    
+    UIButton *deferButton = [Common createButton:@"DF"
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(0, 0, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                       selector:@selector(defer:)
+                               normalStateImage:nil
+                             selectedStateImage:nil];
+    
+    UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
+
+    UIButton *todayButton = [Common createButton:@"TD"
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(0, 0, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(doToday:)
+                                normalStateImage:nil
+                              selectedStateImage:nil];
+    
+    UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
+    
+    UIButton *markDoneButton = [Common createButton:@""
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(0, 0, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                           selector:@selector(markDone:)
+                                normalStateImage:@"markdone.png"
+                              selectedStateImage:nil];
+    
+    UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
+    
+    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedItem.width = 20;
+    
+    self.navigationItem.rightBarButtonItems = [self.taskCopy isEvent]?[NSArray arrayWithObjects:deleteItem, copyItem, nil]:[NSArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil];
+    
+    [copyItem release];
+    [deleteItem release];
+    [starItem release];
+    [deferItem release];
+    [todayItem release];
+    [markDoneItem release];
+    [fixedItem release];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -331,6 +410,37 @@ DetailViewController *_detailViewCtrler = nil;
     NSDictionary *dict = [TagDictionary getTagDict:allTag];
     
     return ([dict objectForKey:tag] != nil);
+}
+
+#pragma  mark Actions
+- (void) delete:(id)sender
+{
+    
+}
+
+- (void) copy:(id)sender
+{
+    
+}
+
+- (void) star:(id)sender
+{
+    
+}
+
+- (void) defer:(id)sender
+{
+    
+}
+
+- (void) doToday:(id) sender
+{
+    
+}
+
+- (void) markDone:(id)sender
+{
+    
 }
 
 #pragma  mark Edit
