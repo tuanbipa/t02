@@ -784,6 +784,50 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+- (void)multiMarkDone: (id) sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiDone:sender];
+}
+
+- (void)multiMoveTop: (id)sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiMoveTop:sender];
+}
+
+- (void)multiMarkStar: (id)sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiMarkStar:sender];
+}
+
+- (void)multiDelete: (id) sender
+{
+    switch (selectedModuleButton.tag - 31000) {
+        case 0:
+        {
+            SmartListViewController *ctrlr = [self getSmartListViewController];
+            [ctrlr multiDelete: sender];
+        }
+            break;
+            
+        case 1:
+        {
+            NoteViewController *ctrlr = [self getNoteViewController];
+            [ctrlr multiDelete: sender];
+        }
+            break;
+            
+        case 2:
+        {
+            SmartListViewController *ctrlr = [self getSmartListViewController];
+            [ctrlr multiDelete];
+        }
+            break;
+    }
+}
+
 #pragma mark Filter
 - (NSString *) showProjectWithOption:(id)sender
 {
@@ -929,6 +973,110 @@ iPadViewController *_iPadViewCtrler;
     
     [headerView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
+    
+    // create edit bar
+    UIView *editBarView = [[UIView alloc] initWithFrame:headerView.bounds];
+    editBarView.tag = 32001;
+    editBarView.hidden = YES;
+    [headerView addSubview:editBarView];
+    
+    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
+    countLabel.tag = 32011;
+    countLabel.text = @"0";
+    countLabel.hidden = YES;
+    [editBarView addSubview:countLabel];
+
+    [countLabel release];
+
+    /*UILabel *selectedLable = [[UILabel alloc] initWithFrame:CGRectMake(countLabel.frame.origin.x + countLabel.frame.size.width + SPACE_PAD, 0, 70, editBarView.frame.size.height)];
+    selectedLable.text = _selectedText;
+    [editBarView addSubview:selectedLable];*/
+    
+    CGFloat width = editBarView.frame.size.width/7;
+    CGFloat space = (width - 30) / 2;
+    
+    // 1, done button
+    UIButton *doneButton = [Common createButton:@"D"
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(space, 5, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                       selector:@selector(multiMarkDone:)
+                               normalStateImage:@"markdone.png"
+                             selectedStateImage:nil];
+    [editBarView addSubview:doneButton];
+    
+    // 2, move top button
+    UIButton *moveTopButton = [Common createButton:@"T"
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(width + space, 5, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                          selector:@selector(multiMoveTop:)
+                               normalStateImage:nil
+                             selectedStateImage:nil];
+    [editBarView addSubview:moveTopButton];
+    
+    // 3, defer button
+    UIButton *deferButton = [Common createButton:@"De"
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(width*2 + space, 5, 30, 30)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(multiMarkDone:)
+                                  normalStateImage:nil
+                                selectedStateImage:nil];
+    [editBarView addSubview:deferButton];
+    
+    // 4, mark star button
+    UIButton *markStarButton = [Common createButton:@"St"
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(width*3 + space, 5, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(multiMarkStar:)
+                                normalStateImage:nil
+                              selectedStateImage:nil];
+    [editBarView addSubview:markStarButton];
+    
+    // 5, copy link button
+    UIButton *copyLinkButton = [Common createButton:@"Cp"
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(width*4 + space, 5, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(multiMarkDone:)
+                                   normalStateImage:nil
+                                 selectedStateImage:nil];
+    [editBarView addSubview:copyLinkButton];
+    
+    // 6 paste link button
+    UIButton *pasteLinkButton = [Common createButton:@"Pa"
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(width*5 + space, 5, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(multiMarkDone:)
+                                   normalStateImage:nil
+                                 selectedStateImage:nil];
+    [editBarView addSubview:pasteLinkButton];
+    
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(width*6 + space, 5, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(multiDelete:)
+                                 normalStateImage:@"menu_toDelete.png"
+                               selectedStateImage:nil];
+    [editBarView addSubview:deleteButton];
+    
+    [editBarView release];
+    
+    // check show edit bar or filter view
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    filterSegmentedControl.hidden = ctrler.isMultiMode;
+    editBarView.hidden = !ctrler.isMultiMode;
 }
 
 - (void) createNoteOptionFilter
@@ -1730,16 +1878,75 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void)changeHeaderToEdit
+- (void)refreshEditBarViewWithCheck: (BOOL) check
 {
-//    NSLog(@"ipad");
-//    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
-//    
-//    for (UIView *view in headerView.subviews)
-//    {
-//        [view removeFromSuperview];
-//    }
+    UILabel *countLabel = (UILabel *)[contentView viewWithTag:32011];
+    NSInteger count = countLabel.text.integerValue;
+    BOOL firstCheck = count == 0;
     
+    count = check ?  ++count : --count;
+    countLabel.text = [NSString stringWithFormat:@"%d", count];
+    
+    UIView *editBarView = (UIView *)[contentView viewWithTag:32001];
+
+    if (count > 0) {
+        editBarView.hidden = NO;
+        filterSegmentedControl.hidden = YES;
+    } else {
+        editBarView.hidden = YES;
+        filterSegmentedControl.hidden = NO;
+    }
+    
+    if (firstCheck) {
+        switch (selectedModuleButton.tag - 31000)
+        {
+            case 0:
+            {
+                SmartListViewController *ctrler = [self getSmartListViewController];
+                
+                [ctrler multiEdit:YES];
+                [ctrler hideQuickAdd];
+            }
+                break;
+            case 1:
+            {
+                NoteViewController *ctrler = [self getNoteViewController];
+                
+                [ctrler multiEdit:YES];
+            }
+                
+                break;
+            case 2:
+            {
+                [self createProjectOptionView];
+            }
+                break;
+        }
+    } else if (count == 0) {
+        switch (selectedModuleButton.tag - 31000)
+        {
+            case 0:
+            {
+                SmartListViewController *ctrler = [self getSmartListViewController];
+                
+                [ctrler multiEdit:NO];
+            }
+                break;
+            case 1:
+            {
+                NoteViewController *ctrler = [self getNoteViewController];
+                
+                [ctrler multiEdit:NO];
+            }
+                
+                break;
+            case 2:
+            {
+                //[self createProjectOptionView];
+            }
+                break;
+        }
+    }
 }
 
 - (void) refreshHeaderView

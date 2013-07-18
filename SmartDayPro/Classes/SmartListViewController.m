@@ -1567,6 +1567,7 @@ SmartListViewController *_smartListViewCtrler;
             [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
         }
     }
+    [_abstractViewCtrler refreshEditBarViewWithCheck: NO];
 }
 
 - (void) confirmMultiDeleteTask
@@ -1835,11 +1836,11 @@ SmartListViewController *_smartListViewCtrler;
         }
     }
     
-    editBarPlaceHolder.hidden = !enabled;
+    /*editBarPlaceHolder.hidden = !enabled;
     
     TaskManager *tm = [TaskManager getInstance];
     
-    doneButton.hidden = (tm.taskTypeFilter == TASK_FILTER_DONE);
+    doneButton.hidden = (tm.taskTypeFilter == TASK_FILTER_DONE);*/
 }
 
 - (BOOL)isInMultiEditMode
@@ -1850,6 +1851,114 @@ SmartListViewController *_smartListViewCtrler;
 - (void) cancelMultiEdit:(id) sender
 {
     [self multiEdit:NO];
+}
+
+- (void)multiMoveTop: (id)sender
+{
+    NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
+    
+    //NSMutableArray *viewList = [NSMutableArray arrayWithCapacity:10];
+    
+    
+    NSInteger sections = smartListView.numberOfSections;
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                [taskList addObject:taskView.task];
+                
+                //[viewList addObject:taskView];
+            }
+            
+        }
+    }
+    
+    if (taskList.count > 0) {
+        TaskManager *tm = [TaskManager getInstance];
+        [tm moveTop:taskList];
+    }
+}
+
+- (void)multiMarkStar: (id)sender
+{
+    NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
+    
+    NSMutableArray *viewList = [NSMutableArray arrayWithCapacity:10];
+
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                [taskList addObject:taskView.task];
+                
+                [viewList addObject:taskView];
+            }
+            
+        }
+    }
+    
+    [self multiEdit:NO];
+    
+    if (viewList.count > 0)
+    {
+        TaskManager *tm = [TaskManager getInstance];
+        if (tm.taskTypeFilter == TASK_FILTER_PINNED) {
+            for (UIView *view in viewList)
+            {
+                [view removeFromSuperview];
+            }
+        } else {
+            for (UIView *view in viewList)
+            {
+                [view setNeedsDisplay];
+            }
+        }
+        
+        [[TaskManager getInstance] starTasks:taskList];
+    }
+    [_abstractViewCtrler refreshEditBarViewWithCheck: NO];
+    
+    if ([_abstractViewCtrler checkControllerActive:3])
+    {
+        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+        
+        if (ctrler.filterType == TYPE_TASK)
+        {
+            [ctrler loadAndShowList];
+        }
+    }
+    
+    FocusView *focusView = [_abstractViewCtrler getFocusView];
+    
+    if (focusView != nil && [focusView checkExpanded])
+    {
+        [focusView refreshData];
+    }
+    
+    PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
+    [monthView refreshOpeningWeek:nil];
+    [monthView refresh];
+    
+    [[_abstractViewCtrler getMonthCalendarView] refresh];
 }
 
 #pragma mark UIScrollView Delegate

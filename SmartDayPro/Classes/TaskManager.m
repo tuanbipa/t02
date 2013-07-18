@@ -2224,8 +2224,8 @@ TaskManager *_sctmSingleton = nil;
 			[self sortStart];
 			break;
 		case TASK_FILTER_STAR:
-			//self.taskList = [dbm getPinnedTasks];
-            [self sortStar];
+			self.taskList = [dbm getPinnedTasks];
+            //[self sortStar];
 			break;
 		case TASK_FILTER_TOP:
 			self.taskList = [self getTopTasks];
@@ -4452,6 +4452,36 @@ TaskManager *_sctmSingleton = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
 }
 
+-(void) starTasks:(NSMutableArray *)tasks
+{
+    sqlite3 *db = [[DBManager getInstance] getDatabase];
+    
+    NSInteger pin = TASK_STATUS_PINNED;
+    if (self.taskTypeFilter == TASK_FILTER_STAR) {
+        pin = TASK_STATUS_NONE;
+    }
+
+    for (Task *task in tasks) {
+        Task *slTask = [self getTask2Update:task];
+        task.status = pin;
+        
+        slTask.status = task.status;
+        [slTask updateStatusIntoDB:db];
+        
+        /*if (self.taskTypeFilter == TASK_FILTER_STAR) {
+            [self.taskList removeObject:slTask];
+        }*/
+    }
+    
+	if (self.taskTypeFilter == TASK_FILTER_STAR)
+    {
+        [self scheduleTasks];
+        [self.taskList removeObjectsInArray:tasks];
+    }
+    
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+}
+
 -(void) markDoneTask:(Task *)task
 {
     Task *slTask = [self getTask2Update:task];
@@ -5038,6 +5068,50 @@ TaskManager *_sctmSingleton = nil;
     {
         task.alerts = [[DBManager getInstance] getAlertsForTask:task.primaryKey];
     }
+}
+
+- (void)moveTop: (NSArray*) tasks
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    // get current order numbers
+    NSMutableArray *seqNoList = [NSMutableArray arrayWithCapacity:self.taskList.count];
+	for (Task *task in self.taskList)
+	{
+		[seqNoList addObject:[NSNumber numberWithInt:task.sequenceNo]];
+	}
+    
+    sortBGInProgress = (self.taskList.count > 30);
+    
+    for (int i=0; i < tasks.count; i++) {
+        Task *willBeTop = [tasks objectAtIndex:i];
+        NSInteger index = [self.taskList indexOfObject:willBeTop];
+        
+        [self.taskList insertObject:willBeTop atIndex:i];
+        [self.taskList removeObjectAtIndex:index];
+    }
+    
+    for (int i=0; i<self.taskList.count; i++)
+	{
+		Task *task = [self.taskList objectAtIndex:i];
+		
+		task.sequenceNo = [[seqNoList objectAtIndex:i] intValue];
+		
+		if (!sortBGInProgress)
+		{
+			[task updateSeqNoIntoDB:[dbm getDatabase]];
+		}
+	}
+	
+	////NSLog(@"sort start 3");
+	
+	if (sortBGInProgress)
+	{
+		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
+		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+	}
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 }
 
 #pragma mark Filter

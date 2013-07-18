@@ -165,6 +165,7 @@
 -(void)removeTask:(Task *)task status:(NSInteger)status;
 - (Task *) doneRT:(Task *)rt;
 -(void) starTask:(Task *)task;
+-(void) starTasks:(NSMutableArray *)tasks;
 -(void) markDoneTask:(Task *)task;
 -(void) markDoneTasks:(NSMutableArray *)tasks;
 -(void) deleteTask:(Task *)task;
@@ -197,6 +198,7 @@
 
 - (void) reconcileLinks:(NSDictionary *)dict;
 - (void) reloadAlert4Task:(NSInteger)taskId;
+- (void)moveTop: (NSArray*) tasks;
 
 -(void) purge;
 -(void) recover;

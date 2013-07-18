@@ -109,6 +109,11 @@
 - (BOOL)isInMultiEditMode;
 
 - (void) refreshTaskView4Key:(NSInteger)taskKey;
+- (void) multiDelete:(id)sender;
+- (void) multiDone:(id)sender;
+- (void)multiMarkStar: (id)sender;
+- (void)multiMoveTop: (id)sender;
+
 - (void) filter:(NSInteger)filterType;
 
 - (void) changeFrame:(CGRect)frm;

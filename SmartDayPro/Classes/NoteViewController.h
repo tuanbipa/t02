@@ -41,6 +41,6 @@
 - (void) filter:(NSInteger)type;
 - (void) loadAndShowList;
 - (void) multiEdit:(BOOL)enabled;
-
+- (void) multiDelete:(id)sender;
 
 @end

@@ -210,7 +210,7 @@ extern PlannerViewController *_plannerViewCtrler;
 {    
     [super multiSelect:enabled];
     
-    if (enabled)
+    /*if (enabled)
     {
         checkButton.selected = NO;
     }
@@ -219,6 +219,10 @@ extern PlannerViewController *_plannerViewCtrler;
         //Task *task = (Task *)self.tag;
         
         checkButton.selected = [task isDone];
+    }*/
+    
+    if (!enabled) {
+        checkButton.selected = NO;
     }
 
     [self refreshCheckImage];
@@ -275,7 +279,7 @@ extern PlannerViewController *_plannerViewCtrler;
         
     [self refreshCheckImage];
     
-    [_abstractViewCtrler changeHeaderToEdit];
+    [_abstractViewCtrler refreshEditBarViewWithCheck: button.selected];
 }
 
 -(void)star:(id)sender
