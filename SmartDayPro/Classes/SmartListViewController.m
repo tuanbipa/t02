@@ -1885,6 +1885,8 @@ SmartListViewController *_smartListViewCtrler;
         TaskManager *tm = [TaskManager getInstance];
         [tm moveTop:taskList];
     }
+    
+    [_abstractViewCtrler refreshEditBarViewWithCheck: NO];
 }
 
 - (void)multiMarkStar: (id)sender
