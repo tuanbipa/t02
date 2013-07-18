@@ -596,7 +596,7 @@
 
 "_1DayText" = "1 Day";
 "_monthText" = "Month";
-"_showMoreText" = "Show More";
+"_showMoreText" = "Show More ...";
 
 "_overviewText" = "Overview";
 "_synchronizationText" = "Synchronization";
@@ -699,6 +699,10 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_floatingText" = "Floating";
 
 "_soundEnabledText" = "Sound Enabled";
+"_repeatUntilText" = "Repeat | Until";
+
+"_assetsText" = "Assets";
+"_jumpText" = "Jump";
 
 // new layout
 "_selectedText" = "Selected";

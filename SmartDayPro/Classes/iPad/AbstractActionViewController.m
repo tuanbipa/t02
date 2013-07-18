@@ -42,6 +42,7 @@
 #import "TaskReadonlyDetailViewController.h"
 #import "NoteDetailTableViewController.h"
 #import "ProjectEditViewController.h"
+#import "DetailViewController.h"
 
 #import "SDNavigationController.h"
 
@@ -705,6 +706,7 @@ extern iPadViewController *_iPadViewCtrler;
         return;
     }
     
+    /*
     UIViewController *editCtrler = nil;
     
     if ([item isNote])
@@ -744,10 +746,7 @@ extern iPadViewController *_iPadViewCtrler;
         [navController release];
         
         CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
-        /*
-        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];*/
-        
-        //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_PLANNER_CALENDAR?UIPopoverArrowDirectionAny:(item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight) animated:YES];
+
         if (item.listSource == SOURCE_PLANNER_CALENDAR) {
             if (frm.origin.x <= editCtrler.view.frame.size.width) {
                 [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
@@ -757,7 +756,9 @@ extern iPadViewController *_iPadViewCtrler;
         } else {
             [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
         }
-    }
+    }*/
+    
+    [_iPadViewCtrler editItemDetail:item];
 }
 
 - (void) editCategory:(Project *) project
@@ -785,6 +786,7 @@ extern iPadViewController *_iPadViewCtrler;
         return;
     }
     
+    /*
     ProjectEditViewController *editCtrler = [[ProjectEditViewController alloc] init];
     editCtrler.project = project;
     
@@ -798,7 +800,9 @@ extern iPadViewController *_iPadViewCtrler;
     CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    */
     
+    [_iPadViewCtrler editProjectDetail:project];
 }
 
 - (void) editProject:(Project *)project inRect:(CGRect)inRect

@@ -26,10 +26,12 @@
 #import "TagEditViewController.h"
 #import "CategoryViewController.h"
 #import "AbstractSDViewController.h"
+#import "iPadViewController.h"
 
 extern BOOL _transparentHintShown;
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 extern BOOL _isiPad;
 
@@ -65,8 +67,18 @@ extern BOOL _isiPad;
 {
     self.projectCopy = self.project;
     
-	mainView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
-	//mainView.backgroundColor = [UIColor colorWithRed:161.0/255 green:162.0/255 blue:169.0/255 alpha:1];
+    CGRect frm = CGRectZero;
+    frm.size = [Common getScreenSize];
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    {
+        frm.size.height = frm.size.width - 20;
+    }
+    
+    frm.size.width = 384;
+    
+    
+	mainView = [[UIScrollView alloc] initWithFrame:frm];
     mainView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
 	[mainView setContentSize:CGSizeMake(320, 600)];
 	mainView.canCancelContentTouches = NO;
@@ -103,7 +115,7 @@ extern BOOL _isiPad;
 	[transparentLabel release];    
 	
 	//UILabel *projectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 300, 25)];
-    UILabel *projectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 45, 300, 25)];
+    UILabel *projectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 45, frm.size.width - 20, 25)];
 	projectNameLabel.backgroundColor = [UIColor clearColor];
 	projectNameLabel.text = _nameText;
 	
@@ -111,7 +123,7 @@ extern BOOL _isiPad;
 	[projectNameLabel release];
 
 	//UITextField *projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 75, 300, 30)];
-    projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 70, 300, 30)];
+    projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 70, frm.size.width - 20, 30)];
     
 	projectNameTextField.text = self.projectCopy.name;
 	projectNameTextField.delegate = self;
@@ -126,14 +138,14 @@ extern BOOL _isiPad;
 	[projectNameTextField release];	
 	
 	//UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 105, 300, 25)];
-    UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 300, 25)];
+    UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, frm.size.width - 20, 25)];
 	projectColorLabel.backgroundColor = [UIColor clearColor];
 	projectColorLabel.text = _colorText;
 	
 	[mainView addSubview:projectColorLabel];
 	[projectColorLabel release];
 	
-    ProjectColorPaletteView *colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(0, 125, 320, 160)];	
+    ProjectColorPaletteView *colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(10, 125, frm.size.width-20, 160)];
     
     colorPaletteView.projectEdit = self.projectCopy;
     
@@ -143,7 +155,7 @@ extern BOOL _isiPad;
     [colorPaletteView release];
 	
     //UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 290, 300, 25)];
-    UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 285, 300, 25)];
+    UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 285, frm.size.width - 20, 25)];
 	tagLabel.backgroundColor = [UIColor clearColor];
 	tagLabel.text = _tagText;
 	
@@ -151,7 +163,7 @@ extern BOOL _isiPad;
 	[tagLabel release];
 
     //UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, 320, 300, 125)];
-    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, 315, 300, 125)];
+    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, 315, frm.size.width - 20, 125)];
 	tagView.backgroundColor = [UIColor whiteColor];
 	
 	tagView.layer.cornerRadius = 8;
@@ -159,7 +171,7 @@ extern BOOL _isiPad;
 	[mainView addSubview:tagView];
 	[tagView release];
 	
-	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 260, 25)];
+	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width - 20 - 40, 25)];
 	tagInputTextField.tag = 10000;
 	tagInputTextField.delegate = self;
 	tagInputTextField.borderStyle = UITextBorderStyleRoundedRect;
@@ -172,9 +184,11 @@ extern BOOL _isiPad;
 	[tagInputTextField release];
 	
 	UIButton *tagDetailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-	tagDetailButton.frame = CGRectMake(270, 0, 25, 25);
+	tagDetailButton.frame = CGRectMake(frm.size.width - 20 - 30, 0, 25, 25);
 	[tagDetailButton addTarget:self action:@selector(editTag:) forControlEvents:UIControlEventTouchUpInside];
 	[tagView addSubview:tagDetailButton];
+    
+    CGFloat w = (frm.size.width - 60)/3;
 	
 	for (int i=0; i<9; i++)
 	{
@@ -183,7 +197,7 @@ extern BOOL _isiPad;
 		
 		UIButton *tagButton = [Common createButton:@"" 
 										   buttonType:UIButtonTypeCustom
-												frame:CGRectMake(mod*100 + 5, div*30 + 35, 90, 25)
+												frame:CGRectMake(mod*(w + 10) + 10, div*30 + 35, w, 25)
 										   titleColor:[UIColor blackColor]
 											   target:self 
 											 selector:@selector(selectTag:) 
@@ -202,19 +216,19 @@ extern BOOL _isiPad;
 	//self.navigationItem.title = _calendarText;
 	self.navigationItem.title = _projectText;
     
-    if ([self.project isShared])
+    /*if ([self.project isShared])
     {
         saveButton = nil;
     }
-    else
+    else*/
     {
-        saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+        saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                   target:self action:@selector(save:)];
-        self.navigationItem.rightBarButtonItem = saveButton;
-        [saveButton release];        
+        self.navigationItem.leftBarButtonItem = saveButton;
+        [saveButton release];
     }
     
-    [self check2EnableSave];
+    //[self check2EnableSave];
 }
 
 - (BOOL) checkExistingTag:(NSString *)tag
@@ -547,7 +561,14 @@ extern BOOL _isiPad;
     
     [_abstractViewCtrler hidePopover];
     
-    [self.navigationController popViewControllerAnimated:YES];
+    if (_isiPad)
+    {
+        [_iPadViewCtrler closeDetail];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark UIPickerView Delegate

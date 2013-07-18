@@ -11,6 +11,8 @@
 		67010EB617190D5100143507 /* assign.png in Resources */ = {isa = PBXBuildFile; fileRef = 67010EB417190D5100143507 /* assign.png */; };
 		670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */; };
 		670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */; };
+		67086205178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
+		67086206178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
 		6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6728E5D916DC7441001024DD /* TimerViewController.m */; };
 		672F54A81622779400480BC4 /* LinkPreviewPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54A71622779400480BC4 /* LinkPreviewPane.m */; };
 		672F54AF16227E3400480BC4 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54AE16227E3300480BC4 /* NoteView.m */; };
@@ -26,7 +28,15 @@
 		674680261667114A00E5E08A /* replace_SDtomSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680241667114A00E5E08A /* replace_SDtomSD@2x.png */; };
 		6765668916F6F4C1007F23A9 /* DummyMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6765668816F6F4C0007F23A9 /* DummyMovableController.m */; };
 		676C0CCF16D707EB00D1A643 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 676C0CCE16D707EB00D1A643 /* MenuTableViewController.m */; };
+		677764A0178A9F2B007E2D99 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6777649F178A9F2A007E2D99 /* DetailViewController.m */; };
+		677764A1178A9F2B007E2D99 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6777649F178A9F2A007E2D99 /* DetailViewController.m */; };
 		677A4D4916BFBB690082330A /* filter_star.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A4D4816BFBB690082330A /* filter_star.png */; };
+		678561B5178E86E800FB3534 /* ProjectInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 678561B4178E86E800FB3534 /* ProjectInputViewController.m */; };
+		678561B6178E86E800FB3534 /* ProjectInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 678561B4178E86E800FB3534 /* ProjectInputViewController.m */; };
+		678561B9178E949300FB3534 /* detail_disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 678561B7178E949300FB3534 /* detail_disclosure.png */; };
+		678561BA178E949300FB3534 /* detail_disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 678561B7178E949300FB3534 /* detail_disclosure.png */; };
+		678561BB178E949300FB3534 /* detail_disclosure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678561B8178E949300FB3534 /* detail_disclosure@2x.png */; };
+		678561BC178E949300FB3534 /* detail_disclosure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678561B8178E949300FB3534 /* detail_disclosure@2x.png */; };
 		678579EF16B0F6260079A1C2 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */; };
 		67A98154161C26B400DBDAD3 /* SDNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A98153161C26B400DBDAD3 /* SDNavigationController.m */; };
 		67B170621717BCBE00FBD56A /* arrow_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B1705F1717BCBE00FBD56A /* arrow_down@2x.png */; };
@@ -664,6 +674,14 @@
 		67E26D8C1741F0D600638879 /* SmartDayiPhone_205.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D831741F0D500638879 /* SmartDayiPhone_205.png */; };
 		67E26D8D1741F0D600638879 /* SO_bg_768.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D841741F0D500638879 /* SO_bg_768.jpg */; };
 		67E26D8E1741F0D600638879 /* SO_bg_768.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67E26D841741F0D500638879 /* SO_bg_768.jpg */; };
+		67E2D0A8178FADC700A88A00 /* DateInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0A5178FADC700A88A00 /* DateInputViewController.xib */; };
+		67E2D0A9178FADC700A88A00 /* DateInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0A5178FADC700A88A00 /* DateInputViewController.xib */; };
+		67E2D0AA178FADC700A88A00 /* DurationInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0A6178FADC700A88A00 /* DurationInputViewController.xib */; };
+		67E2D0AB178FADC700A88A00 /* DurationInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0A6178FADC700A88A00 /* DurationInputViewController.xib */; };
+		67E2D0AC178FADC700A88A00 /* ProjectInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0A7178FADC700A88A00 /* ProjectInputViewController.xib */; };
+		67E2D0AD178FADC700A88A00 /* ProjectInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0A7178FADC700A88A00 /* ProjectInputViewController.xib */; };
+		67E2D0B2178FB04500A88A00 /* LocationInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0B1178FB04400A88A00 /* LocationInputAccessoryView.xib */; };
+		67E2D0B3178FB04500A88A00 /* LocationInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E2D0B1178FB04400A88A00 /* LocationInputAccessoryView.xib */; };
 		67E30FD8171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */; };
 		67E30FD9171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */; };
 		67E30FDA171405CF007AD2DE /* PlannerScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD7171405CF007AD2DE /* PlannerScheduleView.m */; };
@@ -707,6 +725,10 @@
 		67E5135C1653571F007B25A9 /* Meet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E513521653571F007B25A9 /* Meet@2x.png */; };
 		67E513C21634F04C00621DA1 /* WeekViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E513C11634F04C00621DA1 /* WeekViewController.m */; };
 		67E513CD163534E600621DA1 /* menu_export.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E513CC163534E600621DA1 /* menu_export.png */; };
+		67E55BAF1796581D002EB9C8 /* noteBG_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E55BAD1796581C002EB9C8 /* noteBG_full.png */; };
+		67E55BB01796581D002EB9C8 /* noteBG_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E55BAD1796581C002EB9C8 /* noteBG_full.png */; };
+		67E55BB11796581D002EB9C8 /* noteHeaderBG_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E55BAE1796581C002EB9C8 /* noteHeaderBG_full.png */; };
+		67E55BB21796581D002EB9C8 /* noteHeaderBG_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E55BAE1796581C002EB9C8 /* noteHeaderBG_full.png */; };
 		67E57B3A17125B1C00491846 /* TaskSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E57B3917125B1C00491846 /* TaskSyncViewController.m */; };
 		67E57B3B17125B1C00491846 /* TaskSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E57B3917125B1C00491846 /* TaskSyncViewController.m */; };
 		67E5A9881715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E5A9871715388700EF14D9 /* AbstractMonthCalendarView.m */; };
@@ -721,6 +743,8 @@
 		67E6BA3416A920AF00F14E12 /* PlannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E6BA3316A920AF00F14E12 /* PlannerViewController.m */; };
 		67E6BA3816A924EC00F14E12 /* iPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E6BA3716A924EC00F14E12 /* iPadViewController.m */; };
 		67E6E42F166DB86200018988 /* AbstractSDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E6E42E166DB86200018988 /* AbstractSDViewController.m */; };
+		67E75D28178D3D16003A5671 /* DurationInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E75D27178D3D16003A5671 /* DurationInputViewController.m */; };
+		67E75D29178D3D16003A5671 /* DurationInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E75D27178D3D16003A5671 /* DurationInputViewController.m */; };
 		67E7789917374853004D227F /* NoteInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E7789817374853004D227F /* NoteInputAccessoryView.xib */; };
 		67E7789A17374853004D227F /* NoteInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67E7789817374853004D227F /* NoteInputAccessoryView.xib */; };
 		67E79F271659C73500FBB0DA /* handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E79F261659C73500FBB0DA /* handle@2x.png */; };
@@ -1508,6 +1532,8 @@
 /* Begin PBXFileReference section */
 		67010EB417190D5100143507 /* assign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = assign.png; sourceTree = "<group>"; };
 		670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AlarmDrum.wav; sourceTree = "<group>"; };
+		67086203178D588A0078F4FA /* DateInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateInputViewController.h; sourceTree = "<group>"; };
+		67086204178D588A0078F4FA /* DateInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateInputViewController.m; sourceTree = "<group>"; };
 		6728E5D816DC7441001024DD /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
 		6728E5D916DC7441001024DD /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
 		672F54A61622779400480BC4 /* LinkPreviewPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPreviewPane.h; sourceTree = "<group>"; };
@@ -1528,7 +1554,13 @@
 		6765668816F6F4C0007F23A9 /* DummyMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyMovableController.m; sourceTree = "<group>"; };
 		676C0CCD16D707EB00D1A643 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		676C0CCE16D707EB00D1A643 /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
+		6777649E178A9F2A007E2D99 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		6777649F178A9F2A007E2D99 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		677A4D4816BFBB690082330A /* filter_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_star.png; sourceTree = "<group>"; };
+		678561B3178E86E800FB3534 /* ProjectInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectInputViewController.h; sourceTree = "<group>"; };
+		678561B4178E86E800FB3534 /* ProjectInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectInputViewController.m; sourceTree = "<group>"; };
+		678561B7178E949300FB3534 /* detail_disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_disclosure.png; sourceTree = "<group>"; };
+		678561B8178E949300FB3534 /* detail_disclosure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail_disclosure@2x.png"; sourceTree = "<group>"; };
 		678579ED16B0F6260079A1C2 /* NSData+CommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CommonCrypto.h"; sourceTree = "<group>"; };
 		678579EE16B0F6260079A1C2 /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
 		67A98152161C26B400DBDAD3 /* SDNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDNavigationController.h; sourceTree = "<group>"; };
@@ -2290,6 +2322,10 @@
 		67E26D821741F0D500638879 /* SD_css_768.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SD_css_768.css; sourceTree = "<group>"; };
 		67E26D831741F0D500638879 /* SmartDayiPhone_205.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SmartDayiPhone_205.png; sourceTree = "<group>"; };
 		67E26D841741F0D500638879 /* SO_bg_768.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SO_bg_768.jpg; sourceTree = "<group>"; };
+		67E2D0A5178FADC700A88A00 /* DateInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateInputViewController.xib; sourceTree = "<group>"; };
+		67E2D0A6178FADC700A88A00 /* DurationInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DurationInputViewController.xib; sourceTree = "<group>"; };
+		67E2D0A7178FADC700A88A00 /* ProjectInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectInputViewController.xib; sourceTree = "<group>"; };
+		67E2D0B1178FB04400A88A00 /* LocationInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationInputAccessoryView.xib; sourceTree = "<group>"; };
 		67E30FD4171405CF007AD2DE /* PlannerCalendarLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerCalendarLayoutController.h; sourceTree = "<group>"; };
 		67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerCalendarLayoutController.m; sourceTree = "<group>"; };
 		67E30FD6171405CF007AD2DE /* PlannerScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerScheduleView.h; sourceTree = "<group>"; };
@@ -2335,6 +2371,8 @@
 		67E513C01634F04C00621DA1 /* WeekViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeekViewController.h; sourceTree = "<group>"; };
 		67E513C11634F04C00621DA1 /* WeekViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeekViewController.m; sourceTree = "<group>"; };
 		67E513CC163534E600621DA1 /* menu_export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_export.png; sourceTree = "<group>"; };
+		67E55BAD1796581C002EB9C8 /* noteBG_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteBG_full.png; sourceTree = "<group>"; };
+		67E55BAE1796581C002EB9C8 /* noteHeaderBG_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteHeaderBG_full.png; sourceTree = "<group>"; };
 		67E57B3817125B1C00491846 /* TaskSyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskSyncViewController.h; sourceTree = "<group>"; };
 		67E57B3917125B1C00491846 /* TaskSyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSyncViewController.m; sourceTree = "<group>"; };
 		67E5A9861715388500EF14D9 /* AbstractMonthCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractMonthCalendarView.h; sourceTree = "<group>"; };
@@ -2352,6 +2390,8 @@
 		67E6BA3716A924EC00F14E12 /* iPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadViewController.m; sourceTree = "<group>"; };
 		67E6E42D166DB86200018988 /* AbstractSDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractSDViewController.h; sourceTree = "<group>"; };
 		67E6E42E166DB86200018988 /* AbstractSDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AbstractSDViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		67E75D26178D3D16003A5671 /* DurationInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DurationInputViewController.h; sourceTree = "<group>"; };
+		67E75D27178D3D16003A5671 /* DurationInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DurationInputViewController.m; sourceTree = "<group>"; };
 		67E7789817374853004D227F /* NoteInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteInputAccessoryView.xib; sourceTree = "<group>"; };
 		67E79F261659C73500FBB0DA /* handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle@2x.png"; sourceTree = "<group>"; };
 		67E79F28165A331800FBB0DA /* SC_aboutUS_320_ip5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SC_aboutUS_320_ip5.html; sourceTree = "<group>"; };
@@ -2685,6 +2725,7 @@
 		67CF2B5A16195195001FE1AA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				67E75D21178D1E9C003A5671 /* InputView */,
 				67E5A9861715388500EF14D9 /* AbstractMonthCalendarView.h */,
 				67E5A9871715388700EF14D9 /* AbstractMonthCalendarView.m */,
 				67CF2B5D16195195001FE1AA /* AlertData.h */,
@@ -2751,6 +2792,8 @@
 				67CF2BA216195195001FE1AA /* DBManager.m */,
 				67CF2BA316195195001FE1AA /* DefaultDurationViewController.h */,
 				67CF2BA416195195001FE1AA /* DefaultDurationViewController.m */,
+				6777649E178A9F2A007E2D99 /* DetailViewController.h */,
+				6777649F178A9F2A007E2D99 /* DetailViewController.m */,
 				6765668716F6F4C0007F23A9 /* DummyMovableController.h */,
 				6765668816F6F4C0007F23A9 /* DummyMovableController.m */,
 				67CF2BA716195195001FE1AA /* DurationPickerViewController.h */,
@@ -2878,10 +2921,10 @@
 				67CF2C2616195196001FE1AA /* SettingTableViewController.h */,
 				67CF2C2716195196001FE1AA /* SettingTableViewController.m */,
 				67DE7350162D09B3004CC26E /* SimpleCoreTextView.h */,
+				67CF2C2C16195196001FE1AA /* SmartDayViewController.h */,
 				67DE7351162D09B3004CC26E /* SimpleCoreTextView.m */,
 				67CF2C2816195196001FE1AA /* SmartCalAppDelegate.h */,
 				67CF2C2916195196001FE1AA /* SmartCalAppDelegate.m */,
-				67CF2C2C16195196001FE1AA /* SmartDayViewController.h */,
 				67CF2C2D16195196001FE1AA /* SmartDayViewController.m */,
 				67CF2C2E16195196001FE1AA /* SmartListLayoutController.h */,
 				67CF2C2F16195196001FE1AA /* SmartListLayoutController.m */,
@@ -3122,13 +3165,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				A25C05A81783D96200FA84FE /* settings_backup.png */,
-				A25C05A91783D96200FA84FE /* settings_backup@2x.png */,
-				A22A62481778293800AD1634 /* atask_lines.png */,
-				A22A62491778293900AD1634 /* atask_lines@2x.png */,
-				67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */,
-				67E7F7A317602DBD0019FAFF /* bar_eye_blue@2x.png */,
-				67D4EFDA17437394002B3483 /* none.png */,
+				67E55BAD1796581C002EB9C8 /* noteBG_full.png */,
+				67E55BAE1796581C002EB9C8 /* noteHeaderBG_full.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
 				67CF2D9D161951B8001FE1AA /* 2-mash-blue.png */,
@@ -3154,9 +3192,13 @@
 				67B170611717BCBE00FBD56A /* arrow_left@2x.png */,
 				67010EB417190D5100143507 /* assign.png */,
 				67CE5E14171931E200F00F04 /* assign@2x.png */,
+				A22A62481778293800AD1634 /* atask_lines.png */,
+				A22A62491778293900AD1634 /* atask_lines@2x.png */,
 				67CF2DAC161951B8001FE1AA /* background_button.png */,
 				67EEF93216D20A5F00D0A7D0 /* bar_eye.png */,
 				67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */,
+				67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */,
+				67E7F7A317602DBD0019FAFF /* bar_eye_blue@2x.png */,
 				67EEF93416D20A5F00D0A7D0 /* bar_setting.png */,
 				67EEF93516D20A5F00D0A7D0 /* bar_setting@2x.png */,
 				67E1F4E116E9D322002D70AF /* bar_tag.png */,
@@ -3227,6 +3269,8 @@
 				67CF2DDB161951B8001FE1AA /* delete_btn.png */,
 				67CF2DDC161951B8001FE1AA /* delete_button.png */,
 				67CF2DDD161951B8001FE1AA /* detail.png */,
+				678561B7178E949300FB3534 /* detail_disclosure.png */,
+				678561B8178E949300FB3534 /* detail_disclosure@2x.png */,
 				67CF2DDE161951B8001FE1AA /* done_btn.png */,
 				67EC1B261716BE6700582703 /* done_btn@2x.png */,
 				67CF2DDF161951B8001FE1AA /* DTasks_icon.png */,
@@ -3402,6 +3446,7 @@
 				67CF2E53161951B8001FE1AA /* next.png */,
 				67CF2E54161951B8001FE1AA /* no-mash-blue.png */,
 				67CF2E55161951B8001FE1AA /* no-mash-white.png */,
+				67D4EFDA17437394002B3483 /* none.png */,
 				67CF2E56161951B8001FE1AA /* Note_CheckOff.png */,
 				67CF2E57161951B8001FE1AA /* Note_CheckOff@2x.png */,
 				67CF2E58161951B8001FE1AA /* Note_CheckOn.png */,
@@ -3455,6 +3500,8 @@
 				67CF2E73161951B8001FE1AA /* SD_512.png */,
 				67CF2E74161951B8001FE1AA /* SD_57.png */,
 				67CF2E75161951B8001FE1AA /* SD_72.png */,
+				A25C05A81783D96200FA84FE /* settings_backup.png */,
+				A25C05A91783D96200FA84FE /* settings_backup@2x.png */,
 				67FADC2716D35CF8009D835D /* settings_calendars.png */,
 				67FADC2816D35CF8009D835D /* settings_calendars@2x.png */,
 				67FADC2916D35CF8009D835D /* settings_general.png */,
@@ -3538,6 +3585,10 @@
 		67CF2EA7161951B8001FE1AA /* Resources-iPad */ = {
 			isa = PBXGroup;
 			children = (
+				67E2D0B1178FB04400A88A00 /* LocationInputAccessoryView.xib */,
+				67E2D0A5178FADC700A88A00 /* DateInputViewController.xib */,
+				67E2D0A6178FADC700A88A00 /* DurationInputViewController.xib */,
+				67E2D0A7178FADC700A88A00 /* ProjectInputViewController.xib */,
 				67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */,
 				67CF2EA8161951B8001FE1AA /* MainWindow.xib */,
 				67E7789817374853004D227F /* NoteInputAccessoryView.xib */,
@@ -3631,6 +3682,20 @@
 			);
 			path = userGuide2.0;
 			sourceTree = "<group>";
+		};
+		67E75D21178D1E9C003A5671 /* InputView */ = {
+			isa = PBXGroup;
+			children = (
+				67E75D26178D3D16003A5671 /* DurationInputViewController.h */,
+				67E75D27178D3D16003A5671 /* DurationInputViewController.m */,
+				67086203178D588A0078F4FA /* DateInputViewController.h */,
+				67086204178D588A0078F4FA /* DateInputViewController.m */,
+				678561B3178E86E800FB3534 /* ProjectInputViewController.h */,
+				678561B4178E86E800FB3534 /* ProjectInputViewController.m */,
+			);
+			name = InputView;
+			path = SmartDayPro/InputView;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -4242,6 +4307,14 @@
 				A22A624C1778293900AD1634 /* atask_lines@2x.png in Resources */,
 				A25C05AA1783D96200FA84FE /* settings_backup.png in Resources */,
 				A25C05AC1783D96200FA84FE /* settings_backup@2x.png in Resources */,
+				678561B9178E949300FB3534 /* detail_disclosure.png in Resources */,
+				678561BB178E949300FB3534 /* detail_disclosure@2x.png in Resources */,
+				67E2D0A8178FADC700A88A00 /* DateInputViewController.xib in Resources */,
+				67E2D0AA178FADC700A88A00 /* DurationInputViewController.xib in Resources */,
+				67E2D0AC178FADC700A88A00 /* ProjectInputViewController.xib in Resources */,
+				67E2D0B2178FB04500A88A00 /* LocationInputAccessoryView.xib in Resources */,
+				67E55BAF1796581D002EB9C8 /* noteBG_full.png in Resources */,
+				67E55BB11796581D002EB9C8 /* noteHeaderBG_full.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4790,6 +4863,14 @@
 				A22A624D1778293A00AD1634 /* atask_lines@2x.png in Resources */,
 				A25C05AB1783D96200FA84FE /* settings_backup.png in Resources */,
 				A25C05AD1783D96200FA84FE /* settings_backup@2x.png in Resources */,
+				678561BA178E949300FB3534 /* detail_disclosure.png in Resources */,
+				678561BC178E949300FB3534 /* detail_disclosure@2x.png in Resources */,
+				67E2D0A9178FADC700A88A00 /* DateInputViewController.xib in Resources */,
+				67E2D0AB178FADC700A88A00 /* DurationInputViewController.xib in Resources */,
+				67E2D0AD178FADC700A88A00 /* ProjectInputViewController.xib in Resources */,
+				67E2D0B3178FB04500A88A00 /* LocationInputAccessoryView.xib in Resources */,
+				67E55BB01796581D002EB9C8 /* noteBG_full.png in Resources */,
+				67E55BB21796581D002EB9C8 /* noteHeaderBG_full.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4993,6 +5074,10 @@
 				67C742731782763A00361E30 /* TaskLayoutController.m in Sources */,
 				67C742751782763A00361E30 /* TaskMovableController.m in Sources */,
 				67C742791782768300361E30 /* RestoreViewController.m in Sources */,
+				677764A0178A9F2B007E2D99 /* DetailViewController.m in Sources */,
+				67E75D28178D3D16003A5671 /* DurationInputViewController.m in Sources */,
+				67086205178D588A0078F4FA /* DateInputViewController.m in Sources */,
+				678561B5178E86E800FB3534 /* ProjectInputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5193,6 +5278,10 @@
 				67C742741782763A00361E30 /* TaskLayoutController.m in Sources */,
 				67C742761782763A00361E30 /* TaskMovableController.m in Sources */,
 				67C7427A1782768300361E30 /* RestoreViewController.m in Sources */,
+				677764A1178A9F2B007E2D99 /* DetailViewController.m in Sources */,
+				67E75D29178D3D16003A5671 /* DurationInputViewController.m in Sources */,
+				67086206178D588A0078F4FA /* DateInputViewController.m in Sources */,
+				678561B6178E86E800FB3534 /* ProjectInputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5250,7 +5339,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				EXCLUDED_SOURCE_FILE_NAMES = "*libTestFlight.a";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -5262,7 +5351,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -5286,6 +5375,7 @@
 		67CF2B49161950D7001FE1AA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPhone-Info.plist";
@@ -5310,7 +5400,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
 				EXCLUDED_SOURCE_FILE_NAMES = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "BETA=1";
@@ -5322,13 +5412,14 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Beta;
 		};
 		67E41940162E54820026CFDE /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPhone-Info.plist";
@@ -5367,6 +5458,7 @@
 		67EC0F2D16F8081F00929BFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPad-Info.plist";
@@ -5384,6 +5476,7 @@
 		67EC0F2E16F8081F00929BFD /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPad-Info.plist";

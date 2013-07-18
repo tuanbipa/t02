@@ -17,6 +17,8 @@
 
 #import "iPadGeneralSettingViewController.h"
 
+#import "DetailViewController.h"
+
 //#import "SCTabBarController.h"
 
 //extern SCTabBarController *_tabBarCtrler;
@@ -126,6 +128,7 @@ extern BOOL _isiPad;
 	}
 	
 }
+
 - (void)dealloc {
     [super dealloc];
 }

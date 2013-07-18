@@ -14,9 +14,7 @@
 
 #import "LinkViewController.h"
 
-@interface LinkSearchViewController ()
-
-@end
+extern BOOL _isiPad;
 
 @implementation LinkSearchViewController
 
@@ -64,10 +62,24 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    //frm.size.width = 320;
     
-    //UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
@@ -82,6 +94,7 @@
 	linkTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, frm.size.width, frm.size.height-44) style:UITableViewStylePlain];
 	linkTableView.delegate = self;
 	linkTableView.dataSource = self;
+    linkTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:linkTableView];
 	[linkTableView release];    

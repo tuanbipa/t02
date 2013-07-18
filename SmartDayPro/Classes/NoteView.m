@@ -46,7 +46,7 @@ extern PreviewViewController *_previewCtrler;
         self.touchEnabled = NO;
         
         noteBgScrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        noteBgScrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG.png"]];
+        noteBgScrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG_full.png"]];
         
         [self addSubview:noteBgScrollView];
         [noteBgScrollView release];
@@ -686,6 +686,15 @@ extern PreviewViewController *_previewCtrler;
 {
     if (!self.editEnabled)
     {
+        //printf("note tap notification\n");
+        
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"NoteTapNotification" object:nil]; //
+        
+        if (_previewCtrler != nil)
+        {
+            [_previewCtrler showNote];
+        }
+        
         return NO;
     }
     

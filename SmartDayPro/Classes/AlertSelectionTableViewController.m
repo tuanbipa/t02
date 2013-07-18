@@ -16,8 +16,7 @@
 #import "AlertManager.h"
 #import "ImageManager.h"
 
-//#import "SCTabBarController.h"
-//extern SCTabBarController *_tabBarCtrler;
+extern BOOL _isiPad;
 
 @implementation AlertSelectionTableViewController
 
@@ -90,11 +89,26 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    //frm.size.width = 320;
+    
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
     
 	//UIView *contentView= [[UIView alloc] initWithFrame:CGRectZero];
-    UIView *contentView= [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor darkGrayColor];
+    UIView *contentView = [[UIView alloc] initWithFrame:frm];
+	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
 	
 	timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-20, 20)];
 	timeLabel.backgroundColor = [UIColor clearColor];
@@ -108,7 +122,8 @@
                       
 	alertTableView.delegate = self;
 	alertTableView.dataSource = self;
-	alertTableView.sectionHeaderHeight=5;	
+	alertTableView.sectionHeaderHeight=5;
+    alertTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:alertTableView];
 	[alertTableView release];

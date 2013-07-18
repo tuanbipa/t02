@@ -3339,6 +3339,19 @@ TaskManager *_sctmSingleton = nil;
         
         [slTask updateByTask:task];
         
+        if ([slTask isTask] && slTask.deadline == nil && slTask.alerts.count > 0)
+        {
+            for (AlertData *alert in slTask.alerts)
+            {
+                if (alert.primaryKey > -1)
+                {
+                    [alert deleteFromDatabase:[[DBManager getInstance] getDatabase]];
+                }
+            }
+            
+            slTask.alerts = [NSMutableArray arrayWithCapacity:0];
+        }
+        
         if (exceptionChange)
         {
             slTask.repeatData = nil;

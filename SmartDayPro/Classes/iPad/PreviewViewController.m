@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "PreviewViewController.h"
 
 #import "Common.h"
@@ -28,8 +30,15 @@
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
 
+#import "SDNavigationController.h"
+#import "NoteDetailTableViewController.h"
+#import "DetailViewController.h"
+#import "iPadViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
+extern DetailViewController *_detailViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 //extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
@@ -61,6 +70,7 @@ PreviewViewController *_previewCtrler;
         
         tapCount = 0;
         tapRow = -1;
+        selectedIndex = 0;
         
         hasNote = NO;
         
@@ -75,9 +85,9 @@ PreviewViewController *_previewCtrler;
 												 selector:@selector(noteFinishEdit:)
 													 name:@"NoteFinishEditNotification" object:nil];
         
-        /*[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(noteDoubleTap:)
-													 name:@"NoteDoubleTapNotification" object:nil];*/
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(noteTap:)
+													 name:@"NoteTapNotification" object:nil];
         
     }
     
@@ -93,6 +103,15 @@ PreviewViewController *_previewCtrler;
     self.linkList = nil;
     
     [super dealloc];
+}
+
+- (void) changeFrame:(CGRect) frm
+{
+    contentView.frame = frm;
+    
+    frm = contentView.bounds;
+    
+    linkTableView.frame = frm;
 }
 
 /*
@@ -121,7 +140,8 @@ PreviewViewController *_previewCtrler;
 - (void) singleTap
 {
     tapCount = 0;
-    
+ 
+/*
     if (!hasNote)
     {
         tapRow -= 1;
@@ -149,7 +169,35 @@ PreviewViewController *_previewCtrler;
             [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             
         }
+        else
+        {
+            if (expandedNoteIndex != -1)
+            {
+                NSIndexPath *previousPath = [NSIndexPath indexPathForRow:expandedNoteIndex inSection:0];
+                
+                expandedNoteIndex = -1;
+                
+                [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            expandedNoteIndex = -1;
+            
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tapRow inSection:0];
+            
+            [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
     }
+*/
+    
+    NSIndexPath *idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+    
+    selectedIndex = tapRow;
+    
+    [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+    
+    [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void) markNoteChange
@@ -218,24 +266,87 @@ PreviewViewController *_previewCtrler;
     noteLinkCreated = YES;
     hasNote = YES;
     
-    expandedNoteIndex = 0;
+    //expandedNoteIndex = 0;
     
     [linkTableView reloadData];
+}
+
+- (void) showNote
+{
+    Task *note = [[[Task alloc] init] autorelease];
+    note.type = TYPE_NOTE;
+    
+    NSInteger index = selectedIndex;
+    
+    if (!hasNote)
+    {
+        if (selectedIndex != 0)
+        {
+            tapRow = 0;
+            
+            [self singleTap];
+            
+            index -= 1;
+        }
+        else
+        {
+            index = -1;
+        }
+    }
+    
+    if (index != -1)
+    {
+        Task *asset = [self.linkList objectAtIndex:index];
+        
+        if ([asset isNote])
+        {
+            note = asset;
+        }
+    }
+    
+    printf("note: %s\n", [note.note UTF8String]);
+    
+    /*
+    NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+    ctrler.note = noteView.note;
+    
+    SDNavigationController *navCtrler = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+    
+    UIViewController *mainCtrler = (_plannerViewCtrler != nil?_plannerViewCtrler:_abstractViewCtrler);
+    
+    [mainCtrler presentViewController:navCtrler animated:YES completion:nil];
+    
+    [navCtrler release];
+    
+    [ctrler release];
+    */
+    
+    [_iPadViewCtrler editNoteDetail:noteView.note];
 }
 
 #pragma mark Notification
 - (void) noteBeginEdit:(NSNotification *)notification
 {
+    /*
     if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
     {
         noteFrm = noteView.frame;
         CGRect frm = noteFrm;
         
-        frm.size.height = 220 - expandedNoteIndex*40;
+        //frm.size.height = 220 - expandedNoteIndex*40;
+        frm.size.height = 220 - selectedIndex*40;
         
         [noteView changeFrame:frm];
         
         nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
+    }
+    */
+    
+    if (!hasNote && selectedIndex != 0)
+    {
+        tapRow = 0;
+        
+        [self singleTap];
     }
 }
 
@@ -267,6 +378,11 @@ PreviewViewController *_previewCtrler;
         
         [self markNoteChange];
     }
+}
+
+- (void) noteTap:(NSNotification *)notification
+{
+    [self showNote];
 }
 
 /*
@@ -329,6 +445,27 @@ PreviewViewController *_previewCtrler;
     }
 }
 
+- (void) jump:(id)sender
+{
+    UIButton *btn = (UIButton *)sender;
+    
+    Task *asset = (Task *) btn.tag;
+    
+    [_abstractViewCtrler jumpToDate:asset.startTime];
+}
+
+- (void) editAsset:(id)sender
+{
+    UIButton *btn = (UIButton *)sender;
+    
+    Task *asset = (Task *) btn.tag;
+    
+    if (_detailViewCtrler != nil)
+    {
+        [_detailViewCtrler editAsset:asset];
+    }
+}
+
 #pragma mark View
 
 - (void) loadView
@@ -336,12 +473,15 @@ PreviewViewController *_previewCtrler;
     CGRect frm = CGRectMake(0, 0, 320, 416);
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     
     [contentView release];
     
+    /*
 	UIButton *nameButton = [Common createButton:self.item.name
 										buttonType:UIButtonTypeCustom
 											 frame:CGRectMake(10, 0, frm.size.width-40, 40)
@@ -351,30 +491,9 @@ PreviewViewController *_previewCtrler;
 								  normalStateImage:nil
 								selectedStateImage:nil];
     nameButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    //nameButton.titleLabel.textAlignment = NSTextAlignmentLeft;
-    nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;    
+    nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
     [contentView addSubview:nameButton];
-
-    /*
-    UIButton *nextButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(frm.size.width - 40, 0, 40, 40)
-                                     titleColor:[UIColor blackColor]
-                                         target:self
-                                       selector:@selector(editItem:)
-                               normalStateImage:nil
-                             selectedStateImage:nil];
-    
-    [contentView addSubview:nextButton];
-   
-    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
-    
-    detailImgView.frame = CGRectMake(10, 3, 25, 30);
-    
-    [nextButton addSubview:detailImgView];
-    [detailImgView release];
-    */
     
     UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     nextButton.frame = CGRectMake(frm.size.width - 30, 2, 30, 30);
@@ -401,16 +520,17 @@ PreviewViewController *_previewCtrler;
     
     [contentView addSubview:separatorImgView];
     [separatorImgView release];
+    */
     
     frm = contentView.bounds;
-    
-    //frm.origin.x += 10;
+
+    /*
     frm.origin.y += 60;
     frm.size.height -= 60;
-    //frm.size.width -= 20;
+    */
     
     linkTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
-    linkTableView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1];
+    linkTableView.backgroundColor = [UIColor clearColor];
     linkTableView.separatorColor = [UIColor grayColor];
     linkTableView.delegate = self;
     linkTableView.dataSource = self;
@@ -434,7 +554,7 @@ PreviewViewController *_previewCtrler;
 {
     [super viewDidLoad];
     
-    expandedNoteIndex = -1;
+    //expandedNoteIndex = -1;
     
 	// Do any additional setup after loading the view.    
     if (self.item != nil)
@@ -471,11 +591,11 @@ PreviewViewController *_previewCtrler;
             if ([itm isNote])
             {
                 hasNote = YES;
-                
+                /*
                 if (expandedNoteIndex == -1)
                 {
                     expandedNoteIndex = index;
-                }
+                }*/
             }
             
             index ++;
@@ -543,16 +663,51 @@ PreviewViewController *_previewCtrler;
 }
 
 #pragma mark Cell Creation
-- (void) createNoteCell:(UITableViewCell *)cell item:(Task *)item
+- (void) createEmptyNoteCell:(UITableViewCell *)cell expanded:(BOOL)expanded
 {
+    CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 0);
+    
+    frm.size.height = expanded?170:40;
+    
+    noteView = [[NoteView alloc] initWithFrame:frm];
+    
+    noteView.editEnabled = NO;
+    noteView.touchEnabled = YES;
+    
+    [cell.contentView addSubview:noteView];
+    [noteView release];
+}
+
+- (void) createNoteCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded
+{
+    if (expanded)
+    {
+        CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 0);
+        
+        frm.size.height = 170;
+        
+        noteView = [[NoteView alloc] initWithFrame:frm];
+        
+        //noteView.editEnabled = YES;
+        noteView.editEnabled = NO;
+        noteView.touchEnabled = YES;
+        
+        noteView.note = asset;
+        
+        [cell.contentView addSubview:noteView];
+        [noteView release];
+        
+        return;
+    }
+    
     ProjectManager *pm = [ProjectManager getInstance];
     
     CGFloat w = linkTableView.bounds.size.width;
     
-    UIImage *img = [pm getNoteIcon:item.project];
+    UIImage *img = [pm getNoteIcon:asset.project];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
-    imgView.frame = CGRectMake(10, 10, img.size.width, img.size.height);
+    imgView.frame = CGRectMake(10, 13, img.size.width, img.size.height);
     
     [cell.contentView addSubview:imgView];
     [imgView release];
@@ -561,7 +716,7 @@ PreviewViewController *_previewCtrler;
     dateLabel.backgroundColor = [UIColor clearColor];
     dateLabel.textAlignment = NSTextAlignmentRight;
     dateLabel.font = [UIFont systemFontOfSize:12];
-    dateLabel.text = [Common getFullDateString2:item.startTime];
+    dateLabel.text = [Common getFullDateString2:asset.startTime];
     
     [cell.contentView addSubview:dateLabel];
     [dateLabel release];
@@ -571,66 +726,190 @@ PreviewViewController *_previewCtrler;
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, w-30-rightWidth, 20)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentLeft;
-    titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    titleLabel.text = item.name;
+    titleLabel.font = [UIFont systemFontOfSize:14];
+    titleLabel.text = asset.name;
     
     [cell.contentView addSubview:titleLabel];
     [titleLabel release];
 }
 
-- (void) createEventCell:(UITableViewCell *)cell item:(Task *)item
+- (void) createEventCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded
 {
     ProjectManager *pm = [ProjectManager getInstance];
     
+    if (expanded)
+    {
+        cell.contentView.backgroundColor = [pm getProjectColor2:asset.project];
+    }
+    
     CGFloat w = linkTableView.bounds.size.width;
     
-    UIImage *img = [item isManual]?[pm getAnchoredIcon:item.project]:[pm getEventIcon:item.project];
+    UIImage *img = [asset isManual]?[pm getAnchoredIcon:asset.project]:[pm getEventIcon:asset.project];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
-    imgView.frame = CGRectMake(10, 10, img.size.width, img.size.height);
+    imgView.frame = CGRectMake(10, 13, img.size.width, img.size.height);
     
     [cell.contentView addSubview:imgView];
     [imgView release];
     
-    CGFloat rightWidth = [item isADE]?70:90;
-    
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(w-rightWidth-5, 2, rightWidth, 20)];
-    dateLabel.backgroundColor = [UIColor clearColor];
-    dateLabel.textAlignment = NSTextAlignmentCenter;
-    dateLabel.font = [UIFont systemFontOfSize:12];
-    dateLabel.text = [Common getFullDateString2:item.startTime];
-    
-    [cell.contentView addSubview:dateLabel];
-    [dateLabel release];
-    
-    NSString *str = [item isADE]?[Common getFullDateString2:item.endTime]:[NSString stringWithFormat:@"%@ - %@", [Common getShortTimeString:item.startTime], [Common getShortTimeString:item.endTime]];
-    
-    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(w-rightWidth-5, 18, rightWidth, 20)];
-    timeLabel.backgroundColor = [UIColor clearColor];
-    timeLabel.textAlignment = NSTextAlignmentCenter;
-    timeLabel.font = [UIFont systemFontOfSize:12];
-    timeLabel.text = str;
-    
-    [cell.contentView addSubview:timeLabel];
-    [timeLabel release];
+    CGFloat rightWidth = expanded?0:([asset isADE]?70:90);
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, w-30-rightWidth-10, 20)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentLeft;
-    titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    titleLabel.text = item.name;
+    titleLabel.font = [UIFont systemFontOfSize:14];
+    titleLabel.text = asset.name;
     
     [cell.contentView addSubview:titleLabel];
     [titleLabel release];
+
+    if (expanded)
+    {
+        UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 80, 20)];
+        allDayLabel.backgroundColor = [UIColor clearColor];
+        allDayLabel.textAlignment = NSTextAlignmentLeft;
+        allDayLabel.font = [UIFont systemFontOfSize:14];
+        allDayLabel.text = _allDayText;
+        
+        [cell.contentView addSubview:allDayLabel];
+        [allDayLabel release];
+
+        UILabel *allDayValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 35, w-100, 20)];
+        allDayValueLabel.backgroundColor = [UIColor clearColor];
+        allDayValueLabel.textAlignment = NSTextAlignmentRight;
+        allDayValueLabel.font = [UIFont systemFontOfSize:14];
+        allDayValueLabel.text = [asset isADE]?_yesText:_noText;
+        
+        [cell.contentView addSubview:allDayValueLabel];
+        [allDayValueLabel release];    
+
+        UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 80, 20)];
+        projectLabel.backgroundColor = [UIColor clearColor];
+        projectLabel.textAlignment = NSTextAlignmentLeft;
+        projectLabel.font = [UIFont systemFontOfSize:14];
+        projectLabel.text = _projectText;
+        
+        [cell.contentView addSubview:projectLabel];
+        [projectLabel release];
+        
+        UILabel *projectValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 60, w-100, 20)];
+        projectValueLabel.backgroundColor = [UIColor clearColor];
+        projectValueLabel.textAlignment = NSTextAlignmentRight;
+        projectValueLabel.font = [UIFont systemFontOfSize:14];
+        projectValueLabel.text = [pm getProjectNameByKey:asset.project];
+        
+        [cell.contentView addSubview:projectValueLabel];
+        [projectValueLabel release];
+        
+        UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 85, 80, 20)];
+        startLabel.backgroundColor = [UIColor clearColor];
+        startLabel.textAlignment = NSTextAlignmentLeft;
+        startLabel.font = [UIFont systemFontOfSize:14];
+        startLabel.text = _startText;
+        
+        [cell.contentView addSubview:startLabel];
+        [startLabel release];
+        
+        UILabel *startValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 85, w-100, 20)];
+        startValueLabel.backgroundColor = [UIColor clearColor];
+        startValueLabel.textAlignment = NSTextAlignmentRight;
+        startValueLabel.font = [UIFont systemFontOfSize:14];
+        startValueLabel.text = [asset isADE]?[Common getFullDateString:asset.startTime]:[Common getFullDateTimeString:asset.startTime];
+        
+        [cell.contentView addSubview:startValueLabel];
+        [startValueLabel release];
+        
+        UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 80, 20)];
+        endLabel.backgroundColor = [UIColor clearColor];
+        endLabel.textAlignment = NSTextAlignmentLeft;
+        endLabel.font = [UIFont systemFontOfSize:14];
+        endLabel.text = _endText;
+        
+        [cell.contentView addSubview:endLabel];
+        [endLabel release];
+        
+        UILabel *endValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 110, w-100, 20)];
+        endValueLabel.backgroundColor = [UIColor clearColor];
+        endValueLabel.textAlignment = NSTextAlignmentRight;
+        endValueLabel.font = [UIFont systemFontOfSize:14];
+        endValueLabel.text = [asset isADE]?[Common getFullDateString:asset.endTime]:[Common getFullDateTimeString:asset.endTime];
+        
+        [cell.contentView addSubview:endValueLabel];
+        [endValueLabel release];
+        
+        UIButton *jumpButton = [Common createButton:_jumpText
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(10, 135, 60, 30)
+                                         titleColor:[UIColor blackColor]
+                                             target:self
+                                           selector:@selector(jump:)
+                                   normalStateImage:nil
+                                 selectedStateImage:nil];
+        jumpButton.tag = asset;
+        
+        jumpButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        jumpButton.backgroundColor = [UIColor lightGrayColor];
+        jumpButton.layer.cornerRadius = 5;
+        jumpButton.layer.borderWidth = 1;
+        jumpButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        
+        [cell.contentView addSubview:jumpButton];
+        
+        UIButton *editButton = [Common createButton:_editText
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(w-70, 135, 60, 30)
+                                         titleColor:[UIColor blackColor]
+                                             target:self
+                                           selector:@selector(editAsset:)
+                                   normalStateImage:nil
+                                 selectedStateImage:nil];
+        
+        editButton.tag = asset;
+        
+        editButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        editButton.backgroundColor = [UIColor lightGrayColor];
+        editButton.layer.cornerRadius = 5;
+        editButton.layer.borderWidth = 1;
+        editButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        
+        [cell.contentView addSubview:editButton];
+    }
+    else
+    {
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(w-rightWidth-5, 2, rightWidth, 20)];
+        dateLabel.backgroundColor = [UIColor clearColor];
+        dateLabel.textAlignment = NSTextAlignmentRight;
+        dateLabel.font = [UIFont systemFontOfSize:12];
+        dateLabel.text = [Common getFullDateString2:asset.startTime];
+        
+        [cell.contentView addSubview:dateLabel];
+        [dateLabel release];
+        
+        NSString *str = [asset isADE]?[Common getFullDateString2:asset.endTime]:[NSString stringWithFormat:@"%@ - %@", [Common getShortTimeString:asset.startTime], [Common getShortTimeString:asset.endTime]];
+        
+        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(w-rightWidth-5, 18, rightWidth, 20)];
+        timeLabel.backgroundColor = [UIColor clearColor];
+        timeLabel.textAlignment = NSTextAlignmentRight;
+        timeLabel.font = [UIFont systemFontOfSize:12];
+        timeLabel.text = str;
+        
+        [cell.contentView addSubview:timeLabel];
+        [timeLabel release];
+    }
 }
 
-- (void) createTaskCell:(UITableViewCell *)cell item:(Task *)item
+- (void) createTaskCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded
 {
     ProjectManager *pm = [ProjectManager getInstance];
     
+    if (expanded)
+    {
+        cell.contentView.backgroundColor = [pm getProjectColor2:asset.project];
+    }
+    
     CGFloat w = linkTableView.bounds.size.width;
     
-    UIImage *img = [pm getTaskIcon:item.project];
+    UIImage *img = [pm getTaskIcon:asset.project];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     imgView.frame = CGRectMake(10, 10, img.size.width, img.size.height);
@@ -641,16 +920,112 @@ PreviewViewController *_previewCtrler;
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 10, w-40-5, 20)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentLeft;
-    titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    titleLabel.text = item.name;
+    titleLabel.font = [UIFont systemFontOfSize:14];
+    titleLabel.text = asset.name;
     
     [cell.contentView addSubview:titleLabel];
     [titleLabel release];
+    
+    if (expanded)
+    {
+        UILabel *durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 80, 20)];
+        durationLabel.backgroundColor = [UIColor clearColor];
+        durationLabel.textAlignment = NSTextAlignmentLeft;
+        durationLabel.font = [UIFont systemFontOfSize:14];
+        durationLabel.text = _durationText;
+        
+        [cell.contentView addSubview:durationLabel];
+        [durationLabel release];
+        
+        UILabel *durationValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 35, w-100, 20)];
+        durationValueLabel.backgroundColor = [UIColor clearColor];
+        durationValueLabel.textAlignment = NSTextAlignmentRight;
+        durationValueLabel.font = [UIFont systemFontOfSize:14];
+        durationValueLabel.text = [Common getDurationString:asset.duration];
+        
+        [cell.contentView addSubview:durationValueLabel];
+        [durationValueLabel release];
+        
+        UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 80, 20)];
+        projectLabel.backgroundColor = [UIColor clearColor];
+        projectLabel.textAlignment = NSTextAlignmentLeft;
+        projectLabel.font = [UIFont systemFontOfSize:14];
+        projectLabel.text = _projectText;
+        
+        [cell.contentView addSubview:projectLabel];
+        [projectLabel release];
+        
+        UILabel *projectValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 60, w-100, 20)];
+        projectValueLabel.backgroundColor = [UIColor clearColor];
+        projectValueLabel.textAlignment = NSTextAlignmentRight;
+        projectValueLabel.font = [UIFont systemFontOfSize:14];
+        projectValueLabel.text = [pm getProjectNameByKey:asset.project];
+        
+        [cell.contentView addSubview:projectValueLabel];
+        [projectValueLabel release];
+        
+        UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 85, 80, 20)];
+        startLabel.backgroundColor = [UIColor clearColor];
+        startLabel.textAlignment = NSTextAlignmentLeft;
+        startLabel.font = [UIFont systemFontOfSize:14];
+        startLabel.text = _startText;
+        
+        [cell.contentView addSubview:startLabel];
+        [startLabel release];
+        
+        UILabel *startValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 85, w-100, 20)];
+        startValueLabel.backgroundColor = [UIColor clearColor];
+        startValueLabel.textAlignment = NSTextAlignmentRight;
+        startValueLabel.font = [UIFont systemFontOfSize:14];
+        startValueLabel.text = asset.startTime == nil?_noneText:[Common getFullDateString:asset.startTime];
+        
+        [cell.contentView addSubview:startValueLabel];
+        [startValueLabel release];
+        
+        UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 80, 20)];
+        endLabel.backgroundColor = [UIColor clearColor];
+        endLabel.textAlignment = NSTextAlignmentLeft;
+        endLabel.font = [UIFont systemFontOfSize:14];
+        endLabel.text = _dueText;
+        
+        [cell.contentView addSubview:endLabel];
+        [endLabel release];
+        
+        UILabel *endValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 110, w-100, 20)];
+        endValueLabel.backgroundColor = [UIColor clearColor];
+        endValueLabel.textAlignment = NSTextAlignmentRight;
+        endValueLabel.font = [UIFont systemFontOfSize:14];
+        endValueLabel.text = asset.deadline == nil?_noneText:[Common getFullDateString:asset.deadline];
+        
+        [cell.contentView addSubview:endValueLabel];
+        [endValueLabel release];
+        
+        UIButton *editButton = [Common createButton:_editText
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(w-70, 135, 60, 30)
+                                         titleColor:[UIColor blackColor]
+                                             target:self
+                                           selector:@selector(editAsset:)
+                                   normalStateImage:nil
+                                 selectedStateImage:nil];
+        
+        editButton.tag = asset;
+        
+        editButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        editButton.backgroundColor = [UIColor lightGrayColor];
+        editButton.layer.cornerRadius = 5;
+        editButton.layer.borderWidth = 1;
+        editButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        
+        [cell.contentView addSubview:editButton];        
+    }
+    
 }
 
 - (CGFloat) calculateExpandedNoteHeight
 {
-    CGFloat h = contentView.bounds.size.height-60;
+    //CGFloat h = contentView.bounds.size.height-60;
+    CGFloat h = contentView.bounds.size.height;
     
     NSInteger count = self.linkList.count;
     
@@ -660,6 +1035,15 @@ PreviewViewController *_previewCtrler;
     }
     
     h -= (count >= 3?2.5:count)*40;
+    
+    if (h<100)
+    {
+        h = 100;
+    }
+    else if (h>150)
+    {
+        h = 150;
+    }
     
     return h;
 }
@@ -690,7 +1074,17 @@ PreviewViewController *_previewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return (indexPath.row == expandedNoteIndex) || (!hasNote && indexPath.row == 0) ?[self calculateExpandedNoteHeight]:40;
+    /*
+	CGFloat h = (indexPath.row == expandedNoteIndex) || (!hasNote && indexPath.row == 0) ?[self calculateExpandedNoteHeight]:(indexPath.row == tapRow?150:40);
+    
+    return h;*/
+
+    return indexPath.row == selectedIndex?170:40;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -705,28 +1099,31 @@ PreviewViewController *_previewCtrler;
     
     NSInteger index = indexPath.row;
     
+    /*
     if (!hasNote)
     {
         if (index == 0)
         {
-            CGRect frm = tableView.bounds;
+            //CGRect frm = tableView.bounds;
+            
+            CGRect frm = CGRectMake(0, 0, tableView.bounds.size.width, 0);
             
             frm.size.height = [self calculateExpandedNoteHeight];
             
             noteView = [[NoteView alloc] initWithFrame:frm];
-            noteView.editEnabled = YES;
+            //noteView.editEnabled = YES;
+            noteView.editEnabled = NO;
             noteView.touchEnabled = YES;
             
             [cell.contentView addSubview:noteView];
             [noteView release];
             
-            /*
-            nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
-            [nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
+            //nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            //nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
+            //[nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
             
-            [cell.contentView addSubview:nextButton];
-            */
+            //[cell.contentView addSubview:nextButton];
+            
             
             return cell;
         }
@@ -740,13 +1137,16 @@ PreviewViewController *_previewCtrler;
     
     if (indexPath.row == expandedNoteIndex)
     {
-        CGRect frm = tableView.bounds;
+        CGRect frm = CGRectMake(0, 0, tableView.bounds.size.width, 0);
         
         frm.size.height = [self calculateExpandedNoteHeight];
         
+        //printf("note view frame x:%f - y:%f\n", frm.origin.x, frm.origin.y);
+        
         noteView = [[NoteView alloc] initWithFrame:frm];
         
-        noteView.editEnabled = YES;
+        //noteView.editEnabled = YES;
+        noteView.editEnabled = NO;
         noteView.touchEnabled = YES;
         
         noteView.note = item;
@@ -754,27 +1154,48 @@ PreviewViewController *_previewCtrler;
         [cell.contentView addSubview:noteView];
         [noteView release];
         
-        nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
-        [nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
         
-        [cell.contentView addSubview:nextButton];
-    }
-    else if ([item isTask])
+        //nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        //nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
+        //[nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
+        
+        //[cell.contentView addSubview:nextButton];
+    }*/
+    
+    
+    BOOL expanded = selectedIndex == indexPath.row;
+    
+    if (!hasNote)
     {
-        [self createTaskCell:cell item:item];
+        if (index == 0)
+        {
+            [self createEmptyNoteCell:cell expanded:expanded];
+            
+            return cell;
+        }
+        else
+        {
+            index -= 1;
+        }
     }
-    else if ([item isEvent])
+    
+    Task *asset = [self.linkList objectAtIndex:index];
+    
+    if ([asset isTask])
     {
-        [self createEventCell:cell item:item];
+        [self createTaskCell:cell asset:asset expanded:expanded];
     }
-    else if ([item isNote])
+    else if ([asset isEvent])
     {
-        [self createNoteCell:cell item:item];
+        [self createEventCell:cell asset:asset expanded:expanded];
+    }
+    else if ([asset isNote])
+    {
+        [self createNoteCell:cell asset:asset expanded:expanded];
     }
     else
     {
-        cell.textLabel.text = item.name;
+        cell.textLabel.text = asset.name;
     }
     
     return cell;

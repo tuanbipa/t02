@@ -2153,13 +2153,6 @@ static sqlite3_stmt *task_delete_statement = nil;
 {
 	if (self.repeatData != nil && ![self isREException])
 	{
-        /*
-		if (self.groupKey != -1 && self.type == TYPE_TASK) //RT instance -> not allow to edit Repeat info
-		{
-			return _noneText;
-		}
-		*/
-        
 		NSString *repeatTypes[4] = {_dailyText, _weeklyText, _monthlyText, _yearlyText};
 		
 		return repeatTypes[self.repeatData.type - REPEAT_DAILY];
@@ -2188,6 +2181,16 @@ static sqlite3_stmt *task_delete_statement = nil;
             }
         
         }
+	}
+	
+	return _noneText;
+}
+
+- (NSString *) getRepeatDisplayString
+{
+	if (self.repeatData != nil)
+	{
+        return [NSString stringWithFormat:@"%@ | %@", [self getRepeatTypeString], [self getRepeatUntilString]];
 	}
 	
 	return _noneText;

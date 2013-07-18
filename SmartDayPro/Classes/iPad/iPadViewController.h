@@ -11,10 +11,13 @@
 #import "AbstractSDViewController.h"
 
 @class ContentView;
+@class Task;
+@class Project;
 
 @interface iPadViewController : UIViewController<UISearchBarDelegate>
 {
     ContentView *contentView;
+    UIView *detailView;
     
     UISearchBar *searchBar;
     UIButton *timerButton;
@@ -24,9 +27,16 @@
 
 @property (nonatomic, retain) UIViewController *activeViewCtrler;
 
+@property (nonatomic, retain) UINavigationController *detailNavCtrler;
+
 - (void) deactivateSearchBar;
 - (UIButton *) getTimerButton;
 
 - (void) refreshFilterStatus;
+
+- (void) editNoteDetail:(Task *)note;
+-(void) editItemDetail:(Task *)item;
+- (void) editProjectDetail:(Project *)project;
+- (void) closeDetail;
 
 @end

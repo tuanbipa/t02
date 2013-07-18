@@ -2141,6 +2141,8 @@ extern BOOL _isiPad;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
     [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [self check2EnableSave];
 	
     return NO;
 }

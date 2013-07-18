@@ -70,5 +70,6 @@
 - (void) tabBarChanged:(BOOL)mini;
 
 - (void) refreshWhen;
+- (void) check2EnableSave;
 
 @end

@@ -14,7 +14,11 @@
 
 #import "SmartDayViewController.h"
 
+#import "DetailViewController.h"
+
 extern SmartDayViewController *_sdViewCtrler;
+
+extern BOOL _isiPad;
 
 @implementation TagEditViewController
 
@@ -47,7 +51,21 @@ extern SmartDayViewController *_sdViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    //frm.size.width = 320;
+    
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
     
     UIView *contentView= [[UIView alloc] initWithFrame:frm];
 	contentView.backgroundColor=[UIColor darkGrayColor];
@@ -71,6 +89,13 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+    {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshTag];
+    }
     
     [_sdViewCtrler refreshFilterTag];
 }

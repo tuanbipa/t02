@@ -15,8 +15,7 @@
 #import "ContactManager.h"
 #import "ImageManager.h"
 
-//#import "SCTabBarController.h"
-//extern SCTabBarController *_tabBarCtrler;
+extern BOOL _isiPad;
 
 NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
 
@@ -54,7 +53,21 @@ NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    //frm.size.width = 320;
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
     
     saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
 															  target:self action:@selector(save:)];
@@ -64,26 +77,13 @@ NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
 	self.navigationItem.title = _locationText;//@"Locations";
 	
 	//contentView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
-    contentView=[[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor darkGrayColor];
+    contentView = [[UIView alloc] initWithFrame:frm];
+	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
 	
-    /*
-	sortAddress=[[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects: _sortedByAddressText, _sortedByContactText, nil]];
-
-	//sortAddress.frame=CGRectMake(10, contentView.frame.size.height - 2*MINI_BAR_HEIGHT - 36, 300, 36);
-    sortAddress.frame=CGRectMake(10, frm.size.height - 36, frm.size.width - 20, 36);
-    
-	sortAddress.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	sortAddress.segmentedControlStyle = UISegmentedControlStylePlain;
-	[sortAddress addTarget:self action:@selector(sortAction:) forControlEvents:UIControlEventValueChanged];
-	sortAddress.selectedSegmentIndex=0;
-	[contentView addSubview:sortAddress];
-	*/
-    
-	//tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, contentView.frame.size.height) style:UITableViewStylePlain];
     tableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:tableView];
 	[tableView release];

@@ -684,6 +684,7 @@
 #define _floatingText NSLocalizedString(@"_floatingText", "")
 
 #define _soundEnabledText NSLocalizedString(@"_soundEnabledText", "")
+#define _repeatUntilText NSLocalizedString(@"_repeatUntilText", "")
 
 #define _selectedText NSLocalizedString(@"_selectedText", "")
 #define _overDueText NSLocalizedString(@"_overDueText", "")
@@ -691,3 +692,6 @@
 #define _daysText NSLocalizedString(@"_daysText", "")
 #define _longText NSLocalizedString(@"_longText", "")
 #define _shortText NSLocalizedString(@"_shortText", "")
+
+#define _assetsText NSLocalizedString(@"_assetsText", "")
+#define _jumpText NSLocalizedString(@"_jumpText", "")

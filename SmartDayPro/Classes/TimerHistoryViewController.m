@@ -19,9 +19,7 @@
 
 #import "ContentView.h"
 
-@interface TimerHistoryViewController ()
-
-@end
+extern BOOL _isiPad;
 
 @implementation TimerHistoryViewController
 
@@ -122,8 +120,25 @@
 
 - (void) loadView
 {
-    ContentView *contentView = [[ContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
-    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    CGRect frm = CGRectZero;
+    frm.size = [Common getScreenSize];
+    
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
+    ContentView *contentView = [[ContentView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     self.view = contentView;
     
     [contentView release];

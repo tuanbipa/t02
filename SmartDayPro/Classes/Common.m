@@ -1493,6 +1493,19 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return ret;		
 }
 
++ (NSString *) getFullWeekdayString:(NSDate *)argDate
+{
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	
+	[dateFormatter setDateFormat:@"EEEE"];
+	
+	NSString *ret = [dateFormatter stringFromDate:argDate];
+	
+	[dateFormatter release];
+	
+	return ret;
+}
+
 + (NSString *) getWeekdayString:(NSDate *)argDate
 {
 	//NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];

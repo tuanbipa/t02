@@ -13,6 +13,8 @@
 
 #import "ImageManager.h"
 
+#import "DetailViewController.h"
+
 extern BOOL _isiPad;
 
 @implementation TaskNoteViewController
@@ -45,25 +47,39 @@ extern BOOL _isiPad;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
+    /*
     frm.size.width = 320;
     
     if (_isiPad)
     {
         frm.size.height = 416;
+    }*/
+
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
     }
     
-	//UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor darkGrayColor];
+	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     
 	self.view = contentView;
 	[contentView release];
     
-    //editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - [Common getKeyboardHeight] - 40 - 20)];
-    editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - (_isiPad?0:[Common getKeyboardHeight] + 40) - 20)];
+//    editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - (_isiPad?0:[Common getKeyboardHeight] + 40) - 20)];
 
+    editTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, 160)];
+    
 	editTextView.delegate=self;
-	//editTextView.backgroundColor=[UIColor clearColor];
 	editTextView.keyboardType=UIKeyboardTypeDefault;
 	editTextView.font=[UIFont systemFontOfSize:18];
     
@@ -120,6 +136,18 @@ extern BOOL _isiPad;
 - (void)clean:(id) sender
 {
 	editTextView.text = @"";
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+    {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshDescription];
+    }
 }
 
 
