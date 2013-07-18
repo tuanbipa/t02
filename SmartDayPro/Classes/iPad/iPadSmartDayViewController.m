@@ -1075,8 +1075,8 @@ iPadViewController *_iPadViewCtrler;
     
     // check show edit bar or filter view
     SmartListViewController *ctrler = [self getSmartListViewController];
-    filterSegmentedControl.hidden = ctrler.isMultiMode;
-    editBarView.hidden = !ctrler.isMultiMode;
+    //filterSegmentedControl.hidden = ctrler.isMultiMode;
+    //editBarView.hidden = !ctrler.isMultiMode;
 }
 
 - (void) createNoteOptionFilter
