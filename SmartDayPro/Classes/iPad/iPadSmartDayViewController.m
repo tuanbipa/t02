@@ -310,7 +310,7 @@ iPadViewController *_iPadViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
-
+/*
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
     BOOL showPopover = activeView != view;
@@ -342,6 +342,7 @@ iPadViewController *_iPadViewCtrler;
         
     }
 }
+*/
 
 - (void) scrollToDate:(NSDate *)date
 {

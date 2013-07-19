@@ -39,6 +39,8 @@ extern SmartCalAppDelegate *_appDelegate;
 
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
+extern AbstractSDViewController *_abstractViewCtrler;
+
 iPadViewController *_iPadViewCtrler;
 
 @interface iPadViewController ()

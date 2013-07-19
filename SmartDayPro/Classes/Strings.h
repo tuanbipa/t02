@@ -695,5 +695,6 @@
 
 #define _assetsText NSLocalizedString(@"_assetsText", "")
 #define _jumpText NSLocalizedString(@"_jumpText", "")
-#define _assetsText NSLocalizedString(@"_assetsText", "")
-#define _jumpText NSLocalizedString(@"_jumpText", "")
+
+#define _deferText NSLocalizedString(@"_deferText", "")
+

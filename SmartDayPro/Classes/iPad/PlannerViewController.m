@@ -178,6 +178,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+/*
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
     BOOL showPopover = activeView != view;
@@ -188,6 +189,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [self showPreview:view];
     }
 }
+*/
 
 - (BOOL) checkControllerActive:(NSInteger)index
 {

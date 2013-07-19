@@ -13,6 +13,7 @@
 @class ContentView;
 @class Task;
 @class Project;
+@class AbstractActionViewController;
 
 @interface iPadViewController : UIViewController<UISearchBarDelegate>
 {
@@ -25,7 +26,7 @@
     UIButton *eyeButton;
 }
 
-@property (nonatomic, retain) UIViewController *activeViewCtrler;
+@property (nonatomic, retain) AbstractActionViewController *activeViewCtrler;
 
 @property (nonatomic, retain) UINavigationController *detailNavCtrler;
 

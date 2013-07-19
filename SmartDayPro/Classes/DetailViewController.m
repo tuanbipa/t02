@@ -141,6 +141,50 @@ DetailViewController *_detailViewCtrler = nil;
     inputView.frame = CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300);
 }
 
+- (void) initData
+{
+	if (task.original != nil && ![task isREException]) //Calendar Task or REException
+	{
+        //printf("task original: %s\n", [[task.original name] UTF8String]);
+        
+		self.taskCopy = task.original;
+    }
+	else
+	{
+		self.taskCopy = task;
+	}
+    
+	if ([self.taskCopy isEvent])
+    {
+        if ((self.taskCopy.startTime == nil || self.taskCopy.endTime == nil)) // new Event
+        {
+            self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
+            self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
+            
+        }
+        else if ([task isREInstance])
+        {
+            NSTimeInterval reDuration = [task.original.endTime timeIntervalSinceDate:task.original.startTime];
+            
+            self.taskCopy.startTime = task.reInstanceStartTime;
+            self.taskCopy.endTime = [task.reInstanceStartTime dateByAddingTimeInterval:reDuration];
+        }
+        else if (self.task.isSplitted)
+        {
+            Task *longEvent = [[Task alloc] initWithPrimaryKey:self.task.primaryKey database:[[DBManager getInstance] getDatabase]];
+            
+            self.taskCopy.startTime = longEvent.startTime;
+            self.taskCopy.endTime = longEvent.endTime;
+            
+            [longEvent release];
+        }
+	}
+    
+    titleTextView.text = self.taskCopy.name;
+    
+    self.previewViewCtrler.item = self.taskCopy;    
+}
+
 - (void) loadView
 {
     CGRect frm = CGRectZero;
@@ -185,48 +229,9 @@ DetailViewController *_detailViewCtrler = nil;
 	titleTextView.delegate = self;
     titleTextView.backgroundColor = [UIColor clearColor];
     
-	if (task.original != nil && ![task isREException]) //Calendar Task or REException
-	{
-        //printf("task original: %s\n", [[task.original name] UTF8String]);
-        
-		self.taskCopy = task.original;
-    }
-	else
-	{
-		self.taskCopy = task;
-	}
-    
-	if ([self.taskCopy isEvent])
-    {
-        if ((self.taskCopy.startTime == nil || self.taskCopy.endTime == nil)) // new Event
-        {
-            self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:[NSDate date]];
-            self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
-            
-        }
-        else if ([task isREInstance])
-        {
-            NSTimeInterval reDuration = [task.original.endTime timeIntervalSinceDate:task.original.startTime];
-            
-            self.taskCopy.startTime = task.reInstanceStartTime;
-            self.taskCopy.endTime = [task.reInstanceStartTime dateByAddingTimeInterval:reDuration];
-        }
-        else if (self.task.isSplitted)
-        {
-            Task *longEvent = [[Task alloc] initWithPrimaryKey:self.task.primaryKey database:[[DBManager getInstance] getDatabase]];
-            
-            self.taskCopy.startTime = longEvent.startTime;
-            self.taskCopy.endTime = longEvent.endTime;
-            
-            [longEvent release];
-        }
-	}
-    
-    titleTextView.text = self.taskCopy.name;
-    
     self.previewViewCtrler = [[[PreviewViewController alloc] init] autorelease];
     
-    self.previewViewCtrler.item = self.taskCopy;
+    [self initData];
     
     [self changeSkin];
 }
@@ -261,7 +266,7 @@ DetailViewController *_detailViewCtrler = nil;
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(copy:)
-                               normalStateImage:@"duplicate.png"
+                               normalStateImage:@"menu_duplicate.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
@@ -417,32 +422,56 @@ DetailViewController *_detailViewCtrler = nil;
 #pragma  mark Actions
 - (void) delete:(id)sender
 {
-    
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler deleteTask];
 }
 
 - (void) copy:(id)sender
 {
+    self.task = [_iPadViewCtrler.activeViewCtrler copyTask];
     
+    [self initData];
+    
+    [detailTableView reloadData];
 }
 
 - (void) star:(id)sender
 {
-    
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler starTask];
 }
 
 - (void) defer:(id)sender
 {
-    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_deferText
+                                                        message:@""
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:_nextWeekText, _nextMonthText,nil];
+    alertView.tag = -10000;
+    [alertView show];
+    [alertView release];
 }
 
 - (void) doToday:(id) sender
 {
-    
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler moveTask2Top];
 }
 
 - (void) markDone:(id)sender
 {
-    
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler markDoneTask];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertView.tag == -10000)
+	{
+        [_iPadViewCtrler closeDetail];
+        [_iPadViewCtrler.activeViewCtrler defer:buttonIndex];
+    }
 }
 
 #pragma  mark Edit

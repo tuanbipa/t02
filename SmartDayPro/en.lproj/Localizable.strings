@@ -701,9 +701,6 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_soundEnabledText" = "Sound Enabled";
 "_repeatUntilText" = "Repeat | Until";
 
-"_assetsText" = "Assets";
-"_jumpText" = "Jump";
-
 // new layout
 "_selectedText" = "Selected";
 "_overDueText" = "Overdue";
@@ -711,3 +708,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_daysText" = "day(s)";
 "_longText" = "Long";
 "_shortText" = "Short";
+
+"_assetsText" = "Assets";
+"_jumpText" = "Jump";
+"_deferText" = "Defer";
