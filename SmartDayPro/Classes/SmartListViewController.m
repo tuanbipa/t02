@@ -56,6 +56,8 @@
 
 #import "SmartCalAppDelegate.h"
 
+#import "TaskLinkManager.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 
@@ -1963,6 +1965,55 @@ SmartListViewController *_smartListViewCtrler;
     [monthView refresh];
     
     [[_abstractViewCtrler getMonthCalendarView] refresh];
+}
+
+- (void)createLink: (id)sender
+{
+    Task *firstTask = nil, *secondTask = nil;
+    
+    NSInteger sections = smartListView.numberOfSections;
+    for (int i=1; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                if (firstTask == nil) {
+                    firstTask = taskView.task;
+                } else {
+                    secondTask = taskView.task;
+                    break;
+                }
+            }
+            
+        }
+    }
+    
+    if (firstTask != nil && secondTask != nil) {
+        firstTask = (firstTask.original != nil && ![firstTask isREException])?firstTask.original:firstTask;
+        [firstTask retain];
+        secondTask = (secondTask.original != nil && ![secondTask isREException])?secondTask.original:secondTask;
+        [secondTask retain];
+        
+        TaskLinkManager *tlm = [TaskLinkManager getInstance];
+        
+        int linkId = [tlm createLink:firstTask.primaryKey destId:secondTask.primaryKey];
+        
+        if (linkId != -1)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; //trigger sync for Link
+        }
+        
+        [firstTask release];
+        [secondTask release];
+    }
+    [self multiEdit:NO];
 }
 
 #pragma mark UIScrollView Delegate

@@ -645,7 +645,7 @@ iPadViewController *_iPadViewCtrler;
     UIView *modules[3] = {taskHeaderView, noteHeaderView, projectHeaderView};
     
     //UIView *moduleView = modules[button.tag - 23000];
-    UIView *moduleView = (UIView *)[contentView viewWithTag:32000];
+    UIView *moduleView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     CGRect moduleFrm = [moduleView.superview convertRect:moduleView.frame toView:contentView];
     
@@ -796,6 +796,10 @@ iPadViewController *_iPadViewCtrler;
     [ctrlr multiMoveTop:sender];
 }
 
+- (void)multiDefer: (id)sender
+{
+    
+}
 - (void)multiMarkStar: (id)sender
 {
     SmartListViewController *ctrlr = [self getSmartListViewController];
@@ -826,6 +830,13 @@ iPadViewController *_iPadViewCtrler;
         }
             break;
     }
+}
+
+- (void)createLink: (id)sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr createLink:sender];
+    [self cancelEdit];
 }
 
 #pragma mark Filter
@@ -950,7 +961,7 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)createTaskOptionFilter
 {
-    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _longText, _shortText, nil];
     
@@ -976,12 +987,12 @@ iPadViewController *_iPadViewCtrler;
     
     // create edit bar
     UIView *editBarView = [[UIView alloc] initWithFrame:headerView.bounds];
-    editBarView.tag = 32001;
+    editBarView.tag = TAG_VIEW_EDIT_BAR;
     editBarView.hidden = YES;
     [headerView addSubview:editBarView];
     
     UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
-    countLabel.tag = 32011;
+    countLabel.tag = TAG_VIEW_COUNT_LABEL;
     countLabel.text = @"0";
     countLabel.hidden = YES;
     [editBarView addSubview:countLabel];
@@ -992,96 +1003,98 @@ iPadViewController *_iPadViewCtrler;
     selectedLable.text = _selectedText;
     [editBarView addSubview:selectedLable];*/
     
-    CGFloat width = editBarView.frame.size.width/7;
+    CGFloat width = editBarView.frame.size.width/6;
     CGFloat space = (width - 30) / 2;
     
     // 1, done button
-    UIButton *doneButton = [Common createButton:@"D"
+    UIButton *doneButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
                                           frame:CGRectMake(space, 5, 30, 30)
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(multiMarkDone:)
-                               normalStateImage:@"markdone.png"
+                               normalStateImage:@"menu_done.png"
                              selectedStateImage:nil];
     [editBarView addSubview:doneButton];
     
     // 2, move top button
-    UIButton *moveTopButton = [Common createButton:@"T"
+    UIButton *moveTopButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
                                           frame:CGRectMake(width + space, 5, 30, 30)
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                           selector:@selector(multiMoveTop:)
-                               normalStateImage:nil
+                               normalStateImage:@"menu_dotoday.png"
                              selectedStateImage:nil];
     [editBarView addSubview:moveTopButton];
     
     // 3, defer button
-    UIButton *deferButton = [Common createButton:@"De"
+    UIButton *deferButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
                                              frame:CGRectMake(width*2 + space, 5, 30, 30)
                                         titleColor:[UIColor whiteColor]
                                             target:self
-                                          selector:@selector(multiMarkDone:)
-                                  normalStateImage:nil
+                                          selector:@selector(multiDefer:)
+                                  normalStateImage:@"menu_defer.png"
                                 selectedStateImage:nil];
     [editBarView addSubview:deferButton];
     
     // 4, mark star button
-    UIButton *markStarButton = [Common createButton:@"St"
+    UIButton *markStarButton = [Common createButton:@""
                                       buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(width*3 + space, 5, 30, 30)
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                         selector:@selector(multiMarkStar:)
-                                normalStateImage:nil
+                                normalStateImage:@"menu_star.png"
                               selectedStateImage:nil];
     [editBarView addSubview:markStarButton];
     
     // 5, copy link button
-    UIButton *copyLinkButton = [Common createButton:@"Cp"
+    UIButton *copyLinkButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(width*4 + space, 5, 30, 30)
                                          titleColor:[UIColor whiteColor]
                                              target:self
-                                           selector:@selector(multiMarkDone:)
-                                   normalStateImage:nil
+                                           selector:@selector(createLink:)
+                                   normalStateImage:@"menu_copylink.png"
                                  selectedStateImage:nil];
+    [copyLinkButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"menu_copylink_idle.png"] forState:UIControlStateDisabled];
+    copyLinkButton.tag = TAG_VIEW_COPY_BUTTON;
     [editBarView addSubview:copyLinkButton];
     
     // 6 paste link button
-    UIButton *pasteLinkButton = [Common createButton:@"Pa"
+    /*UIButton *pasteLinkButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(width*5 + space, 5, 30, 30)
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(multiMarkDone:)
-                                   normalStateImage:nil
+                                   normalStateImage:@"menu_pastelink.png"
                                  selectedStateImage:nil];
-    [editBarView addSubview:pasteLinkButton];
+    [editBarView addSubview:pasteLinkButton];*/
     
     UIButton *deleteButton = [Common createButton:@""
                                        buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(width*6 + space, 5, 30, 30)
+                                            frame:CGRectMake(width*5 + space, 5, 30, 30)
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_toDelete.png"
+                                 normalStateImage:@"menu_trash.png"
                                selectedStateImage:nil];
     [editBarView addSubview:deleteButton];
     
     [editBarView release];
     
     // check show edit bar or filter view
-    SmartListViewController *ctrler = [self getSmartListViewController];
+    //SmartListViewController *ctrler = [self getSmartListViewController];
     //filterSegmentedControl.hidden = ctrler.isMultiMode;
     //editBarView.hidden = !ctrler.isMultiMode;
 }
 
 - (void) createNoteOptionFilter
 {
-    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     NSArray *itemArray = [NSArray arrayWithObjects: _allText, _todayText, nil];
     
@@ -1102,7 +1115,7 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)createProjectOptionFilter
 {
-    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     NSArray *itemArray = [NSArray arrayWithObjects: _tasksText, _eventsText, _notesText, _anchoredText, nil];
     
@@ -1643,8 +1656,9 @@ iPadViewController *_iPadViewCtrler;
     }
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 50, w-10, 40)];
-    headerView.backgroundColor = [UIColor brownColor];
-    headerView.tag = 32000;
+    //headerView.backgroundColor = [UIColor brownColor];
+    headerView.backgroundColor = [UIColor clearColor];
+    headerView.tag = TAG_VIEW_HEADER_VIEW;
     
     [contentView addSubview:headerView];
     [headerView release];
@@ -1880,14 +1894,14 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)refreshEditBarViewWithCheck: (BOOL) check
 {
-    UILabel *countLabel = (UILabel *)[contentView viewWithTag:32011];
+    UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
     NSInteger count = countLabel.text.integerValue;
     BOOL firstCheck = count == 0;
     
     count = check ?  ++count : --count;
     countLabel.text = [NSString stringWithFormat:@"%d", count];
     
-    UIView *editBarView = (UIView *)[contentView viewWithTag:32001];
+    UIView *editBarView = (UIView *)[contentView viewWithTag:TAG_VIEW_EDIT_BAR];
 
     if (count > 0) {
         editBarView.hidden = NO;
@@ -1896,6 +1910,9 @@ iPadViewController *_iPadViewCtrler;
         editBarView.hidden = YES;
         filterSegmentedControl.hidden = NO;
     }
+    
+    UIButton *copyLinkButton = (UIButton*)[contentView viewWithTag:TAG_VIEW_COPY_BUTTON];
+    copyLinkButton.enabled = (count == 2);
     
     if (firstCheck) {
         switch (selectedModuleButton.tag - 31000)
@@ -1951,17 +1968,17 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)cancelEdit
 {
-    UILabel *countLabel = (UILabel *)[contentView viewWithTag:32011];
+    UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
     countLabel.text = @"0";
     
-    UIView *editBarView = (UIView *)[contentView viewWithTag:32001];
+    UIView *editBarView = (UIView *)[contentView viewWithTag:TAG_VIEW_EDIT_BAR];
     editBarView.hidden = YES;
     filterSegmentedControl.hidden = NO;
 }
 
 - (void) refreshHeaderView
 {
-    UIView *headerView = (UIView *)[contentView viewWithTag:32000];
+    UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     for (UIView *view in headerView.subviews)
     {

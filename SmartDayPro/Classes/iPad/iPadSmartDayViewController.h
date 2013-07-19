@@ -10,6 +10,14 @@
 
 #import "AbstractSDViewController.h"
 
+typedef enum
+{
+    TAG_VIEW_HEADER_VIEW = 32000,
+	TAG_VIEW_EDIT_BAR = 32010,
+    TAG_VIEW_COUNT_LABEL = 32011,
+    TAG_VIEW_COPY_BUTTON = 32012
+} TagsView;
+
 @interface iPadSmartDayViewController : AbstractSDViewController
 {
     UIButton *projectShowDoneButton;
@@ -33,5 +41,5 @@
 - (void) refreshTaskFilterTitle;
 - (void) showTaskModule:(BOOL)enabled;
 - (void) refreshEditBarViewWithCheck: (BOOL) check;
-- (void)cancelEdit;
+- (void) cancelEdit;
 @end
