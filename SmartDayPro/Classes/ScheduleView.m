@@ -94,7 +94,6 @@
         [dayManagerDownView addSubview:downHandleImgView];
         [downHandleImgView release];
         
-        
         for (UIView *view in slotViews)
         {
             [self addSubview:view];
@@ -334,6 +333,7 @@
     dayManagerRefresh = NO;
     
 	touchPoint = [[touches anyObject] locationInView:self];
+    firstTouchPoint = touchPoint;
 	
 	if (CGRectContainsPoint(upHandle, touchPoint))
 	{
@@ -349,14 +349,15 @@
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    TaskManager *tm = [TaskManager getInstance];
-    Settings *settings = [Settings getInstance];
+    //TaskManager *tm = [TaskManager getInstance];
+    //Settings *settings = [Settings getInstance];
     
     CGPoint p = [[touches anyObject] locationInView:self];
     
     CGFloat dy = p.y - touchPoint.y;
     ////printf("move dy:%f\n", dy);
     
+    /*
     NSInteger moveUnit = TIME_SLOT_HEIGHT/6;
     
     if (abs(dy) >= moveUnit)
@@ -391,10 +392,39 @@
 
         touchPoint = p; 
     }
+    */
+    
+    if (touchHandle == 1)
+    {
+        CGRect frm = dayManagerUpView.frame;
+        
+        frm.size.height += dy;
+        
+        dayManagerUpView.frame = frm;
+        
+        upHandleImgView.frame = CGRectMake(dayManagerUpView.bounds.size.width-30, dayManagerUpView.bounds.size.height-20, 30, 20);
+    }
+    else if (touchHandle == 2)
+    {
+        CGRect frm = dayManagerDownView.frame;
+        
+        frm.origin.y += dy;
+        frm.size.height -= dy;
+        
+        dayManagerDownView.frame = frm;
+                
+        downHandleImgView.frame = CGRectMake(dayManagerDownView.bounds.size.width-30, 0, 30, 20);
+    }
+    
+    touchPoint = p;
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
+    
+    /*
     if (dayManagerRefresh)
     {
         [[TaskManager getInstance] scheduleTasks];
@@ -402,6 +432,37 @@
         Settings *settings = [Settings getInstance];
 
         [settings saveWorkingTimes];
+    }
+    */
+    
+    if (touchHandle == 1 || touchHandle == 2)
+    {
+        CGPoint p = [[touches anyObject] locationInView:self];
+        
+        CGFloat dy = p.y - firstTouchPoint.y;
+        
+        CGFloat secs = dy*1800/TIME_SLOT_HEIGHT;
+        
+        if (touchHandle == 1)
+        {
+            NSDate *dt = [settings getWorkingStartTimeForDate:tm.today];
+            
+            dt = [Common dateByRoundMinute:5 toDate:[Common dateByAddNumSecond:secs toDate:dt]];
+            
+            [settings setWorkingStartTime:dt];
+        }
+        else if (touchHandle == 2)
+        {
+            NSDate *dt = [settings getWorkingEndTimeForDate:tm.today];
+            
+            dt = [Common dateByRoundMinute:5 toDate:[Common dateByAddNumSecond:secs toDate:dt]];
+            
+            [settings setWorkingEndTime:dt];
+        }
+     
+        [[TaskManager getInstance] scheduleTasks];
+        
+        [settings saveWorkingTimes];        
     }
     
     [super touchesEnded:touches withEvent:event];

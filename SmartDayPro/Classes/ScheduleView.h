@@ -18,6 +18,8 @@
 	TodayLine *todayLine;
     
     CGPoint touchPoint;
+    CGPoint firstTouchPoint;
+    
     NSInteger touchHandle;
     BOOL dayManagerRefresh;
     

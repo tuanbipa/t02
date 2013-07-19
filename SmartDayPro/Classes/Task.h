@@ -211,6 +211,7 @@
 
 - (NSString *) getRepeatTypeString;
 - (NSString *) getRepeatUntilString;
+- (NSString *) getRepeatDisplayString;
 
 - (NSString *) getDisplayStartTime;
 - (NSString *) getDisplayEndTime;

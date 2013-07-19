@@ -16,6 +16,8 @@
 #import "Task.h"
 #import "RepeatData.h"
 
+#import "DetailViewController.h"
+
 extern BOOL _isiPad;
 
 @implementation RepeatTableViewController
@@ -74,16 +76,26 @@ extern BOOL _isiPad;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    //frm.size.width = 320;
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
 	
-	//UIView *contentView= [[UIView alloc] initWithFrame:CGRectZero];
     contentView= [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor groupTableViewBackgroundColor];
+	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
 	
-	//repeatTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 368) style:UITableViewStyleGrouped];
-    
     repeatTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
-                       
+    repeatTableView.backgroundColor = [UIColor clearColor];
 	repeatTableView.delegate = self;
 	repeatTableView.dataSource = self;
 	repeatTableView.sectionHeaderHeight=5;	
@@ -133,10 +145,11 @@ extern BOOL _isiPad;
     
     contentView.userInteractionEnabled = ![self.task isShared];
 	
+    /*
 	UIBarButtonItem *saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
 															  target:self action:@selector(save:)];
 	self.navigationItem.rightBarButtonItem = [self.task isShared]?nil:saveButton;
-	[saveButton release];	
+	[saveButton release];	*/
 		
 	self.navigationItem.title = _repeatText;
 }
@@ -190,6 +203,25 @@ extern BOOL _isiPad;
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([activeTextField isFirstResponder])
+    {
+        [activeTextField resignFirstResponder];
+    }
+    
+	self.task.repeatData = self.repeatData;
+    
+    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+    {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshUntil];
+    }
 }
 
 - (void) showRepeatFromDueHint
@@ -420,52 +452,7 @@ extern BOOL _isiPad;
 	{
 		[activeTextField resignFirstResponder];
 		
-/*		if (activeTextField.tag > 11000) //repeat count
-		{
-			if ([activeTextField.text isEqualToString:@""])
-			{
-				activeTextField.text = @"1";
-			}
-			
-			[self changeCount:[activeTextField.text intValue]];
-			
-			untilValueLabel.text = [Common getFullDateString3:self.repeatData.until];
-		}
-		else 
-		{
-			int row = (activeTextField.tag-10000)/100;	
-			
-			[self selectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];	
-			
-			if ([activeTextField.text isEqualToString:@""])
-			{
-				activeTextField.text = @"1";
-			}
-			
-			[self changeInterval:[activeTextField.text intValue]];
-		}
-*/		
 		activeTextField = nil;
-        
-        /*
-        if (selectedIndex == 3)
-        {
-            UITableViewCell *cell = [repeatTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
-            
-            UIButton *optionButton1 = [cell.contentView viewWithTag:10305];
-            UIButton *optionButton2 = [cell.contentView viewWithTag:10306];
-            
-            if (self.repeatData.monthOption == BY_DAY_OF_MONTH)
-            {
-                optionButton1.selected = YES;
-                monthOptionButton = optionButton1;
-            }
-            else if (self.repeatData.monthOption == BY_DAY_OF_WEEK)
-            {
-                optionButton2.selected = YES;
-                monthOptionButton = optionButton2;
-            }
-        }*/
 	}
 	
 }

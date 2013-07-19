@@ -321,7 +321,8 @@ typedef enum
 typedef enum 
 {
 	TASK_EDIT_DEADLINE = PROJECT_EDIT_END + 1,
-	TASK_EDIT_START
+	TASK_EDIT_START,
+    TASK_EDIT_END
 } TaskEdit;
 
 typedef enum 
@@ -552,6 +553,7 @@ typedef struct
 + (NSString *) getDayLineString:(NSDate *)argDate;
 + (NSString *) getMonthString:(NSDate *)argDate;
 + (NSString *) getDayString:(NSDate *)argDate;
++ (NSString *) getFullWeekdayString:(NSDate *)argDate;
 + (NSString *) getWeekdayString:(NSDate *)argDate;
 + (NSString *) getNoteTitle:(NSString *)content;
 + (NSString *) toTime12String:(NSString *)time24String;

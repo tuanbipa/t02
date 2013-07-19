@@ -21,7 +21,8 @@
     NSInteger tapCount;
     NSInteger tapRow;
     
-    NSInteger expandedNoteIndex;
+    //NSInteger expandedNoteIndex;
+    NSInteger selectedIndex;
     BOOL hasNote;
     
     NoteView *noteView;
@@ -37,5 +38,8 @@
 @property (nonatomic, retain) NSMutableArray *linkList;
 
 - (void) markNoteChange;
+- (void) changeFrame:(CGRect) frm;
+
+- (void) showNote;
 
 @end

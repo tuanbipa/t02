@@ -35,9 +35,14 @@
 
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
+#import "DetailViewController.h"
+#import "iPadViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
+
+extern DetailViewController *_detailViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 extern BOOL _isiPad;
 
@@ -76,6 +81,14 @@ extern BOOL _isiPad;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteFinishEdit:)
 													 name:@"NoteFinishEditNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillShow:)
+                                                     name:UIKeyboardWillShowNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillBeHidden:)
+                                                     name:UIKeyboardWillHideNotification object:nil];
         
         self.contentSizeForViewInPopover = CGSizeMake(320,416);
     }
@@ -190,7 +203,20 @@ extern BOOL _isiPad;
         [_abstractViewCtrler updateTask:self.note withTask:self.noteCopy];
     }
     
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
+    if (_isiPad)
+    {
+        if (_detailViewCtrler != nil)
+        {
+            [_detailViewCtrler refreshLink];
+        }
+        
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void) back:(id)sender
@@ -210,18 +236,23 @@ extern BOOL _isiPad;
 
 - (void) noteBeginEdit:(NSNotification *)notification
 {
-    CGRect frm = noteView.frame;
+    //CGRect frm = noteView.frame;
     
-    if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
+    /*if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
     {
         frm.size.height = 250;
     }
     else
     {
-        frm.size.height -= (_isiPad?0:[Common getKeyboardHeight]);
-    }
+        frm.size.height -= (_isiPad?300:[Common getKeyboardHeight]);
+    }*/
+    
+    /*CGFloat iPadKBH = UIInterfaceOrientationIsLandscape(self.interfaceOrientation)?360:300;
+    
+    frm.size.height -= (_isiPad?iPadKBH:[Common getKeyboardHeight]);
     
     [noteView changeFrame:frm];
+    */
     
     if (saveButton != nil)
     {
@@ -246,14 +277,23 @@ extern BOOL _isiPad;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    if (_isiPad)
+    /*if (_isiPad)
     {
         frm.size.width = 320;
         frm.size.height = 416;
+    }*/
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    {
+        CGFloat w = frm.size.height + 20 + 44;
+        
+        frm.size.height = frm.size.width - 20 - 44;
+        
+        frm.size.width = w;
     }
     
 	contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor clearColor];
+    contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
@@ -264,7 +304,7 @@ extern BOOL _isiPad;
     [noteView release];
     
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)];
-    topView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteHeaderBG.png"]];
+    topView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteHeaderBG_full.png"]];
     
     [contentView addSubview:topView];
     [topView release];
@@ -289,14 +329,14 @@ extern BOOL _isiPad;
     [dateLabel release];
     
     UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[[ImageManager getInstance] getImageWithName:@"detail.png"] ];
-    detailImgView.frame = CGRectMake(290, 5, 20, 20);
+    detailImgView.frame = CGRectMake(contentView.bounds.size.width - 30, 5, 20, 20);
     
     [topView addSubview:detailImgView];
     [detailImgView release];
             
     UIButton *detailButton = [Common createButton:@"" 
                           buttonType:UIButtonTypeCustom 
-                               frame:CGRectMake(280, 0, 40, 40)
+                               frame:CGRectMake(contentView.bounds.size.width - 40, 0, 40, 40)
                           titleColor:[UIColor whiteColor]
                               target:self 
                             selector:@selector(editDetail:) 
@@ -313,14 +353,16 @@ extern BOOL _isiPad;
     
     self.navigationItem.title = self.noteCopy.name;
     
-	saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
+	saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 															  target:self action:@selector(save:)];
-	self.navigationItem.rightBarButtonItem = [self.note isShared]?nil:saveButton;
+//	self.navigationItem.rightBarButtonItem = [self.note isShared]?nil:saveButton;
+	self.navigationItem.rightBarButtonItem = saveButton;
+
 	[saveButton release];
     
     if ([self.note isShared])
     {
-        saveButton = nil;
+        //saveButton = nil;
         
         noteView.editEnabled = NO;
         
@@ -361,7 +403,25 @@ extern BOOL _isiPad;
 
 -(NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
+}
+
+#pragma mark Notification
+- (void)keyboardWillShow:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGRect frm = noteFrm;
+    
+    frm.size.height -= UIInterfaceOrientationIsLandscape(self.interfaceOrientation)?kbSize.width:kbSize.height;
+    
+    [noteView changeFrame:frm];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    noteView.frame = noteFrm;
 }
 
 @end

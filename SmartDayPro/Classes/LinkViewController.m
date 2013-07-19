@@ -23,7 +23,11 @@
 #import "CalendarViewController.h"
 #import "AbstractSDViewController.h"
 
+#import "DetailViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
+
+extern BOOL _isiPad;
 
 @interface LinkViewController ()
 
@@ -72,14 +76,29 @@ extern AbstractSDViewController *_abstractViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    //frm.size.width = 320;
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
     
     linkTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    linkTableView.backgroundColor = [UIColor clearColor];
 	linkTableView.delegate = self;
 	linkTableView.dataSource = self;
     linkTableView.allowsSelectionDuringEditing = YES;
@@ -92,6 +111,18 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) viewWillAppear:(BOOL)animated
 {
     [linkTableView reloadData]; //refresh linked information in case user has edited linked task and back
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+    {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshLink];
+    }    
 }
 
 - (void)viewDidLoad

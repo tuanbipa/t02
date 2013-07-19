@@ -18,8 +18,9 @@
 #import "AlertSelectionTableViewController.h"
 #import "GuideWebView.h"
 
-//#import "SCTabBarController.h"
-//extern SCTabBarController *_tabBarCtrler;
+#import "DetailViewController.h"
+
+extern BOOL _isiPad;
 
 @implementation AlertListViewController
 
@@ -58,26 +59,37 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
+    //CGRect frm = CGRectZero;
+    //frm.size = [Common getScreenSize];
+    //frm.size.width = 320;
+    
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
-    frm.size.width = 320;
-    
-	//UIView *contentView= [[UIView alloc] initWithFrame:CGRectZero];
-    UIView *contentView= [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor darkGrayColor];
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    UIView *contentView = [[UIView alloc] initWithFrame:frm];
+	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
 	
-	//alertTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416) style:UITableViewStyleGrouped];
     alertTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
 	alertTableView.delegate = self;
 	alertTableView.dataSource = self;
 	alertTableView.sectionHeaderHeight=5;
+    alertTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:alertTableView];
 	[alertTableView release];
 	
-	//[self changeTableFrame];
-	
-	//hintView = [[GuideWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 366)];
     hintView = [[GuideWebView alloc] initWithFrame:contentView.bounds];
 	[hintView loadHTMLFile:@"TaskAlertHint" extension:@"htm"];
 	hintView.hidden = YES;
@@ -104,7 +116,18 @@
 		hintView.hidden = YES;
 		[alertTableView reloadData];
 	}
+}
 
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+    {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshAlert];
+    }
 }
 
 /*

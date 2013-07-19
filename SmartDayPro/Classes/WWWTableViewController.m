@@ -22,6 +22,8 @@
 
 #import "AbstractSDViewController.h"
 
+#import "DetailViewController.h"
+
 //#import "SCTabBarController.h"
 //extern SCTabBarController *_tabBarCtrler;
 
@@ -66,22 +68,35 @@ extern AbstractSDViewController *_abstractViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = 320;
+    //frm.size.width = 320;
     
-	//contentView= [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
+    if (_isiPad)
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            frm.size.height = frm.size.width - 20;
+        }
+        
+        frm.size.width = 384;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+
     contentView = [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor darkGrayColor];
+	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
 	
-	//wwwTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416) style:UITableViewStyleGrouped];
     wwwTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
 	wwwTableView.delegate = self;
 	wwwTableView.dataSource = self;
-	wwwTableView.sectionHeaderHeight=5;	
+	wwwTableView.sectionHeaderHeight=5;
+    wwwTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:wwwTableView];
 	[wwwTableView release];
-	
-	//doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
+
+	/*
     doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-[Common getKeyboardHeight]-40, frm.size.width, 40)];
 	doneBarView.backgroundColor=[UIColor clearColor];
 	doneBarView.hidden = YES;
@@ -89,7 +104,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[contentView addSubview:doneBarView];
 	[doneBarView release];	
 	
-	//UIView *backgroundView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     UIView *backgroundView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
 	backgroundView.backgroundColor=[UIColor viewFlipsideBackgroundColor];
 	backgroundView.alpha=0.3;
@@ -120,11 +134,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	[doneBarView addSubview:locationDoneButton];
 	[doneBarView addSubview:locationCleanButton];
-	
+	*/
+    
 	self.view = contentView;
 	[contentView release];
     
-    titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(10, 75, 300-20, 30)];
+    titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(10, 75, wwwTableView.bounds.size.width-40, 30)];
     //titleTextView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
     titleTextView.placeholder = _titleGuideText;
     
@@ -186,6 +201,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[self stopTextEdit];
+    
+    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+    {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshTitle];
+    }
 }
 
 /*
@@ -384,11 +406,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			[cell.contentView addSubview:instrustionLabel];
 			[instrustionLabel release];
 			
-			UIView *whatButtonGroup=[[UIView alloc] initWithFrame:CGRectMake(10, 30, 280, 40)];
-			whatButtonGroup.tag = 10001;
+			//UIView *whatButtonGroup = [[UIView alloc] initWithFrame:CGRectMake(10, 30, 280, 40)];
+            UIView *whatButtonGroup = [[UIView alloc] initWithFrame:CGRectMake(10, 30, tableView.bounds.size.width - 30, 40)];
+            whatButtonGroup.tag = 10001;
 			[cell.contentView addSubview:whatButtonGroup];
 			[whatButtonGroup release];
+            
+            CGFloat btnWidth = (whatButtonGroup.bounds.size.width - 4*20)/5;
 			
+            /*
 			UIButton *gotoButton=[Common createButton:@"" 
 										   buttonType:UIButtonTypeCustom 
 												frame:CGRectMake(0, 0, 40, 40) 
@@ -437,7 +463,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			mailButton.tag = 10005;
 			[whatButtonGroup addSubview:mailButton];
 			
-			UIButton *meetButton=[Common createButton:@"" 
+			UIButton *meetButton=[Common createButton:@""
 										   buttonType:UIButtonTypeCustom 
 												frame:CGRectMake(240, 0, 40, 40) 
 										   titleColor:nil 
@@ -448,6 +474,27 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			
 			meetButton.tag = 10006;
 			[whatButtonGroup addSubview:meetButton];
+            */
+            
+            NSString *normalNames[5] = {@"Go.png", @"Call.png", @"Buy.png", @"Mail.png", @"Meet.png"};
+            NSString *selectedNames[5] = {@"blueGo.png", @"blueCall.png", @"blueBuy.png", @"blueMail.png", @"blueMeet.png"};
+
+            for (int i=0; i<5; i++)
+            {
+                UIButton *actionButton=[Common createButton:@""
+                                               buttonType:UIButtonTypeCustom
+                                                    frame:CGRectMake(i*(btnWidth + 20), 0, 40, 40)
+                                               titleColor:nil
+                                                   target:self
+                                                 selector:@selector(whatAction:) 
+                                         normalStateImage:normalNames[i]
+                                       selectedStateImage:selectedNames[i]];
+                
+                actionButton.tag = 10002+i;
+                
+                [whatButtonGroup addSubview:actionButton];
+                
+            }
             
             [cell.contentView addSubview:titleTextView];
 		}
@@ -467,6 +514,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			locationTextView.delegate=self;
 			locationTextView.backgroundColor=[UIColor clearColor];
 			locationTextView.keyboardType=UIKeyboardTypeDefault;
+            locationTextView.returnKeyType = UIReturnKeyDone;
 			locationTextView.font=[UIFont systemFontOfSize:18];
 			
 			locationTextView.text = self.task.location;
@@ -476,8 +524,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			[locationTextView release];
 			
 			UIButton *editLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-			editLocationButton.frame = CGRectMake(260, 0, 40, 80);
-			[editLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];					
+			editLocationButton.frame = CGRectMake(tableView.bounds.size.width-55, 20, 40, 40);
+			[editLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
 			
 			editLocationButton.tag = 10009;
 			

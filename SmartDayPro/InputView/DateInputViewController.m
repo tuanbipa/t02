@@ -1,0 +1,181 @@
+//
+//  DateInputViewController.m
+//  SmartDayPro
+//
+//  Created by Left Coast Logic on 7/10/13.
+//  Copyright (c) 2013 Left Coast Logic. All rights reserved.
+//
+
+#import "DateInputViewController.h"
+
+#import "Common.h"
+#import "Settings.h"
+
+#import "Task.h"
+
+#import "DetailViewController.h"
+
+extern DetailViewController *_detailViewCtrler;
+
+@implementation DateInputViewController
+
+@synthesize picker;
+@synthesize task;
+@synthesize dateEdit;
+@synthesize noneItem;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    
+    if ([task isTask])
+    {
+        picker.datePickerMode = UIDatePickerModeDate;
+    }
+    
+    switch (dateEdit)
+    {
+        case TASK_EDIT_START:
+        {
+            if (self.task.startTime == nil)
+            {
+                self.noneItem.tintColor = [UIColor blueColor];
+            }
+            else
+            {
+                picker.date = self.task.startTime;
+            }
+        }
+            break;
+        case TASK_EDIT_END:
+        {
+            noneItem.enabled = NO;
+            
+            picker.date = self.task.endTime;
+        }
+            break;
+        case TASK_EDIT_DEADLINE:
+        {
+            if (self.task.deadline == nil)
+            {
+                self.noneItem.tintColor = [UIColor blueColor];
+            }
+            else
+            {
+                picker.date = self.task.deadline;
+            }
+        }
+            break;
+    }
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)done:(id)sender
+{
+    if (_detailViewCtrler != nil)
+    {
+        [_detailViewCtrler refreshWhen];
+        [_detailViewCtrler closeInputView];
+    }
+}
+
+- (void) changeDate:(NSDate *)date
+{
+    Settings *settings = [Settings getInstance];
+    
+    switch (dateEdit)
+    {
+        case TASK_EDIT_START:
+        {
+            if ([task isTask])
+            {
+                task.startTime = [settings getWorkingStartTimeForDate: date];
+                
+                if (task.deadline != nil && [task.deadline compare:task.startTime] == NSOrderedAscending)
+                {
+                    task.deadline = [settings getWorkingEndTimeForDate:task.startTime];
+                }
+            }
+            else
+            {
+                task.startTime = date;
+            }
+        }
+            break;
+        case TASK_EDIT_END:
+        {
+            task.endTime = date;
+        }
+            break;
+        case TASK_EDIT_DEADLINE:
+        {
+            NSInteger diff = 0;
+            
+            if (task.startTime != nil && task.deadline != nil && date != nil)
+            {
+                diff = [task.deadline timeIntervalSinceDate:task.startTime];
+            }
+            
+			task.deadline = date == nil?nil:[settings getWorkingEndTimeForDate:date];
+            
+            if (diff > 0)
+            {
+                NSDate *dt = [NSDate dateWithTimeInterval:-diff sinceDate:task.deadline];
+                
+                task.startTime = [settings getWorkingStartTimeForDate:dt];
+            }
+        }
+            break;
+    }
+    
+    noneItem.tintColor = date == nil?[UIColor blueColor]:nil;
+}
+
+- (IBAction)dateChanged:(id)sender
+{
+    [self changeDate:picker.date];
+}
+
+- (IBAction)assignDate:(id)sender
+{
+    UIBarButtonItem *item = (UIBarButtonItem *)sender;
+    
+    NSDate *dt = nil;
+    
+    switch (item.tag)
+    {
+        case 1:
+            dt = [NSDate date];
+            break;
+        case 2:
+            dt = [Common dateByAddNumDay:1 toDate:[NSDate date]];
+            break;
+        case 3:
+            dt = [Common dateByAddNumDay:7 toDate:[NSDate date]];
+            break;
+    }
+    
+    [self changeDate:dt];
+    
+    if (dt != nil)
+    {
+        picker.date = dt;
+    }
+}
+
+@end
