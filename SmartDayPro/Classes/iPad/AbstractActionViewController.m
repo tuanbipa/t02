@@ -453,6 +453,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (showAction)
     {
+        /*
         UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
         
         if (enable)
@@ -463,6 +464,7 @@ extern iPadViewController *_iPadViewCtrler;
         {
             [menuCtrler setMenuVisible:NO animated:YES];
         }
+        */
         
         activeView = enable?view:nil;
         
@@ -757,6 +759,8 @@ extern iPadViewController *_iPadViewCtrler;
             [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
         }
     }*/
+    
+    [self enableActions:YES onView:inView]; //to make activeView not nil to do actions
     
     [_iPadViewCtrler editItemDetail:item];
 }
@@ -1150,15 +1154,17 @@ extern iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void) copyTask
+- (Task *) copyTask
 {
+    Task *ret = nil;
+    
     Task *task = [self getActiveTask];
     
     if (task != nil)
     {
         [task retain];
         
-        CGRect frm = [activeView.superview convertRect:activeView.frame toView:contentView];
+        //CGRect frm = [activeView.superview convertRect:activeView.frame toView:contentView];
         
         [self deselect];
         
@@ -1183,13 +1189,14 @@ extern iPadViewController *_iPadViewCtrler;
             taskCopy.original = nil;
         }
         
-        //[self editItem:taskCopy inView:activeView];
-        [self editItem:taskCopy inRect:frm];
+        //[self editItem:taskCopy inRect:frm];
         
         [task release];
+        
+        ret = taskCopy;
     }
     
-    //[self deselect];
+    return ret;
 }
 
 - (void) markDoneTask:(Task *)task
@@ -1264,6 +1271,45 @@ extern iPadViewController *_iPadViewCtrler;
         [self deselect];
                 
         [self markDoneTask:task];
+        
+        [task release];
+    }
+}
+
+- (void) starTask
+{
+    Task *task = [self getActiveTask];
+    
+    if (task != nil)
+    {
+        [task retain];
+        
+        [self deselect];
+        
+        [[TaskManager getInstance] starTask:task];
+        
+        SmartListViewController *slViewCtrler = [self getSmartListViewController];
+        
+        [slViewCtrler setNeedsDisplay];
+        
+        CategoryViewController *ctrler = [self getCategoryViewController];
+        
+        if (task.listSource == SOURCE_CATEGORY)
+        {
+            [ctrler setNeedsDisplay];
+            
+            if ([self checkControllerActive:1])
+            {
+                [slViewCtrler refreshLayout];
+            }
+        }
+        else if ([self checkControllerActive:3])
+        {
+            if (ctrler.filterType == TYPE_TASK)
+            {
+                [ctrler loadAndShowList];
+            }
+        }
         
         [task release];
     }
@@ -1564,6 +1610,58 @@ extern iPadViewController *_iPadViewCtrler;
     [self reconcileItem:task reSchedule:(type != TYPE_NOTE)];
     
 	[task release];
+}
+
+- (void) moveTask2Top
+{
+    Task *task = [self getActiveTask];
+    
+    if (task != nil)
+    {
+        [task retain];
+        
+        [self deselect];
+        
+        [[TaskManager getInstance] moveTask2Top:task];
+        
+        if ([self checkControllerActive:3])
+        {
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            
+            if (ctrler.filterType == TYPE_TASK)
+            {
+                [ctrler loadAndShowList];
+            }
+        }
+        
+        [task release];
+    }
+}
+
+- (void) defer:(NSInteger)option
+{
+    Task *task = [self getActiveTask];
+    
+    if (task != nil)
+    {
+        [task retain];
+        
+        [self deselect];
+        
+        [[TaskManager getInstance] defer:task deferOption:option];
+        
+        if ([self checkControllerActive:3])
+        {
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            
+            if (ctrler.filterType == TYPE_TASK)
+            {
+                [ctrler loadAndShowList];
+            }
+        }        
+        
+        [task release];
+    }
 }
 
 #pragma mark Project Actions

@@ -199,6 +199,8 @@
 - (void) reconcileLinks:(NSDictionary *)dict;
 - (void) reloadAlert4Task:(NSInteger)taskId;
 - (void)moveTop: (NSArray*) tasks;
+- (void) moveTask2Top:(Task *)task;
+- (void) defer:(Task *)task deferOption:(NSInteger)deferOption;
 
 -(void) purge;
 -(void) recover;

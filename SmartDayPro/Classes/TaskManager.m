@@ -5129,6 +5129,74 @@ TaskManager *_sctmSingleton = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 }
 
+- (void) moveTask2Top:(Task *)task
+{
+    if (task.primaryKey != -1)
+    {
+        DBManager *dbm = [DBManager getInstance];
+        
+        NSInteger seqNo = [dbm getTaskMinSortSeqNo] - 1;
+        
+        Task *slTask = [self getTask2Update:task];
+        
+        slTask.sequenceNo = seqNo;
+        
+        [slTask updateSeqNoIntoDB:[dbm getDatabase]];
+
+        if (slTask.listSource == SOURCE_SMARTLIST)
+        {
+            [Common sortList:self.taskList byKey:@"sequenceNo" ascending:YES];
+            
+            [self scheduleTasks];
+        }
+    }
+}
+
+- (void) defer:(Task *)task deferOption:(NSInteger)deferOption
+{
+    //option: 0 - next week, 1 - next month
+
+    if (task.primaryKey != -1)
+    {
+        Settings *settings = [Settings getInstance];
+        
+        Task *slTask = [self getTask2Update:task];
+        
+        switch (deferOption)
+        {
+            case 0:
+            {
+                NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:(settings.weekStart == 1)];
+                
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                
+                dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart == 1)];
+                
+                slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+            }
+                break;
+                
+            case 1:
+            {
+                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:1];
+                
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                
+                dt = [Common getFirstMonthDate:dt];
+                
+                slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+            }
+                break;
+        }
+        
+        [slTask updateIntoDB:[[DBManager getInstance] getDatabase]];
+        
+        [self initSmartListData];
+    }
+}
+
 #pragma mark Filter
 
 - (BOOL) checkFilterIn:(Task *) task

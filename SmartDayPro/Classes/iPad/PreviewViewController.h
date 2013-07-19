@@ -41,5 +41,6 @@
 - (void) changeFrame:(CGRect) frm;
 
 - (void) showNote;
+- (void) refreshData;
 
 @end

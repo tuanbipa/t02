@@ -73,4 +73,11 @@
 
 -(void) deselect;
 
+- (void) markDoneTask;
+- (void) deleteTask;
+- (Task *) copyTask;
+- (void) starTask;
+- (void) moveTask2Top;
+- (void) defer:(NSInteger)option;
+
 @end
