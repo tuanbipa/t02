@@ -52,4 +52,6 @@
 
 - (void) editAsset:(Task *)asset;
 
+- (void) createLinkedNote:(Task *)note;
+
 @end

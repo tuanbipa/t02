@@ -141,7 +141,7 @@ DetailViewController *_detailViewCtrler = nil;
     inputView.frame = CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300);
 }
 
-- (void) initData
+- (void) refreshData
 {
 	if (task.original != nil && ![task isREException]) //Calendar Task or REException
 	{
@@ -231,7 +231,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     self.previewViewCtrler = [[[PreviewViewController alloc] init] autorelease];
     
-    [self initData];
+    [self refreshData];
     
     [self changeSkin];
 }
@@ -419,6 +419,29 @@ DetailViewController *_detailViewCtrler = nil;
     return ([dict objectForKey:tag] != nil);
 }
 
+- (void) createLinkedNote:(Task *)note
+{
+    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+        
+    NSInteger itemId = self.taskCopy.primaryKey;
+    
+    if (self.taskCopy.original != nil && ![self.taskCopy isREException])
+    {
+        itemId = self.taskCopy.original.primaryKey;
+    }
+    
+    NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey];
+    
+    if (linkId != -1)
+    {
+        [self.taskCopy.links insertObject:[NSNumber numberWithInt:linkId] atIndex:0];
+    }
+    
+    [self.previewViewCtrler refreshData];
+    
+    //[self refreshLink];
+}
+
 #pragma  mark Actions
 - (void) delete:(id)sender
 {
@@ -430,7 +453,7 @@ DetailViewController *_detailViewCtrler = nil;
 {
     self.task = [_iPadViewCtrler.activeViewCtrler copyTask];
     
-    [self initData];
+    [self refreshData];
     
     [detailTableView reloadData];
 }

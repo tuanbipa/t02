@@ -105,6 +105,56 @@ PreviewViewController *_previewCtrler;
     [super dealloc];
 }
 
+- (void) refreshData
+{
+    if (self.item != nil)
+    {
+        Task *previewItem = (self.item.original != nil && ![self.item isREException]?self.item.original:self.item);
+        
+        TaskLinkManager *tlm = [TaskLinkManager getInstance];
+        DBManager *dbm = [DBManager getInstance];
+        TaskManager *tm = [TaskManager getInstance];
+        
+        self.linkList = [NSMutableArray arrayWithCapacity:previewItem.links.count];
+        
+        NSInteger index = 0;
+        
+        for (NSNumber *num in previewItem.links)
+        {
+            NSInteger linkedId = [tlm getLinkedId4Task:previewItem.primaryKey linkId:[num intValue]];
+            
+            Task *itm = [[Task alloc] initWithPrimaryKey:linkedId database:[dbm getDatabase]];
+            itm.listSource = SOURCE_PREVIEW;
+            
+            [self.linkList addObject:itm];
+            [itm release];
+            
+            if ([itm isRE])
+            {
+                Task *firstInstance = [tm findRTInstance:itm fromDate:itm.startTime];
+                
+                itm.startTime = firstInstance.startTime;
+                itm.endTime = firstInstance.endTime;
+                
+            }
+            
+            if ([itm isNote])
+            {
+                hasNote = YES;
+                /*
+                 if (expandedNoteIndex == -1)
+                 {
+                 expandedNoteIndex = index;
+                 }*/
+            }
+            
+            index ++;
+        }
+    }
+    
+    [linkTableView reloadData];
+}
+
 - (void) changeFrame:(CGRect) frm
 {
     contentView.frame = frm;
@@ -112,6 +162,8 @@ PreviewViewController *_previewCtrler;
     frm = contentView.bounds;
     
     linkTableView.frame = frm;
+    
+    [linkTableView reloadData];
 }
 
 /*
@@ -321,7 +373,7 @@ PreviewViewController *_previewCtrler;
     [ctrler release];
     */
     
-    [_iPadViewCtrler editNoteDetail:noteView.note];
+    [_iPadViewCtrler editNoteDetail:note];
 }
 
 #pragma mark Notification
@@ -557,52 +609,8 @@ PreviewViewController *_previewCtrler;
     //expandedNoteIndex = -1;
     
 	// Do any additional setup after loading the view.    
-    if (self.item != nil)
-    {
-        Task *previewItem = (self.item.original != nil && ![self.item isREException]?self.item.original:self.item);
-        
-        TaskLinkManager *tlm = [TaskLinkManager getInstance];
-        DBManager *dbm = [DBManager getInstance];
-        TaskManager *tm = [TaskManager getInstance];
-        
-        self.linkList = [NSMutableArray arrayWithCapacity:previewItem.links.count];
-        
-        NSInteger index = 0;
-        
-        for (NSNumber *num in previewItem.links)
-        {
-            NSInteger linkedId = [tlm getLinkedId4Task:previewItem.primaryKey linkId:[num intValue]];
-            
-            Task *itm = [[Task alloc] initWithPrimaryKey:linkedId database:[dbm getDatabase]];
-            itm.listSource = SOURCE_PREVIEW;
-            
-            [self.linkList addObject:itm];
-            [itm release];
-            
-            if ([itm isRE])
-            {
-                Task *firstInstance = [tm findRTInstance:itm fromDate:itm.startTime];
-                
-                itm.startTime = firstInstance.startTime;
-                itm.endTime = firstInstance.endTime;
-                
-            }
-            
-            if ([itm isNote])
-            {
-                hasNote = YES;
-                /*
-                if (expandedNoteIndex == -1)
-                {
-                    expandedNoteIndex = index;
-                }*/
-            }
-            
-            index ++;
-        }
-    }
-    
-    [linkTableView reloadData];
+
+    [self refreshData];
 }
 
 - (void)viewWillAppear:(BOOL)animated

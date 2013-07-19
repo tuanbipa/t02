@@ -27,12 +27,15 @@
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
 #import "PlannerBottomDayCal.h"
+#import "iPadViewController.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
+
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation TaskView
 
@@ -2011,13 +2014,15 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) singleTouch
 {
-    [self enableActions:YES];
+    //[self enableActions:YES];
+    [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:self];
 }
 
 - (void) doubleTouch
 {
 	[super doubleTouch];
 	
+    /*
     if (_plannerViewCtrler != nil)
     {
         [_plannerViewCtrler editItem:self.task inView:self];
@@ -2025,7 +2030,9 @@ extern PlannerViewController *_plannerViewCtrler;
     else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editItem:self.task inView:self];
-    }
+    }*/
+    
+    [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:self];
 }
 
 - (void) touchAndHold

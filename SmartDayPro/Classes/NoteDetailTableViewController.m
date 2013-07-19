@@ -194,6 +194,7 @@ extern BOOL _isiPad;
     }
 */
     
+    
     if (_plannerViewCtrler != nil)
     {
         [_plannerViewCtrler updateTask:self.note withTask:self.noteCopy];
@@ -202,7 +203,12 @@ extern BOOL _isiPad;
     {
         [_abstractViewCtrler updateTask:self.note withTask:self.noteCopy];
     }
-    
+
+    if (_detailViewCtrler != nil && self.noteCopy.primaryKey == -1)
+    {
+        [_detailViewCtrler createLinkedNote:self.note];
+    }
+
     //[self.navigationController popViewControllerAnimated:YES];
     if (_isiPad)
     {
@@ -375,7 +381,8 @@ extern BOOL _isiPad;
 {
     [super viewDidLoad];
     noteFrm = noteView.frame;
-    if (self.note.primaryKey == -1)
+    
+    //if (self.note.primaryKey == -1)
     {
         [noteView startEdit];
     }
