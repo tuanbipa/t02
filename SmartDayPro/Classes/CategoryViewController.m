@@ -438,4 +438,131 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [_abstractViewCtrler deselect];
 }
 
+#pragma mark Multi Edit
+
+- (void) multiDelete:(id)sender
+{
+	if ([[Settings getInstance] deleteWarning])
+	{
+        BOOL needConfirm = NO;
+        
+        for (UIView *view in listView.subviews)
+        {
+            if ([view isKindOfClass:[TaskView class]])
+            {
+                TaskView *tv = (TaskView *)view;
+                
+                if ([tv isMultiSelected])
+                {
+                    needConfirm = YES;
+                    
+                    break;
+                }
+            }
+        }
+        
+        if (needConfirm)
+        {
+            NSString *msg = _itemDeleteText;
+            NSInteger tag = -10000;
+            
+            UIAlertView *taskDeleteAlertView = [[UIAlertView alloc] initWithTitle:_itemDeleteTitle  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
+            
+            taskDeleteAlertView.tag = tag;
+            
+            [taskDeleteAlertView addButtonWithTitle:_okText];
+            [taskDeleteAlertView show];
+            [taskDeleteAlertView release];
+        }
+	}
+	else
+	{
+		[self doMultiDeleteTask];
+	}
+}
+
+- (void) doMultiDeleteTask
+{
+    NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
+    
+    for (UIView *view in listView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]] && [((TaskView *)view) isMultiSelected])
+        {
+            [taskList addObject:((TaskView *)view).task];
+        }
+    }
+    
+    if (taskList.count > 0)
+    {
+        [[TaskManager getInstance] deleteTasks:taskList];
+        
+        for (Task *task in taskList)
+        {
+            [self.list removeObject:task];
+        }
+    }
+    
+    [self multiEdit:NO];
+    
+    [self refreshLayout];
+    
+    /*if ([_abstractViewCtrler checkControllerActive:3])
+    {
+        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+        
+        if (ctrler.filterType == TYPE_NOTE)
+        {
+            [ctrler loadAndShowList];
+        }
+    }*/
+    
+    FocusView *focusView = [_abstractViewCtrler getFocusView];
+    
+    if (focusView != nil && [focusView checkExpanded])
+    {
+        [focusView refreshData];
+    }
+    
+    [_abstractViewCtrler cancelEdit];
+}
+
+- (void) multiEdit:(BOOL)enabled
+{
+    //Settings *settings = [Settings getInstance];
+    
+    /*
+     for (int i=0; i<self.noteList.count; i++)
+     {
+     UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+     
+     TaskView *taskView = (TaskView *) [cell.contentView viewWithTag:10000];
+     
+     [taskView multiSelect:enabled];
+     }
+     */
+    for (UIView *view in listView.subviews)
+    {
+        if ([view isKindOfClass:[MovableView class]])
+        {
+            [(MovableView *) view multiSelect:enabled];
+        }
+    }
+    
+    /*editBarPlaceHolder.hidden = !enabled;
+     
+     CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
+     
+     noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);*/
+}
+
+#pragma mark Alert delegate
+
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertVw.tag == -10000 && buttonIndex == 1)
+	{
+        [self doMultiDeleteTask];
+	}
+}
 @end

@@ -826,8 +826,8 @@ iPadViewController *_iPadViewCtrler;
             
         case 2:
         {
-            SmartListViewController *ctrlr = [self getSmartListViewController];
-            [ctrlr multiDelete];
+            CategoryViewController *ctrlr = [self getCategoryViewController];
+            [ctrlr multiDelete:sender];
         }
             break;
     }
@@ -1112,6 +1112,34 @@ iPadViewController *_iPadViewCtrler;
     
     [headerView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
+    
+    // create edit bar ========================
+    UIView *editBarView = [[UIView alloc] initWithFrame:headerView.bounds];
+    editBarView.tag = TAG_VIEW_EDIT_BAR;
+    editBarView.hidden = YES;
+    [headerView addSubview:editBarView];
+    
+    // count label
+    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
+    countLabel.tag = TAG_VIEW_COUNT_LABEL;
+    countLabel.text = @"0";
+    countLabel.hidden = YES;
+    [editBarView addSubview:countLabel];
+    
+    [countLabel release];
+    
+    // delete button
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(multiDelete:)
+                                 normalStateImage:@"menu_trash.png"
+                               selectedStateImage:nil];
+    [editBarView addSubview:deleteButton];
+    
+    [editBarView release];
 }
 
 - (void)createProjectOptionFilter
@@ -1149,6 +1177,34 @@ iPadViewController *_iPadViewCtrler;
     
     [headerView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
+    
+    // create edit bar ========================
+    UIView *editBarView = [[UIView alloc] initWithFrame:headerView.bounds];
+    editBarView.tag = TAG_VIEW_EDIT_BAR;
+    editBarView.hidden = YES;
+    [headerView addSubview:editBarView];
+    
+    // count label
+    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
+    countLabel.tag = TAG_VIEW_COUNT_LABEL;
+    countLabel.text = @"0";
+    countLabel.hidden = YES;
+    [editBarView addSubview:countLabel];
+    
+    [countLabel release];
+    
+    // delete button
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(multiDelete:)
+                                 normalStateImage:@"menu_trash.png"
+                               selectedStateImage:nil];
+    [editBarView addSubview:deleteButton];
+    
+    [editBarView release];
 }
 
 -(void) createTaskOptionView
@@ -1936,7 +1992,9 @@ iPadViewController *_iPadViewCtrler;
                 break;
             case 2:
             {
-                [self createProjectOptionView];
+                CategoryViewController *ctrler = [self getCategoryViewController];
+                
+                [ctrler multiEdit:YES];
             }
                 break;
         }
@@ -1960,7 +2018,9 @@ iPadViewController *_iPadViewCtrler;
                 break;
             case 2:
             {
-                //[self createProjectOptionView];
+                CategoryViewController *ctrler = [self getCategoryViewController];
+                
+                [ctrler multiEdit:NO];
             }
                 break;
         }

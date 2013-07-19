@@ -37,5 +37,7 @@
 -(void)setNeedsDisplay;
 
 - (void) markDoneTask:(Task *)task;
-
+#pragma mark Multi Edit
+- (void) multiDelete:(id)sender;
+- (void) multiEdit:(BOOL)enabled;
 @end

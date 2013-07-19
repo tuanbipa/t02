@@ -324,7 +324,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) multiEdit:(BOOL)enabled
 {
-    Settings *settings = [Settings getInstance];
+    //Settings *settings = [Settings getInstance];
     
     /*
     for (int i=0; i<self.noteList.count; i++)
@@ -344,11 +344,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
     }
     
-    editBarPlaceHolder.hidden = !enabled;
+    /*editBarPlaceHolder.hidden = !enabled;
     
     CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
     
-    noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
+    noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);*/
 }
 
 - (void) cancelMultiEdit:(id) sender
@@ -439,6 +439,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         [focusView refreshData];
     }
+    
+    [_abstractViewCtrler cancelEdit];
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
