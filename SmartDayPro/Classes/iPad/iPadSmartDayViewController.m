@@ -1949,6 +1949,16 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+- (void)cancelEdit
+{
+    UILabel *countLabel = (UILabel *)[contentView viewWithTag:32011];
+    countLabel.text = @"0";
+    
+    UIView *editBarView = (UIView *)[contentView viewWithTag:32001];
+    editBarView.hidden = YES;
+    filterSegmentedControl.hidden = NO;
+}
+
 - (void) refreshHeaderView
 {
     UIView *headerView = (UIView *)[contentView viewWithTag:32000];

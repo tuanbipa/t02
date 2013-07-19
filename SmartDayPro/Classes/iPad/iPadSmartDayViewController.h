@@ -33,4 +33,5 @@
 - (void) refreshTaskFilterTitle;
 - (void) showTaskModule:(BOOL)enabled;
 - (void) refreshEditBarViewWithCheck: (BOOL) check;
+- (void)cancelEdit;
 @end

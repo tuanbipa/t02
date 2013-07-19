@@ -77,7 +77,8 @@ extern PlannerViewController *_plannerViewCtrler;
         
         [self refreshCheckImage];
 		
-        starView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)];
+        //starView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)];
+        starView = [[UIView alloc] initWithFrame:CGRectMake(20, 0, 40, frame.size.height)];
         starView.userInteractionEnabled = NO;
         starView.backgroundColor = [UIColor clearColor];
         
@@ -91,7 +92,7 @@ extern PlannerViewController *_plannerViewCtrler;
         [starView addSubview:starImageView];
         [starImageView release];
         
-        starButton=[Common createButton:@""
+        /*starButton=[Common createButton:@""
                                        buttonType:UIButtonTypeCustom
                               //frame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)
                                             frame:starView.bounds
@@ -101,7 +102,7 @@ extern PlannerViewController *_plannerViewCtrler;
                                  normalStateImage:nil
                                 selectedStateImage:nil];
         starButton.backgroundColor=[UIColor clearColor];
-        [starView addSubview:starButton];
+        [starView addSubview:starButton];*/
 
         [self refreshStarImage];
         
@@ -162,7 +163,7 @@ extern PlannerViewController *_plannerViewCtrler;
 
 -(void)refreshStarImage
 {
-	if (!self.starEnable)
+	if (!self.starEnable || task.status != TASK_STATUS_PINNED)
 	{
 		starImageView.image = nil;
 	}
@@ -1544,9 +1545,10 @@ extern PlannerViewController *_plannerViewCtrler;
     rect.origin.x += frm.size.width + 2*SPACE_PAD;
     rect.size.width -= frm.size.width + 2*SPACE_PAD;
     
-    if (self.starEnable)
+    if (self.starEnable && task.status == TASK_STATUS_PINNED)
     {
-        rect.size.width -= 20;
+        rect.size.width -= 40;
+        rect.origin.x += 40;
     }
     
     if (([task isEvent] || [task isNote]) && hasTime)

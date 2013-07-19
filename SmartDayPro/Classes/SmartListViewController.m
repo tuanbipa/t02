@@ -1567,7 +1567,7 @@ SmartListViewController *_smartListViewCtrler;
             [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
         }
     }
-    [_abstractViewCtrler refreshEditBarViewWithCheck: NO];
+    [_abstractViewCtrler cancelEdit];
 }
 
 - (void) confirmMultiDeleteTask
@@ -1886,7 +1886,8 @@ SmartListViewController *_smartListViewCtrler;
         [tm moveTop:taskList];
     }
     
-    [_abstractViewCtrler refreshEditBarViewWithCheck: NO];
+    [self cancelMultiEdit:nil];
+    [_abstractViewCtrler cancelEdit];
 }
 
 - (void)multiMarkStar: (id)sender
@@ -1923,21 +1924,22 @@ SmartListViewController *_smartListViewCtrler;
     if (viewList.count > 0)
     {
         TaskManager *tm = [TaskManager getInstance];
+        
+        [tm starTasks:taskList];
+        
         if (tm.taskTypeFilter == TASK_FILTER_PINNED) {
             for (UIView *view in viewList)
             {
                 [view removeFromSuperview];
             }
         } else {
-            for (UIView *view in viewList)
+            for (TaskView *view in viewList)
             {
-                [view setNeedsDisplay];
+                [view refreshStarImage];
             }
         }
-        
-        [[TaskManager getInstance] starTasks:taskList];
     }
-    [_abstractViewCtrler refreshEditBarViewWithCheck: NO];
+    [_abstractViewCtrler cancelEdit];
     
     if ([_abstractViewCtrler checkControllerActive:3])
     {

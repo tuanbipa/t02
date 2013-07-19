@@ -5087,8 +5087,8 @@ TaskManager *_sctmSingleton = nil;
         Task *willBeTop = [tasks objectAtIndex:i];
         NSInteger index = [self.taskList indexOfObject:willBeTop];
         
-        [self.taskList insertObject:willBeTop atIndex:i];
         [self.taskList removeObjectAtIndex:index];
+        [self.taskList insertObject:willBeTop atIndex:i];
     }
     
     for (int i=0; i<self.taskList.count; i++)
@@ -5110,6 +5110,8 @@ TaskManager *_sctmSingleton = nil;
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
 		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
 	}
+    
+    [self scheduleTasks];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 }
