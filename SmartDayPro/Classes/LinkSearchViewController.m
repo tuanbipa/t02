@@ -246,6 +246,7 @@ extern BOOL _isiPad;
     Task *task = [list objectAtIndex:indexPath.row];
     
     cell.textLabel.text = task.name;
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
     
     return cell;
 }

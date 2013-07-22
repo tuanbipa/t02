@@ -24,6 +24,7 @@
 #import "ProjectManager.h"
 #import "DBManager.h"
 #import "BusyController.h"
+#import "TimerManager.h"
 
 #import "TaskView.h"
 #import "PlanView.h"
@@ -43,6 +44,10 @@
 #import "NoteDetailTableViewController.h"
 #import "ProjectEditViewController.h"
 #import "DetailViewController.h"
+#import "iPadTagListViewController.h"
+#import "CalendarSelectionTableViewController.h"
+#import "TimerViewController.h"
+#import "MenuTableViewController.h"
 
 #import "SDNavigationController.h"
 
@@ -411,6 +416,102 @@ extern iPadViewController *_iPadViewCtrler;
     */
     
     [self refreshData];
+}
+
+#pragma mark Top Toolbar Actions
+
+- (void) showCategory
+{
+    [self hidePopover];
+    
+    CalendarSelectionTableViewController *ctrler = [[CalendarSelectionTableViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    
+    CGRect frm = CGRectMake(100, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) showTag
+{
+    [self hidePopover];
+    
+    iPadTagListViewController *ctrler = [[iPadTagListViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(180, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    
+}
+
+- (void) showTimer
+{
+    TimerManager *timer = [TimerManager getInstance];
+    
+    Task *task = [self getActiveTask];
+    
+    if (task.original != nil && ![task isREException])
+    {
+        task = task.original;
+    }
+    
+    [[task retain] autorelease];
+    
+    [self deselect];
+    
+    if (task != nil && [task isTask])
+    {
+        if (![timer checkActivated:task])
+        {
+            timer.taskToActivate = task;
+        }
+        
+        //[self deselect];
+    }
+    else
+    {
+        Settings *settings = [Settings getInstance];
+        
+        Task *todo = [[[Task alloc] init] autorelease];
+        
+        todo.project = settings.taskDefaultProject;
+        todo.name = _newItemText;
+        todo.listSource = SOURCE_TIMER;
+        
+        timer.taskToActivate = todo;
+    }
+    
+    TimerViewController *ctrler = [[TimerViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(370, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) showSettingMenu
+{
+    MenuTableViewController *ctrler = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+	[self.popoverCtrler setPopoverContentSize:CGSizeMake(250, 210)];
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(40, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 #pragma mark Action Menu

@@ -709,6 +709,9 @@ PreviewViewController *_previewCtrler;
     }
     
     ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *color = [pm getProjectColor0:asset.project];
+    
+    cell.contentView.backgroundColor = [color colorWithAlphaComponent:0.2];
     
     CGFloat w = linkTableView.bounds.size.width;
     
@@ -721,6 +724,7 @@ PreviewViewController *_previewCtrler;
     [imgView release];
     
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(w-75, 10, 70, 20)];
+    dateLabel.textColor = color;
     dateLabel.backgroundColor = [UIColor clearColor];
     dateLabel.textAlignment = NSTextAlignmentRight;
     dateLabel.font = [UIFont systemFontOfSize:12];
@@ -732,6 +736,7 @@ PreviewViewController *_previewCtrler;
     CGFloat rightWidth = dateLabel.bounds.size.width + 10;
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, w-30-rightWidth, 20)];
+    titleLabel.textColor = color;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentLeft;
     titleLabel.font = [UIFont systemFontOfSize:14];
@@ -744,11 +749,9 @@ PreviewViewController *_previewCtrler;
 - (void) createEventCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded
 {
     ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *color = [pm getProjectColor0:asset.project];
     
-    if (expanded)
-    {
-        cell.contentView.backgroundColor = [pm getProjectColor2:asset.project];
-    }
+    cell.contentView.backgroundColor = [color colorWithAlphaComponent:0.2];
     
     CGFloat w = linkTableView.bounds.size.width;
     
@@ -763,6 +766,7 @@ PreviewViewController *_previewCtrler;
     CGFloat rightWidth = expanded?0:([asset isADE]?70:90);
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, w-30-rightWidth-10, 20)];
+    titleLabel.textColor = color;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentLeft;
     titleLabel.font = [UIFont systemFontOfSize:14];
@@ -774,6 +778,7 @@ PreviewViewController *_previewCtrler;
     if (expanded)
     {
         UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 80, 20)];
+        allDayLabel.textColor = color;
         allDayLabel.backgroundColor = [UIColor clearColor];
         allDayLabel.textAlignment = NSTextAlignmentLeft;
         allDayLabel.font = [UIFont systemFontOfSize:14];
@@ -783,6 +788,7 @@ PreviewViewController *_previewCtrler;
         [allDayLabel release];
 
         UILabel *allDayValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 35, w-100, 20)];
+        allDayValueLabel.textColor = color;
         allDayValueLabel.backgroundColor = [UIColor clearColor];
         allDayValueLabel.textAlignment = NSTextAlignmentRight;
         allDayValueLabel.font = [UIFont systemFontOfSize:14];
@@ -792,6 +798,7 @@ PreviewViewController *_previewCtrler;
         [allDayValueLabel release];    
 
         UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 80, 20)];
+        projectLabel.textColor = color;
         projectLabel.backgroundColor = [UIColor clearColor];
         projectLabel.textAlignment = NSTextAlignmentLeft;
         projectLabel.font = [UIFont systemFontOfSize:14];
@@ -801,6 +808,7 @@ PreviewViewController *_previewCtrler;
         [projectLabel release];
         
         UILabel *projectValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 60, w-100, 20)];
+        projectValueLabel.textColor = color;
         projectValueLabel.backgroundColor = [UIColor clearColor];
         projectValueLabel.textAlignment = NSTextAlignmentRight;
         projectValueLabel.font = [UIFont systemFontOfSize:14];
@@ -810,6 +818,7 @@ PreviewViewController *_previewCtrler;
         [projectValueLabel release];
         
         UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 85, 80, 20)];
+        startLabel.textColor = color;
         startLabel.backgroundColor = [UIColor clearColor];
         startLabel.textAlignment = NSTextAlignmentLeft;
         startLabel.font = [UIFont systemFontOfSize:14];
@@ -819,6 +828,7 @@ PreviewViewController *_previewCtrler;
         [startLabel release];
         
         UILabel *startValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 85, w-100, 20)];
+        startValueLabel.textColor = color;
         startValueLabel.backgroundColor = [UIColor clearColor];
         startValueLabel.textAlignment = NSTextAlignmentRight;
         startValueLabel.font = [UIFont systemFontOfSize:14];
@@ -828,6 +838,7 @@ PreviewViewController *_previewCtrler;
         [startValueLabel release];
         
         UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 80, 20)];
+        endLabel.textColor = color;
         endLabel.backgroundColor = [UIColor clearColor];
         endLabel.textAlignment = NSTextAlignmentLeft;
         endLabel.font = [UIFont systemFontOfSize:14];
@@ -837,6 +848,7 @@ PreviewViewController *_previewCtrler;
         [endLabel release];
         
         UILabel *endValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 110, w-100, 20)];
+        endValueLabel.textColor = color;
         endValueLabel.backgroundColor = [UIColor clearColor];
         endValueLabel.textAlignment = NSTextAlignmentRight;
         endValueLabel.font = [UIFont systemFontOfSize:14];
@@ -885,6 +897,7 @@ PreviewViewController *_previewCtrler;
     else
     {
         UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(w-rightWidth-5, 2, rightWidth, 20)];
+        dateLabel.textColor = color;
         dateLabel.backgroundColor = [UIColor clearColor];
         dateLabel.textAlignment = NSTextAlignmentRight;
         dateLabel.font = [UIFont systemFontOfSize:12];
@@ -896,6 +909,7 @@ PreviewViewController *_previewCtrler;
         NSString *str = [asset isADE]?[Common getFullDateString2:asset.endTime]:[NSString stringWithFormat:@"%@ - %@", [Common getShortTimeString:asset.startTime], [Common getShortTimeString:asset.endTime]];
         
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(w-rightWidth-5, 18, rightWidth, 20)];
+        timeLabel.textColor = color;
         timeLabel.backgroundColor = [UIColor clearColor];
         timeLabel.textAlignment = NSTextAlignmentRight;
         timeLabel.font = [UIFont systemFontOfSize:12];
@@ -909,11 +923,9 @@ PreviewViewController *_previewCtrler;
 - (void) createTaskCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded
 {
     ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *color = [pm getProjectColor0:asset.project];
     
-    if (expanded)
-    {
-        cell.contentView.backgroundColor = [pm getProjectColor2:asset.project];
-    }
+    cell.contentView.backgroundColor = [color colorWithAlphaComponent:0.2];
     
     CGFloat w = linkTableView.bounds.size.width;
     
@@ -926,6 +938,7 @@ PreviewViewController *_previewCtrler;
     [imgView release];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 10, w-40-5, 20)];
+    titleLabel.textColor = color;    
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentLeft;
     titleLabel.font = [UIFont systemFontOfSize:14];
@@ -937,6 +950,7 @@ PreviewViewController *_previewCtrler;
     if (expanded)
     {
         UILabel *durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 80, 20)];
+        durationLabel.textColor = color;
         durationLabel.backgroundColor = [UIColor clearColor];
         durationLabel.textAlignment = NSTextAlignmentLeft;
         durationLabel.font = [UIFont systemFontOfSize:14];
@@ -946,6 +960,7 @@ PreviewViewController *_previewCtrler;
         [durationLabel release];
         
         UILabel *durationValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 35, w-100, 20)];
+        durationValueLabel.textColor = color;
         durationValueLabel.backgroundColor = [UIColor clearColor];
         durationValueLabel.textAlignment = NSTextAlignmentRight;
         durationValueLabel.font = [UIFont systemFontOfSize:14];
@@ -955,6 +970,7 @@ PreviewViewController *_previewCtrler;
         [durationValueLabel release];
         
         UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 80, 20)];
+        projectLabel.textColor = color;
         projectLabel.backgroundColor = [UIColor clearColor];
         projectLabel.textAlignment = NSTextAlignmentLeft;
         projectLabel.font = [UIFont systemFontOfSize:14];
@@ -964,6 +980,7 @@ PreviewViewController *_previewCtrler;
         [projectLabel release];
         
         UILabel *projectValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 60, w-100, 20)];
+        projectValueLabel.textColor = color;
         projectValueLabel.backgroundColor = [UIColor clearColor];
         projectValueLabel.textAlignment = NSTextAlignmentRight;
         projectValueLabel.font = [UIFont systemFontOfSize:14];
@@ -973,6 +990,7 @@ PreviewViewController *_previewCtrler;
         [projectValueLabel release];
         
         UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 85, 80, 20)];
+        startLabel.textColor = color;
         startLabel.backgroundColor = [UIColor clearColor];
         startLabel.textAlignment = NSTextAlignmentLeft;
         startLabel.font = [UIFont systemFontOfSize:14];
@@ -982,6 +1000,7 @@ PreviewViewController *_previewCtrler;
         [startLabel release];
         
         UILabel *startValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 85, w-100, 20)];
+        startValueLabel.textColor = color;
         startValueLabel.backgroundColor = [UIColor clearColor];
         startValueLabel.textAlignment = NSTextAlignmentRight;
         startValueLabel.font = [UIFont systemFontOfSize:14];
@@ -991,6 +1010,7 @@ PreviewViewController *_previewCtrler;
         [startValueLabel release];
         
         UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 80, 20)];
+        endLabel.textColor = color;
         endLabel.backgroundColor = [UIColor clearColor];
         endLabel.textAlignment = NSTextAlignmentLeft;
         endLabel.font = [UIFont systemFontOfSize:14];
@@ -1000,6 +1020,7 @@ PreviewViewController *_previewCtrler;
         [endLabel release];
         
         UILabel *endValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 110, w-100, 20)];
+        endValueLabel.textColor = color;
         endValueLabel.backgroundColor = [UIColor clearColor];
         endValueLabel.textAlignment = NSTextAlignmentRight;
         endValueLabel.font = [UIFont systemFontOfSize:14];

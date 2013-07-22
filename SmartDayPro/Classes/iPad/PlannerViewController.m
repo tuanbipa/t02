@@ -689,8 +689,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [ctrler setMovableContentView:self.contentView];
     
-    //[ctrler refreshLayout];
-    
     [plannerBottomDayCal setMovableContentView:self.contentView];
     
     TaskManager *tm = [TaskManager getInstance];
@@ -720,10 +718,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [self deselect];
     
-    SmartListViewController *ctrler = [self getSmartListViewController];
+    //SmartListViewController *ctrler = [self getSmartListViewController];
     
-    [ctrler clearLayout];
-    [ctrler.view removeFromSuperview];
+    //[ctrler clearLayout];
+    //[ctrler.view removeFromSuperview];
 
     _plannerViewCtrler = nil;
 }

@@ -11,6 +11,7 @@
 #import "DetailViewController.h"
 
 #import "Common.h"
+#import "Settings.h"
 #import "Task.h"
 #import "Project.h"
 #import "AlertData.h"
@@ -734,7 +735,29 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) changeADE:(id)sender
 {
+	UISegmentedControl *segment = (UISegmentedControl *)sender;
     
+	self.taskCopy.type = (segment.selectedSegmentIndex == 0? TYPE_ADE: TYPE_EVENT);
+	
+    self.taskCopy.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
+    
+    if (self.taskCopy.type == TYPE_ADE)
+    {
+		self.taskCopy.startTime = [Common clearTimeForDate:self.taskCopy.startTime];
+        self.taskCopy.endTime = [Common getEndDate:self.taskCopy.endTime];
+        self.taskCopy.alerts = [NSMutableArray arrayWithCapacity:0];
+        
+        self.taskCopy.timeZoneId = 0;
+    }
+    else
+    {
+        TaskManager *tm = [TaskManager getInstance];
+        
+        self.taskCopy.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+        self.taskCopy.endTime = [Common dateByAddNumSecond:3600 toDate:self.taskCopy.startTime];
+    }
+    
+    [self refreshWhen];
 }
 
 #pragma mark Task Cell Creation

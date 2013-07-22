@@ -365,100 +365,6 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void) showCategory
-{
-    [self hidePopover];
-    
-    CalendarSelectionTableViewController *ctrler = [[CalendarSelectionTableViewController alloc] init];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
-    
-    [ctrler release];
-    
-    
-    CGRect frm = CGRectMake(100, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-}
-
-- (void) showTag
-{
-    [self hidePopover];
-    
-    iPadTagListViewController *ctrler = [[iPadTagListViewController alloc] init];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
-    
-    [ctrler release];
-    
-    CGRect frm = CGRectMake(180, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-
-}
-
-- (void) showTimer
-{
-    TimerManager *timer = [TimerManager getInstance];
-
-    Task *task = [self getActiveTask];
-    
-    if (task.original != nil && ![task isREException])
-    {
-        task = task.original;
-    }
-    
-    [[task retain] autorelease];
-    
-    [self deselect];
-    
-    if (task != nil && [task isTask])
-    {
-        if (![timer checkActivated:task])
-        {
-            timer.taskToActivate = task;
-        }
-        
-        //[self deselect];
-    }
-    else
-    {
-        Settings *settings = [Settings getInstance];
-        
-        Task *todo = [[[Task alloc] init] autorelease];
-        
-        todo.project = settings.taskDefaultProject;
-        todo.name = _newItemText;
-        todo.listSource = SOURCE_TIMER;
-        
-        timer.taskToActivate = todo;
-    }
-
-    TimerViewController *ctrler = [[TimerViewController alloc] init];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
-    
-    [ctrler release];
-    
-    CGRect frm = CGRectMake(370, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];    
-}
-
-- (void) showMenu
-{
-    MenuTableViewController *ctrler = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
-	[self.popoverCtrler setPopoverContentSize:CGSizeMake(250, 210)]; 
-    
-    [ctrler release];
-    
-    CGRect frm = CGRectMake(40, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-}
-
 - (void) applyFilter
 {
     [super applyFilter];
@@ -750,6 +656,34 @@ iPadViewController *_iPadViewCtrler;
         
         [ctrler multiEdit:YES];
     }
+}
+
+- (void) showModuleOff
+{
+    if (selectedModuleButton != nil)
+    {
+        UIView *moduleView = [contentView viewWithTag:33000];
+        
+        if (selectedModuleButton != nil)
+        {
+            [[moduleView.subviews lastObject] removeFromSuperview];
+        }
+        
+        selectedModuleButton.selected = NO;
+        
+        selectedModuleButton.backgroundColor = [UIColor grayColor];
+
+        selectedModuleButton = nil;
+    }
+}
+
+- (void) showTaskModule
+{
+    UIButton *taskButton = (UIButton *) [contentView viewWithTag:31000];
+    
+    [self showModule:taskButton];
+    
+    [[self getSmartListViewController] refreshLayout];
 }
 
 - (void) showModule:(id)sender
@@ -2128,6 +2062,7 @@ iPadViewController *_iPadViewCtrler;
     [self refreshTaskFilterTitle];
 }
 
+/*
 - (void) showTaskModule:(BOOL)enabled
 {
     SmartListViewController *ctrler = [self getSmartListViewController];
@@ -2151,7 +2086,7 @@ iPadViewController *_iPadViewCtrler;
             
             [view removeFromSuperview];
         }
-        
+
         view.frame = CGRectZero;
         view.clipsToBounds = YES;
         
@@ -2176,7 +2111,7 @@ iPadViewController *_iPadViewCtrler;
                 expandNum += 1;
             }
         }
-        
+ 
         NSInteger moduleHeight = (expandNum == 0?0:(contentView.bounds.size.height-160)/expandNum);
         
         CGFloat w = contentView.bounds.size.width/2 - 10;
@@ -2195,7 +2130,7 @@ iPadViewController *_iPadViewCtrler;
         }
     }
 }
-
+*/
 - (void)viewDidLoad
 {
     [super viewDidLoad];

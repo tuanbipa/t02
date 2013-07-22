@@ -39,7 +39,9 @@ typedef enum
 - (void) showMenu;
 
 - (void) refreshTaskFilterTitle;
-- (void) showTaskModule:(BOOL)enabled;
+//- (void) showTaskModule:(BOOL)enabled;
+- (void) showModuleOff;
+- (void) showTaskModule;
 - (void) refreshEditBarViewWithCheck: (BOOL) check;
 - (void) cancelEdit;
 @end

@@ -80,4 +80,9 @@
 - (void) moveTask2Top;
 - (void) defer:(NSInteger)option;
 
+- (void) showCategory;
+- (void) showTag;
+- (void) showTimer;
+- (void) showSettingMenu;
+
 @end

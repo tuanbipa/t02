@@ -82,17 +82,20 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) showCategory:(id) sender
 {
-    [_iPadSDViewCtrler showCategory];
+    //[_iPadSDViewCtrler showCategory];
+    [self.activeViewCtrler showCategory];
 }
 
 - (void) showTag:(id) sender
 {
-    [_iPadSDViewCtrler showTag];
+    //[_iPadSDViewCtrler showTag];
+    [self.activeViewCtrler showTag];
 }
 
 - (void) showTimer:(id) sender
 {
-    [_iPadSDViewCtrler showTimer];
+    //[_iPadSDViewCtrler showTimer];
+    [self.activeViewCtrler showTimer];
 }
 
 - (void) deactivateSearchBar
@@ -105,7 +108,8 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) showMenu:(id) sender
 {
-    [_iPadSDViewCtrler showMenu];
+    //[_iPadSDViewCtrler showMenu];
+    [self.activeViewCtrler showSettingMenu];
 }
 
 - (UIButton *) getTimerButton
@@ -115,7 +119,7 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) refreshToolbar
 {
-    if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
+    /*if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
     {
         self.navigationItem.leftBarButtonItems = nil;
         
@@ -124,11 +128,11 @@ iPadViewController *_iPadViewCtrler;
         tagButton = nil;
         eyeButton = nil;
         
-        [[self navigationController] setNavigationBarHidden:YES animated:YES];
+        //[[self navigationController] setNavigationBarHidden:YES animated:YES];
     }
-    else if ([self.activeViewCtrler isKindOfClass:[iPadSmartDayViewController class]])
+    else if ([self.activeViewCtrler isKindOfClass:[iPadSmartDayViewController class]])*/
     {
-        [[self navigationController] setNavigationBarHidden:NO animated:YES];
+        //[[self navigationController] setNavigationBarHidden:NO animated:YES];
         
         UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                   target:nil
@@ -366,9 +370,15 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) showLandscapeView
 {
+    /*
     if (_iPadSDViewCtrler != nil)
     {
         [_iPadSDViewCtrler showTaskModule:NO];
+    }*/
+    
+    if (_iPadSDViewCtrler != nil)
+    {
+        [_iPadSDViewCtrler showModuleOff];
     }
     
     if (self.activeViewCtrler != nil && [self.activeViewCtrler.view superview])
@@ -402,7 +412,8 @@ iPadViewController *_iPadViewCtrler;
     
     if (_iPadSDViewCtrler != nil)
     {
-        [_iPadSDViewCtrler showTaskModule:YES];
+        //[_iPadSDViewCtrler showTaskModule:YES];
+        [_iPadSDViewCtrler showTaskModule];
     }
 
     [_iPadSDViewCtrler refreshTaskFilterTitle];
@@ -430,7 +441,7 @@ iPadViewController *_iPadViewCtrler;
     
     [contentView addSubview:detailView];
     
-    [self showPortraitView];
+    //[self showPortraitView];
 }
 
 - (void)viewDidLoad
@@ -442,6 +453,8 @@ iPadViewController *_iPadViewCtrler;
     
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
     {
+        [_iPadSDViewCtrler loadView];
+        
         [self showLandscapeView];
         
         if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
