@@ -199,7 +199,13 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)refreshCheckImage
 {
-    checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+    if (self.listStyle) {
+        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+    } else {
+        //checkButton.selected = [task isDone];
+        checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
+        checkView.userInteractionEnabled = NO;
+    }
 }
 
 - (void) refresh
