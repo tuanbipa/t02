@@ -218,6 +218,7 @@ extern BOOL _isiPad;
 - (void) goToday:(id) sender
 {
     [_abstractViewCtrler jumpToDate:[NSDate date]];
+    [self setNeedsDisplay];
 }
 
 // Only override drawRect: if you perform custom drawing.
