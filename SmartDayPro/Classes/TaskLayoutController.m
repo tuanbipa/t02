@@ -103,18 +103,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.listKeys.count+1;
+    //return self.listKeys.count+1;
+    return self.listKeys.count;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
+    /*if (section == 0)
     {
         return 1;
-    }
+    }*/
     
-    NSDate *key = [self.listKeys objectAtIndex:section-1];
+    //NSDate *key = [self.listKeys objectAtIndex:section-1];
+    NSDate *key = [self.listKeys objectAtIndex:section];
     
 	NSArray *list = [self.taskDict objectForKey:key];
     
@@ -128,17 +130,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section==0?0:20;
+    //return section==0?0:20;
+    return 20;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
+    /*if (section == 0)
     {
         return @"";
-    }
+    }*/
     
-    NSDate *key = [self.listKeys objectAtIndex:section-1];
+    //NSDate *key = [self.listKeys objectAtIndex:section-1];
+    NSDate *key = [self.listKeys objectAtIndex:section];
     
     NSString *dayStr = [Common getDayLineString:key];
     
@@ -175,7 +179,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	cell.textLabel.text = @"";
 	cell.textLabel.backgroundColor = [UIColor clearColor];
     
-    if (indexPath.section == 0)
+    /*if (indexPath.section == 0)
     {
         SmartListViewController *ctrler = [_abstractViewCtrler getSmartListViewController];
         
@@ -189,9 +193,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
             [quickAddTextField becomeFirstResponder];
         }
     }
-    else
+    else*/
     {
-        NSDate *key = [self.listKeys objectAtIndex:indexPath.section-1];
+        //NSDate *key = [self.listKeys objectAtIndex:indexPath.section-1];
+        NSDate *key = [self.listKeys objectAtIndex:indexPath.section];
         
         NSArray *list = [self.taskDict objectForKey:key];
         

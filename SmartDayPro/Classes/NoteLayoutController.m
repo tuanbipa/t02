@@ -26,6 +26,16 @@ extern BOOL _isiPad;
 	return [view isKindOfClass:[TaskView class]];
 }
 
+- (BOOL) checkRemovableView:(UIView *) view
+{
+	if ([view isKindOfClass:[TaskView class]])
+	{
+		return YES;
+	}
+    
+    return NO;
+}
+
 - (UIView *) layoutObject:(Task *)task reusableView:(UIView *)reusableView
 {
 	CGRect lastFrame = (lastView == nil? CGRectZero:lastView.frame);

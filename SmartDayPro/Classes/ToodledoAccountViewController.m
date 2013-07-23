@@ -64,15 +64,17 @@ extern BOOL _isiPad;
 
     UIView *mainView = [[UIView alloc] initWithFrame:frm];
     mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    
+    CGFloat marginY = (_isiPad?10:0);
 	
-	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, frm.size.width-20, 25)];
+	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+10, frm.size.width-20, 25)];
 	emailLabel.backgroundColor = [UIColor clearColor];
 	emailLabel.text = _emailText;
 	
 	[mainView addSubview:emailLabel];
 	[emailLabel release];
 	
-	emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 35, frm.size.width-20, 35)];
+	emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, marginY+35, frm.size.width-20, 35)];
 	//emailTextField.text = self.email;
 	emailTextField.text = self.setting.tdEmail;
 	emailTextField.delegate = self;
@@ -85,14 +87,14 @@ extern BOOL _isiPad;
 	[mainView addSubview:emailTextField];
 	[emailTextField release];
 	
-	UILabel *pwdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 75, frm.size.width-20, 25)];
+	UILabel *pwdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+75, frm.size.width-20, 25)];
 	pwdLabel.backgroundColor = [UIColor clearColor];
 	pwdLabel.text = _passwordText;
 	
 	[mainView addSubview:pwdLabel];
 	[pwdLabel release];
 	
-	pwdTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 100, frm.size.width-20, 35)];
+	pwdTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, marginY+100, frm.size.width-20, 35)];
 	//pwdTextField.text = self.pwd;
 	pwdTextField.text = self.setting.tdPassword;
 	pwdTextField.secureTextEntry = YES;
@@ -107,7 +109,7 @@ extern BOOL _isiPad;
 	
 	UIButton *checkButton=[Common createButton:_checkValidityText
 										buttonType:UIButtonTypeRoundedRect 
-											 frame:CGRectMake(frm.size.width/2-80, 150, 160, 25)
+											 frame:CGRectMake(frm.size.width/2-80, marginY+150, 160, 25)
 										titleColor:nil 
 											target:self 
 										  selector:@selector(checkValidity:) 
@@ -117,7 +119,7 @@ extern BOOL _isiPad;
 	
 	[mainView addSubview:checkButton];
 	
-	UILabel *signupLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, frm.size.width-20, 40)];
+	UILabel *signupLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+190, frm.size.width-20, 40)];
 	signupLabel.numberOfLines = 0;
 	signupLabel.text = _toodledoSignupHintText;
 	signupLabel.backgroundColor = [UIColor clearColor];
@@ -127,7 +129,7 @@ extern BOOL _isiPad;
 
 	UIButton *signupButton=[Common createButton:_toodledoSignupURLText
 									buttonType:UIButtonTypeCustom 
-										 frame:CGRectMake(10, 230, 240, 25) 
+										 frame:CGRectMake(10, marginY+230, 240, 25) 
 									titleColor:[UIColor blueColor] 
 										target:self 
 									  selector:@selector(signup:) 

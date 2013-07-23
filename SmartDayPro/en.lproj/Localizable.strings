@@ -712,3 +712,6 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_assetsText" = "Assets";
 "_jumpText" = "Jump";
 "_deferText" = "Defer";
+
+"_quickAddNewProject" = "Quick Add New Project";
+"_tapToAddNote" = "Add New Note";

@@ -325,9 +325,11 @@ PreviewViewController *_previewCtrler;
 
 - (void) showNote
 {
+    TaskManager *tm = [TaskManager getInstance];
     Task *note = [[[Task alloc] init] autorelease];
     note.type = TYPE_NOTE;
-    
+    note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+        
     NSInteger index = selectedIndex;
     
     if (!hasNote)

@@ -350,7 +350,7 @@
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
     
-    pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, 500, contentView.bounds.size.width, [Common getKeyboardHeight]+40)];
+    pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, 470, contentView.bounds.size.width, [Common getKeyboardHeight]+40)];
     //pickerView.hidden = YES;
     
     [contentView addSubview:pickerView];

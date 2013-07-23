@@ -320,6 +320,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     taskFilterLabel.text = [[TaskManager getInstance] getFilterTitle];
 }
 
+/*
 -(void)shrinkEnd
 {
     optionView.hidden = YES;
@@ -348,6 +349,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [Common animateGrowViewFromPoint:optionView.frame.origin toPoint:CGPointMake(optionView.frame.origin.x, optionView.frame.origin.y + optionView.bounds.size.height/2) forView:optionView];
 	}
 }
+*/
 
 -(void) createTaskOptionView
 {

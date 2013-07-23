@@ -105,16 +105,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return ctrler.list;
 }
 
-/*
 - (BOOL) checkRemovableView:(UIView *) view
 {
 	if ([view isKindOfClass:[TaskView class]] || [view isKindOfClass:[PlanView class]])
 	{
 		return YES;
 	}
-	
-	return NO;
+    
+    return NO;
 }
-*/
 
 @end

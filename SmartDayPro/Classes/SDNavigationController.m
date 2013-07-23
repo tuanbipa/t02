@@ -12,6 +12,7 @@
 
 #import "SmartDayViewController.h"
 #import "iPadViewController.h"
+#import "iPadSettingViewController.h"
 
 @interface SDNavigationController ()
 
@@ -37,7 +38,9 @@
 
 -(NSUInteger)supportedInterfaceOrientations
 {
-    if ([self.topViewController isKindOfClass:[SmartDayViewController class]] || [self.topViewController isKindOfClass:[iPadViewController class]])
+    if ([self.topViewController isKindOfClass:[SmartDayViewController class]]
+        || [self.topViewController isKindOfClass:[iPadViewController class]]
+        || [self.topViewController isKindOfClass:[iPadSettingViewController class]])
     {
         return [self.topViewController supportedInterfaceOrientations];
     }

@@ -10,6 +10,7 @@
 
 @class Project;
 @class Settings;
+@class ProjectColorPaletteView;
 
 @interface ProjectEditViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>  {
 	Project *project;
@@ -20,6 +21,7 @@
 	UITextField *tagInputTextField;
 	UIButton *tagButtons[9];
     
+    ProjectColorPaletteView *colorPaletteView;
     UIView *transparentView;
     UIButton *transparentCheckButton;
     
@@ -29,5 +31,7 @@
 @property (nonatomic, retain) 	Project *project;
 @property (nonatomic, copy) Project *projectCopy;
 @property (nonatomic, assign) 	Settings *settings;
+
+- (void) refreshData;
 
 @end

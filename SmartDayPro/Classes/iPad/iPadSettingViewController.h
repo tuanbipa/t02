@@ -9,14 +9,18 @@
 #import <UIKit/UIKit.h>
 
 @class Settings;
+@class ContentView;
 
 @interface iPadSettingViewController : UIViewController
 {
+    ContentView *contentView;
     UITableView *masterTableView;
     UIView *detailView;
     
+    UIView *separatorView;
     UIView *navView;
     UILabel *navLabel;
+    UIButton *backButton;
     
     NSInteger selectedIndex;
 }

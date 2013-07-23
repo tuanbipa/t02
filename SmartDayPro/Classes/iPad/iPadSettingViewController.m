@@ -46,11 +46,13 @@
 #import "CategoryViewController.h"
 #import "CalendarViewController.h"
 
+#import "SDNavigationController.h"
 #import "AbstractSDViewController.h"
 #import "iPadViewController.h"
 
 #import "RestoreViewController.h"
 
+extern iPadViewController *_iPadViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 
 iPadSettingViewController *_iPadSettingViewCtrler;
@@ -299,6 +301,53 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     [self.navCtrler popViewControllerAnimated:YES];
 }
 
+- (void) changeFrame:(CGRect)frm
+{
+    contentView.frame = frm;
+    
+    masterTableView.frame = CGRectMake(0, 0, contentView.frame.size.width/3, contentView.frame.size.height);
+    
+    detailView.frame = CGRectMake(contentView.frame.size.width/3, -20, 2*contentView.frame.size.width/3, contentView.frame.size.height+20);
+    
+    separatorView.frame = CGRectMake(contentView.frame.size.width/3, 0, 1, contentView.frame.size.height);
+    
+    navView.frame = CGRectMake(contentView.frame.size.width/3, 0, 2*contentView.frame.size.width/3, 40);
+    
+    backButton.frame = CGRectMake(navView.bounds.size.width - 70, 5, 60, 30);
+    
+    if (self.navCtrler != nil)
+    {
+        CGRect frm = self.navCtrler.view.frame;
+        frm.size.width = 512;
+        
+        frm.origin.x = (detailView.bounds.size.width - frm.size.width)/2;
+        
+        self.navCtrler.view.frame = frm;
+    }
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orietation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orietation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 44;
+    
+    [self changeFrame:frm];
+}
+
 - (void) loadView
 {
     self.settingCopy = [Settings getInstance];
@@ -311,7 +360,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = sz;
     
-    ContentView *contentView = [[ContentView alloc] initWithFrame:frm];
+    contentView = [[ContentView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
     self.view = contentView;
@@ -331,7 +380,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     [contentView addSubview:detailView];
     [detailView release];
     
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(contentView.frame.size.width/3, 0, 1, contentView.frame.size.height)];
+    separatorView = [[UIView alloc] initWithFrame:CGRectMake(contentView.frame.size.width/3, 0, 1, contentView.frame.size.height)];
     
     separatorView.backgroundColor = [UIColor lightGrayColor];
     
@@ -346,7 +395,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     [self.navigationController.navigationBar addSubview:navView];
     [navView release];
     
-	UIButton *backButton = [Common createButton:_doneText
+	backButton = [Common createButton:_doneText
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(navView.bounds.size.width - 70, 5, 60, 30)
                                          titleColor:[UIColor whiteColor]
@@ -447,10 +496,18 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     {
         self.navCtrler = [[UINavigationController alloc] initWithRootViewController:detailCtrler];
         
+        self.navCtrler.view.frame = detailCtrler.view.frame;
+        
         self.navCtrler.delegate = self;
         self.navCtrler.navigationBar.hidden = YES;
         
-        [detailView addSubview:self.navCtrler.view];        
+        [detailView addSubview:self.navCtrler.view];
+        
+        CGRect frm = self.navCtrler.view.frame;
+        
+        frm.origin.x = (detailView.bounds.size.width - frm.size.width)/2;
+        
+        self.navCtrler.view.frame = frm;
     }
     
 }
@@ -484,12 +541,26 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [self changeOrientation:self.interfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [_iPadViewCtrler willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    [self changeOrientation:toInterfaceOrientation];    
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated

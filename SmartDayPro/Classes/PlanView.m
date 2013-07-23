@@ -18,10 +18,12 @@
 #import "DBManager.h"
 
 #import "AbstractSDViewController.h"
+#import "iPadViewController.h"
 
 #import "CategoryViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation PlanView
 
@@ -96,7 +98,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) singleTouch
 {
-    [self enableActions:YES];
+    //[self enableActions:YES];
+    if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler editProject:self.project inView:self];
+    }
 }
 
 - (void) doubleTouch

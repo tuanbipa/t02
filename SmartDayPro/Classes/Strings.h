@@ -698,3 +698,6 @@
 
 #define _deferText NSLocalizedString(@"_deferText", "")
 
+#define _quickAddNewProject NSLocalizedString(@"_quickAddNewProject", "")
+#define _tapToAddNote NSLocalizedString(@"_tapToAddNote", "")
+

@@ -671,7 +671,7 @@ iPadViewController *_iPadViewCtrler;
         
         selectedModuleButton.selected = NO;
         
-        selectedModuleButton.backgroundColor = [UIColor grayColor];
+        //selectedModuleButton.backgroundColor = [UIColor grayColor];
 
         selectedModuleButton = nil;
     }
@@ -707,13 +707,13 @@ iPadViewController *_iPadViewCtrler;
         
         selectedModuleButton.selected = NO;
         
-        selectedModuleButton.backgroundColor = [UIColor grayColor];
+        //selectedModuleButton.backgroundColor = [UIColor grayColor];
         
         selectedModuleButton = btn;
         
         selectedModuleButton.selected = YES;
         
-        selectedModuleButton.backgroundColor = [UIColor cyanColor];
+        //selectedModuleButton.backgroundColor = [UIColor cyanColor];
         
         [self refreshHeaderView];
     }
@@ -1618,7 +1618,12 @@ iPadViewController *_iPadViewCtrler;
     NSString *titles[3] = {_tasksText, _notesText, _projectsText};
     //NSString *filters[3] = {_allText, _allText, _tasksText};
     
+    NSString *normalImages[3] = {@"tab_tasks.png", @"tab_notes.png", @"tab_projects.png"};
+    NSString *selectedImages[3] = {@"tab_tasks_selected.png", @"tab_notes_selected.png", @"tab_projects_selected.png"};
+    
     CGFloat btnWidth = (w-10)/3;
+    
+    //printf("button width: %f\n", btnWidth);
     
     UIButton *taskButton = nil;
     
@@ -1630,15 +1635,33 @@ iPadViewController *_iPadViewCtrler;
                                            titleColor:[UIColor whiteColor]
                                                target:self
                                              selector:@selector(showModule:)
-                                     normalStateImage:nil
-                                   selectedStateImage:nil];
-        moduleButton.backgroundColor = [UIColor grayColor]
+                                     normalStateImage:normalImages[i]
+                                   selectedStateImage:selectedImages[i]];
+        //moduleButton.backgroundColor = [UIColor grayColor]
         ;
-        [moduleButton setTitle:titles[i] forState:UIControlStateNormal];
+        //[moduleButton setTitle:titles[i] forState:UIControlStateNormal];
         moduleButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
         moduleButton.tag = 31000+i;
         
         [contentView addSubview:moduleButton];
+        
+        UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, 100, 30)];
+        moduleLabel.backgroundColor = [UIColor clearColor];
+        moduleLabel.textColor = [UIColor blackColor];
+        moduleLabel.font = [UIFont boldSystemFontOfSize:14];
+        moduleLabel.text = titles[i];
+        
+        [moduleButton addSubview:moduleLabel];
+        [moduleLabel release];
+        
+        if (i != 2)
+        {
+            UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(w+20 + (i+1)*btnWidth - 1, 10, 1, 40)];
+            moduleSeparator.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+        
+            [contentView addSubview:moduleSeparator];
+            [moduleSeparator release];
+        }
         
         if (i==0)
         {
