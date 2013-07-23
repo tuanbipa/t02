@@ -198,25 +198,6 @@ extern PlannerViewController *_plannerViewCtrler;
     return [_plannerViewCtrler getPlannerDayCalendarView];
 }
 
--(void)shrinkEnd
-{
-    if (optionView != nil && [optionView superview])
-    {
-        optionView.hidden = YES;
-    }
-}
-
-- (void) hideDropDownMenu
-{
-	if (!optionView.hidden)
-	{
-        CGPoint p = optionView.frame.origin;
-        p.x += optionView.frame.size.width/2;
-        
-		[Common animateShrinkView:optionView toPosition:p target:self shrinkEnd:@selector(shrinkEnd)];
-	}
-}
-
 - (NSString *) showTaskWithOption:(id)sender
 {
     [self hideDropDownMenu];

@@ -111,6 +111,18 @@ extern AbstractSDViewController *_abstractViewCtrler;
     // Dispose of any resources that can be recreated.
 }
 
+/*
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    printf("rotate\n");
+}
+*/
+
 #pragma mark Actions
 - (void) resetHint: (id) sender
 {

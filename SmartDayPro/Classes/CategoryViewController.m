@@ -28,8 +28,11 @@
 #import "ProjectEditViewController.h"
 
 #import "AbstractSDViewController.h"
+#import "iPadViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+
+extern iPadViewController *_iPadViewCtrler;
 
 @interface CategoryViewController ()
 
@@ -332,13 +335,41 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+-(void) stopQuickAdd
+{
+	[quickAddTextField resignFirstResponder];
+    
+    maskView.hidden = YES;
+}
+
+-(void) cancelQuickAdd
+{
+    quickAddTextField.text = @"";
+    
+    [self stopQuickAdd];
+}
+
 #pragma mark Views
 - (void) changeFrame:(CGRect)frm
 {
+    Settings *settings = [Settings getInstance];
+    
     contentView.frame = frm;
     
-    listView.frame = contentView.bounds;
+    listView.frame = CGRectMake(0, 40, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40) - 40);
     listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    
+    maskView.frame= CGRectMake(0, 40, frm.size.width, frm.size.height-40);
+    
+    UIView *quickAddPlaceHolder = [contentView viewWithTag:-30000];
+    
+    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 40);
+    
+    quickAddTextField.frame = CGRectMake(10, 5, frm.size.width-50, 30);
+    
+    UIButton *moreButton = (UIButton *)[quickAddPlaceHolder viewWithTag:10000];
+    
+    moreButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
 }
 
 - (void)loadView
@@ -354,13 +385,50 @@ extern AbstractSDViewController *_abstractViewCtrler;
     self.view = contentView;
     [contentView release];
     
-    listView = [[ContentScrollView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40))];
+    listView = [[ContentScrollView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40) - 40)];
     
     listView.backgroundColor = [UIColor clearColor];
     listView.delegate = self;
     
     [contentView addSubview:listView];
     [listView release];
+    
+    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40)];
+    [contentView addSubview:maskView];
+    maskView.backgroundColor = [UIColor clearColor];
+    maskView.hidden = YES;
+    [maskView release];
+    
+    UIView *quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
+	quickAddPlaceHolder.backgroundColor = [UIColor clearColor];
+    quickAddPlaceHolder.tag = -30000;
+	[contentView addSubview:quickAddPlaceHolder];
+	[quickAddPlaceHolder release];
+    
+    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-50, 30)];
+	quickAddTextField.delegate = self;
+    quickAddTextField.tag = -1;
+	quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
+	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
+	quickAddTextField.returnKeyType = UIReturnKeyDone;
+	quickAddTextField.font=[UIFont systemFontOfSize:16];
+	quickAddTextField.placeholder = _quickAddNewProject;
+    //[quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
+	
+	[quickAddPlaceHolder addSubview:quickAddTextField];
+	[quickAddTextField release];
+	
+	UIButton *moreButton = [Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(frm.size.width-35, 4, 30, 30)
+                                     titleColor:nil
+                                         target:self
+                                       selector:@selector(saveAndMore:)
+                               normalStateImage:@"addmore.png"
+                             selectedStateImage:nil];
+    moreButton.tag = 10000;
+	
+	[quickAddPlaceHolder addSubview:moreButton];
     
     layoutController.viewContainer = listView;
     
@@ -565,4 +633,60 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [self doMultiDeleteTask];
 	}
 }
+
+#pragma mark TextFieldDelegate
+- (void) saveAndMore:(id) sender
+{
+	NSString *text = [quickAddTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+    if (![quickAddTextField isFirstResponder])
+    {
+        [quickAddTextField becomeFirstResponder];
+    }
+	else if (![text isEqualToString:@""])
+	{
+        [_iPadViewCtrler.activeViewCtrler quickAddProject:text];
+	}
+    
+    quickAddTextField.text = @"";
+    quickAddTextField.tag = -2;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    maskView.hidden = NO;
+    
+    [_iPadViewCtrler.activeViewCtrler hideDropDownMenu];
+        
+	return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    quickAddTextField.tag = 1;
+    
+	[self stopQuickAdd];
+	
+	return YES;
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField
+{
+    if (quickAddTextField.tag == 1)
+    {
+        NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        if (![text isEqualToString:@""])
+        {
+            [_iPadViewCtrler.activeViewCtrler quickAddProject:text];
+        }
+        
+        quickAddTextField.tag = -1;
+    }
+    
+    quickAddTextField.text = @"";
+    
+    maskView.hidden = YES;
+}
+
 @end

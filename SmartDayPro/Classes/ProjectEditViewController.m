@@ -61,11 +61,26 @@ extern BOOL _isiPad;
     return self;
 }
 
+- (void) refreshData
+{
+    self.projectCopy = self.project;
+    
+    projectNameTextField.text = self.projectCopy.name;
+    
+    transparentCheckButton.selected = self.projectCopy.isTransparent;
+    transparentCheckButton.enabled = (self.projectCopy.status != PROJECT_STATUS_INVISIBLE);
+   
+    colorPaletteView.projectEdit = self.projectCopy;    
+    colorPaletteView.colorId = self.projectCopy.colorId;
+    
+    tagInputTextField.placeholder = self.projectCopy.tag;
+}
+
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView 
 {
-    self.projectCopy = self.project;
+    //self.projectCopy = self.project;
     
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
@@ -76,7 +91,6 @@ extern BOOL _isiPad;
     }
     
     frm.size.width = 384;
-    
     
 	mainView = [[UIScrollView alloc] initWithFrame:frm];
     mainView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
@@ -101,12 +115,11 @@ extern BOOL _isiPad;
 								  normalStateImage:@"Trans_CheckOff.png"
 								selectedStateImage:@"Trans_CheckOn.png"];
     
-    transparentCheckButton.selected = project.isTransparent;//(project.status == PROJECT_STATUS_TRANSPARENT);
-    transparentCheckButton.enabled = (project.status != PROJECT_STATUS_INVISIBLE);
+    //transparentCheckButton.selected = project.isTransparent;
+    //transparentCheckButton.enabled = (project.status != PROJECT_STATUS_INVISIBLE);
 	
 	[transparentView addSubview:transparentCheckButton];
     
-	//UILabel *transparentLabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 45, 100, 25)];
     UILabel *transparentLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 100, 25)];
 	transparentLabel.backgroundColor = [UIColor clearColor];
 	transparentLabel.text = _transparentText;
@@ -114,7 +127,6 @@ extern BOOL _isiPad;
 	[transparentView addSubview:transparentLabel];
 	[transparentLabel release];    
 	
-	//UILabel *projectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 300, 25)];
     UILabel *projectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 45, frm.size.width - 20, 25)];
 	projectNameLabel.backgroundColor = [UIColor clearColor];
 	projectNameLabel.text = _nameText;
@@ -122,10 +134,9 @@ extern BOOL _isiPad;
 	[mainView addSubview:projectNameLabel];
 	[projectNameLabel release];
 
-	//UITextField *projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 75, 300, 30)];
     projectNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 70, frm.size.width - 20, 30)];
     
-	projectNameTextField.text = self.projectCopy.name;
+	//projectNameTextField.text = self.projectCopy.name;
 	projectNameTextField.delegate = self;
 	projectNameTextField.borderStyle = UITextBorderStyleRoundedRect;
 	projectNameTextField.keyboardType=UIKeyboardTypeDefault;
@@ -137,7 +148,6 @@ extern BOOL _isiPad;
 	[mainView addSubview:projectNameTextField];
 	[projectNameTextField release];	
 	
-	//UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 105, 300, 25)];
     UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, frm.size.width - 20, 25)];
 	projectColorLabel.backgroundColor = [UIColor clearColor];
 	projectColorLabel.text = _colorText;
@@ -145,16 +155,14 @@ extern BOOL _isiPad;
 	[mainView addSubview:projectColorLabel];
 	[projectColorLabel release];
 	
-    ProjectColorPaletteView *colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(10, 125, frm.size.width-20, 160)];
+    colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(10, 125, frm.size.width-20, 160)];
     
-    colorPaletteView.projectEdit = self.projectCopy;
-    
-    colorPaletteView.colorId = self.projectCopy.colorId;
+    //colorPaletteView.projectEdit = self.projectCopy;
+    //colorPaletteView.colorId = self.projectCopy.colorId;
     
     [mainView addSubview:colorPaletteView];
     [colorPaletteView release];
 	
-    //UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 290, 300, 25)];
     UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 285, frm.size.width - 20, 25)];
 	tagLabel.backgroundColor = [UIColor clearColor];
 	tagLabel.text = _tagText;
@@ -162,7 +170,6 @@ extern BOOL _isiPad;
 	[mainView addSubview:tagLabel];
 	[tagLabel release];
 
-    //UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, 320, 300, 125)];
     UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, 315, frm.size.width - 20, 125)];
 	tagView.backgroundColor = [UIColor whiteColor];
 	
@@ -178,7 +185,7 @@ extern BOOL _isiPad;
 	tagInputTextField.keyboardType = UIKeyboardTypeDefault;
 	tagInputTextField.returnKeyType = UIReturnKeyDone;
 	tagInputTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	tagInputTextField.placeholder = self.projectCopy.tag;
+	//tagInputTextField.placeholder = self.projectCopy.tag;
 	
 	[tagView addSubview:tagInputTextField];
 	[tagInputTextField release];
@@ -212,23 +219,15 @@ extern BOOL _isiPad;
 	
 	self.view = mainView;
 	[mainView release];
-	
-	//self.navigationItem.title = _calendarText;
+    
+    [self refreshData];
+
+	/*
 	self.navigationItem.title = _projectText;
     
-    /*if ([self.project isShared])
-    {
-        saveButton = nil;
-    }
-    else*/
-    {
-        saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                  target:self action:@selector(save:)];
-        self.navigationItem.leftBarButtonItem = saveButton;
-        [saveButton release];
-    }
-    
-    //[self check2EnableSave];
+    saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
+    self.navigationItem.leftBarButtonItem = saveButton;
+    [saveButton release];*/
 }
 
 - (BOOL) checkExistingTag:(NSString *)tag
@@ -316,6 +315,53 @@ extern BOOL _isiPad;
 	
 	// Release any cached data, images, etc that aren't in use.
 	[ImageManager free];
+}
+
+- (void) viewDidLoad
+{
+    saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
+    self.navigationItem.leftBarButtonItem = saveButton;
+    [saveButton release];
+    
+    if (_isiPad)
+    {
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+        
+        UIButton *deleteButton = [Common createButton:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:CGRectMake(0, 0, 30, 30)
+                                           titleColor:[UIColor whiteColor]
+                                               target:self
+                                             selector:@selector(delete:)
+                                     normalStateImage:@"menu_trash.png"
+                                   selectedStateImage:nil];
+        
+        UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+        
+        UIButton *copyButton = [Common createButton:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(0, 0, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(copy:)
+                                   normalStateImage:@"menu_duplicate.png"
+                                 selectedStateImage:nil];
+        
+        UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
+        
+        UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        fixedItem.width = 20;
+        
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, copyItem, nil];
+        
+        [copyItem release];
+        [deleteItem release];
+        [fixedItem release];
+    }
+    else
+    {
+        self.navigationItem.title = _projectText;
+    }
 }
 
 - (void)viewDidUnload {
@@ -429,6 +475,23 @@ extern BOOL _isiPad;
     {
         saveButton.enabled = [self.projectCopy.name isEqualToString:@""]?NO:YES;
     }
+}
+
+#pragma mark Actions
+
+- (void) delete:(id)sender
+{
+    [_iPadViewCtrler closeDetail];
+    [_abstractViewCtrler deleteCategory];
+}
+
+- (void) copy:(id)sender
+{
+    Project *prj = [_abstractViewCtrler copyCategory];
+    
+    self.project = prj;
+    
+    [self refreshData];
 }
 
 - (void) save:(id)sender

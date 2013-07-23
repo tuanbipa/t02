@@ -50,6 +50,7 @@
 
 #import "SmartListPlannerMovableController.h"
 
+#import "iPadViewController.h"
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
 #import "PlannerMonthView.h"
@@ -60,6 +61,7 @@
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 extern BOOL _smartListHintShown;
 extern BOOL _multiSelectHintShown;
@@ -253,9 +255,10 @@ SmartListViewController *_smartListViewCtrler;
 #pragma mark Support
 -(void)changeSkin
 {
-    contentView.backgroundColor = [UIColor colorWithPatternImage:[[ImageManager getInstance] getImageWithName:@"bg_pattern.png"]];
+    //contentView.backgroundColor = [UIColor colorWithPatternImage:[[ImageManager getInstance] getImageWithName:@"bg_pattern.png"]];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    smartListView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];    
+    //smartListView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
 }
 
@@ -481,7 +484,6 @@ SmartListViewController *_smartListViewCtrler;
 {
 	[quickAddTextField resignFirstResponder];
     
-    //quickAddEditBarView.hidden = YES;
     maskView.hidden = YES;
 }
 
@@ -2051,11 +2053,14 @@ SmartListViewController *_smartListViewCtrler;
 	else if (![text isEqualToString:@""])
 	{
 		//[self quickAddTask:text];
+        /*
         if (_plannerViewCtrler != nil) {
             [_plannerViewCtrler quickAddItem:text type:TYPE_TASK];
         } else {
             [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
-        }
+        }*/
+        
+        [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK];
 	}
     
     quickAddTextField.text = @"";
@@ -2107,11 +2112,15 @@ SmartListViewController *_smartListViewCtrler;
         if (![text isEqualToString:@""])
         {
             //[self quickAddTask:text];
+            
+            /*
             if (_plannerViewCtrler != nil) {
                 [_plannerViewCtrler quickAddItem:text type:TYPE_TASK];
             } else {
                 [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
-            }
+            }*/
+            
+            [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK];
         }
         
         quickAddTextField.tag = -1;
@@ -2971,7 +2980,11 @@ SmartListViewController *_smartListViewCtrler;
     
     CGPoint offset = smartListView.contentOffset;
     
-    smartListView.frame = contentView.bounds;
+    frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40;
+    
+    smartListView.frame = frm;
     
     CGRect rec = editBarPlaceHolder.frame;
     
@@ -3005,16 +3018,18 @@ SmartListViewController *_smartListViewCtrler;
 	
 	self.view = contentView;
 	[contentView release];
+    
+    frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40;
 	
     //smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
-    smartListView = [[ContentTableView alloc] initWithFrame:contentView.bounds];
+    smartListView = [[ContentTableView alloc] initWithFrame:frm];
     smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
-
-	//smartListView.scrollEnabled = YES;
+    smartListView.backgroundColor = [UIColor clearColor];
 	smartListView.delegate = self;
 	smartListView.scrollsToTop = NO;	
 	smartListView.showsVerticalScrollIndicator = YES;
-	//smartListView.directionalLockEnabled = YES;
 	
 	[contentView addSubview:smartListView];
 	[smartListView release];
@@ -3034,6 +3049,8 @@ SmartListViewController *_smartListViewCtrler;
 	//[smartListView addSubview:quickAddPlaceHolder];
 	//[quickAddPlaceHolder release];
     
+    [contentView addSubview:self.quickAddPlaceHolder];
+    
     quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-50, 30)];
 	quickAddTextField.delegate = self;
     quickAddTextField.tag = -1;
@@ -3042,7 +3059,7 @@ SmartListViewController *_smartListViewCtrler;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;
 	quickAddTextField.font=[UIFont systemFontOfSize:16];
 	quickAddTextField.placeholder = _quickAddNewTask;
-    [quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
+    //[quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
 	
 	[self.quickAddPlaceHolder addSubview:quickAddTextField];
 	[quickAddTextField release];
@@ -3065,6 +3082,7 @@ SmartListViewController *_smartListViewCtrler;
 	[contentView addSubview:timePlaceHolder];
 	[timePlaceHolder release];	
 	
+    /*
     suggestedTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 20)];
 	suggestedTimeLabel.backgroundColor=[[Colors darkSlateGray] colorWithAlphaComponent:0.8];
 	suggestedTimeLabel.hidden = YES;
@@ -3072,7 +3090,7 @@ SmartListViewController *_smartListViewCtrler;
 	suggestedTimeLabel.textColor=[UIColor yellowColor];	
 	
 	[timePlaceHolder addSubview:suggestedTimeLabel];
-	[suggestedTimeLabel release];
+	[suggestedTimeLabel release];*/
 	
 	filterView = [[FilterView alloc] initWithOrientation:0];
 	[contentView addSubview:filterView];

@@ -266,6 +266,38 @@ extern iPadViewController *_iPadViewCtrler;
     return NO;
 }
 
+-(void)shrinkEnd
+{
+    if (optionView != nil && [optionView superview])
+    {
+        optionView.hidden = YES;
+    }
+}
+
+- (void) hideDropDownMenu
+{
+	if (!optionView.hidden)
+	{
+        CGPoint p = optionView.frame.origin;
+        p.x += optionView.frame.size.width/2;
+        
+		[Common animateShrinkView:optionView toPosition:p target:self shrinkEnd:@selector(shrinkEnd)];
+	}
+}
+
+- (void) showOptionMenu
+{
+    BOOL menuVisible = !optionView.hidden;
+    
+    if (!menuVisible)
+	{
+		optionView.hidden = NO;
+		[contentView  bringSubviewToFront:optionView];
+		
+        [Common animateGrowViewFromPoint:optionView.frame.origin toPoint:CGPointMake(optionView.frame.origin.x, optionView.frame.origin.y + optionView.bounds.size.height/2) forView:optionView];
+	}
+}
+
 #pragma mark Refresh
 - (void) setNeedsDisplay
 {
@@ -613,6 +645,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (activeView != view)
     {
+        /*
         UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
         
         if (enable)
@@ -622,7 +655,7 @@ extern iPadViewController *_iPadViewCtrler;
         else
         {
             [menuCtrler setMenuVisible:NO animated:YES];
-        }
+        }*/
         
         activeView = enable?view:nil;
         
@@ -906,6 +939,8 @@ extern iPadViewController *_iPadViewCtrler;
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
     */
+    
+    [self enableCategoryActions:YES onView:inView]; //to make activeView not nil to do actions
     
     [_iPadViewCtrler editProjectDetail:project];
 }
@@ -1678,39 +1713,59 @@ extern iPadViewController *_iPadViewCtrler;
     [event release];
 }
 
+- (void) quickAddProject:(NSString *)name
+{
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+    Project *project = [[Project alloc] init];
+    project.name = name;
+    project.type = TYPE_PLAN;
+    
+    [pm addProject:project];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+    
+    CategoryViewController *ctrler = [self getCategoryViewController];
+    
+    [ctrler loadAndShowList];
+    
+    [project release];
+}
+
 - (void) quickAddItem:(NSString *)name type:(NSInteger)type
 {
 	TaskManager *tm = [TaskManager getInstance];
     Settings *settings = [Settings getInstance];
-	
-	Task *task = [[Task alloc] init];
-	task.type = type;
-	task.name = name;
-	task.duration = tm.lastTaskDuration;
-	task.project = tm.lastTaskProjectKey;
 
+    Task *task = [[Task alloc] init];
+    task.type = type;
+    task.name = name;
+    task.duration = tm.lastTaskDuration;
+    task.project = tm.lastTaskProjectKey;
+    
     task.startTime = type==TYPE_TASK? [settings getWorkingStartTimeForDate:tm.today]:[Common dateByRoundMinute:15 toDate:tm.today];
     task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];
-	
-	switch (tm.taskTypeFilter)
-	{
-		case TASK_FILTER_STAR:
-		{
-			task.status = TASK_STATUS_PINNED;
-		}
-			break;
-		case TASK_FILTER_DUE:
-		{
-			task.deadline = [settings getWorkingEndTimeForDate:tm.today];
-		}
-			break;
-	}
+    
+    switch (tm.taskTypeFilter)
+    {
+        case TASK_FILTER_STAR:
+        {
+            task.status = TASK_STATUS_PINNED;
+        }
+            break;
+        case TASK_FILTER_DUE:
+        {
+            task.deadline = [settings getWorkingEndTimeForDate:tm.today];
+        }
+            break;
+    }
     
     [tm addTask:task];
     
     [self reconcileItem:task reSchedule:(type != TYPE_NOTE)];
     
-	[task release];
+    [task release];
 }
 
 - (void) moveTask2Top
@@ -1817,15 +1872,17 @@ extern iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void) copyCategory
+- (Project *) copyCategory
 {
+    Task *ret = nil;
+    
     Project *plan = [self getActiveProject];
     
 	if (plan != nil)
 	{
         Project *planCopy = [[plan copy] autorelease];
         
-        CGRect frm = [activeView.superview convertRect:activeView.frame toView:contentView];
+        //CGRect frm = [activeView.superview convertRect:activeView.frame toView:contentView];
         
         [self deselect];
         
@@ -1834,10 +1891,12 @@ extern iPadViewController *_iPadViewCtrler;
         planCopy.ekId = @"";
         planCopy.tdId = @"";
         
-        [self editProject:planCopy inRect:frm];
+        ret = planCopy;
+        
+        //[self editProject:planCopy inRect:frm];
 	}
     
-    //[self deselect];
+    return ret;
 }
 
 

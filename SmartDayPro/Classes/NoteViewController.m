@@ -26,6 +26,7 @@
 
 #import "SmartDayViewController.h"
 #import "AbstractSDViewController.h"
+#import "iPadViewController.h"
 
 #import "NoteLayoutController.h"
 #import "NoteMovableController.h"
@@ -33,6 +34,7 @@
 #import "CategoryViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @interface NoteViewController ()
 
@@ -288,6 +290,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+- (void) quickAddNote:(id)sender
+{
+    TaskManager *tm = [TaskManager getInstance];
+    Task *note = [[[Task alloc] init] autorelease];
+    
+    note.type = TYPE_NOTE;
+    note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+    
+    [_iPadViewCtrler editNoteDetail:note];    
+}
+
 
 /*
 - (void) singleTap
@@ -473,8 +486,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
     BOOL isMultiEdit = !editBarPlaceHolder.hidden;
     
     CGFloat h = (settings.tabBarAutoHide?0:40) + (isMultiEdit?40:0);
+
+    frm = contentView.bounds;
+    frm.size.height = 40;
     
-    noteListView.frame = CGRectMake(0, isMultiEdit?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
+    emptyNoteButton.frame = frm;
+    
+    //noteListView.frame = CGRectMake(0, isMultiEdit?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
+    
+    frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40;
+
+    noteListView.frame = frm;
 }
 
 -(void) createEditBar
@@ -553,8 +577,27 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [contentView addSubview:listTableView];
     [listTableView release];
 */
- 
-    noteListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
+    
+    frm = contentView.bounds;
+    frm.size.height = 40;
+    
+	emptyNoteButton = [Common createButton:_tapToAddNote
+                                buttonType:UIButtonTypeCustom
+                                     frame:frm
+                                titleColor:[UIColor lightGrayColor]
+                                    target:self
+                                  selector:@selector(quickAddNote:)
+                          normalStateImage:nil
+                        selectedStateImage:nil];
+    emptyNoteButton.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG_full.png"]];
+    
+    [contentView addSubview:emptyNoteButton];
+    
+    frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40;
+    
+    noteListView = [[ContentScrollView alloc] initWithFrame:frm];
     noteListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
     
 	noteListView.scrollEnabled = YES;
@@ -565,7 +608,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	[contentView addSubview:noteListView];
 	[noteListView release];
-    
+        
     noteLayoutCtrler.viewContainer = noteListView;
     
     [self createEditBar];

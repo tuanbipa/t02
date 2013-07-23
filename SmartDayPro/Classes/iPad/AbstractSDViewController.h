@@ -24,9 +24,7 @@
 
 @interface AbstractSDViewController : AbstractActionViewController
 {
-    UIView *optionView;
     UISegmentedControl *filterSegmentedControl;
-    UIImageView *optionImageView;    
     
     MiniMonthView *miniMonthView;
     FocusView *focusView;
@@ -55,9 +53,6 @@
 
 - (void) starTaskInView:(TaskView *)taskView;
 - (void) markDoneTaskInView:(TaskView *)view;
-
-- (void) deleteCategory;
-- (void) copyCategory;
 
 - (NSString *) showTaskWithOption:(id)sender;
 - (NSString *) showNoteWithOption:(id)sender;

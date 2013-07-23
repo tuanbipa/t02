@@ -29,6 +29,9 @@
     
     MovableView *activeView;
     
+    UIView *optionView;
+    UIImageView *optionImageView;
+    
     Task *actionTask;
     Task *actionTaskCopy;
 }
@@ -63,6 +66,7 @@
 - (void) changeTask:(Task *)task toProject:(NSInteger)prjKey;
 - (void)quickAddEvent:(NSString *)name startTime:(NSDate *)startTime;
 - (void) quickAddItem:(NSString *)name type:(NSInteger)type;
+- (void) quickAddProject:(NSString *)name;
 - (void) createTaskFromNote:(Task *)fromNote;
 
 - (void) editItem:(Task *)item;
@@ -71,7 +75,9 @@
 
 - (void) editProject:(Project *)project inRect:(CGRect)inRect;
 
--(void) deselect;
+- (void) hideDropDownMenu;
+- (void) showOptionMenu;
+- (void) deselect;
 
 - (void) markDoneTask;
 - (void) deleteTask;
@@ -79,6 +85,8 @@
 - (void) starTask;
 - (void) moveTask2Top;
 - (void) defer:(NSInteger)option;
+- (Project *) copyCategory;
+- (void) deleteCategory;
 
 - (void) showCategory;
 - (void) showTag;

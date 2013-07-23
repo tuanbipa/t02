@@ -18,7 +18,11 @@
 @interface CategoryViewController : PageAbstractViewController
 {
     ContentScrollView *listView;
+    UIView *maskView;
+    
     CategoryLayoutController *layoutController;
+    
+    UITextField *quickAddTextField;
     
     //ContentView *contentView;
     

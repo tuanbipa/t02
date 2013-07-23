@@ -21,8 +21,6 @@
     PlannerView *plannerView;
     PlannerBottomDayCal *plannerBottomDayCal;
     
-    UIView *optionView;
-    UIImageView *optionImageView;
     BOOL firstOpen;
 }
 

@@ -20,6 +20,8 @@
 
 extern iPadSettingViewController *_iPadSettingViewCtrler;
 
+extern BOOL _isiPad;
+
 @implementation SDWAccountViewController
 
 @synthesize userName;
@@ -46,7 +48,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
     UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
-    if ([ctrler isKindOfClass:[iPadSyncSettingViewController class]])
+    //if ([ctrler isKindOfClass:[iPadSyncSettingViewController class]])
+    if (_isiPad)
     {
         frm.size.width = 2*frm.size.width/3;
     }
@@ -60,15 +63,17 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
     UIView *mainView = [[UIView alloc] initWithFrame:frm];
     mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    
+    CGFloat marginY = (_isiPad?10:0);
 	
-	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, frm.size.width-20, 25)];
+	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+10, frm.size.width-20, 25)];
 	emailLabel.backgroundColor = [UIColor clearColor];
 	emailLabel.text = _emailText;
 	
 	[mainView addSubview:emailLabel];
 	[emailLabel release];
 	
-	emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 35, frm.size.width-20, 35)];
+	emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, marginY+35, frm.size.width-20, 35)];
 	emailTextField.text = self.setting.sdwEmail;
 	emailTextField.delegate = self;
 	emailTextField.borderStyle = UITextBorderStyleRoundedRect;
@@ -80,14 +85,14 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	[mainView addSubview:emailTextField];
 	[emailTextField release];
 	
-	UILabel *pwdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 75, frm.size.width-20, 25)];
+	UILabel *pwdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+75, frm.size.width-20, 25)];
 	pwdLabel.backgroundColor = [UIColor clearColor];
 	pwdLabel.text = _passwordText;
 	
 	[mainView addSubview:pwdLabel];
 	[pwdLabel release];
 	
-	pwdTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 100, frm.size.width-20, 35)];
+	pwdTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, marginY+100, frm.size.width-20, 35)];
 	pwdTextField.text = self.setting.sdwPassword;
 	pwdTextField.secureTextEntry = YES;
 	pwdTextField.delegate = self;
@@ -101,7 +106,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
 	UIButton *checkButton=[Common createButton:_checkValidityText
 										buttonType:UIButtonTypeRoundedRect 
-											 frame:CGRectMake(frm.size.width-170, 150, 160, 25)
+											 frame:CGRectMake(frm.size.width-170, marginY+150, 160, 25)
 										titleColor:nil 
 											target:self 
 										  selector:@selector(checkValidity:) 
@@ -113,7 +118,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
 	UIButton *signupButton=[Common createButton:_signupText
 									buttonType:UIButtonTypeRoundedRect 
-                                          frame:CGRectMake(10, 150, 100, 25)
+                                          frame:CGRectMake(10, marginY+150, 100, 25)
 									titleColor:[UIColor blueColor] 
 										target:self 
 									  selector:@selector(signup:) 

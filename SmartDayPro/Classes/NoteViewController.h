@@ -19,6 +19,7 @@
     NoteLayoutController *noteLayoutCtrler;
     //ContentTableView *listTableView;
     ContentScrollView *noteListView;
+    UIButton *emptyNoteButton;
     
     UIView *editBarPlaceHolder;
     
