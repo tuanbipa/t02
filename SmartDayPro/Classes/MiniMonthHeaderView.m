@@ -110,36 +110,37 @@ extern BOOL _isiPad;
         [nextImgView release];
         
         frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
+        frm.origin.y -= PAD_WIDTH;
         frm.size = CGSizeMake(50, 50);
         
-        UIButton *zoomOutButton = [Common createButton:@"A"
+        UIButton *zoomOutButton = [Common createButton:@""
                                             buttonType:UIButtonTypeCustom
                                                  frame:frm
                                             titleColor:nil
                                                 target:self
                                               selector:@selector(switchMWMode:)
-                                      normalStateImage:nil
-                                    selectedStateImage:nil];
+                                      normalStateImage:@"MM_month.png"
+                                    selectedStateImage:@"MM_month_selected.png"];
         zoomOutButton.tag = 12000;
         [self addSubview:zoomOutButton];
         
         // zoom in button
         frm.origin.x += 50 + PAD_WIDTH/2;
-        UIButton *zoomInButton = [Common createButton:@"a"
+        UIButton *zoomInButton = [Common createButton:@""
                                             buttonType:UIButtonTypeCustom
                                                  frame:frm
                                             titleColor:nil
                                                 target:self
                                               selector:@selector(switchMWMode:)
-                                      normalStateImage:nil
-                                    selectedStateImage:nil];
+                                      normalStateImage:@"MM_week.png"
+                                    selectedStateImage:@"MM_week_selected.png"];
         zoomInButton.tag = 12001;
         [self addSubview:zoomInButton];
         
         zoomOutButton.selected = YES;
-        zoomOutButton.enabled = NO;
+        zoomOutButton.userInteractionEnabled = NO;
         zoomInButton.selected = NO;
-        zoomInButton.enabled = YES;
+        zoomInButton.userInteractionEnabled = YES;
         
         if (_isiPad)
         {
@@ -182,10 +183,10 @@ extern BOOL _isiPad;
     
     UIButton *zoomOutButton = (UIButton*)[self viewWithTag:12000];
     UIButton *zoomInButton = (UIButton*)[self viewWithTag:12001];
-    zoomOutButton.enabled = mode==1;
-    zoomOutButton.selected = !zoomOutButton.enabled;
-    zoomInButton.enabled = mode==0;
-    zoomInButton.selected = !zoomInButton.enabled;
+    zoomOutButton.userInteractionEnabled = mode==1;
+    zoomOutButton.selected = !zoomOutButton.userInteractionEnabled;
+    zoomInButton.userInteractionEnabled = mode==0;
+    zoomInButton.selected = !zoomInButton.userInteractionEnabled;
     
     MiniMonthView *mmView = (MiniMonthView *) self.superview;
     
