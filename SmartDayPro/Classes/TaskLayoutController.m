@@ -217,7 +217,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         taskView.showFlag = (tm.taskTypeFilter == TASK_FILTER_TOP);
         taskView.showDuration = (tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT);
         [taskView refreshStarImage];
-        //[taskView refreshCheckImage];
+        [taskView refreshCheckImage];
         [taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
         
         taskView.movableController = self.movableCtrler;
