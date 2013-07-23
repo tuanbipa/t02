@@ -310,6 +310,7 @@ extern BOOL _isiPad;
 - (void) jumpToDate:(NSDate *)date
 {
     [_abstractViewCtrler jumpToDate:date];
+    [headerView setNeedsDisplay];
 }
 
 - (void) switchView:(NSInteger)mode

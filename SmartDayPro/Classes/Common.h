@@ -119,7 +119,7 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 #define WEEKVIEW_FREETIME_WIDTH 10
 #define MONTHVIEW_FREETIME_WIDTH 10
 
-#define MINI_MONTH_HEADER_HEIGHT 50
+#define MINI_MONTH_HEADER_HEIGHT 100
 #define MINI_MONTH_WEEK_HEADER_WIDTH 28
 
 #define MINI_BAR_HEIGHT 20

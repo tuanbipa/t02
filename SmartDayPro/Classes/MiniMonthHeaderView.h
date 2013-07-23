@@ -11,7 +11,7 @@
 
 @interface MiniMonthHeaderView : UIView {
 
-    UIButton *selectedButton;
+    //UIButton *selectedButton;
     UILabel *titleLabel;
 }
 

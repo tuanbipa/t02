@@ -30,10 +30,11 @@ extern BOOL _isiPad;
     if (self) {
         // Initialization code.
         
-		self.backgroundColor = [UIColor lightGrayColor];
+		//self.backgroundColor = [UIColor lightGrayColor];
+        self.backgroundColor = [UIColor clearColor];
         //self.backgroundColor = [UIColor colorWithRed:100.0/255 green:104.0/255 blue:124.0/255 alpha:1];
         
-        UIButton *zoomButton = [Common createButton:@""
+        /*UIButton *zoomButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
                                              frame:CGRectMake(0, 0, 50, 50)
                                         titleColor:[UIColor whiteColor]
@@ -53,10 +54,11 @@ extern BOOL _isiPad;
         
         
         selectedButton = zoomButton;
-        selectedButton.selected = NO;
+        selectedButton.selected = NO;*/
         
         //CGRect frm = _isiPad?CGRectMake(35, 0, 50, 50):CGRectMake(65, 0, 50, 50);
-        CGRect frm = CGRectMake(35, 0, 50, 50);
+        //CGRect frm = CGRectMake(35, 0, 50, 50);
+        CGRect frm = CGRectMake(5, 50, 50, 50);
         
         UIButton *prevButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
@@ -75,12 +77,14 @@ extern BOOL _isiPad;
         [self addSubview:prevButton];
         
         UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_prev.png"]];
-        prevImgView.frame = CGRectMake(10, 0, 30, 30);
+        //prevImgView.frame = CGRectMake(10, 0, 30, 30);
+        prevImgView.frame = CGRectMake(0, 0, 30, 30);
         
         [prevButton addSubview:prevImgView];
         [prevImgView release];
         
-        frm = _isiPad?CGRectMake(self.bounds.size.width-125, 0, 50, 50):CGRectMake(self.bounds.size.width-55, 0, 50, 50);
+        //frm = _isiPad?CGRectMake(self.bounds.size.width-125, 0, 50, 50):CGRectMake(self.bounds.size.width-55, 0, 50, 50);
+        frm = CGRectMake(self.bounds.size.width-55, 50, 50, 50);
         
         UIButton *nextButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
@@ -98,18 +102,51 @@ extern BOOL _isiPad;
         
         [self addSubview:nextButton];
         
+        // zoom out button
         UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
-        nextImgView.frame = CGRectMake(10, 0, 30, 30);
+        nextImgView.frame = CGRectMake(20, 0, 30, 30);
         
         [nextButton addSubview:nextImgView];
         [nextImgView release];
+        
+        frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
+        frm.size = CGSizeMake(50, 50);
+        
+        UIButton *zoomOutButton = [Common createButton:@"A"
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:frm
+                                            titleColor:nil
+                                                target:self
+                                              selector:@selector(switchMWMode:)
+                                      normalStateImage:nil
+                                    selectedStateImage:nil];
+        zoomOutButton.tag = 12000;
+        [self addSubview:zoomOutButton];
+        
+        // zoom in button
+        frm.origin.x += 50 + PAD_WIDTH/2;
+        UIButton *zoomInButton = [Common createButton:@"a"
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:frm
+                                            titleColor:nil
+                                                target:self
+                                              selector:@selector(switchMWMode:)
+                                      normalStateImage:nil
+                                    selectedStateImage:nil];
+        zoomInButton.tag = 12001;
+        [self addSubview:zoomInButton];
+        
+        zoomOutButton.selected = YES;
+        zoomOutButton.enabled = NO;
+        zoomInButton.selected = NO;
+        zoomInButton.enabled = YES;
         
         if (_isiPad)
         {
             UIButton *todayButton = [Common createButton:_todayText
                                               buttonType:UIButtonTypeCustom
-                                                   frame:CGRectMake(self.bounds.size.width-75, 5, 60, 25)
-                                              titleColor:[UIColor whiteColor]
+                                                   frame:CGRectMake(self.bounds.size.width-65, 5, 60, 25)
+                                              titleColor:[UIColor grayColor]
                                                   target:self
                                                 selector:@selector(goToday:)
                                         normalStateImage:@"module_today.png"
@@ -130,16 +167,25 @@ extern BOOL _isiPad;
 
 - (NSInteger) getMWMode
 {
-    return selectedButton.selected?0:1;
+    //return selectedButton.selected?0:1;
+    UIButton *zoomOutButton = (UIButton*)[self viewWithTag:12000];
+    return zoomOutButton.selected?0:1;
 }
 
 - (void) changeMWMode:(NSInteger)mode
 {
-    selectedButton.selected = (mode==0);
+    /*selectedButton.selected = (mode==0);
     
     UIImageView *imgView = (UIImageView *)[self viewWithTag:10000];
     
-    imgView.image = [UIImage imageNamed:mode==0?@"MM_month.png":@"MM_week.png"];
+    imgView.image = [UIImage imageNamed:mode==0?@"MM_month.png":@"MM_week.png"];*/
+    
+    UIButton *zoomOutButton = (UIButton*)[self viewWithTag:12000];
+    UIButton *zoomInButton = (UIButton*)[self viewWithTag:12001];
+    zoomOutButton.enabled = mode==1;
+    zoomOutButton.selected = !zoomOutButton.enabled;
+    zoomInButton.enabled = mode==0;
+    zoomInButton.selected = !zoomInButton.enabled;
     
     MiniMonthView *mmView = (MiniMonthView *) self.superview;
     
@@ -150,9 +196,12 @@ extern BOOL _isiPad;
 
 - (void) switchMWMode:(id) sender
 {
-    selectedButton.selected = !selectedButton.selected;
+    /*selectedButton.selected = !selectedButton.selected;
     
-    [self changeMWMode:selectedButton.selected?0:1];
+    [self changeMWMode:selectedButton.selected?0:1];*/
+    
+    UIButton *button = (UIButton*)sender;
+    [self changeMWMode:button.tag - 12000];
 }
 
 - (void) shiftTime:(id) sender
@@ -191,6 +240,13 @@ extern BOOL _isiPad;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:12];
     
+    // set week header background
+    CGRect weekRect = dayRec;
+    weekRect.size.width = rect.size.width;
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    [[UIColor lightGrayColor] set];
+    CGContextFillRect(ctx, weekRect);
+    
     if (_isiPad)
     {
         NSString *wkHeader = @"CW";
@@ -222,13 +278,36 @@ extern BOOL _isiPad;
 		[dayName drawInRect:dayRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 	}
     
-    font = [UIFont boldSystemFontOfSize:18];
+    //font = [UIFont systemFontOfSize:18];
 
     NSDate *dt = [[TaskManager getInstance] today];
     
-    NSString *title = [Common getFullMonthYearString:dt];
+    //NSString *title = [Common getFullMonthYearString:dt];
     
-    if (!selectedButton.selected)
+    // day
+    font = [UIFont systemFontOfSize:40];
+    NSString *day = [Common getDayString:dt];
+    CGSize sz = [day sizeWithFont:font];
+    CGRect titleRec = CGRectMake(5, 5, 0, 0);
+    titleRec.size = sz;
+    //[[UIColor redColor] set];
+    //CGContextFillRect(ctx, titleRec);
+    [[UIColor grayColor] set];
+    [day drawInRect:titleRec withFont:font];
+    
+    // full day
+    NSString *fullDay = [Common getFullDateString3:dt];
+    font = [UIFont systemFontOfSize:16];
+    titleRec.origin.x += titleRec.size.width + 5;
+    titleRec.origin.y += 4;
+    sz = [fullDay sizeWithFont:font];
+    titleRec.size = sz;
+    //[[UIColor redColor] set];
+    //CGContextFillRect(ctx, titleRec);
+    [[UIColor grayColor] set];
+    [fullDay drawInRect:titleRec withFont:font];
+    
+    /*if (!selectedButton.selected)
     {
         title = [NSString stringWithFormat:@"CW #%d, %@", [Common getWeekOfYear:dt], [Common getMonthYearString:dt]];
     }
@@ -248,7 +327,7 @@ extern BOOL _isiPad;
     
     [[UIColor whiteColor] set];
     
-    [title drawInRect:monRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];   
+    [title drawInRect:monRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];   */
 }
 
 @end

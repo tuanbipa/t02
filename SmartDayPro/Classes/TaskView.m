@@ -201,6 +201,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     if (self.listStyle) {
         checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+        checkView.userInteractionEnabled = YES;
     } else {
         //checkButton.selected = [task isDone];
         checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
@@ -1999,7 +2000,7 @@ extern iPadViewController *_iPadViewCtrler;
     [self drawText:rect context:ctx];
 }
 
-- (void) drawBoxStyle:(CGRect)rect ctx:(CGContextRef)ctx
+- (void) drawBoxStyle_old:(CGRect)rect ctx:(CGContextRef)ctx
 {    
     //ProjectManager *pm = [ProjectManager getInstance];
     
@@ -2255,6 +2256,261 @@ extern iPadViewController *_iPadViewCtrler;
     [self drawText:rect context:ctx];
 }
 
+- (void) drawBoxStyle:(CGRect)rect ctx:(CGContextRef)ctx
+{
+    //ProjectManager *pm = [ProjectManager getInstance];
+    
+    //Task *task = (Task *) self.tag;
+    
+	//BOOL hasAlert = (task.alerts != nil && task.alerts.count > 0);
+    //BOOL hasAlert = (task.original != nil && ![task isREException]?task.original.alerts.count > 0:task.alerts.count > 0);
+	//BOOL hasDue = [task isDTask];
+	//BOOL hasFlag = [task isTask] && (task.isTop || (task.original != nil && task.original.isTop));
+    //BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
+    BOOL hasHand = [task isShared];
+    
+    ////printf("task view: %s - has Link: %s\n", [task.name UTF8String], (hasLink?"Yes":"No"));
+    
+    //BOOL hasHashMark = (task.duration != 0);
+    BOOL hasHashMark = NO; //dont' draw hash marks in Calendar view
+    
+	/*if (rect.size.width <= 120) //no need to draw these in WeekPlanner
+	{
+		hasAlert = NO;
+		hasFlag = NO;
+		hasHashMark = NO;
+        hasDue = NO;
+        if (task.listSource != SOURCE_PLANNER_CALENDAR) {
+            hasLink = NO;
+        }
+	}*/
+    
+	UIColor *lightColor = [[ProjectManager getInstance] getProjectColor2:task.project];
+	
+	UIColor *dimColor = [[ProjectManager getInstance] getProjectColor1:task.project];
+    
+	const CGFloat *fstComps = CGColorGetComponents([lightColor CGColor]);
+	const CGFloat *sndComps = CGColorGetComponents([dimColor CGColor]);
+	
+	size_t num_locations = 3;
+	CGFloat locations[3] = { 0.0, 0.4, 1.0 };
+	
+	CGFloat components[12] = { fstComps[0], fstComps[1], fstComps[2], 1.0,  // Start color
+		sndComps[0], sndComps[1], sndComps[2], 1.0, sndComps[0], sndComps[1], sndComps[2], 1.0 };
+    
+    int shadowPad = 2;
+    
+    CGRect frm = CGRectOffset(rect, shadowPad, shadowPad);
+    
+    frm.size.height -= shadowPad;
+    frm.size.width -= shadowPad;
+    
+    [[Common getShadowColor] setFill];
+    
+    if ([task isTask])
+    {
+        fillRoundedRect(ctx, frm, 5, 5);
+    }
+    else
+    {
+        CGContextFillRect(ctx, frm);
+    }
+    
+    frm = CGRectOffset(frm, -shadowPad, -shadowPad);
+    
+	if ([task isTask])
+	{
+		gradientRoundedRect(ctx, frm, 5, 5, components, locations, num_locations);
+	}
+	else
+	{
+		gradientRect(ctx, frm, components, locations, num_locations);
+        
+        if (self.transparent)
+        {
+            UIColor *color = [UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]];
+            
+            [color setFill];
+            CGContextFillRect(ctx, frm);
+        }
+        
+	}
+    
+    if (isSelected)
+    {
+        CGRect outlineRec = frm;
+        
+        outlineRec.origin.y += 1;
+        outlineRec.origin.x += 1;
+        
+        UIColor *highlightColor = [UIColor colorWithRed:149.0/255 green:185.0/255 blue:239.0/255 alpha:1];
+        
+        [highlightColor setStroke];
+        CGContextSetLineWidth(ctx, 2);
+        
+        if ([task isTask])
+        {
+            strokeRoundedRect(ctx, outlineRec, 5, 5);
+        }
+        else
+        {
+            CGContextStrokeRect(ctx, outlineRec);
+        }
+    }
+    
+    rect = frm;
+    
+    if (self.starEnable)
+    {
+        rect.size.width -= 20;
+    }
+    
+    if ([task isEvent] || [task isNote])
+    {
+		//UIImage *image = [[ImageManager getInstance] getImageWithName:@"event.png"];
+        UIImage *image = [task isManual] ? [[ImageManager getInstance] getImageWithName:@"atask_lines.png"] : [[ImageManager getInstance] getImageWithName:@"event.png"];
+        
+        //v4.0
+        if (task.groupKey != -1)
+        {
+            image = [[ImageManager getInstance] getImageWithName:@"exception.png"];
+        }
+		else if (task.original != nil) //Recurring Event
+		{
+            //v3.2
+            /*
+             if (task.repeatData != nil) //exception
+             {
+             image = [[ImageManager getInstance] getImageWithName:@"exception.png"];
+             }
+             else*/
+			{
+				image = [[ImageManager getInstance] getImageWithName:@"repeat.png"];
+			}
+		}
+		
+		frm = CGRectOffset(rect, SPACE_PAD, SPACE_PAD);
+		frm.size.width = REPEAT_SIZE;
+		frm.size.height = REPEAT_SIZE;
+		
+		[image drawInRect:frm];
+        
+        rect.origin.x += REPEAT_SIZE + SPACE_PAD;
+        rect.size.width -= REPEAT_SIZE + SPACE_PAD;
+    }
+    else if ([task isRT])
+	{
+		frm.size.width = HASHMARK_WIDTH/2;
+		frm.size.height = HASHMARK_HEIGHT;
+        
+        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+        if (hasHashMark)
+        {
+            [self drawHashmark:frm context:ctx];
+            
+            rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
+		}
+        else
+        {
+            rect.size.width -= HASHMARK_WIDTH/2 + SPACE_PAD;
+        }
+        
+		frm = CGRectOffset(frm, HASHMARK_WIDTH/2 + SPACE_PAD/2, 0);
+		frm.size.height /= 2;
+		
+		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat.png"];
+        
+		[image drawInRect:frm];
+	}
+	else if ([task isTask] && hasHashMark)
+	{
+		frm.size.width = HASHMARK_WIDTH;
+		frm.size.height = HASHMARK_HEIGHT;
+        
+        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		[self drawHashmark:frm context:ctx];
+        
+        rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
+	}
+    
+	/*if (hasDue)
+	{
+		frm.size.width = DUE_SIZE;
+		frm.size.height = DUE_SIZE;
+        
+        frm.origin.x = rect.origin.x + rect.size.width - DUE_SIZE - SPACE_PAD/2;
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+		[self drawDue:frm context:ctx];
+        
+        rect.size.width -= DUE_SIZE + SPACE_PAD/2;
+	}
+    
+	if (hasAlert)
+	{
+		frm.size.width = ALERT_SIZE;
+		frm.size.height = ALERT_SIZE;
+        
+        frm.origin.x = rect.origin.x + rect.size.width - ALERT_SIZE;
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+		[self drawAlert:frm context:ctx];
+        
+        rect.size.width -= DUE_SIZE;
+	}
+    
+    if (hasLink)
+    {
+		frm.size.width = LINK_SIZE;
+		frm.size.height = LINK_SIZE;
+        
+		frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE;
+		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+		[self drawLink:frm context:ctx];
+		
+        rect.size.width -= LINK_SIZE;
+    }
+    
+	if (hasFlag)
+	{
+		frm.size.width = FLAG_SIZE;
+		frm.size.height = FLAG_SIZE;
+        
+		frm.origin.x = rect.origin.x + SPACE_PAD/2;
+		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		[self drawFlag:frm context:ctx];
+		
+        rect.origin.x += FLAG_SIZE + SPACE_PAD/2;
+        rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
+	}*/
+    
+	if (hasHand)
+	{
+		frm.size.width = HAND_SIZE;
+		frm.size.height = HAND_SIZE;
+        
+		frm.origin.x = rect.origin.x + SPACE_PAD/2;
+		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+		
+		[self drawHand:frm context:ctx];
+		
+        rect.origin.x += HAND_SIZE + SPACE_PAD/2;
+        rect.size.width -= HAND_SIZE + SPACE_PAD/2;
+	}
+    
+    rect.origin.x += SPACE_PAD;
+    rect.size.width -= SPACE_PAD;
+    rect.origin.y += SPACE_PAD;
+    rect.size.height -= SPACE_PAD;
+    
+    [self drawText:rect context:ctx];
+}
 
 - (void)drawRect:(CGRect)rect {
     // Drawing code
