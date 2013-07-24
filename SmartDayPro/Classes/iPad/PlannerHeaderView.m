@@ -5,7 +5,6 @@
 //  Created by Nguyen Van Thuc on 3/12/13.
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
-#import <QuartzCore/QuartzCore.h>
 
 #import "PlannerHeaderView.h"
 #import "Common.h"
@@ -85,14 +84,12 @@ extern PlannerViewController *_plannerViewCtrler;
         // today button
         UIButton *todayButton = [Common createButton:_todayText
                                           buttonType:UIButtonTypeCustom
-                                               frame:CGRectMake(500, 5, 60, 23)
+                                               frame:CGRectMake(500, 5, 60, 25)
                                           titleColor:[UIColor grayColor]
                                               target:self
                                             selector:@selector(goToday:)
-                                    normalStateImage:nil
+                                    normalStateImage:@"module_today.png"
                                   selectedStateImage:nil];
-        [[todayButton layer] setBorderWidth:1.0f];
-        [todayButton.layer setBorderColor:[[UIColor grayColor] CGColor]];
         [self addSubview:todayButton];
     }
     return self;
@@ -122,7 +119,7 @@ extern PlannerViewController *_plannerViewCtrler;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     UIColor *grnColor = [UIColor colorWithRed:114.0/255 green:134.0/255 blue:195.0/255 alpha:1];
     [grnColor set];
-    rect.origin.y = rect.size.height - 20;
+    rect.origin.y = rect.size.height - 18;
     CGContextFillRect(ctx, rect);
     
 	for (int i=0; i<7; i++)
