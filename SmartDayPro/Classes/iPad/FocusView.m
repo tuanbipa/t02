@@ -44,18 +44,24 @@ AbstractSDViewController *_abstractViewCtrler;
         
         CGRect frm = self.bounds;
         
-        frm.size.height = 40;
+        //frm.size.height = 40;
+        frm.size.height = 24;
+        CGRect titleFrame = frm;
+        titleFrame.origin.x += PAD_WIDTH;
         
-        titleLabel = [[UILabel alloc] initWithFrame:frm];
+        titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.textColor = [UIColor darkGrayColor];
-        titleLabel.font = [UIFont systemFontOfSize:20];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
+        //titleLabel.font = [UIFont systemFontOfSize:20];
+        titleLabel.font = [UIFont systemFontOfSize:12];
+        //titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.textAlignment = NSTextAlignmentLeft;
+        titleLabel.text = _focusText;
         
         [self addSubview:titleLabel];
         [titleLabel release];
         
-        zoomButton = [Common createButton:@""
+        /*zoomButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
                                               //frame:CGRectMake(0, 0, 50, 50)
                                         frame:frm
@@ -73,9 +79,9 @@ AbstractSDViewController *_abstractViewCtrler;
         zoomImgView.tag = 10000;
         
         [zoomButton addSubview:zoomImgView];
-        [zoomImgView release];
+        [zoomImgView release];*/
         
-        frm.origin.y = 40;
+        frm.origin.y = 30;
         frm.size.height = 0;
         
         contentView = [[UIScrollView alloc] initWithFrame:frm];
@@ -83,13 +89,13 @@ AbstractSDViewController *_abstractViewCtrler;
         [self addSubview:contentView];
         [contentView release];
         
-        frm.size.height = 1;
+        /*frm.size.height = 1;
         
         UIView *separatorView = [[UIView alloc] initWithFrame:frm];
         separatorView.backgroundColor = [UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1];
         
         [self addSubview:separatorView];
-        [separatorView release];
+        [separatorView release];*/
     }
     
     return self;
@@ -114,7 +120,7 @@ AbstractSDViewController *_abstractViewCtrler;
         }
     }
     
-    if (zoomButton.selected)
+    //if (zoomButton.selected)
     {
         int y = 5;
         
@@ -206,7 +212,7 @@ AbstractSDViewController *_abstractViewCtrler;
         
         self.frame = frm;
     }
-    else
+    /*else
     {
         CGRect frm = self.frame;
         
@@ -219,7 +225,7 @@ AbstractSDViewController *_abstractViewCtrler;
         frm.size.height = 0;
         
         contentView.frame = frm;
-    }    
+    }*/    
     
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     [ctrler refreshFrame];
@@ -230,7 +236,7 @@ AbstractSDViewController *_abstractViewCtrler;
     TaskManager *tm = [TaskManager getInstance];
     //DBManager *dbm = [DBManager getInstance];
     
-    titleLabel.text = [Common getFullDateString3:tm.today];
+    //titleLabel.text = [Common getFullDateString3:tm.today];
     
     if ([self checkExpanded])
     {
@@ -381,7 +387,7 @@ AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
-- (void) zoom:(id)sender
+/*- (void) zoom:(id)sender
 {
     zoomButton.selected = !zoomButton.selected;
     
@@ -389,11 +395,12 @@ AbstractSDViewController *_abstractViewCtrler;
     imgView.image = [UIImage imageNamed:zoomButton.selected?@"MM_month.png":@"MM_week.png"];
     
     [self refreshData];
-}
+}*/
 
 - (BOOL) checkExpanded
 {
-    return zoomButton.selected;
+    //return zoomButton.selected;
+    return YES;
 }
 
 /*

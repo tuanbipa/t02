@@ -1936,7 +1936,7 @@ iPadViewController *_iPadViewCtrler;
                 SmartListViewController *ctrler = [self getSmartListViewController];
                 
                 [ctrler multiEdit:YES];
-                [ctrler hideQuickAdd];
+                //[ctrler hideQuickAdd];
             }
                 break;
             case 1:

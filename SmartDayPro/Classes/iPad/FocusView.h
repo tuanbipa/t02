@@ -15,7 +15,7 @@
     UIScrollView *contentView;
     
     UILabel *titleLabel;
-    UIButton *zoomButton;
+    //UIButton *zoomButton;
 }
 
 @property (nonatomic, retain) NSMutableArray *adeList;
