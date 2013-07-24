@@ -5,6 +5,7 @@
 //  Created by Nguyen Van Thuc on 3/12/13.
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
+#import <QuartzCore/QuartzCore.h>
 
 #import "PlannerHeaderView.h"
 #import "Common.h"
@@ -24,8 +25,8 @@ extern PlannerViewController *_plannerViewCtrler;
     if (self) {
         // Initialization code
         
-        //self.backgroundColor = [UIColor lightGrayColor];
-        self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"planner_top_bg.png"]];
+        //self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"planner_top_bg.png"]];
+        self.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
         
         // next/previous button
         CGRect frm = CGRectMake(0, 0, 50, 50);
@@ -48,8 +49,8 @@ extern PlannerViewController *_plannerViewCtrler;
         [prevButton addSubview:prevImgView];
         [prevImgView release];
         
-        //frm = _isiPad?CGRectMake(self.bounds.size.width-125, 0, 50, 50):CGRectMake(self.bounds.size.width-55, 0, 50, 50);
-        frm = CGRectMake(self.bounds.size.width-125, 0, 30, 30);
+        //frm = CGRectMake(self.bounds.size.width-125, 0, 30, 30);
+        frm = CGRectMake(self.bounds.size.width-50, 0, 50, 50);
         
         UIButton *nextButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
@@ -69,22 +70,11 @@ extern PlannerViewController *_plannerViewCtrler;
         [nextButton addSubview:nextImgView];
         [nextImgView release];
         
-        UIButton *todayButton = [Common createButton:_todayText
-                                          buttonType:UIButtonTypeCustom
-                                               frame:CGRectMake(self.bounds.size.width-75, 5, 60, 25)
-                                          titleColor:[UIColor whiteColor]
-                                              target:self
-                                            selector:@selector(goToday:)
-                                    normalStateImage:nil
-                                  selectedStateImage:nil];
-        
-        [self addSubview:todayButton];
-        
-        // add month button
+        // month button
         UIButton *monthButton = [Common createButton:@""
                                           buttonType:UIButtonTypeCustom
-                                               frame:CGRectMake(self.bounds.size.width-75, 5, 60, 25)
-                                          titleColor:[UIColor whiteColor]
+                                               frame:CGRectMake(200, 5, 80, 25)
+                                          titleColor:[UIColor grayColor]
                                               target:self
                                             selector:@selector(showYearView:)
                                     normalStateImage:nil
@@ -92,6 +82,18 @@ extern PlannerViewController *_plannerViewCtrler;
         monthButton.tag = 20000;
         [self addSubview:monthButton];
         
+        // today button
+        UIButton *todayButton = [Common createButton:_todayText
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(500, 5, 60, 23)
+                                          titleColor:[UIColor grayColor]
+                                              target:self
+                                            selector:@selector(goToday:)
+                                    normalStateImage:nil
+                                  selectedStateImage:nil];
+        [[todayButton layer] setBorderWidth:1.0f];
+        [todayButton.layer setBorderColor:[[UIColor grayColor] CGColor]];
+        [self addSubview:todayButton];
     }
     return self;
 }
@@ -116,23 +118,13 @@ extern PlannerViewController *_plannerViewCtrler;
 	dayRec.size.width /= 7;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:12];
-    
-    /*if (_isiPad)
-    {
-        NSString *wkHeader = @"CW";
-        
-        CGRect r = dayRec;
-        r.size.width = MINI_MONTH_WEEK_HEADER_WIDTH;
-        
-		[[UIColor grayColor] set];
-		
-		[wkHeader drawInRect:CGRectOffset(r, 0, -1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
-		
-		[[UIColor whiteColor] set];
-		
-		[wkHeader drawInRect:r withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
-    }*/
 	
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    UIColor *grnColor = [UIColor colorWithRed:114.0/255 green:134.0/255 blue:195.0/255 alpha:1];
+    [grnColor set];
+    rect.origin.y = rect.size.height - 20;
+    CGContextFillRect(ctx, rect);
+    
 	for (int i=0; i<7; i++)
 	{
 		NSString *dayName = weekStartOnMonday?_dayNamesMon[i]:_dayNamesSun[i];
@@ -154,7 +146,7 @@ extern PlannerViewController *_plannerViewCtrler;
     
     NSString *title = [Common getFullMonthYearString:dt];
     
-    UIButton *prevButton = (UIButton *) [self viewWithTag:11000];
+    /*UIButton *prevButton = (UIButton *) [self viewWithTag:11000];
     UIButton *nextButton = (UIButton *) [self viewWithTag:11001];
     
     CGRect monRec = CGRectZero;
@@ -175,7 +167,15 @@ extern PlannerViewController *_plannerViewCtrler;
     
     // update frame of month button
     UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
-    monthButton.frame = monRec;
+    monthButton.frame = monRec;*/
+    
+    //[monthButton setTitle:title forState:UIControlStateNormal];
+    CGRect monRec = CGRectMake(200, 5, 80, 25);
+    
+    [[UIColor grayColor] set];
+    [title drawInRect:CGRectOffset(monRec, 0, 1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+    [grnColor set];
+    [title drawInRect:monRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
 
 #pragma mark Actions
