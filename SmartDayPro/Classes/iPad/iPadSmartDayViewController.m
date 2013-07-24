@@ -901,9 +901,24 @@ iPadViewController *_iPadViewCtrler;
     NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _longText, _shortText, nil];
     
     filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    filterSegmentedControl.frame = headerView.bounds;
+    CGRect frm = headerView.bounds;
+    frm.size.height -= 10;
+    frm.origin.y = (headerView.frame.size.height - frm.size.height)/2;
+    filterSegmentedControl.frame = frm;
+    
+    // customizing appearance
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
+    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                          [UIColor grayColor], UITextAttributeTextColor,
+                                          //[UIColor blackColor], UITextAttributeTextShadowColor,
+                                          //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                          nil] forState:UIControlStateNormal];
+    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    selectedColor, UITextAttributeTextColor,
+                                                    nil] forState:UIControlStateSelected];
     
     [filterSegmentedControl addTarget:self action:@selector(showTaskWithOption:) forControlEvents:UIControlEventValueChanged];
     
@@ -1034,9 +1049,23 @@ iPadViewController *_iPadViewCtrler;
     NSArray *itemArray = [NSArray arrayWithObjects: _allText, _todayText, nil];
     
     filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    filterSegmentedControl.frame = headerView.bounds;
+    CGRect frm = headerView.bounds;
+    frm.size.height -= 10;
+    frm.origin.y = (headerView.frame.size.height - frm.size.height)/2;
+    filterSegmentedControl.frame = frm;
+    
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
+    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [UIColor grayColor], UITextAttributeTextColor,
+                                                    //[UIColor blackColor], UITextAttributeTextShadowColor,
+                                                    //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                    nil] forState:UIControlStateNormal];
+    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    selectedColor, UITextAttributeTextColor,
+                                                    nil] forState:UIControlStateSelected];
     
     [filterSegmentedControl addTarget:self action:@selector(showNoteWithOption:) forControlEvents:UIControlEventValueChanged];
     
@@ -1083,9 +1112,23 @@ iPadViewController *_iPadViewCtrler;
     NSArray *itemArray = [NSArray arrayWithObjects: _tasksText, _eventsText, _notesText, _anchoredText, nil];
     
     filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    filterSegmentedControl.frame = headerView.bounds;
+    CGRect frm = headerView.bounds;
+    frm.size.height -= 10;
+    frm.origin.y = (headerView.frame.size.height - frm.size.height)/2;
+    filterSegmentedControl.frame = frm;
+    
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
+    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [UIColor grayColor], UITextAttributeTextColor,
+                                                    //[UIColor blackColor], UITextAttributeTextShadowColor,
+                                                    //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                    nil] forState:UIControlStateNormal];
+    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    selectedColor, UITextAttributeTextColor,
+                                                    nil] forState:UIControlStateSelected];
     
     [filterSegmentedControl addTarget:self action:@selector(showProjectWithOption:) forControlEvents:UIControlEventValueChanged];
     
