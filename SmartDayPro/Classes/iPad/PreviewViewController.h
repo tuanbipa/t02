@@ -40,7 +40,7 @@
 - (void) markNoteChange;
 - (void) changeFrame:(CGRect) frm;
 
-- (void) showNote;
+- (void) editNoteContent;
 - (void) refreshData;
 
 @end

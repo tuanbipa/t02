@@ -9,6 +9,9 @@
 #import "MiniMonthMovableController.h"
 
 @interface TaskMovableController : MiniMonthMovableController
+{
+    NSInteger movedDirection;
+}
 
 @property (nonatomic, assign) UITableView *listTableView;
 

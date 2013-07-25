@@ -20,9 +20,11 @@
 
 #import "SmartDayViewController.h"
 #import "PreviewViewController.h"
+#import "iPadViewController.h"
 
 extern SmartDayViewController *_sdViewCtrler;
 extern PreviewViewController *_previewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation NoteView
 
@@ -690,10 +692,17 @@ extern PreviewViewController *_previewCtrler;
         
         //[[NSNotificationCenter defaultCenter] postNotificationName:@"NoteTapNotification" object:nil]; //
         
-        if (_previewCtrler != nil)
+        /*
+        if (self.note.listSource == SOURCE_PREVIEW)
         {
-            [_previewCtrler showNote];
+            [_previewCtrler editNoteContent];
         }
+        else if (_noteDetailViewCtrler != nil)
+        {
+            [_noteDetailViewCtrler editNoteContent];
+        }*/
+        
+        [_iPadViewCtrler editNoteContent:self.note];
         
         return NO;
     }

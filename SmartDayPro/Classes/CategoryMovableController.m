@@ -46,6 +46,19 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     return ctrler.filterType == TYPE_TASK;
 }
 
+- (void) separateFrame:(BOOL) needSeparate
+{
+	if (rightMovableView != nil)
+	{
+		rightMovableView.frame = CGRectOffset(rightMovableView.frame, 0, needSeparate?SEPARATE_OFFSET:-SEPARATE_OFFSET);
+	}
+	
+	if (leftMovableView != nil)
+	{
+		leftMovableView.frame = CGRectOffset(leftMovableView.frame, 0, needSeparate?-SEPARATE_OFFSET:SEPARATE_OFFSET);
+	}
+}
+
 - (void) animateRelations
 {
     MovableView *rightView = nil;
@@ -58,7 +71,14 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     for (UIView *checkView in container.subviews)
     {
-        if (CGRectIntersectsRect(checkView.frame, frm))
+        if (checkView == self.activeMovableView || ![checkView isKindOfClass:[MovableView class]])
+        {
+            continue;
+        }
+        
+        CGRect rect = checkView.frame;
+        
+        if (CGRectIntersectsRect(frm, rect))
         {
             if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]] && ![((TaskView *)checkView).task isShared]) ||
                 ([self.activeMovableView isKindOfClass:[PlanView class]] && [checkView isKindOfClass:[PlanView class]]))
@@ -67,6 +87,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
                 rightView = checkView;
                 
                 onView = nil;
+                
             }
             else if ([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[PlanView class]] && (((TaskView *)self.activeMovableView).task).project != ((PlanView *)checkView).project.primaryKey)
             {
@@ -79,12 +100,6 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             
             break;
         }
-        
-        /*if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]]) ||
-            ([self.activeMovableView isKindOfClass:[PlanView class]] && [checkView isKindOfClass:[PlanView class]]))
-        {
-            leftView = checkView;
-        }*/
     }
     
     if ([self.activeMovableView isKindOfClass:[TaskView class]])
@@ -126,10 +141,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     [self zoom:onView];
     
-    //if ([self canSeparate])
-    {
-        [self separate:rightView fromLeft:leftView];
-    }
+    [self separate:rightView fromLeft:leftView];
 }
 
 -(void) endMove:(MovableView *)view

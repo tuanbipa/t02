@@ -75,9 +75,13 @@
 
 - (void) editProject:(Project *)project inRect:(CGRect)inRect;
 
+- (void) hidePopover;
 - (void) hideDropDownMenu;
 - (void) showOptionMenu;
 - (void) deselect;
+
+- (void) showSeekOrCreate:(NSString *)text;
+- (void) createItem:(NSInteger)index title:(NSString *)title;
 
 - (void) markDoneTask;
 - (void) deleteTask;
@@ -87,6 +91,7 @@
 - (void) defer:(NSInteger)option;
 - (Project *) copyCategory;
 - (void) deleteCategory;
+- (void) deleteNote:(Task *)note;
 
 - (void) showCategory;
 - (void) showTag;

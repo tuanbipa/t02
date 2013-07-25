@@ -488,7 +488,7 @@ extern iPadViewController *_iPadViewCtrler;
     CGFloat h = (settings.tabBarAutoHide?0:40) + (isMultiEdit?40:0);
 
     frm = contentView.bounds;
-    frm.size.height = 40;
+    frm.size.height = 35;
     
     emptyNoteButton.frame = frm;
     
@@ -579,7 +579,7 @@ extern iPadViewController *_iPadViewCtrler;
 */
     
     frm = contentView.bounds;
-    frm.size.height = 40;
+    frm.size.height = 35;
     
 	emptyNoteButton = [Common createButton:_tapToAddNote
                                 buttonType:UIButtonTypeCustom

@@ -34,6 +34,7 @@
 @property BOOL multiSelectionEnable;
 @property BOOL touchHoldEnable;
 @property BOOL isReused;
+@property NSInteger movedDirection; //0:not move, 1:move up, 2:move down
 
 -(CGPoint)getMovedDelta:(NSSet *)touches;
 -(CGPoint)getTouchPoint;

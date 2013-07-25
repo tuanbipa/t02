@@ -67,6 +67,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self.contentView addSubview:dummyView];
     [dummyView release];
     
+    dummyView.alpha = 0.7;
+    
     self.activeMovableView.hidden = YES;
     
 }

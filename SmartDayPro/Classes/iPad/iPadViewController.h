@@ -35,6 +35,7 @@
 
 - (void) refreshFilterStatus;
 
+- (void) editNoteContent:(Task *)note;
 - (void) editNoteDetail:(Task *)note;
 -(void) editItemDetail:(Task *)item;
 - (void) editProjectDetail:(Project *)project;

@@ -363,9 +363,9 @@ extern iPadViewController *_iPadViewCtrler;
     
     UIView *quickAddPlaceHolder = [contentView viewWithTag:-30000];
     
-    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 40);
+    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 35);
     
-    quickAddTextField.frame = CGRectMake(10, 5, frm.size.width-50, 30);
+    quickAddTextField.frame = CGRectMake(5, 5, frm.size.width-45, 30);
     
     UIButton *moreButton = (UIButton *)[quickAddPlaceHolder viewWithTag:10000];
     
@@ -399,16 +399,16 @@ extern iPadViewController *_iPadViewCtrler;
     maskView.hidden = YES;
     [maskView release];
     
-    UIView *quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-	quickAddPlaceHolder.backgroundColor = [UIColor clearColor];
+    UIView *quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)];
+	quickAddPlaceHolder.backgroundColor = [[Common getColorByID:0 colorIndex:0] colorWithAlphaComponent:0.2];
     quickAddPlaceHolder.tag = -30000;
 	[contentView addSubview:quickAddPlaceHolder];
 	[quickAddPlaceHolder release];
     
-    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-50, 30)];
+    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
 	quickAddTextField.delegate = self;
     quickAddTextField.tag = -1;
-	quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
+	quickAddTextField.borderStyle = UITextBorderStyleNone;
 	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;
 	quickAddTextField.font=[UIFont systemFontOfSize:16];

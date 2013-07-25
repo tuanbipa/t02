@@ -17,8 +17,10 @@
 #import "ContentView.h"
 
 #import "iPadSmartDayViewController.h"
+#import "iPadViewController.h"
 
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @interface SeekOrCreateViewController ()
 
@@ -103,7 +105,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 {
     UISegmentedControl *segmentCtrl = (UISegmentedControl *)sender;
     
-    [_iPadSDViewCtrler createItem:segmentCtrl.selectedSegmentIndex title:self.title];
+    [_iPadViewCtrler.activeViewCtrler createItem:segmentCtrl.selectedSegmentIndex title:self.title];
 }
 
 - (void) singleTap
@@ -125,7 +127,10 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
         Task *task = [lists[tapSection] objectAtIndex:tapRow];
         
-        [_iPadSDViewCtrler editItem:task inRect:CGRectMake(600, 0, 20, 10)];
+        //[_iPadSDViewCtrler editItem:task inRect:CGRectMake(600, 0, 20, 10)];
+        [_iPadViewCtrler deactivateSearchBar];
+        [_iPadViewCtrler.activeViewCtrler hidePopover];
+        [_iPadViewCtrler.activeViewCtrler editItem:task inView:nil];
     }
 }
 
@@ -157,6 +162,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     [segmentControl release];
     
     UILabel *resultLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 200, 20)];
+    //UILabel *resultLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 200, 20)];
     resultLabel.backgroundColor = [UIColor clearColor];
     resultLabel.textAlignment = NSTextAlignmentLeft;
     resultLabel.font = [UIFont boldSystemFontOfSize:18];
@@ -166,6 +172,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     [resultLabel release];
     
 	searchTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 70, contentView.bounds.size.width, contentView.bounds.size.height-70) style:UITableViewStylePlain];
+    //searchTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 30, contentView.bounds.size.width, contentView.bounds.size.height-30) style:UITableViewStylePlain];
 	searchTableView.delegate = self;
 	searchTableView.dataSource = self;
     
@@ -255,6 +262,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	
     cell.imageView.image = img;
     cell.textLabel.text = task.name;
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;

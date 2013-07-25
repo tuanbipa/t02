@@ -14,8 +14,10 @@
 #import "Task.h"
 
 #import "DetailViewController.h"
+#import "NoteDetailViewController.h"
 
 extern DetailViewController *_detailViewCtrler;
+extern NoteDetailViewController *_noteDetailViewCtrler;
 
 @implementation DateInputViewController
 
@@ -23,6 +25,7 @@ extern DetailViewController *_detailViewCtrler;
 @synthesize task;
 @synthesize dateEdit;
 @synthesize noneItem;
+@synthesize toolbar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,7 +41,18 @@ extern DetailViewController *_detailViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if ([task isTask])
+    if ([task isNote])
+    {
+        NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbar.items];
+        
+        [items removeObjectAtIndex:0];
+        
+        self.toolbar.items = items;
+        
+        self.noneItem = nil;
+    }
+    
+    if ([task isTask] || [task isNote])
     {
         picker.datePickerMode = UIDatePickerModeDate;
     }
@@ -91,6 +105,11 @@ extern DetailViewController *_detailViewCtrler;
     {
         [_detailViewCtrler refreshWhen];
         [_detailViewCtrler closeInputView];
+    }
+    else if (_noteDetailViewCtrler != nil)
+    {
+        [_noteDetailViewCtrler refreshDate];
+        [_noteDetailViewCtrler closeInputView];
     }
 }
 

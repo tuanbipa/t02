@@ -77,13 +77,14 @@ PreviewViewController *_previewCtrler;
         noteChange = NO;
         noteLinkCreated = NO;
         
+        /*
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteBeginEdit:)
 													 name:@"NoteBeginEditNotification" object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteFinishEdit:)
-													 name:@"NoteFinishEditNotification" object:nil];
+													 name:@"NoteFinishEditNotification" object:nil];*/
         
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteTap:)
@@ -107,6 +108,9 @@ PreviewViewController *_previewCtrler;
 
 - (void) refreshData
 {
+    selectedIndex = -1;
+    hasNote = NO;
+    
     if (self.item != nil)
     {
         Task *previewItem = (self.item.original != nil && ![self.item isREException]?self.item.original:self.item);
@@ -146,6 +150,8 @@ PreviewViewController *_previewCtrler;
                  {
                  expandedNoteIndex = index;
                  }*/
+                
+                selectedIndex = 0;
             }
             
             index ++;
@@ -261,16 +267,16 @@ PreviewViewController *_previewCtrler;
 {
     tapCount = 0;
     
-    if (!hasNote)
+    if (!hasNote && ![self.item isNote])
     {
         tapRow -= 1;
     }
     
     if (tapRow >= 0)
     {
-        Task *item = [self.linkList objectAtIndex:tapRow];
+        Task *itemEdit = [self.linkList objectAtIndex:tapRow];
     
-        //[_iPadSDViewCtrler editItem:item];
+        /*
         if (_plannerViewCtrler != nil)
         {
             [_plannerViewCtrler editItem:item];
@@ -278,7 +284,9 @@ PreviewViewController *_previewCtrler;
         else if (_abstractViewCtrler != nil)
         {
             [_abstractViewCtrler editItem:item];
-        }
+        }*/
+        
+        [_iPadViewCtrler.activeViewCtrler editItem:itemEdit];
     }
 }
 
@@ -323,11 +331,12 @@ PreviewViewController *_previewCtrler;
     [linkTableView reloadData];
 }
 
-- (void) showNote
+- (void) editNoteContent
 {
     TaskManager *tm = [TaskManager getInstance];
     Task *note = [[[Task alloc] init] autorelease];
     note.type = TYPE_NOTE;
+    note.listSource = SOURCE_PREVIEW;
     note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
         
     NSInteger index = selectedIndex;
@@ -358,7 +367,7 @@ PreviewViewController *_previewCtrler;
         }
     }
     
-    printf("note: %s\n", [note.note UTF8String]);
+    //printf("note: %s\n", [note.note UTF8String]);
     
     /*
     NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
@@ -375,7 +384,7 @@ PreviewViewController *_previewCtrler;
     [ctrler release];
     */
     
-    [_iPadViewCtrler editNoteDetail:note];
+    [_iPadViewCtrler editNoteContent:note];
 }
 
 #pragma mark Notification
@@ -404,6 +413,7 @@ PreviewViewController *_previewCtrler;
     }
 }
 
+/*
 - (void) noteFinishEdit:(NSNotification *)notification
 {
     if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
@@ -433,10 +443,11 @@ PreviewViewController *_previewCtrler;
         [self markNoteChange];
     }
 }
+*/
 
 - (void) noteTap:(NSNotification *)notification
 {
-    [self showNote];
+    [self editNoteContent];
 }
 
 /*
@@ -457,6 +468,20 @@ PreviewViewController *_previewCtrler;
 }
 */
 #pragma mark Actions
+- (void) quickAddNote:(id)sender
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    Task *note = [[Task alloc] init];
+    
+    note.type = TYPE_NOTE;
+    note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+    
+    [_iPadViewCtrler editNoteContent:note];
+    
+    [note release];
+}
+
 - (void) editItem:(id) sender
 {
     [noteView finishEdit];
@@ -675,7 +700,7 @@ PreviewViewController *_previewCtrler;
 #pragma mark Cell Creation
 - (void) createEmptyNoteCell:(UITableViewCell *)cell expanded:(BOOL)expanded
 {
-    CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 0);
+    /*CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 0);
     
     frm.size.height = expanded?170:40;
     
@@ -685,7 +710,21 @@ PreviewViewController *_previewCtrler;
     noteView.touchEnabled = YES;
     
     [cell.contentView addSubview:noteView];
-    [noteView release];
+    [noteView release];*/
+    
+    CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 40);
+    
+	UIButton *emptyNoteButton = [Common createButton:_tapToAddNote
+                                buttonType:UIButtonTypeCustom
+                                     frame:frm
+                                titleColor:[UIColor lightGrayColor]
+                                    target:self
+                                  selector:@selector(quickAddNote:)
+                          normalStateImage:nil
+                        selectedStateImage:nil];
+    emptyNoteButton.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG_full.png"]];
+    
+    [cell.contentView addSubview:emptyNoteButton];
 }
 
 - (void) createNoteCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded
@@ -703,6 +742,8 @@ PreviewViewController *_previewCtrler;
         noteView.touchEnabled = YES;
         
         noteView.note = asset;
+        
+        //printf("note content: %s\n", [noteView.note.note UTF8String]);
         
         [cell.contentView addSubview:noteView];
         [noteView release];
@@ -1053,6 +1094,7 @@ PreviewViewController *_previewCtrler;
     
 }
 
+/*
 - (CGFloat) calculateExpandedNoteHeight
 {
     //CGFloat h = contentView.bounds.size.height-60;
@@ -1078,7 +1120,7 @@ PreviewViewController *_previewCtrler;
     
     return h;
 }
-
+*/
 #pragma mark UITableView Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -1095,7 +1137,7 @@ PreviewViewController *_previewCtrler;
     
     NSInteger count = self.linkList.count;
     
-    if (!hasNote)
+    if (!hasNote && ![self.item isNote]) //don't show empty Note for Note
     {
         count += 1;
     }
@@ -1194,9 +1236,9 @@ PreviewViewController *_previewCtrler;
     }*/
     
     
-    BOOL expanded = selectedIndex == indexPath.row;
+    BOOL expanded = (selectedIndex == indexPath.row);
     
-    if (!hasNote)
+    if (!hasNote && ![self.item isNote])
     {
         if (index == 0)
         {

@@ -33,7 +33,6 @@ typedef enum
 - (void) showCategory;
 - (void) showTag;
 - (void) showSeekOrCreate:(NSString *)text;
-- (void) createItem:(NSInteger)index title:(NSString *)title;
 - (void) editItem:(Task *)task inRect:(CGRect)inRect;
 - (void) showTimer;
 - (void) showMenu;

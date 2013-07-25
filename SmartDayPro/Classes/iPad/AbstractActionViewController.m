@@ -48,6 +48,7 @@
 #import "CalendarSelectionTableViewController.h"
 #import "TimerViewController.h"
 #import "MenuTableViewController.h"
+#import "SeekOrCreateViewController.h"
 
 #import "SDNavigationController.h"
 
@@ -685,6 +686,138 @@ extern iPadViewController *_iPadViewCtrler;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark Seek&Create
+- (void) showSeekOrCreate:(NSString *)text
+{
+    if (self.popoverCtrler != nil && ![self.popoverCtrler isPopoverVisible])
+    {
+        [self.popoverCtrler dismissPopoverAnimated:YES];
+        
+        self.popoverCtrler = nil;
+    }
+    
+    if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SeekOrCreateViewController class]])
+    {
+        if ([text isEqualToString:@""])
+        {
+            [self.popoverCtrler dismissPopoverAnimated:YES];
+        }
+        else
+        {
+            SeekOrCreateViewController *ctrler = (SeekOrCreateViewController *) self.popoverCtrler.contentViewController;
+            
+            [ctrler search:text];
+        }
+    }
+    else if (![text isEqualToString:@""])
+    {
+        [self.popoverCtrler dismissPopoverAnimated:NO];
+        
+        SeekOrCreateViewController *ctrler = [[SeekOrCreateViewController alloc] init];
+        
+        [ctrler search:text];
+        
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+        [self.popoverCtrler setPopoverContentSize:CGSizeMake(320, 440)];
+        
+        [ctrler release];
+        
+        CGRect frm = CGRectMake(600, 0, 20, 10);
+        
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+}
+
+- (void) createItem:(NSInteger)index title:(NSString *)title
+{
+    //[self.popoverCtrler dismissPopoverAnimated:NO];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    Settings *settings = [Settings getInstance];
+    
+    Task *task = [[[Task alloc] init] autorelease];
+    task.name = title;
+    task.listSource = SOURCE_NONE;
+    
+    //UIViewController *ctrler = nil;
+    
+    switch (index)
+    {
+        case 0:
+        {
+            task.type = TYPE_TASK;
+            task.startTime = [settings getWorkingStartTimeForDate:tm.today];
+            
+            switch (tm.taskTypeFilter)
+            {
+                case TASK_FILTER_STAR:
+                {
+                    task.status = TASK_STATUS_PINNED;
+                }
+                    break;
+                case TASK_FILTER_DUE:
+                {
+                    task.deadline = [settings getWorkingEndTimeForDate:tm.today];
+                }
+                    break;
+            }
+            
+            /*
+            TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
+            taskCtrler.task = task;
+            
+            ctrler = taskCtrler;*/
+        }
+            break;
+        case 1:
+        {
+            task.type = TYPE_EVENT;
+            
+            task.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
+            
+            task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+            task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];
+            
+            /*
+            TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
+            taskCtrler.task = task;
+            
+            ctrler = taskCtrler;*/
+        }
+            break;
+        case 2:
+        {
+            task.type = TYPE_NOTE;
+            //task.listSource = SOURCE_NOTE;
+            task.note = title;
+            
+            task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
+            
+            /*
+            NoteDetailTableViewController *noteCtrler = [[NoteDetailTableViewController alloc] init];
+            noteCtrler.note = task;
+            
+            ctrler = noteCtrler;*/
+            
+        }
+            break;
+    }
+	
+    /*
+	SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+	[ctrler release];
+	
+	self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
+	
+	[navController release];
+    
+    CGRect frm = CGRectMake(600, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];*/
+    
+    [_iPadViewCtrler editItemDetail:task];
+}
+
 #pragma mark Edit
 /*
 - (void) editItem:(Task *)item
@@ -894,7 +1027,10 @@ extern iPadViewController *_iPadViewCtrler;
         }
     }*/
     
-    [self enableActions:YES onView:inView]; //to make activeView not nil to do actions
+    if (inView != nil)
+    {
+        [self enableActions:YES onView:inView]; //to make activeView not nil to do actions
+    }
     
     [_iPadViewCtrler editItemDetail:item];
 }
@@ -1818,6 +1954,15 @@ extern iPadViewController *_iPadViewCtrler;
         
         [task release];
     }
+}
+
+- (void) deleteNote:(Task *)note
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    [note deleteFromDatabase:[dbm getDatabase]];
+    
+    [self reconcileItem:note reSchedule:NO];
 }
 
 #pragma mark Project Actions

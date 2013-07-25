@@ -2996,8 +2996,8 @@ SmartListViewController *_smartListViewCtrler;
     UIToolbar *toolbar = (UIToolbar *) [editBarPlaceHolder viewWithTag:1];
     toolbar.frame = editBarPlaceHolder.bounds;
     
-    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 40);
-    quickAddTextField.frame = CGRectMake(10, 5, frm.size.width-50, 30);
+    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 35);
+    quickAddTextField.frame = CGRectMake(5, 5, frm.size.width-45, 30);
     
     UIButton *moreButton = (UIButton *) [quickAddPlaceHolder viewWithTag:10000];
     moreButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
@@ -3008,6 +3008,9 @@ SmartListViewController *_smartListViewCtrler;
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
+    Settings *settings = [Settings getInstance];
+    ProjectManager *pm = [ProjectManager getInstance];
+    
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
@@ -3043,22 +3046,23 @@ SmartListViewController *_smartListViewCtrler;
 	//smartListLayoutController.viewContainer = smartListView;
     layoutController.listTableView = smartListView;
 	
-    self.quickAddPlaceHolder = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)] autorelease];
-	self.quickAddPlaceHolder.backgroundColor = [UIColor clearColor];
+    self.quickAddPlaceHolder = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)] autorelease];
+	self.quickAddPlaceHolder.backgroundColor = [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.2];
     self.quickAddPlaceHolder.tag = -30000;
 	//[smartListView addSubview:quickAddPlaceHolder];
 	//[quickAddPlaceHolder release];
     
     [contentView addSubview:self.quickAddPlaceHolder];
     
-    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-50, 30)];
+    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
 	quickAddTextField.delegate = self;
     quickAddTextField.tag = -1;
-	quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
+	quickAddTextField.borderStyle = UITextBorderStyleNone;
 	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;
 	quickAddTextField.font=[UIFont systemFontOfSize:16];
 	quickAddTextField.placeholder = _quickAddNewTask;
+    quickAddTextField.backgroundColor = [UIColor clearColor];
     //[quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
 	
 	[self.quickAddPlaceHolder addSubview:quickAddTextField];

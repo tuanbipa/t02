@@ -22,6 +22,7 @@
 @synthesize multiSelectionEnable;
 @synthesize touchHoldEnable;
 @synthesize isReused;
+@synthesize movedDirection;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -126,6 +127,8 @@
 	
 	touchedOffset.x = self.center.x - p.x;
 	touchedOffset.y = self.center.y - p.y;
+    
+    self.movedDirection = 0;
 	
 	if (self.movableController != nil)
 	{
@@ -177,6 +180,10 @@
 
 -(void)move:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    CGPoint delta = [self getMovedDelta:touches];
+    
+    self.movedDirection = (delta.y == 0?0:(delta.y < 0?1:2));
+    
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:self.superview];
 	

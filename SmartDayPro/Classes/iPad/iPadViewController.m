@@ -26,7 +26,9 @@
 #import "iPadSettingViewController.h"
 
 #import "DetailViewController.h"
-#import "NoteDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
+#import "NoteDetailViewController.h"
+#import "NoteContentViewController.h"
 #import "ProjectEditViewController.h"
 
 #import "SDNavigationController.h"
@@ -100,9 +102,10 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) deactivateSearchBar
 {
-    if (searchBar != nil)
+    if (searchBar != nil && [searchBar isFirstResponder])
     {
         [searchBar resignFirstResponder];
+        [self.activeViewCtrler hidePopover];
     }
 }
 
@@ -193,9 +196,23 @@ iPadViewController *_iPadViewCtrler;
         UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
         searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
-        searchBar.placeholder = _seekOrCreate;
+        //searchBar.placeholder = _seekOrCreate;
         searchBar.translucent = YES;
         searchBar.delegate = self;
+        
+        UITextField *searchField = nil;
+        for (UIView *subview in searchBar.subviews) {
+            if ([subview isKindOfClass:[UITextField class]]) {
+                searchField = (UITextField *)subview;
+                break;
+            }
+        }
+        if (searchField) {
+            UIImage *image = [UIImage imageNamed: @"top_addnew.png"];
+            UIImageView *iView = [[UIImageView alloc] initWithImage:image];
+            searchField.leftView = iView;
+            [iView release];  
+        }
         
         UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
         [searchBar release];
@@ -250,18 +267,53 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void) editNoteDetail:(Task *)note
+- (void) editNoteContent:(Task *)note
 {
-    NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+    NoteContentViewController *ctrler = [[NoteContentViewController alloc] init];
     ctrler.note = note;
     
     SDNavigationController *navCtrler = [[SDNavigationController alloc] initWithRootViewController:ctrler];
     
-    [self.activeViewCtrler presentViewController:navCtrler animated:YES completion:nil];
-    
-    [navCtrler release];
+    [self presentViewController:navCtrler animated:YES completion:nil];
     
     [ctrler release];
+    [navCtrler release];
+}
+
+- (void) editNoteDetail:(Task *)note
+{
+    if (self.detailNavCtrler != nil)
+    {
+        [self closeDetail];
+    }
+    
+    NoteDetailViewController *ctrler = [[NoteDetailViewController alloc] init];
+    ctrler.note = note;
+        
+    self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
+    
+    CGRect frm = self.detailNavCtrler.view.frame;
+    frm.size.width = 384;
+    
+    self.detailNavCtrler.view.frame = frm;
+    self.detailNavCtrler.navigationBar.barStyle = UIBarStyleBlack;
+    
+    [detailView addSubview:self.detailNavCtrler.view];
+    
+    detailView.hidden = NO;
+    [contentView bringSubviewToFront:detailView];
+    
+    CATransition *animation = [CATransition animation];
+    [animation setDelegate:self];
+    
+    [animation setType:kCATransitionMoveIn];
+    [animation setSubtype:kCATransitionFromRight];
+    
+    // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
+    [animation setDuration:kTransitionDuration];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    
+    [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
 }
 
 - (void) editProjectDetail:(Project *)project
@@ -302,6 +354,8 @@ iPadViewController *_iPadViewCtrler;
 
 -(void) editItemDetail:(Task *)item
 {
+    [self deactivateSearchBar];
+    
     if ([item isNote])
     {
         [self editNoteDetail:item];
@@ -486,7 +540,8 @@ iPadViewController *_iPadViewCtrler;
 {
     [super viewWillDisappear:animated];
     
-    [[_iPadSDViewCtrler getCalendarViewController] stopQuickAdd];
+    //[[_iPadSDViewCtrler getCalendarViewController] stopQuickAdd];
+    [[self.activeViewCtrler getCalendarViewController] stopQuickAdd];
 }
 
 -(NSUInteger)supportedInterfaceOrientations
@@ -552,7 +607,8 @@ iPadViewController *_iPadViewCtrler;
             
             NSInteger type = eventPrefix?TYPE_EVENT:(notePrefix?TYPE_NOTE:TYPE_TASK);
             
-            [_iPadSDViewCtrler quickAddItem:str type:type];
+            //[_iPadSDViewCtrler quickAddItem:str type:type];
+            [self.activeViewCtrler quickAddItem:str type:type];
             
             return YES;
         }
@@ -577,13 +633,15 @@ iPadViewController *_iPadViewCtrler;
         str = [[text substringFromIndex:n] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
     
-    [_iPadSDViewCtrler showSeekOrCreate:str];
+    //[_iPadSDViewCtrler showSeekOrCreate:str];
+    [self.activeViewCtrler showSeekOrCreate:str];
 }
 
 #pragma mark UISearchBar delegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    [_iPadSDViewCtrler hideDropDownMenu];
+    //[_iPadSDViewCtrler hideDropDownMenu];
+    [self.activeViewCtrler hideDropDownMenu];
     
 	return YES;
 }
@@ -617,7 +675,8 @@ iPadViewController *_iPadViewCtrler;
             searchBar.text = @"";
             [searchBar resignFirstResponder];
             
-            [_iPadSDViewCtrler showSeekOrCreate:@""];//dismiss
+            //[_iPadSDViewCtrler showSeekOrCreate:@""];//dismiss
+            [self.activeViewCtrler showSeekOrCreate:@""];//dismiss
             
             return NO;
         }

@@ -15,8 +15,10 @@
 #import "ProjectManager.h"
 
 #import "DetailViewController.h"
+#import "NoteDetailViewController.h"
 
 extern DetailViewController *_detailViewCtrler;
+extern NoteDetailViewController *_noteDetailViewCtrler;
 
 @implementation ProjectInputViewController
 
@@ -68,6 +70,11 @@ extern DetailViewController *_detailViewCtrler;
     {
         [_detailViewCtrler refreshProject];
         [_detailViewCtrler closeInputView];
+    }
+    else if (_noteDetailViewCtrler != nil)
+    {
+        [_noteDetailViewCtrler refreshProject];
+        [_noteDetailViewCtrler closeInputView];        
     }
 }
 

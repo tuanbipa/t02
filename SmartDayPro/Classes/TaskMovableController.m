@@ -39,6 +39,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(void) beginMove:(MovableView *)view
 {
+    movedDirection = 0;
     self.listTableView.scrollEnabled = NO;
     
     [super beginMove:view];
@@ -46,6 +47,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(void)move:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    movedDirection = self.activeMovableView.movedDirection;
+    
     [super move:touches withEvent:event];
     
     CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
@@ -128,6 +131,67 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [alertView release];
 }
 
+- (void) separateFrame:(BOOL) needSeparate
+{
+	if (rightMovableView != nil)
+	{
+		rightMovableView.frame = CGRectOffset(rightMovableView.frame, 0, needSeparate?SEPARATE_OFFSET:-SEPARATE_OFFSET);
+	}
+	
+	if (leftMovableView != nil)
+	{
+		leftMovableView.frame = CGRectOffset(leftMovableView.frame, 0, needSeparate?-SEPARATE_OFFSET:SEPARATE_OFFSET);
+	}
+}
+
+- (void) animateRelations_test
+{
+    if (moveInFocus || moveInDayCalendar || moveInDayCalendar)
+    {
+        [self unseparate];
+        
+        return;
+    }
+    
+    if (movedDirection != 0 && self.activeMovableView != 0 && movedDirection != self.activeMovableView.movedDirection)
+    {
+        rightMovableView = nil;
+    }
+    
+    //MovableView *rightView = nil;
+    //MovableView *leftView = nil;
+    
+    CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:self.listTableView];
+    
+    NSInteger sections = self.listTableView.numberOfSections;
+    
+    for (int i=0; i<sections; i++)
+    {
+        NSInteger rows = [self.listTableView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [self.listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *checkView = [cell.contentView viewWithTag:-10000];
+            
+            CGRect rect = [checkView.superview convertRect:checkView.frame toView:self.listTableView];
+                        
+            if (CGRectIntersectsRect(rect, frm))
+            {
+                if (checkView != self.activeMovableView && checkView != rightMovableView)
+                {
+                    rightMovableView = checkView;
+                    
+                    CGRect frm = checkView.frame;
+                    
+                    checkView.frame = CGRectOffset(frm, 0, self.activeMovableView.movedDirection == 1?frm.size.height:-frm.size.height);
+                }
+            }
+        }
+    }
+}
+
 - (void) animateRelations
 {
     if (moveInFocus || moveInDayCalendar || moveInDayCalendar)
@@ -139,7 +203,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     MovableView *rightView = nil;
     MovableView *leftView = nil;
-    MovableView *onView = nil;
     
     CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:self.listTableView];
     
@@ -158,7 +221,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
                 UITableViewCell *cell = [self.listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
                 
                 rightView = [cell.contentView viewWithTag:-10000];
-                
             }
         }
     }
@@ -166,49 +228,41 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self separate:rightView fromLeft:leftView];
 }
 
-/*
--(void)scroll:(NSSet *)touches container:(UIView *)container
+- (void) animateRelations_old
 {
-	if (self.autoScroll)
-	{
-		UIScrollView *scrollView = self.listTableView;
-		
-		CGPoint location = [[touches anyObject] locationInView:scrollView];
-		
-		CGPoint p = scrollView.contentOffset;
+    if (moveInFocus || moveInDayCalendar || moveInDayCalendar)
+    {
+        [self unseparate];
         
-        if (location.x > 320)
+        return;
+    }
+    
+    MovableView *rightView = nil;
+    MovableView *leftView = nil;
+    //MovableView *onView = nil;
+    
+    CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:self.listTableView];
+    
+    NSInteger sections = self.listTableView.numberOfSections;
+    
+    for (int i=0; i<sections; i++)
+    {
+        NSInteger rows = [self.listTableView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
         {
-            location.x -= 320;
+            CGRect rect = [self.listTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            if (CGRectIntersectsRect(rect, frm))
+            {
+                UITableViewCell *cell = [self.listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+                
+                rightView = [cell.contentView viewWithTag:-10000];
+            }
         }
-        
-        CGRect topArea = [self getScrollAreaInContainer:scrollView side:0];
-        CGRect bottomArea = [self getScrollAreaInContainer:scrollView side:1];
-        
-        //printf("top x = %f, top y= %f, bottom x:%f, bottom y:%f, loc x:%f, loc y:%f\n", topArea.origin.x, topArea.origin.y, bottomArea.origin.x, bottomArea.origin.y, location.x, location.y);
-		
-		//if (location.y > p.y + scrollView.frame.size.height - SCROLL_CHECK_HEIGHT)
-        if (CGRectContainsPoint(bottomArea, location))
-		{
-			p.y += 10;
-		}
-		//else if (location.y < p.y + SCROLL_CHECK_HEIGHT)
-        else if (CGRectContainsPoint(topArea, location))
-		{
-			p.y -= 10;
-		}
-		
-		if (p.y < 0)
-		{
-			p.y = 0;
-		}
-		else if (p.y > scrollView.contentSize.height)
-		{
-			p.y = scrollView.contentSize.height;
-		}
-		
-		scrollView.contentOffset = p;
-	}
+    }
+    
+    [self separate:rightView fromLeft:leftView];
 }
-*/
+
 @end

@@ -96,32 +96,6 @@ DetailViewController *_detailViewCtrler = nil;
     [super dealloc];
 }
 
-- (void) done:(id) sender
-{
-    [titleTextView resignFirstResponder];
-    //[taskLocation resignFirstResponder];
-    
-    UITableViewCell *cell = [detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    
-    UITextField *taskLocation = (UITextField * )[cell.contentView viewWithTag:10000+2];
-    
-    if (taskLocation != nil)
-    {
-        [taskLocation resignFirstResponder];
-    }
-    
-    if (_plannerViewCtrler != nil)
-    {
-        [_plannerViewCtrler updateTask:self.task withTask:self.taskCopy];
-    }
-    else if (_abstractViewCtrler != nil)
-    {
-        [_abstractViewCtrler updateTask:self.task withTask:self.taskCopy];
-    }
-    
-    [_iPadViewCtrler closeDetail];
-}
-
 -(void)changeSkin
 {
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
@@ -439,11 +413,37 @@ DetailViewController *_detailViewCtrler = nil;
     }
     
     [self.previewViewCtrler refreshData];
-    
-    //[self refreshLink];
 }
 
 #pragma  mark Actions
+- (void) done:(id) sender
+{
+    [titleTextView resignFirstResponder];
+    //[taskLocation resignFirstResponder];
+    
+    UITableViewCell *cell = [detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    UITextField *taskLocation = (UITextField * )[cell.contentView viewWithTag:10000+2];
+    
+    if (taskLocation != nil)
+    {
+        [taskLocation resignFirstResponder];
+    }
+    
+    /*if (_plannerViewCtrler != nil)
+    {
+        [_plannerViewCtrler updateTask:self.task withTask:self.taskCopy];
+    }
+    else if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler updateTask:self.task withTask:self.taskCopy];
+    }*/
+    
+    [_iPadViewCtrler.activeViewCtrler updateTask:self.task withTask:self.taskCopy];
+    
+    [_iPadViewCtrler closeDetail];
+}
+
 - (void) delete:(id)sender
 {
     [_iPadViewCtrler closeDetail];
@@ -1413,7 +1413,7 @@ DetailViewController *_detailViewCtrler = nil;
     }
     
     // Set up the cell...
-	cell.selectionStyle = UITableViewCellAccessoryDisclosureIndicator;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"";
 	cell.textLabel.backgroundColor = [UIColor clearColor];

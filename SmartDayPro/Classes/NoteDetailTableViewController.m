@@ -149,6 +149,26 @@ extern BOOL _isiPad;
 }
 
 #pragma mark Actions
+
+- (void) delete:(id) sender
+{
+    if (_isiPad)
+    {
+        [_iPadViewCtrler.activeViewCtrler deleteNote:self.note];
+        
+        if (_detailViewCtrler != nil)
+        {
+            [_detailViewCtrler refreshLink];
+        }
+        
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (void) editDetail:(id) sender
 {
     ////printf("edit detail\n");
@@ -194,19 +214,21 @@ extern BOOL _isiPad;
     }
 */
     
-    
-    if (_plannerViewCtrler != nil)
+    if (![self.noteCopy.name isEqualToString:@""])
     {
-        [_plannerViewCtrler updateTask:self.note withTask:self.noteCopy];
-    }
-    else if (_abstractViewCtrler != nil)
-    {
-        [_abstractViewCtrler updateTask:self.note withTask:self.noteCopy];
-    }
-
-    if (_detailViewCtrler != nil && self.noteCopy.primaryKey == -1)
-    {
-        [_detailViewCtrler createLinkedNote:self.note];
+        if (_plannerViewCtrler != nil)
+        {
+            [_plannerViewCtrler updateTask:self.note withTask:self.noteCopy];
+        }
+        else if (_abstractViewCtrler != nil)
+        {
+            [_abstractViewCtrler updateTask:self.note withTask:self.noteCopy];
+        }
+        
+        if (_detailViewCtrler != nil && self.noteCopy.primaryKey == -1)
+        {
+            [_detailViewCtrler createLinkedNote:self.note];
+        }
     }
 
     //[self.navigationController popViewControllerAnimated:YES];
@@ -234,10 +256,11 @@ extern BOOL _isiPad;
 {
     self.navigationItem.title = self.noteCopy.name;
     
+    /*
     if (saveButton != nil)
     {
         saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
-    }
+    }*/
 }
 
 - (void) noteBeginEdit:(NSNotification *)notification
@@ -260,18 +283,18 @@ extern BOOL _isiPad;
     [noteView changeFrame:frm];
     */
     
-    if (saveButton != nil)
+    /*if (saveButton != nil)
     {
         saveButton.enabled = NO;
-    }
+    }*/
 }
 
 - (void) noteFinishEdit:(NSNotification *)notification
 {
-    if (saveButton != nil)
+    /*if (saveButton != nil)
     {
         saveButton.enabled = ![self.noteCopy.name isEqualToString:@""];
-    }
+    }*/
 
     [noteView changeFrame:noteFrm];
 }
@@ -357,19 +380,8 @@ extern BOOL _isiPad;
     
     //printf("note name:%s\n", [self.noteCopy.name UTF8String]);
     
-    self.navigationItem.title = self.noteCopy.name;
-    
-	saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-															  target:self action:@selector(save:)];
-//	self.navigationItem.rightBarButtonItem = [self.note isShared]?nil:saveButton;
-	self.navigationItem.rightBarButtonItem = saveButton;
-
-	[saveButton release];
-    
     if ([self.note isShared])
     {
-        //saveButton = nil;
-        
         noteView.editEnabled = NO;
         
         detailButton.enabled = NO;
@@ -380,6 +392,34 @@ extern BOOL _isiPad;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = self.noteCopy.name;
+    
+	saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                               target:self action:@selector(save:)];
+    //	self.navigationItem.rightBarButtonItem = [self.note isShared]?nil:saveButton;
+	self.navigationItem.leftBarButtonItem = saveButton;
+    
+	[saveButton release];
+    
+    if (self.note.primaryKey != -1)
+    {
+        UIButton *deleteButton = [Common createButton:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:CGRectMake(0, 0, 30, 30)
+                                           titleColor:[UIColor whiteColor]
+                                               target:self
+                                             selector:@selector(delete:)
+                                     normalStateImage:@"menu_trash.png"
+                                   selectedStateImage:nil];
+        
+        UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+        
+        self.navigationItem.rightBarButtonItem = deleteItem;
+        
+        [deleteItem release];        
+    }
+    
     noteFrm = noteView.frame;
     
     //if (self.note.primaryKey == -1)
