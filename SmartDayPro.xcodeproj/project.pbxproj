@@ -50,6 +50,8 @@
 		67B1706C1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
 		67B1706D1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
 		67B41508166C5A5A00AB3B5C /* iPadSmartDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */; };
+		67BCBF4D17A2306800531C33 /* QuickAddAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67BCBF4C17A2306800531C33 /* QuickAddAccessoryView.xib */; };
+		67BCBF4E17A2306800531C33 /* QuickAddAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67BCBF4C17A2306800531C33 /* QuickAddAccessoryView.xib */; };
 		67C7426D1782761F00361E30 /* PlannerTaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */; };
 		67C7426E1782761F00361E30 /* PlannerTaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */; };
 		67C742731782763A00361E30 /* TaskLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742701782763A00361E30 /* TaskLayoutController.m */; };
@@ -1676,6 +1678,7 @@
 		67B170691717C3B800FBD56A /* timer_item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timer_item@2x.png"; sourceTree = "<group>"; };
 		67B41506166C5A5A00AB3B5C /* iPadSmartDayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSmartDayViewController.h; sourceTree = "<group>"; };
 		67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iPadSmartDayViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		67BCBF4C17A2306800531C33 /* QuickAddAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuickAddAccessoryView.xib; sourceTree = "<group>"; };
 		67C7426B1782761F00361E30 /* PlannerTaskMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerTaskMovableController.h; sourceTree = "<group>"; };
 		67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerTaskMovableController.m; sourceTree = "<group>"; };
 		67C7426F1782763A00361E30 /* TaskLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLayoutController.h; sourceTree = "<group>"; };
@@ -3797,6 +3800,7 @@
 		67CF2EA7161951B8001FE1AA /* Resources-iPad */ = {
 			isa = PBXGroup;
 			children = (
+				67BCBF4C17A2306800531C33 /* QuickAddAccessoryView.xib */,
 				67E2D0B1178FB04400A88A00 /* LocationInputAccessoryView.xib */,
 				67E2D0A5178FADC700A88A00 /* DateInputViewController.xib */,
 				67E2D0A6178FADC700A88A00 /* DurationInputViewController.xib */,

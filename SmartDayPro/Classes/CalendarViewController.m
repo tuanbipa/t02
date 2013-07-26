@@ -284,6 +284,8 @@ CalendarViewController *_sc2ViewCtrler;
     
     adeView.hidden = !adeVisible;
     adeSeparatorImgView.hidden = !adeVisible;
+    
+    [self focusNow];
 }
 
 -(void)showSuggestedTime
@@ -581,11 +583,14 @@ CalendarViewController *_sc2ViewCtrler;
     
     CGSize sz = [Common getScreenSize];
     
-    CGFloat h = sz.height - calendarView.frame.origin.y;
+    CGFloat y = calendarView.frame.origin.y;
+    
+    CGFloat h = sz.height - y;
     
     CGFloat todayY = [todayScheduleView getTodayLineY];
     
-    CGFloat y = todayY - h/2;
+    //y = todayY - h/2;
+    y = todayY - 80;
     
     if (y > contentSize.height - h)
     {
@@ -1793,7 +1798,7 @@ CalendarViewController *_sc2ViewCtrler;
 {	
 	_sc2ViewCtrler = self;
 	
-    [self focusNow];
+    //[self focusNow];
 	
     /*
 	if (_navigationTabChanged)

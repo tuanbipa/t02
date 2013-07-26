@@ -169,11 +169,12 @@ extern BOOL _isiPad;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    //UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
     CGFloat pad = 0;
     
-    if ([ctrler isKindOfClass:[iPadCalendarSettingViewController class]])
+    //if ([ctrler isKindOfClass:[iPadCalendarSettingViewController class]])
+    if (_isiPad)
     {
         frm.size.width = 2*frm.size.width/3;
         
@@ -183,18 +184,15 @@ extern BOOL _isiPad;
     {
         frm.size.width = 320;
         
-        if (_isiPad)
-        {
-            frm.size.height = 416;
-        }
-        
         pad = 20;
     }
+    
+    CGFloat marginY = (_isiPad?20:0);
     
     contentView = [[UIView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(pad/2, 10, frm.size.width-pad, 30)];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(pad/2, marginY+10, frm.size.width-pad, 30)];
     searchBar.placeholder = @"";
     searchBar.backgroundColor = [UIColor clearColor];
     //searchBar.translucent = NO;
@@ -206,12 +204,13 @@ extern BOOL _isiPad;
     [searchBar release];
     
     frm = contentView.bounds;
-    frm.origin.y += 40;
-    frm.size.height -= 40;
+    frm.origin.y = marginY + 50;
+    frm.size.height -= frm.origin.y;
 	
     listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
 	listTableView.delegate = self;
 	listTableView.dataSource = self;
+    listTableView.backgroundColor = [UIColor clearColor];
 	//listTableView.sectionHeaderHeight=5;
 	
 	[contentView addSubview:listTableView];

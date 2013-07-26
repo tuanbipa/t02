@@ -14,6 +14,7 @@
 #import "Task.h"
 
 #import "ContentView.h"
+#import "MovableView.h"
 
 #import "ImageManager.h"
 #import "TaskManager.h"
@@ -69,6 +70,8 @@ iPadViewController *_iPadViewCtrler;
     if (self = [super init])
     {
         _iPadViewCtrler = self;
+        
+        inSlidingMode = NO;
     }
     
     return self;
@@ -195,7 +198,7 @@ iPadViewController *_iPadViewCtrler;
         
         UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
-        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
+        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 250, 40)];
         //searchBar.placeholder = _seekOrCreate;
         searchBar.translucent = YES;
         searchBar.delegate = self;
@@ -282,14 +285,25 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) editNoteDetail:(Task *)note
 {
+    /*
     if (self.detailNavCtrler != nil)
     {
         [self closeDetail];
     }
+    */
     
     NoteDetailViewController *ctrler = [[NoteDetailViewController alloc] init];
     ctrler.note = note;
-        
+    
+    if (self.detailNavCtrler != nil)
+    {
+        [self.detailNavCtrler initWithRootViewController:ctrler];
+    }
+    else
+    {
+        [self showDetail:ctrler];
+    }
+/*
     self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
     
     CGRect frm = self.detailNavCtrler.view.frame;
@@ -314,18 +328,33 @@ iPadViewController *_iPadViewCtrler;
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     
     [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
+*/
 }
 
 - (void) editProjectDetail:(Project *)project
 {
+    /*
     if (self.detailNavCtrler != nil)
     {
         [self closeDetail];
     }
+    */
     
     ProjectEditViewController *ctrler = [[ProjectEditViewController alloc] init];
     ctrler.project = project;
     
+    if (self.detailNavCtrler != nil)
+    {
+        [self.detailNavCtrler initWithRootViewController:ctrler];
+    }
+    else
+    {
+        [self showDetail:ctrler];
+    }
+    
+    [ctrler release];
+    
+    /*
     self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
     
     CGRect frm = self.detailNavCtrler.view.frame;
@@ -349,7 +378,8 @@ iPadViewController *_iPadViewCtrler;
     [animation setDuration:kTransitionDuration];
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     
-    [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];    
+    [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];  
+    */
 }
 
 -(void) editItemDetail:(Task *)item
@@ -362,6 +392,20 @@ iPadViewController *_iPadViewCtrler;
     }
     else
     {
+        DetailViewController *ctrler = [[DetailViewController alloc] init];
+        ctrler.task = item;
+        
+        if (self.detailNavCtrler != nil)
+        {
+            [self.detailNavCtrler initWithRootViewController:ctrler];
+        }
+        else
+        {
+            [self showDetail:ctrler];
+        }
+        
+        [ctrler release];
+        /*
         if (self.detailNavCtrler != nil)
         {
             [self closeDetail];
@@ -393,14 +437,48 @@ iPadViewController *_iPadViewCtrler;
         [animation setDuration:kTransitionDuration];
         [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         
-        [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];        
+        [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey]; 
+        */
     }
+}
+
+- (void) showDetail:(UIViewController *)ctrler
+{
+    self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
+    
+    CGRect frm = self.detailNavCtrler.view.frame;
+    frm.size.width = 384;
+    
+    self.detailNavCtrler.view.frame = frm;
+    self.detailNavCtrler.navigationBar.barStyle = UIBarStyleBlack;
+    
+    [detailView addSubview:self.detailNavCtrler.view];
+    
+    detailView.hidden = NO;
+    [contentView bringSubviewToFront:detailView];
+    
+    CATransition *animation = [CATransition animation];
+    [animation setDelegate:self];
+    
+    [animation setType:kCATransitionMoveIn];
+    [animation setSubtype:kCATransitionFromRight];
+    
+    // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
+    [animation setDuration:kTransitionDuration];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    
+    [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
 }
 
 - (void) closeDetail
 {
     if (self.detailNavCtrler != nil)
     {
+        if (inSlidingMode)
+        {
+            [self slideView:NO];
+        }
+        
         [self.detailNavCtrler.view removeFromSuperview];
         
         detailView.hidden = YES;
@@ -473,6 +551,68 @@ iPadViewController *_iPadViewCtrler;
     [_iPadSDViewCtrler refreshTaskFilterTitle];
     
     [self refreshToolbar];
+}
+
+- (void) slideAndShowDetail
+{
+    PageAbstractViewController *ctrler = nil;
+    
+    if ([self.activeViewCtrler checkControllerActive:1])
+    {
+        ctrler = [self.activeViewCtrler getSmartListViewController];
+    }
+    else if ([self.activeViewCtrler checkControllerActive:2])
+    {
+        ctrler = [self.activeViewCtrler getNoteViewController];
+    }
+    else if ([self.activeViewCtrler checkControllerActive:3])
+    {
+        ctrler = [self.activeViewCtrler getCategoryViewController];
+    }
+    
+    if (ctrler != nil)
+    {
+        MovableView *firstView = [ctrler getFirstMovableView];
+        
+        if (firstView != nil)
+        {
+            [self slideView:YES];
+            
+            [firstView singleTouch];
+        }
+    }
+}
+
+- (void) slideView:(BOOL)enabled
+{
+    CGRect frm = self.activeViewCtrler.view.frame;
+    
+    CGFloat slideWidth = 384;
+    
+    frm = CGRectOffset(frm, enabled?-slideWidth:slideWidth, 0);
+    
+    self.activeViewCtrler.view.frame = frm;
+    
+    CATransition *animation = [CATransition animation];
+    [animation setDelegate:self];
+    
+    if (enabled)
+    {
+        [animation setType:kCATransitionMoveIn];
+        [animation setSubtype:kCATransitionFromRight];
+    }
+    else
+    {
+        [animation setType:kCATransitionReveal];
+        [animation setSubtype:kCATransitionFromLeft];
+    }
+    // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
+    [animation setDuration:kTransitionDuration];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    
+    [self.activeViewCtrler.view.layer addAnimation:animation forKey:kInfoViewAnimationKey];
+    
+    inSlidingMode = enabled;
 }
 
 - (void) loadView
@@ -607,8 +747,7 @@ iPadViewController *_iPadViewCtrler;
             
             NSInteger type = eventPrefix?TYPE_EVENT:(notePrefix?TYPE_NOTE:TYPE_TASK);
             
-            //[_iPadSDViewCtrler quickAddItem:str type:type];
-            [self.activeViewCtrler quickAddItem:str type:type];
+            [self.activeViewCtrler quickAddItem:str type:type defer:DO_ANYTIME];
             
             return YES;
         }

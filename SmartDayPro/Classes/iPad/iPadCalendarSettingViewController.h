@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class Settings;
+@class ContentView;
 
 @interface iPadCalendarSettingViewController : UIViewController
 {
+    ContentView *contentView;
     UITableView *settingTableView;
     
     UIView *pickerView;

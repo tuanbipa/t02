@@ -78,6 +78,11 @@
 @property (nonatomic, readonly) TaskLayoutController *layoutController;
 @property (nonatomic, retain) UIView *quickAddPlaceHolder;
 
+//Quick Add
+@property NSInteger quickAddOption;
+@property (nonatomic, assign) IBOutlet UIToolbar *quickAddOptionToolbar;
+- (IBAction) selectQuickAddOption:(id)sender;
+
 -(id) init4Planner;
 -(id) initWithTabBar;
 - (void) refreshData;
@@ -119,5 +124,7 @@
 
 - (void) changeFrame:(CGRect)frm;
 - (void) resetMovableController:(BOOL)forPlanner;
+
+- (void) refreshQuickAddColor;
 
 @end

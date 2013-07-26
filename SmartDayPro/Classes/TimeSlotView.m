@@ -119,8 +119,8 @@ extern BOOL _is24HourFormat;
 	points[0].y = ceil(points[0].y);
 	points[1].y = ceil(points[1].y);
 	
-	UIColor *lightColor;
-	UIColor *darkColor;
+	//UIColor *lightColor;
+	//UIColor *darkColor;
 	
     /*
 	Settings *settings = [Settings getInstance];
@@ -138,16 +138,22 @@ extern BOOL _is24HourFormat;
 	}
     */
     
-    darkColor = [UIColor colorWithRed:0.19 green:0.25 blue:0.31 alpha:1];
-    lightColor = [UIColor blackColor];
+    //darkColor = [UIColor colorWithRed:0.19 green:0.25 blue:0.31 alpha:1];
+    
+    //lightColor = [UIColor blackColor];
+    UIColor *color = [UIColor grayColor];
 	
 	if (isHighLighted)
 	{
-		lightColor = [UIColor yellowColor];
-		darkColor = [UIColor yellowColor];
+		//lightColor = [UIColor yellowColor];
+		//darkColor = [UIColor yellowColor];
+        
+        color = [UIColor blackColor];
 	}
+    
+    [color set];
 	
-	[darkColor set];
+	//[darkColor set];
 
 	if (timestr != nil)
 	{
@@ -157,7 +163,7 @@ extern BOOL _is24HourFormat;
 		//*Trung 08102101
 		if (_is24HourFormat)
 		{
-			[lightColor set];
+			//[lightColor set];
 			font = [UIFont fontWithName:@"Helvetica-Bold" size:fontSize];
 			[timestr drawInRect:timePaneRec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];
 		}
@@ -178,7 +184,7 @@ extern BOOL _is24HourFormat;
 				s = timeStrings[hour];
 			}
 		
-			[lightColor set];
+			//[lightColor set];
 		
 			timePaneRec.size.width += LEFT_MARGIN;
 			timePaneRec.origin.x = 0;
@@ -190,10 +196,10 @@ extern BOOL _is24HourFormat;
 	}
 	else
 	{
-		CGFloat lengths[] = {1, 1};
-		CGContextSetLineWidth(ctx, 0.3);
+		//CGFloat lengths[] = {1, 1};
+		CGContextSetLineWidth(ctx, 0.1);
 		
-		CGContextSetLineDash(ctx, 0, lengths, 2);
+		//CGContextSetLineDash(ctx, 0, lengths, 2);
 
 		CGContextStrokeLineSegments(ctx, points, 2);		
 	}

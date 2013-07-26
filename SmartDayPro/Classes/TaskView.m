@@ -315,8 +315,12 @@ extern iPadViewController *_iPadViewCtrler;
     
     NSTextAlignment alignment = NSTextAlignmentLeft;
     
-    UIColor *embossedColor = isList?[UIColor clearColor]:[UIColor colorWithRed:94.0/255 green:120.0/255 blue:112.0/255 alpha:1];
-    UIColor *textColor = (isList?[UIColor blackColor]:[UIColor whiteColor]);
+    //UIColor *embossedColor = isList?[UIColor clearColor]:[UIColor colorWithRed:94.0/255 green:120.0/255 blue:112.0/255 alpha:1];
+    
+    UIColor *embossedColor = [UIColor clearColor];
+    
+    //UIColor *textColor = (isList?[UIColor blackColor]:[UIColor whiteColor]);
+    UIColor *textColor = [[ProjectManager getInstance] getProjectColor0:task.project];
     
     NSString *infoStr = task.location;
     
@@ -2285,6 +2289,7 @@ extern iPadViewController *_iPadViewCtrler;
         }
 	}*/
     
+    /*
 	UIColor *lightColor = [[ProjectManager getInstance] getProjectColor2:task.project];
 	
 	UIColor *dimColor = [[ProjectManager getInstance] getProjectColor1:task.project];
@@ -2297,6 +2302,7 @@ extern iPadViewController *_iPadViewCtrler;
 	
 	CGFloat components[12] = { fstComps[0], fstComps[1], fstComps[2], 1.0,  // Start color
 		sndComps[0], sndComps[1], sndComps[2], 1.0, sndComps[0], sndComps[1], sndComps[2], 1.0 };
+    
     
     int shadowPad = 2;
     
@@ -2317,14 +2323,32 @@ extern iPadViewController *_iPadViewCtrler;
     }
     
     frm = CGRectOffset(frm, -shadowPad, -shadowPad);
+    */
+    
+    CGRect frm = rect;
+    
+    UIColor *prjColor = [[ProjectManager getInstance] getProjectColor0:task.project];
+
+    self.layer.cornerRadius = ([task isTask]?5:0);
+    self.layer.borderWidth = 0.25;
+    self.layer.borderColor = [prjColor CGColor];
+    
+    self.layer.backgroundColor = self.transparent?[[UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]] CGColor]: [[prjColor colorWithAlphaComponent:0.4] CGColor];
+
+    /*
+    [[prjColor colorWithAlphaComponent:0.4] setFill];
+    [prjColor setStroke];
     
 	if ([task isTask])
 	{
-		gradientRoundedRect(ctx, frm, 5, 5, components, locations, num_locations);
+		//gradientRoundedRect(ctx, frm, 5, 5, components, locations, num_locations);
+        fillRoundedRect(ctx, frm, 5, 5);
+        strokeRoundedRect(ctx, frm, 5, 5);
 	}
 	else
 	{
-		gradientRect(ctx, frm, components, locations, num_locations);
+		//gradientRect(ctx, frm, components, locations, num_locations);
+        CGContextFillRect(ctx, frm);
         
         if (self.transparent)
         {
@@ -2334,7 +2358,9 @@ extern iPadViewController *_iPadViewCtrler;
             CGContextFillRect(ctx, frm);
         }
         
+        CGContextStrokeRect(ctx, frm);
 	}
+    */
     
     if (isSelected)
     {
@@ -2565,6 +2591,8 @@ extern iPadViewController *_iPadViewCtrler;
     {
         [_abstractViewCtrler editItem:self.task inView:self];
     }*/
+    
+    [_iPadViewCtrler slideView:YES];
     
     [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:self];
 }

@@ -325,9 +325,13 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    CGRect upHandle = CGRectMake(dayManagerUpView.frame.origin.x + dayManagerUpView.frame.size.width - 40, dayManagerUpView.frame.origin.y + dayManagerUpView.frame.size.height - 40, 40, 40);
+    /*CGRect upHandle = CGRectMake(dayManagerUpView.frame.origin.x + dayManagerUpView.frame.size.width - 40, dayManagerUpView.frame.origin.y + dayManagerUpView.frame.size.height - 40, 40, 40);
     
-    CGRect downHandle = CGRectMake(dayManagerDownView.frame.origin.x + dayManagerDownView.frame.size.width - 40, dayManagerDownView.frame.origin.y, 40, 40);
+    CGRect downHandle = CGRectMake(dayManagerDownView.frame.origin.x + dayManagerDownView.frame.size.width - 40, dayManagerDownView.frame.origin.y, 40, 40);*/
+    
+    CGRect upHandle = CGRectMake(dayManagerUpView.frame.origin.x, dayManagerUpView.frame.origin.y + dayManagerUpView.frame.size.height - 50, dayManagerUpView.frame.size.width, 50);
+    
+    CGRect downHandle = CGRectMake(dayManagerDownView.frame.origin.x, dayManagerDownView.frame.origin.y, dayManagerDownView.frame.size.width, 50);
     
     touchHandle = 0;
     dayManagerRefresh = NO;

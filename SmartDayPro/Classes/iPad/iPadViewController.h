@@ -24,6 +24,8 @@
     UIButton *timerButton;
     UIButton *tagButton;
     UIButton *eyeButton;
+    
+    BOOL inSlidingMode;
 }
 
 @property (nonatomic, retain) AbstractActionViewController *activeViewCtrler;
@@ -40,5 +42,7 @@
 -(void) editItemDetail:(Task *)item;
 - (void) editProjectDetail:(Project *)project;
 - (void) closeDetail;
+- (void) slideView:(BOOL)enabled;
+- (void) slideAndShowDetail;
 
 @end

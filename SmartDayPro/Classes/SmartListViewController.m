@@ -83,6 +83,9 @@ SmartListViewController *_smartListViewCtrler;
 @synthesize layoutController;
 @synthesize quickAddPlaceHolder;
 
+@synthesize quickAddOption;
+@synthesize quickAddOptionToolbar;
+
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
  - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -122,9 +125,32 @@ SmartListViewController *_smartListViewCtrler;
 													 name:@"AppNoBusyNotification" object:nil];
 
 		firstLoad = YES;
+        
+        self.quickAddOption = DO_ANYTIME;
 	}
 	
 	return self;	
+}
+
+
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[addButtonItem release];
+	[moreButtonItem release];
+	
+    [movableController release];
+	//[smartListLayoutController release];
+    [layoutController release];
+	
+	[editButtonItem release];
+	[cancelButtonItem release];
+	
+	[hintView release];
+    
+    self.quickAddPlaceHolder = nil;
+	
+    [super dealloc];
 }
 
 /*
@@ -192,6 +218,14 @@ SmartListViewController *_smartListViewCtrler;
     }
 }
 
+- (void) refreshQuickAddOption
+{
+    for (UIBarButtonItem *item in self.quickAddOptionToolbar.items)
+    {
+        item.tintColor = (item.tag == self.quickAddOption?[UIColor blueColor]:nil);
+    }
+}
+
 -(id) initWithTabBar {
 	if ([self init]) {
 		self.title = @"Tasks";
@@ -229,27 +263,6 @@ SmartListViewController *_smartListViewCtrler;
 	[dayManagerView initData];
 	
 	[[TaskManager getInstance] initSmartListData];			
-}
-
-
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[addButtonItem release];
-	[moreButtonItem release];
-	
-    [movableController release];
-	//[smartListLayoutController release];
-    [layoutController release];
-	
-	[editButtonItem release];
-	[cancelButtonItem release];
-	
-	[hintView release];
-    
-    self.quickAddPlaceHolder = nil;
-	
-    [super dealloc];
 }
 
 #pragma mark Support
@@ -797,7 +810,16 @@ SmartListViewController *_smartListViewCtrler;
     [smartListView setContentOffset:CGPointMake(0, 40)];
 }
 
-#pragma mark Sync 
+- (void) refreshQuickAddColor
+{
+    Settings *settings = [Settings getInstance];
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+	self.quickAddPlaceHolder.backgroundColor = [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.2];
+}
+
+
+#pragma mark Sync
 
 - (void) selectCalendarToSync:(NSMutableArray *)calList forTask:(BOOL)forTask
 {
@@ -1459,6 +1481,15 @@ SmartListViewController *_smartListViewCtrler;
 	
 }
 
+- (IBAction) selectQuickAddOption:(id)sender
+{
+    UIBarButtonItem *item = (UIBarButtonItem *) sender;
+    
+    self.quickAddOption = item.tag;
+    
+    [self refreshQuickAddOption];
+}
+
 #pragma mark Multi-Select Actions
 /*
 - (void) multiUnSelect:(id)sender
@@ -2052,15 +2083,7 @@ SmartListViewController *_smartListViewCtrler;
     }
 	else if (![text isEqualToString:@""])
 	{
-		//[self quickAddTask:text];
-        /*
-        if (_plannerViewCtrler != nil) {
-            [_plannerViewCtrler quickAddItem:text type:TYPE_TASK];
-        } else {
-            [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
-        }*/
-        
-        [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK];
+        [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK defer:self.quickAddOption];
 	}
     
     quickAddTextField.text = @"";
@@ -2091,6 +2114,17 @@ SmartListViewController *_smartListViewCtrler;
         [_abstractViewCtrler hideDropDownMenu];
     }
     
+    if (textField == quickAddTextField)
+    {
+        NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"QuickAddAccessoryView"
+                                                       owner:self
+                                                     options:nil];
+        
+        quickAddTextField.inputAccessoryView = [views objectAtIndex:0];
+        
+        [self refreshQuickAddOption];
+    }
+    
 	return YES;
 }
 
@@ -2111,16 +2145,7 @@ SmartListViewController *_smartListViewCtrler;
         
         if (![text isEqualToString:@""])
         {
-            //[self quickAddTask:text];
-            
-            /*
-            if (_plannerViewCtrler != nil) {
-                [_plannerViewCtrler quickAddItem:text type:TYPE_TASK];
-            } else {
-                [_abstractViewCtrler quickAddItem:text type:TYPE_TASK];
-            }*/
-            
-            [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK];
+            [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK defer:self.quickAddOption];
         }
         
         quickAddTextField.tag = -1;
@@ -2319,7 +2344,23 @@ SmartListViewController *_smartListViewCtrler;
 {
 }
 
-#pragma mark View Creation
+#pragma mark Views
+
+- (MovableView *)getFirstMovableView
+{
+    NSInteger rows = [smartListView numberOfRowsInSection:0];
+    
+    if (rows > 0)
+    {
+        UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        
+        TaskView *firstView = (TaskView *)[cell.contentView viewWithTag:-10000];
+        
+        return firstView;
+    }
+    
+    return nil;
+}
 
 -(void) createHintView
 {
@@ -3008,9 +3049,6 @@ SmartListViewController *_smartListViewCtrler;
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
-    Settings *settings = [Settings getInstance];
-    ProjectManager *pm = [ProjectManager getInstance];
-    
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
@@ -3047,12 +3085,14 @@ SmartListViewController *_smartListViewCtrler;
     layoutController.listTableView = smartListView;
 	
     self.quickAddPlaceHolder = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)] autorelease];
-	self.quickAddPlaceHolder.backgroundColor = [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.2];
+
     self.quickAddPlaceHolder.tag = -30000;
 	//[smartListView addSubview:quickAddPlaceHolder];
 	//[quickAddPlaceHolder release];
     
     [contentView addSubview:self.quickAddPlaceHolder];
+    
+    [self refreshQuickAddColor];
     
     quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
 	quickAddTextField.delegate = self;

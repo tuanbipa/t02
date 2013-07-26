@@ -45,6 +45,7 @@
 
 #import "CategoryViewController.h"
 #import "CalendarViewController.h"
+#import "SmartListViewController.h"
 
 #import "SDNavigationController.h"
 #import "AbstractSDViewController.h"
@@ -273,6 +274,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
         tm.taskDummy.project = settings.taskDefaultProject;
         
         [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
+        [[_abstractViewCtrler getSmartListViewController] refreshQuickAddColor];
     }
     
     Project *prj = [pm getProjectByKey:settings.taskDefaultProject];
@@ -701,7 +703,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 					case 2:
 					{
 						cell.imageView.image=[UIImage imageNamed:@"settings_tasks.png"];
-						cell.textLabel.text = _taskText;
+						cell.textLabel.text = _tasksText;
 					}
 						break;
 					case 3:

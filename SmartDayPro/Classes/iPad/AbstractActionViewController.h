@@ -65,7 +65,7 @@
 - (void) changeTime:(Task *)task time:(NSDate *)time;
 - (void) changeTask:(Task *)task toProject:(NSInteger)prjKey;
 - (void)quickAddEvent:(NSString *)name startTime:(NSDate *)startTime;
-- (void) quickAddItem:(NSString *)name type:(NSInteger)type;
+- (void) quickAddItem:(NSString *)name type:(NSInteger)type defer:(NSInteger)defer;
 - (void) quickAddProject:(NSString *)name;
 - (void) createTaskFromNote:(Task *)fromNote;
 
