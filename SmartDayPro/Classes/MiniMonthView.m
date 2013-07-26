@@ -323,7 +323,7 @@ extern BOOL _isiPad;
     
     [self initCalendar:calDate];
     
-    [[_abstractViewCtrler getCalendarViewController] focusNow];
+    //[[_abstractViewCtrler getCalendarViewController] focusNow];
 }
 
 - (void) shiftTime:(NSInteger)mode

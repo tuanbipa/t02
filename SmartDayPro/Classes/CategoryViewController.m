@@ -350,6 +350,34 @@ extern iPadViewController *_iPadViewCtrler;
 }
 
 #pragma mark Views
+
+- (MovableView *)getFirstMovableView
+{
+    MovableView *ret = nil;
+    
+    if (self.list.count > 0)
+    {
+        NSObject *firstItem = [self.list objectAtIndex:0];
+
+        for (UIView *view in listView.subviews)
+        {
+            if ([view isKindOfClass:[TaskView class]] && ((TaskView *)view).task == firstItem)
+            {
+                ret = view;
+                break;
+            }
+            else if ([view isKindOfClass:[PlanView class]] && ((PlanView *)view).project == firstItem)
+            {
+                ret = view;
+                break;
+            }
+        }
+
+    }
+    
+    return ret;
+}
+
 - (void) changeFrame:(CGRect)frm
 {
     Settings *settings = [Settings getInstance];

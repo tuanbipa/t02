@@ -13,6 +13,7 @@
 #import "Settings.h"
 #import "Task.h"
 #import "Project.h"
+#import "AlertData.h"
 
 #import "SDWSync.h"
 #import "TDSync.h"
@@ -1869,7 +1870,7 @@ extern iPadViewController *_iPadViewCtrler;
     [project release];
 }
 
-- (void) quickAddItem:(NSString *)name type:(NSInteger)type
+- (void) quickAddItem:(NSString *)name type:(NSInteger)type defer:(NSInteger)defer
 {
 	TaskManager *tm = [TaskManager getInstance];
     Settings *settings = [Settings getInstance];
@@ -1897,7 +1898,65 @@ extern iPadViewController *_iPadViewCtrler;
             break;
     }
     
+    NSInteger taskPlacement = settings.newTaskPlacement;
+    
+    if ([task isTask])
+    {
+        switch (defer)
+        {
+            case DO_TODAY:
+            {
+                task.deadline = [settings getWorkingEndTimeForDate:[NSDate date]];
+                AlertData *alertDat = [[AlertData alloc] init];
+                
+                alertDat.beforeDuration = -15*60;
+                alertDat.absoluteTime = nil;
+                
+                [task.alerts addObject:alertDat];
+                
+                [alertDat release];
+                
+                settings.newTaskPlacement = 0; //move Task to top
+            }
+                break;
+            case DO_NEXT_WEEK:
+            {
+                NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:(settings.weekStart == 1)];
+                
+                task.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                
+                dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart == 1)];
+                
+                task.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+            }
+                break;
+            case DO_NEXT_MONTH:
+            {
+                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:1];
+                
+                task.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                
+                dt = [Common getFirstMonthDate:dt];
+                
+                task.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+            }
+                break;
+            case DO_ANYTIME:
+            {
+                task.startTime = [settings getWorkingStartTimeForDate:[NSDate date]];
+                task.deadline = nil;
+            }
+                break;
+        }
+    }
+    
     [tm addTask:task];
+    
+    if (defer == DO_TODAY)
+    {
+        settings.newTaskPlacement = taskPlacement;
+    }
     
     [self reconcileItem:task reSchedule:(type != TYPE_NOTE)];
     

@@ -465,6 +465,27 @@ extern iPadViewController *_iPadViewCtrler;
 }
 
 #pragma mark Views
+- (MovableView *)getFirstMovableView
+{
+    MovableView *ret = nil;
+    
+    if (self.noteList.count > 0)
+    {
+        Task *firstNote = [self.noteList objectAtIndex:0];
+        
+        for (UIView *view in noteListView.subviews)
+        {
+            if ([view isKindOfClass:[TaskView class]] && ((TaskView *)view).task == firstNote)
+            {
+                ret = view;
+                break;
+            }
+        }
+        
+    }
+    
+    return ret;
+}
 
 - (void) changeFrame:(CGRect)frm
 {

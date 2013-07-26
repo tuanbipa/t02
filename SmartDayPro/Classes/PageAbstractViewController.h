@@ -12,6 +12,7 @@
 @class Task;
 @class Project;
 @class ContentView;
+@class MovableView;
 
 @interface PageAbstractViewController : UIViewController
 {
@@ -33,5 +34,7 @@
 - (void) reconcileItem:(Task *)item;
 
 - (void) setMovableContentView:(UIView *)contentView;
+
+- (MovableView *)getFirstMovableView;
 
 @end

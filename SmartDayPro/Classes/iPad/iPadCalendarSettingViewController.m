@@ -67,6 +67,8 @@
         self.setting.timeZoneID = [Settings findTimeZoneID:tz];
     }
     
+    pickerView.frame = CGRectMake(0, self.setting.timeZoneSupport?500:470, contentView.bounds.size.width, 220);
+    
     //[settingTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     [settingTableView reloadData];
 }
@@ -333,7 +335,7 @@
     
     frm.size.width = 2*frm.size.width/3;
     
-    ContentView *contentView = [[ContentView alloc] initWithFrame:frm];
+    contentView = [[ContentView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
     self.view = contentView;
@@ -350,13 +352,13 @@
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
     
-    pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, 470, contentView.bounds.size.width, [Common getKeyboardHeight]+40)];
+    pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.setting.timeZoneSupport?500:470, contentView.bounds.size.width, 220)];
     //pickerView.hidden = YES;
     
     [contentView addSubview:pickerView];
     [pickerView release];
     
-    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 40, contentView.bounds.size.width-60, 0)];
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 40, contentView.bounds.size.width-60, 180)];
     
 	[datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
 	datePicker.minuteInterval = 5;

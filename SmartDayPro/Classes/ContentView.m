@@ -13,9 +13,11 @@
 
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
+#import "iPadViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation ContentView
 
@@ -28,6 +30,12 @@ extern PlannerViewController *_plannerViewCtrler;
 		self.backgroundColor = [UIColor clearColor];
 		
 		self.actionType = 0;
+        
+        UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewsSwipe:)];
+        swipe.numberOfTouchesRequired = 2;
+        swipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        swipe.delaysTouchesBegan = YES;
+        [self addGestureRecognizer:swipe];
     }
     return self;
 }
@@ -42,6 +50,11 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void)dealloc {
     [super dealloc];
+}
+
+- (void) handleViewsSwipe:(id)sender
+{
+    [_iPadViewCtrler slideAndShowDetail];
 }
 
 #pragma mark UIResponderStandardEditActions Protocol 

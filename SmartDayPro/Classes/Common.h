@@ -82,7 +82,7 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 #define TIME_LINE_PAD 5
 #define LEFT_MARGIN 3
 #define TIME_SLOT_HEIGHT 24
-#define CALENDAR_BOX_ALIGNMENT 40
+#define CALENDAR_BOX_ALIGNMENT 100
 
 //#define PROJECT_BOX_HEIGHT 126
 #define PROJECT_BOX_HEIGHT 100
@@ -139,6 +139,14 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 #define URL_ABOUTUS			@"http://leftcoastlogic.com/sp/aboutus"
 #define URL_ALSOLCL			@"http://leftcoastlogic.com/lclproducts/"
 #define URL_SYNC            @"http://www.leftcoastlogic.com/blog/smartday/synchronizing/"
+
+typedef enum
+{
+    DO_TODAY = 0,
+    DO_NEXT_WEEK,
+    DO_NEXT_MONTH,
+    DO_ANYTIME
+} QuickAddOption;
 
 typedef enum
 {

@@ -17,6 +17,8 @@
 
 #import "iPadTaskSettingViewController.h"
 
+extern BOOL _isiPad;
+
 @implementation NumberInputViewController
 
 @synthesize objectEdit;
@@ -49,9 +51,10 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    //UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
-    if ([ctrler isKindOfClass:[iPadTaskSettingViewController class]])
+    //if ([ctrler isKindOfClass:[iPadTaskSettingViewController class]])
+    if (_isiPad)
     {
         frm.size.width = 2*frm.size.width/3;
     }
@@ -66,9 +69,11 @@
 	mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
 	self.view = mainView;
-	[mainView release];	 
+	[mainView release];
     
-    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, frm.size.width - 20, 150)];
+    CGFloat yMargin = (_isiPad?20:0);
+    
+    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yMargin+30, frm.size.width - 20, 150)];
     hintLabel.backgroundColor = [UIColor clearColor];
     hintLabel.font = [UIFont systemFontOfSize:15];
     hintLabel.numberOfLines = 0;
@@ -82,7 +87,7 @@
     
     [hintLabel release];
 	
-	numTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, 35)];
+	numTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, yMargin+10, frm.size.width - 20, 35)];
 	numTextField.backgroundColor = [UIColor whiteColor];
     numTextField.textAlignment = NSTextAlignmentRight;
 	numTextField.keyboardType = UIKeyboardTypeNumberPad;

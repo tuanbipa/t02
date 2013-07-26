@@ -80,6 +80,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return nil;
 }
 
+- (MovableView *)getFirstMovableView
+{
+    return nil;
+}
+
 - (void) reconcileItem:(Task *)item
 {
     
