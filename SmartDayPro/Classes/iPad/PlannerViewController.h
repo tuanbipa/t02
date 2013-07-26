@@ -14,6 +14,7 @@
 @class PlannerView;
 @class PlannerBottomDayCal;
 @class TaskView;
+@class PageAbstractViewController;
 
 @interface PlannerViewController : AbstractActionViewController
 {
@@ -22,6 +23,17 @@
     PlannerBottomDayCal *plannerBottomDayCal;
     
     BOOL firstOpen;
+    
+    UIView *moduleHeaderView;
+    UIView *moduleView;
+    UISegmentedControl *filterSegmentedControl;
+    UIView *editBarView;
+    
+    UIButton *selectedModuleButton;
+    
+    PageAbstractViewController *viewCtrlers[3];
+    
+    NSInteger selectedCounter;
 }
 
 @property (nonatomic, readonly) PlannerView *plannerView;

@@ -37,6 +37,8 @@
 
 #import "SmartListLayoutController.h"
 #import "YearViewController.h"
+#import "NoteViewController.h"
+#import "CategoryViewController.h"
 
 PlannerViewController *_plannerViewCtrler = nil;
 
@@ -66,9 +68,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     if (self = [super init])
     {
-        //smartListViewCtrler = [[SmartListViewController alloc] init4Planner];
-        //smartListViewCtrler = [[SmartListViewController alloc] init];
-        //[smartListViewCtrler resetMovableController:YES];
         
         activeView = nil;
         
@@ -78,9 +77,38 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
 													 name:@"ScheduleFinishedNotification" object:nil];
+        
+        [self initViewControllers];
     }
     
     return self;
+}
+
+- (void) initViewControllers
+{
+    for (int i=0; i<4; i++)
+    {
+        PageAbstractViewController *ctrler = nil;
+        
+        switch (i)
+        {
+            case 0:
+            {
+                ctrler = [self getSmartListViewController];
+            }
+                break;
+            case 1:
+                ctrler = [self getNoteViewController];
+                break;
+            case 2:
+                ctrler = [self getCategoryViewController];
+                break;
+        }
+        
+        [ctrler loadView];
+        
+        viewCtrlers[i] = ctrler;
+    }
 }
 
 - (void) dealloc
@@ -92,6 +120,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [plannerBottomDayCal release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    moduleHeaderView = nil;
+    moduleView = nil;
+    selectedModuleButton = nil;
+    for (int i=0; i<3; i++)
+    {
+        viewCtrlers[i] = nil;
+    }
     [super dealloc];
 }
 
@@ -642,7 +678,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self createTaskOptionView];
 }
 
-- (void) loadView
+- (void) loadView_old
 {
     CGSize sz = [Common getScreenSize];
     
@@ -680,7 +716,87 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [contentView addSubview:plannerBottomDayCal];
 }
 
-- (void)viewDidLoad
+- (void) loadView
+{
+    CGSize sz = [Common getScreenSize];
+    
+    CGRect frm = CGRectZero;
+    frm.size.width = sz.height + 20 + 44;
+    frm.size.height = sz.width - 20;
+    
+    contentView = [[ContentView alloc] initWithFrame:frm];
+    
+    self.view = contentView;
+    
+    [contentView release];
+    
+    plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 8, 750, 206)];
+    [contentView addSubview:plannerView];
+    
+    // bottom day cal
+    plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];
+    [contentView addSubview:plannerBottomDayCal];
+    
+    // tab module
+    NSString *normalImages[3] = {@"tab_tasks_landscape.png", @"tab_notes_landscape.png", @"tab_projects_landscape.png"};
+    NSString *selectedImages[3] = {@"tab_tasks_landscape_selected.png", @"tab_notes_landscape_selected.png", @"tab_projects_landscape_selected.png"};
+    
+    frm = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width) -16, contentView.frame.size.height - 16);
+    
+    CGFloat btnWidth = frm.size.width/3;
+    
+    UIButton *taskButton = nil;
+    
+    for (int i=0; i<3; i++)
+    {
+        UIButton *moduleButton = [Common createButton:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:CGRectMake(frm.origin.x + i*btnWidth, frm.origin.y, btnWidth, 50)
+                                           titleColor:[UIColor whiteColor]
+                                               target:self
+                                             selector:@selector(showModule:)
+                                     normalStateImage:normalImages[i]
+                                   selectedStateImage:selectedImages[i]];
+        //moduleButton.backgroundColor = [UIColor grayColor]
+        ;
+        //[moduleButton setTitle:titles[i] forState:UIControlStateNormal];
+        moduleButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+        moduleButton.tag = 31000+i;
+        
+        [contentView addSubview:moduleButton];
+        
+        if (i != 2)
+         {
+         UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x + (i+1)*btnWidth - 1, frm.origin.y, 1, 50)];
+         moduleSeparator.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+         
+         [contentView addSubview:moduleSeparator];
+         [moduleSeparator release];
+         }
+        
+        if (i==0)
+        {
+            taskButton = moduleButton;
+        }
+    }
+    
+    moduleHeaderView = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x, 50, frm.size.width, 40)];
+    //moduleHeaderView.backgroundColor = [UIColor brownColor];
+    moduleHeaderView.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
+    //headerView.tag = TAG_VIEW_HEADER_VIEW;
+    
+    [contentView addSubview:moduleHeaderView];
+    [moduleHeaderView release];
+    
+    moduleView = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x, 90, frm.size.width, frm.size.height - 90)];
+    moduleView.backgroundColor = [UIColor greenColor];
+    moduleView.tag = 33000;
+    
+    [contentView addSubview:moduleView];
+    [moduleView release];
+}
+
+- (void)viewDidLoad_old
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
@@ -701,6 +817,30 @@ extern AbstractSDViewController *_abstractViewCtrler;
         dt = [NSDate date];
     }
     [plannerView goToDate:dt];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    
+    [plannerBottomDayCal setMovableContentView:self.contentView];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    NSDate *dt = nil;
+    if (tm.today != nil) {
+        dt = [[tm.today copy] autorelease];
+    } else {
+        dt = [NSDate date];
+    }
+    [plannerView goToDate:dt];
+    
+    UIButton *taskButton = (UIButton *)[contentView viewWithTag:31000];
+    if (taskButton != nil)
+    {
+        //[self showModule:taskButton];
+        [self performSelector:@selector(showModule:) withObject:taskButton afterDelay:0];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -777,5 +917,199 @@ extern AbstractSDViewController *_abstractViewCtrler;
         firstOpen = NO;
         [plannerView.monthView refreshOpeningWeek:nil];
     }
+}
+
+#pragma mark Modules
+
+- (void) showModule:(id)sender
+{
+    UIButton *btn = (UIButton *)sender;
+    
+    if (selectedModuleButton != btn)
+    {
+        //UIView *moduleView = [contentView viewWithTag:33000];
+        
+        if (selectedModuleButton != nil)
+        {
+            [[moduleView.subviews lastObject] removeFromSuperview];
+        }
+        
+        PageAbstractViewController *ctrler = viewCtrlers[btn.tag - 31000];
+        
+        [ctrler changeFrame:moduleView.bounds];
+        
+        [moduleView addSubview:ctrler.view];
+        
+        selectedModuleButton.selected = NO;
+        selectedModuleButton = btn;
+        selectedModuleButton.selected = YES;
+        
+        [self refreshHeaderView];
+    }
+}
+
+- (void) refreshHeaderView
+{
+    
+    for (UIView *view in moduleHeaderView.subviews)
+    {
+        [view removeFromSuperview];
+    }
+    
+    switch (selectedModuleButton.tag - 31000)
+    {
+        case 0:
+        {
+            [self createTaskOptionFilter];
+        }
+            break;
+            
+        case 1:
+            [self createNoteOptionFilter];
+            break;
+            
+        case 2:
+            [self createProjectOptionFilter];
+            break;
+    }
+}
+
+- (void)createTaskOptionFilter
+{
+    // refresh selected counter
+    selectedCounter = 0;
+    
+    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _longText, _shortText, nil];
+    
+    filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    CGRect frm = moduleHeaderView.bounds;
+    frm.size.height -= 10;
+    frm.origin.y = (moduleHeaderView.frame.size.height - frm.size.height)/2;
+    filterSegmentedControl.frame = frm;
+    
+    // customizing appearance
+    filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.selectedSegmentIndex = 0;
+    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [UIColor grayColor], UITextAttributeTextColor,
+                                                    //[UIColor blackColor], UITextAttributeTextShadowColor,
+                                                    //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                    nil] forState:UIControlStateNormal];
+    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    selectedColor, UITextAttributeTextColor,
+                                                    nil] forState:UIControlStateSelected];
+    
+    [filterSegmentedControl addTarget:self action:@selector(showTaskWithOption:) forControlEvents:UIControlEventValueChanged];
+    
+    // set selected
+    NSString *title = [[TaskManager getInstance] getFilterTitle];
+    for (int i = 0; i < filterSegmentedControl.numberOfSegments; i++) {
+        NSString *segmentText = [filterSegmentedControl titleForSegmentAtIndex:i];
+        if (title == segmentText) {
+            filterSegmentedControl.selectedSegmentIndex = i;
+            break;
+        }
+    }
+    
+    [moduleHeaderView addSubview:filterSegmentedControl];
+    [filterSegmentedControl release];
+    
+    // create edit bar
+    editBarView = [[UIView alloc] initWithFrame:moduleHeaderView.bounds];
+    //editBarView.tag = TAG_VIEW_EDIT_BAR;
+    editBarView.hidden = YES;
+    [moduleHeaderView addSubview:editBarView];
+    
+  
+    
+    CGFloat width = editBarView.frame.size.width/6;
+    CGFloat space = (width - 30) / 2;
+    
+    // 1, done button
+    UIButton *doneButton = [Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(space, 5, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                       selector:@selector(multiMarkDone:)
+                               normalStateImage:@"menu_done.png"
+                             selectedStateImage:nil];
+    [editBarView addSubview:doneButton];
+    
+    // 2, move top button
+    UIButton *moveTopButton = [Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(width + space, 5, 30, 30)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(multiMoveTop:)
+                                  normalStateImage:@"menu_dotoday.png"
+                                selectedStateImage:nil];
+    [editBarView addSubview:moveTopButton];
+    
+    // 3, defer button
+    UIButton *deferButton = [Common createButton:@""
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(width*2 + space, 5, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(multiDefer:)
+                                normalStateImage:@"menu_defer.png"
+                              selectedStateImage:nil];
+    [editBarView addSubview:deferButton];
+    
+    // 4, mark star button
+    UIButton *markStarButton = [Common createButton:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(width*3 + space, 5, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(multiMarkStar:)
+                                   normalStateImage:@"menu_star.png"
+                                 selectedStateImage:nil];
+    [editBarView addSubview:markStarButton];
+    
+    // 5, copy link button
+    UIButton *copyLinkButton = [Common createButton:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(width*4 + space, 5, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(createLink:)
+                                   normalStateImage:@"menu_copylink.png"
+                                 selectedStateImage:nil];
+    [copyLinkButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"menu_copylink_idle.png"] forState:UIControlStateDisabled];
+    //copyLinkButton.tag = TAG_VIEW_COPY_BUTTON;
+    [editBarView addSubview:copyLinkButton];
+    
+    // 6 paste link button
+    /*UIButton *pasteLinkButton = [Common createButton:@""
+     buttonType:UIButtonTypeCustom
+     frame:CGRectMake(width*5 + space, 5, 30, 30)
+     titleColor:[UIColor whiteColor]
+     target:self
+     selector:@selector(multiMarkDone:)
+     normalStateImage:@"menu_pastelink.png"
+     selectedStateImage:nil];
+     [editBarView addSubview:pasteLinkButton];*/
+    
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(width*5 + space, 5, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(multiDelete:)
+                                 normalStateImage:@"menu_trash.png"
+                               selectedStateImage:nil];
+    [editBarView addSubview:deleteButton];
+    
+    [editBarView release];
+    
+    // check show edit bar or filter view
+    //SmartListViewController *ctrler = [self getSmartListViewController];
+    //filterSegmentedControl.hidden = ctrler.isMultiMode;
+    //editBarView.hidden = !ctrler.isMultiMode;
 }
 @end
