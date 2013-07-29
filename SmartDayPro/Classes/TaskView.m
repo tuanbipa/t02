@@ -246,11 +246,6 @@ extern iPadViewController *_iPadViewCtrler;
     return (checkButton.selected);
 }
 
-- (void)setTempStopMove: (BOOL) stop
-{
-    tempStopMove = stop;
-}
-
 #pragma mark Actions
 
 -(void)check_old:(id)sender
