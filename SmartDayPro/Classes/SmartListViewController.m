@@ -2074,7 +2074,7 @@ SmartListViewController *_smartListViewCtrler;
 }
 
 #pragma mark TextFieldDelegate
-- (void) saveAndMore:(id) sender
+- (IBAction)saveAndMore:(id) sender
 {
 	NSString *text = [quickAddTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	
@@ -3095,7 +3095,8 @@ SmartListViewController *_smartListViewCtrler;
     
     [self refreshQuickAddColor];
     
-    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
+    //quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
+    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-10, 30)];
 	quickAddTextField.delegate = self;
     quickAddTextField.tag = -1;
 	quickAddTextField.borderStyle = UITextBorderStyleNone;
@@ -3109,7 +3110,7 @@ SmartListViewController *_smartListViewCtrler;
 	[self.quickAddPlaceHolder addSubview:quickAddTextField];
 	[quickAddTextField release];
 	
-	UIButton *moreButton = [Common createButton:@""
+	/*UIButton *moreButton = [Common createButton:@""
 									  buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(frm.size.width-35, 4, 30, 30)
 									  titleColor:nil
@@ -3119,7 +3120,7 @@ SmartListViewController *_smartListViewCtrler;
 							  selectedStateImage:nil];
     moreButton.tag = 10000;
 	
-	[self.quickAddPlaceHolder addSubview:moreButton];
+	[self.quickAddPlaceHolder addSubview:moreButton];*/
 	
     timePlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-60, frm.size.width, 20)];
 	timePlaceHolder.backgroundColor = [UIColor clearColor];

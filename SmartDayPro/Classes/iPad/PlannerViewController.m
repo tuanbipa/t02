@@ -115,9 +115,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     self.popoverCtrler = nil;
     
-    //[smartListViewCtrler release];
-    [plannerView release];
-    [plannerBottomDayCal release];
+    //[plannerView release];
+    //[plannerBottomDayCal release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -673,6 +672,59 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 #pragma mark Views
+
+- (void) showPlannerOff:(BOOL)enabled
+{
+    CGRect moduleFrm = contentView.bounds;
+    
+    if (enabled)
+    {
+        moduleFrm.origin.x = 384 + 8;
+        
+        moduleFrm.size.width = moduleFrm.size.width - moduleFrm.origin.x - 8;
+    }
+    else
+    {
+        moduleFrm.origin.x = 750 + 16;
+        moduleFrm.size.width = moduleFrm.size.width - moduleFrm.origin.x - 8;
+    }
+    
+    moduleFrm.origin.y = 8;
+    moduleFrm.size.height -= 8;
+    
+    CGRect frm = moduleFrm;
+    
+    CGFloat btnWidth = frm.size.width/3;
+    
+    for (int i=0; i<3; i++)
+    {
+        UIButton *moduleButton = (UIButton *)[contentView viewWithTag:31000+i];
+        moduleButton.frame = CGRectMake(frm.origin.x + i*btnWidth, frm.origin.y, btnWidth, 50);
+    }
+    
+    frm = moduleFrm;
+
+    frm.origin.y += 50;
+    frm.size.height = 40;
+    
+    moduleHeaderView.frame = frm;
+    
+    frm = moduleFrm;
+    
+    frm.origin.y += 90;
+    frm.size.height -= 90;
+    
+    moduleView.frame = frm;
+    
+    plannerView.hidden = enabled;
+    plannerBottomDayCal.hidden = enabled;
+    
+    PageAbstractViewController *ctrler = viewCtrlers[selectedModuleButton.tag - 31000];
+    
+    [ctrler changeFrame:moduleView.bounds];
+    [ctrler refreshLayout];
+}
+
 - (void) createTaskModuleHeader
 {
     CGRect frm = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, 30);
@@ -779,26 +831,28 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [contentView release];
     
-    SmartListViewController *ctrler = [self getSmartListViewController];
-    
-    //[contentView addSubview:smartListViewCtrler.view];
-    [contentView addSubview:ctrler.view];
-
     plannerView = [[PlannerView alloc] initWithFrame:CGRectMake(8, 8, 750, 206)];
     [contentView addSubview:plannerView];
-    
+    [plannerView release];
+
+    // bottom day cal
+    plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];
+    [contentView addSubview:plannerBottomDayCal];
+    [plannerBottomDayCal release];
+   
     [self createTaskModuleHeader];
     
     CGFloat headerHeight = 30;
     
     //CGRect tmp = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, frm.size.height - 16);
     frm = CGRectMake(plannerView.frame.origin.x + plannerView.frame.size.width + 8, headerHeight + 8, contentView.frame.size.width - (plannerView.frame.origin.x + plannerView.frame.size.width + 8) - 8, contentView.frame.size.height - headerHeight - 16);
+
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [contentView addSubview:ctrler.view];
     
     [ctrler changeFrame:frm];
     
-    // bottom day cal
-    plannerBottomDayCal = [[PlannerBottomDayCal alloc] initWithFrame:CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16)];
-    [contentView addSubview:plannerBottomDayCal];
 }
 
 - (void) loadView

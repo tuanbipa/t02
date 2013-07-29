@@ -585,6 +585,11 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) slideView:(BOOL)enabled
 {
+    if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
+    {
+        [((PlannerViewController *) self.activeViewCtrler) showPlannerOff:enabled];
+    }
+    
     CGRect frm = self.activeViewCtrler.view.frame;
     
     CGFloat slideWidth = 384;
@@ -615,9 +620,63 @@ iPadViewController *_iPadViewCtrler;
     inSlidingMode = enabled;
 }
 
+- (void) changeFrame:(CGRect) frm
+{
+    contentView.frame = frm;
+
+    frm.size.width = 384;
+    
+    frm.origin.x = contentView.bounds.size.width - frm.size.width;
+    
+    detailView.frame = frm;
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 44;
+    
+    [self changeFrame:frm];
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        [_iPadSDViewCtrler loadView];
+        
+        [self showLandscapeView];
+        
+        if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
+        {
+            PlannerViewController *ctrler = (PlannerViewController *) self.activeViewCtrler;
+            
+            [ctrler viewWillAppear:NO];
+        }
+    }
+    else
+    {
+        [self showPortraitView];
+    }
+}
+
 - (void) loadView
 {
-    CGRect frm = [Common getFrame];
+    CGSize sz = [Common getScreenSize];
+    
+    CGRect frm = CGRectZero;
+    frm.size = sz;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     
@@ -645,6 +704,9 @@ iPadViewController *_iPadViewCtrler;
     
     [self changeSkin];
     
+    [self changeOrientation:self.interfaceOrientation];
+    
+    /*
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
     {
         [_iPadSDViewCtrler loadView];
@@ -661,7 +723,7 @@ iPadViewController *_iPadViewCtrler;
     else
     {
         [self showPortraitView];
-    }
+    }*/
     
     [self refreshFilterStatus];
 }
@@ -695,6 +757,7 @@ iPadViewController *_iPadViewCtrler;
     
     [_appDelegate dismissAllAlertViews];
     
+    /*
     CGSize sz = [Common getScreenSize];
     sz.height += 20 + 44;
     
@@ -721,6 +784,9 @@ iPadViewController *_iPadViewCtrler;
     frm.origin.x = contentView.bounds.size.width - frm.size.width;
     
     detailView.frame = frm;
+    */
+    
+    [self changeOrientation:toInterfaceOrientation];
 }
 
 - (void)didReceiveMemoryWarning
