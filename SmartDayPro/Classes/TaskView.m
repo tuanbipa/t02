@@ -242,7 +242,13 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (BOOL) isMultiSelected
 {
-    return (self.multiSelectionEnable && checkButton.selected);
+    //return (self.multiSelectionEnable && checkButton.selected);
+    return (checkButton.selected);
+}
+
+- (void)setTempStopMove: (BOOL) stop
+{
+    tempStopMove = stop;
 }
 
 #pragma mark Actions
@@ -289,8 +295,15 @@ extern iPadViewController *_iPadViewCtrler;
     button.selected = !button.selected;
         
     [self refreshCheckImage];
-    
-    [_abstractViewCtrler refreshEditBarViewWithCheck: button.selected];
+    if (_plannerViewCtrler)
+    {
+        [_plannerViewCtrler refreshEditBarViewWithCheck: button.selected];
+    }
+    else
+    {
+        [_abstractViewCtrler refreshEditBarViewWithCheck: button.selected];
+    }
+    //[_abstractViewCtrler refreshEditBarViewWithCheck: button.selected];
 }
 
 -(void)star:(id)sender

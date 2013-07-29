@@ -322,7 +322,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
-- (void) showTaskWithOption:(id)sender
+- (void) showTaskWithOption_old:(id)sender
 {
     [self hideDropDownMenu];
     
@@ -585,6 +585,91 @@ extern AbstractSDViewController *_abstractViewCtrler;
     optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
     
     [menu release];
+}
+
+- (NSString *) showTaskWithOption:(id)sender
+{
+    
+    UISegmentedControl *segmented = (UISegmentedControl *)sender;
+    
+    NSString *title = [segmented titleForSegmentAtIndex:segmented.selectedSegmentIndex];
+    
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            segmented.tag = TASK_FILTER_ALL;
+            break;
+            
+        case 1:
+            segmented.tag = TASK_FILTER_STAR;
+            break;
+            
+        case 2:
+            segmented.tag = TASK_FILTER_TOP;
+            break;
+            
+        case 3:
+            segmented.tag = TASK_FILTER_DUE;
+            break;
+            
+        case 4:
+            //segmented.tag = TASK_FILTER_ACTIVE;
+            segmented.tag = TASK_FILTER_LONG;
+            break;
+            
+        case 5:
+            //segmented.tag = TASK_FILTER_DONE;
+            segmented.tag = TASK_FILTER_SHORT;
+            break;
+            
+        default:
+            break;
+    }
+    //[super showTaskWithOption:segmented];
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [ctrler filter:segmented.tag];
+    
+    return title;
+}
+
+- (NSString *) showNoteWithOption:(id)sender
+{
+    
+    UISegmentedControl *segmented = (UISegmentedControl *)sender;
+    
+    NSString *title = [segmented titleForSegmentAtIndex:segmented.selectedSegmentIndex];
+    
+    switch (segmented.selectedSegmentIndex) {
+        case 0:
+            segmented.tag = NOTE_FILTER_ALL;
+            break;
+            
+        case 1:
+            segmented.tag = NOTE_FILTER_CURRENT;
+            break;
+            
+        case 2:
+            segmented.tag = NOTE_FILTER_WEEK;
+            break;
+    }
+    //[super showNoteWithOption:segmented];
+    NoteViewController *ctrler = [self getNoteViewController];
+    [ctrler filter:segmented.tag];
+    
+    return title;
+}
+
+- (NSString *) showProjectWithOption:(id)sender
+{
+    
+    UISegmentedControl *segmented = (UISegmentedControl *)sender;
+    
+    NSString *title = [segmented titleForSegmentAtIndex:segmented.selectedSegmentIndex];
+    
+    segmented.tag = segmented.selectedSegmentIndex;
+    [_abstractViewCtrler showProjectWithOption:segmented];
+    
+    return title;
 }
 
 #pragma mark Views
@@ -1106,10 +1191,262 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [editBarView addSubview:deleteButton];
     
     [editBarView release];
+}
+
+- (void)refreshEditBarViewWithCheck: (BOOL) check
+{
+    BOOL firstCheck = selectedCounter == 0;
     
-    // check show edit bar or filter view
-    //SmartListViewController *ctrler = [self getSmartListViewController];
-    //filterSegmentedControl.hidden = ctrler.isMultiMode;
-    //editBarView.hidden = !ctrler.isMultiMode;
+    selectedCounter = check ?  ++selectedCounter : --selectedCounter;
+    
+    if (selectedCounter > 0) {
+        editBarView.hidden = NO;
+        filterSegmentedControl.hidden = YES;
+    } else {
+        editBarView.hidden = YES;
+        filterSegmentedControl.hidden = NO;
+    }
+    
+    //UIButton *copyLinkButton = (UIButton*)[contentView viewWithTag:TAG_VIEW_COPY_BUTTON];
+    //copyLinkButton.enabled = (count == 2);
+    
+    if (firstCheck) {
+        switch (selectedModuleButton.tag - 31000)
+        {
+            case 0:
+            {
+                SmartListViewController *ctrler = [self getSmartListViewController];
+                
+                [ctrler multiEdit:YES];
+                //[ctrler hideQuickAdd];
+            }
+                break;
+            case 1:
+            {
+                NoteViewController *ctrler = [self getNoteViewController];
+                
+                [ctrler multiEdit:YES];
+            }
+                
+                break;
+            case 2:
+            {
+                CategoryViewController *ctrler = [self getCategoryViewController];
+                
+                [ctrler multiEdit:YES];
+            }
+                break;
+        }
+    } else if (selectedCounter == 0) {
+        switch (selectedModuleButton.tag - 31000)
+        {
+            case 0:
+            {
+                SmartListViewController *ctrler = [self getSmartListViewController];
+                
+                [ctrler multiEdit:NO];
+            }
+                break;
+            case 1:
+            {
+                NoteViewController *ctrler = [self getNoteViewController];
+                
+                [ctrler multiEdit:NO];
+            }
+                
+                break;
+            case 2:
+            {
+                CategoryViewController *ctrler = [self getCategoryViewController];
+                
+                [ctrler multiEdit:NO];
+            }
+                break;
+        }
+    }
+}
+
+- (void) createNoteOptionFilter
+{
+    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _todayText, nil];
+    
+    filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    CGRect frm = moduleHeaderView.bounds;
+    frm.size.height -= 10;
+    frm.origin.y = (moduleHeaderView.frame.size.height - frm.size.height)/2;
+    filterSegmentedControl.frame = frm;
+    
+    filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.selectedSegmentIndex = 0;
+    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [UIColor grayColor], UITextAttributeTextColor,
+                                                    //[UIColor blackColor], UITextAttributeTextShadowColor,
+                                                    //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                    nil] forState:UIControlStateNormal];
+    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    selectedColor, UITextAttributeTextColor,
+                                                    nil] forState:UIControlStateSelected];
+    
+    [filterSegmentedControl addTarget:self action:@selector(showNoteWithOption:) forControlEvents:UIControlEventValueChanged];
+    
+    // set selected
+    NoteViewController *ctrler = [self getNoteViewController];
+    filterSegmentedControl.selectedSegmentIndex = ctrler.filterType;
+    
+    [moduleHeaderView addSubview:filterSegmentedControl];
+    [filterSegmentedControl release];
+    
+    // create edit bar ========================
+    editBarView = [[UIView alloc] initWithFrame:moduleHeaderView.bounds];
+    //editBarView.tag = TAG_VIEW_EDIT_BAR;
+    editBarView.hidden = YES;
+    [moduleHeaderView addSubview:editBarView];
+    
+    // delete button
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(multiDelete:)
+                                 normalStateImage:@"menu_trash.png"
+                               selectedStateImage:nil];
+    [editBarView addSubview:deleteButton];
+    
+    [editBarView release];
+}
+
+- (void)createProjectOptionFilter
+{
+    NSArray *itemArray = [NSArray arrayWithObjects: _tasksText, _eventsText, _notesText, _anchoredText, nil];
+    
+    filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    CGRect frm = moduleHeaderView.bounds;
+    frm.size.height -= 10;
+    frm.origin.y = (moduleHeaderView.frame.size.height - frm.size.height)/2;
+    filterSegmentedControl.frame = frm;
+    
+    filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.selectedSegmentIndex = 0;
+    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [UIColor grayColor], UITextAttributeTextColor,
+                                                    //[UIColor blackColor], UITextAttributeTextShadowColor,
+                                                    //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                    nil] forState:UIControlStateNormal];
+    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    selectedColor, UITextAttributeTextColor,
+                                                    nil] forState:UIControlStateSelected];
+    
+    [filterSegmentedControl addTarget:self action:@selector(showProjectWithOption:) forControlEvents:UIControlEventValueChanged];
+    
+    // set selected
+    CategoryViewController *ctrler = [self getCategoryViewController];
+    switch (ctrler.filterType) {
+        case TYPE_TASK:
+            filterSegmentedControl.selectedSegmentIndex = 0;
+            break;
+            
+        case TYPE_EVENT:
+            filterSegmentedControl.selectedSegmentIndex = 1;
+            break;
+            
+        case TYPE_NOTE:
+            filterSegmentedControl.selectedSegmentIndex = 2;
+            break;
+            
+        case TASK_FILTER_PINNED:
+            filterSegmentedControl.selectedSegmentIndex = 3;
+            break;
+    }
+    
+    [moduleHeaderView addSubview:filterSegmentedControl];
+    [filterSegmentedControl release];
+    
+    // create edit bar ========================
+    editBarView = [[UIView alloc] initWithFrame:moduleHeaderView.bounds];
+    //editBarView.tag = TAG_VIEW_EDIT_BAR;
+    editBarView.hidden = YES;
+    [moduleHeaderView addSubview:editBarView];
+    
+    // delete button
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(multiDelete:)
+                                 normalStateImage:@"menu_trash.png"
+                               selectedStateImage:nil];
+    [editBarView addSubview:deleteButton];
+    
+    [editBarView release];
+}
+
+#pragma mark multi actions
+- (void)multiMarkDone: (id) sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiDone:sender];
+}
+
+- (void)multiMoveTop: (id)sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiMoveTop:sender];
+}
+
+- (void)multiDefer: (id)sender
+{
+    
+}
+- (void)multiMarkStar: (id)sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiMarkStar:sender];
+}
+
+- (void)multiDelete: (id) sender
+{
+    switch (selectedModuleButton.tag - 31000) {
+        case 0:
+        {
+            SmartListViewController *ctrlr = [self getSmartListViewController];
+            [ctrlr multiDelete: sender];
+        }
+            break;
+            
+        case 1:
+        {
+            NoteViewController *ctrlr = [self getNoteViewController];
+            [ctrlr multiDelete: sender];
+        }
+            break;
+            
+        case 2:
+        {
+            CategoryViewController *ctrlr = [self getCategoryViewController];
+            [ctrlr multiDelete:sender];
+        }
+            break;
+    }
+}
+
+- (void)createLink: (id)sender
+{
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr createLink:sender];
+    [self cancelEdit];
+}
+
+- (void)cancelEdit
+{
+    selectedCounter = 0;
+    
+    editBarView.hidden = YES;
+    filterSegmentedControl.hidden = NO;
 }
 @end

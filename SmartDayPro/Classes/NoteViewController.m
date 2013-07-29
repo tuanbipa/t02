@@ -32,8 +32,10 @@
 #import "NoteMovableController.h"
 
 #import "CategoryViewController.h"
+#import "PlannerViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern PlannerViewController *_plannerViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
 
 @interface NoteViewController ()
@@ -453,7 +455,11 @@ extern iPadViewController *_iPadViewCtrler;
         [focusView refreshData];
     }
     
-    [_abstractViewCtrler cancelEdit];
+    if (_plannerViewCtrler) {
+        [_plannerViewCtrler cancelEdit];
+    } else {
+        [_abstractViewCtrler cancelEdit];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex

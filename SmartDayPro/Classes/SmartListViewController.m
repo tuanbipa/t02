@@ -619,7 +619,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -665,7 +665,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -1526,7 +1526,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -1598,11 +1598,12 @@ SmartListViewController *_smartListViewCtrler;
         //[_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
         if (_plannerViewCtrler) {
             [_plannerViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
+            [_plannerViewCtrler cancelEdit];
         } else {
             [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
+            [_abstractViewCtrler cancelEdit];
         }
     }
-    [_abstractViewCtrler cancelEdit];
 }
 
 - (void) confirmMultiDeleteTask
@@ -1651,7 +1652,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -1702,7 +1703,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -1803,7 +1804,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -1857,7 +1858,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -1896,7 +1897,7 @@ SmartListViewController *_smartListViewCtrler;
     
     
     NSInteger sections = smartListView.numberOfSections;
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -1934,7 +1935,7 @@ SmartListViewController *_smartListViewCtrler;
     
     NSInteger sections = smartListView.numberOfSections;
     
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         
@@ -2005,7 +2006,7 @@ SmartListViewController *_smartListViewCtrler;
     Task *firstTask = nil, *secondTask = nil;
     
     NSInteger sections = smartListView.numberOfSections;
-    for (int i=1; i<sections; i++)
+    for (int i=0; i<sections; i++)
     {
         NSInteger rows = [smartListView numberOfRowsInSection:i];
         

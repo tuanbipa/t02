@@ -97,5 +97,6 @@
 - (void) showTag;
 - (void) showTimer;
 - (void) showSettingMenu;
-
+// cancel multi edit
+- (void)cancelEdit;
 @end
