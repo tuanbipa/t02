@@ -24,4 +24,6 @@
 - (void) moveToPoint:(CGPoint) point;
 - (void)goToday;
 - (void)goToDate: (NSDate *) dt;
+
+- (void) changeFrame:(CGRect)frm;
 @end

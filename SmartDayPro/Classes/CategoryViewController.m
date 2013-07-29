@@ -433,7 +433,8 @@ extern iPadViewController *_iPadViewCtrler;
 	[contentView addSubview:quickAddPlaceHolder];
 	[quickAddPlaceHolder release];
     
-    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
+    //quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
+    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-10, 30)];
 	quickAddTextField.delegate = self;
     quickAddTextField.tag = -1;
 	quickAddTextField.borderStyle = UITextBorderStyleNone;
@@ -446,6 +447,7 @@ extern iPadViewController *_iPadViewCtrler;
 	[quickAddPlaceHolder addSubview:quickAddTextField];
 	[quickAddTextField release];
 	
+    /*
 	UIButton *moreButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
                                           frame:CGRectMake(frm.size.width-35, 4, 30, 30)
@@ -456,7 +458,7 @@ extern iPadViewController *_iPadViewCtrler;
                              selectedStateImage:nil];
     moreButton.tag = 10000;
 	
-	[quickAddPlaceHolder addSubview:moreButton];
+	[quickAddPlaceHolder addSubview:moreButton];*/
     
     layoutController.viewContainer = listView;
     

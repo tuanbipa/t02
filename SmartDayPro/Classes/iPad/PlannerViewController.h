@@ -47,4 +47,6 @@
 - (void) refreshTaskFilterTitle;
 - (void)showYearView: (UIView *) view;
 - (void)showPreview: (UIView *) view;
+
+- (void) showPlannerOff:(BOOL)enabled;
 @end

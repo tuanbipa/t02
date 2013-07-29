@@ -328,14 +328,14 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     }
 }
 
-- (void) changeOrientation:(UIInterfaceOrientation) orietation
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
 {
     CGSize sz = [Common getScreenSize];
     sz.height += 20 + 44;
     
     CGRect frm = CGRectZero;
     
-    if (UIInterfaceOrientationIsLandscape(orietation))
+    if (UIInterfaceOrientationIsLandscape(orientation))
     {
         frm.size.height = sz.width;
         frm.size.width = sz.height;

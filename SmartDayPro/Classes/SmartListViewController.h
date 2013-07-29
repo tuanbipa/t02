@@ -82,6 +82,7 @@
 @property NSInteger quickAddOption;
 @property (nonatomic, assign) IBOutlet UIToolbar *quickAddOptionToolbar;
 - (IBAction) selectQuickAddOption:(id)sender;
+- (IBAction)saveAndMore:(id) sender;
 
 -(id) init4Planner;
 -(id) initWithTabBar;
