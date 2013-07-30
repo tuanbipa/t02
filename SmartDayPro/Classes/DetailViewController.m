@@ -157,7 +157,9 @@ DetailViewController *_detailViewCtrler = nil;
     
     titleTextView.text = self.taskCopy.name;
     
-    self.previewViewCtrler.item = self.taskCopy;    
+    self.previewViewCtrler.item = self.taskCopy;
+    
+    [self.previewViewCtrler refreshData];
 }
 
 - (void) loadView
@@ -405,7 +407,7 @@ DetailViewController *_detailViewCtrler = nil;
         itemId = self.taskCopy.original.primaryKey;
     }
     
-    NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey];
+    NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey destType:ASSET_ITEM];
     
     if (linkId != -1)
     {
@@ -588,9 +590,8 @@ DetailViewController *_detailViewCtrler = nil;
 - (void)editLink:(id)sender
 {
 	LinkViewController *ctrler = [[LinkViewController alloc] init];
-    //ctrler.task = self.taskCopy;
     
-    Task *tmp = (self.task.original != nil && ![self.task isREException])?self.task.original:self.task;
+    Task *tmp = (self.taskCopy.original != nil && ![self.taskCopy isREException])?self.taskCopy.original:self.taskCopy;
     
     ctrler.task = tmp;
 	

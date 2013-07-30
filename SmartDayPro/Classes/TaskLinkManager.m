@@ -11,11 +11,13 @@
 #import "TaskLinkManager.h"
 
 #import "Common.h"
-#import "DBManager.h"
-#import "TaskManager.h"
 #import "Link.h"
 #import "Task.h"
 #import "LinkInfo2Sort.h"
+
+#import "DBManager.h"
+#import "TaskManager.h"
+#import "URLAssetManager.h"
 
 TaskLinkManager *_tlmSingleton = nil;
 
@@ -38,7 +40,7 @@ TaskLinkManager *_tlmSingleton = nil;
     [super dealloc];
 }
 
-- (NSInteger) createLink:(NSInteger)sourceId destId:(NSInteger)destId
+- (NSInteger) createLink:(NSInteger)sourceId destId:(NSInteger)destId destType:(NSInteger)destType
 {
     NSInteger pk = -1;
     
@@ -51,7 +53,7 @@ TaskLinkManager *_tlmSingleton = nil;
     
     sqlite3_stmt *statement;
     
-    static char *sql = "INSERT INTO TaskLinkTable (Source_ID,Dest_ID,Status,CreationTime,UpdateTime) VALUES (?,?,?,?,?)";
+    static char *sql = "INSERT INTO TaskLinkTable (Source_ID,Dest_ID,Dest_AssetType,Status,CreationTime,UpdateTime) VALUES (?,?,?,?,?,?)";
     
     if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
     {
@@ -60,13 +62,14 @@ TaskLinkManager *_tlmSingleton = nil;
     
 	sqlite3_bind_int(statement, 1, sourceId);
 	sqlite3_bind_int(statement, 2, destId);
-	sqlite3_bind_int(statement, 3, LINK_STATUS_NONE);
+    sqlite3_bind_int(statement, 3, destType);
+	sqlite3_bind_int(statement, 4, LINK_STATUS_NONE);
     
 	NSTimeInterval creationTimeValue = [[Common toDBDate:[NSDate date]] timeIntervalSince1970];
     NSTimeInterval updateTimeValue = [[NSDate date] timeIntervalSince1970];
     
-    sqlite3_bind_double(statement, 4, creationTimeValue);
-    sqlite3_bind_double(statement, 5, updateTimeValue);
+    sqlite3_bind_double(statement, 5, creationTimeValue);
+    sqlite3_bind_double(statement, 6, updateTimeValue);
     
     int success = sqlite3_step(statement);
     
@@ -79,18 +82,6 @@ TaskLinkManager *_tlmSingleton = nil;
     
     if (pk != -1)
     {
-        /*
-        TaskManager *tm = [TaskManager getInstance];
-        
-        //reload links in task list
-        Task *src = [tm findItemByKey:sourceId];
-        src.links = [self getLinkIds4Task:sourceId];
-        
-        Task *dest = [tm findItemByKey:destId];
-        dest.links = [self getLinkIds4Task:destId];
-        */
-        
-        
         NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSNumber numberWithInt:sourceId],
                               @"LinkSourceID",
@@ -158,7 +149,18 @@ TaskLinkManager *_tlmSingleton = nil;
 {
     DBManager *dbm = [DBManager getInstance];
     
-    NSInteger linkedTaskId = [self getLinkedId4Task:taskId linkId:linkId];
+    NSInteger linkedAssetId = [self getLinkedId4Task:taskId linkId:linkId];
+    
+    NSInteger linkedAssetType = [self getLinkedAssetType4Task:taskId linkId:linkId];
+    
+    if (linkedAssetType == ASSET_URL)
+    {
+        URLAssetManager *uam = [URLAssetManager getInstance];
+        
+        BOOL cleanable = [uam checkCleanable:linkedAssetId];
+        
+        [uam deleteURL:linkedAssetId cleanDB:cleanable];
+    }
     
     //[self deleteLink:linkId cleanDB:NO];
     Link *link = [[Link alloc] initWithPrimaryKey:linkId database:[dbm getDatabase]];
@@ -169,7 +171,7 @@ TaskLinkManager *_tlmSingleton = nil;
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
                           [NSNumber numberWithInt:taskId],
                           @"LinkSourceID",
-                          [NSNumber numberWithInt:linkedTaskId],
+                          [NSNumber numberWithInt:linkedAssetId],
                           @"LinkDestID",
                           nil];
     
@@ -178,7 +180,7 @@ TaskLinkManager *_tlmSingleton = nil;
 
 - (void) deleteLink:(Task *)task linkIndex:(NSInteger)linkIndex reloadLink:(BOOL)reloadLink
 {
-    TaskManager *tm = [TaskManager getInstance];
+    //TaskManager *tm = [TaskManager getInstance];
     
     //printf("delete link for Task %s at index: %d\n", [task.name UTF8String], linkIndex);
     
@@ -369,6 +371,41 @@ TaskLinkManager *_tlmSingleton = nil;
     return -1;
 }
 
+- (NSInteger) getLinkedAssetType4Task:(NSInteger)taskId linkId:(NSInteger)linkId
+{
+    NSInteger ret = -1;
+    
+    sqlite3 *database = [[DBManager getInstance] getDatabase];
+    
+    sqlite3_stmt *statement;
+    
+    const char *sql = "SELECT Dest_AssetType FROM TaskLinkTable WHERE TaskLink_ID = ? AND Source_ID = ?";
+    
+    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+    {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_bind_int(statement, 1, linkId);
+    sqlite3_bind_int(statement, 2, taskId);
+    
+    int result = sqlite3_step(statement);
+    
+    if (result == SQLITE_ERROR)
+    {
+        NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));
+    }
+    else if (result == SQLITE_ROW)
+    {
+        ret = sqlite3_column_int(statement, 0);
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return ret;
+}
+
+
 - (LinkInfo2Sort *) getLinkInfo2Sort4Task:(NSInteger)taskId linkId:(NSInteger)linkId
 {
     DBManager *dbm = [DBManager getInstance];
@@ -384,29 +421,36 @@ TaskLinkManager *_tlmSingleton = nil;
     
     [link release];
     
-    sqlite3 *database = [[DBManager getInstance] getDatabase];
-    
-    sqlite3_stmt *statement;
-    
-    const char *sql = "SELECT TASK_TYPE FROM TaskTable WHERE Task_ID = ?";
-    
-    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+    if (link.destAssetType == ASSET_URL && linkedId == link.destId)
     {
-        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        ret.linkedType = 0;
     }
-    
-    sqlite3_bind_int(statement, 1, linkedId);
-    
-    if (sqlite3_step(statement) == SQLITE_ERROR)
+    else
     {
-        NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));
+        sqlite3 *database = [[DBManager getInstance] getDatabase];
+        
+        sqlite3_stmt *statement;
+        
+        const char *sql = "SELECT TASK_TYPE FROM TaskTable WHERE Task_ID = ?";
+        
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+        {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+        
+        sqlite3_bind_int(statement, 1, linkedId);
+        
+        if (sqlite3_step(statement) == SQLITE_ERROR)
+        {
+            NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));
+        }
+        
+        int taskType = sqlite3_column_int(statement, 0);
+        
+        sqlite3_finalize(statement);
+        
+        ret.linkedType = (taskType == TYPE_NOTE?1:0);        
     }
-    
-    int taskType = sqlite3_column_int(statement, 0);
-    
-    ret.linkedType = (taskType == TYPE_NOTE?1:0);
-    
-    sqlite3_finalize(statement);
     
     return [ret autorelease];
     

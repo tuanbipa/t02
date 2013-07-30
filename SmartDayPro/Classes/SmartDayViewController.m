@@ -807,12 +807,9 @@ extern BOOL _gtdoTabHintShown;
     
     [self deselect];
     
-    //Task *linkedTask = (self.task2Link.original != nil && ![self.task2Link isREException])?self.task2Link.original:self.task2Link;
-    
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
     
-    //int linkId = [tlm createLink:task.primaryKey destId:linkedTask.primaryKey];
-    int linkId = [tlm createLink:task.primaryKey destId:self.task2Link.primaryKey];
+    int linkId = [tlm createLink:task.primaryKey destId:self.task2Link.primaryKey destType:ASSET_ITEM];
     
     if (linkId != -1)
     {

@@ -16,7 +16,7 @@
     
 }
 
-- (NSInteger) createLink:(NSInteger)sourceId destId:(NSInteger)destId;
+- (NSInteger) createLink:(NSInteger)sourceId destId:(NSInteger)destId destType:(NSInteger)destType;
 - (void) deleteLink:(NSInteger)linkId cleanDB:(BOOL)cleanDB;
 - (void) deleteLink:(Task *)task linkIndex:(NSInteger)linkIndex reloadLink:(BOOL)reloadLink;
 - (void) deleteAllLinks4Task:(Task *)task;
@@ -24,6 +24,7 @@
 - (NSMutableArray *) getLinkIds4Task:(NSInteger)taskId;
 - (NSMutableArray *) getLinks4Task:(NSInteger)taskId;
 - (NSInteger) getLinkedId4Task:(NSInteger)taskId linkId:(NSInteger)linkId;
+- (NSInteger) getLinkedAssetType4Task:(NSInteger)taskId linkId:(NSInteger)linkId;
 - (BOOL) checkLinkExist:(NSInteger)srcId destId:(NSInteger)destId;
 - (void) deleteAllLinksContainingTask:(NSInteger)taskId;
 - (LinkInfo2Sort *) getLinkInfo2Sort4Task:(NSInteger)taskId linkId:(NSInteger)linkId;

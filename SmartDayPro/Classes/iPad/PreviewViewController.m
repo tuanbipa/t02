@@ -12,6 +12,7 @@
 
 #import "Common.h"
 #import "Task.h"
+#import "URLAsset.h"
 
 #import "ProjectManager.h"
 #import "TaskManager.h"
@@ -21,6 +22,7 @@
 
 #import "ContentView.h"
 #import "NoteView.h"
+#import "GuideWebView.h"
 
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
@@ -127,31 +129,43 @@ PreviewViewController *_previewCtrler;
         {
             NSInteger linkedId = [tlm getLinkedId4Task:previewItem.primaryKey linkId:[num intValue]];
             
-            Task *itm = [[Task alloc] initWithPrimaryKey:linkedId database:[dbm getDatabase]];
-            itm.listSource = SOURCE_PREVIEW;
+            NSInteger linkedAssetType = [tlm getLinkedAssetType4Task:previewItem.primaryKey linkId:[num intValue]];
             
-            [self.linkList addObject:itm];
-            [itm release];
-            
-            if ([itm isRE])
+            if (linkedAssetType == ASSET_URL)
             {
-                Task *firstInstance = [tm findRTInstance:itm fromDate:itm.startTime];
+                URLAsset *urlAsset = [[URLAsset alloc] initWithPrimaryKey:linkedId database:[dbm getDatabase]];
                 
-                itm.startTime = firstInstance.startTime;
-                itm.endTime = firstInstance.endTime;
-                
+                [self.linkList addObject:urlAsset];
+                [urlAsset release];
             }
-            
-            if ([itm isNote])
+            else 
             {
-                hasNote = YES;
-                /*
-                 if (expandedNoteIndex == -1)
-                 {
-                 expandedNoteIndex = index;
-                 }*/
+                Task *itm = [[Task alloc] initWithPrimaryKey:linkedId database:[dbm getDatabase]];
+                itm.listSource = SOURCE_PREVIEW;
                 
-                selectedIndex = 0;
+                [self.linkList addObject:itm];
+                [itm release];
+                
+                if ([itm isRE])
+                {
+                    Task *firstInstance = [tm findRTInstance:itm fromDate:itm.startTime];
+                    
+                    itm.startTime = firstInstance.startTime;
+                    itm.endTime = firstInstance.endTime;
+                    
+                }
+                
+                if ([itm isNote])
+                {
+                    hasNote = YES;
+                    /*
+                     if (expandedNoteIndex == -1)
+                     {
+                     expandedNoteIndex = index;
+                     }*/
+                    
+                    selectedIndex = 0;
+                }
             }
             
             index ++;
@@ -312,7 +326,7 @@ PreviewViewController *_previewCtrler;
         itemId = self.item.original.primaryKey;
     }
     
-    NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey];
+    NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey destType:ASSET_ITEM];
     
     if (linkId != -1)
     {
@@ -1094,6 +1108,22 @@ PreviewViewController *_previewCtrler;
     
 }
 
+- (void) createURLCell:(UITableViewCell *)cell asset:(URLAsset *)asset
+{
+    GuideWebView *webView = [[GuideWebView alloc] initWithFrame:CGRectMake(0, 0, linkTableView.bounds.size.width, 40)];
+    webView.backgroundColor = [UIColor clearColor];
+    
+    webView.safariEnabled = YES;
+    
+    NSString *url = [NSString stringWithFormat:@"<a href='%@'>%@</a>", asset.urlValue, asset.urlValue];
+    
+    [webView loadHTMLContent:url];
+    
+    [cell.contentView addSubview:webView];
+    
+    [webView release];
+}
+
 /*
 - (CGFloat) calculateExpandedNoteHeight
 {
@@ -1151,8 +1181,25 @@ PreviewViewController *_previewCtrler;
 	CGFloat h = (indexPath.row == expandedNoteIndex) || (!hasNote && indexPath.row == 0) ?[self calculateExpandedNoteHeight]:(indexPath.row == tapRow?150:40);
     
     return h;*/
+    
+    NSInteger index = selectedIndex;
+    
+    if (!hasNote && ![self.item isNote])
+    {
+        if (index > 0)
+        {
+            index -= 1;
+        }
+    }
+    
+    if (indexPath.row == selectedIndex && index >= 0)
+    {
+        NSObject *asset = [self.linkList objectAtIndex:index];
+        
+        return ![asset isKindOfClass:[URLAsset class]]?170:40;
+    }
 
-    return indexPath.row == selectedIndex?170:40;
+    return 40;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -1252,23 +1299,36 @@ PreviewViewController *_previewCtrler;
         }
     }
     
-    Task *asset = [self.linkList objectAtIndex:index];
+    NSObject *linkedItem = [self.linkList objectAtIndex:index];
     
-    if ([asset isTask])
+    if ([linkedItem isKindOfClass:[Task class]])
     {
-        [self createTaskCell:cell asset:asset expanded:expanded];
+        Task *asset = (Task *) linkedItem;
+        
+        if ([asset isTask])
+        {
+            [self createTaskCell:cell asset:asset expanded:expanded];
+        }
+        else if ([asset isEvent])
+        {
+            [self createEventCell:cell asset:asset expanded:expanded];
+        }
+        else if ([asset isNote])
+        {
+            [self createNoteCell:cell asset:asset expanded:expanded];
+        }
+        else
+        {
+            cell.textLabel.text = asset.name;
+        }        
     }
-    else if ([asset isEvent])
+    else if ([linkedItem isKindOfClass:[URLAsset class]])
     {
-        [self createEventCell:cell asset:asset expanded:expanded];
-    }
-    else if ([asset isNote])
-    {
-        [self createNoteCell:cell asset:asset expanded:expanded];
-    }
-    else
-    {
-        cell.textLabel.text = asset.name;
+        URLAsset *asset = (URLAsset *) linkedItem;
+        
+        //cell.textLabel.text = asset.urlValue;
+        
+        [self createURLCell:cell asset:asset];
     }
     
     return cell;

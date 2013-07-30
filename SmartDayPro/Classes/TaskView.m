@@ -2337,7 +2337,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     UIColor *prjColor = [[ProjectManager getInstance] getProjectColor0:task.project];
 
-    self.layer.cornerRadius = ([task isTask]?5:0);
+    self.layer.cornerRadius = ([task isTask]?6:0);
     self.layer.borderWidth = 0.25;
     self.layer.borderColor = [prjColor CGColor];
     

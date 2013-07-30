@@ -4215,6 +4215,11 @@ static sqlite3_stmt *_top_task_statement = nil;
 
 - (void)upgradeDBv5_0
 {
+    sqlite3_exec(database, "CREATE TABLE URLTable (URL_ID INTEGER PRIMARY KEY, \
+                 URL_Value TEXT, URL_Status NUMERIC, URL_UpdateTime NUMERIC, URL_SDWID TEXT)", nil, nil, nil);
+    
+	sqlite3_exec(database, "ALTER TABLE TaskLinkTable ADD COLUMN Dest_AssetType NUMERIC;", nil, nil, nil);
+    
 	sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_ExtraStatus NUMERIC;", nil, nil, nil);
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_TimeZoneID NUMERIC;", nil, nil, nil);
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_TimeZoneOffset NUMERIC;", nil, nil, nil);
@@ -4244,6 +4249,20 @@ static sqlite3_stmt *_top_task_statement = nil;
 	{
 		sqlite3_bind_int(statement, 1, TASK_EXTRA_STATUS_NONE);
 		//sqlite3_bind_int(statement, 2, tzID);
+		int success = sqlite3_step(statement);
+		
+		if (success != SQLITE_DONE)
+		{
+			NSAssert1(0, @"Error: failed to update into the database with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
+	
+	sqlite3_finalize(statement);
+    
+    sql = @"UPDATE TaskLinkTable SET Dest_AssetType = 0";
+    
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK)
+	{
 		int success = sqlite3_step(statement);
 		
 		if (success != SQLITE_DONE)

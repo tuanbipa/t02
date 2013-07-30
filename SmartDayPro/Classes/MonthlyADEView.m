@@ -180,13 +180,15 @@ extern TaskManager *taskmanager;
                 int prj = project[i][j];
                 
 				UIColor *color = [[ProjectManager getInstance] getProjectColor0:prj];
+                UIColor *bgColor = [color colorWithAlphaComponent:0.2];
 				
 				BOOL toBreak = (mod + duration[i][j] > 7); 
 				
 				NSInteger segment = (toBreak?7-mod:duration[i][j]);
 				
 				CGRect adeRect = CGRectMake(mod*dayWidth, div*dayHeight + yoffset + j*adeSpace, segment*dayWidth, adeHeight);
-				[color setFill];
+				//[color setFill];
+                [bgColor setFill];
 				CGContextFillRect(ctx, adeRect);
 				
 				if (self.nameShown && ades[i][j] != nil)
@@ -194,8 +196,8 @@ extern TaskManager *taskmanager;
 					Task *ade = ades[i][j];
 					
 					////////printf("ade name: %s - x:%f, y:%f, w:%f, h:%f\n", [ade.name UTF8String], adeRect.origin.x, adeRect.origin.y, adeRect.size.width, adeRect.size.height);
-					[[UIColor whiteColor] set];
-					
+					//[[UIColor whiteColor] set];
+					[color set];
 					[ade.name drawInRect:CGRectOffset(adeRect, 0, -2) withFont:[UIFont boldSystemFontOfSize:10] lineBreakMode:NSLineBreakByTruncatingTail alignment:NSTextAlignmentLeft];
 				}
 				
@@ -207,13 +209,15 @@ extern TaskManager *taskmanager;
 					while (segment > 7)
 					{
 						adeRect = CGRectMake(0, segmentDiv*dayHeight + yoffset + j*adeSpace, self.frame.size.width, adeHeight);
-						[color setFill];
+						//[color setFill];
+                        [bgColor setFill];
 						CGContextFillRect(ctx, adeRect);
 						
 						if (self.nameShown && ades[i][j] != nil)
 						{
 							Task *ade = ades[i][j];
-							[[UIColor whiteColor] set];
+							//[[UIColor whiteColor] set];
+                            [color set];
 							[ade.name drawInRect:CGRectOffset(adeRect, 0, -2) withFont:[UIFont boldSystemFontOfSize:10] lineBreakMode:NSLineBreakByTruncatingTail alignment:NSTextAlignmentLeft];
 						}
 						
@@ -230,13 +234,15 @@ extern TaskManager *taskmanager;
 					if (segment > 0 && segmentDiv <= 5)
 					{
 						adeRect = CGRectMake(0, segmentDiv*dayHeight + yoffset + j*adeSpace, segment*dayWidth, adeHeight);
-						[color setFill];
+						//[color setFill];
+                        [bgColor setFill];
 						CGContextFillRect(ctx, adeRect);
 						
 						if (self.nameShown && ades[i][j] != nil)
 						{
 							Task *ade = ades[i][j];
-							[[UIColor whiteColor] set];
+							//[[UIColor whiteColor] set];
+                            [color set];
 							[ade.name drawInRect:CGRectOffset(adeRect, 0, -2) withFont:[UIFont boldSystemFontOfSize:10] lineBreakMode:NSLineBreakByTruncatingTail alignment:NSTextAlignmentLeft];
 						}
 						

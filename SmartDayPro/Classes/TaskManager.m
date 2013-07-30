@@ -3421,17 +3421,6 @@ TaskManager *_sctmSingleton = nil;
         {
             //recover links for converted item with new primary key
             
-            /*
-            slTask.links = [NSMutableArray arrayWithCapacity:task.links.count];
-            
-            for (NSNumber *linkNum in task.links)
-            {
-                NSInteger linkTarget = [tlm getLinkedId4Task:task.primaryKey linkId:[linkNum intValue]];
-                
-                [tlm createLink:slTask.primaryKey destId:linkTarget];                
-            }
-            */
-            
             for (Link *link in links)
             {
                 if (link.srcId == task.primaryKey)
@@ -3443,7 +3432,7 @@ TaskManager *_sctmSingleton = nil;
                     link.destId = slTask.primaryKey;
                 }
                 
-                [tlm createLink:link.srcId destId:link.destId];
+                [tlm createLink:link.srcId destId:link.destId destType:ASSET_ITEM];
             }
             
         }
@@ -4846,7 +4835,7 @@ TaskManager *_sctmSingleton = nil;
             
             for (NSNumber *idNum in linkedPartnerIds)
             {
-                NSInteger linkId = [[TaskLinkManager getInstance] createLink:event.primaryKey destId:[idNum intValue]];
+                NSInteger linkId = [[TaskLinkManager getInstance] createLink:event.primaryKey destId:[idNum intValue] destType:ASSET_ITEM];
                 
                 if (linkId != -1)
                 {

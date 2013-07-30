@@ -408,6 +408,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
 - (void) createDateCell:(UITableViewCell *)cell
 {
     cell.textLabel.text = _dateText;
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    
     cell.detailTextLabel.text = [Common getFullDateString:self.noteCopy.startTime];
 }
 

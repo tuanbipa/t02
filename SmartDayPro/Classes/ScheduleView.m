@@ -12,6 +12,11 @@
 #import "TaskManager.h"
 #import "Settings.h"
 
+#import "iPadViewController.h"
+#import "CalendarViewController.h"
+
+extern iPadViewController *_iPadViewCtrler;
+
 @implementation ScheduleView
 
 @synthesize todayLineHidden;
@@ -329,6 +334,9 @@
     
     CGRect downHandle = CGRectMake(dayManagerDownView.frame.origin.x + dayManagerDownView.frame.size.width - 40, dayManagerDownView.frame.origin.y, 40, 40);*/
     
+    CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
+    ctrler.calendarView.scrollEnabled = NO;
+    
     CGRect upHandle = CGRectMake(dayManagerUpView.frame.origin.x, dayManagerUpView.frame.origin.y + dayManagerUpView.frame.size.height - 50, dayManagerUpView.frame.size.width, 50);
     
     CGRect downHandle = CGRectMake(dayManagerDownView.frame.origin.x, dayManagerDownView.frame.origin.y, dayManagerDownView.frame.size.width, 50);
@@ -341,12 +349,12 @@
 	
 	if (CGRectContainsPoint(upHandle, touchPoint))
 	{
-        ////printf("up handle touch\n");
+        //printf("up handle touch\n");
         touchHandle = 1;
     }
     else if (CGRectContainsPoint(downHandle, touchPoint)) 
     {
-        ////printf("down handle touch\n");
+        //printf("down handle touch\n");
         touchHandle = 2;
     }
 }
@@ -425,6 +433,9 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
+    ctrler.calendarView.scrollEnabled = YES;
+    
     TaskManager *tm = [TaskManager getInstance];
     Settings *settings = [Settings getInstance];
     

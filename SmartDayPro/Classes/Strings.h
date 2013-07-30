@@ -701,3 +701,6 @@
 #define _quickAddNewProject NSLocalizedString(@"_quickAddNewProject", "")
 #define _tapToAddNote NSLocalizedString(@"_tapToAddNote", "")
 
+#define _addNewURLText NSLocalizedString(@"_addNewURLText", "")
+
+
