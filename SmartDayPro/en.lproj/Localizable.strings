@@ -387,7 +387,7 @@
 "_matchTaskCalendarText" = "Sync was performed for the matched Toodledo folder(s)";
 "_toMatchEventCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other iPhone calendar to sync more."; 
 "_toMatchTaskCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other Toodledo folder to sync more.";
-"_quickAddNewTask" = "Quick Add New Task";
+"_quickAddNewTask" = "Quick Add New Task ...";
 //"_projectDetailHintText" = "Checked tasks in the Projects list will also be shown in the Task List. The top-most task in each Project is always shown in the Task List.";
 "_projectDetailHintText" = "Tap the icon on the left side of Task to enable/disable showing in the 'Tasks' tab. The top-most active task in each Project (indicated with a Flag) is always shown in the 'Tasks' view.";
 "_cannotDeleteDefaultProjectText" = "This Project is set as default project for Task in settings. You cannot delete it.";
@@ -500,7 +500,7 @@
 
 "_notePlaceHolderText" = "Type your notes here";
 "_linksText" = "Links";
-"_addNewLinkText" = "Add New Link ...";
+"_addNewLinkText" = "Add New Asset ...";
 
 "_focusText" = "Focus";
 "_listByDateText" = "List By Date";
@@ -558,7 +558,7 @@
 "_convertATaskHeader" = "Anchor your task to a specific time?";
 "_convertATaskIntoTaskHeader" = "Convert an anchored task back into an auto-scheduled task?";
 
-"_linkSearchHintText" = "Search to link to any item";
+"_linkSearchHintText" = "Search to link to any asset";
 
 "_syncSetupText" = "Sync Setup";
 "_accountText" = "Account";
@@ -713,5 +713,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_jumpText" = "Jump";
 "_deferText" = "Defer";
 
-"_quickAddNewProject" = "Quick Add New Project";
+"_quickAddNewProject" = "Quick Add New Project ...";
 "_tapToAddNote" = "Add New Note";
+
+"_addNewURLText" = "Add New URL ...";

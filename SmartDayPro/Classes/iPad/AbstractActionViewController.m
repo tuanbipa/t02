@@ -1625,7 +1625,7 @@ extern iPadViewController *_iPadViewCtrler;
         
         [tm addTask:task];
         
-        NSInteger linkId = [tlm createLink:task.primaryKey destId:note.primaryKey];
+        NSInteger linkId = [tlm createLink:task.primaryKey destId:note.primaryKey destType:ASSET_ITEM];
         
         if (linkId != -1)
         {
@@ -2133,7 +2133,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
     
-    int linkId = [tlm createLink:task.primaryKey destId:self.task2Link.primaryKey];
+    int linkId = [tlm createLink:task.primaryKey destId:self.task2Link.primaryKey destType:ASSET_ITEM];
     
     if (linkId != -1)
     {

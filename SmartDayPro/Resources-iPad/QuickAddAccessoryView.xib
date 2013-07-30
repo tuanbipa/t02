@@ -40,7 +40,7 @@
 					<object class="IBUIToolbar" id="918034171">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrameSize">{501, 44}</string>
+						<string key="NSFrameSize">{454, 44}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -89,7 +89,7 @@
 						</array>
 					</object>
 				</array>
-				<string key="NSFrame">{{0, 20}, {501, 44}}</string>
+				<string key="NSFrame">{{0, 20}, {454, 44}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="918034171"/>

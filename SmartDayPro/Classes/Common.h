@@ -220,6 +220,18 @@ typedef enum
 
 typedef enum
 {
+    URL_STATUS_NONE,
+    URL_STATUS_DELETED
+} URLStatus;
+
+typedef enum
+{
+    ASSET_ITEM = 0,
+    ASSET_URL
+} AssetType;
+
+typedef enum
+{
     TASK_CREATE,
     TASK_UPDATE,
     TASK_DELETE

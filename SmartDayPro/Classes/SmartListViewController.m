@@ -2116,7 +2116,7 @@ SmartListViewController *_smartListViewCtrler;
         
         TaskLinkManager *tlm = [TaskLinkManager getInstance];
         
-        int linkId = [tlm createLink:firstTask.primaryKey destId:secondTask.primaryKey];
+        int linkId = [tlm createLink:firstTask.primaryKey destId:secondTask.primaryKey destType:ASSET_ITEM];
         
         if (linkId != -1)
         {

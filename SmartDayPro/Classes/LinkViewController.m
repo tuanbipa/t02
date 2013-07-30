@@ -14,10 +14,12 @@
 #import "ProjectManager.h"
 #import "TaskLinkManager.h"
 #import "TaskManager.h"
+#import "URLAssetManager.h"
 
 #import "LinkSearchViewController.h"
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
+#import "PreviewViewController.h"
 
 #import "SmartListViewController.h"
 #import "CalendarViewController.h"
@@ -25,7 +27,11 @@
 
 #import "DetailViewController.h"
 
+#import "iPadViewController.h"
+
 extern AbstractSDViewController *_abstractViewCtrler;
+
+extern iPadViewController *_iPadViewCtrler;
 
 extern BOOL _isiPad;
 
@@ -121,6 +127,8 @@ extern BOOL _isiPad;
     {
         DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
         
+        [ctrler.previewViewCtrler refreshData];
+        
         [ctrler refreshLink];
     }    
 }
@@ -160,7 +168,7 @@ extern BOOL _isiPad;
 {
     TaskLinkManager *tlm = [TaskLinkManager getInstance];
     
-    NSInteger linkId = [tlm createLink:self.task.primaryKey destId:destId];
+    NSInteger linkId = [tlm createLink:self.task.primaryKey destId:destId destType:ASSET_ITEM];
     
     if (linkId != -1)
     {
@@ -184,31 +192,90 @@ extern BOOL _isiPad;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; //trigger sync for Link    
 }
 
+- (void) createURLLink:(NSString *)text
+{
+    URLAssetManager *uam = [URLAssetManager getInstance];
+    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    
+    int urlId = [uam createURL:text];
+    
+    NSInteger linkId = [tlm createLink:self.task.primaryKey destId:urlId destType:ASSET_URL];
+    
+    if (linkId != -1)
+    {
+        //edit in Category view
+        self.task.links = [tlm getLinkIds4Task:task.primaryKey];
+        
+        [linkTableView reloadData];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; //trigger sync for Link
+    }
+}
+
+#pragma mark TextFieldDelegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+	return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (![text isEqualToString:@""])
+    {
+        if (textField.tag == -10000)
+        {
+            [self createURLLink:text];
+            
+            textField.text = @"";
+        }
+        else
+        {
+            TaskLinkManager *tlm = [TaskLinkManager getInstance];
+            URLAssetManager *uam = [URLAssetManager getInstance];
+            
+            NSNumber *linkIdNum = [self.task.links objectAtIndex:textField.tag];
+            
+            NSInteger linkedId = [tlm getLinkedId4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+            
+            [uam updateURL:linkedId value:text];
+            
+            [textField removeFromSuperview];
+                        
+            [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:textField.tag inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return self.task.links.count + 1;
+    return section == 0?2:self.task.links.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LinkCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = nil;
     
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-	else
+	/*else
 	{
 		for(UIView *view in cell.contentView.subviews)
 		{
@@ -217,57 +284,107 @@ extern BOOL _isiPad;
 				[view removeFromSuperview];
 			}
 		}		
-	}
+	}*/
     
     // Configure the cell...
     
-    if (indexPath.row == 0)
-    {
-        cell.textLabel.text = _addNewLinkText;
-    }
-    else 
-    {
-        NSNumber *linkIdNum = [self.task.links objectAtIndex:indexPath.row-1];
-        
-        NSInteger linkedId = [[TaskLinkManager getInstance] getLinkedId4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
-        
-        Task *task = [[Task alloc] initWithPrimaryKey:linkedId database:[[DBManager getInstance] getDatabase]];
-        
-        UIImage *img = nil;
-        
-        ProjectManager *pm = [ProjectManager getInstance];
-        
-        if ([task isEvent])
-        {
-            img = [pm getEventIcon:task.project];
-        }
-        else if ([task isTask])
-        {
-            img = [pm getTaskIcon:task.project];
-        }
-        else if ([task isNote])
-        {
-            img = [pm getNoteIcon:task.project];
-        }
-        
-        cell.imageView.image = img;
-
-        cell.textLabel.text = task.name;
-        
-        [task release];
-    }
-    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    switch (indexPath.section)
+    {
+        case 0:
+        {
+            if (indexPath.row == 0)
+            {
+                cell.textLabel.text = _addNewLinkText;
+                cell.textLabel.font = [UIFont systemFontOfSize:18];
+                cell.textLabel.textColor = [UIColor lightGrayColor];
+            }
+            else if (indexPath.row == 1)
+            {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                
+                UITextField *urlTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, tableView.bounds.size.width-30, 30)];
+                urlTextField.tag = -10000;
+                
+                urlTextField.textAlignment = NSTextAlignmentLeft;
+                urlTextField.backgroundColor=[UIColor clearColor];
+                urlTextField.font=[UIFont systemFontOfSize:18];
+                
+                urlTextField.placeholder=_addNewURLText;
+                urlTextField.keyboardType=UIKeyboardTypeDefault;
+                urlTextField.returnKeyType = UIReturnKeyDone;
+                urlTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
+                urlTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+                
+                urlTextField.delegate = self;
+                urlTextField.text = @"";
+                
+                [cell.contentView addSubview:urlTextField];
+                [urlTextField release];
+            }
+            
+        }
+            break;
+        case 1:
+        {
+            TaskLinkManager * tlm = [TaskLinkManager getInstance];
+            
+            NSNumber *linkIdNum = [self.task.links objectAtIndex:indexPath.row];
+            
+            NSInteger linkedId = [tlm getLinkedId4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+            
+            NSInteger linkedAssetType = [tlm getLinkedAssetType4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+            
+            if (linkedAssetType == ASSET_URL)
+            {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                
+                URLAssetManager *uam = [URLAssetManager getInstance];
+                
+                cell.textLabel.text = [uam getURLValue:linkedId];
+            }
+            else
+            {
+                Task *task = [[Task alloc] initWithPrimaryKey:linkedId database:[[DBManager getInstance] getDatabase]];
+                
+                UIImage *img = nil;
+                
+                ProjectManager *pm = [ProjectManager getInstance];
+                
+                if ([task isEvent])
+                {
+                    img = [pm getEventIcon:task.project];
+                }
+                else if ([task isTask])
+                {
+                    img = [pm getTaskIcon:task.project];
+                }
+                else if ([task isNote])
+                {
+                    img = [pm getNoteIcon:task.project];
+                }
+                
+                cell.imageView.image = img;
+                
+                cell.textLabel.text = task.name;
+                
+                [task release];            
+            }
+            
+        }
+            break;
+    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (editingStyle == UITableViewCellEditingStyleDelete) 
+	if (indexPath.section == 1 && editingStyle == UITableViewCellEditingStyleDelete)
 	{
-        [self deleteLinkAtIndex:indexPath.row - 1];
+        [self deleteLinkAtIndex:indexPath.row];
         
         [tableView reloadData];
 	}
@@ -275,12 +392,17 @@ extern BOOL _isiPad;
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
 	
-    if (indexPath.row > 0)
+    if (indexPath.section == 1)
     {
         return UITableViewCellEditingStyleDelete;	
     }
     
     return UITableViewCellEditingStyleNone;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return section == 0? @"":_assetsText;
 }
 
 /*
@@ -335,7 +457,8 @@ extern BOOL _isiPad;
      [detailViewController release];
      */
     
-    if (indexPath.row == 0)
+    
+    if (indexPath.section == 0 && indexPath.row == 0)
     {
         LinkSearchViewController *ctrler = [[LinkSearchViewController alloc] init];
         ctrler.excludeId = self.task.primaryKey;
@@ -343,46 +466,84 @@ extern BOOL _isiPad;
         [self.navigationController pushViewController:ctrler animated:YES];
         [ctrler release];        
     }
-    else 
+    else if (indexPath.section == 1)
     {
-        NSNumber *linkIdNum = [self.task.links objectAtIndex:indexPath.row-1];
+        TaskLinkManager *tlm = [TaskLinkManager getInstance];
         
-        NSInteger linkedId = [[TaskLinkManager getInstance] getLinkedId4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+        NSNumber *linkIdNum = [self.task.links objectAtIndex:indexPath.row];
         
-        Task *task = [[Task alloc] initWithPrimaryKey:linkedId database:[[DBManager getInstance] getDatabase]];
-        task.listSource = SOURCE_CATEGORY;//to update smart list as well when there is any change
+        NSInteger linkedId = [tlm getLinkedId4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+
+        NSInteger linkedAssetType = [tlm getLinkedAssetType4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
         
-        if ([task isRE])
+        if (linkedAssetType == ASSET_URL)
         {
-            TaskManager *tm = [TaskManager getInstance];
+            URLAssetManager *uam = [URLAssetManager getInstance];
             
-            Task *firstInstance = [tm findRTInstance:task fromDate:task.startTime];
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             
-            task.startTime = firstInstance.startTime;
-            task.endTime = firstInstance.endTime;
+            cell.textLabel.text = @"";
             
-        }        
-        
-        if ([task isNote])
-        {
-            NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+            UITextField *urlTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, tableView.bounds.size.width-30, 30)];
+            urlTextField.tag = indexPath.row;
             
-            ctrler.note = task;
+            urlTextField.textAlignment = NSTextAlignmentLeft;
+            urlTextField.backgroundColor=[UIColor clearColor];
+            urlTextField.font=[UIFont systemFontOfSize:18];
             
-            [self.navigationController pushViewController:ctrler animated:YES];
-            [ctrler release];            
+            urlTextField.keyboardType=UIKeyboardTypeDefault;
+            urlTextField.returnKeyType = UIReturnKeyDone;
+            urlTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
+            urlTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+            
+            urlTextField.delegate = self;
+            urlTextField.text = [uam getURLValue:linkedId];
+            
+            [cell.contentView addSubview:urlTextField];
+            [urlTextField release];
+            
+            [urlTextField becomeFirstResponder];
+            
         }
-        else 
+        else if (linkedAssetType == ASSET_ITEM)
         {
-            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+            Task *asset = [[Task alloc] initWithPrimaryKey:linkedId database:[[DBManager getInstance] getDatabase]];
+            asset.listSource = SOURCE_NONE;//to update smart list as well when there is any change
             
-            ctrler.task = task;
+            if ([asset isRE])
+            {
+                TaskManager *tm = [TaskManager getInstance];
+                
+                Task *firstInstance = [tm findRTInstance:asset fromDate:asset.startTime];
+                
+                asset.startTime = firstInstance.startTime;
+                asset.endTime = firstInstance.endTime;
+                
+            }
             
-            [self.navigationController pushViewController:ctrler animated:YES];
-            [ctrler release];            
+            /*
+            if ([task isNote])
+            {
+                NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+                
+                ctrler.note = task;
+                
+                [self.navigationController pushViewController:ctrler animated:YES];
+                [ctrler release];
+            }
+            else
+            {
+                TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+                
+                ctrler.task = task;
+                
+                [self.navigationController pushViewController:ctrler animated:YES];
+                [ctrler release];            
+                
+            }*/
             
+            [_iPadViewCtrler.activeViewCtrler editItem:asset inView:nil];
         }
-        
     }
 }
 

@@ -123,7 +123,7 @@ iPadViewController *_iPadViewCtrler;
     return timerButton;
 }
 
-- (void) refreshToolbar
+- (void) refreshToolbar:(UIInterfaceOrientation)orientation
 {
     /*if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
     {
@@ -152,7 +152,7 @@ iPadViewController *_iPadViewCtrler;
         UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                    target:nil
                                                                                    action:nil];
-        fixedItem.width = 155;
+        fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?285:155;
         
         UIButton *settingButton = [Common createButton:@""
                                             buttonType:UIButtonTypeCustom
@@ -528,7 +528,7 @@ iPadViewController *_iPadViewCtrler;
 
     [ctrler refreshTaskFilterTitle];
     
-    [self refreshToolbar];
+    [self refreshToolbar:UIInterfaceOrientationLandscapeLeft];
 }
 
 - (void) showPortraitView
@@ -550,7 +550,7 @@ iPadViewController *_iPadViewCtrler;
 
     [_iPadSDViewCtrler refreshTaskFilterTitle];
     
-    [self refreshToolbar];
+    [self refreshToolbar:UIInterfaceOrientationPortrait];
 }
 
 - (void) slideAndShowDetail
@@ -585,6 +585,11 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) slideView:(BOOL)enabled
 {
+    if (inSlidingMode && enabled)
+    {
+        return;
+    }
+        
     if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
     {
         [((PlannerViewController *) self.activeViewCtrler) showPlannerOff:enabled];

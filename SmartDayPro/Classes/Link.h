@@ -17,6 +17,7 @@
 @property NSInteger srcId;
 @property NSInteger destId;
 @property NSInteger status;
+@property NSInteger destAssetType;
 
 @property (nonatomic, copy) NSString *sdwId;
 @property (nonatomic, copy) NSDate *updateTime;

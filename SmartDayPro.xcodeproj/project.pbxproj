@@ -50,8 +50,6 @@
 		67B1706C1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
 		67B1706D1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
 		67B41508166C5A5A00AB3B5C /* iPadSmartDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */; };
-		67BCBF4D17A2306800531C33 /* QuickAddAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67BCBF4C17A2306800531C33 /* QuickAddAccessoryView.xib */; };
-		67BCBF4E17A2306800531C33 /* QuickAddAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67BCBF4C17A2306800531C33 /* QuickAddAccessoryView.xib */; };
 		67C7426D1782761F00361E30 /* PlannerTaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */; };
 		67C7426E1782761F00361E30 /* PlannerTaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */; };
 		67C742731782763A00361E30 /* TaskLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742701782763A00361E30 /* TaskLayoutController.m */; };
@@ -1569,6 +1567,10 @@
 		67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FADC3816D36813009D835D /* iPadGeneralSettingViewController.m */; };
 		67FB71BE16781D9E0033C3A1 /* FocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB71BD16781D9E0033C3A1 /* FocusView.m */; };
 		67FB7F251640C9930049DA1A /* MiniMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */; };
+		67FBA11617A646CD00EB1BD5 /* URLAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */; };
+		67FBA11717A646CD00EB1BD5 /* URLAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */; };
+		67FBA11A17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
+		67FBA11B17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
 		A22A624A1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
 		A22A624B1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
 		A22A624C1778293900AD1634 /* atask_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62491778293900AD1634 /* atask_lines@2x.png */; };
@@ -2618,6 +2620,10 @@
 		67FB71BD16781D9E0033C3A1 /* FocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusView.m; sourceTree = "<group>"; };
 		67FB7F231640C9920049DA1A /* MiniMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniMonthHeaderView.h; sourceTree = "<group>"; };
 		67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniMonthHeaderView.m; sourceTree = "<group>"; };
+		67FBA11417A646CC00EB1BD5 /* URLAssetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLAssetManager.h; sourceTree = "<group>"; };
+		67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAssetManager.m; sourceTree = "<group>"; };
+		67FBA11817A665D200EB1BD5 /* URLAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLAsset.h; sourceTree = "<group>"; };
+		67FBA11917A665D400EB1BD5 /* URLAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAsset.m; sourceTree = "<group>"; };
 		A22A62481778293800AD1634 /* atask_lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atask_lines.png; sourceTree = "<group>"; };
 		A22A62491778293900AD1634 /* atask_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atask_lines@2x.png"; sourceTree = "<group>"; };
 		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
@@ -3160,6 +3166,10 @@
 				67CF2C6216195196001FE1AA /* TransparentToolbar.m */,
 				67CF2C6316195196001FE1AA /* UIViewController+Transitions.h */,
 				67CF2C6416195196001FE1AA /* UIViewController+Transitions.m */,
+				67FBA11817A665D200EB1BD5 /* URLAsset.h */,
+				67FBA11917A665D400EB1BD5 /* URLAsset.m */,
+				67FBA11417A646CC00EB1BD5 /* URLAssetManager.h */,
+				67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */,
 				67E513C01634F04C00621DA1 /* WeekViewController.h */,
 				67E513C11634F04C00621DA1 /* WeekViewController.m */,
 				67CF2C7116195196001FE1AA /* WorkingTime7ViewController.h */,
@@ -5396,6 +5406,8 @@
 				678561B5178E86E800FB3534 /* ProjectInputViewController.m in Sources */,
 				67DCE404179E85A00077EACA /* NoteDetailViewController.m in Sources */,
 				67DD5B3C179F871400CC1A72 /* NoteContentViewController.m in Sources */,
+				67FBA11617A646CD00EB1BD5 /* URLAssetManager.m in Sources */,
+				67FBA11A17A665D500EB1BD5 /* URLAsset.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5602,6 +5614,8 @@
 				678561B6178E86E800FB3534 /* ProjectInputViewController.m in Sources */,
 				67DCE405179E85A00077EACA /* NoteDetailViewController.m in Sources */,
 				67DD5B3D179F871400CC1A72 /* NoteContentViewController.m in Sources */,
+				67FBA11717A646CD00EB1BD5 /* URLAssetManager.m in Sources */,
+				67FBA11B17A665D500EB1BD5 /* URLAsset.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

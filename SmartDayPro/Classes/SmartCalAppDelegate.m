@@ -16,6 +16,8 @@
 #import "SDNavigationController.h"
 
 #import "Common.h"
+#import "Task.h"
+#import "AlertData.h"
 
 #import "TaskManager.h"
 #import "ProjectManager.h"
@@ -27,9 +29,7 @@
 #import "ImageManager.h"
 #import "BusyController.h"
 #import "TimerManager.h"
-#import "Task.h"
-#import "AlertData.h"
-
+#import "URLAssetManager.h"
 #import "TagDictionary.h"
 
 #import "Settings.h"
@@ -678,7 +678,8 @@ BOOL _fromBackground = NO;
 	[DBManager free];
     [TaskLinkManager free];
     [TimerManager free];
-	
+	[URLAssetManager free];
+    [TagDictionary free];
 	[MusicManager free];
 	[AlertManager free];
 	[ImageManager free];

@@ -19,6 +19,8 @@
 @synthesize srcId;
 @synthesize destId;
 @synthesize status;
+@synthesize destAssetType;
+
 @synthesize sdwId;
 @synthesize updateTime;
 
@@ -31,6 +33,7 @@
         self.sdwId = @"";
         self.updateTime = nil;
         self.status = LINK_STATUS_NONE;
+        self.destAssetType = ASSET_ITEM;
         
         isExternalUpdate = NO;
     }
@@ -57,7 +60,7 @@
             // This is a great way to optimize because frequently used queries can be compiled once, then with each
             // use new variable values can be bound to placeholders.
 			
-            const char *sql = "SELECT TaskLink_ID, Source_ID, Dest_ID, Status, SDW_ID, UpdateTime FROM TaskLinkTable WHERE TaskLink_ID = ?";
+            const char *sql = "SELECT TaskLink_ID, Source_ID, Dest_ID, Status, Dest_AssetType, SDW_ID, UpdateTime FROM TaskLinkTable WHERE TaskLink_ID = ?";
 			
 			if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -73,11 +76,12 @@
 			self.srcId = sqlite3_column_int(statement, 1);
 			self.destId = sqlite3_column_int(statement, 2);
 			self.status = sqlite3_column_int(statement, 3);
+            self.destAssetType = sqlite3_column_int(statement, 4);
             
-			char *str = (char *)sqlite3_column_text(statement, 4);
+			char *str = (char *)sqlite3_column_text(statement, 5);
 			self.sdwId = (str == NULL? @"":[NSString stringWithUTF8String:str]);
             
-			NSTimeInterval updateTimeValue = sqlite3_column_double(statement, 18);
+			NSTimeInterval updateTimeValue = sqlite3_column_double(statement, 6);
 			
 			self.updateTime = (updateTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:updateTimeValue]]);            
             
@@ -95,8 +99,8 @@
     
     if (statement == nil) 
 	{
-        static char *sql = "INSERT INTO TaskLinkTable (Source_ID, Dest_ID, Status, SDW_ID, UpdateTime) \
-            VALUES(?,?,?,?,?)";		
+        static char *sql = "INSERT INTO TaskLinkTable (Source_ID, Dest_ID, Status, Dest_AssetType, SDW_ID, UpdateTime) \
+            VALUES(?,?,?,?,?,?)";		
 		
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -114,11 +118,12 @@
 	sqlite3_bind_int(statement, 1, self.srcId);
 	sqlite3_bind_int(statement, 2, self.destId);
 	sqlite3_bind_int(statement, 3, self.status);
-	sqlite3_bind_text(statement, 4, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT); 
+    sqlite3_bind_int(statement, 4, self.destAssetType);
+	sqlite3_bind_text(statement, 5, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT);
     
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
 	
-	sqlite3_bind_double(statement, 5, updateTimeValue);
+	sqlite3_bind_double(statement, 6, updateTimeValue);
     
     int success = sqlite3_step(statement);
 
@@ -140,7 +145,7 @@
 	sqlite3_stmt *statement = nil;
     
     if (statement == nil) {
-        static char *sql = "UPDATE TaskLinkTable SET Source_ID = ?, Dest_ID = ?, Status = ?, SDW_ID = ?, UpdateTime = ? WHERE TaskLink_ID = ?";		
+        static char *sql = "UPDATE TaskLinkTable SET Source_ID = ?, Dest_ID = ?, Status = ?, Dest_AssetType = ?, SDW_ID = ?, UpdateTime = ? WHERE TaskLink_ID = ?";		
 		
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -150,7 +155,8 @@
 	sqlite3_bind_int(statement, 1, self.srcId);
 	sqlite3_bind_int(statement, 2, self.destId);
 	sqlite3_bind_int(statement, 3, self.status);
-	sqlite3_bind_text(statement, 4, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT); 
+    sqlite3_bind_int(statement, 4, self.destAssetType);
+	sqlite3_bind_text(statement, 5, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT);
     
 	if (!isExternalUpdate)
 	{
@@ -161,9 +167,9 @@
     
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
 	
-	sqlite3_bind_double(statement, 5, updateTimeValue);
+	sqlite3_bind_double(statement, 6, updateTimeValue);
     
-    sqlite3_bind_int(statement, 6, self.primaryKey);
+    sqlite3_bind_int(statement, 7, self.primaryKey);
     
     int success = sqlite3_step(statement);
     sqlite3_finalize(statement);

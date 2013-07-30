@@ -241,7 +241,7 @@ SmartDayViewController *_sdViewCtrler;
     note.name = [Common getNoteTitle:text];
     
     [note insertIntoDB:[dbm getDatabase]];
-    NSInteger linkId = [tlm createLink:self.task.primaryKey destId:note.primaryKey];
+    NSInteger linkId = [tlm createLink:self.task.primaryKey destId:note.primaryKey destType:ASSET_ITEM];
     
     if (linkId != -1)
     {
