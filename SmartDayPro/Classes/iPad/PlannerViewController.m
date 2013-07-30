@@ -963,6 +963,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    [ctrler resetMovableController:YES];
+    
+    [ctrler setMovableContentView:self.contentView];
+    
     [plannerBottomDayCal setMovableContentView:self.contentView];
     
     TaskManager *tm = [TaskManager getInstance];
@@ -1455,8 +1460,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)multiDefer: (id)sender
 {
-    
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiDefer:sender];
 }
+
 - (void)multiMarkStar: (id)sender
 {
     SmartListViewController *ctrlr = [self getSmartListViewController];

@@ -5197,6 +5197,50 @@ TaskManager *_sctmSingleton = nil;
     }
 }
 
+- (void)deferTasks: (NSMutableArray*)tasks withOption: (NSInteger)option
+{
+    sqlite3 *db = [[DBManager getInstance] getDatabase];
+    Settings *settings = [Settings getInstance];
+    switch (option) {
+        case 0:
+        {
+            BOOL mondayAsWeekStart = (settings.weekStart == 1);
+            for (Task *task in tasks) {
+                Task *slTask = [self getTask2Update:task];
+                
+                NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:mondayAsWeekStart];
+                
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                
+                dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart == 1)];
+                
+                slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+                [slTask updateIntoDB:db];
+            }
+        }
+            break;
+         case 1:
+        {
+            for (Task *task in tasks) {
+                Task *slTask = [self getTask2Update:task];
+                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:1];
+                
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                
+                dt = [Common getFirstMonthDate:dt];
+                
+                slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+                [slTask updateIntoDB:db];
+            }
+        }
+            break;
+    }
+    
+    [self initSmartListData];
+}
+
 #pragma mark Filter
 
 - (BOOL) checkFilterIn:(Task *) task

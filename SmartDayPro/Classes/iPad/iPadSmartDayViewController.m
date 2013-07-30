@@ -608,8 +608,10 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)multiDefer: (id)sender
 {
-    
+    SmartListViewController *ctrlr = [self getSmartListViewController];
+    [ctrlr multiDefer:sender];
 }
+
 - (void)multiMarkStar: (id)sender
 {
     SmartListViewController *ctrlr = [self getSmartListViewController];

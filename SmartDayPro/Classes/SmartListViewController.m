@@ -1114,7 +1114,11 @@ SmartListViewController *_smartListViewCtrler;
 	else if (alertVw.tag == -10005 && buttonIndex == 1)
 	{
 		[[Settings getInstance] enableGTDoTabHint:NO];
-	}	
+	}
+    else if (alertVw.tag == -10006)
+    {
+        [self doMultiDefer:buttonIndex];
+    }
 	
 }
 
@@ -1999,6 +2003,81 @@ SmartListViewController *_smartListViewCtrler;
     [monthView refresh];
     
     [[_abstractViewCtrler getMonthCalendarView] refresh];
+}
+
+- (void)multiDefer: (id)sender
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_deferText
+                                                        message:@""
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:_nextWeekText, _nextMonthText,nil];
+    alertView.tag = -10006;
+    [alertView show];
+    [alertView release];
+}
+
+- (void)doMultiDefer: (NSInteger) option
+{
+    NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
+    
+    NSMutableArray *viewList = [NSMutableArray arrayWithCapacity:10];
+    
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=0; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                [taskList addObject:taskView.task];
+                
+                [viewList addObject:taskView];
+            }
+            
+        }
+    }
+    
+    [self multiEdit:NO];
+    
+    if (viewList.count > 0)
+    {
+        TaskManager *tm = [TaskManager getInstance];
+        
+        [tm deferTasks:taskList withOption:option];
+    }
+    [_abstractViewCtrler cancelEdit];
+    
+    /*if ([_abstractViewCtrler checkControllerActive:3])
+    {
+        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+        
+        if (ctrler.filterType == TYPE_TASK)
+        {
+            [ctrler loadAndShowList];
+        }
+    }
+    
+    FocusView *focusView = [_abstractViewCtrler getFocusView];
+    
+    if (focusView != nil && [focusView checkExpanded])
+    {
+        [focusView refreshData];
+    }
+    
+    PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
+    [monthView refreshOpeningWeek:nil];
+    [monthView refresh];
+    
+    [[_abstractViewCtrler getMonthCalendarView] refresh];*/
 }
 
 - (void)createLink: (id)sender

@@ -119,6 +119,7 @@
 - (void) multiDone:(id)sender;
 - (void)multiMarkStar: (id)sender;
 - (void)multiMoveTop: (id)sender;
+- (void)multiDefer: (id)sender;
 - (void)createLink: (id)sender;
 
 - (void) filter:(NSInteger)filterType;

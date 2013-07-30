@@ -201,6 +201,7 @@
 - (void)moveTop: (NSArray*) tasks;
 - (void) moveTask2Top:(Task *)task;
 - (void) defer:(Task *)task deferOption:(NSInteger)deferOption;
+- (void)deferTasks: (NSMutableArray*)tasks withOption: (NSInteger)option;
 
 -(void) purge;
 -(void) recover;
