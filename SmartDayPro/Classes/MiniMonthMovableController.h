@@ -20,6 +20,10 @@
     BOOL moveInFocus;
     
     BOOL moveInDayCalendar;
+    
+    BOOL moveInPlannerMM;
+    
+    BOOL moveInPlannerDayCalendar;
 }
 
 - (void) doTaskMovementInMM;

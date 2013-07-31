@@ -34,9 +34,16 @@
 #import "ScheduleView.h"
 #import "CalendarViewController.h"
 
+#import "iPadViewController.h"
+#import "PlannerViewController.h"
+#import "PlannerMonthView.h"
+#import "PlannerBottomDayCal.h"
+
 extern SmartDayViewController *_sdViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
+
+iPadViewController *_iPadViewCtrler;
 
 @implementation MiniMonthMovableController
 
@@ -60,11 +67,13 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     moveInFocus = NO;
     moveInMM = NO;
+    moveInPlannerMM = NO;
+    moveInPlannerDayCalendar = NO;
 }
 
 -(void) endMove:(MovableView *)view
 {
-    if (moveInMM)
+    if (moveInMM || moveInPlannerMM)
     {
         [self doTaskMovementInMM];
     }
@@ -95,34 +104,54 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     if ([self.activeMovableView isKindOfClass:[TaskView class]] && ![((TaskView *)self.activeMovableView).task isShared])
     {
-        CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
-        
-        moveInMM = CGRectContainsPoint(mmFrm, p) && !_abstractViewCtrler.miniMonthView.hidden;
-        
-        moveInFocus = NO;
-        
-        if (_abstractViewCtrler.focusView != nil)
-        {
-            CGRect focusFrm = [self getMovableRect:_abstractViewCtrler.focusView];
-            p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
+        if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
+            PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
+            CGRect mmFrm = [self getMovableRect:plannerMonthView];
             
-            moveInFocus = CGRectContainsPoint(focusFrm, p);
+            //CGPoint touchPoint = [self.activeMovableView getTouchPoint];
+            touchPoint = [self.activeMovableView getTouchPoint];
+            
+            p = [self.activeMovableView.superview convertPoint:touchPoint toView:_iPadViewCtrler.activeViewCtrler.contentView];
+            
+            moveInPlannerMM = CGRectContainsPoint(mmFrm, p);
+            
+            // check moving in planner day calendar
+            PlannerBottomDayCal *plannerDayCal = [_iPadViewCtrler.activeViewCtrler getPlannerDayCalendarView];
+            CGRect plannerDayCalFrm = [self getMovableRect:plannerDayCal];
+            moveInPlannerDayCalendar = CGRectContainsPoint(plannerDayCalFrm, p);
+        } else {
+            
+            CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
+            
+            moveInMM = CGRectContainsPoint(mmFrm, p) && !_abstractViewCtrler.miniMonthView.hidden;
+            
+            moveInFocus = NO;
+            
+            if (_abstractViewCtrler.focusView != nil)
+            {
+                CGRect focusFrm = [self getMovableRect:_abstractViewCtrler.focusView];
+                p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
+                
+                moveInFocus = CGRectContainsPoint(focusFrm, p);
+            }
+            
+            // check move in Day Calendar
+            CalendarViewController *calendarViewCtrl =  [_abstractViewCtrler getCalendarViewController];
+            CGRect smartListFrm = [self getMovableRect:calendarViewCtrl.view];
+            moveInDayCalendar = CGRectContainsPoint(smartListFrm, p);
         }
         
-        // check move in Day Calendar
-        CalendarViewController *calendarViewCtrl =  [_abstractViewCtrler getCalendarViewController];
-        CGRect smartListFrm = [self getMovableRect:calendarViewCtrl.view];
-        moveInDayCalendar = CGRectContainsPoint(smartListFrm, p);
-                
     }
     
-    if (moveInMM || moveInFocus)
+    if (moveInMM || moveInFocus || moveInPlannerMM)
     {
         if (frm.size.width > 100)
         {
             if ([self.activeMovableView isKindOfClass:[TaskView class]])
             {
-                ((TaskView *)dummyView).starEnable = NO;
+                TaskView *tv = (TaskView *)dummyView;
+                tv.starEnable = NO;
+                //tv.mu
             }
                         
             [dummyView setNeedsDisplay];
@@ -138,6 +167,12 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         {
             p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.miniMonthView];
             [_abstractViewCtrler.miniMonthView moveToPoint:p];
+        }
+        
+        if (moveInPlannerMM) {
+            PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
+            p = [self.activeMovableView.superview convertPoint:touchPoint toView:plannerMonthView];
+            [plannerMonthView highlightCellAtPoint:p];
         }
     }
     else
@@ -171,7 +206,14 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         task = task.original;
     }    
     
-    NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    NSDate *calDate = nil;
+    if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
+        PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
+        calDate = [plannerMonthView getSelectedDate];
+    } else {
+        calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    }
     
     //NSDate *dDate = nil;
     NSDate *deadline = task.deadline;

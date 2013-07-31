@@ -964,7 +964,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	// Do any additional setup after loading the view.
     
     SmartListViewController *ctrler = [self getSmartListViewController];
-    [ctrler resetMovableController:YES];
+    //[ctrler resetMovableController:YES];
     
     [ctrler setMovableContentView:self.contentView];
     

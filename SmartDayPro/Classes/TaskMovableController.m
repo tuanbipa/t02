@@ -81,7 +81,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         {
             [self doTaskMovementInFocus];
         }
-        else if (moveInMM)
+        else if (moveInMM || moveInPlannerMM)
         {
             [self doTaskMovementInMM];
         }
