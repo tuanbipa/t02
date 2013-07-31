@@ -18,6 +18,7 @@
 #import "ProjectManager.h"
 #import "TaskManager.h"
 #import "AlertData.h"
+#import "URLAsset.h"
 
 extern BOOL _versionUpgrade;
 extern BOOL _firstLaunch;
@@ -3315,6 +3316,52 @@ static sqlite3_stmt *_top_task_statement = nil;
 }
 
 #pragma mark SDW Sync
+- (NSMutableArray *) getAllURLAssets
+{
+	NSMutableArray *list = [NSMutableArray arrayWithCapacity:200];
+	
+	const char *sql = "SELECT URL_ID FROM URLTable WHERE URL_Status <> ?";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, URL_STATUS_DELETED);
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			int primaryKey = sqlite3_column_int(statement, 0);
+			URLAsset *urlAsset = [[URLAsset alloc] initWithPrimaryKey:primaryKey database:database];
+			
+			[list addObject:urlAsset];
+			[urlAsset release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return list;
+}
+
+- (NSMutableArray *) getDeletedURLAssets
+{
+	NSMutableArray *list = [NSMutableArray arrayWithCapacity:10];
+	
+	const char *sql = "SELECT URL_ID FROM URLTable WHERE URL_Status = ?";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, URL_STATUS_DELETED);
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			int primaryKey = sqlite3_column_int(statement, 0);
+			URLAsset *asset = [[URLAsset alloc] initWithPrimaryKey:primaryKey database:database];
+			
+			[list addObject:asset];
+			[asset release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return list;
+}
+
 - (NSString *) getItemTypeString
 {
     return [NSString stringWithFormat:@"%d,%d,%d,%d", TYPE_TASK, TYPE_EVENT, TYPE_ADE, TYPE_NOTE];
@@ -3591,6 +3638,71 @@ static sqlite3_stmt *_top_task_statement = nil;
     else if (success == SQLITE_ERROR)
     {
         NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));        
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return key;
+}
+
+- (NSString *) getSDWId4URLAssetKey:(NSInteger)key
+{
+    NSString *sdwId = nil;
+    
+    sqlite3_stmt *statement;
+    
+    const char *sql = "SELECT URL_SDWID FROM URLTable WHERE URL_ID = ?";
+    
+    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+    {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_bind_int(statement, 1, key);
+    
+    int success = sqlite3_step(statement);
+    
+    if (success == SQLITE_ROW)
+    {
+        char *str = (char *)sqlite3_column_text(statement, 0);
+        sdwId = (str == NULL? nil:[NSString stringWithUTF8String:str]);
+    }
+    else if (success == SQLITE_ERROR)
+    {
+        NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return sdwId;
+}
+
+- (NSInteger) getURLAssetKey4SDWId:(NSString *)sdwId
+{
+    NSInteger key = -1;
+    
+    sqlite3_stmt *statement;
+    
+    const char *sql = "SELECT URL_ID FROM URLTable WHERE URL_SDWID = ?";
+    
+    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+    {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_bind_text(statement, 1, [sdwId UTF8String], -1, SQLITE_TRANSIENT);
+    
+    int success = sqlite3_step(statement);
+    
+    if (success == SQLITE_ROW)
+    {
+        key = sqlite3_column_int(statement, 0);
+        
+        //printf("root key %d found for sdw id:%s\n", key, [sdwId UTF8String]);
+    }
+    else if (success == SQLITE_ERROR)
+    {
+        NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));
     }
     
     sqlite3_finalize(statement);

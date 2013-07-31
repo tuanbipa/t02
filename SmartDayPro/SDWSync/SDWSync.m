@@ -15,14 +15,16 @@
 #import "TaskManager.h"
 #import "TaskLinkManager.h"
 #import "AlertManager.h"
+#import "TagDictionary.h"
+#import "BusyController.h"
+#import "URLAssetManager.h"
+
 #import "Project.h"
 #import "Task.h"
 #import "Link.h"
 #import "RepeatData.h"
 #import "AlertData.h"
-#import "TagDictionary.h"
-
-#import "BusyController.h"
+#import "URLAsset.h"
 
 #import "SDWSection.h"
 
@@ -44,8 +46,10 @@ typedef enum
     DELETE_LINK,
     UPDATE_TASK_ORDER,
     UPDATE_CATEGORY_ORDER,
-    ADD_TAG
-    
+    ADD_TAG,
+    ADD_URL_ASSET,
+    UPDATE_URL_ASSET,
+    DELETE_URL_ASSET
 } SyncCommand;
 
 SDWSync *_sdwSyncSingleton;
@@ -247,6 +251,7 @@ NSInteger _sdwColor[32] = {
             else
             {
                 [self syncTasks];
+                [self syncURLAssets];
                 [self syncLinks];
                 
                 [self syncProjectOrder];
@@ -538,6 +543,15 @@ NSInteger _sdwColor[32] = {
                 case ADD_TAG:
                     [self addTags:list];
                     break;
+                case ADD_URL_ASSET:
+                    [self addURLAssets:list];
+                    break;
+                case UPDATE_URL_ASSET:
+                    [self updateURLAssets:list];
+                    break;
+                case DELETE_URL_ASSET:
+                    [self deleteURLAssets:list];
+                    break;
             }
         }
     }
@@ -591,6 +605,16 @@ NSInteger _sdwColor[32] = {
                 break;
             case ADD_TAG:
                 [self addTags:list];
+                break;
+            case ADD_URL_ASSET:
+                [self addURLAssets:list];
+                break;
+            case UPDATE_URL_ASSET:
+                [self updateURLAssets:list];
+                break;
+            case DELETE_URL_ASSET:
+                [self deleteURLAssets:list];
+                break;                
         }
         
     }
@@ -2046,6 +2070,7 @@ NSInteger _sdwColor[32] = {
                     task.updateTime = dt;
                     task.sdwId = sdwId;
                     
+                    [task enableExternalUpdate];
                     [task updateSDWIDIntoDB:[dbm getDatabase]];
                     
                     [self syncExceptions:task];
@@ -2898,6 +2923,7 @@ NSInteger _sdwColor[32] = {
     Link *ret = [[[Link alloc] init] autorelease];
     
     ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.destAssetType = [[dict objectForKey:@"link_type"] intValue];
     
     id root = [dict objectForKey:@"root_id"];
     id target = [dict objectForKey:@"target_id"];
@@ -2911,7 +2937,7 @@ NSInteger _sdwColor[32] = {
     NSString *targetId = [target stringValue];
     
     ret.srcId = [dbm getKey4SDWId:rootId];
-    ret.destId = [dbm getKey4SDWId:targetId];
+    ret.destId = (ret.destAssetType == 1?[dbm getURLAssetKey4SDWId:targetId]:[dbm getKey4SDWId:targetId]);
     
     ret.updateTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"last_update"] intValue]]; 
     
@@ -2928,7 +2954,7 @@ NSInteger _sdwColor[32] = {
     DBManager *dbm = [DBManager getInstance];
     
     NSString *rootId = [dbm getSDWId4Key:link.srcId];
-    NSString *targetId = [dbm getSDWId4Key:link.destId];
+    NSString *targetId = (link.destAssetType == 1?[dbm getSDWId4URLAssetKey:link.destId]:[dbm getSDWId4Key:link.destId]);
     
     //printf("find root/target for link : %d - root:[%d, %s] - target: [%d, %s]\n", link.primaryKey, link.srcId, [rootId UTF8String], link.destId, [targetId UTF8String]);
     
@@ -2936,6 +2962,7 @@ NSInteger _sdwColor[32] = {
                               link.sdwId,@"id",
                               rootId, @"root_id",
                               targetId, @"target_id",
+                              [NSNumber numberWithInt:link.destAssetType], @"link_type",
                               [NSNumber numberWithInt:link.primaryKey], @"ref",                              
                               nil];
     
@@ -2953,12 +2980,13 @@ NSInteger _sdwColor[32] = {
     link.sdwId = sdwLink.sdwId;
     link.srcId = sdwLink.srcId;
     link.destId = sdwLink.destId;
+    link.destAssetType = sdwLink.destAssetType;
     
     link.updateTime = sdwLink.updateTime;
     
 	if (link.primaryKey > -1)
 	{
-		[link enableExternalUpdate];		
+		[link enableExternalUpdate];
 	}        
 }
 
@@ -3040,6 +3068,8 @@ NSInteger _sdwColor[32] = {
                     
                     link.updateTime = dt;
                     link.sdwId = sdwId;
+                    
+                    [link enableExternalUpdate];
                     
                     [link updateSDWIDIntoDB:[dbm getDatabase]];
                 }
@@ -3296,7 +3326,7 @@ NSInteger _sdwColor[32] = {
                 
                 [self updateLink:link withSDWLink:sdwLink];
                 
-                //printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
+                printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
                 
                 [link insertIntoDB:[dbm getDatabase]];
                 
@@ -3406,7 +3436,469 @@ NSInteger _sdwColor[32] = {
     }
 }
 
-#pragma mark Synn Tags
+#pragma mark Sync URLs
+- (URLAsset *) getSDWURLAsset:(NSDictionary *) dict
+{
+    URLAsset *ret = [[[URLAsset alloc] init] autorelease];
+    
+    ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.urlValue = [dict objectForKey:@"url"];
+    ret.updateTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"last_update"] intValue]];
+    
+    return ret;
+}
+
+- (NSDictionary *) toSDWURLAssetDict:(URLAsset *)asset
+{
+    NSDictionary *assetDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              asset.sdwId,@"id",
+                              asset.urlValue, @"url",
+                              [NSNumber numberWithInt:asset.primaryKey], @"ref", 
+                              nil];
+        
+    return assetDict;
+}
+
+- (void) updateURLAsset:(URLAsset *)asset withSDWURLAsset:(URLAsset *)sdwAsset
+{
+    asset.urlValue = sdwAsset.urlValue;
+    asset.sdwId = sdwAsset.sdwId;
+    asset.updateTime = sdwAsset.updateTime;
+    
+	if (asset.primaryKey > -1)
+	{
+		[asset enableExternalUpdate];
+	}
+}
+
+- (void) addURLAssets:(NSArray *)list
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+	NSString *urlString=[NSString stringWithFormat:@"%@/api/url_objects.json?keyapi=%@",SDWSite,self.sdwSection.key];
+    
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:urlString]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    NSMutableArray *sdwList = [NSMutableArray arrayWithCapacity:list.count];
+    NSDictionary *assetDict = [URLAssetManager getURLAssetDictByKey:list];
+    
+    for (URLAsset *asset in list)
+    {
+        NSDictionary *dict = [self toSDWURLAssetDict:asset];
+        
+        [sdwList addObject:dict];
+    }
+    
+    NSError *error = nil;
+    NSURLResponse *response;
+    
+    NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwList options:0 error:&error];
+    
+    //NSString* str = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    
+    //printf("add URLs: %s - body:\n%s\n", [urlString UTF8String], [str UTF8String]);
+    
+    [request setHTTPBody:jsonBody];
+	
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
+        //printf("add URLs return:\n%s\n", [str UTF8String]);
+        
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            NSString *sdwId = [[dict objectForKey:@"id"] stringValue];
+            NSInteger key = [[dict objectForKey:@"ref"] intValue];
+            NSInteger lastUpdate = [[dict objectForKey:@"last_update"] intValue];
+            
+            if (sdwId != nil)
+            {
+                URLAsset *asset = [assetDict objectForKey:[NSNumber numberWithInt:key]];
+                
+                if (asset != nil)
+                {
+                    NSDate *dt = [NSDate dateWithTimeIntervalSince1970:lastUpdate];
+                    
+                    asset.updateTime = dt;
+                    asset.sdwId = sdwId;
+                    
+                    [asset enableExternalUpdate];
+                    
+                    [asset updateSDWIDIntoDB:[dbm getDatabase]];
+                }
+            }
+        }
+    }
+}
+
+- (void) updateURLAssets:(NSArray *)list
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+	NSString *urlString=[NSString stringWithFormat:@"%@/api/url_objects/update.json?keyapi=%@",SDWSite,self.sdwSection.key];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:urlString]];
+	[request setHTTPMethod:@"PUT"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    NSMutableArray *sdwList = [NSMutableArray arrayWithCapacity:list.count];
+    NSDictionary *assetDict = [URLAssetManager getURLAssetDictBySDWID:list];
+    
+    for (URLAsset *asset in list)
+    {
+        [sdwList addObject:[self toSDWURLAssetDict:asset]];
+        
+    }
+    
+    NSError *error = nil;
+    NSURLResponse *response;
+    
+    NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwList options:0 error:&error];
+    
+    [request setHTTPBody:jsonBody];
+	
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            NSString *sdwId = [[dict objectForKey:@"id"] stringValue];
+            NSInteger lastUpdate = [[dict objectForKey:@"last_update"] intValue];
+            
+            if (sdwId != nil)
+            {
+                URLAsset *asset = [assetDict objectForKey:sdwId];
+                
+                if (asset != nil)
+                {
+                    NSDate *dt = [NSDate dateWithTimeIntervalSince1970:lastUpdate];
+                    
+                    asset.updateTime = dt;
+                    [asset enableExternalUpdate];
+                    
+                    [asset modifyUpdateTimeIntoDB:[dbm getDatabase]];
+                }
+            }
+        }
+    }
+}
+
+- (void) deleteURLAssets:(NSMutableArray *)delList
+{
+    DBManager *dbm = [DBManager getInstance];
+
+    NSDictionary *delDict = [URLAssetManager getURLAssetDictBySDWID:delList];
+    
+    NSString *idList = nil;
+    
+	for (URLAsset *asset in delList)
+	{
+        if (asset.sdwId != nil && ![asset.sdwId isEqualToString:@""])
+        {
+            if (idList == nil)
+            {
+                idList = asset.sdwId;
+            }
+            else
+            {
+                idList = [NSString stringWithFormat:@"%@,%@", idList, asset.sdwId];
+            }
+        }
+    }
+    
+    if (idList != nil)
+    {
+        NSString *urlString=[NSString stringWithFormat:@"%@/api/url_objects/%@.json?keyapi=%@",SDWSite,idList,self.sdwSection.key];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:urlString]];
+        [request setHTTPMethod:@"DELETE"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        NSError *error = nil;
+        NSURLResponse *response;
+        NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        
+        [request release];
+        
+        if (error != nil)
+        {
+            self.errorDescription = error.localizedDescription;
+            
+            return;
+        }
+        
+        if (urlData)
+        {
+            NSArray *result = [self getArrayResult:urlData];
+            
+            if (result == nil)
+            {
+                return;
+            }
+            
+            for (NSDictionary *dict in result)
+            {
+                NSString *delId = [dict objectForKey:@"success"];
+                
+                if (delId != nil)
+                {
+                    URLAsset *delLink = [delDict objectForKey:delId];
+                    
+                    if (delLink != nil)
+                    {
+                        [delLink cleanFromDatabase:[dbm getDatabase]];
+                    }
+                }
+            }
+        }
+    }
+}
+
+- (void) syncDeletedURLAssets
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSMutableArray *delList = [dbm getDeletedURLAssets];
+    
+    if (delList.count > 0)
+    {
+        [self breakSync:delList command:DELETE_URL_ASSET];
+    }
+}
+
+- (void) syncURLAssets
+{
+    [self syncDeletedURLAssets];
+    
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/api/url_objects.json?keyapi=%@",SDWSite,self.sdwSection.key];
+	
+    //printf("getLinks: %s\n", [url UTF8String]);
+    
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:url]];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+	
+	NSError *error = nil;
+	NSURLResponse *response;
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
+        //printf("get URLs return:\n%s\n", [str UTF8String]);
+        
+        NSMutableArray *list = [dbm getAllURLAssets];
+        
+        NSDictionary *assetDict = [URLAssetManager getURLAssetDictBySDWID:list];
+        
+        NSMutableArray *updateList = [NSMutableArray arrayWithCapacity:20];
+        
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            if ([dict objectForKey:@"id"] == nil)
+            {
+                continue;
+            }
+            
+            URLAsset *sdwURLAsset = [self getSDWURLAsset:dict];
+            
+            URLAsset *asset = [assetDict objectForKey:sdwURLAsset.sdwId];
+            
+            if (asset != nil) //already sync
+            {
+                NSComparisonResult compRes = [Common compareDate:asset.updateTime withDate:sdwURLAsset.updateTime];
+                
+                if (compRes == NSOrderedAscending) //update SDW->SC
+                {
+                    [self updateURLAsset:asset withSDWURLAsset:sdwURLAsset];
+                    
+                    [asset updateIntoDB:[dbm getDatabase]];
+                    
+                }
+                else if (compRes == NSOrderedDescending) //update SC->SDW
+                {
+                    //printf("update Link SC->SDW: %s\n", [link.sdwId UTF8String]);
+                    
+                    [updateList addObject:asset];
+                }
+                
+                [list removeObject:asset];
+            }
+            else
+            {
+                URLAsset *asset = [[URLAsset alloc] init];
+                
+                [self updateURLAsset:asset withSDWURLAsset:sdwURLAsset];
+                
+                //printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
+                
+                [asset insertIntoDB:[dbm getDatabase]];
+                
+                [asset release];
+            }
+        }
+        
+        if (updateList.count > 0)
+        {
+            [self breakSync:updateList command:UPDATE_URL_ASSET];
+        }
+        
+        NSMutableArray *delList = [NSMutableArray arrayWithCapacity:5];
+        
+        for (URLAsset *asset in list)
+        {
+            if (asset.sdwId != nil && ![asset.sdwId isEqualToString:@""]) //link was deleted in SDW
+            {
+                [delList addObject:asset];
+            }
+        }
+        
+        for (URLAsset *asset in delList)
+        {
+            [asset cleanFromDatabase:[dbm getDatabase]];
+            
+            [list removeObject:asset];
+        }
+        
+        if (list.count > 0) //sync Tasks from SC
+        {
+            //printf("insert %d links SD->SDW\n", linkList.count);
+            
+            [self breakSync:list command:ADD_URL_ASSET];
+        }
+    }
+    
+}
+
+- (void) get1wayURLAssets
+{
+    NSString *url = [NSString stringWithFormat:@"%@/api/url_objects.json?keyapi=%@",SDWSite,self.sdwSection.key];
+	
+    //printf("getLinks: %s\n", [url UTF8String]);
+    
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:url]];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+	
+	NSError *error = nil;
+	NSURLResponse *response;
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        DBManager *dbm = [DBManager getInstance];
+        
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
+        //printf("get links return:\n%s\n", [str UTF8String]);
+        
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            URLAsset *sdwURLAsset = [self getSDWURLAsset:dict];
+            
+            URLAsset *asset = [[URLAsset alloc] init];
+            
+            [self updateURLAsset:asset withSDWURLAsset:sdwURLAsset];
+            
+            [asset insertIntoDB:[dbm getDatabase]];
+            
+            [asset release];
+        }
+    }
+}
+
+- (void) push1wayURLAssets
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSMutableArray *list = [dbm getAllURLAssets];
+    
+    if (list.count > 0) //sync Tasks from SC
+    {
+        [self breakSync:list command:ADD_URL_ASSET];
+    }
+}
+
+
+#pragma mark Sync Tags
 
 - (void) syncDeletedTags
 {
@@ -3921,6 +4413,7 @@ NSInteger _sdwColor[32] = {
                     [self breakSync:taskList command:ADD_TASK];
                 }
                 
+                [self push1wayURLAssets];
                 [self push1wayLinks];
             }
         }
@@ -4074,7 +4567,9 @@ NSInteger _sdwColor[32] = {
             }            
         }
         
+        [self get1wayURLAssets];
         [self get1wayLinks];
+
     }
 }
 

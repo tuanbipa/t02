@@ -196,6 +196,13 @@
 		self.sdwId = @"";
 	}
     
+	if (!isExternalUpdate)
+	{
+		self.updateTime = [NSDate date];
+	}
+	
+	isExternalUpdate = NO;
+    
     NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);	
 	
 	sqlite3_bind_text(statement, 1, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT);

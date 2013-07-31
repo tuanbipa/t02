@@ -295,14 +295,16 @@ extern iPadViewController *_iPadViewCtrler;
 - (void) quickAddNote:(id)sender
 {
     TaskManager *tm = [TaskManager getInstance];
-    Task *note = [[[Task alloc] init] autorelease];
+    
+    Task *note = [[Task alloc] init];
     
     note.type = TYPE_NOTE;
     note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
     
-    [_iPadViewCtrler editNoteDetail:note];    
+    [_iPadViewCtrler editNoteContent:note];
+    
+    [note release];
 }
-
 
 /*
 - (void) singleTap
