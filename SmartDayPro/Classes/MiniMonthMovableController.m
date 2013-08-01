@@ -61,6 +61,16 @@ iPadViewController *_iPadViewCtrler;
     return ![task checkMustDo];
 }
 
+- (NSDate*)getDateInMonthAtDrop
+{
+    if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
+        PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
+        return [plannerMonthView getSelectedDate];
+    } else {
+        return [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    }
+}
+
 -(void)beginMove:(MovableView *)view
 {
     [super beginMove:view];
@@ -207,13 +217,7 @@ iPadViewController *_iPadViewCtrler;
     }    
     
     //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
-    NSDate *calDate = nil;
-    if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
-        PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
-        calDate = [plannerMonthView getSelectedDate];
-    } else {
-        calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
-    }
+    NSDate *calDate = [self getDateInMonthAtDrop];
     
     //NSDate *dDate = nil;
     NSDate *deadline = task.deadline;
@@ -281,7 +285,10 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) changeNoteDate:(Task *)task
 {
-    NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    NSDate *calDate = [self getDateInMonthAtDrop];
+    
+    [super endMove:self.activeMovableView];
   
     task.startTime = [Common copyTimeFromDate:task.startTime toDate:calDate];
     
@@ -289,7 +296,8 @@ iPadViewController *_iPadViewCtrler;
 
     //[[_abstractViewCtrler getNoteViewController] loadAndShowList];
     
-    [_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
+    //[_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
+    [_iPadViewCtrler.activeViewCtrler reconcileItem:task reSchedule:NO];
 }
 
 - (void) doTaskMovementInFocus
@@ -337,7 +345,8 @@ iPadViewController *_iPadViewCtrler;
 {
     Settings *settings = [Settings getInstance];
     
-    NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    NSDate *calDate = [self getDateInMonthAtDrop];
     
     Task *task = ((TaskView *) self.activeMovableView).task;
     
@@ -426,10 +435,6 @@ iPadViewController *_iPadViewCtrler;
     //[_abstractViewCtrler changeTime:copyTask time:time];
     [_iPadViewCtrler.activeViewCtrler changeTime:copyTask time:time];
 }
-
-#pragma mark Landscape
-
-
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {

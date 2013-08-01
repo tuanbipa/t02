@@ -963,10 +963,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    SmartListViewController *ctrler = [self getSmartListViewController];
+    //SmartListViewController *ctrler = [self getSmartListViewController];
     //[ctrler resetMovableController:YES];
     
-    [ctrler setMovableContentView:self.contentView];
+    //[ctrler setMovableContentView:self.contentView];
+    
+    for (int i=0; i<3; i++)
+    {
+        PageAbstractViewController *ctrler = viewCtrlers[i];
+        
+        [ctrler setMovableContentView:self.contentView];
+    }
     
     [plannerBottomDayCal setMovableContentView:self.contentView];
     
