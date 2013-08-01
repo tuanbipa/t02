@@ -38,8 +38,7 @@ extern BOOL _is24HourFormat;
 		lpHandler.minimumPressDuration = 0.4; //seconds
 		lpHandler.delegate = self;
 		[self addGestureRecognizer:lpHandler];
-		[lpHandler release];	  
-		
+		[lpHandler release];
 	}
 	
 	return self;

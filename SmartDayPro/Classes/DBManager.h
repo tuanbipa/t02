@@ -123,6 +123,9 @@
 -(TaskProgress *)getLastProgressForTask:(NSInteger) taskKey;
 - (GoalInfo) getGoalFromDate:(NSDate *)startDate toDate:(NSDate *)endDate;
 
+//SDW Sync
+- (NSMutableArray *) getAllURLAssets;
+- (NSMutableArray *) getDeletedURLAssets;
 - (NSMutableArray *) getItems2Sync;
 - (NSMutableArray *) getModifiedItems2Sync:(NSDate *)afterDate;
 - (NSMutableArray *) getDeletedItems2Sync;
@@ -131,6 +134,8 @@
 - (NSMutableArray *) getModifiedLinks2Sync:(NSDate *)afterDate;
 - (NSString *) getSDWId4Key:(NSInteger)key;
 - (NSInteger) getKey4SDWId:(NSString *)sdwId;
+- (NSString *) getSDWId4URLAssetKey:(NSInteger)key;
+- (NSInteger) getURLAssetKey4SDWId:(NSString *)sdwId;
 - (NSDate *) getLastestTaskUpdateTime;
 - (void)deleteSuspectedDuplication;
 - (void) cleanDB;

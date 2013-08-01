@@ -36,5 +36,6 @@
 - (void) setMovableContentView:(UIView *)contentView;
 
 - (MovableView *)getFirstMovableView;
+- (MovableView *) getMovableView4Item:(NSObject *)item;
 
 @end

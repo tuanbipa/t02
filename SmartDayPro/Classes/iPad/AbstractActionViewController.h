@@ -18,6 +18,7 @@
 @class MiniMonthView;
 @class PlannerBottomDayCal;
 
+@class PageAbstractViewController;
 @class CalendarViewController;
 @class SmartListViewController;
 @class NoteViewController;
@@ -54,6 +55,9 @@
 - (PlannerBottomDayCal *) getPlannerDayCalendarView;
 - (FocusView *) getFocusView;
 - (MiniMonthView *) getMiniMonth;
+
+- (MovableView *) getActiveView4Item:(NSObject *)item;
+- (PageAbstractViewController *)getActiveModule;
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
 - (void) markDoneTask:(Task *)task;
@@ -99,4 +103,5 @@
 - (void) showSettingMenu;
 // cancel multi edit
 - (void)cancelEdit;
+
 @end

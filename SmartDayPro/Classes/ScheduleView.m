@@ -215,12 +215,20 @@ extern iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (CGFloat) getTodayLineY
+- (CGFloat) getFocusY
 {
+    Settings *settings = [Settings getInstance];
+    
+    NSDate *today = [NSDate date];
+    
+    NSDate *workingStartDate = [settings getWorkingStartTimeForDate:[NSDate date]];
+    
+    workingStartDate = [workingStartDate compare:today] == NSOrderedAscending?today:workingStartDate;
+    
     NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
     
     unsigned unitFlags = 0xFFFF;
-    NSDateComponents *comps = [gregorian components:unitFlags fromDate:[NSDate date]];
+    NSDateComponents *comps = [gregorian components:unitFlags fromDate:workingStartDate];
     
     int minute = comps.minute;
     
@@ -235,6 +243,30 @@ extern iPadViewController *_iPadViewCtrler;
     
     return y;
 }
+
+- (CGFloat) getTodayLineY
+{
+    NSDate *today = [NSDate date];
+    
+    NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+
+    unsigned unitFlags = 0xFFFF;
+    NSDateComponents *comps = [gregorian components:unitFlags fromDate:today];
+    
+    int minute = comps.minute;
+    
+    NSInteger slotIdx = 2*comps.hour + minute/30;
+    
+    if (minute >= 30)
+    {
+        minute -= 30;
+    }
+    
+    CGFloat y = TIME_SLOT_HEIGHT/2 + slotIdx * TIME_SLOT_HEIGHT + minute*TIME_SLOT_HEIGHT/30;
+    
+    return y;
+}
+
 
 - (NSDate *)getTimeSlot
 {
@@ -330,10 +362,6 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    /*CGRect upHandle = CGRectMake(dayManagerUpView.frame.origin.x + dayManagerUpView.frame.size.width - 40, dayManagerUpView.frame.origin.y + dayManagerUpView.frame.size.height - 40, 40, 40);
-    
-    CGRect downHandle = CGRectMake(dayManagerDownView.frame.origin.x + dayManagerDownView.frame.size.width - 40, dayManagerDownView.frame.origin.y, 40, 40);*/
-    
     CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
     ctrler.calendarView.scrollEnabled = NO;
     
@@ -361,50 +389,9 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //TaskManager *tm = [TaskManager getInstance];
-    //Settings *settings = [Settings getInstance];
-    
     CGPoint p = [[touches anyObject] locationInView:self];
     
     CGFloat dy = p.y - touchPoint.y;
-    ////printf("move dy:%f\n", dy);
-    
-    /*
-    NSInteger moveUnit = TIME_SLOT_HEIGHT/6;
-    
-    if (abs(dy) >= moveUnit)
-    {
-        NSInteger dMinute = dy>0?moveUnit:-moveUnit;
-        
-        //printf("move dy: %f - minute: %d\n", dy, dMinute);
-        
-        if (touchHandle == 1)
-        {
-            //NSDate *dt = tm.dayManagerStartTime;
-            NSDate *dt = [settings getWorkingStartTimeForDate:tm.today];
-            
-            dt = [Common dateByAddNumSecond:dMinute*60 toDate:dt];
-            
-            [settings setWorkingStartTime:dt];
-        }
-        else if (touchHandle == 2)
-        {
-            //NSDate *dt = tm.dayManagerEndTime;
-            NSDate *dt = [settings getWorkingEndTimeForDate:tm.today];
-            
-            dt = [Common dateByAddNumSecond:dMinute*60 toDate:dt];
-            
-            //tm.dayManagerEndTime = dt;
-            [settings setWorkingEndTime:dt];
-        }
-        
-        [self refreshDayManagerView];
-        
-        dayManagerRefresh = YES;
-
-        touchPoint = p; 
-    }
-    */
     
     if (touchHandle == 1)
     {
@@ -438,17 +425,6 @@ extern iPadViewController *_iPadViewCtrler;
     
     TaskManager *tm = [TaskManager getInstance];
     Settings *settings = [Settings getInstance];
-    
-    /*
-    if (dayManagerRefresh)
-    {
-        [[TaskManager getInstance] scheduleTasks];
-        
-        Settings *settings = [Settings getInstance];
-
-        [settings saveWorkingTimes];
-    }
-    */
     
     if (touchHandle == 1 || touchHandle == 2)
     {

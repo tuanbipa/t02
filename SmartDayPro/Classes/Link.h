@@ -30,4 +30,6 @@
 - (void)cleanFromDatabase:(sqlite3 *)database;
 - (void)deleteFromDatabase:(sqlite3 *)database;
 
+-(void) enableExternalUpdate;
+-(void) externalUpdate;
 @end

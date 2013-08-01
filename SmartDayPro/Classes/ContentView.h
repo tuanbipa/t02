@@ -15,4 +15,6 @@
 
 @property 	NSInteger actionType;
 
+- (void) enableSwipe;
+
 @end

@@ -16,6 +16,9 @@
 - (NSString *) getURLValue:(NSInteger)pk;
 - (BOOL) checkCleanable:(NSInteger)pk;
 
++ (NSDictionary *) getURLAssetDictBySDWID:(NSArray *)list;
++ (NSDictionary *) getURLAssetDictByKey:(NSArray *)list;
+
 +(id)getInstance;
 +(void)free;
 

@@ -379,6 +379,23 @@ extern iPadViewController *_iPadViewCtrler;
     return ret;
 }
 
+- (MovableView *) getMovableView4Item:(NSObject *)item
+{
+    for (UIView *view in listView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]] && ((TaskView *)view).task == item)
+        {
+            return view;
+        }
+        else if ([view isKindOfClass:[PlanView class]] && ((PlanView *)view).project == item)
+        {
+            return view;
+        }
+    }
+    
+    return nil;
+}
+
 - (void) changeFrame:(CGRect)frm
 {
     Settings *settings = [Settings getInstance];
@@ -410,6 +427,8 @@ extern iPadViewController *_iPadViewCtrler;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
 	contentView.backgroundColor = [UIColor clearColor];
+    
+    [contentView enableSwipe];
     
     self.view = contentView;
     [contentView release];

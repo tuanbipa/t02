@@ -10,6 +10,8 @@
 
 #import "DBManager.h"
 
+#import "URLAsset.h"
+
 URLAssetManager *_urlAssetManagerSingleton;
 
 @implementation URLAssetManager
@@ -193,6 +195,33 @@ URLAssetManager *_urlAssetManagerSingleton;
     
     return ret;
 }
+
+#pragma mark Public
+
++ (NSDictionary *) getURLAssetDictBySDWID:(NSArray *)list
+{
+	NSMutableArray *mappingList = [NSMutableArray arrayWithCapacity:list.count];
+	
+	for (URLAsset *asset in list)
+	{
+		[mappingList addObject:asset.sdwId];
+	}
+	
+	return [NSDictionary dictionaryWithObjects:list forKeys:mappingList];
+}
+
++ (NSDictionary *) getURLAssetDictByKey:(NSArray *)list
+{
+	NSMutableArray *mappingList = [NSMutableArray arrayWithCapacity:list.count];
+	
+	for (URLAsset *asset in list)
+	{
+		[mappingList addObject:[NSNumber numberWithInt:asset.primaryKey]];
+	}
+	
+	return [NSDictionary dictionaryWithObjects:list forKeys:mappingList];
+}
+
 
 +(id)getInstance
 {

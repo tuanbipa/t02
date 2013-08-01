@@ -587,7 +587,7 @@ CalendarViewController *_sc2ViewCtrler;
     
     CGFloat h = sz.height - y;
     
-    CGFloat todayY = [todayScheduleView getTodayLineY];
+    CGFloat todayY = [todayScheduleView getFocusY];
     
     //y = todayY - h/2;
     y = todayY - 80;
