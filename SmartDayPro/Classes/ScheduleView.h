@@ -37,6 +37,7 @@
 - (void)changeSkin;
 - (void) refreshTodayLine;
 - (void) refreshDayManagerView;
+- (CGFloat) getFocusY;
 - (CGFloat) getTodayLineY;
 - (void) changeFrame:(CGRect)frm;
 

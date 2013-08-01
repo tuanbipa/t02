@@ -2602,7 +2602,9 @@ extern iPadViewController *_iPadViewCtrler;
     
     [_iPadViewCtrler slideView:YES];
     
-    [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:self];
+    MovableView *activeView = [_iPadViewCtrler.activeViewCtrler getActiveView4Item:self.task];
+    
+    [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:activeView];
 }
 
 - (void) touchAndHold

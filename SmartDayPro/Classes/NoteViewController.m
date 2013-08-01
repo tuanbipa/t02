@@ -495,6 +495,19 @@ extern iPadViewController *_iPadViewCtrler;
     return ret;
 }
 
+- (MovableView *) getMovableView4Item:(NSObject *)item
+{
+    for (UIView *view in noteListView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]] && ((TaskView *)view).task == item)
+        {
+            return view;
+        }
+    }
+    
+    return nil;
+}
+
 - (void) changeFrame:(CGRect)frm
 {
     Settings *settings = [Settings getInstance];
@@ -587,10 +600,11 @@ extern iPadViewController *_iPadViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    Settings *settings = [Settings getInstance];
+    //Settings *settings = [Settings getInstance];
     
     //contentView = [[ContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
     contentView = [[ContentView alloc] initWithFrame:frm];
+    [contentView enableSwipe];
     
     self.view = contentView;
     

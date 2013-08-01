@@ -104,6 +104,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 }
 
+- (MovableView *) getMovableView4Item:(NSObject *)item
+{
+    return nil;
+}
+
 - (void) changeFrame:(CGRect)frm
 {
     contentView.frame = frm;

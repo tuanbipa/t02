@@ -2442,6 +2442,29 @@ SmartListViewController *_smartListViewCtrler;
     return nil;
 }
 
+- (MovableView *) getMovableView4Item:(NSObject *)item
+{
+    NSInteger sections = [smartListView numberOfSections];
+    NSInteger rows = [smartListView numberOfRowsInSection:0];
+    
+    for (int i=0; i<sections; i++)
+    {
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *checkView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if (checkView.task == item)
+            {
+                return checkView;
+            }          
+        }
+    }
+    
+    return nil;
+}
+
 -(void) createHintView
 {
 	hintView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 416-20)];
@@ -3136,6 +3159,7 @@ SmartListViewController *_smartListViewCtrler;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     //contentView.contentSize = CGSizeMake(frm.size.width, frm.size.height+44);
+    [contentView enableSwipe];
 	
 	self.view = contentView;
 	[contentView release];

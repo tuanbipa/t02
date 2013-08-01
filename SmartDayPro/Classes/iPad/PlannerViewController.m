@@ -228,7 +228,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (BOOL) checkControllerActive:(NSInteger)index
 {
-    return index == 1?YES:NO;
+    //return index == 1?YES:NO;
+    
+    if (selectedModuleButton != nil && (selectedModuleButton.tag-31000+1) == index)
+    {
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (void) reconcileItem:(Task *)item reSchedule:(BOOL)reSchedule

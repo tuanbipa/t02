@@ -262,6 +262,38 @@ extern iPadViewController *_iPadViewCtrler;
     return nil;
 }
 
+- (MovableView *) getActiveView4Item:(NSObject *)item
+{
+    PageAbstractViewController *ctrler = [self getActiveModule];
+    
+    if (ctrler != nil)
+    {
+        return [ctrler getMovableView4Item:item];
+    }
+    
+    return nil;
+}
+
+- (PageAbstractViewController *)getActiveModule
+{
+    PageAbstractViewController *ctrlers[4] = {
+        [self getCalendarViewController],
+        [self getSmartListViewController],
+        [self getNoteViewController],
+        [self getCategoryViewController]
+    };
+    
+    for (int i=1; i<4; i++)
+    {
+        if ([self checkControllerActive:i])
+        {
+            return ctrlers[i];
+        }
+    }
+    
+    return nil;    
+}
+
 - (BOOL) checkControllerActive:(NSInteger)index
 {
     //0:Calendar, 1:Tasks, 2:Notes, 3:Projects

@@ -23,6 +23,7 @@
     {
         self.canCancelContentTouches = NO;
         self.delaysContentTouches = YES;
+
         //self.delegate = self;
     }
     

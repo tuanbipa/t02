@@ -31,13 +31,18 @@ extern iPadViewController *_iPadViewCtrler;
 		
 		self.actionType = 0;
         
-        UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewsSwipe:)];
-        swipe.numberOfTouchesRequired = 2;
-        swipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        swipe.delaysTouchesBegan = NO;
-        [self addGestureRecognizer:swipe];
     }
     return self;
+}
+
+- (void) enableSwipe
+{
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewsSwipe:)];
+    swipe.numberOfTouchesRequired = 2;
+    swipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    swipe.delaysTouchesBegan = YES;
+
+    [self addGestureRecognizer:swipe];    
 }
 
 /*

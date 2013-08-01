@@ -12,7 +12,10 @@
 #import "Common.h"
 #import "FilterData.h"
 #import "Task.h"
+#import "Project.h"
 
+#import "TaskView.h"
+#import "PlanView.h"
 #import "ContentView.h"
 #import "MovableView.h"
 
@@ -555,6 +558,7 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) slideAndShowDetail
 {
+    /*
     PageAbstractViewController *ctrler = nil;
     
     if ([self.activeViewCtrler checkControllerActive:1])
@@ -569,6 +573,9 @@ iPadViewController *_iPadViewCtrler;
     {
         ctrler = [self.activeViewCtrler getCategoryViewController];
     }
+    */
+    
+    PageAbstractViewController *ctrler = [self.activeViewCtrler getActiveModule];
     
     if (ctrler != nil)
     {
@@ -576,7 +583,20 @@ iPadViewController *_iPadViewCtrler;
         
         if (firstView != nil)
         {
+            NSObject *obj = nil;
+            
+            if ([firstView isKindOfClass:[TaskView class]])
+            {
+                obj = ((TaskView *) firstView).task;
+            }
+            else if ([firstView isKindOfClass:[PlanView class]])
+            {
+                obj = ((PlanView *) firstView).project;
+            }
+            
             [self slideView:YES];
+            
+            firstView = [self.activeViewCtrler getActiveView4Item:obj];
             
             [firstView singleTouch];
         }
