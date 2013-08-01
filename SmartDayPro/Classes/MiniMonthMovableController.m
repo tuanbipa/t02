@@ -255,15 +255,18 @@ iPadViewController *_iPadViewCtrler;
     
     [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
-    [_abstractViewCtrler reconcileItem:task reSchedule:YES]; //refresh Category module
-    
+    //[_abstractViewCtrler reconcileItem:task reSchedule:YES]; //refresh Category module
+    [_iPadViewCtrler.activeViewCtrler reconcileItem:task reSchedule:YES];
 }
 
 - (void) changeEventDate:(Task *)task
 {
     //Task *task = ((TaskView *) self.activeMovableView).task;
     
-    NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    NSDate *calDate = [self getDateInMonthAtDrop];
+    
+    [super endMove:self.activeMovableView];
     
     NSDate *oldDate = [[task.startTime copy] autorelease];
     
@@ -280,7 +283,8 @@ iPadViewController *_iPadViewCtrler;
         [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];
     }*/
     
-    [_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
+    //[_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
+    [_iPadViewCtrler.activeViewCtrler reconcileItem:task reSchedule:NO];
 }
 
 - (void) changeNoteDate:(Task *)task

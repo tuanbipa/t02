@@ -146,7 +146,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 -(void) endMove:(MovableView *)view
 {
-    TaskManager *tm = [TaskManager getInstance];
+    //TaskManager *tm = [TaskManager getInstance];
     DBManager *dbm = [DBManager getInstance];
     ProjectManager *pm = [ProjectManager getInstance];
     
@@ -160,7 +160,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     BOOL refresh = NO;
     
-    if (!moveInMM && !moveInFocus)
+    if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar)
     {
         CGRect frm = dummyView.frame;
         
