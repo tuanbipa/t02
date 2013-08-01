@@ -423,8 +423,13 @@ iPadViewController *_iPadViewCtrler;
     Task *copyTask = [[task copy] autorelease];
     copyTask.original = task;
     
-    [_abstractViewCtrler changeTime:copyTask time:time];
+    //[_abstractViewCtrler changeTime:copyTask time:time];
+    [_iPadViewCtrler.activeViewCtrler changeTime:copyTask time:time];
 }
+
+#pragma mark Landscape
+
+
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
