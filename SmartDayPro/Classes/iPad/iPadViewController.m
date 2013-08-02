@@ -694,6 +694,8 @@ iPadViewController *_iPadViewCtrler;
     {
         [self showPortraitView];
     }
+    
+    [self.activeViewCtrler resetMovableContentView];
 }
 
 - (void) loadView

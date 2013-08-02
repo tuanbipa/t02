@@ -55,6 +55,7 @@
 - (PlannerBottomDayCal *) getPlannerDayCalendarView;
 - (FocusView *) getFocusView;
 - (MiniMonthView *) getMiniMonth;
+- (void) resetMovableContentView;
 
 - (MovableView *) getActiveView4Item:(NSObject *)item;
 - (PageAbstractViewController *)getActiveModule;

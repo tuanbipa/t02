@@ -160,7 +160,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     BOOL refresh = NO;
     
-    if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar)
+    if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar && !moveInPlannerMM)
     {
         CGRect frm = dummyView.frame;
         

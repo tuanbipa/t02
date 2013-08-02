@@ -163,7 +163,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (AbstractMonthCalendarView *) getMonthCalendarView
 {
-    //return self.plannerView.monthView;
     return _abstractViewCtrler.miniMonthView.calView;
 }
 
@@ -265,6 +264,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [plannerBottomDayCal stopResize];
 }
 
+- (void) resetMovableContentView
+{
+    [super resetMovableContentView];
+    
+    [plannerBottomDayCal setMovableContentView:self.contentView];
+}
+
 #pragma mark Actions
 - (void) add:(id)sender
 {
@@ -289,7 +295,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			task.deadline = [settings getWorkingEndTimeForDate:tm.today];
 		}
 			break;
-	}    
+	}
 	
 	ctrler.task = task;
 	
@@ -974,7 +980,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     //[ctrler resetMovableController:YES];
     
     //[ctrler setMovableContentView:self.contentView];
-    
+
+    /*
     for (int i=0; i<3; i++)
     {
         PageAbstractViewController *ctrler = viewCtrlers[i];
@@ -982,7 +989,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [ctrler setMovableContentView:self.contentView];
     }
     
-    [plannerBottomDayCal setMovableContentView:self.contentView];
+    [plannerBottomDayCal setMovableContentView:self.contentView];*/
     
     TaskManager *tm = [TaskManager getInstance];
     NSDate *dt = nil;
