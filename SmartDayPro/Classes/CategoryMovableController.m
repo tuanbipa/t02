@@ -61,6 +61,18 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 - (void) animateRelations
 {
+    if (moveInFocus || moveInDayCalendar || moveInMM || moveInPlannerMM || moveInPlannerDayCalendar)
+    {
+        [self unseparate];
+        
+        if (onMovableView != nil)
+        {
+            [self unzoom:onMovableView];
+        }
+        
+        return;
+    }
+    
     MovableView *rightView = nil;
     MovableView *leftView = nil;
     MovableView *onView = nil;

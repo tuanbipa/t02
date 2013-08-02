@@ -448,6 +448,10 @@ iPadViewController *_iPadViewCtrler;
     }
     else
     {
+        [[task retain] autorelease];
+        
+        [super endMove:self.activeMovableView];
+
         if ([task isTask])
         {
             [self changeTaskDeadline:task];
@@ -493,7 +497,7 @@ iPadViewController *_iPadViewCtrler;
     
     NSDate *visitDate = nil;
     
-    BOOL needEdit = NO;
+    //BOOL needEdit = NO;
 
 	if (alertVw.tag == -10000)
 	{
