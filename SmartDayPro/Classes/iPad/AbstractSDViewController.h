@@ -34,7 +34,6 @@
 
 @property (nonatomic, readonly) MiniMonthView *miniMonthView;
 @property (nonatomic, readonly) FocusView *focusView;
-@property (nonatomic, readonly) ContentView *contentView;
 
 - (void) refreshView;
 - (void) setNeedsDisplay;

@@ -187,57 +187,9 @@ iPadViewController *_iPadViewCtrler;
 	}
 }
 
-- (void) animateRelations_test
-{
-    if (moveInFocus || moveInDayCalendar || moveInDayCalendar)
-    {
-        [self unseparate];
-        
-        return;
-    }
-    
-    if (movedDirection != 0 && self.activeMovableView != 0 && movedDirection != self.activeMovableView.movedDirection)
-    {
-        rightMovableView = nil;
-    }
-    
-    //MovableView *rightView = nil;
-    //MovableView *leftView = nil;
-    
-    CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:self.listTableView];
-    
-    NSInteger sections = self.listTableView.numberOfSections;
-    
-    for (int i=0; i<sections; i++)
-    {
-        NSInteger rows = [self.listTableView numberOfRowsInSection:i];
-        
-        for (int j=0; j<rows; j++)
-        {
-            UITableViewCell *cell = [self.listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
-            
-            TaskView *checkView = [cell.contentView viewWithTag:-10000];
-            
-            CGRect rect = [checkView.superview convertRect:checkView.frame toView:self.listTableView];
-                        
-            if (CGRectIntersectsRect(rect, frm))
-            {
-                if (checkView != self.activeMovableView && checkView != rightMovableView)
-                {
-                    rightMovableView = checkView;
-                    
-                    CGRect frm = checkView.frame;
-                    
-                    checkView.frame = CGRectOffset(frm, 0, self.activeMovableView.movedDirection == 1?frm.size.height:-frm.size.height);
-                }
-            }
-        }
-    }
-}
-
 - (void) animateRelations
 {
-    if (moveInFocus || moveInDayCalendar || moveInDayCalendar)
+    if (moveInFocus || moveInDayCalendar || moveInMM || moveInPlannerMM || moveInPlannerDayCalendar)
     {
         [self unseparate];
         
@@ -264,43 +216,7 @@ iPadViewController *_iPadViewCtrler;
                 UITableViewCell *cell = [self.listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
                 
                 rightView = [cell.contentView viewWithTag:-10000];
-            }
-        }
-    }
-    
-    [self separate:rightView fromLeft:leftView];
-}
-
-- (void) animateRelations_old
-{
-    if (moveInFocus || moveInDayCalendar || moveInDayCalendar)
-    {
-        [self unseparate];
-        
-        return;
-    }
-    
-    MovableView *rightView = nil;
-    MovableView *leftView = nil;
-    //MovableView *onView = nil;
-    
-    CGRect frm = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:self.listTableView];
-    
-    NSInteger sections = self.listTableView.numberOfSections;
-    
-    for (int i=0; i<sections; i++)
-    {
-        NSInteger rows = [self.listTableView numberOfRowsInSection:i];
-        
-        for (int j=0; j<rows; j++)
-        {
-            CGRect rect = [self.listTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
-            
-            if (CGRectIntersectsRect(rect, frm))
-            {
-                UITableViewCell *cell = [self.listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
                 
-                rightView = [cell.contentView viewWithTag:-10000];
             }
         }
     }

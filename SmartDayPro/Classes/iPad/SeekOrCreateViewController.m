@@ -212,6 +212,11 @@ extern iPadViewController *_iPadViewCtrler;
 	return 40;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
     NSString *titles[3] = {_tasksText, _eventsText, _notesText};

@@ -26,7 +26,7 @@
 #import "NoteViewController.h"
 
 #import "SmartDayViewController.h"
-#import "iPadSmartDayViewController.h"
+//#import "iPadSmartDayViewController.h"
 
 #import "NoteDetailTableViewController.h"
 #import "TaskDetailTableViewController.h"
@@ -40,8 +40,8 @@
 #import "PlannerBottomDayCal.h"
 
 extern SmartDayViewController *_sdViewCtrler;
-extern AbstractSDViewController *_abstractViewCtrler;
-extern iPadSmartDayViewController *_iPadSDViewCtrler;
+//extern AbstractSDViewController *_abstractViewCtrler;
+//extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 iPadViewController *_iPadViewCtrler;
 
@@ -63,12 +63,35 @@ iPadViewController *_iPadViewCtrler;
 
 - (NSDate*)getDateInMonthAtDrop
 {
+    /*
     if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
         PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
         return [plannerMonthView getSelectedDate];
     } else {
         return [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    }*/
+    
+    if (_sdViewCtrler != nil)
+    {
+        MiniMonthView *mmView = [_sdViewCtrler getMiniMonth];
+        
+        return [mmView.calView getSelectedDate];
     }
+    else if (_iPadViewCtrler != nil)
+    {
+        PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
+        
+        if (plannerMonthView != nil)
+        {
+            return [plannerMonthView getSelectedDate];
+        }
+        
+        MiniMonthView *mmView = [_iPadViewCtrler.activeViewCtrler getMiniMonth];
+        
+        return [mmView.calView getSelectedDate];
+    }
+    
+    return nil;
 }
 
 -(void)beginMove:(MovableView *)view
@@ -77,6 +100,7 @@ iPadViewController *_iPadViewCtrler;
     
     moveInFocus = NO;
     moveInMM = NO;
+    moveInDayCalendar = NO;
     moveInPlannerMM = NO;
     moveInPlannerDayCalendar = NO;
 }
@@ -110,18 +134,21 @@ iPadViewController *_iPadViewCtrler;
 
     CGPoint touchPoint = [self.activeMovableView getTouchPoint];
     
-    CGPoint p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
-    
+    //CGPoint p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
+    CGPoint p = [self.activeMovableView.superview convertPoint:touchPoint toView:self.contentView];
+
     if ([self.activeMovableView isKindOfClass:[TaskView class]] && ![((TaskView *)self.activeMovableView).task isShared])
     {
-        if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
+        if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]])
+        {
             PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
             CGRect mmFrm = [self getMovableRect:plannerMonthView];
             
             //CGPoint touchPoint = [self.activeMovableView getTouchPoint];
             touchPoint = [self.activeMovableView getTouchPoint];
             
-            p = [self.activeMovableView.superview convertPoint:touchPoint toView:_iPadViewCtrler.activeViewCtrler.contentView];
+            //p = [self.activeMovableView.superview convertPoint:touchPoint toView:_iPadViewCtrler.activeViewCtrler.contentView];
+            p = [self.activeMovableView.superview convertPoint:touchPoint toView:self.contentView];
             
             moveInPlannerMM = CGRectContainsPoint(mmFrm, p);
             
@@ -129,25 +156,40 @@ iPadViewController *_iPadViewCtrler;
             PlannerBottomDayCal *plannerDayCal = [_iPadViewCtrler.activeViewCtrler getPlannerDayCalendarView];
             CGRect plannerDayCalFrm = [self getMovableRect:plannerDayCal];
             moveInPlannerDayCalendar = CGRectContainsPoint(plannerDayCalFrm, p);
-        } else {
+        }
+        else
+        {
+            MiniMonthView *mmView = [_iPadViewCtrler.activeViewCtrler getMiniMonth];
+            FocusView *focusView = [_iPadViewCtrler.activeViewCtrler getFocusView];
             
-            CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
+            //CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
             
-            moveInMM = CGRectContainsPoint(mmFrm, p) && !_abstractViewCtrler.miniMonthView.hidden;
+            CGRect mmFrm = [self getMovableRect:mmView.calView];
+            
+            //moveInMM = CGRectContainsPoint(mmFrm, p) && !_abstractViewCtrler.miniMonthView.hidden;
+            
+            moveInMM = CGRectContainsPoint(mmFrm, p) && !mmView.hidden;
             
             moveInFocus = NO;
             
-            if (_abstractViewCtrler.focusView != nil)
+            //if (_abstractViewCtrler.focusView != nil)
+            if (focusView != nil)
             {
-                CGRect focusFrm = [self getMovableRect:_abstractViewCtrler.focusView];
-                p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
+                //CGRect focusFrm = [self getMovableRect:_abstractViewCtrler.focusView];
+                CGRect focusFrm = [self getMovableRect:focusView];
                 
+                //p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
+                
+                p = [self.activeMovableView.superview convertPoint:touchPoint toView:self.contentView];
+
                 moveInFocus = CGRectContainsPoint(focusFrm, p);
             }
             
             // check move in Day Calendar
-            CalendarViewController *calendarViewCtrl =  [_abstractViewCtrler getCalendarViewController];
-            CGRect smartListFrm = [self getMovableRect:calendarViewCtrl.view];
+            //CalendarViewController *calendarViewCtrl =  [_abstractViewCtrler getCalendarViewController];
+            CalendarViewController *calViewCtrler =  [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
+            
+            CGRect smartListFrm = [self getMovableRect:calViewCtrler.view];
             moveInDayCalendar = CGRectContainsPoint(smartListFrm, p);
         }
         
@@ -175,13 +217,21 @@ iPadViewController *_iPadViewCtrler;
         
         if (moveInMM)
         {
-            p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.miniMonthView];
-            [_abstractViewCtrler.miniMonthView moveToPoint:p];
+            MiniMonthView *mmView = [_iPadViewCtrler.activeViewCtrler getMiniMonth];
+            
+            //p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.miniMonthView];
+            p = [self.activeMovableView.superview convertPoint:touchPoint toView:mmView];
+            
+            //[_abstractViewCtrler.miniMonthView moveToPoint:p];
+            [mmView moveToPoint:p];
         }
         
-        if (moveInPlannerMM) {
+        if (moveInPlannerMM)
+        {
             PlannerMonthView *plannerMonthView = (PlannerMonthView*)[_iPadViewCtrler.activeViewCtrler getPlannerMonthCalendarView];
+            
             p = [self.activeMovableView.superview convertPoint:touchPoint toView:plannerMonthView];
+            
             [plannerMonthView highlightCellAtPoint:p];
         }
     }
@@ -335,9 +385,13 @@ iPadViewController *_iPadViewCtrler;
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
         
-        if ([_abstractViewCtrler.focusView checkExpanded])
+        FocusView *focusView = [_iPadViewCtrler.activeViewCtrler getFocusView];
+        
+        //if ([_abstractViewCtrler.focusView checkExpanded])
+        if ([focusView checkExpanded])
         {
-            [_abstractViewCtrler.focusView refreshData];
+            //[_abstractViewCtrler.focusView refreshData];
+            [focusView refreshData];
 
             //resize calendar views
             [[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:nil];
@@ -358,12 +412,6 @@ iPadViewController *_iPadViewCtrler;
     {
         if ([task isTask])
         {
-            /*
-             NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDeadlineCreatedText, [Common getCalendarDateString:calDate]];
-             
-             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
-             */
-            
             NSString *msg = [Common getCalendarDateString:calDate];
             
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDeadlineText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
@@ -376,12 +424,6 @@ iPadViewController *_iPadViewCtrler;
         }
         else if ([task isEvent])
         {
-            /*
-             NSString *msg = [NSString stringWithFormat:@"%@: %@", _newDateIsText, [Common getCalendarDateString:[Common copyTimeFromDate:task.startTime toDate:calDate]]];
-             
-             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];
-             */
-            
             NSString *msg = [Common getCalendarDateString:calDate];
             
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDateText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
@@ -393,12 +435,6 @@ iPadViewController *_iPadViewCtrler;
         }
         else if ([task isNote])
         {
-            /*
-             NSString *msg = [NSString stringWithFormat:@"%@ %@", _noteAssociatedText, [Common getCalendarDateString:calDate]];
-             
-             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_confirmText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_editText, _okText, nil];*/
-            
-            
             NSString *msg = [Common getCalendarDateString:calDate];
             
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_newDateText message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:_dontShowText, _okText, nil];
@@ -412,6 +448,10 @@ iPadViewController *_iPadViewCtrler;
     }
     else
     {
+        [[task retain] autorelease];
+        
+        [super endMove:self.activeMovableView];
+
         if ([task isTask])
         {
             [self changeTaskDeadline:task];
@@ -450,11 +490,14 @@ iPadViewController *_iPadViewCtrler;
     
     [super endMove:self.activeMovableView];
     
-    NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    MiniMonthView *mmView = [_iPadViewCtrler.activeViewCtrler getMiniMonth];
+    
+    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
+    NSDate *calDate = [mmView.calView getSelectedDate];
     
     NSDate *visitDate = nil;
     
-    BOOL needEdit = NO;
+    //BOOL needEdit = NO;
 
 	if (alertVw.tag == -10000)
 	{
@@ -533,7 +576,9 @@ iPadViewController *_iPadViewCtrler;
     }
     else if (alertVw.tag == -11001)
     {
-        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        //CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
+        
         if (buttonIndex == 1)
         {
             NSDate *time = [[[ctrler.todayScheduleView getTimeSlot] retain] autorelease];
@@ -545,13 +590,16 @@ iPadViewController *_iPadViewCtrler;
     
     if (moveInMM)
     {
-        [_abstractViewCtrler.miniMonthView jumpToDate:(visitDate != nil?visitDate:calDate)];
+        MiniMonthView *mmView = [_iPadViewCtrler.activeViewCtrler getMiniMonth];
         
+        //[_abstractViewCtrler.miniMonthView jumpToDate:(visitDate != nil?visitDate:calDate)];
+        [mmView jumpToDate:(visitDate != nil?visitDate:calDate)];
+
         if (visitDate != nil)
         {
             [_sdViewCtrler showCalendarView];    
         }
-        
+        /*
         if (needEdit)
         {
             if (task.original != nil && ![task isREException])
@@ -565,19 +613,9 @@ iPadViewController *_iPadViewCtrler;
             
             CGRect frm = [_abstractViewCtrler.miniMonthView.calView getRectOfSelectedCellInView:_abstractViewCtrler.contentView];
             
-            /*
-            if (_iPadSDViewCtrler != nil)
-            {
-                [_iPadSDViewCtrler editItem:taskCopy inView:tv];
-            }
-            else if (_sdViewCtrler != nil)
-            {
-                [_sdViewCtrler editItem:taskCopy];
-            }*/
-            
             [_abstractViewCtrler editItem:taskCopy inRect:frm];
         }
-        else
+        else*/
         {
             if ([task isEvent])
             {

@@ -300,6 +300,21 @@ extern iPadViewController *_iPadViewCtrler;
     return NO;
 }
 
+- (void) resetMovableContentView
+{
+    PageAbstractViewController *ctrlers[4] = {
+        [self getCalendarViewController],
+        [self getSmartListViewController],
+        [self getNoteViewController],
+        [self getCategoryViewController]
+    };
+    
+    for (int i=0; i<4; i++)
+    {
+        [ctrlers[i] setMovableContentView:self.contentView];
+    }
+}
+
 -(void)shrinkEnd
 {
     if (optionView != nil && [optionView superview])

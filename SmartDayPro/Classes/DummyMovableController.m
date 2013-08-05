@@ -15,9 +15,13 @@
 #import "TaskView.h"
 #import "PlanView.h"
 
-#import "AbstractSDViewController.h"
+//#import "AbstractSDViewController.h"
 
-extern AbstractSDViewController *_abstractViewCtrler;
+//extern AbstractSDViewController *_abstractViewCtrler;
+
+#import "iPadViewController.h"
+
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation DummyMovableController
 
@@ -30,10 +34,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) beginMove:(MovableView *)view
 {
-    if (_abstractViewCtrler != nil)
+    /*if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler deselect];
-    }
+    }*/
+    
+    [_iPadViewCtrler.activeViewCtrler deselect];
     
     [super beginMove:view];
     
