@@ -58,18 +58,18 @@ extern iPadViewController *_iPadViewCtrler;
         
         self.checkEnable = YES;
         
-        checkView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        checkView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TASK_HEIGHT, TASK_HEIGHT)];
         
         [self addSubview:checkView];
         [checkView release];
         
-        checkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 10, 20, 20)];
+        checkImageView = [[UIImageView alloc] initWithFrame:CGRectMake((checkView.bounds.size.width - 20)/2, (checkView.bounds.size.height - 20)/2, 20, 20)];
         [checkView addSubview:checkImageView];
         [checkImageView release];
         
         checkButton = [Common createButton:@""
                                 buttonType:UIButtonTypeCustom
-                                     frame:CGRectMake(0, 0, 40, frame.size.height)
+                                     frame:checkView.bounds//CGRectMake(0, 0, TASK_HEIGHT, frame.size.height)
                                 titleColor:[UIColor whiteColor]
                                     target:self
                                   selector:@selector(check:)
@@ -80,8 +80,8 @@ extern iPadViewController *_iPadViewCtrler;
         
         [self refreshCheckImage];
 		
-        //starView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)];
-        starView = [[UIView alloc] initWithFrame:CGRectMake(20, 0, 40, frame.size.height)];
+        starView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)];
+        //starView = [[UIView alloc] initWithFrame:CGRectMake(20, 0, 40, frame.size.height)];
         starView.userInteractionEnabled = NO;
         starView.backgroundColor = [UIColor clearColor];
         
@@ -90,12 +90,13 @@ extern iPadViewController *_iPadViewCtrler;
         
         //starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(starView.bounds.size.width - 20 -2, (starView.bounds.size.height-20)/2-2, 20, 20)];
         
-        starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 8, 20, 20)];
+        //starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(18, 8, 20, 20)];
+        starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, (frame.size.height-20)/2, 20, 20)];
         
         [starView addSubview:starImageView];
         [starImageView release];
         
-        /*starButton=[Common createButton:@""
+        starButton=[Common createButton:@""
                                        buttonType:UIButtonTypeCustom
                               //frame:CGRectMake(frame.size.width - 40, 0, 40, frame.size.height)
                                             frame:starView.bounds
@@ -105,7 +106,7 @@ extern iPadViewController *_iPadViewCtrler;
                                  normalStateImage:nil
                                 selectedStateImage:nil];
         starButton.backgroundColor=[UIColor clearColor];
-        [starView addSubview:starButton];*/
+        [starView addSubview:starButton];
 
         [self refreshStarImage];
         
@@ -166,7 +167,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)refreshStarImage
 {
-	if (!self.starEnable || task.status != TASK_STATUS_PINNED)
+	if (!self.starEnable)
 	{
 		starImageView.image = nil;
 	}
@@ -378,6 +379,32 @@ extern iPadViewController *_iPadViewCtrler;
     }
     else
     {
+        /*NSString *repeat = [task getRepeatTypeString];
+        if (![repeat isEqualToString:_noneText]) {
+            if (![infoStr isEqualToString:@""]) {
+                infoStr = [infoStr stringByAppendingString:@", "];
+            }
+            infoStr = [infoStr stringByAppendingFormat:@" %@ %@", _repeatText, repeat];
+        }
+        
+        if (self.showDuration && [task isTask]) {
+            if (![infoStr isEqualToString:@""]) {
+                infoStr = [infoStr stringByAppendingString:@", "];
+            }
+            
+            NSString *duration = [Common getDurationString:self.task.duration];
+            infoStr = [infoStr stringByAppendingString: duration];
+        }
+        
+        if (self.showDue && [task isTask]) {
+            if (![infoStr isEqualToString:@""]) {
+                infoStr = [infoStr stringByAppendingString:@", "];
+            }
+            
+            NSString *due = [self.task getDueString];
+            infoStr = [infoStr stringByAppendingString: due];
+        }
+        
         NSString *firstLine = infoStr;
         NSString *secondLine = nil;
 
@@ -477,6 +504,104 @@ extern iPadViewController *_iPadViewCtrler;
                 [textColor set];
                 [secondLine drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
             }
+        }*/
+        
+        NSString *repeat = [task getRepeatTypeString];
+        if (![repeat isEqualToString:_noneText]) {
+            if (![infoStr isEqualToString:@""]) {
+                infoStr = [infoStr stringByAppendingString:@", "];
+            }
+            infoStr = [infoStr stringByAppendingFormat:@" %@ %@", _repeatText, repeat];
+        }
+        
+        if (self.showDuration && [task isTask]) {
+            if (![infoStr isEqualToString:@""]) {
+                infoStr = [infoStr stringByAppendingString:@", "];
+            }
+            
+            NSString *duration = [Common getDurationString:self.task.duration];
+            infoStr = [infoStr stringByAppendingString: duration];
+        }
+        
+        if (self.showDue && [task isTask]) {
+            if (![infoStr isEqualToString:@""]) {
+                infoStr = [infoStr stringByAppendingString:@", "];
+            }
+            
+            NSString *due = [self.task getDueString];
+            infoStr = [infoStr stringByAppendingString: due];
+        }
+        
+        CGRect textRec = rect;
+        /*textRec.size.height = oneCharSize.height * 2;
+        
+        if ([infoStr isEqualToString:@""]) {
+            if (task.name.length <= lineMaxChars)
+            {
+                textRec.origin.y += (rect.size.height - oneCharSize.height)/2;
+                textRec.size.height = oneCharSize.height;
+            } else if (task.name.length <= 2*lineMaxChars) {
+                textRec.origin.y += (rect.size.height - 2*oneCharSize.height)/2;
+                textRec.size.height = 2*oneCharSize.height;
+            } else {
+                textRec.origin.y += (rect.size.height - 3*oneCharSize.height)/2;
+                textRec.size.height = 3*oneCharSize.height;
+            }
+        } else {
+            if (task.name.length <= lineMaxChars)
+            {
+                textRec.origin.y += (rect.size.height - 2*oneCharSize.height)/2;
+                textRec.size.height = oneCharSize.height;
+            } else {
+                textRec.origin.y += (rect.size.height - 3*oneCharSize.height)/2;
+                textRec.size.height = 2*oneCharSize.height;
+            }
+        }
+        textRec.origin.y = textRec.origin.y < 0 || !self.listStyle ? 0 : textRec.origin.y;*/
+        
+        // margin
+        textRec.size.height -= 12;
+        textRec.origin.y += 6;
+        
+        // calculate height of text
+        CGFloat nameHeight = ceil(task.name.length / lineMaxChars) * oneCharSize.height;
+        if (nameHeight > textRec.size.height) {
+            nameHeight = textRec.size.height;
+            nameHeight = nameHeight - fmod(nameHeight, oneCharSize.height);
+        }
+        
+        if (![infoStr isEqualToString:@""] && (nameHeight / oneCharSize.height) >= 2 && nameHeight == textRec.size.height) {
+            nameHeight -= oneCharSize.height;
+        }
+        
+        textRec.size.height = nameHeight;
+        if (self.listStyle) {
+            textRec.origin.y = (rect.size.height - nameHeight - oneCharSize.height)/2;
+        }
+        
+        CGRect embossedRec = CGRectOffset(textRec, 0, -1);
+        
+        [embossedColor set];
+        [task.name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+        
+        [textColor set];
+        [task.name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
+        
+        if (![infoStr isEqualToString:@""] && (rect.size.height - 12))
+        {
+            infoStr = [@"- " stringByAppendingString:infoStr];
+            
+            textRec.origin.y += textRec.size.height;
+            textRec.size.height = oneCharSize.height;
+            
+            embossedRec = CGRectOffset(textRec, 0, -1);
+            
+            [embossedColor set];
+            [UIColor redColor];
+            [infoStr drawInRect:embossedRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+            
+            [textColor set];
+            [infoStr drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
         }
     }
 }
@@ -1741,8 +1866,8 @@ extern iPadViewController *_iPadViewCtrler;
     
     //if (self.multiSelectionEnable)
     {
-        rect = CGRectOffset(rect, 30, 0);
-        rect.size.width -= 30;
+        rect = CGRectOffset(rect, TASK_HEIGHT, 0);
+        rect.size.width -= TASK_HEIGHT;
         checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
         //checkView.userInteractionEnabled = NO;
     }
@@ -1837,10 +1962,10 @@ extern iPadViewController *_iPadViewCtrler;
     rect.origin.x += frm.size.width + 2*SPACE_PAD;
     rect.size.width -= frm.size.width + 2*SPACE_PAD;
     
-    if (self.starEnable && task.status == TASK_STATUS_PINNED)
+    if (self.starEnable)
     {
-        rect.size.width -= 40;
-        rect.origin.x += 40;
+        //rect.size.width -= 20;
+        rect.size.width -= starView.frame.size.width;
     }
     
     if (([task isEvent] || [task isNote]) && hasTime)
@@ -1968,7 +2093,7 @@ extern iPadViewController *_iPadViewCtrler;
         rect.size.width -= REPEAT_SIZE;
     }
     
-	if (self.showFlag && hasFlag)
+	/*if (self.showFlag && hasFlag)
 	{
 		frm.size.width = FLAG_SIZE;
 		frm.size.height = FLAG_SIZE;
@@ -1993,7 +2118,7 @@ extern iPadViewController *_iPadViewCtrler;
 //		[self drawDue:frm context:ctx];
 //        
 //        rect.size.width -= DUE_SIZE + SPACE_PAD/2;
-	}
+	}*/
     
 	if (hasHand)
 	{
@@ -2405,23 +2530,23 @@ extern iPadViewController *_iPadViewCtrler;
         UIImage *image = [task isManual] ? [[ImageManager getInstance] getImageWithName:@"atask_lines.png"] : [[ImageManager getInstance] getImageWithName:@"event.png"];
         
         //v4.0
-        if (task.groupKey != -1)
-        {
-            image = [[ImageManager getInstance] getImageWithName:@"exception.png"];
-        }
-		else if (task.original != nil) //Recurring Event
-		{
-            //v3.2
-            /*
-             if (task.repeatData != nil) //exception
-             {
-             image = [[ImageManager getInstance] getImageWithName:@"exception.png"];
-             }
-             else*/
-			{
-				image = [[ImageManager getInstance] getImageWithName:@"repeat.png"];
-			}
-		}
+//        if (task.groupKey != -1)
+//        {
+//            image = [[ImageManager getInstance] getImageWithName:@"exception.png"];
+//        }
+//		else if (task.original != nil) //Recurring Event
+//		{
+//            //v3.2
+//            /*
+//             if (task.repeatData != nil) //exception
+//             {
+//             image = [[ImageManager getInstance] getImageWithName:@"exception.png"];
+//             }
+//             else*/
+//			{
+//				image = [[ImageManager getInstance] getImageWithName:@"repeat.png"];
+//			}
+//		}
 		
 		frm = CGRectOffset(rect, SPACE_PAD, SPACE_PAD);
 		frm.size.width = REPEAT_SIZE;
@@ -2432,7 +2557,7 @@ extern iPadViewController *_iPadViewCtrler;
         rect.origin.x += REPEAT_SIZE + SPACE_PAD;
         rect.size.width -= REPEAT_SIZE + SPACE_PAD;
     }
-    else if ([task isRT])
+    /*else if ([task isRT])
 	{
 		frm.size.width = HASHMARK_WIDTH/2;
 		frm.size.height = HASHMARK_HEIGHT;
@@ -2469,7 +2594,7 @@ extern iPadViewController *_iPadViewCtrler;
 		[self drawHashmark:frm context:ctx];
         
         rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
-	}
+	}*/
     
 	/*if (hasDue)
 	{

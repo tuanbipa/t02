@@ -2202,6 +2202,32 @@ static sqlite3_stmt *task_delete_statement = nil;
 	
 	return _noneText;
 }
+#pragma mark Due String
+
+- (NSString *)getDueString
+{
+    NSString *dueString = @"";
+    if ([self isDTask]) {
+        NSDate *today = [NSDate date];
+        
+        //NSComparisonResult result = [today compare:self.task.deadline];
+        NSComparisonResult result = [Common compareDateNoTime:self.deadline withDate:today];
+        
+        //NSString *dueString = @"";
+        if (result == NSOrderedAscending) {
+            dueString = _overDueText;
+        } else if (result == NSOrderedSame) {
+            
+            dueString = [_dueText stringByAppendingFormat:@" %@", _todayText];
+        } else {
+            NSTimeInterval diff = [self.deadline timeIntervalSinceDate:[Common clearTimeForDate:today]];
+            NSInteger dueDays = floor(diff/24/3600);
+            
+            dueString = [NSString stringWithFormat:@"%@ %d %@", _dueInTex, dueDays, _daysText];
+        }
+    }
+    return dueString;
+}
 
 // Finalize (delete) all of the SQLite compiled queries.
 + (void)finalizeStatements {

@@ -49,7 +49,8 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 //SmartList Task Box
 #define TASK_FULL_WIDTH 314
 //#define TASK_HEIGHT 30
-#define TASK_HEIGHT 38
+//#define TASK_HEIGHT 38
+#define TASK_HEIGHT 55
 #define TASK_PAD_HEIGHT 2
 #define TASK_PAD_WIDTH 10
 //#define TASK_PAD_WIDTH 20

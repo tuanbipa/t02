@@ -216,6 +216,8 @@
 - (NSString *) getDisplayStartTime;
 - (NSString *) getDisplayEndTime;
 
+#pragma mark Due String
+- (NSString *)getDueString;
 + (void)finalizeStatements;
 
 #pragma mark Properties
