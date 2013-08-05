@@ -34,6 +34,8 @@
     PageAbstractViewController *viewCtrlers[3];
     
     NSInteger selectedCounter;
+    
+    NSMutableArray *moduleSeparatorList;
 }
 
 @property (nonatomic, readonly) PlannerView *plannerView;

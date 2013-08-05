@@ -79,6 +79,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 													 name:@"ScheduleFinishedNotification" object:nil];
         
         [self initViewControllers];
+        moduleSeparatorList = [[NSMutableArray alloc] initWithCapacity:2];
     }
     
     return self;
@@ -127,6 +128,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         viewCtrlers[i] = nil;
     }
+    
+    for (UIView *view in moduleSeparatorList) {
+        view = nil;
+    }
+    [moduleSeparatorList release];
     [super dealloc];
 }
 
@@ -690,16 +696,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     CGRect moduleFrm = contentView.bounds;
     
+    NSArray *normalImages;
+    NSArray *selectedImages;
     if (enabled)
     {
         moduleFrm.origin.x = 384 + 8;
         
         moduleFrm.size.width = moduleFrm.size.width - moduleFrm.origin.x - 8;
+        
+        // image for module button
+        normalImages = [NSArray arrayWithObjects:@"tab_tasks_left.png", @"tab_notes_left.png", @"tab_projects_left.png", nil];
+        selectedImages = [NSArray arrayWithObjects:@"tab_tasks_left_selected.png", @"tab_notes_left_selected.png", @"tab_projects_left_selected.png", nil];
     }
     else
     {
         moduleFrm.origin.x = 750 + 16;
         moduleFrm.size.width = moduleFrm.size.width - moduleFrm.origin.x - 8;
+        
+        normalImages = [NSArray arrayWithObjects:@"tab_tasks_landscape.png", @"tab_notes_landscape.png", @"tab_projects_landscape.png", nil];
+        selectedImages = [NSArray arrayWithObjects:@"tab_tasks_landscape_selected.png", @"tab_notes_landscape_selected.png", @"tab_projects_landscape_selected.png", nil];
     }
     
     moduleFrm.origin.y = 8;
@@ -713,7 +728,24 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         UIButton *moduleButton = (UIButton *)[contentView viewWithTag:31000+i];
         moduleButton.frame = CGRectMake(frm.origin.x + i*btnWidth, frm.origin.y, btnWidth, 50);
+        // update image
+        UIImage *img = [UIImage imageNamed:normalImages[i]];
+        [moduleButton setBackgroundImage:img forState:UIControlStateNormal];
+        img = [UIImage imageNamed:selectedImages[i]];
+        [moduleButton setBackgroundImage:img forState:UIControlStateSelected];
+        
+        if (i != 2)
+        {
+            UIView *moduleSeparator = [moduleSeparatorList objectAtIndex:i];
+            moduleSeparator.frame = CGRectMake(frm.origin.x + (i+1)*btnWidth - 1, frm.origin.y, 1, 50);
+        }
+
     }
+    
+    // filter
+    CGRect filterFrm = filterSegmentedControl.frame;
+    filterFrm.size.width = frm.size.width;
+    filterSegmentedControl.frame = filterFrm;
     
     frm = moduleFrm;
 
@@ -918,13 +950,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [contentView addSubview:moduleButton];
         
         if (i != 2)
-         {
-         UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x + (i+1)*btnWidth - 1, frm.origin.y, 1, 50)];
-         moduleSeparator.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-         
-         [contentView addSubview:moduleSeparator];
-         [moduleSeparator release];
-         }
+        {
+            UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x + (i+1)*btnWidth - 1, frm.origin.y, 1, 50)];
+            moduleSeparator.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+            
+            [contentView addSubview:moduleSeparator];
+            [moduleSeparatorList addObject:moduleSeparator];
+            [moduleSeparator release];
+        }
         
         if (i==0)
         {
@@ -934,7 +967,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     moduleHeaderView = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x, 50, frm.size.width, 40)];
     //moduleHeaderView.backgroundColor = [UIColor brownColor];
-    moduleHeaderView.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
+    moduleHeaderView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     //headerView.tag = TAG_VIEW_HEADER_VIEW;
     
     [contentView addSubview:moduleHeaderView];
