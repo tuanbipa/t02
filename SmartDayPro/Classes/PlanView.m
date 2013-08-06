@@ -122,7 +122,7 @@ extern iPadViewController *_iPadViewCtrler;
     [flagImage drawInRect:rect];
 }
 
-- (void) drawText:(CGRect)rect context:(CGContextRef) ctx
+- (CGRect) drawText:(CGRect)rect context:(CGContextRef) ctx
 {
 	//Project *plan = (Project *)self.tag;
     Project *plan = self.project;
@@ -156,7 +156,10 @@ extern iPadViewController *_iPadViewCtrler;
     
     CGRect textRec = rect;
     
-    textRec.origin.y = rect.origin.y + (rect.size.height - sz.height)/2;
+    //textRec.origin.y = rect.origin.y + (rect.size.height - sz.height)/2;
+    // one line for info
+    textRec.origin.y = rect.origin.y + (rect.size.height - sz.height - oneCharSize.height)/2;
+    textRec.size.height = sz.height;
     
     CGRect embossedRec = CGRectOffset(textRec, 0, -1);
     
@@ -165,7 +168,7 @@ extern iPadViewController *_iPadViewCtrler;
 
     [textColor set];
     [name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
-    
+    return textRec;
 }
 
 - (void)drawInfo:(CGRect)rect context:(CGContextRef) ctx info:(PlanInfo) info
@@ -300,7 +303,7 @@ extern iPadViewController *_iPadViewCtrler;
     //frm.size.width -= PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH - 80;
     //frm.origin.x += PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     
-    NSString *infoStr = @"";
+    /*NSString *infoStr = @"";
     
     if (self.listType == TYPE_TASK)
     {
@@ -332,7 +335,7 @@ extern iPadViewController *_iPadViewCtrler;
     //rect.size.width -= frm.size.width + SPACE_PAD + PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     //rect.origin.x += PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     
-    rect.size.width -= frm.size.width + SPACE_PAD;
+    rect.size.width -= frm.size.width + SPACE_PAD;*/
     
     if ([plan checkDefault]) 
     {
@@ -370,7 +373,38 @@ extern iPadViewController *_iPadViewCtrler;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
     }
     
-    [self drawText:rect context:ctx];
+    CGRect textRect = [self drawText:rect context:ctx];
+    
+    NSString *infoStr = @"";
+    
+    if (self.listType == TYPE_TASK)
+    {
+        PlanInfo info = [plan getInfo];
+        
+        CGFloat hrs = info.totalDuration*1.0/3600;
+        
+        infoStr = [NSString stringWithFormat:@"%d/%d - %.1f hrs - %.0f%%", info.doneTotal, info.total, hrs, info.progress*100];
+    }
+    else
+    {
+        NSInteger count = [[DBManager getInstance] countItems:self.listType inPlan:plan.primaryKey];
+        
+        infoStr = [NSString stringWithFormat:@"%d", count];
+    }
+    
+    UIFont *font = [UIFont systemFontOfSize:14];
+    
+    CGSize sz = [infoStr sizeWithFont:font];
+    //sz.width += SPACE_PAD;
+    
+    frm.size = sz;
+    //frm.origin.x = rect.origin.x + rect.size.width - sz.width;
+    //frm.origin.y = rect.origin.y + (rect.size.height - sz.height)/2;
+    frm.origin.x = textRect.origin.x;
+    frm.origin.y = textRect.origin.y + textRect.size.height;
+    
+	[[UIColor whiteColor] set];
+	[infoStr drawInRect:frm withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft];
 }
 
 - (void)drawRect:(CGRect)rect {

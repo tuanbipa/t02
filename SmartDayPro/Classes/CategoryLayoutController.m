@@ -60,7 +60,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (isPlan)
     {
-        frm.size.height = 40;
+        //frm.size.height = 40;
         
         PlanView *planView = [[PlanView alloc] initWithFrame:frm];
         //planView.tag = obj;

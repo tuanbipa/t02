@@ -173,7 +173,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)] autorelease];
     headerView.backgroundColor = [UIColor grayColor];
     
-    UILabel *label = [[UILabel alloc] init];
+    UILabel *label = [[[UILabel alloc] init] autorelease];
     label.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20);
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:12];
