@@ -756,11 +756,11 @@ extern iPadViewController *_iPadViewCtrler;
     
     [color set];
 
-    [dateStr1 drawInRect:frm withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+    [dateStr1 drawInRect:frm withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];
 
     frm.origin.y += dy + sz.height;
     
-    [dateStr2 drawInRect:frm withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+    [dateStr2 drawInRect:frm withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];
         
 }
 

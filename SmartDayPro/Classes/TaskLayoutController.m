@@ -163,6 +163,30 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return dayStr;
 }
 
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) {
+        return nil;
+    }
+    
+    UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)] autorelease];
+    headerView.backgroundColor = [UIColor grayColor];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20);
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:12];
+    label.textColor = [UIColor whiteColor];
+    //label.shadowColor = [UIColor grayColor];
+    //label.shadowOffset = CGSizeMake(-1.0, 1.0);
+    //label.font = [UIFont boldSystemFontOfSize:16];
+    label.text = sectionTitle;
+    [headerView addSubview:label];
+    
+    return headerView;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
