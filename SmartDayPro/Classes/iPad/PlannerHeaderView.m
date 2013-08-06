@@ -91,6 +91,40 @@ extern PlannerViewController *_plannerViewCtrler;
                                     normalStateImage:@"module_today.png"
                                   selectedStateImage:nil];
         [self addSubview:todayButton];
+        
+        // zoom out button
+        frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
+        frm.origin.y -= PAD_WIDTH;
+        frm.size = CGSizeMake(50, 50);
+        
+        UIButton *zoomOutButton = [Common createButton:@""
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:frm
+                                            titleColor:nil
+                                                target:self
+                                              selector:@selector(switchMWMode:)
+                                      normalStateImage:@"MM_month.png"
+                                    selectedStateImage:@"MM_month_selected.png"];
+        zoomOutButton.tag = 12000;
+        [self addSubview:zoomOutButton];
+        
+        // zoom in button
+        frm.origin.x += 50 + PAD_WIDTH/2;
+        UIButton *zoomInButton = [Common createButton:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:frm
+                                           titleColor:nil
+                                               target:self
+                                             selector:@selector(switchMWMode:)
+                                     normalStateImage:@"MM_week.png"
+                                   selectedStateImage:@"MM_week_selected.png"];
+        zoomInButton.tag = 12001;
+        [self addSubview:zoomInButton];
+        
+        zoomOutButton.selected = YES;
+        zoomOutButton.userInteractionEnabled = NO;
+        zoomInButton.selected = NO;
+        zoomInButton.userInteractionEnabled = YES;
     }
     return self;
 }
@@ -184,6 +218,11 @@ extern PlannerViewController *_plannerViewCtrler;
     [plannerView shiftTime:button.tag-11000];
     
     [self setNeedsDisplay];
+}
+
+- (void)switchMWMode:(id)sender
+{
+    
 }
 
 - (void) goToday:(id) sender

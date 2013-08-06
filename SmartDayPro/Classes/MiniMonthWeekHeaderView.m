@@ -5,7 +5,7 @@
 //  Created by Left Coast Logic on 12/7/12.
 //  Copyright (c) 2012 Left Coast Logic. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "MiniMonthWeekHeaderView.h"
 
 #import "Common.h"
@@ -28,6 +28,9 @@ extern BOOL _isiPad;
         self.skinStyle = _isiPad?0:1;
         
         self.backgroundColor = self.skinStyle == 0?[UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1]:[UIColor colorWithRed:100.0/255 green:100.0/255 blue:100.0/255 alpha:1];
+        
+        self.layer.borderWidth = 1;
+        self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
     }
     
     return self;

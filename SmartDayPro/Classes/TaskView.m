@@ -514,7 +514,7 @@ extern iPadViewController *_iPadViewCtrler;
             infoStr = [infoStr stringByAppendingFormat:@" %@ %@", _repeatText, repeat];
         }
         
-        if (self.showDuration && [task isTask]) {
+        if ([task isTask]) {
             if (![infoStr isEqualToString:@""]) {
                 infoStr = [infoStr stringByAppendingString:@", "];
             }
@@ -523,7 +523,7 @@ extern iPadViewController *_iPadViewCtrler;
             infoStr = [infoStr stringByAppendingString: duration];
         }
         
-        if (self.showDue && [task isTask]) {
+        if ([task isDTask]) {
             if (![infoStr isEqualToString:@""]) {
                 infoStr = [infoStr stringByAppendingString:@", "];
             }
@@ -560,23 +560,30 @@ extern iPadViewController *_iPadViewCtrler;
         textRec.origin.y = textRec.origin.y < 0 || !self.listStyle ? 0 : textRec.origin.y;*/
         
         // margin
-        textRec.size.height -= 12;
-        textRec.origin.y += 6;
+        CGFloat margin = 4;
+        textRec.size.height -= 2*margin;
+        textRec.origin.y += margin;
         
         // calculate height of text
-        CGFloat nameHeight = ceil(task.name.length / lineMaxChars) * oneCharSize.height;
+        NSInteger lineNumber = floor(task.name.length / lineMaxChars + 1.0);
+        CGFloat nameHeight = lineNumber * oneCharSize.height;
         if (nameHeight > textRec.size.height) {
             nameHeight = textRec.size.height;
             nameHeight = nameHeight - fmod(nameHeight, oneCharSize.height);
         }
         
-        if (![infoStr isEqualToString:@""] && (nameHeight / oneCharSize.height) >= 2 && nameHeight == textRec.size.height) {
+        if (![infoStr isEqualToString:@""] && lineNumber > 2 && nameHeight >= 3*oneCharSize.height) {
             nameHeight -= oneCharSize.height;
         }
-        
         textRec.size.height = nameHeight;
+        
+        CGFloat inforLine = [infoStr isEqualToString:@""] ? 0 : oneCharSize.height;
         if (self.listStyle) {
-            textRec.origin.y = (rect.size.height - nameHeight - oneCharSize.height)/2;
+            textRec.origin.y = (rect.size.height - nameHeight - inforLine)/2;
+        } else if (self.focusStyle){
+            textRec.size.height = oneCharSize.height;
+            textRec.origin.y = (rect.size.height - textRec.size.height)/2;
+            infoStr = @"";
         }
         
         CGRect embossedRec = CGRectOffset(textRec, 0, -1);
@@ -587,9 +594,9 @@ extern iPadViewController *_iPadViewCtrler;
         [textColor set];
         [task.name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
         
-        if (![infoStr isEqualToString:@""] && (rect.size.height - 12))
+        if (![infoStr isEqualToString:@""] && rect.size.height - textRec.origin.y - textRec.size.height >= oneCharSize.height)
         {
-            infoStr = [@"- " stringByAppendingString:infoStr];
+            //infoStr = [@"- " stringByAppendingString:infoStr];
             
             textRec.origin.y += textRec.size.height;
             textRec.size.height = oneCharSize.height;
@@ -1368,7 +1375,8 @@ extern iPadViewController *_iPadViewCtrler;
     ////printf("icon w=%f, h=%f\n", img.size.width, img.size.height);
     
     CGRect frm = CGRectZero;
-    frm.size = img.size;
+    //frm.size = img.size;
+    frm.size = CGSizeMake(13, 13);
     frm.origin.y = (rect.size.height-frm.size.height)/2;
     frm.origin.x = rect.origin.x + SPACE_PAD;
     
@@ -1447,9 +1455,10 @@ extern iPadViewController *_iPadViewCtrler;
         frm.origin.x = rect.origin.x + rect.size.width - DUE_SIZE - SPACE_PAD/2;
         frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
         
-		[self drawDue:frm context:ctx];
+		CGSize sz = [self drawDue:frm context:ctx];
         
-        rect.size.width -= DUE_SIZE + SPACE_PAD/2;
+        //rect.size.width -= DUE_SIZE + SPACE_PAD/2;
+        rect.size.width -= sz.width + SPACE_PAD/2;
 	}
     
 	/*if (hasAlert)
@@ -2031,7 +2040,7 @@ extern iPadViewController *_iPadViewCtrler;
 //        rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
 //	}
     
-	if (self.showDue && hasDue)
+	/*if (self.showDue && hasDue)
 	{
         
         frm = CGRectMake(0, 0, 90, rect.size.height);
@@ -2042,7 +2051,7 @@ extern iPadViewController *_iPadViewCtrler;
         CGSize realSize = [self drawDue:frm context:ctx];
         
         rect.size.width -= realSize.width + SPACE_PAD;
-	}
+	}*/
     
 	if (hasAlert)
 	{
