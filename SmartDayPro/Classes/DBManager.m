@@ -953,6 +953,38 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;
 }
 
+- (NSMutableArray *) getDoneTasksOnDate: (NSDate*) date
+{
+	NSDate *tmp = [Common clearTimeForDate:date];
+	NSDate *start = [Common toDBDate:tmp];
+	NSDate *end = [Common dateByAddNumDay:1 toDate:start];
+    
+	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
+	
+	const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_Status = ? AND (Task_RepeatData = '' OR (Task_RepeatData <> '' AND Task_GroupID > -1)) \
+    AND (Task_CompletionTime >= ? AND Task_CompletionTime < ?) ORDER BY Task_CompletionTime DESC";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, TYPE_TASK);
+		sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
+		sqlite3_bind_int(statement, 3, [start timeIntervalSince1970]);
+		sqlite3_bind_int(statement, 4, [end timeIntervalSince1970]);
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			int primaryKey = sqlite3_column_int(statement, 0);
+			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
+			
+			[taskList addObject:task];
+			[task release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return taskList;
+}
+
 - (NSMutableArray *) getAllItemsForPlan:(NSInteger)planKey
 {
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];

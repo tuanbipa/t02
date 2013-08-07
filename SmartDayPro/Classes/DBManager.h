@@ -51,6 +51,7 @@
 - (NSMutableArray *) getDoneTasks;
 - (NSMutableArray *) getDoneTasks4Plan:(NSInteger)planKey;
 - (NSMutableArray *) getDoneTasksToday;
+- (NSMutableArray *) getDoneTasksOnDate: (NSDate*) date;
 - (NSInteger) countItems: (NSInteger)type inPlan:(NSInteger)inPlan;
 - (NSMutableArray *) getItems: (NSInteger)type inPlan:(NSInteger)inPlan;
 - (NSMutableArray *) getAllItemsForPlan:(NSInteger)planKey;

@@ -105,6 +105,7 @@
 - (NSMutableArray *) getNoteListOnDate:(NSDate *)onDate;
 - (NSMutableArray *) getNoteListFromDate: (NSDate *) fromDate toDate: (NSDate *) toDate;
 - (NSMutableArray *) getDoneTasksToday;
+- (NSMutableArray *) getDoneTasksOnDate: (NSDate*)date;
 - (NSMutableArray *) getEventListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (NSMutableArray *) getADEListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (NSMutableArray *) getDTaskListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;

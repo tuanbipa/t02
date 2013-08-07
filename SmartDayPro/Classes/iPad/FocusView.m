@@ -29,6 +29,8 @@ AbstractSDViewController *_abstractViewCtrler;
 @synthesize dueList;
 @synthesize noteList;
 
+@synthesize doneList;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -107,6 +109,8 @@ AbstractSDViewController *_abstractViewCtrler;
     self.dueList = nil;
     self.noteList = nil;
     
+    self.doneList = nil;
+    
     [super dealloc];
 }
 
@@ -123,6 +127,32 @@ AbstractSDViewController *_abstractViewCtrler;
     //if (zoomButton.selected)
     {
         int y = 5;
+        
+        // show done tasks
+        for (int i=0; i<self.doneList.count; i++)
+        {
+            Task *task = [self.doneList objectAtIndex:i];
+            task.listSource = SOURCE_FOCUS;
+            
+            ////printf("ade %s - start: %s, end: %s\n", [task.name UTF8String], [[task.startTime description] UTF8String], [[task.endTime description] UTF8String]);
+            
+            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 30);
+            
+            TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
+            taskView.task = task;
+            taskView.starEnable = NO;
+            taskView.listStyle = NO;
+            taskView.focusStyle = YES;
+            
+            [taskView enableMove:NO];
+            [taskView refreshStarImage];
+            [taskView refreshCheckImage];
+            
+            [contentView addSubview:taskView];
+            [taskView release];
+            
+            y += frm.size.height + 5;
+        }
         
         for (int i=0; i<self.adeList.count; i++)
         {
@@ -240,6 +270,9 @@ AbstractSDViewController *_abstractViewCtrler;
     
     if ([self checkExpanded])
     {
+        // get done list
+        self.doneList = [tm getDoneTasksOnDate:tm.today];
+        
         self.adeList = [tm getADEListOnDate:tm.today];
         
         if ([Common daysBetween:tm.today sinceDate:[NSDate date]] == 0)
@@ -305,6 +338,21 @@ AbstractSDViewController *_abstractViewCtrler;
     
     int sourceId = [[dict objectForKey:@"LinkSourceID"] intValue];
     int destId = [[dict objectForKey:@"LinkDestID"] intValue];
+    
+    for (Task *task in self.doneList)
+    {
+        if (task.original == nil || [task isREException])
+        {
+            if (task.primaryKey == sourceId)
+            {
+                task.links = [tlm getLinkIds4Task:sourceId];
+            }
+            else if (task.primaryKey == destId)
+            {
+                task.links = [tlm getLinkIds4Task:destId];
+            }
+        }
+    }
     
     for (Task *task in self.adeList)
     {

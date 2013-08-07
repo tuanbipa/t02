@@ -22,6 +22,8 @@
 @property (nonatomic, retain) NSMutableArray *dueList;
 @property (nonatomic, retain) NSMutableArray *noteList;
 
+@property (nonatomic, retain) NSMutableArray *doneList;
+
 - (void) refreshData;
 - (void) refreshView;
 -(void) setNeedsDisplay;

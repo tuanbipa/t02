@@ -1382,7 +1382,8 @@ extern iPadViewController *_iPadViewCtrler;
     
     [img drawInRect:frm];
     
-    if (self.multiSelectionEnable && [self.task isDone])
+    //if (self.multiSelectionEnable && [self.task isDone])
+    if ([self.task isDone])
     {
         img = [[ImageManager getInstance] getImageWithName:@"checkmark.png"];
         
