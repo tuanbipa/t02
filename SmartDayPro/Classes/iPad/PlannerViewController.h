@@ -36,6 +36,7 @@
     NSInteger selectedCounter;
     
     NSMutableArray *moduleSeparatorList;
+    UIButton *copyLinkButton;
 }
 
 @property (nonatomic, readonly) PlannerView *plannerView;

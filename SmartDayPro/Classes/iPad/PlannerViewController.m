@@ -133,6 +133,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
         view = nil;
     }
     [moduleSeparatorList release];
+    copyLinkButton = nil;
+    
     [super dealloc];
 }
 
@@ -1270,7 +1272,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [editBarView addSubview:markStarButton];
     
     // 5, copy link button
-    UIButton *copyLinkButton = [Common createButton:@""
+    //UIButton *copyLinkButton = [Common createButton:@""
+    copyLinkButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(width*4 + space, 5, 30, 30)
                                          titleColor:[UIColor whiteColor]
@@ -1321,7 +1324,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     
     //UIButton *copyLinkButton = (UIButton*)[contentView viewWithTag:TAG_VIEW_COPY_BUTTON];
-    //copyLinkButton.enabled = (count == 2);
+    copyLinkButton.enabled = (selectedCounter == 2);
     
     if (firstCheck) {
         switch (selectedModuleButton.tag - 31000)
