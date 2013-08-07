@@ -1546,12 +1546,12 @@ iPadViewController *_iPadViewCtrler;
     //printf("button width: %f\n", btnWidth);
     
     UIButton *taskButton = nil;
-    
+    CGFloat btnHeight = 78;
     for (int i=0; i<3; i++)
     {
         UIButton *moduleButton = [Common createButton:@""
                                            buttonType:UIButtonTypeCustom
-                                                frame:CGRectMake(w+20 + i*btnWidth, 10, btnWidth, 40)
+                                                frame:CGRectMake(w+20 + i*btnWidth, 10, btnWidth, btnHeight)
                                            titleColor:[UIColor whiteColor]
                                                target:self
                                              selector:@selector(showModule:)
@@ -1576,7 +1576,7 @@ iPadViewController *_iPadViewCtrler;
         
         if (i != 2)
         {
-            UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(w+20 + (i+1)*btnWidth - 1, 10, 1, 40)];
+            UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(w+20 + (i+1)*btnWidth - 1, 10, 1, btnHeight)];
             moduleSeparator.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
         
             [contentView addSubview:moduleSeparator];
@@ -1589,7 +1589,7 @@ iPadViewController *_iPadViewCtrler;
         }
     }
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 50, w-10, 40)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 10 + btnHeight, w-10, 40)];
     //headerView.backgroundColor = [UIColor brownColor];
     headerView.backgroundColor = [UIColor clearColor];
     headerView.tag = TAG_VIEW_HEADER_VIEW;
@@ -1597,7 +1597,7 @@ iPadViewController *_iPadViewCtrler;
     [contentView addSubview:headerView];
     [headerView release];
     
-    UIView *moduleView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 90, w-10, frm.size.height-100)];
+    UIView *moduleView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 10 + btnHeight + headerView.frame.size.height, w-10, frm.size.height - (20 + btnHeight + headerView.frame.size.height))];
     moduleView.backgroundColor = [UIColor greenColor];
     moduleView.tag = 33000;
     
