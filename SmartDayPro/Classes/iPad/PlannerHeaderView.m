@@ -92,6 +92,7 @@ extern PlannerViewController *_plannerViewCtrler;
                                   selectedStateImage:nil];
         [self addSubview:todayButton];
         
+        /*
         // zoom out button
         frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
         frm.origin.y -= PAD_WIDTH;
@@ -125,6 +126,7 @@ extern PlannerViewController *_plannerViewCtrler;
         zoomOutButton.userInteractionEnabled = NO;
         zoomInButton.selected = NO;
         zoomInButton.userInteractionEnabled = YES;
+         */
     }
     return self;
 }
