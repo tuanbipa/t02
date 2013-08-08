@@ -703,4 +703,7 @@
 
 #define _addNewURLText NSLocalizedString(@"_addNewURLText", "")
 
+#define _conversationsText NSLocalizedString(@"_conversationsText", "")
+
+
 

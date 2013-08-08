@@ -227,6 +227,12 @@ typedef enum
 
 typedef enum
 {
+    COMMENT_STATUS_NONE,
+    COMMENT_STATUS_DELETED
+} CommentStatus;
+
+typedef enum
+{
     ASSET_ITEM = 0,
     ASSET_URL
 } AssetType;

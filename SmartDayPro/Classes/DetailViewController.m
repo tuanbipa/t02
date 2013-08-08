@@ -15,6 +15,7 @@
 #import "Task.h"
 #import "Project.h"
 #import "AlertData.h"
+#import "Comment.h"
 
 #import "DBManager.h"
 #import "ProjectManager.h"
@@ -38,6 +39,7 @@
 #import "AlertListViewController.h"
 #import "LinkViewController.h"
 #import "PreviewViewController.h"
+#import "CommentViewController.h"
 
 #import "iPadViewController.h"
 
@@ -607,6 +609,15 @@ DetailViewController *_detailViewCtrler = nil;
     [self.navigationController pushViewController:ctrler animated:YES];
     
     [ctrler release];    
+}
+
+- (void) editComment
+{
+	CommentViewController *ctrler = [[CommentViewController alloc] init];
+    ctrler.task = self.taskCopy;
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
 }
 
 - (void) showTimerHistory
@@ -1283,7 +1294,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:noteView];
     [noteView release];*/
     
-    CGFloat h = [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:showAll?9:5 inSection:0]];
+    CGFloat h = [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?10:9):([self.task isShared]?6:5) inSection:0]];
     
     frm = self.previewViewCtrler.view.frame;
     
@@ -1342,6 +1353,21 @@ DetailViewController *_detailViewCtrler = nil;
 
 }
 
+- (void) createCommentCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    cell.textLabel.text = _conversationsText;
+    
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+	
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForTask:self.task.primaryKey]];
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+}
+
 #pragma mark TableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -1353,7 +1379,14 @@ DetailViewController *_detailViewCtrler = nil;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return showAll?10:6;
+	NSInteger count = (showAll?10:6);
+    
+    if ([self.task isShared])
+    {
+        count = count + 1;
+    }
+    
+    return count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1372,11 +1405,11 @@ DetailViewController *_detailViewCtrler = nil;
     {
         return 120;
     }
-    else if ((showAll && indexPath.row == 9) || (!showAll && indexPath.row == 5))
+    else if ((showAll && indexPath.row == ([self.task isShared]?10:9)) || (!showAll && indexPath.row == ([self.task isShared]?6:5)))
     {
         CGFloat rowH = 0;
         
-        for (int i=0;i<(showAll?9:5);i++)
+        for (int i=0;i<(showAll?([self.task isShared]?10:9):([self.task isShared]?6:5));i++)
         {
             rowH += [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         }
@@ -1418,6 +1451,8 @@ DetailViewController *_detailViewCtrler = nil;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"";
 	cell.textLabel.backgroundColor = [UIColor clearColor];
+    
+    //printf("index row: %d\n", indexPath.row);
 
     switch (indexPath.row)
     {
@@ -1457,11 +1492,25 @@ DetailViewController *_detailViewCtrler = nil;
             }
             else
             {
-                [self createLinkCell:cell baseTag:10900];
+                if ([self.task isShared])
+                {
+                    [self createCommentCell:cell baseTag:10500];
+                }
+                else
+                {
+                    [self createLinkCell:cell baseTag:10500];
+                }
             }
             break;
         case 6:
-            [self createDescriptionCell:cell baseTag:10600];
+            if (showAll)
+            {
+                [self createDescriptionCell:cell baseTag:10600];
+            }
+            else
+            {
+                [self createLinkCell:cell baseTag:10600];
+            }
             break;
         case 7:
             [self createTagCell:cell baseTag:10700];
@@ -1470,7 +1519,17 @@ DetailViewController *_detailViewCtrler = nil;
             [self createTimerHistoryCell:cell baseTag:10800];
             break;
         case 9:
-            [self createLinkCell:cell baseTag:10900];
+            if ([self.task isShared])
+            {
+                [self createCommentCell:cell baseTag:10900];
+            }
+            else
+            {
+                [self createLinkCell:cell baseTag:10900];
+            }
+            break;
+        case 10:
+            [self createLinkCell:cell baseTag:11000];
             break;
     }
     
@@ -1498,13 +1557,26 @@ DetailViewController *_detailViewCtrler = nil;
             }
             break;
         case 5:
-            [self editAlert];
+            if (showAll)
+            {
+                [self editAlert];
+            }
+            else if ([task isShared])
+            {
+                [self editComment];
+            }
             break;
         case 6:
             [self editDescription];
             break;
         case 8:
             [self showTimerHistory];
+            break;
+        case 9:
+            if ([task isShared])
+            {
+                [self editComment];
+            }
             break;
     }
 }

@@ -19,6 +19,7 @@
 #import "TaskManager.h"
 #import "AlertData.h"
 #import "URLAsset.h"
+#import "Comment.h"
 
 extern BOOL _versionUpgrade;
 extern BOOL _firstLaunch;
@@ -3348,6 +3349,76 @@ static sqlite3_stmt *_top_task_statement = nil;
 }
 
 #pragma mark SDW Sync
+- (NSMutableArray *) getAllComments
+{
+	NSMutableArray *list = [NSMutableArray arrayWithCapacity:200];
+	
+	const char *sql = "SELECT Comment_ID FROM CommentTable WHERE Comment_Status <> ?";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, COMMENT_STATUS_DELETED);
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			int primaryKey = sqlite3_column_int(statement, 0);
+			Comment *comment = [[Comment alloc] initWithPrimaryKey:primaryKey database:database];
+			
+			[list addObject:comment];
+			[comment release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return list;
+}
+
+- (NSMutableArray *) getComments4Task:(NSInteger)taskId
+{
+	NSMutableArray *list = [NSMutableArray arrayWithCapacity:200];
+	
+	const char *sql = "SELECT Comment_ID FROM CommentTable WHERE Comment_Status <> ? AND Comment_ItemID = ? ORDER BY Comment_CreateTime DESC";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, COMMENT_STATUS_DELETED);
+        sqlite3_bind_int(statement, 2, taskId);
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			int primaryKey = sqlite3_column_int(statement, 0);
+			Comment *comment = [[Comment alloc] initWithPrimaryKey:primaryKey database:database];
+            
+			[list addObject:comment];
+			[comment release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return list;
+}
+
+- (NSInteger) countCommentsForTask:(NSInteger) taskId
+{
+	NSInteger count = 0;
+    
+	const char *sql = "SELECT Count(Comment_ID) FROM CommentTable WHERE Comment_Status <> ? AND Comment_ItemID = ?";
+    
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, COMMENT_STATUS_DELETED);
+		sqlite3_bind_int(statement, 2, taskId);
+
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			// The second parameter indicates the column index into the result set.
+			count += sqlite3_column_int(statement, 0);
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return count;
+}
+
 - (NSMutableArray *) getAllURLAssets
 {
 	NSMutableArray *list = [NSMutableArray arrayWithCapacity:200];
@@ -4361,6 +4432,9 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
     sqlite3_exec(database, "CREATE TABLE URLTable (URL_ID INTEGER PRIMARY KEY, \
                  URL_Value TEXT, URL_Status NUMERIC, URL_UpdateTime NUMERIC, URL_SDWID TEXT)", nil, nil, nil);
+
+    sqlite3_exec(database, "CREATE TABLE CommentTable (Comment_ID INTEGER PRIMARY KEY, \
+                 Comment_Content TEXT, Comment_Status NUMERIC, Comment_CreateTime NUMERIC, Comment_UpdateTime NUMERIC, Comment_SDWID TEXT, Comment_ItemID NUMERIC, Comment_LastName TEXT, Comment_FirstName TEXT, Comment_IsOwner NUMERIC)", nil, nil, nil);
     
 	sqlite3_exec(database, "ALTER TABLE TaskLinkTable ADD COLUMN Dest_AssetType NUMERIC;", nil, nil, nil);
     

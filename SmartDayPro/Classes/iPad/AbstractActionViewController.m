@@ -576,7 +576,11 @@ extern iPadViewController *_iPadViewCtrler;
     
     [ctrler release];
     
-    CGRect frm = CGRectMake(370, 0, 20, 10);
+    CGSize sz = [[UIScreen mainScreen] bounds].size;
+    
+    CGFloat x = UIInterfaceOrientationIsLandscape(_iPadViewCtrler.interfaceOrientation)?sz.height/2:sz.width/2;
+    
+    CGRect frm = CGRectMake(x-10, 0, 20, 10);
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }

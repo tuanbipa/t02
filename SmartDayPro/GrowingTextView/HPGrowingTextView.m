@@ -213,6 +213,7 @@
 - (CGFloat) getHeight
 {
 	CGFloat newSizeH = internalTextView.contentSize.height;
+    
 	if(newSizeH < minHeight || !internalTextView.hasText) newSizeH = minHeight; //not smalles than minHeight
     if (newSizeH > maxHeight) newSizeH = maxHeight; // not taller than maxHeight
     

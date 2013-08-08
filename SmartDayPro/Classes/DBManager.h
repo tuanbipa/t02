@@ -125,6 +125,9 @@
 - (GoalInfo) getGoalFromDate:(NSDate *)startDate toDate:(NSDate *)endDate;
 
 //SDW Sync
+- (NSMutableArray *) getAllComments;
+- (NSInteger) countCommentsForTask:(NSInteger) taskId;
+- (NSMutableArray *) getComments4Task:(NSInteger)taskId;
 - (NSMutableArray *) getAllURLAssets;
 - (NSMutableArray *) getDeletedURLAssets;
 - (NSMutableArray *) getItems2Sync;

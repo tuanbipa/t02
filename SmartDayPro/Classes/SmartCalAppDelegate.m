@@ -31,6 +31,7 @@
 #import "TimerManager.h"
 #import "URLAssetManager.h"
 #import "TagDictionary.h"
+#import "CommentManager.h"
 
 #import "Settings.h"
 
@@ -684,6 +685,7 @@ BOOL _fromBackground = NO;
 	[AlertManager free];
 	[ImageManager free];
 	[BusyController free];
+    [CommentManager free];
     
     [EKSync free];
     [SDWSync free];

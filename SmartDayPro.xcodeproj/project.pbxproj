@@ -26,10 +26,18 @@
 		6746802116670FCA00E5E08A /* replace_SDtomSD.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746801F16670FCA00E5E08A /* replace_SDtomSD.png */; };
 		674680251667114A00E5E08A /* replace_mSDtoSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */; };
 		674680261667114A00E5E08A /* replace_SDtomSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680241667114A00E5E08A /* replace_SDtomSD@2x.png */; };
+		6749348117B33B0600AEA74A /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348017B33B0600AEA74A /* CommentViewController.m */; };
+		6749348217B33B0600AEA74A /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348017B33B0600AEA74A /* CommentViewController.m */; };
+		6749348917B381EE00AEA74A /* GrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348817B381EE00AEA74A /* GrowingTextView.m */; };
+		6749348A17B381EE00AEA74A /* GrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348817B381EE00AEA74A /* GrowingTextView.m */; };
 		6765668916F6F4C1007F23A9 /* DummyMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6765668816F6F4C0007F23A9 /* DummyMovableController.m */; };
 		676C0CCF16D707EB00D1A643 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 676C0CCE16D707EB00D1A643 /* MenuTableViewController.m */; };
 		677764A0178A9F2B007E2D99 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6777649F178A9F2A007E2D99 /* DetailViewController.m */; };
 		677764A1178A9F2B007E2D99 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6777649F178A9F2A007E2D99 /* DetailViewController.m */; };
+		6778D81017AF5D310004F74A /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6778D80F17AF5D300004F74A /* Comment.m */; };
+		6778D81117AF5D310004F74A /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6778D80F17AF5D300004F74A /* Comment.m */; };
+		6778D81417AF8DD40004F74A /* CommentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6778D81317AF8DD30004F74A /* CommentManager.m */; };
+		6778D81517AF8DD40004F74A /* CommentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6778D81317AF8DD30004F74A /* CommentManager.m */; };
 		677A4D4916BFBB690082330A /* filter_star.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A4D4816BFBB690082330A /* filter_star.png */; };
 		678561B5178E86E800FB3534 /* ProjectInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 678561B4178E86E800FB3534 /* ProjectInputViewController.m */; };
 		678561B6178E86E800FB3534 /* ProjectInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 678561B4178E86E800FB3534 /* ProjectInputViewController.m */; };
@@ -673,7 +681,6 @@
 		67DD5B3C179F871400CC1A72 /* NoteContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DD5B3B179F871400CC1A72 /* NoteContentViewController.m */; };
 		67DD5B3D179F871400CC1A72 /* NoteContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DD5B3B179F871400CC1A72 /* NoteContentViewController.m */; };
 		67DD647516362E5B002EED1E /* week_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 67DD647416362E5B002EED1E /* week_separator.png */; };
-		67DDEC83164CD8030016527F /* GrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC82164CD8020016527F /* GrowingTextView.m */; };
 		67DDEC87164D041A0016527F /* MFMailComposeViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC86164D04180016527F /* MFMailComposeViewController+Rotate.m */; };
 		67DE2148170006FD000545AC /* SnoozeDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE2147170006FC000545AC /* SnoozeDurationViewController.m */; };
 		67DE2149170006FD000545AC /* SnoozeDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE2147170006FC000545AC /* SnoozeDurationViewController.m */; };
@@ -982,7 +989,6 @@
 		67EC0D1316F8081F00929BFD /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C8F0E41638EA5A0098CFEB /* HPTextViewInternal.m */; };
 		67EC0D1416F8081F00929BFD /* CalendarScrollPageLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CE6FE7163F6C66000C641E /* CalendarScrollPageLayoutController.m */; };
 		67EC0D1516F8081F00929BFD /* MiniMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FB7F241640C9930049DA1A /* MiniMonthHeaderView.m */; };
-		67EC0D1616F8081F00929BFD /* GrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC82164CD8020016527F /* GrowingTextView.m */; };
 		67EC0D1716F8081F00929BFD /* MFMailComposeViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DDEC86164D04180016527F /* MFMailComposeViewController+Rotate.m */; };
 		67EC0D1816F8081F00929BFD /* HintModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67D51F871655FEA2007017E3 /* HintModalViewController.m */; };
 		67EC0D1916F8081F00929BFD /* iPadSmartDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */; };
@@ -1682,12 +1688,20 @@
 		6746801F16670FCA00E5E08A /* replace_SDtomSD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replace_SDtomSD.png; sourceTree = "<group>"; };
 		674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_mSDtoSD@2x.png"; sourceTree = "<group>"; };
 		674680241667114A00E5E08A /* replace_SDtomSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_SDtomSD@2x.png"; sourceTree = "<group>"; };
+		6749347F17B33B0600AEA74A /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
+		6749348017B33B0600AEA74A /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
+		6749348717B381EE00AEA74A /* GrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowingTextView.h; sourceTree = "<group>"; };
+		6749348817B381EE00AEA74A /* GrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowingTextView.m; sourceTree = "<group>"; };
 		6765668716F6F4C0007F23A9 /* DummyMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyMovableController.h; sourceTree = "<group>"; };
 		6765668816F6F4C0007F23A9 /* DummyMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyMovableController.m; sourceTree = "<group>"; };
 		676C0CCD16D707EB00D1A643 /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		676C0CCE16D707EB00D1A643 /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
 		6777649E178A9F2A007E2D99 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		6777649F178A9F2A007E2D99 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		6778D80E17AF5D300004F74A /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		6778D80F17AF5D300004F74A /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		6778D81217AF8DD30004F74A /* CommentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentManager.h; sourceTree = "<group>"; };
+		6778D81317AF8DD30004F74A /* CommentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentManager.m; sourceTree = "<group>"; };
 		677A4D4816BFBB690082330A /* filter_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_star.png; sourceTree = "<group>"; };
 		678561B3178E86E800FB3534 /* ProjectInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectInputViewController.h; sourceTree = "<group>"; };
 		678561B4178E86E800FB3534 /* ProjectInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectInputViewController.m; sourceTree = "<group>"; };
@@ -2434,8 +2448,6 @@
 		67DD5B3A179F871300CC1A72 /* NoteContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentViewController.h; sourceTree = "<group>"; };
 		67DD5B3B179F871400CC1A72 /* NoteContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContentViewController.m; sourceTree = "<group>"; };
 		67DD647416362E5B002EED1E /* week_separator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = week_separator.png; sourceTree = "<group>"; };
-		67DDEC81164CD8010016527F /* GrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowingTextView.h; sourceTree = "<group>"; };
-		67DDEC82164CD8020016527F /* GrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowingTextView.m; sourceTree = "<group>"; };
 		67DDEC85164D04170016527F /* MFMailComposeViewController+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MFMailComposeViewController+Rotate.h"; sourceTree = "<group>"; };
 		67DDEC86164D04180016527F /* MFMailComposeViewController+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MFMailComposeViewController+Rotate.m"; sourceTree = "<group>"; };
 		67DE2146170006FC000545AC /* SnoozeDurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnoozeDurationViewController.h; sourceTree = "<group>"; };
@@ -2818,6 +2830,8 @@
 		67C8F0E01638EA5A0098CFEB /* GrowingTextView */ = {
 			isa = PBXGroup;
 			children = (
+				6749348717B381EE00AEA74A /* GrowingTextView.h */,
+				6749348817B381EE00AEA74A /* GrowingTextView.m */,
 				67C8F0E11638EA5A0098CFEB /* HPGrowingTextView.h */,
 				67C8F0E21638EA5A0098CFEB /* HPGrowingTextView.m */,
 				67C8F0E31638EA5A0098CFEB /* HPTextViewInternal.h */,
@@ -2968,6 +2982,12 @@
 				67CF2B8816195195001FE1AA /* ColorPickerViewController.m */,
 				67CF2B8916195195001FE1AA /* Colors.h */,
 				67CF2B8A16195195001FE1AA /* Colors.m */,
+				6778D80E17AF5D300004F74A /* Comment.h */,
+				6778D80F17AF5D300004F74A /* Comment.m */,
+				6778D81217AF8DD30004F74A /* CommentManager.h */,
+				6778D81317AF8DD30004F74A /* CommentManager.m */,
+				6749347F17B33B0600AEA74A /* CommentViewController.h */,
+				6749348017B33B0600AEA74A /* CommentViewController.m */,
 				67CF2B8B16195195001FE1AA /* Common.h */,
 				67CF2B8C16195195001FE1AA /* Common.m */,
 				67CF2B8D16195195001FE1AA /* ContactManager.h */,
@@ -3008,8 +3028,6 @@
 				67CF2BAC16195195001FE1AA /* FilterData.m */,
 				67CF2BAD16195195001FE1AA /* FilterView.h */,
 				67CF2BAE16195195001FE1AA /* FilterView.m */,
-				67DDEC81164CD8010016527F /* GrowingTextView.h */,
-				67DDEC82164CD8020016527F /* GrowingTextView.m */,
 				67CF2BB116195195001FE1AA /* GTMBase64.h */,
 				67CF2BB216195195001FE1AA /* GTMBase64.m */,
 				67CF2BB316195195001FE1AA /* GTMDefines.h */,
@@ -5292,6 +5310,7 @@
 				67CF2CBD16195196001FE1AA /* AlertManager.m in Sources */,
 				67CF2CBE16195196001FE1AA /* AlertSelectionTableViewController.m in Sources */,
 				67CF2CBF16195196001FE1AA /* BusyController.m in Sources */,
+				6749348917B381EE00AEA74A /* GrowingTextView.m in Sources */,
 				67CF2CC016195196001FE1AA /* CalendarADEView.m in Sources */,
 				67CF2CC116195196001FE1AA /* CalendarDayLayoutController.m in Sources */,
 				67CF2CC216195196001FE1AA /* CalendarEditTableViewController.m in Sources */,
@@ -5418,7 +5437,6 @@
 				67C8F0E61638EA5A0098CFEB /* HPTextViewInternal.m in Sources */,
 				67CE6FE8163F6C66000C641E /* CalendarScrollPageLayoutController.m in Sources */,
 				67FB7F251640C9930049DA1A /* MiniMonthHeaderView.m in Sources */,
-				67DDEC83164CD8030016527F /* GrowingTextView.m in Sources */,
 				67DDEC87164D041A0016527F /* MFMailComposeViewController+Rotate.m in Sources */,
 				67D51F881655FEA3007017E3 /* HintModalViewController.m in Sources */,
 				67B41508166C5A5A00AB3B5C /* iPadSmartDayViewController.m in Sources */,
@@ -5459,6 +5477,7 @@
 				67E30FD8171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */,
 				67E30FDA171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
 				67E30FDE171406D6007AD2DE /* PlannerMovableController.m in Sources */,
+				6749348117B33B0600AEA74A /* CommentViewController.m in Sources */,
 				67E30FE2171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
 				67E5A9881715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98C17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
@@ -5480,6 +5499,8 @@
 				67DD5B3C179F871400CC1A72 /* NoteContentViewController.m in Sources */,
 				67FBA11617A646CD00EB1BD5 /* URLAssetManager.m in Sources */,
 				67FBA11A17A665D500EB1BD5 /* URLAsset.m in Sources */,
+				6778D81017AF5D310004F74A /* Comment.m in Sources */,
+				6778D81417AF8DD40004F74A /* CommentManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5500,6 +5521,7 @@
 				67EC0C8916F8081F00929BFD /* AlertManager.m in Sources */,
 				67EC0C8A16F8081F00929BFD /* AlertSelectionTableViewController.m in Sources */,
 				67EC0C8B16F8081F00929BFD /* BusyController.m in Sources */,
+				6749348A17B381EE00AEA74A /* GrowingTextView.m in Sources */,
 				67EC0C8C16F8081F00929BFD /* CalendarADEView.m in Sources */,
 				67EC0C8D16F8081F00929BFD /* CalendarDayLayoutController.m in Sources */,
 				67EC0C8E16F8081F00929BFD /* CalendarEditTableViewController.m in Sources */,
@@ -5626,7 +5648,6 @@
 				67EC0D1316F8081F00929BFD /* HPTextViewInternal.m in Sources */,
 				67EC0D1416F8081F00929BFD /* CalendarScrollPageLayoutController.m in Sources */,
 				67EC0D1516F8081F00929BFD /* MiniMonthHeaderView.m in Sources */,
-				67EC0D1616F8081F00929BFD /* GrowingTextView.m in Sources */,
 				67EC0D1716F8081F00929BFD /* MFMailComposeViewController+Rotate.m in Sources */,
 				67EC0D1816F8081F00929BFD /* HintModalViewController.m in Sources */,
 				67EC0D1916F8081F00929BFD /* iPadSmartDayViewController.m in Sources */,
@@ -5667,6 +5688,7 @@
 				67E30FD9171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */,
 				67E30FDB171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
 				67E30FDF171406D6007AD2DE /* PlannerMovableController.m in Sources */,
+				6749348217B33B0600AEA74A /* CommentViewController.m in Sources */,
 				67E30FE3171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
 				67E5A9891715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98D17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
@@ -5688,6 +5710,8 @@
 				67DD5B3D179F871400CC1A72 /* NoteContentViewController.m in Sources */,
 				67FBA11717A646CD00EB1BD5 /* URLAssetManager.m in Sources */,
 				67FBA11B17A665D500EB1BD5 /* URLAsset.m in Sources */,
+				6778D81117AF5D310004F74A /* Comment.m in Sources */,
+				6778D81517AF8DD40004F74A /* CommentManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5850,7 +5874,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPad-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
@@ -5868,7 +5892,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPad-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
@@ -5886,7 +5910,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPad-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",

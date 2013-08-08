@@ -18,6 +18,7 @@
 #import "TagDictionary.h"
 #import "BusyController.h"
 #import "URLAssetManager.h"
+#import "CommentManager.h"
 
 #import "Project.h"
 #import "Task.h"
@@ -25,6 +26,7 @@
 #import "RepeatData.h"
 #import "AlertData.h"
 #import "URLAsset.h"
+#import "Comment.h"
 
 #import "SDWSection.h"
 
@@ -49,7 +51,10 @@ typedef enum
     ADD_TAG,
     ADD_URL_ASSET,
     UPDATE_URL_ASSET,
-    DELETE_URL_ASSET
+    DELETE_URL_ASSET,
+    ADD_COMMENT,
+    UPDATE_COMMENT,
+    DELETE_COMMENT
 } SyncCommand;
 
 SDWSync *_sdwSyncSingleton;
@@ -252,6 +257,7 @@ NSInteger _sdwColor[32] = {
             {
                 [self syncTasks];
                 [self syncURLAssets];
+                [self syncComments];
                 [self syncLinks];
                 
                 [self syncProjectOrder];
@@ -4208,6 +4214,241 @@ NSInteger _sdwColor[32] = {
     }
 }
 
+#pragma mark Sync Comments
+
+- (Comment *) getSDWComment:(NSDictionary *) dict
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    Comment *ret = [[[Comment alloc] init] autorelease];
+    
+    ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.content = [dict objectForKey:@"content"];
+    ret.isOwner = ([[dict objectForKey:@"is_owner"] intValue] == 1);
+    ret.itemKey = [dbm getKey4SDWId:[[dict objectForKey:@"root_id"] stringValue]];
+    ret.lastName = [dict objectForKey:@"last_name"];
+    ret.firstName = [dict objectForKey:@"first_name"];
+    ret.createTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"create_time"] intValue]];
+    ret.updateTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"last_update"] intValue]];
+    
+    return ret;
+}
+
+- (NSDictionary *) toSDWCommentDict:(Comment *)comment
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSInteger createTime = (comment.createTime != nil?[comment.createTime timeIntervalSince1970]:0);
+
+    NSDictionary *commentDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               comment.sdwId,@"id",
+                               comment.content, @"content",
+                                 [NSNumber numberWithInt:comment.isOwner?1:0], @"is_owner",
+                                 [dbm getSDWId4Key:comment.itemKey], @"root_id",
+                                 comment.lastName, @"last_name",
+                                 comment.firstName, @"first_name",
+                                 [NSNumber numberWithInt:createTime], @"create_time",
+                               [NSNumber numberWithInt:comment.primaryKey], @"ref",
+                               nil];
+    
+    return commentDict;
+}
+
+- (void) updateComment:(Comment *)comment withSDWComment:(Comment *)sdwComment
+{
+    comment.itemKey = sdwComment.itemKey;
+    comment.sdwId = sdwComment.sdwId;
+    comment.content = sdwComment.content;
+    comment.isOwner = sdwComment.isOwner;
+    comment.lastName = sdwComment.lastName;
+    comment.firstName = sdwComment.firstName;
+    comment.createTime = sdwComment.createTime;
+    
+    comment.updateTime = sdwComment.updateTime;
+    
+	if (comment.primaryKey > -1)
+	{
+		[comment enableExternalUpdate];
+	}
+}
+
+- (void) syncComments
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/api/conversations.json?keyapi=%@",SDWSite,self.sdwSection.key];
+	
+    printf("get comments: %s\n", [url UTF8String]);
+    
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:url]];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+	
+	NSError *error = nil;
+	NSURLResponse *response;
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
+        printf("comment URLs return:\n%s\n", [str UTF8String]);
+        
+        NSMutableArray *list = [dbm getAllComments];
+        
+        NSDictionary *commentDict = [CommentManager getCommentDictBySDWID:list];
+        
+        NSMutableArray *updateList = [NSMutableArray arrayWithCapacity:20];
+        
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            if ([dict objectForKey:@"id"] == nil)
+            {
+                continue;
+            }
+            
+            Comment *sdwComment = [self getSDWComment:dict];
+            
+            Comment *comment = [commentDict objectForKey:sdwComment.sdwId];
+            
+            if (comment != nil) //already sync
+            {
+                NSComparisonResult compRes = [Common compareDate:comment.updateTime withDate:sdwComment.updateTime];
+                
+                if (compRes == NSOrderedAscending) //update SDW->SC
+                {
+                    [self updateComment:comment withSDWComment:sdwComment];
+                    
+                    [comment updateIntoDB:[dbm getDatabase]];
+                    
+                }
+                else if (compRes == NSOrderedDescending) //update SC->SDW
+                {
+                    //printf("update Link SC->SDW: %s\n", [link.sdwId UTF8String]);
+                    
+                    [updateList addObject:comment];
+                }
+                
+                [list removeObject:comment];
+            }
+            else
+            {
+                Comment *comment = [[Comment alloc] init];
+                
+                [self updateComment:comment withSDWComment:sdwComment];
+                
+                //printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
+                
+                [comment insertIntoDB:[dbm getDatabase]];
+                
+                [comment release];
+            }
+        }
+        
+        if (updateList.count > 0)
+        {
+            [self breakSync:updateList command:UPDATE_COMMENT];
+        }
+        
+        NSMutableArray *delList = [NSMutableArray arrayWithCapacity:5];
+        
+        for (Comment *comment in list)
+        {
+            if (comment.sdwId != nil && ![comment.sdwId isEqualToString:@""]) //link was deleted in SDW
+            {
+                [delList addObject:comment];
+            }
+        }
+        
+        for (Comment *comment in delList)
+        {
+            [comment cleanFromDatabase:[dbm getDatabase]];
+            
+            [list removeObject:comment];
+        }
+        
+        if (list.count > 0) //sync Tasks from SC
+        {
+            //printf("insert %d links SD->SDW\n", linkList.count);
+            
+            [self breakSync:list command:ADD_COMMENT];
+        }
+    }
+    
+}
+
+- (void) get1wayComments
+{
+    NSString *url = [NSString stringWithFormat:@"%@/api/conversations.json?keyapi=%@",SDWSite,self.sdwSection.key];
+	
+    //printf("getLinks: %s\n", [url UTF8String]);
+    
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:url]];
+	[request setHTTPMethod:@"GET"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+	
+	NSError *error = nil;
+	NSURLResponse *response;
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        DBManager *dbm = [DBManager getInstance];
+        
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        
+        //printf("get links return:\n%s\n", [str UTF8String]);
+        
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            Comment *sdwComment = [self getSDWComment:dict];
+            
+            Comment *comment = [[Comment alloc] init];
+            
+            [self updateComment:comment withSDWComment:sdwComment];
+            
+            [comment insertIntoDB:[dbm getDatabase]];
+            
+            [comment release];
+        }
+    }
+}
+
+
 #pragma mark Auto Sync 1-way
 
 - (void) sync1way4Links:(NSMutableArray *)linkList
@@ -4568,6 +4809,7 @@ NSInteger _sdwColor[32] = {
         }
         
         [self get1wayURLAssets];
+        [self get1wayComments];
         [self get1wayLinks];
 
     }
