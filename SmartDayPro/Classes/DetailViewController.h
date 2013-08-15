@@ -11,11 +11,12 @@
 @class ContentView;
 @class Task;
 
-@class HPGrowingTextView;
+//@class HPGrowingTextView;
+@class GrowingTextView;
 @class NoteView;
 @class PreviewViewController;
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController<UITextFieldDelegate>
 {
     ContentView *contentView;
     
@@ -23,7 +24,8 @@
     
     UITableView *detailTableView;
     
-    HPGrowingTextView *titleTextView;
+    //HPGrowingTextView *titleTextView;
+    GrowingTextView *titleTextView;
     
     NoteView *noteView;
     

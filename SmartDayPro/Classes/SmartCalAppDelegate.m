@@ -17,6 +17,7 @@
 
 #import "Common.h"
 #import "Task.h"
+#import "Project.h"
 #import "AlertData.h"
 
 #import "TaskManager.h"
@@ -419,6 +420,15 @@ BOOL _fromBackground = NO;
     }    
 }
 
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
+{
+    NSLog(@"########### Received Background Fetch ###########");
+    
+    [[SDWSync getInstance] initSyncComments];
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
 //- (void)applicationDidFinishLaunching:(UIApplication *)application
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -506,6 +516,11 @@ BOOL _fromBackground = NO;
 	
 	[self performSelector:@selector(startup) withObject:nil afterDelay:0];
 	
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:2];
+    }
+
 	//////NSLog(@"did finish lauching");
 }
 
@@ -528,7 +543,7 @@ BOOL _fromBackground = NO;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
 	//////printf("applicationDidBecomeActive ...");
-		
+    
 	callReceived = NO;
 	
 	_is24HourFormat = [self check24HourFormat];
@@ -627,12 +642,12 @@ BOOL _fromBackground = NO;
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification 
 {
-    [[MusicManager getInstance] playSound:SOUND_ALARM];
-    
     NSNumber *alertKeyNum = [notification.userInfo objectForKey:@"alertKey"];
     
     if (alertKeyNum != nil)
     {
+        [[MusicManager getInstance] playSound:SOUND_ALARM];
+        
         DBManager *dbm = [DBManager getInstance];
         
         AlertData *dat = [[AlertData alloc] initWithPrimaryKey:[alertKeyNum intValue] database:[dbm getDatabase]];
@@ -661,6 +676,17 @@ BOOL _fromBackground = NO;
         [dat release];
         [task release];
     }
+    else
+    {
+        NSString *test = [notification.userInfo objectForKey:@"CommentListKey"];
+        
+        if (test != nil)
+        {
+            printf("remove notification\n");
+            
+            [[CommentManager getInstance] show:notification];
+        }
+    }
     
 }
 
@@ -669,7 +695,8 @@ BOOL _fromBackground = NO;
    //[[AlertManager getInstance] generateAlerts];
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[TaskManager free];
@@ -855,7 +882,65 @@ BOOL _fromBackground = NO;
 		[importAlert show];
 		[importAlert release];
 		
-    } 
+    }
+	else if([@"/shareData" isEqual:[url path]])
+	{
+        NSString *query = [url query];
+        
+        NSArray *components = [query componentsSeparatedByString:@";"];
+        NSMutableDictionary *parametersDict = [[NSMutableDictionary alloc] init];
+        for (NSString *component in components) {
+            [parametersDict setObject:[[component componentsSeparatedByString:@"="] objectAtIndex:1] forKey:[[component componentsSeparatedByString:@"="] objectAtIndex:0]];
+        }
+        
+        NSString *dataStr = [parametersDict objectForKey:@"data"];
+        
+        dataStr = [dataStr stringByRemovingPercentEncoding];
+        
+        /*
+		UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@""
+                                                      message:dataStr
+                                                     delegate:self
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+		
+		[alert show];*/
+        
+        NSData *data = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSError *error = nil;
+        
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        
+        NSArray *tasks = [dict objectForKey:@"tasks"];
+        
+        Project *prj = [[Project alloc] init];
+        [prj fromjson:dict];
+        
+        ProjectManager *pm = [ProjectManager getInstance];
+        TaskManager *tm = [TaskManager getInstance];
+        
+        Project *checkPrj = [pm findProjectByName:prj.name];
+        
+        if (checkPrj == nil)
+        {
+            checkPrj = prj;
+            [pm addProject:checkPrj];
+        }
+        
+        for (NSDictionary *taskDict in tasks)
+        {
+            Task *task = [[Task alloc] init];
+            
+            [task fromjson:taskDict];
+            
+            task.project = checkPrj.primaryKey;
+            
+            [tm addTask:task];
+            
+            [task release];
+        }
+    }
 	else 
 	{
 		UIAlertView *errorAlert=[[UIAlertView alloc] initWithTitle:@"Restore backed up database failed!" 

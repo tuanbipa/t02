@@ -72,11 +72,14 @@ iPadViewController *_iPadViewCtrler;
 
 	self.navigationController.navigationBarHidden=YES;
 	
-	self.tableView.backgroundColor=[UIColor colorWithRed:(CGFloat)95/255 green:(CGFloat)95/255 blue:(CGFloat)95/255 alpha:1];
-	self.tableView.backgroundView.backgroundColor=[UIColor colorWithRed:(CGFloat)95/255 green:(CGFloat)95/255 blue:(CGFloat)95/255 alpha:1];
-	self.tableView.backgroundView.alpha=0;
+    self.tableView.backgroundColor = [UIColor colorWithRed:246.0/255 green:246.0/255 blue:246.0/255 alpha:1];
+    
+	//self.tableView.backgroundColor=[UIColor colorWithRed:(CGFloat)95/255 green:(CGFloat)95/255 blue:(CGFloat)95/255 alpha:1];
+	//self.tableView.backgroundView.backgroundColor=[UIColor colorWithRed:(CGFloat)95/255 green:(CGFloat)95/255 blue:(CGFloat)95/255 alpha:1];
+	//self.tableView.backgroundView.alpha=0;
 	self.tableView.sectionFooterHeight=0;
-	self.tableView.sectionHeaderHeight=5;
+	//self.tableView.sectionHeaderHeight=5;
+    self.tableView.sectionHeaderHeight=1;
     
 }
 
@@ -116,12 +119,16 @@ iPadViewController *_iPadViewCtrler;
     // Configure the cell...
     
     cell.selectionStyle=UITableViewCellSelectionStyleBlue;
+    cell.backgroundColor = [UIColor clearColor];
 	
-	cell.textLabel.textColor=[UIColor whiteColor];
-	switch (indexPath.section) {
+	//cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [UIColor grayColor];
+	switch (indexPath.section)
+    {
 		case 0:
 			cell.textLabel.text = _settingTitle;
-			cell.imageView.image = [UIImage imageNamed:@"menu_setting.png"];
+			//cell.imageView.image = [UIImage imageNamed:@"menu_setting.png"];
+            cell.imageView.image = [UIImage imageNamed:@"settings_general.png"];
 			break;
 		case 1:
 			cell.textLabel.text = _infoText;
@@ -129,11 +136,14 @@ iPadViewController *_iPadViewCtrler;
 			break;
 		case 2:
 			cell.textLabel.text = _backupText;
-			cell.imageView.image=[UIImage imageNamed:@"menu_backup.png"];
+			//cell.imageView.image=[UIImage imageNamed:@"menu_backup.png"];
+            cell.imageView.image=[UIImage imageNamed:@"settings_backup.png"];
+            
 			break;
 		case 3:
 			cell.textLabel.text = _syncText;
-			cell.imageView.image = [UIImage imageNamed:@"menu_sync.png"];
+			//cell.imageView.image = [UIImage imageNamed:@"menu_sync.png"];
+            cell.imageView.image = [UIImage imageNamed:@"settings_sync.png"];
 			break;
 	}
     // Configure the cell...
@@ -142,12 +152,14 @@ iPadViewController *_iPadViewCtrler;
     return cell;
 }
 
+/*
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
 	cell.backgroundView.backgroundColor=[UIColor clearColor];
 	cell.contentView.backgroundColor=[UIColor clearColor];
 	cell.textLabel.backgroundColor=[UIColor clearColor];
 	cell.backgroundColor=[UIColor colorWithRed:(CGFloat)62/255 green:(CGFloat)62/255 blue:(CGFloat)63/255 alpha:1];
 }
+*/
 
 /*
 // Override to support conditional editing of the table view.

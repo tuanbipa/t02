@@ -59,6 +59,7 @@ extern BOOL _isiPad;
     
 	//UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
 	UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
 	self.view = contentView;
 	
@@ -69,6 +70,7 @@ extern BOOL _isiPad;
 	tagTableView.delegate = self;
 	tagTableView.dataSource = self;
 	tagTableView.allowsSelectionDuringEditing=YES;
+    tagTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:tagTableView];
 	[tagTableView release];

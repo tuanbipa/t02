@@ -362,9 +362,6 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
-    ctrler.calendarView.scrollEnabled = NO;
-    
     CGRect upHandle = CGRectMake(dayManagerUpView.frame.origin.x, dayManagerUpView.frame.origin.y + dayManagerUpView.frame.size.height - 50, dayManagerUpView.frame.size.width, 50);
     
     CGRect downHandle = CGRectMake(dayManagerDownView.frame.origin.x, dayManagerDownView.frame.origin.y, dayManagerDownView.frame.size.width, 50);
@@ -384,6 +381,12 @@ extern iPadViewController *_iPadViewCtrler;
     {
         //printf("down handle touch\n");
         touchHandle = 2;
+    }
+    
+    if (touchHandle == 1 || touchHandle == 2)
+    {
+        CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
+        ctrler.calendarView.scrollEnabled = NO;
     }
 }
 

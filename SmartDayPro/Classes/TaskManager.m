@@ -5154,7 +5154,7 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) defer:(Task *)task deferOption:(NSInteger)deferOption
 {
-    //option: 0 - next week, 1 - next month
+    //option: 1 - next week, 2 - next month
 
     if (task.primaryKey != -1)
     {
@@ -5164,7 +5164,7 @@ TaskManager *_sctmSingleton = nil;
         
         switch (deferOption)
         {
-            case 0:
+            case 1:
             {
                 NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:(settings.weekStart == 1)];
                 
@@ -5177,7 +5177,7 @@ TaskManager *_sctmSingleton = nil;
             }
                 break;
                 
-            case 1:
+            case 2:
             {
                 NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:1];
                 

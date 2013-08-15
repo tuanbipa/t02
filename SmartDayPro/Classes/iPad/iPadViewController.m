@@ -13,6 +13,7 @@
 #import "FilterData.h"
 #import "Task.h"
 #import "Project.h"
+#import "Comment.h"
 
 #import "TaskView.h"
 #import "PlanView.h"
@@ -23,6 +24,7 @@
 #import "TaskManager.h"
 #import "ProjectManager.h"
 #import "MusicManager.h"
+#import "CommentManager.h"
 
 #import "CalendarViewController.h"
 #import "iPadSmartDayViewController.h"
@@ -75,6 +77,10 @@ iPadViewController *_iPadViewCtrler;
         _iPadViewCtrler = self;
         
         inSlidingMode = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receiveNewComments:)
+                                                     name:@"NewCommentReceivedNotification" object:nil];
     }
     
     return self;
@@ -82,6 +88,8 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+     
     self.activeViewCtrler = nil;
     self.detailNavCtrler = nil;
     
@@ -498,6 +506,25 @@ iPadViewController *_iPadViewCtrler;
         [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
         
         self.detailNavCtrler = nil;
+    }
+}
+
+- (void)receiveNewComments:(NSNotification *)notification
+{
+    NSMutableArray *list = [notification.userInfo objectForKey:@"CommentList"];
+
+    printf("\n\n New Comment List\n");
+    
+    /*
+    for (Comment *comment in list)
+    {
+        printf("[%s - %s] %s\n", [comment.firstName UTF8String], [comment.lastName UTF8String], [comment.content UTF8String]);
+    }*/
+    
+    if (list.count > 0)
+    {
+        CommentManager *cmdM = [CommentManager getInstance];
+        [cmdM notify:list];
     }
 }
 

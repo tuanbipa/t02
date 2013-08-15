@@ -16,6 +16,7 @@
 @property NSInteger primaryKey;
 @property NSInteger itemKey;
 @property NSInteger status;
+@property NSInteger type;
 @property BOOL isOwner;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, copy) NSString *sdwId;

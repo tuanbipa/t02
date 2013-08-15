@@ -25,6 +25,8 @@
 
 #import "TagEditViewController.h"
 #import "CategoryViewController.h"
+#import "CommentViewController.h"
+
 #import "AbstractSDViewController.h"
 #import "iPadViewController.h"
 
@@ -93,12 +95,16 @@ extern BOOL _isiPad;
     frm.size.width = 384;
     
 	mainView = [[UIScrollView alloc] initWithFrame:frm];
-    mainView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    //mainView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    mainView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	[mainView setContentSize:CGSizeMake(320, 600)];
 	mainView.canCancelContentTouches = NO;
 	mainView.delaysContentTouches = YES;
     
-    mainView.userInteractionEnabled = ![self.project isShared];
+    //mainView.userInteractionEnabled = ![self.project isShared];
+    
+	self.view = mainView;
+	[mainView release];
 
     transparentView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 130, 30)];
     transparentView.backgroundColor = [UIColor clearColor];
@@ -216,10 +222,57 @@ extern BOOL _isiPad;
 		
 		tagButtons[i] = tagButton;
 	}
-	
-	self.view = mainView;
-	[mainView release];
     
+    if ([self.project isShared])
+    {
+        UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(10, 450, frm.size.width - 20, 25)];
+        commentView.backgroundColor = [UIColor clearColor];
+        [mainView addSubview:commentView];
+        [commentView release];
+        
+        UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 25)];
+        commentLabel.backgroundColor = [UIColor clearColor];
+        commentLabel.text = _conversationsText;
+        
+        [commentView addSubview:commentLabel];
+        [commentLabel release];
+        
+        NSInteger commentCount = [[DBManager getInstance] countCommentsForItem:self.project.primaryKey];
+        
+        UILabel *commentCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(frm.size.width - 45 - 100, 2, 100, 25)];
+        commentCountLabel.backgroundColor = [UIColor clearColor];
+        commentCountLabel.textAlignment = NSTextAlignmentRight;
+        commentCountLabel.text = [NSString stringWithFormat:@"%d", commentCount];
+        
+        [commentView addSubview:commentCountLabel];
+        [commentCountLabel release];
+        
+        UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
+        detailImgView.frame = CGRectMake(frm.size.width - 40, 2, 20, 20);
+        
+        [commentView addSubview:detailImgView];
+        [detailImgView release];
+        
+		UIButton *commentButton = [Common createButton:@""
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:commentView.bounds
+                                            titleColor:[UIColor blackColor]
+                                                target:self
+                                              selector:@selector(showConversations:)
+                                      normalStateImage:nil
+                                    selectedStateImage:nil];
+        commentView.backgroundColor = [UIColor clearColor];
+        
+        [commentView addSubview:commentButton];
+    }
+    
+    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainView.bounds.size.width, 450)];
+    maskView.backgroundColor = [UIColor clearColor];
+    maskView.hidden = ![self.project isShared];
+    [mainView addSubview:maskView];
+    [maskView release];
+    
+	
     [self refreshData];
 
 	/*
@@ -323,7 +376,7 @@ extern BOOL _isiPad;
     self.navigationItem.leftBarButtonItem = saveButton;
     [saveButton release];
     
-    if (_isiPad)
+    //if (_isiPad)
     {
         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
         
@@ -349,19 +402,31 @@ extern BOOL _isiPad;
         
         UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
         
+        UIButton *airDropButton = [Common createButton:@""
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:CGRectMake(0, 0, 30, 30)
+                                            titleColor:[UIColor whiteColor]
+                                                target:self
+                                              selector:@selector(share2AirDrop:)
+                                      normalStateImage:@"menu_airdrop.png"
+                                    selectedStateImage:nil];
+        
+        UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
+        
         UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         fixedItem.width = 20;
         
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, copyItem, nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, copyItem, airDropItem, nil];
         
         [copyItem release];
         [deleteItem release];
         [fixedItem release];
+        [airDropItem release];
     }
-    else
+    /*else
     {
         self.navigationItem.title = _projectText;
-    }
+    }*/
 }
 
 - (void)viewDidUnload {
@@ -632,6 +697,21 @@ extern BOOL _isiPad;
     {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void) share2AirDrop:(id) sender
+{
+    [_iPadViewCtrler closeDetail];
+    [_abstractViewCtrler share2AirDrop];
+}
+
+- (void) showConversations:(id) sender
+{
+	CommentViewController *ctrler = [[CommentViewController alloc] init];
+    ctrler.itemId = self.project.primaryKey;
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
 }
 
 #pragma mark UIPickerView Delegate

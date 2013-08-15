@@ -587,7 +587,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) showSettingMenu
 {
-    MenuTableViewController *ctrler = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    //MenuTableViewController *ctrler = [[MenuTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    MenuTableViewController *ctrler = [[MenuTableViewController alloc] initWithStyle:UITableViewStylePlain];
     
     self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
 	[self.popoverCtrler setPopoverContentSize:CGSizeMake(250, 210)];
@@ -1107,6 +1108,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     if (!_isiPad)
     {
+        [self enableCategoryActions:YES onView:inView];
         [self editCategory:project];
         
         return;
@@ -1637,6 +1639,71 @@ extern iPadViewController *_iPadViewCtrler;
         
         [task release];
     }
+}
+
+- (void) share2AirDrop
+{
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+    Project *prj = [self getActiveProject];
+    
+    NSMutableArray *tasks = nil;
+    
+    if (prj != nil)
+    {
+        DBManager *dbm = [DBManager getInstance];
+        
+        NSArray *prjTasks = [dbm getTasksForProject:prj.primaryKey isInitial:NO groupExcluded:YES];
+        
+        tasks = [NSMutableArray arrayWithCapacity:tasks.count];
+        
+        for (Task *task in prjTasks)
+        {
+            NSDictionary *taskDict = [task tojson];
+            
+            [tasks addObject:taskDict];
+        }
+    }
+    else
+    {
+        Task *task = [self getActiveTask];
+        
+        prj = [pm getProjectByKey:task.project];
+        
+        if (task != nil)
+        {
+            NSDictionary *taskDict = [task tojson];
+            
+            tasks = [NSMutableArray arrayWithObject:taskDict];
+        }
+    }
+    
+    if (tasks != nil && prj != nil)
+    {
+        NSMutableDictionary *prjDict = [NSMutableDictionary dictionaryWithDictionary:[prj tojson]];
+    
+        [prjDict setObject:tasks forKey:@"tasks"];
+        
+        NSError *error = nil;
+        
+        NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:prjDict options:0 error:&error];
+        
+        NSString *dataStr = [[[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding] autorelease];
+        
+        NSString *urlString = [NSString stringWithFormat:@"SmartDay://localhost/shareData?data=%@", [dataStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        NSURL *url = [NSURL URLWithString:urlString];
+        
+        NSArray *activityItems = @[url];
+        UIActivityViewController *activityController =
+        [[UIActivityViewController alloc]
+         initWithActivityItems:activityItems applicationActivities:nil];
+        activityController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList];
+        
+        [self presentViewController:activityController
+                           animated:YES completion:nil];
+    }
+    
 }
 
 -(void) createTaskFromNote:(Task *)fromNote

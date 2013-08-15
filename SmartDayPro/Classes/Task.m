@@ -342,6 +342,79 @@ static sqlite3_stmt *task_delete_statement = nil;
 	return copy;
 }
 
+- (NSDictionary *) tojson
+{
+    NSInteger extra = self.extraStatus & TASK_EXTRA_STATUS_ANCHORED;
+    
+    NSDictionary *taskDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              self.name, @"name",
+                              self.note, @"description",
+                              self.location, @"location",
+                              self.tag, @"tag",
+                              self.contactName, @"contact_name",
+                              self.contactEmail, @"contact_email",
+                              self.contactPhone, @"contact_phone",
+                              [NSNumber numberWithInt:type], @"type",
+                              [NSNumber numberWithInt: self.duration], @"duration",
+                              [NSNumber numberWithInt: self.timeZoneId], @"timezone",
+                              [NSNumber numberWithInt:self.status], @"status",
+                              [NSNumber numberWithInt:extra], @"extra_status",
+                              [NSNumber numberWithDouble:(self.startTime == nil?-1:[self.startTime timeIntervalSince1970])], @"start_time",
+                              [NSNumber numberWithDouble:(self.endTime == nil?-1:[self.endTime timeIntervalSince1970])], @"end_time",
+                              [NSNumber numberWithDouble:(self.deadline == nil?-1:[self.deadline timeIntervalSince1970])], @"deadline",
+                              [NSNumber numberWithDouble:(self.completionTime == nil?-1:[self.completionTime timeIntervalSince1970])], @"completion_time",
+                              [self getRepeatString], @"repeat",
+                              [self alertsToString], @"alert",
+                              nil
+                              ];
+
+    return taskDict;
+}
+
+- (void) fromjson:(NSDictionary *)jsonDict
+{
+    self.name = [jsonDict objectForKey:@"name"];
+    self.note = [jsonDict objectForKey:@"description"];
+    self.location = [jsonDict objectForKey:@"location"];
+    self.tag = [jsonDict objectForKey:@"tag"];
+    self.contactName = [jsonDict objectForKey:@"contactName"];
+    self.contactEmail = [jsonDict objectForKey:@"contactEmail"];
+    self.contactPhone = [jsonDict objectForKey:@"contactPhone"];
+    self.type = [[jsonDict objectForKey:@"type"] intValue];
+    self.duration = [[jsonDict objectForKey:@"duration"] intValue];
+    self.timeZoneId = [[jsonDict objectForKey:@"timeZoneId"] intValue];
+    self.status = [[jsonDict objectForKey:@"status"] intValue];
+    self.extraStatus = [[jsonDict objectForKey:@"extraStatus"] intValue];
+    
+    NSInteger startTimeValue = [[jsonDict objectForKey:@"start_time"] intValue];
+    self.startTime = (startTimeValue == -1?nil:[NSDate dateWithTimeIntervalSince1970:startTimeValue]);
+
+    NSInteger endTimeValue = [[jsonDict objectForKey:@"end_time"] intValue];
+    self.endTime = (endTimeValue == -1?nil:[NSDate dateWithTimeIntervalSince1970:endTimeValue]);
+
+    NSInteger deadlineValue = [[jsonDict objectForKey:@"deadline"] intValue];
+    self.deadline = (deadlineValue == -1?nil:[NSDate dateWithTimeIntervalSince1970:deadlineValue]);
+
+    NSInteger completionValue = [[jsonDict objectForKey:@"completion_time"] intValue];
+    self.completionTime = (completionValue == -1?nil:[NSDate dateWithTimeIntervalSince1970:completionValue]);
+    
+    self.repeatData = [RepeatData parseRepeatData:[jsonDict objectForKey:@"repeat"]];
+
+    NSString *alerts = [jsonDict objectForKey:@"alert"];
+    
+    if (![alerts isEqualToString:@""])
+    {
+        NSArray *parts = [alerts componentsSeparatedByString:@","];
+        
+        for (NSString *alertStr in parts)
+        {
+            AlertData *alertDat = [AlertData parseRepeatData:alertStr];
+            
+            [self.alerts addObject:alertDat];
+        }
+    }
+}
+
 - (void) resetTask
 {
 	self.primaryKey = -1;

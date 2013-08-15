@@ -40,6 +40,7 @@
 @property (nonatomic, readonly) UITextView *textView;
 @property (nonatomic, retain) NSString *text;
 @property (assign) NSInteger maxLineNumber;
+@property (nonatomic, assign) UIFont *font;
 
 @property(nonatomic, assign) NSObject<GrowingTextViewDelegate> *delegate;
 

@@ -1565,10 +1565,12 @@ iPadViewController *_iPadViewCtrler;
         
         [contentView addSubview:moduleButton];
         
-        UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, 100, 30)];
+        //UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, 100, 30)];
+        UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, btnWidth, 30)];
         moduleLabel.backgroundColor = [UIColor clearColor];
         moduleLabel.textColor = [UIColor blackColor];
         moduleLabel.font = [UIFont boldSystemFontOfSize:14];
+        moduleLabel.textAlignment = NSTextAlignmentCenter;
         moduleLabel.text = titles[i];
         
         [moduleButton addSubview:moduleLabel];

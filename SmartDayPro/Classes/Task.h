@@ -181,6 +181,8 @@
 -(void) changeProject:(int)key;
 - (NSString *) getCombinedTag;
 - (void) print;
+- (NSDictionary *) tojson;
+- (void) fromjson:(NSDictionary *)jsonDict;
 
 -(BOOL)isRT;
 -(BOOL)isRE;

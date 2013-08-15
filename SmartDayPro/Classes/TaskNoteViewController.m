@@ -69,15 +69,23 @@ extern BOOL _isiPad;
         frm.size.width = 320;
     }
     
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        frm.origin.y += 44 + 20;
+    }
+    
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+	//contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
 	self.view = contentView;
 	[contentView release];
     
 //    editTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, frm.size.height - (_isiPad?0:[Common getKeyboardHeight] + 40) - 20)];
+    
+    frm = CGRectMake(10, 10, frm.size.width - 20, 160);
 
-    editTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, 160)];
+    editTextView = [[UITextView alloc] initWithFrame:frm];
     
 	editTextView.delegate=self;
 	editTextView.keyboardType=UIKeyboardTypeDefault;

@@ -8,11 +8,14 @@
 
 #import "GrowingTextView.h"
 
+#import "Common.h"
+
 @implementation GrowingTextView
 
 @synthesize textView;
 @synthesize text;
 @synthesize maxLineNumber;
+@synthesize font;
 @synthesize delegate;
 
 - (id)initWithFrame:(CGRect)frame
@@ -23,10 +26,10 @@
         textView = [[UITextView alloc] initWithFrame:self.bounds];
         textView.backgroundColor = [UIColor clearColor];
         textView.delegate = self;
-        textView.scrollEnabled = NO;
+        textView.scrollEnabled = YES;
         textView.font = [UIFont systemFontOfSize:14];
         textView.contentInset = UIEdgeInsetsMake(-8, 0, 0, 0);
-        textView.showsHorizontalScrollIndicator = NO;
+        textView.showsVerticalScrollIndicator = YES;
         textView.text = @"";
         
         [self addSubview:textView];
@@ -60,8 +63,10 @@
     return self.textView.text;
 }
 
+
 - (void) setMaxLineNumber:(NSInteger)maxLineNumberParam
 {
+    /*
     NSString *savedText = self.textView.text, *newText = @"";
     
     self.textView.delegate = nil;
@@ -76,7 +81,18 @@
     
     self.textView.text = savedText;
     self.textView.hidden = NO;
-    self.textView.delegate = self;
+    self.textView.delegate = self;*/
+    
+    maxLineNumber = maxLineNumberParam;
+    
+    maxHeight = maxLineNumberParam * self.textView.font.lineHeight + 16;
+}
+
+- (void) setFont:(UIFont *)fontParam
+{
+    textView.font = fontParam;
+    
+    maxHeight = self.maxLineNumber * self.textView.font.lineHeight + 16;
 }
 
 - (void) resize:(CGFloat)height
@@ -100,16 +116,6 @@
     frm.size.height = height;
     
     [self changeFrame:frm];
-    
-    /*
-    CGRect frm = self.textView.frame;
-    frm.size.height = height;
-    
-    self.textView.frame = frm;
-    
-    frm = self.frame;
-    frm.size.height = height;
-    self.frame = frm;*/
 }
 
 /*
@@ -121,14 +127,18 @@
 }
 */
 
-#pragma mark UITextView Delhegate
+#pragma mark UITextView Delegate
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) textViewDidChange:(UITextView *)textView
 {
-    CGFloat h = self.textView.contentSize.height - self.textView.font.lineHeight - self.textView.font.descender;
-
-    //printf("h:%f, self h:%f, max: %f\n", h, self.bounds.size.height, maxHeight);
+    //CGFloat h = self.textView.contentSize.height - self.textView.font.lineHeight - self.textView.font.descender;
+    
+    NSInteger lines = [Common countLines:textView.text boundWidth:textView.bounds.size.width withFont:textView.font];
+    
+    CGFloat lh = textView.font.lineHeight;
+    
+    CGFloat h = lines*lh + 16;
 
     if (h != self.bounds.size.height && h >= minHeight && self.bounds.size.height != maxHeight)
     {

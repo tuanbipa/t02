@@ -16,6 +16,7 @@
 @synthesize primaryKey;
 @synthesize itemKey;
 @synthesize status;
+@synthesize type;
 @synthesize isOwner;
 @synthesize content;
 @synthesize sdwId;
@@ -31,6 +32,7 @@
         self.primaryKey = -1;
         self.itemKey = -1;
         self.status = COMMENT_STATUS_NONE;
+        self.type = COMMENT_TYPE_ITEM;
         self.isOwner = NO;
         self.content = @"";
         self.sdwId = @"";
@@ -63,7 +65,7 @@
         
         sqlite3_stmt *statement;
         
-        static char *sql = "SELECT Comment_Status, Comment_Content, Comment_SDWID,  Comment_ItemID, Comment_IsOwner, Comment_LastName, Comment_FirstName, Comment_CreateTime, Comment_UpdateTime FROM CommentTable WHERE Comment_ID=?";
+        static char *sql = "SELECT Comment_Status, Comment_Content, Comment_SDWID,  Comment_ItemID, Comment_IsOwner, Comment_Type, Comment_LastName, Comment_FirstName, Comment_CreateTime, Comment_UpdateTime FROM CommentTable WHERE Comment_ID=?";
         
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
         {
@@ -92,17 +94,19 @@
             self.itemKey = sqlite3_column_int(statement, 3);
             
             self.isOwner = (sqlite3_column_int(statement, 4) == 1);
-
-            str = (char *)sqlite3_column_text(statement, 5);
-            self.lastName = (str == NULL? @"":[NSString stringWithUTF8String:str]);
+            
+            self.type = sqlite3_column_int(statement, 5);
 
             str = (char *)sqlite3_column_text(statement, 6);
+            self.lastName = (str == NULL? @"":[NSString stringWithUTF8String:str]);
+
+            str = (char *)sqlite3_column_text(statement, 7);
             self.firstName = (str == NULL? @"":[NSString stringWithUTF8String:str]);
             
-            NSTimeInterval createTimeValue = sqlite3_column_double(statement, 7);
-			self.updateTime = (createTimeValue == -1? nil:[NSDate dateWithTimeIntervalSince1970:createTimeValue]);
+            NSTimeInterval createTimeValue = sqlite3_column_double(statement, 8);
+			self.createTime = (createTimeValue == -1? nil:[NSDate dateWithTimeIntervalSince1970:createTimeValue]);
             
-            NSTimeInterval updateTimeValue = sqlite3_column_double(statement, 8);
+            NSTimeInterval updateTimeValue = sqlite3_column_double(statement, 9);
 			self.updateTime = (updateTimeValue == -1? nil:[NSDate dateWithTimeIntervalSince1970:updateTimeValue]);
             
         }
@@ -117,7 +121,7 @@
 {
     sqlite3_stmt *statement;
     
-    static char *sql = "INSERT INTO CommentTable (Comment_Status, Comment_Content, Comment_SDWID, Comment_ItemID, Comment_IsOwner, Comment_LastName, Comment_FirstName, Comment_CreateTime, Comment_UpdateTime) VALUES (?,?,?,?,?,?,?,?,?)";
+    static char *sql = "INSERT INTO CommentTable (Comment_Status, Comment_Content, Comment_SDWID, Comment_ItemID, Comment_IsOwner, Comment_Type, Comment_LastName, Comment_FirstName, Comment_CreateTime, Comment_UpdateTime) VALUES (?,?,?,?,?,?,?,?,?,?)";
     
     if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
     {
@@ -136,14 +140,15 @@
     sqlite3_bind_text(statement, 3, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(statement, 4, self.itemKey);
     sqlite3_bind_int(statement, 5, self.isOwner?1:0);
-    sqlite3_bind_text(statement, 6, [self.lastName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(statement, 7, [self.firstName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(statement, 6, self.type);
+    sqlite3_bind_text(statement, 7, [self.lastName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(statement, 8, [self.firstName UTF8String], -1, SQLITE_TRANSIENT);
 
     NSTimeInterval createTimeValue = (self.createTime == nil? -1: [self.createTime timeIntervalSince1970]);
-    sqlite3_bind_double(statement, 8, createTimeValue);
+    sqlite3_bind_double(statement, 9, createTimeValue);
 
     NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
-    sqlite3_bind_double(statement, 9, updateTimeValue);
+    sqlite3_bind_double(statement, 10, updateTimeValue);
     
     int result = sqlite3_step(statement);
     
@@ -159,7 +164,7 @@
 {
     sqlite3_stmt *statement;
     
-    static char *sql = "UPDATE CommentTable SET Comment_Status=?, Comment_Content=?, Comment_SDWID=?, Comment_ItemID=?, Comment_IsOwner=?, Comment_LastName=?, Comment_FirstName=?, Comment_CreateTime=?, Comment_UpdateTime=? WHERE Comment_ID=?";
+    static char *sql = "UPDATE CommentTable SET Comment_Status=?, Comment_Content=?, Comment_SDWID=?, Comment_ItemID=?, Comment_IsOwner=?, Comment_Type=?, Comment_LastName=?, Comment_FirstName=?, Comment_CreateTime=?, Comment_UpdateTime=? WHERE Comment_ID=?";
     
     if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
     {
@@ -182,11 +187,12 @@
     sqlite3_bind_text(statement, 2, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(statement, 3, self.itemKey);
     sqlite3_bind_int(statement, 4, self.isOwner?1:0);
-    sqlite3_bind_text(statement, 5, [self.lastName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(statement, 6, [self.firstName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_double(statement, 7, createTimeValue);
-    sqlite3_bind_double(statement, 8, updateTimeValue);
-    sqlite3_bind_int(statement, 9, self.primaryKey);
+    sqlite3_bind_int(statement, 5, self.type);
+    sqlite3_bind_text(statement, 6, [self.lastName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(statement, 7, [self.firstName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_double(statement, 8, createTimeValue);
+    sqlite3_bind_double(statement, 9, updateTimeValue);
+    sqlite3_bind_int(statement, 10, self.primaryKey);
     
     if (sqlite3_step(statement) == SQLITE_ERROR)
     {
@@ -350,6 +356,25 @@
         NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
     }
 }
+
+- (id) copyWithZone:(NSZone*) zone{
+	Comment *copy = [[Comment alloc] init];
+	
+	copy.primaryKey = primaryKey;
+	copy.itemKey = itemKey;
+    copy.sdwId = sdwId;
+	copy.status = status;
+	copy.content = content;
+	copy.isOwner = isOwner;
+    copy.type = type;
+	copy.firstName = firstName;
+	copy.lastName = lastName;
+    copy.createTime = createTime;
+    copy.updateTime = updateTime;
+	
+	return copy;
+}
+
 
 -(void) externalUpdate
 {

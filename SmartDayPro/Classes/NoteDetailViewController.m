@@ -506,7 +506,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	[cell.contentView addSubview:linkLabel];
 	[linkLabel release];
     
-    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detail_disclosure.png"]];
+    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
 
     detailImgView.frame = CGRectMake(detailTableView.bounds.size.width - 25, 5, 20, 20);
     [cell.contentView addSubview:detailImgView];

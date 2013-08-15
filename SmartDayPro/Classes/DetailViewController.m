@@ -24,7 +24,8 @@
 #import "TaskManager.h"
 
 #import "ContentView.h"
-#import "HPGrowingTextView.h"
+//#import "HPGrowingTextView.h"
+#import "GrowingTextView.h"
 #import "NoteView.h"
 
 #import "DurationInputViewController.h"
@@ -198,13 +199,17 @@ DetailViewController *_detailViewCtrler = nil;
     [contentView addSubview:inputView];
     [inputView release];
     
-	titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width-20-30, 30)];
-    titleTextView.placeholder = _titleGuideText;
+	//titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width-20-30, 30)];
+	titleTextView = [[GrowingTextView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width-20-30, 30)];
+    //titleTextView.placeholder = _titleGuideText;
     
-	titleTextView.minNumberOfLines = 1;
-	titleTextView.maxNumberOfLines = 4;
-	titleTextView.returnKeyType = UIReturnKeyDone; //just as an example
-	titleTextView.font = [UIFont systemFontOfSize:15.0f];
+	//titleTextView.minNumberOfLines = 1;
+	//titleTextView.maxNumberOfLines = 4;
+    titleTextView.maxLineNumber = 4;
+	//titleTextView.returnKeyType = UIReturnKeyDone; //just as an example
+    titleTextView.textView.returnKeyType = UIReturnKeyDone; //just as an example
+	//titleTextView.font = [UIFont systemFontOfSize:15.0f];
+    titleTextView.font = [UIFont systemFontOfSize:15.0f];
 	titleTextView.delegate = self;
     titleTextView.backgroundColor = [UIColor clearColor];
     
@@ -294,10 +299,28 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
     
-    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedItem.width = 20;
+    UIButton *airDropButton = [Common createButton:@""
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(0, 0, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(share2AirDrop:)
+                                normalStateImage:@"menu_airdrop.png"
+                              selectedStateImage:nil];
     
-    self.navigationItem.rightBarButtonItems = [self.taskCopy isEvent]?[NSArray arrayWithObjects:deleteItem, copyItem, nil]:[NSArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil];
+    UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
+    
+    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedItem.width = 10;
+    
+    NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, copyItem, nil]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        [items addObject:airDropItem];
+    }
+    
+    self.navigationItem.rightBarButtonItems = items;
     
     [copyItem release];
     [deleteItem release];
@@ -305,6 +328,7 @@ DetailViewController *_detailViewCtrler = nil;
     [deferItem release];
     [todayItem release];
     [markDoneItem release];
+    [airDropItem release];
     [fixedItem release];
 }
 
@@ -474,7 +498,7 @@ DetailViewController *_detailViewCtrler = nil;
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_deferText
                                                         message:@""
                                                        delegate:self
-                                              cancelButtonTitle:nil
+                                              cancelButtonTitle:_cancelText
                                               otherButtonTitles:_nextWeekText, _nextMonthText,nil];
     alertView.tag = -10000;
     [alertView show];
@@ -493,9 +517,15 @@ DetailViewController *_detailViewCtrler = nil;
     [_iPadViewCtrler.activeViewCtrler markDoneTask];
 }
 
+- (void) share2AirDrop:(id) sender
+{
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler share2AirDrop];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if (alertView.tag == -10000)
+	if (alertView.tag == -10000 && buttonIndex != 0)
 	{
         [_iPadViewCtrler closeDetail];
         [_iPadViewCtrler.activeViewCtrler defer:buttonIndex];
@@ -614,7 +644,7 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) editComment
 {
 	CommentViewController *ctrler = [[CommentViewController alloc] init];
-    ctrler.task = self.taskCopy;
+    ctrler.itemId = self.task.primaryKey;
     
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];
@@ -783,11 +813,12 @@ DetailViewController *_detailViewCtrler = nil;
     titleTextView.text = self.taskCopy.name;
     [cell.contentView addSubview:titleTextView];
     
-    CGFloat y = [titleTextView getHeight];
+    //CGFloat y = [titleTextView getHeight];
+    CGFloat y = titleTextView.bounds.size.height;
     
     UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
     contactButton.frame = CGRectMake(5, y, 25, 25);
-    [contactButton setBackgroundImage:[UIImage imageNamed:@"contact.png"] forState:UIControlStateNormal];
+    [contactButton setBackgroundImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"contact.png":@"contact_iOS7.png"] forState:UIControlStateNormal];
     [contactButton addTarget:self action:@selector(selectContact:) forControlEvents:UIControlEventTouchUpInside];
     contactButton.tag = baseTag + 1;
     
@@ -1172,7 +1203,7 @@ DetailViewController *_detailViewCtrler = nil;
     [detailImgView release];
     */
 	
-	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, detailTableView.bounds.size.width - 60, 25)];
+	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, detailTableView.bounds.size.width - 80, 25)];
 	tagInputTextField.tag = baseTag + 1;
 	tagInputTextField.textAlignment=NSTextAlignmentLeft;
 	tagInputTextField.backgroundColor=[UIColor clearColor];
@@ -1262,7 +1293,7 @@ DetailViewController *_detailViewCtrler = nil;
 	[linkDetailButton addTarget:self action:@selector(editLink:) forControlEvents:UIControlEventTouchUpInside];
 	[cell.contentView addSubview:linkDetailButton];*/
     
-    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detail_disclosure.png"]];
+    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
     detailImgView.tag = baseTag + 1;
     detailImgView.frame = CGRectMake(detailTableView.bounds.size.width - 25, 5, 20, 20);
     [cell.contentView addSubview:detailImgView];
@@ -1270,12 +1301,14 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *linkEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    CGRect frm = detailTableView.bounds;
+    CGRect frm = CGRectZero;
+    frm.size.width = detailTableView.bounds.size.width;
     frm.size.height = 30;
     
     linkEditButton.frame = frm;
     linkEditButton.tag = baseTag + 2;
     [linkEditButton addTarget:self action:@selector(editLink:) forControlEvents:UIControlEventTouchUpInside];
+    
     [cell.contentView addSubview:linkEditButton];
     
 /*
@@ -1363,7 +1396,7 @@ DetailViewController *_detailViewCtrler = nil;
     cell.textLabel.textColor = [UIColor grayColor];
     cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForTask:self.task.primaryKey]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.task.primaryKey]];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
@@ -1393,7 +1426,10 @@ DetailViewController *_detailViewCtrler = nil;
 {
     if (indexPath.row == 0)
     {
-        CGFloat h = [titleTextView getHeight];
+        //CGFloat h = [titleTextView getHeight];
+        CGFloat h = titleTextView.bounds.size.height;
+        
+        //printf("title height: %f\n", h);
         
         return h + 30;
     }
@@ -1451,6 +1487,7 @@ DetailViewController *_detailViewCtrler = nil;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"";
 	cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = [UIColor clearColor];
     
     //printf("index row: %d\n", indexPath.row);
 
@@ -1582,12 +1619,12 @@ DetailViewController *_detailViewCtrler = nil;
 }
 
 #pragma mark GrowingTextView Delegate
-- (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
+- (void)growingTextView:(GrowingTextView *)growingTextView didChangeHeight:(float)height
 {
     //printf("reload \n");
     self.taskCopy.name = growingTextView.text;
     
-    BOOL isFirstResponder = [titleTextView isFirstResponder];
+    BOOL isFirstResponder = [titleTextView.textView isFirstResponder];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
@@ -1595,16 +1632,16 @@ DetailViewController *_detailViewCtrler = nil;
     
     if (isFirstResponder)
     {
-        [titleTextView becomeFirstResponder];
+        [titleTextView.textView becomeFirstResponder];
     }
 }
 
-- (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView
+- (BOOL)growingTextViewShouldReturn:(GrowingTextView *)growingTextView
 {
     return NO;
 }
 
-- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView;
+- (void)growingTextViewDidEndEditing:(GrowingTextView *)growingTextView;
 {
     NSString *text = [titleTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     

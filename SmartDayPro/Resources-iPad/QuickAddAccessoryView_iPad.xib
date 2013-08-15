@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4488.2" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SmartListViewController"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="5tf-ad-u8C">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem title="Today" id="BD4-lC-yDW">
+                            <connections>
+                                <action selector="selectQuickAddOption:" destination="-1" id="GW9-Zx-SGj"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem tag="1" title="Next Week" id="k0r-hP-nzW">
+                            <connections>
+                                <action selector="selectQuickAddOption:" destination="-1" id="UCl-D0-I5E"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem tag="2" title="Next Month" id="SYO-wi-4P4">
+                            <connections>
+                                <action selector="selectQuickAddOption:" destination="-1" id="8Nq-wS-kbV"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem tag="3" title="Anytime" id="BJn-hY-EWj">
+                            <connections>
+                                <action selector="selectQuickAddOption:" destination="-1" id="XBx-fA-HdB"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Qba-GL-yBJ"/>
+                        <barButtonItem title="Save&amp;More" id="0Cz-ld-i6V">
+                            <connections>
+                                <action selector="saveAndMore:" destination="-1" id="QTN-l1-Es7"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>

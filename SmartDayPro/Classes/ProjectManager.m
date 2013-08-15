@@ -790,6 +790,19 @@ ProjectManager *_projectManagerSingleton = nil;
 	return NO;
 }
 
+- (Project *) findProjectByName:(NSString *)name
+{
+	for (Project *prj in self.projectList)
+	{
+		if ([[prj.name uppercaseString] isEqualToString:[name uppercaseString]])
+		{
+			return prj;
+		}
+	}
+	
+	return nil;
+}
+
 - (void) print:(NSArray *)prjList
 {
 	//int c = 0;

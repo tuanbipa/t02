@@ -627,9 +627,10 @@ extern BOOL _isiPad;
     
     if (![[BusyController getInstance] checkMMBusy])
     {
-        [[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
+        //[[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
         
-        [self performSelectorInBackground:@selector(refreshBackground) withObject:nil];
+        //[self performSelectorInBackground:@selector(refreshBackground) withObject:nil];
+        [self refresh];
     }
         
 	

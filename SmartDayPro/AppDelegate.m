@@ -10,6 +10,8 @@
 
 #import "ViewController.h"
 
+#import "SDWSync.h"
+
 @implementation AppDelegate
 
 - (void)dealloc
@@ -30,7 +32,19 @@
     }
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:2];
+    
     return YES;
+}
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
+{
+    NSLog(@"########### Received Background Fetch ###########");
+    
+    [[SDWSync getInstance] syncComments];
+    
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

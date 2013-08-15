@@ -100,6 +100,6 @@
 - (NSString *) getMappingList: (BOOL)forTask;
 - (NSInteger) getSuggestColorId;
 - (BOOL) checkExistingProjectName:(NSString *)name excludeProject:(NSInteger)excludeProject;
-
+- (Project *) findProjectByName:(NSString *)name;
 
 @end

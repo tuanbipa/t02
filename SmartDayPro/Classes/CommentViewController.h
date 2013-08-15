@@ -18,7 +18,8 @@
     ContentScrollView *listView;
 }
 
-@property (nonatomic, assign) Task *task;
+//@property (nonatomic, assign) Task *task;
+@property NSInteger itemId;
 
 @property (nonatomic, retain) NSMutableArray *comments;
 

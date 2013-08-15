@@ -113,6 +113,9 @@
 @property NSInteger extraStatus;
 @property NSInteger source;
 
+- (NSDictionary *) tojson;
+- (void) fromjson:(NSDictionary *)jsonDict;
+
 - (void) initialUpdate;
 - (void) resetDefault;
 - (void) resetPlan;

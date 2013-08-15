@@ -2196,7 +2196,7 @@ SmartListViewController *_smartListViewCtrler;
     
     if (textField == quickAddTextField)
     {
-        NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"QuickAddAccessoryView"
+        NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"QuickAddAccessoryView_iPad"
                                                        owner:self
                                                      options:nil];
         
@@ -2242,7 +2242,7 @@ SmartListViewController *_smartListViewCtrler;
 {
     //printf("smart list schedule finished - refresh layout\n");
     
-    if (_plannerViewCtrler != nil || [_abstractViewCtrler checkControllerActive:1])
+    //if (_plannerViewCtrler != nil || [_abstractViewCtrler checkControllerActive:1])
     {
         [self refreshLayout];
     }

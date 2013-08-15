@@ -230,17 +230,19 @@
 	    
     for (int i=0; i<3; i++)
     {
-        if (i==1)
+        /*if (i==1)
         {
             [self refreshPage:i needFree:NO];
         }
         else
         {
             [self bgRefreshPage:i];
-        }
+        }*/
+        
+        [self refreshPage:i needFree:NO];
     }
 	
-	//[self freeReusableViews];
+	[self freeReusableViews];
 	
 	[self initContentOffset];
     }

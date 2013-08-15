@@ -203,8 +203,28 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	return copy;
 }
 
+- (NSDictionary *) tojson
+{
+    NSDictionary *prjDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              self.name, @"name",
+                              self.tag, @"tag",
+                              [NSNumber numberWithInt:self.colorId], @"colorId",
+                             [NSNumber numberWithBool:isTransparent], @"tranparent",
+                              nil
+                              ];
+    return prjDict;
+}
+
+- (void) fromjson:(NSDictionary *)jsonDict
+{
+    self.name = [jsonDict objectForKey:@"name"];
+    self.isTransparent = [[jsonDict objectForKey:@"tranparent"] boolValue];
+    self.tag = [jsonDict objectForKey:@"tag"];
+    self.colorId = [[jsonDict objectForKey:@"colorId"] intValue];
+}
+
 - (void) resetDefault
-{	
+{
 	self.startTime = (self.actualStartTime != nil? self.actualStartTime: [NSDate date]);
 	
 	//self.workBalance = [[Settings getInstance] planWorkBalance];

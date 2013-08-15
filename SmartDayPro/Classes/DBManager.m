@@ -395,6 +395,52 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;	
 }
 
+- (NSString *) getItemNameByKey:(NSInteger)taskKey
+{
+	NSString *ret = @"";
+	
+	const char *sql = "SELECT Task_Name FROM TaskTable WHERE Task_ID = ?";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, taskKey);
+
+		if (sqlite3_step(statement) == SQLITE_ROW)
+        {
+			char *str = (char *)sqlite3_column_text(statement, 0);
+            
+            ret = (str == NULL? @"":[NSString stringWithUTF8String:str]);
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return ret;
+}
+
+- (NSString *) getProjectNameByKey:(NSInteger)prjKey
+{
+	NSString *ret = @"";
+	
+	const char *sql = "SELECT Project_Name FROM ProjectTable WHERE Project_ID = ?";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, prjKey);
+        
+		if (sqlite3_step(statement) == SQLITE_ROW)
+        {
+			char *str = (char *)sqlite3_column_text(statement, 0);
+            
+            ret = (str == NULL? @"":[NSString stringWithUTF8String:str]);
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return ret;
+}
+
 - (NSMutableArray *) getTasks
 {
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
@@ -3372,7 +3418,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return list;
 }
 
-- (NSMutableArray *) getComments4Task:(NSInteger)taskId
+- (NSMutableArray *) getComments4Item:(NSInteger)itemId
 {
 	NSMutableArray *list = [NSMutableArray arrayWithCapacity:200];
 	
@@ -3381,7 +3427,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, COMMENT_STATUS_DELETED);
-        sqlite3_bind_int(statement, 2, taskId);
+        sqlite3_bind_int(statement, 2, itemId);
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -3397,7 +3443,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return list;
 }
 
-- (NSInteger) countCommentsForTask:(NSInteger) taskId
+- (NSInteger) countCommentsForItem:(NSInteger) itemId
 {
 	NSInteger count = 0;
     
@@ -3406,7 +3452,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, COMMENT_STATUS_DELETED);
-		sqlite3_bind_int(statement, 2, taskId);
+		sqlite3_bind_int(statement, 2, itemId);
 
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			// The second parameter indicates the column index into the result set.
@@ -3747,6 +3793,72 @@ static sqlite3_stmt *_top_task_statement = nil;
     
     return key;
 }
+
+- (NSString *) getSDWId4ProjectKey:(NSInteger)key
+{
+    NSString *sdwId = nil;
+    
+    sqlite3_stmt *statement;
+    
+    const char *sql = "SELECT Project_SDWID FROM ProjectTable WHERE Project_ID = ?";
+    
+    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+    {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_bind_int(statement, 1, key);
+    
+    int success = sqlite3_step(statement);
+    
+    if (success == SQLITE_ROW)
+    {
+        char *str = (char *)sqlite3_column_text(statement, 0);
+        sdwId = (str == NULL? nil:[NSString stringWithUTF8String:str]);
+    }
+    else if (success == SQLITE_ERROR)
+    {
+        NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return sdwId;
+}
+
+- (NSInteger) getProjectKey4SDWId:(NSString *)sdwId
+{
+    NSInteger key = -1;
+    
+    sqlite3_stmt *statement;
+    
+    const char *sql = "SELECT Project_ID FROM ProjectTable WHERE Project_SDWID = ?";
+    
+    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+    {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_bind_text(statement, 1, [sdwId UTF8String], -1, SQLITE_TRANSIENT);
+    
+    int success = sqlite3_step(statement);
+    
+    if (success == SQLITE_ROW)
+    {
+        key = sqlite3_column_int(statement, 0);
+        
+        //printf("root key %d found for sdw id:%s\n", key, [sdwId UTF8String]);
+    }
+    else if (success == SQLITE_ERROR)
+    {
+        NSAssert1(0, @"Error: failed to select from the database with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return key;
+}
+
 
 - (NSString *) getSDWId4URLAssetKey:(NSInteger)key
 {
@@ -4434,7 +4546,7 @@ static sqlite3_stmt *_top_task_statement = nil;
                  URL_Value TEXT, URL_Status NUMERIC, URL_UpdateTime NUMERIC, URL_SDWID TEXT)", nil, nil, nil);
 
     sqlite3_exec(database, "CREATE TABLE CommentTable (Comment_ID INTEGER PRIMARY KEY, \
-                 Comment_Content TEXT, Comment_Status NUMERIC, Comment_CreateTime NUMERIC, Comment_UpdateTime NUMERIC, Comment_SDWID TEXT, Comment_ItemID NUMERIC, Comment_LastName TEXT, Comment_FirstName TEXT, Comment_IsOwner NUMERIC)", nil, nil, nil);
+                 Comment_Content TEXT, Comment_Status NUMERIC, Comment_CreateTime NUMERIC, Comment_UpdateTime NUMERIC, Comment_SDWID TEXT, Comment_ItemID NUMERIC, Comment_LastName TEXT, Comment_FirstName TEXT, Comment_IsOwner NUMERIC, Comment_Type NUMERIC)", nil, nil, nil);
     
 	sqlite3_exec(database, "ALTER TABLE TaskLinkTable ADD COLUMN Dest_AssetType NUMERIC;", nil, nil, nil);
     

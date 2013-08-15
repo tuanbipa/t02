@@ -223,6 +223,36 @@ NSInteger _sdwColor[32] = {
     return YES;
 }
 
+- (void) initSyncComments
+{
+    Settings *settings = [Settings getInstance];
+    
+    self.errorDescription = nil;
+    
+    if ([self.sdwSection checkTokenExpired])
+    {
+        NSString *token = [self getToken:settings.sdwEmail password:settings.sdwPassword];
+        
+        self.sdwSection.token = token;
+        
+        if (self.sdwSection.token != nil)
+        {
+            self.sdwSection.lastTokenAcquireTime = [NSDate date];
+            
+            [self.sdwSection refreshKey];
+        }
+    }
+    
+    if (self.errorDescription == nil)
+    {
+        [self syncComments];
+    }
+    else
+    {
+        printf("error: %s\n", [self.errorDescription.description UTF8String]);
+    }
+}
+
 - (void) sync
 {
     if (self.syncMode == SYNC_MANUAL_1WAY_SD2mSD)
@@ -4225,11 +4255,15 @@ NSInteger _sdwColor[32] = {
     ret.sdwId = [[dict objectForKey:@"id"] stringValue];
     ret.content = [dict objectForKey:@"content"];
     ret.isOwner = ([[dict objectForKey:@"is_owner"] intValue] == 1);
-    ret.itemKey = [dbm getKey4SDWId:[[dict objectForKey:@"root_id"] stringValue]];
+    ret.type = [[dict objectForKey:@"comment_type"] intValue];
     ret.lastName = [dict objectForKey:@"last_name"];
     ret.firstName = [dict objectForKey:@"first_name"];
     ret.createTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"create_time"] intValue]];
     ret.updateTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"last_update"] intValue]];
+    
+    NSString *itemId = [[dict objectForKey:@"root_id"] stringValue];
+    
+    ret.itemKey = (ret.type == COMMENT_TYPE_ITEM?[dbm getKey4SDWId:itemId]:[dbm getProjectKey4SDWId:itemId]);
     
     return ret;
 }
@@ -4244,7 +4278,7 @@ NSInteger _sdwColor[32] = {
                                comment.sdwId,@"id",
                                comment.content, @"content",
                                  [NSNumber numberWithInt:comment.isOwner?1:0], @"is_owner",
-                                 [dbm getSDWId4Key:comment.itemKey], @"root_id",
+                                 comment.type == COMMENT_TYPE_ITEM?[dbm getSDWId4Key:comment.itemKey]:[dbm getSDWId4ProjectKey:comment.itemKey], @"root_id",
                                  comment.lastName, @"last_name",
                                  comment.firstName, @"first_name",
                                  [NSNumber numberWithInt:createTime], @"create_time",
@@ -4260,6 +4294,7 @@ NSInteger _sdwColor[32] = {
     comment.sdwId = sdwComment.sdwId;
     comment.content = sdwComment.content;
     comment.isOwner = sdwComment.isOwner;
+    comment.type = sdwComment.type;
     comment.lastName = sdwComment.lastName;
     comment.firstName = sdwComment.firstName;
     comment.createTime = sdwComment.createTime;
@@ -4310,6 +4345,8 @@ NSInteger _sdwColor[32] = {
         
         NSMutableArray *updateList = [NSMutableArray arrayWithCapacity:20];
         
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:20];
+        
         NSArray *result = [self getArrayResult:urlData];
         
         if (result == nil)
@@ -4356,7 +4393,12 @@ NSInteger _sdwColor[32] = {
                 
                 //printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
                 
-                [comment insertIntoDB:[dbm getDatabase]];
+                if (comment.itemKey != -1)
+                {
+                    [comment insertIntoDB:[dbm getDatabase]];
+                    
+                    [newList addObject:comment];
+                }
                 
                 [comment release];
             }
@@ -4390,8 +4432,12 @@ NSInteger _sdwColor[32] = {
             
             [self breakSync:list command:ADD_COMMENT];
         }
+        
+        if (newList.count > 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"NewCommentReceivedNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:newList forKey:@"CommentList"]];
+        }
     }
-    
 }
 
 - (void) get1wayComments
@@ -4996,7 +5042,7 @@ NSInteger _sdwColor[32] = {
     NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",[email lowercaseString],pass,SDWAppRegId]];
     NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&appreg=%@&sig=%@",SDWSite,email,SDWAppRegId,sig];
     
-    //printf("getToken: %s\n", [url UTF8String]);
+    printf("getToken: %s\n", [url UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 

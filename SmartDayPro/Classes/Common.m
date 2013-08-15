@@ -1648,7 +1648,11 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
                               constrainedToSize:maximumSize
                                   lineBreakMode:NSLineBreakByWordWrapping];
     
-    return (int)expectedSize.height/[withFont lineHeight];
+    CGFloat lineHeight = [withFont lineHeight];
+    
+    NSInteger lines = expectedSize.height/lineHeight;
+    
+    return lines;
 }
 
 + (void)animateGrowViewFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint forView:(UIView *)theView 

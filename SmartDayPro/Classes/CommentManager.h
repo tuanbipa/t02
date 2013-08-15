@@ -10,6 +10,11 @@
 
 @interface CommentManager : NSObject
 
+@property (nonatomic, retain) 	NSMutableDictionary *commentNotifDict;
+
+- (void) notify:(NSMutableArray *)list;
+- (void) show:(UILocalNotification *)notif;
+
 + (NSDictionary *) getCommentDictBySDWID:(NSArray *)list;
 + (NSDictionary *) getCommentDictByKey:(NSArray *)list;
 

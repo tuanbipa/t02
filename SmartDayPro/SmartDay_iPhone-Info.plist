@@ -41,11 +41,15 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>130808</string>
+	<string>130815</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

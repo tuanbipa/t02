@@ -26,7 +26,8 @@ extern BOOL _isiPad;
 @implementation CommentViewController
 
 @synthesize comments;
-@synthesize task;
+//@synthesize task;
+@synthesize itemId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,7 +59,8 @@ extern BOOL _isiPad;
 {
     DBManager *dbm = [DBManager getInstance];
     
-    self.comments = [dbm getComments4Task:self.task.primaryKey];
+    //self.comments = [dbm getComments4Task:self.task.primaryKey];
+    self.comments = [dbm getComments4Item:self.itemId];
     
     for (UIView *view in listView.subviews)
     {
@@ -72,9 +74,10 @@ extern BOOL _isiPad;
     
     for (Comment *comment in self.comments)
     {
+        CGFloat w = contentView.bounds.size.width-20;
         GrowingTextView *growTextView = [[GrowingTextView alloc] initWithFrame:CGRectMake(10, 25, contentView.bounds.size.width-20, 30)];
         
-        growTextView.textView.font = [UIFont systemFontOfSize:15.0f];
+        growTextView.font = [UIFont systemFontOfSize:15.0f];
         //growTextView.delegate = self;
         growTextView.backgroundColor = [UIColor clearColor];
         growTextView.textView.editable = NO;
@@ -99,6 +102,8 @@ extern BOOL _isiPad;
         
         CGSize sz = [name sizeWithFont:font];
         
+        //CGSize sz = [name sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:@"font"]];
+        
         UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, sz.width, 25)];
         nameLabel.font = font;
         nameLabel.text = name;
@@ -112,6 +117,7 @@ extern BOOL _isiPad;
         NSString *time = [Common getFullDateTimeString:comment.createTime];
         
         sz = [time sizeWithFont:font];
+        //sz = [time sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:@"font"]];
         
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.bounds.size.width + 10, 0, sz.width, 25)];
         timeLabel.font = font;
@@ -157,7 +163,7 @@ extern BOOL _isiPad;
     }
 
     contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	self.view = contentView;
 	[contentView release];
     

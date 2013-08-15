@@ -26,6 +26,24 @@
 		6746802116670FCA00E5E08A /* replace_SDtomSD.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746801F16670FCA00E5E08A /* replace_SDtomSD.png */; };
 		674680251667114A00E5E08A /* replace_mSDtoSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */; };
 		674680261667114A00E5E08A /* replace_SDtomSD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674680241667114A00E5E08A /* replace_SDtomSD@2x.png */; };
+		6746CEBD17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEBC17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib */; };
+		6746CEBE17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEBC17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib */; };
+		6746CEC317BCB0270042E1EF /* contact_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEBF17BCB0270042E1EF /* contact_iOS7.png */; };
+		6746CEC417BCB0270042E1EF /* contact_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEBF17BCB0270042E1EF /* contact_iOS7.png */; };
+		6746CEC517BCB0270042E1EF /* contact_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEC017BCB0270042E1EF /* contact_iOS7@2x.png */; };
+		6746CEC617BCB0270042E1EF /* contact_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEC017BCB0270042E1EF /* contact_iOS7@2x.png */; };
+		6746CEC717BCB0270042E1EF /* detail_disclosure_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEC117BCB0270042E1EF /* detail_disclosure_iOS7.png */; };
+		6746CEC817BCB0270042E1EF /* detail_disclosure_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEC117BCB0270042E1EF /* detail_disclosure_iOS7.png */; };
+		6746CEC917BCB0270042E1EF /* detail_disclosure_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEC217BCB0270042E1EF /* detail_disclosure_iOS7@2x.png */; };
+		6746CECA17BCB0270042E1EF /* detail_disclosure_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEC217BCB0270042E1EF /* detail_disclosure_iOS7@2x.png */; };
+		6746CECF17BCBC9D0042E1EF /* menu_airdrop_idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECB17BCBC9D0042E1EF /* menu_airdrop_idle.png */; };
+		6746CED017BCBC9D0042E1EF /* menu_airdrop_idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECB17BCBC9D0042E1EF /* menu_airdrop_idle.png */; };
+		6746CED117BCBC9D0042E1EF /* menu_airdrop_idle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECC17BCBC9D0042E1EF /* menu_airdrop_idle@2x.png */; };
+		6746CED217BCBC9D0042E1EF /* menu_airdrop_idle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECC17BCBC9D0042E1EF /* menu_airdrop_idle@2x.png */; };
+		6746CED317BCBC9D0042E1EF /* menu_airdrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECD17BCBC9D0042E1EF /* menu_airdrop.png */; };
+		6746CED417BCBC9D0042E1EF /* menu_airdrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECD17BCBC9D0042E1EF /* menu_airdrop.png */; };
+		6746CED517BCBC9D0042E1EF /* menu_airdrop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECE17BCBC9D0042E1EF /* menu_airdrop@2x.png */; };
+		6746CED617BCBC9D0042E1EF /* menu_airdrop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECE17BCBC9D0042E1EF /* menu_airdrop@2x.png */; };
 		6749348117B33B0600AEA74A /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348017B33B0600AEA74A /* CommentViewController.m */; };
 		6749348217B33B0600AEA74A /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348017B33B0600AEA74A /* CommentViewController.m */; };
 		6749348917B381EE00AEA74A /* GrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348817B381EE00AEA74A /* GrowingTextView.m */; };
@@ -1688,6 +1706,15 @@
 		6746801F16670FCA00E5E08A /* replace_SDtomSD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replace_SDtomSD.png; sourceTree = "<group>"; };
 		674680231667114A00E5E08A /* replace_mSDtoSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_mSDtoSD@2x.png"; sourceTree = "<group>"; };
 		674680241667114A00E5E08A /* replace_SDtomSD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replace_SDtomSD@2x.png"; sourceTree = "<group>"; };
+		6746CEBC17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuickAddAccessoryView_iPad.xib; sourceTree = "<group>"; };
+		6746CEBF17BCB0270042E1EF /* contact_iOS7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contact_iOS7.png; sourceTree = "<group>"; };
+		6746CEC017BCB0270042E1EF /* contact_iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contact_iOS7@2x.png"; sourceTree = "<group>"; };
+		6746CEC117BCB0270042E1EF /* detail_disclosure_iOS7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_disclosure_iOS7.png; sourceTree = "<group>"; };
+		6746CEC217BCB0270042E1EF /* detail_disclosure_iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail_disclosure_iOS7@2x.png"; sourceTree = "<group>"; };
+		6746CECB17BCBC9D0042E1EF /* menu_airdrop_idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_airdrop_idle.png; sourceTree = "<group>"; };
+		6746CECC17BCBC9D0042E1EF /* menu_airdrop_idle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_airdrop_idle@2x.png"; sourceTree = "<group>"; };
+		6746CECD17BCBC9D0042E1EF /* menu_airdrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_airdrop.png; sourceTree = "<group>"; };
+		6746CECE17BCBC9D0042E1EF /* menu_airdrop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_airdrop@2x.png"; sourceTree = "<group>"; };
 		6749347F17B33B0600AEA74A /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		6749348017B33B0600AEA74A /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		6749348717B381EE00AEA74A /* GrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowingTextView.h; sourceTree = "<group>"; };
@@ -3394,6 +3421,14 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6746CECB17BCBC9D0042E1EF /* menu_airdrop_idle.png */,
+				6746CECC17BCBC9D0042E1EF /* menu_airdrop_idle@2x.png */,
+				6746CECD17BCBC9D0042E1EF /* menu_airdrop.png */,
+				6746CECE17BCBC9D0042E1EF /* menu_airdrop@2x.png */,
+				6746CEBF17BCB0270042E1EF /* contact_iOS7.png */,
+				6746CEC017BCB0270042E1EF /* contact_iOS7@2x.png */,
+				6746CEC117BCB0270042E1EF /* detail_disclosure_iOS7.png */,
+				6746CEC217BCB0270042E1EF /* detail_disclosure_iOS7@2x.png */,
 				67DE8B9E17AB5FDF00FE03B4 /* tab_notes_left_selected.png */,
 				67DE8B9F17AB5FDF00FE03B4 /* tab_notes_left_selected@2x.png */,
 				67DE8BA017AB5FDF00FE03B4 /* tab_notes_left.png */,
@@ -3884,6 +3919,7 @@
 				67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */,
 				67CF2EA8161951B8001FE1AA /* MainWindow.xib */,
 				67E7789817374853004D227F /* NoteInputAccessoryView.xib */,
+				6746CEBC17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib */,
 			);
 			path = "Resources-iPad";
 			sourceTree = "<group>";
@@ -4068,6 +4104,7 @@
 				67CF2D5B16195196001FE1AA /* Pause.wav in Resources */,
 				67CF2D5C16195196001FE1AA /* Start.wav in Resources */,
 				67CF2D5D16195196001FE1AA /* Stop.wav in Resources */,
+				6746CEC917BCB0270042E1EF /* detail_disclosure_iOS7@2x.png in Resources */,
 				67CF2EAB161951B8001FE1AA /* SmartCalDB.sql in Resources */,
 				67CF2EAD161951B8001FE1AA /* CalendarHint.htm in Resources */,
 				67CF2EAE161951B8001FE1AA /* CategoryHint.htm in Resources */,
@@ -4152,6 +4189,7 @@
 				67CF2EFD161951B8001FE1AA /* bottom_focus@2x.png in Resources */,
 				67CF2EFE161951B8001FE1AA /* bottom_note.png in Resources */,
 				67CF2EFF161951B8001FE1AA /* bottom_note@2x.png in Resources */,
+				6746CEBD17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */,
 				67CF2F00161951B8001FE1AA /* bottom_task.png in Resources */,
 				67CF2F01161951B8001FE1AA /* bottom_task@2x.png in Resources */,
 				67CF2F02161951B8001FE1AA /* Buy.png in Resources */,
@@ -4184,6 +4222,7 @@
 				67CF2F1D161951B8001FE1AA /* event@2x.png in Resources */,
 				67CF2F1E161951B8001FE1AA /* event_lines.png in Resources */,
 				67CF2F1F161951B8001FE1AA /* event_lines@2x.png in Resources */,
+				6746CED317BCBC9D0042E1EF /* menu_airdrop.png in Resources */,
 				67CF2F20161951B8001FE1AA /* exception.png in Resources */,
 				67CF2F21161951B8001FE1AA /* expand.png in Resources */,
 				67CF2F22161951B8001FE1AA /* filterWKV.png in Resources */,
@@ -4272,10 +4311,12 @@
 				67CF2F75161951B8001FE1AA /* menu_today.png in Resources */,
 				67CF2F76161951B8001FE1AA /* menu_today@2x.png in Resources */,
 				67CF2F77161951B8001FE1AA /* menu_toDelete.png in Resources */,
+				6746CED517BCBC9D0042E1EF /* menu_airdrop@2x.png in Resources */,
 				67CF2F78161951B8001FE1AA /* menu_toDelete@2x.png in Resources */,
 				67CF2F79161951B8001FE1AA /* menu_toDone.png in Resources */,
 				67CF2F7A161951B8001FE1AA /* menu_toDone@2x.png in Resources */,
 				67CF2F7B161951B8001FE1AA /* menu_toPin.png in Resources */,
+				6746CED117BCBC9D0042E1EF /* menu_airdrop_idle@2x.png in Resources */,
 				67CF2F7C161951B8001FE1AA /* menu_toPin@2x.png in Resources */,
 				67CF2F7D161951B8001FE1AA /* menu_toUnPin.png in Resources */,
 				67CF2F7E161951B8001FE1AA /* menu_toUnPin@2x.png in Resources */,
@@ -4399,6 +4440,7 @@
 				67CF3039161951C2001FE1AA /* SL_80.png in Resources */,
 				67CF303A161951C2001FE1AA /* smartapps.png in Resources */,
 				67CF303B161951C2001FE1AA /* SmartApps_320_css.css in Resources */,
+				6746CEC517BCB0270042E1EF /* contact_iOS7@2x.png in Resources */,
 				67CF303C161951C2001FE1AA /* smartapps_640.png in Resources */,
 				67CF303D161951C2001FE1AA /* SmartApps_640_css.css in Resources */,
 				67CF303E161951C2001FE1AA /* smartapps_768.png in Resources */,
@@ -4465,6 +4507,7 @@
 				67D282D01654E21A0090C9F8 /* contact@2x.png in Resources */,
 				67D51F801655EDC3007017E3 /* CheckOff20@2x.png in Resources */,
 				67D51F811655EDC3007017E3 /* CheckOn20@2x.png in Resources */,
+				6746CECF17BCBC9D0042E1EF /* menu_airdrop_idle.png in Resources */,
 				67D51F841655F1A6007017E3 /* links_white.png in Resources */,
 				67D51F851655F1A6007017E3 /* links_white@2x.png in Resources */,
 				67D51F8D1656305F007017E3 /* hints_calendars.png in Resources */,
@@ -4509,6 +4552,7 @@
 				67FADC3616D35CF8009D835D /* settings_tasks@2x.png in Resources */,
 				67E839DA16D6074300155ADE /* settings_info.png in Resources */,
 				67E839DB16D6074300155ADE /* settings_info@2x.png in Resources */,
+				6746CEC717BCB0270042E1EF /* detail_disclosure_iOS7.png in Resources */,
 				67E839DF16D609A000155ADE /* LCL_Products_Page_768.html in Resources */,
 				67E839E016D609A000155ADE /* SB_205.png in Resources */,
 				67E839E116D609A000155ADE /* SC_aboutUS_768.html in Resources */,
@@ -4553,6 +4597,7 @@
 				67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */,
 				67D75EFB170290A000C2F152 /* Alarm.wav in Resources */,
+				6746CEC317BCB0270042E1EF /* contact_iOS7.png in Resources */,
 				67CCB8AE17097E8400500A76 /* month_collapse.png in Resources */,
 				67CCB8B017097E8400500A76 /* month_collapse@2x.png in Resources */,
 				67CCB8B217097E8400500A76 /* month_expand.png in Resources */,
@@ -4686,6 +4731,7 @@
 				67EC0D4816F8081F00929BFD /* Pause.wav in Resources */,
 				67EC0D4916F8081F00929BFD /* Start.wav in Resources */,
 				67EC0D4A16F8081F00929BFD /* Stop.wav in Resources */,
+				6746CECA17BCB0270042E1EF /* detail_disclosure_iOS7@2x.png in Resources */,
 				67EC0D4B16F8081F00929BFD /* SmartCalDB.sql in Resources */,
 				67EC0D4C16F8081F00929BFD /* CalendarHint.htm in Resources */,
 				67EC0D4D16F8081F00929BFD /* CategoryHint.htm in Resources */,
@@ -4770,6 +4816,7 @@
 				67EC0D9C16F8081F00929BFD /* bottom_focus@2x.png in Resources */,
 				67EC0D9D16F8081F00929BFD /* bottom_note.png in Resources */,
 				67EC0D9E16F8081F00929BFD /* bottom_note@2x.png in Resources */,
+				6746CEBE17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */,
 				67EC0D9F16F8081F00929BFD /* bottom_task.png in Resources */,
 				67EC0DA016F8081F00929BFD /* bottom_task@2x.png in Resources */,
 				67EC0DA116F8081F00929BFD /* Buy.png in Resources */,
@@ -4802,6 +4849,7 @@
 				67EC0DBC16F8081F00929BFD /* event@2x.png in Resources */,
 				67EC0DBD16F8081F00929BFD /* event_lines.png in Resources */,
 				67EC0DBE16F8081F00929BFD /* event_lines@2x.png in Resources */,
+				6746CED417BCBC9D0042E1EF /* menu_airdrop.png in Resources */,
 				67EC0DBF16F8081F00929BFD /* exception.png in Resources */,
 				67EC0DC016F8081F00929BFD /* expand.png in Resources */,
 				67EC0DC116F8081F00929BFD /* filterWKV.png in Resources */,
@@ -4890,10 +4938,12 @@
 				67EC0E1416F8081F00929BFD /* menu_today.png in Resources */,
 				67EC0E1516F8081F00929BFD /* menu_today@2x.png in Resources */,
 				67EC0E1616F8081F00929BFD /* menu_toDelete.png in Resources */,
+				6746CED617BCBC9D0042E1EF /* menu_airdrop@2x.png in Resources */,
 				67EC0E1716F8081F00929BFD /* menu_toDelete@2x.png in Resources */,
 				67EC0E1816F8081F00929BFD /* menu_toDone.png in Resources */,
 				67EC0E1916F8081F00929BFD /* menu_toDone@2x.png in Resources */,
 				67EC0E1A16F8081F00929BFD /* menu_toPin.png in Resources */,
+				6746CED217BCBC9D0042E1EF /* menu_airdrop_idle@2x.png in Resources */,
 				67EC0E1B16F8081F00929BFD /* menu_toPin@2x.png in Resources */,
 				67EC0E1C16F8081F00929BFD /* menu_toUnPin.png in Resources */,
 				67EC0E1D16F8081F00929BFD /* menu_toUnPin@2x.png in Resources */,
@@ -5017,6 +5067,7 @@
 				67EC0E9316F8081F00929BFD /* SL_80.png in Resources */,
 				67EC0E9416F8081F00929BFD /* smartapps.png in Resources */,
 				67EC0E9516F8081F00929BFD /* SmartApps_320_css.css in Resources */,
+				6746CEC617BCB0270042E1EF /* contact_iOS7@2x.png in Resources */,
 				67EC0E9616F8081F00929BFD /* smartapps_640.png in Resources */,
 				67EC0E9716F8081F00929BFD /* SmartApps_640_css.css in Resources */,
 				67EC0E9816F8081F00929BFD /* smartapps_768.png in Resources */,
@@ -5083,6 +5134,7 @@
 				67EC0ED516F8081F00929BFD /* contact@2x.png in Resources */,
 				67EC0ED616F8081F00929BFD /* CheckOff20@2x.png in Resources */,
 				67EC0ED716F8081F00929BFD /* CheckOn20@2x.png in Resources */,
+				6746CED017BCBC9D0042E1EF /* menu_airdrop_idle.png in Resources */,
 				67EC0ED816F8081F00929BFD /* links_white.png in Resources */,
 				67EC0ED916F8081F00929BFD /* links_white@2x.png in Resources */,
 				67EC0EDA16F8081F00929BFD /* hints_calendars.png in Resources */,
@@ -5127,6 +5179,7 @@
 				67EC0F0116F8081F00929BFD /* settings_tasks@2x.png in Resources */,
 				67EC0F0216F8081F00929BFD /* settings_info.png in Resources */,
 				67EC0F0316F8081F00929BFD /* settings_info@2x.png in Resources */,
+				6746CEC817BCB0270042E1EF /* detail_disclosure_iOS7.png in Resources */,
 				67EC0F0416F8081F00929BFD /* LCL_Products_Page_768.html in Resources */,
 				67EC0F0516F8081F00929BFD /* SB_205.png in Resources */,
 				67EC0F0616F8081F00929BFD /* SC_aboutUS_768.html in Resources */,
@@ -5171,6 +5224,7 @@
 				67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */,
 				67D75EFC170290A000C2F152 /* Alarm.wav in Resources */,
+				6746CEC417BCB0270042E1EF /* contact_iOS7.png in Resources */,
 				67CCB8AF17097E8400500A76 /* month_collapse.png in Resources */,
 				67CCB8B117097E8400500A76 /* month_collapse@2x.png in Resources */,
 				67CCB8B317097E8400500A76 /* month_expand.png in Resources */,
@@ -5791,7 +5845,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPhone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
@@ -5809,7 +5863,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPhone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
@@ -5853,7 +5907,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPhone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",

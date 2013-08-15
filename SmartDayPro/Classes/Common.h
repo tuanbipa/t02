@@ -233,6 +233,12 @@ typedef enum
 
 typedef enum
 {
+    COMMENT_TYPE_ITEM = 0,
+    COMMENT_TYPE_PROJECT
+} CommentType;
+
+typedef enum
+{
     ASSET_ITEM = 0,
     ASSET_URL
 } AssetType;

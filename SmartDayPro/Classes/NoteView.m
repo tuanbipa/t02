@@ -65,83 +65,10 @@ extern iPadViewController *_iPadViewCtrler;
         
         [self addSubview:noteTextView];
         [noteTextView release];
-        
-        //[self createDoneBarView];
-
-        /*
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
-        tapRecognizer.numberOfTapsRequired = 2;
-        tapRecognizer.numberOfTouchesRequired = 1;
-        [self addGestureRecognizer:tapRecognizer];*/
-        
     }
     
     return self;
 }
-
-/*
-- (void) doubleTap:(id)sender
-{
-    [self cancelEdit];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDoubleTapNotification" object:nil];
-}
-
-- (void) createDoneBarView
-{
-	doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height, self.bounds.size.width, 40)];
-	doneBarView.backgroundColor = [UIColor clearColor];
-	doneBarView.hidden = YES;
-	
-	[self addSubview:doneBarView];
-	[doneBarView release];
-	
-	UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, doneBarView.bounds.size.width, 40)];
-	backgroundView.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-	backgroundView.alpha = 0.7;
-	
-	[doneBarView addSubview:backgroundView];
-	[backgroundView release];
-    
-    checkButton=[Common createButton:@""
-                          buttonType:UIButtonTypeCustom
-                               frame:CGRectMake(10, 5, 30, 30)
-                          titleColor:[UIColor whiteColor]
-                              target:self
-                            selector:@selector(check:)
-                    normalStateImage:@"CheckOn30.png"
-                  selectedStateImage:@"CheckOn30_blue.png"];
-    checkButton.backgroundColor=[UIColor clearColor];
-    
-    [doneBarView addSubview:checkButton];
-    
-    
-    UIButton *uncheckAllButton=[Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(60, 5, 30, 30)
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(uncheckAll:)
-                                   normalStateImage:@"CheckNone.png"
-                                 selectedStateImage:nil];
-    uncheckAllButton.backgroundColor=[UIColor clearColor];
-    
-    [doneBarView addSubview:uncheckAllButton];
-    
-	
-	UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	doneButton.frame = CGRectMake(doneBarView.bounds.size.width-70, 5, 60, 30);
-	doneButton.alpha=1;
-	[doneButton setTitle:_doneText forState:UIControlStateNormal];
-	doneButton.titleLabel.font=[UIFont systemFontOfSize:14];
-	[doneButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];
-	[doneButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
-	
-	[doneButton addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
-    
-	[doneBarView addSubview:doneButton];
-}
-*/
 
 - (void) changeFrame:(CGRect)frame
 {
@@ -401,7 +328,12 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (CGRect) getCheckFrameAtLine:(NSInteger)lineIdx
 {
-    return CGRectMake(5, lineIdx*24+5, 30, 30);
+    //CGRectMake(5, lineIdx*24+5, 30, 30);
+    
+    CGFloat lineHeight = [noteTextView.font lineHeight];
+    
+    //iOS7
+    return CGRectMake(0, lineIdx*lineHeight+2, 34, 34);
 }
 
 - (void) createCheckButtons:(NSString *)text

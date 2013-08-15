@@ -54,13 +54,14 @@ extern BOOL _isiPad;
 												 selector:@selector(noteFinishEdit:)
 													 name:@"NoteFinishEditNotification" object:nil];*/
         
+        /*
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(keyboardWillShow:)
                                                      name:UIKeyboardWillShowNotification object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(keyboardWillBeHidden:)
-                                                     name:UIKeyboardWillHideNotification object:nil];
+                                                     name:UIKeyboardWillHideNotification object:nil];*/
         
     }
     
@@ -151,8 +152,16 @@ extern BOOL _isiPad;
     
     self.view = contentView;
     [contentView release];
-	
-    noteView = [[NoteView alloc] initWithFrame:contentView.bounds];
+    
+    //iOS7
+    frm = contentView.bounds;
+
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        frm.origin.y += 20 + 44;
+    }
+    //noteView = [[NoteView alloc] initWithFrame:contentView.bounds];
+    noteView = [[NoteView alloc] initWithFrame:frm];
     
     [contentView addSubview:noteView];
     [noteView release];

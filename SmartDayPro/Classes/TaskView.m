@@ -2717,8 +2717,15 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) singleTouch
 {
-    //[self enableActions:YES];
-    [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:self];
+    if (_iPadViewCtrler != nil)
+    {
+        [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:self];
+    }
+    else if (_abstractViewCtrler != nil)
+    {
+        //[_abstractViewCtrler editItem:self.task inView:self];
+        [self enableActions:YES];
+    }
 }
 
 - (void) doubleTouch
@@ -2735,11 +2742,18 @@ extern iPadViewController *_iPadViewCtrler;
         [_abstractViewCtrler editItem:self.task inView:self];
     }*/
     
-    [_iPadViewCtrler slideView:YES];
-    
-    MovableView *activeView = [_iPadViewCtrler.activeViewCtrler getActiveView4Item:self.task];
-    
-    [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:activeView];
+    if (_iPadViewCtrler != nil)
+    {
+        [_iPadViewCtrler slideView:YES];
+        
+        MovableView *activeView = [_iPadViewCtrler.activeViewCtrler getActiveView4Item:self.task];
+        
+        [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:activeView];
+    }
+    else if (_abstractViewCtrler != nil)
+    {
+        [_abstractViewCtrler editItem:self.task inView:nil];
+    }
 }
 
 - (void) touchAndHold

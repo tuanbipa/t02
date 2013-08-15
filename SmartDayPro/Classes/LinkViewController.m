@@ -98,7 +98,8 @@ extern BOOL _isiPad;
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];

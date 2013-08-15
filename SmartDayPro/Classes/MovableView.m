@@ -244,7 +244,7 @@
 	switch (tapCount) {
 		case 0:
 		case 1:
-			[self performSelector:@selector(singleTouch) withObject:nil afterDelay:.4];
+			[self performSelector:@selector(singleTouch) withObject:nil afterDelay:.6];
 			break;
 		case 2:
 			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTouch) object:nil];
@@ -260,26 +260,26 @@
 {
     [super touchesMoved:touches withEvent:event];
     
-	if (!isMoving)
-	{
-		//////printf("cancel singleTouch\n");
-		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTouch) object:nil];
-	}
-	
-	if (self.multiSelectionEnable)
-	{
-		return;
-	}
-	
-	//isMovable = YES;
-
-	if ([self checkMovable:touches]) 
-	{
-		if (self.movableController != nil)
-		{
-			[self.movableController move:touches withEvent:event];
-		}		
-	}	
+    if (!isMoving)
+    {
+        //////printf("cancel singleTouch\n");
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTouch) object:nil];
+    }
+    
+    if (self.multiSelectionEnable)
+    {
+        return;
+    }
+    
+    NSTimeInterval diff = [touchTime timeIntervalSinceNow]*(-1);
+    
+    if (diff > .05 && [self checkMovable:touches])
+    {
+        if (self.movableController != nil)
+        {
+            [self.movableController move:touches withEvent:event];
+        }
+    }
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

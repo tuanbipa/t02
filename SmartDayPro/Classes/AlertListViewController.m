@@ -65,6 +65,7 @@ extern BOOL _isiPad;
     
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    
     if (_isiPad)
     {
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
@@ -78,10 +79,15 @@ extern BOOL _isiPad;
     {
         frm.size.width = 320;
     }
+    
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
-	
-    alertTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	//contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    
+    frm = contentView.bounds;
+    
+    alertTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
 	alertTableView.delegate = self;
 	alertTableView.dataSource = self;
 	alertTableView.sectionHeaderHeight=5;
@@ -90,8 +96,9 @@ extern BOOL _isiPad;
 	[contentView addSubview:alertTableView];
 	[alertTableView release];
 	
-    hintView = [[GuideWebView alloc] initWithFrame:contentView.bounds];
+    hintView = [[GuideWebView alloc] initWithFrame:frm];
 	[hintView loadHTMLFile:@"TaskAlertHint" extension:@"htm"];
+    hintView.backgroundColor = [UIColor clearColor];
 	hintView.hidden = YES;
 	
 	[contentView addSubview:hintView];

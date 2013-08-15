@@ -10,6 +10,8 @@
 
 @class SDWSection;
 
+@class Task;
+
 @interface SDWSync : NSObject
 {
     NSInteger syncMode;
@@ -35,12 +37,16 @@
 
 - (NSString *)createNewAccount:(NSString *)email passWord:(NSString *)pass;
 
+- (void) initSyncComments;
 -(void)initBackgroundSync;
 -(void)initBackground1WayPush;
 -(void)initBackground1WayGet;
 -(void)initBackgroundAuto1WaySync;
 -(void)initBackgroundAuto2WaySync;
 - (void)resetSyncSection;
+
+- (NSDictionary *) toSDWTaskDict:(Task *)task;
+- (Task *) getSDWTask:(NSDictionary *) dict;
 
 + (BOOL) refreshDeviceUUID;
 + (NSString *) getDeviceUUID;

@@ -33,6 +33,8 @@
 - (NSMutableArray *) getTodayNotes;
 //- (NSMutableArray *) getNotesByDate:(NSDate *)date;
 - (NSMutableArray *) getNotesByThisWeek;
+- (NSString *) getItemNameByKey:(NSInteger)taskKey;
+- (NSString *) getProjectNameByKey:(NSInteger)prjKey;
 - (NSMutableArray *) getAllTasks;
 - (NSMutableArray *) getTasks2Sync;
 - (NSMutableArray *) getModifiedTasks2Sync:(NSDate *)afterDate;
@@ -126,8 +128,8 @@
 
 //SDW Sync
 - (NSMutableArray *) getAllComments;
-- (NSInteger) countCommentsForTask:(NSInteger) taskId;
-- (NSMutableArray *) getComments4Task:(NSInteger)taskId;
+- (NSInteger) countCommentsForItem:(NSInteger) itemId;
+- (NSMutableArray *) getComments4Item:(NSInteger)itemId;
 - (NSMutableArray *) getAllURLAssets;
 - (NSMutableArray *) getDeletedURLAssets;
 - (NSMutableArray *) getItems2Sync;
@@ -138,6 +140,8 @@
 - (NSMutableArray *) getModifiedLinks2Sync:(NSDate *)afterDate;
 - (NSString *) getSDWId4Key:(NSInteger)key;
 - (NSInteger) getKey4SDWId:(NSString *)sdwId;
+- (NSString *) getSDWId4ProjectKey:(NSInteger)key;
+- (NSInteger) getProjectKey4SDWId:(NSString *)sdwId;
 - (NSString *) getSDWId4URLAssetKey:(NSInteger)key;
 - (NSInteger) getURLAssetKey4SDWId:(NSString *)sdwId;
 - (NSDate *) getLastestTaskUpdateTime;
