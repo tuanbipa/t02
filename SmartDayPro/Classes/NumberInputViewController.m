@@ -66,12 +66,15 @@ extern BOOL _isiPad;
 	//UIView *mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
     UIView *mainView = [[UIView alloc] initWithFrame:frm];
     
-	mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+	//mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     
-	self.view = mainView;
+    mainView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    
+    self.view = mainView;
 	[mainView release];
     
-    CGFloat yMargin = (_isiPad?20:0);
+    //CGFloat yMargin = (_isiPad?20:0);
+    CGFloat yMargin = 0;
     
     UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yMargin+30, frm.size.width - 20, 150)];
     hintLabel.backgroundColor = [UIColor clearColor];

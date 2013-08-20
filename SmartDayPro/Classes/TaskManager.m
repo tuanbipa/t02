@@ -1192,6 +1192,15 @@ TaskManager *_sctmSingleton = nil;
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
 }
 
+- (void) notifyFastScheduleCompletion
+{
+    //[self cleanupGarbage];
+    
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
+    
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
+}
+
 - (void) wait4SortComplete
 {
 	[sortCond lock];
@@ -1216,27 +1225,34 @@ TaskManager *_sctmSingleton = nil;
 	[scheduleBGCond unlock];	
 }
 
--(void) scheduleBackground:(NSNumber *)scheduledIndexNum
+//-(void) scheduleBackground:(NSNumber *)scheduledIndexNum segments:(NSMutableArray *)segments
+-(NSInteger) scheduleBackground:(NSInteger)scheduledIndex segments:(NSMutableArray *)segments
 {
-	////NSLog(@"begin schedule background");
+	NSLog(@"begin schedule with index:%d", scheduledIndex);
 	
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    
+    //NSLog(@"before wait ....\n");
 	
-	[self wait4SortComplete];
+	//[self wait4SortComplete];
+
+    //NSLog(@"end wait ....\n");
     
     NSMutableArray *list = [self getDisplayList];  
     
-	NSMutableArray *segments = [NSMutableArray arrayWithCapacity:20];
+	//NSMutableArray *segments = [NSMutableArray arrayWithCapacity:20];
 	
-	NSDate *startDate = [Common dateByAddNumDay:2 toDate:[NSDate date]];
+	//NSDate *startDate = [Common dateByAddNumDay:2 toDate:[NSDate date]];
 	
-	NSInteger scheduledIndex = [scheduledIndexNum intValue];
+	//NSInteger scheduledIndex = [scheduledIndexNum intValue];
 	
-	[self findFreeTimeSlotsFromDate:startDate inDays:4 segments:segments];
+	//[self findFreeTimeSlotsFromDate:startDate inDays:4 segments:segments];
 	
     //NSDate *lastScheduleDate = (scheduledIndex-1>=0?[[self.taskList objectAtIndex:scheduledIndex-1] smartTime]:nil);
     
     NSDate *lastScheduleDate = (scheduledIndex-1>=0?[[list objectAtIndex:scheduledIndex-1] smartTime]:nil);
+    
+    NSInteger index = scheduledIndex;
 	
 	@synchronized(self)
 	{
@@ -1268,6 +1284,19 @@ TaskManager *_sctmSingleton = nil;
                 lastScheduleDate = task.smartTime;
             }
             
+            task.isScheduled = YES;
+            
+            index ++;
+            
+            if (index == MAX_FAST_SCHEDULE_TASKS)
+            {
+                NSLog(@"notify fast schedule finished");
+
+                [self notifyFastScheduleCompletion];
+                
+                break;
+            }
+            
             //if (task.smartTime == nil)
             //{
                 //printf("**** BG Smart Time NIL: %s\n", [task.name UTF8String]);
@@ -1275,37 +1304,45 @@ TaskManager *_sctmSingleton = nil;
         }
 	}
     
-	if (refreshGTD)
+    if (scheduledIndex > 0)
+    {
+        //in background mode
+        
+        [scheduleBGCond lock];
+        
+        scheduleBGInProgress = NO;
+        
+        [scheduleBGCond signal];
+        [scheduleBGCond unlock];
+        
+        [[BusyController getInstance] setBusy:NO withCode:BUSY_TASK_SCHEDULE];
+    }
+
+	if (index == list.count && refreshGTD)
 	{
 		[self refreshTopTasks];
-	}	
-    
-	[scheduleBGCond lock];
-	
-	scheduleBGInProgress = NO;
-	
-	[scheduleBGCond signal];
-	[scheduleBGCond unlock];	
-    
-	[self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
+        
+        [self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
     	
-	[[BusyController getInstance] setBusy:NO withCode:BUSY_TASK_SCHEDULE];
-	
-	[pool release];	
+	}
+
+    NSLog(@"end schedule");
+    
+    return index;
+	//[pool release];
 }
 
 -(void) fastSchedule
 {
 	if ((self.mustDoTaskList.count == 0 && self.taskList.count == 0) || self.taskTypeFilter == TASK_FILTER_DONE)
 	{
-		//[[NSNotificationCenter defaultCenter] postNotificationName:@"ScheduleListResetNotification" object:nil];
-        //[self garbage:self.scheduledTaskList];
-		
 		self.scheduledTaskList = [NSMutableArray arrayWithCapacity:0];
         
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
+		//[[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
 		
-		[self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
+		//[self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
+        
+        [self notifyScheduleCompletion];
         
 		return;
 	}
@@ -1316,17 +1353,18 @@ TaskManager *_sctmSingleton = nil;
     
     NSMutableArray *list = [self getDisplayList];
     
-	@synchronized(self)
-	{
-        //[self garbage:self.scheduledTaskList];
-        
+	//@synchronized(self)
+	//{
         self.scheduledTaskList = [NSMutableArray arrayWithCapacity:list.count];
         
         NSMutableArray *segments = [NSMutableArray arrayWithCapacity:20];
         
-        [self findFreeTimeSlotsFromDate:[NSDate date] inDays:1 segments:segments];
-
+        //[self findFreeTimeSlotsFromDate:[NSDate date] inDays:1 segments:segments];
+        [self findFreeTimeSlotsFromDate:[NSDate date] inDays:6 segments:segments];
+/*
         NSDate *lastScheduleDate = nil;
+        
+        NSInteger count = 0;
         
         for (Task *task in list)
         {
@@ -1338,7 +1376,7 @@ TaskManager *_sctmSingleton = nil;
             {
                 task.smartTime = (lastScheduleDate == nil? [NSDate date]:[Common dateByAddNumDay:1 toDate:lastScheduleDate]);
                 
-                break;
+                //break;
                 
                 ////printf("Assign 1 %s - smart time: %s - last schedule: %s\n", [task.name UTF8String], [[task.smartTime description] UTF8String], [[lastScheduleDate description] UTF8String]);
                 
@@ -1369,21 +1407,34 @@ TaskManager *_sctmSingleton = nil;
                 
             }
             
-            /*if (task.smartTime == nil)
+            count ++;
+            
+            if (count == MAX_FAST_SCHEDULE_TASKS)
             {
-                printf("**** Smart Time NIL: %s\n", [task.name UTF8String]);
-            }*/
+                break;
+            }
         }
-	}
+	//}
     
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
+    if (count == MAX_FAST_SCHEDULE_TASKS)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
+        
+    }
 	
-	if (scheduledIndex < list.count)
+	if (scheduledIndex < list.count && segments.count > 0)
 	{
 		scheduleBGInProgress = YES;
 		
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SCHEDULE];
-		[self performSelectorInBackground:@selector(scheduleBackground:) withObject:[NSNumber numberWithInteger:scheduledIndex]];
+        
+		//[self performSelectorInBackground:@selector(scheduleBackground:) withObject:[NSNumber numberWithInteger:scheduledIndex]];
+        
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self scheduleBackground:[NSNumber numberWithInteger:scheduledIndex] segments:segments];
+        });
 	}
 	else
 	{
@@ -1394,11 +1445,31 @@ TaskManager *_sctmSingleton = nil;
         
 		[self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
 	}	
+ 
+*/
+    
+    scheduledIndex = [self scheduleBackground:0 segments:segments];
+    
+    if (scheduledIndex < list.count)
+    {
+		scheduleBGInProgress = YES;
+		
+		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SCHEDULE];
+     
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            NSLog(@"schedule background");
+            [self scheduleBackground:scheduledIndex segments:segments];
+        });
+        
+    }
 }
 
 - (void) refreshTopTasks
 {
     //printf("refresh GTD\n");
+    //NSLog(@"begin refresh top tasks");
     
     NSMutableArray *tasks = [NSMutableArray arrayWithArray:self.taskList];
     
@@ -1433,6 +1504,8 @@ TaskManager *_sctmSingleton = nil;
 		}
 	}
 	//}
+    
+    //NSLog(@"end refresh top tasks");
 }
 
 #pragma mark Multi-day Scheduling Support
@@ -1965,22 +2038,24 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) updateSortOrderBackground:(NSMutableArray *)list
 {
-	////NSLog(@"begin updateSortOrderBackground");
+	//NSLog(@"begin updateSortOrderBackground");
 	
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
-	[self wait4ThumbPlannerInitComplete];
+	//[self wait4ThumbPlannerInitComplete];
 		
-	////NSLog(@"start to updateSortOrderBackground");
+	//NSLog(@"start to updateSortOrderBackground");
 	
 	DBManager *dbm = [DBManager getInstance];
 	
 	for (Task *task in list)
 	{
+        //NSLog(@"task: %@", task.name);
+        
 		[task updateSeqNoIntoDB:[dbm getDatabase]];
-	}		
+	}
 	
-	////NSLog(@"end updateSortOrderBackground");	
+	//NSLog(@"end updateSortOrderBackground");
 	
 	[sortCond lock];
 	
@@ -1991,7 +2066,7 @@ TaskManager *_sctmSingleton = nil;
 
 	[[BusyController getInstance] setBusy:NO withCode:BUSY_TASK_SORT_ORDER];
 	
-	[pool release];	
+	//[pool release];
 }
 
 - (void) sortDue
@@ -2035,7 +2110,14 @@ TaskManager *_sctmSingleton = nil;
 	if (sortBGInProgress)
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
-		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];					
+        
+		//[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+        
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self updateSortOrderBackground:[[self.taskList retain] autorelease]];
+        });
 	}
 	
 	////NSLog(@"end sort due");
@@ -2082,7 +2164,15 @@ TaskManager *_sctmSingleton = nil;
 	if (sortBGInProgress)
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
-		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];					
+        
+		//[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+        
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self updateSortOrderBackground:[[self.taskList retain] autorelease]];
+        });
+        
 	}
 	
 	////NSLog(@"end sort start");
@@ -2129,7 +2219,15 @@ TaskManager *_sctmSingleton = nil;
 	if (sortBGInProgress)
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
-		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+        
+		//[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+        
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self updateSortOrderBackground:[[self.taskList retain] autorelease]];
+        });
+        
 	}
 	
 	////NSLog(@"end sort start");
@@ -2176,7 +2274,14 @@ TaskManager *_sctmSingleton = nil;
 	if (sortBGInProgress)
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
-		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+		
+        //[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self updateSortOrderBackground:[[self.taskList retain] autorelease]];
+        });
+        
 	}
 	
 	////NSLog(@"end sort start");
@@ -2206,7 +2311,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	self.taskList = [self filterList: allList];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 	
 	[self scheduleTasks];
 }
@@ -2271,10 +2376,10 @@ TaskManager *_sctmSingleton = nil;
          */
 	}
     
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 	
 	////printf("Task Sequence when filter Smart List:\n");
-	//[self print:self.taskList];		
+	//[self print:self.taskList];
 }
 
 - (void) initSmartListData
@@ -2369,7 +2474,7 @@ TaskManager *_sctmSingleton = nil;
 		tmpTask.primaryKey = -1;
 		tmpTask.original = original;
         //tmpTask.mustDo = original.mustDo;
-		original.isScheduled = YES;
+		//original.isScheduled = YES;
 		
 		tmpTask.smartTime = segment.startTime;
 		tmpTask.endTime = [Common dateByAddNumSecond:durationLeft toDate:tmpTask.smartTime];
@@ -2401,7 +2506,7 @@ TaskManager *_sctmSingleton = nil;
 			tmpTask.primaryKey = -1;
 			tmpTask.original = original;
             //tmpTask.mustDo = original.mustDo;
-			original.isScheduled = YES;
+			//original.isScheduled = YES;
 			
 			tmpTask.smartTime = segment.startTime;
 			tmpTask.endTime  = segment.endTime;
@@ -3082,7 +3187,7 @@ TaskManager *_sctmSingleton = nil;
         
         [Common sortList:self.mustDoTaskList byKey:@"deadline" ascending:YES];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];		
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
         
         reSchedule = YES;
     }
@@ -3115,7 +3220,7 @@ TaskManager *_sctmSingleton = nil;
 				[self.taskList addObject:task];
 			}
 			
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];					
+			//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 			reSchedule = YES;
 		}
 		
@@ -3404,7 +3509,7 @@ TaskManager *_sctmSingleton = nil;
             {
                 [Common sortList:self.mustDoTaskList byKey:@"deadline" ascending:YES];
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
+                //[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
             }
             
             if (dueChange)
@@ -4208,7 +4313,7 @@ TaskManager *_sctmSingleton = nil;
         }
 		
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
+		//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 		
 		[self scheduleTasks];
 	}
@@ -4251,7 +4356,7 @@ TaskManager *_sctmSingleton = nil;
 		
 	if (removeList.count > 0)
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];	
+		//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 		
 		[self scheduleTasks];
 	}
@@ -4294,7 +4399,7 @@ TaskManager *_sctmSingleton = nil;
             [tmp updateStatusIntoDB:[[DBManager getInstance] getDatabase]];
         }
         
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];        
+		//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 		
 	}
 }
@@ -5043,7 +5148,15 @@ TaskManager *_sctmSingleton = nil;
 	if (sortBGInProgress)
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
-		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:list];
+		
+        //[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:list];
+        
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self updateSortOrderBackground:list];
+        });
+        
         
         sortBGInProgress = NO; //does not need to wait sort complete when scheduling
 	}
@@ -5121,12 +5234,19 @@ TaskManager *_sctmSingleton = nil;
 	if (sortBGInProgress)
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
-		[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+		
+        //[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self updateSortOrderBackground:[[self.taskList retain] autorelease]];
+        });
+        
 	}
     
     [self scheduleTasks];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 }
 
 - (void) moveTask2Top:(Task *)task

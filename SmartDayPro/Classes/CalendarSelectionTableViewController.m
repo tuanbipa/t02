@@ -114,16 +114,18 @@ extern BOOL _isiPad;
     }
 	
 	UIView *contentView= [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
-    
+	//contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:246.0/255 green:246.0/255 blue:246.0/255 alpha:1];
+
 	self.view = contentView;
 	[contentView release];
     
-    calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40) style:UITableViewStyleGrouped];
+    calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40) style:UITableViewStylePlain];
     
 	calendarTableView.delegate = self;
 	calendarTableView.dataSource = self;
-	calendarTableView.sectionHeaderHeight = 5;
+	//calendarTableView.sectionHeaderHeight = 5;
+    calendarTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:calendarTableView];
 	[calendarTableView release];    
@@ -343,6 +345,11 @@ extern BOOL _isiPad;
     return calList.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 /*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
@@ -376,7 +383,9 @@ extern BOOL _isiPad;
 	NSNumber *flag = [selectedCalDict objectForKey:[NSNumber numberWithInt:indexPath.row]];
 	
 	cell.accessoryType = ([flag intValue] == 1?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-	cell.backgroundColor = ([flag intValue] == 1?[UIColor whiteColor]:[UIColor lightGrayColor]);
+	//cell.backgroundColor = ([flag intValue] == 1?[UIColor whiteColor]:[UIColor lightGrayColor]);
+    
+    cell.backgroundColor = ([flag intValue] == 1?[UIColor clearColor]:[UIColor lightGrayColor]);
 	
 	Project *prj = [self.calList objectAtIndex:indexPath.row];
     
@@ -384,7 +393,7 @@ extern BOOL _isiPad;
 			
 	UILabel *prjLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 5, 240 - (isDefault?25:0), 30)];
 	prjLabel.backgroundColor = [UIColor clearColor];
-	prjLabel.font = [UIFont boldSystemFontOfSize:16];
+	prjLabel.font = [UIFont systemFontOfSize:16];
 	prjLabel.text = prj.name;
 	prjLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
 	prjLabel.tag = 10000;

@@ -187,10 +187,12 @@ extern BOOL _isiPad;
         pad = 20;
     }
     
-    CGFloat marginY = (_isiPad?20:0);
+    //CGFloat marginY = (_isiPad?20:0);
+    CGFloat marginY = 0;
     
     contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(pad/2, marginY+10, frm.size.width-pad, 30)];
     searchBar.placeholder = @"";
@@ -207,7 +209,7 @@ extern BOOL _isiPad;
     frm.origin.y = marginY + 50;
     frm.size.height -= frm.origin.y;
 	
-    listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
+    listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	listTableView.delegate = self;
 	listTableView.dataSource = self;
     listTableView.backgroundColor = [UIColor clearColor];
@@ -266,6 +268,10 @@ extern BOOL _isiPad;
 	return self.tzIDList.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

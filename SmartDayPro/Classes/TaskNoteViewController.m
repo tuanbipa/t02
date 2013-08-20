@@ -126,6 +126,10 @@ extern BOOL _isiPad;
 	[ImageManager free];
 }
 
+- (void)viewDidLoad
+{
+}
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;

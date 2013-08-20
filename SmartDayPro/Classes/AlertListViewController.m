@@ -87,10 +87,10 @@ extern BOOL _isiPad;
     
     frm = contentView.bounds;
     
-    alertTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
+    alertTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	alertTableView.delegate = self;
 	alertTableView.dataSource = self;
-	alertTableView.sectionHeaderHeight=5;
+	//alertTableView.sectionHeaderHeight=5;
     alertTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:alertTableView];
@@ -202,6 +202,11 @@ extern BOOL _isiPad;
 	return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -216,7 +221,14 @@ extern BOOL _isiPad;
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    cell.backgroundColor = [UIColor clearColor];
 
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    
 	if (indexPath.row == 0)
 	{
 		cell.textLabel.text = _addText;
@@ -227,9 +239,7 @@ extern BOOL _isiPad;
 		
 		cell.textLabel.text = _alertText;
 		
-		//cell.detailTextLabel.text = [alert getAlertTimeString:self.taskEdit.type textDict:alertDict];
 		cell.detailTextLabel.text = [alert getAbsoluteTimeString:self.taskEdit];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:15];
 	}
 
     return cell;

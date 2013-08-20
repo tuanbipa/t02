@@ -110,10 +110,6 @@ CalendarViewController *_sc2ViewCtrler;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(dayManagerReady:)
 													 name:@"DayManagerReadyNotification" object:nil];
-        /*
-        [[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(fastScheduleFinished:)
-													 name:@"FastScheduleFinishedNotification" object:nil];*/
 
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(calendarDayReady:)
@@ -122,22 +118,13 @@ CalendarViewController *_sc2ViewCtrler;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(calendarDayChange:)
 													 name:@"CalendarDayChangeNotification" object:nil];
-        
+
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
 													 name:@"ScheduleFinishedNotification" object:nil];
-        /*
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(calendarDayReset:)
-													 name:@"CalendarDayResetNotification" object:nil];
- 
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(miniMonthResize:)
-													 name:@"MiniMonthResizeNotification" object:nil];
-*/        
 	}
 	
-	return self;	
+	return self;
 }
 
 -(id) initWithTabBar {
@@ -1891,6 +1878,7 @@ CalendarViewController *_sc2ViewCtrler;
     [self refreshLayout];
 }
 */
+
 - (void)scheduleFinished:(NSNotification *)notification
 {
     [self refreshLayout];
@@ -1907,51 +1895,10 @@ CalendarViewController *_sc2ViewCtrler;
     [self refreshADEPane];    
 }
 
-/*
-- (void)refreshCalendar
-{
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	
-    [self refreshPanes];
-
-    [self refreshLayout];
-    
-    [[BusyController getInstance] setBusy:NO withCode:BUSY_CAL_REFRESH_CALENDAR];
-
-	[pool release];
-}
-*/
-
-/*
-- (void)calendarDayReset:(NSNotification *)notification
-{
-	////NSLog(@"calendar view: received calendar data init notification -> refresh event layout\n");
-    
-	//[[BusyController getInstance] setBusy:YES withCode:BUSY_CAL_REFRESH_CALENDAR];
-	
-	//[self performSelectorInBackground:@selector(refreshCalendar) withObject:nil];
-    
-    [self refreshPanes];
-}
-*/
-
 - (void)calendarDayReady:(NSNotification *)notification
 {
     [self refreshPanes];
-    //[self refreshLayout];
 }
-
-/*
-- (void)miniMonthResize:(NSNotification *)notification
-{
-    [UIView beginAnimations:@"mmresize_animation" context:NULL];
-    [UIView setAnimationDuration:0.2];
-    
-    [self refreshFrame];
-    
-    [UIView commitAnimations];
-}
-*/
 
 #pragma mark Notification
 
@@ -1967,11 +1914,6 @@ CalendarViewController *_sc2ViewCtrler;
 
 -(void) recover
 {
-	//taskBGFinished = NO;
-	//eventBGFinished = NO;
-	
-	//[self.weekPlannerView performSelector:@selector(initCalendar) withObject:nil afterDelay:0.1];
-	
 	[self showFeatureHint];
 	
 	if (_scFreeVersion && _recoverCount == 4)

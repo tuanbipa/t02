@@ -62,7 +62,8 @@ extern BOOL _isiPad;
     self.password = setting.sdwPassword;
 	
     UIView *mainView = [[UIView alloc] initWithFrame:frm];
-    mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    mainView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     CGFloat marginY = (_isiPad?10:0);
 	
@@ -113,6 +114,7 @@ extern BOOL _isiPad;
 								  normalStateImage:nil
 								selectedStateImage:nil];						   
 	[checkButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    checkButton.titleLabel.font=[UIFont boldSystemFontOfSize:16];
 	
 	[mainView addSubview:checkButton];
     
@@ -124,8 +126,7 @@ extern BOOL _isiPad;
 									  selector:@selector(signup:) 
 							  normalStateImage:nil
 							selectedStateImage:nil];
-	
-	//signupButton.titleLabel.font=[UIFont systemFontOfSize:14];
+    checkButton.titleLabel.font=[UIFont boldSystemFontOfSize:16];
 
 	[mainView addSubview:signupButton];
 	

@@ -76,20 +76,24 @@ extern AbstractSDViewController *_abstractViewCtrler;
     CGSize sz = [Common getScreenSize];
     
     CGRect frm = CGRectZero;
+    frm.origin.y = 20;
     frm.size = sz;
     
     frm.size.width = 2*frm.size.width/3;
     
     ContentView *contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     
     [contentView release];
     
-	settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	//settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
+    settingTableView.backgroundColor = [UIColor clearColor];
     
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
@@ -211,7 +215,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	UIButton *resetButton = [Common createButton:_resetText
                                       buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(settingTableView.bounds.size.width - 70 - 80, 5, 80, 30)
+                                           frame:CGRectMake(settingTableView.bounds.size.width - 90, 5, 80, 30)
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                         selector:@selector(resetHint:)
@@ -229,11 +233,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	Project *prj = [[ProjectManager getInstance] getProjectByKey:self.setting.taskDefaultProject];
 	
-	UILabel *projectNameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 120, 10, 120, 20)];
+	UILabel *projectNameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 130 - 30, 10, 120, 20)];
 	projectNameLabel.tag = baseTag;
 	projectNameLabel.textAlignment=NSTextAlignmentRight;
 	projectNameLabel.backgroundColor=[UIColor clearColor];
-	projectNameLabel.font=[UIFont systemFontOfSize:15];
+	projectNameLabel.font=[UIFont boldSystemFontOfSize:16];
 	
 	if (prj != nil)
 	{
@@ -258,11 +262,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	cell.textLabel.text = _snoozeDuration;
 	
-	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 120, 10, 120, 20)];
+	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 130 - 30, 10, 120, 20)];
 	durationLabel.tag = baseTag;
 	durationLabel.textAlignment=NSTextAlignmentRight;
 	durationLabel.backgroundColor=[UIColor clearColor];
-	durationLabel.font=[UIFont systemFontOfSize:15];
+	durationLabel.font=[UIFont boldSystemFontOfSize:16];
+    durationLabel.textColor=[UIColor darkGrayColor];
     durationLabel.text = [Common getDurationString:self.setting.snoozeDuration*60];
 		
 	[cell.contentView addSubview:durationLabel];
@@ -275,7 +280,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeDeleteWarning:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.setting.deleteWarning?0:1);
@@ -291,7 +296,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableSound:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.setting.soundEnable?0:1);
@@ -307,7 +312,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	UIButton *deleteButton = [Common createButton:_deleteText
                                        buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(settingTableView.bounds.size.width - 70 - 80, 5, 80, 30)
+                                            frame:CGRectMake(settingTableView.bounds.size.width - 90, 5, 80, 30)
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(deleteSuspectedDuplication:)
@@ -335,6 +340,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	return 40;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -357,9 +367,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
     cell.imageView.image = nil;
     cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
     switch (indexPath.row)
     {

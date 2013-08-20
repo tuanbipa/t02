@@ -148,7 +148,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     frm.size.height = 416;
     
     ContentView *contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:246.0/255 green:246.0/255 blue:246.0/255 alpha:1];
     
     self.view = contentView;
     
@@ -157,10 +158,13 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     frm.origin.y += 40;
     frm.size.height -= 80;
     
-    tagTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
+    //tagTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
+    tagTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
+    
 	tagTableView.delegate = self;
 	tagTableView.dataSource = self;
 	tagTableView.allowsSelectionDuringEditing = YES;
+    tagTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:tagTableView];
 	[tagTableView release];
@@ -249,6 +253,11 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	return 40;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *flag = [selectedDict objectForKey:[NSNumber numberWithInt:indexPath.row]];
 	
@@ -292,10 +301,13 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
 	
     TagDictionary *dict = [TagDictionary getInstance];
     
     cell.textLabel.text = [[dict.tagDict allKeys] objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
     
     NSNumber *num = [NSNumber numberWithInt:indexPath.row];
     

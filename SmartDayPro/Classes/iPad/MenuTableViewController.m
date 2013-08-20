@@ -123,6 +123,8 @@ iPadViewController *_iPadViewCtrler;
 	
 	//cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.textColor = [UIColor grayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    
 	switch (indexPath.section)
     {
 		case 0:

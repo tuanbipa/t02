@@ -206,6 +206,7 @@
     [pool release];
 }
 
+/*
 - (void) bgRefreshPage:(NSInteger)page
 {
     @synchronized(self)
@@ -215,6 +216,7 @@
     
     [self performSelectorInBackground:@selector(refreshBackground4Page:) withObject:[NSNumber numberWithInt:page]];    
 }
+*/
 
 - (void) layout
 {

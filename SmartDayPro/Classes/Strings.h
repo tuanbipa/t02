@@ -247,6 +247,9 @@
 #define _syncFromToText NSLocalizedString(@"_syncFromToText" , "   Sync From               Sync To")
 #define _syncFromTo4iPadText NSLocalizedString(@"_syncFromTo4iPadText" , "   Sync From                    Sync To")
 
+#define _syncFromText NSLocalizedString(@"_syncFromText" , "")
+#define _syncToText NSLocalizedString(@"_syncToText" , "")
+
 #define _thisWeekText NSLocalizedString(@"_thisWeekText" , "This Week")
 #define _lastWeekText NSLocalizedString(@"_lastWeekText" , "Last Week")
 #define _lastMonthText NSLocalizedString(@"_lastMonthText" , "Last Month")

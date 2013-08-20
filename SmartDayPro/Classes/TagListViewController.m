@@ -66,7 +66,7 @@ extern BOOL _isiPad;
 	[contentView release];
 	
 	//tagTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416) style:UITableViewStyleGrouped];
-    tagTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    tagTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	tagTableView.delegate = self;
 	tagTableView.dataSource = self;
 	tagTableView.allowsSelectionDuringEditing=YES;
@@ -172,7 +172,8 @@ extern BOOL _isiPad;
 {
 	TagDictionary *dict = [TagDictionary getInstance];
     
-    CGFloat w = (tagTableView.bounds.size.width - (_isiPad?60:20) - 30)/3;
+    //CGFloat w = (tagTableView.bounds.size.width - (_isiPad?60:20) - 30)/3;
+    CGFloat w = (tagTableView.bounds.size.width - 40)/3;
 	
 	UIButton *presetButtons[9];
 	
@@ -184,7 +185,7 @@ extern BOOL _isiPad;
 		UIButton *presetButton = [Common createButton:@"" 
 									  buttonType:UIButtonTypeCustom
 										   //frame:CGRectMake(mod*100 + 5, div*30 + 5, 90, 25)
-                                  frame:CGRectMake(mod*(w+10) + 5, div*30 + 5, w, 25)
+                                  frame:CGRectMake(mod*(w+10) + 10, div*30 + 5, w, 25)
 									  titleColor:[UIColor blackColor]
 										  target:self 
 										selector:@selector(selectPreset:) 
@@ -260,6 +261,38 @@ extern BOOL _isiPad;
 	return 40;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if(section != 0)
+        return 40.0f;
+    
+    return 0.01f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section != 0)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 40;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = section==1?_presetsText:_customText;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.textColor = [Colors darkSteelBlue];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	if (indexPath.section == 2)
@@ -304,9 +337,13 @@ extern BOOL _isiPad;
 	}
 	
 	cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
 	switch (indexPath.section) 
 	{

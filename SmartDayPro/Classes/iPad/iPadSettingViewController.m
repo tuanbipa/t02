@@ -360,18 +360,21 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     CGSize sz = [Common getScreenSize];
     
     CGRect frm = CGRectZero;
+    frm.origin.y = 20;
     frm.size = sz;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     
     [contentView release];
     
-	masterTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width/3, contentView.frame.size.height) style:UITableViewStyleGrouped];
+	masterTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width/3, contentView.frame.size.height) style:UITableViewStylePlain];
 	masterTableView.delegate = self;
 	masterTableView.dataSource = self;
+    masterTableView.backgroundColor = [UIColor clearColor];
     
 	[contentView addSubview:masterTableView];
 	[masterTableView release];
@@ -630,6 +633,9 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	return 1;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01f;
+}
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -676,9 +682,13 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	
     cell.imageView.image = nil;
     cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	//cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
     if ([tableView isEqual:masterTableView])
     {

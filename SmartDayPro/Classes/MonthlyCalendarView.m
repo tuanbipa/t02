@@ -267,19 +267,7 @@ extern BOOL _isiPad;
 		
 		dTaskDot[index] = YES;
 	}
-	
-    /*
-	NSMutableArray *sTaskList = [tm getSTaskListFromDate:fromDate toDate:toDate];
-	
-	for (Task *task in sTaskList)
-	{
-		NSTimeInterval diff = [Common timeIntervalNoDST:task.startTime sinceDate:fromDate];
-		
-		NSInteger index = diff/(24*60*60);
-		
-		sTaskDot[index] = YES;
-	}
-	*/
+
 	NSInteger firstCellIndex = 0;
 	
 	for (int i=0; i<42; i++)
@@ -294,13 +282,14 @@ extern BOOL _isiPad;
 
 - (void) updateBusyTimeFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
 {
-	NSInteger allocTime[42];
+	//NSInteger allocTime[42];
 	
 	for (int i=0; i<42; i++)
 	{
 		allocTime[i] = 0;
 	}
 	
+    /*
 	TaskManager *tm = [TaskManager getInstance];
     
 	NSMutableArray *eventList = [tm getEventListFromDate:fromDate toDate:toDate];
@@ -329,6 +318,47 @@ extern BOOL _isiPad;
 		
 		cell.freeRatio = ratio;	
 	}
+    */
+    
+    [[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
+    
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        TaskManager *tm = [TaskManager getInstance];
+        
+        NSMutableArray *eventList = [tm getEventListFromDate:fromDate toDate:toDate];
+        
+        for (Task *task in eventList)
+        {
+            NSTimeInterval diff = [Common timeIntervalNoDST:task.startTime sinceDate:fromDate];
+            
+            NSInteger index = diff/(24*60*60);
+            
+            allocTime[index] = allocTime[index] + [Common timeIntervalNoDST:task.endTime sinceDate:task.startTime];
+        }
+        
+        //dispatch_async(dispatch_get_main_queue(), ^(void){
+            NSInteger firstCellIndex = 0;
+            
+            for (int i=0; i<42; i++)
+            {
+                MonthlyCellView *cell = [[self subviews] objectAtIndex:firstCellIndex+i];
+                
+                CGFloat ratio = (CGFloat) allocTime[i]/(24*3600);
+                
+                if (allocTime[i] == 0)
+                {
+                    ratio = 0;
+                }
+                
+                cell.freeRatio = ratio;	
+            }
+        
+            [[BusyController getInstance] setBusy:NO withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
+        //});
+    });
+
 }
 
 
@@ -560,15 +590,15 @@ extern BOOL _isiPad;
 
 - (void)refreshBackground
 {
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     
     [self refresh];
     
     [[BusyController getInstance] setBusy:NO withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
     
-    [[TaskManager getInstance] initMiniMonth:NO];
+    //[[TaskManager getInstance] initMiniMonth:NO];
     
-    [pool release];
+    //[pool release];
 }
 
 - (void) showDot
@@ -627,15 +657,18 @@ extern BOOL _isiPad;
     
     if (![[BusyController getInstance] checkMMBusy])
     {
-        //[[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
+        /*
+        [[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
         
-        //[self performSelectorInBackground:@selector(refreshBackground) withObject:nil];
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self refreshBackground];
+        });
+        */
         [self refresh];
     }
         
-	
-	//[[BusyController getInstance] setBusy:NO withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
-	
 	//[pool release];
 	
 	////NSLog(@"end MonthView initCalendar");

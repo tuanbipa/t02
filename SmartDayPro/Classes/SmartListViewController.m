@@ -108,10 +108,14 @@ SmartListViewController *_smartListViewCtrler;
         movableController = [[TaskMovableController alloc] init];
         layoutController = [[TaskLayoutController alloc] init];
         layoutController.movableCtrler = movableController;
-
+        
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
 													 name:@"ScheduleFinishedNotification" object:nil];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(fastScheduleFinished:)
+													 name:@"FastScheduleFinishedNotification" object:nil];
         
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(dayManagerReady:)
@@ -328,6 +332,7 @@ SmartListViewController *_smartListViewCtrler;
     [self deselect];    
 }
 
+/*
 -(void)refreshFadedStatus
 {
 	for (UIView *view in smartListView.subviews)
@@ -347,7 +352,7 @@ SmartListViewController *_smartListViewCtrler;
 		}
 	}	
 }
-
+*/
 - (void)clearLayout
 {
     //[self.smartListLayoutController wait4LayoutComplete];
@@ -380,7 +385,7 @@ SmartListViewController *_smartListViewCtrler;
 	{
 		[filterView tagInputReset];
 	}
-    	
+    
     [self.layoutController layout];
 }
 
@@ -507,6 +512,7 @@ SmartListViewController *_smartListViewCtrler;
     [self stopQuickAdd];
 }
 
+/*
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {	
 	//if (smartListMovableController.selectionMode == SELECTION_MULTI)
@@ -561,6 +567,7 @@ SmartListViewController *_smartListViewCtrler;
 		[menuCtrler setMenuVisible:NO animated:YES];
 	}		
 }
+*/
 
 - (void) refreshViewAfterScrolling
 {
@@ -2182,7 +2189,6 @@ SmartListViewController *_smartListViewCtrler;
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    //quickAddEditBarView.hidden = NO;
     maskView.hidden = NO;
     
     if (_plannerViewCtrler != nil)
@@ -2237,15 +2243,18 @@ SmartListViewController *_smartListViewCtrler;
 }
 
 #pragma mark Notification
-
 - (void)scheduleFinished:(NSNotification *)notification
 {
-    //printf("smart list schedule finished - refresh layout\n");
+    NSLog(@"schedule finished");
     
-    //if (_plannerViewCtrler != nil || [_abstractViewCtrler checkControllerActive:1])
-    {
-        [self refreshLayout];
-    }
+    [self refreshLayout];
+}
+
+- (void)fastScheduleFinished:(NSNotification *)notification
+{
+    NSLog(@"fast schedule finished");
+    
+    [self refreshLayout];
 }
 
 /*
@@ -3224,14 +3233,13 @@ SmartListViewController *_smartListViewCtrler;
     moreButton.tag = 10000;
 	
 	[self.quickAddPlaceHolder addSubview:moreButton];*/
-	
+	/*
     timePlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-60, frm.size.width, 20)];
 	timePlaceHolder.backgroundColor = [UIColor clearColor];
 	timePlaceHolder.userInteractionEnabled = NO;
 	[contentView addSubview:timePlaceHolder];
 	[timePlaceHolder release];	
 	
-    /*
     suggestedTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 20)];
 	suggestedTimeLabel.backgroundColor=[[Colors darkSlateGray] colorWithAlphaComponent:0.8];
 	suggestedTimeLabel.hidden = YES;

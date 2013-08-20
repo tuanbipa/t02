@@ -2788,6 +2788,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)appBusy:(NSNotification *)notification
 {
+    //NSLog(@"app busy");
+    
     self.userInteractionEnabled = NO;
 }
 

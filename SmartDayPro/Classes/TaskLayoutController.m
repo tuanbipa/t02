@@ -52,14 +52,24 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     TaskManager *tm = [TaskManager getInstance];
     
-    NSMutableArray *list = [tm getDisplayList];
+    NSMutableArray *tasks = [tm getDisplayList];
+
+    NSLog(@"task layout %d ...", tasks.count);
     
     self.taskDict = [NSMutableDictionary dictionaryWithCapacity:10];
     
     NSDate *dt = nil;
     
-    for (Task *task in list)
+    NSInteger c = 0;
+    
+    for (Task *task in tasks)
     {
+        if (!task.isScheduled)
+        {
+            NSLog(@"task layout fast end");
+            break;
+        }
+        
         if (dt != nil && [Common daysBetween:dt sinceDate:task.smartTime] == 0)
         {
             NSMutableArray *list = [self.taskDict objectForKey:dt];
@@ -83,6 +93,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             [self.taskDict setObject:list forKey:dt];
         }
+        
+        c++;
     }
     
     self.listKeys = [self.taskDict.allKeys sortedArrayUsingSelector:@selector(compare:)];

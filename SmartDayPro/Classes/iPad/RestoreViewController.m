@@ -39,6 +39,7 @@ extern BOOL _isiPad;
 {
     //CGRect frm = CGRectMake(0, 0, 320, 416);
     CGRect frm = CGRectZero;
+    frm.origin.y = 20;
     frm.size = [Common getScreenSize];
     
     if (_isiPad)
@@ -51,15 +52,39 @@ extern BOOL _isiPad;
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor darkGrayColor];
+    //contentView.backgroundColor = [UIColor darkGrayColor];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
     
+    frm = contentView.bounds;
+    frm.origin.x = 10;
+    frm.origin.y = 10;
+    frm.size.width -= 20;
+    frm.size.height = 40;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:frm];
+    label.backgroundColor = [UIColor clearColor];
+    label.numberOfLines = 0;
+    label.text = _autoBackupHint;
+    label.textAlignment = NSTextAlignmentLeft;
+    label.font = [UIFont systemFontOfSize:16];
+    label.textColor = [Colors darkSteelBlue];
+    
+    [contentView addSubview:label];
+    [label release];
+    
+    frm = contentView.bounds;
+    frm.origin.y = 50;
+    frm.size.height -= 50;
+    
     // list file table
-    listFileTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    listFileTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	listFileTableView.delegate = self;
 	listFileTableView.dataSource = self;
+    listFileTableView.backgroundColor = [UIColor clearColor];
+    
 	[contentView addSubview:listFileTableView];
 	[listFileTableView release];
 }
@@ -130,12 +155,49 @@ extern BOOL _isiPad;
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+/*
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if(section == 0)
+        return 40.0f;
+    
+    return 0.01f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        CGRect frm = tableView.bounds;
+        frm.origin.x = 100;
+        frm.size.width -= 200;
+        frm.size.height = 40;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        label.numberOfLines = 0;
+        label.text = _autoBackupHint;
+        label.textAlignment = NSTextAlignmentLeft;
+        label.font = [UIFont systemFontOfSize:16];
+        label.textColor = [Colors darkSteelBlue];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+*/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     return backupDirectoryContents.count;
 }
 
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section)
     {
@@ -145,7 +207,7 @@ extern BOOL _isiPad;
     
 	return @"";
 }
-
+*/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -168,10 +230,14 @@ extern BOOL _isiPad;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
     
+    cell.backgroundColor = [UIColor clearColor];
+    
     NSString *fileTile = [_backupOn stringByAppendingString:@" "];
     NSString *fileName = [backupDirectoryContents objectAtIndex:indexPath.row];
     fileTile = [fileTile stringByAppendingString:[Common getFullDateTimeString2:[self getFileMoficationDate:fileName]]];
 	cell.textLabel.text = fileTile;
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
     
 	cell.textLabel.backgroundColor = [UIColor clearColor];
     

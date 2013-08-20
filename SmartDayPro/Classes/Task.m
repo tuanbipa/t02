@@ -148,7 +148,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 		
 		self.original = nil;
 		
-		self.isScheduled = YES;
+		self.isScheduled = NO;
 
 		self.exceptions = nil;
         
@@ -330,7 +330,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 	copy.actualDuration = actualDuration;
 	copy.original = original;
 	
-	copy.isScheduled = YES;
+	//copy.isScheduled = YES;
     
     copy.links = [[NSMutableArray alloc] initWithArray:links copyItems:YES];
     [copy.links release];
@@ -441,7 +441,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 	self.isActivating = NO;
 	self.actualDuration = 0;
 	
-	self.isScheduled = YES;
+	self.isScheduled = NO;
 	
 	self.exceptions = nil;
 	
@@ -698,7 +698,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     
         self.links = [[TaskLinkManager getInstance] getLinkIds4Task:self.primaryKey];
 		
-		self.isScheduled = YES;
+		//self.isScheduled = YES;
 		
 	////////printf("init Task - ");
 	//[self print];
@@ -989,7 +989,7 @@ static sqlite3_stmt *task_delete_statement = nil;
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }
-    
+
     if (!isExternalUpdate)
 	{
 		self.updateTime = [NSDate date];
@@ -1009,9 +1009,11 @@ static sqlite3_stmt *task_delete_statement = nil;
 	//////printf("Update Seq No - task %s, key: %d, project: %d, group: %d, seq: %d, merged seq: %d\n", [self.name UTF8String], self.primaryKey, self.project, self.groupKey, self.sequenceNo, self.mergedSeqNo);
     int success = sqlite3_step(statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
-
+    
 	sqlite3_reset(statement);
-    if (success != SQLITE_DONE) {
+    
+    if (success != SQLITE_DONE)
+    {
  		NSAssert1(0, @"Error: failed to update into the database with message '%s'.", sqlite3_errmsg(database));
 	}
 }

@@ -2347,16 +2347,18 @@ TDSync *_tdSyncSingleton;
 				sync2WayPending = NO;
 				
 				[[BusyController getInstance] setBusy:YES withCode:BUSY_TD_SYNC];
-				[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];		
+                
+				//[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+                
+                dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+                
+                dispatch_async(backgroundQueue, ^{
+                    [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+                });
+                
 			}			
 		}
-		/*else 
-		{
-			self.syncMode = -1;			
-			[self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];
-		}*/
-
-	}	
+	}
 }
 
 -(void)initBackground1WaySync
@@ -2378,7 +2380,14 @@ TDSync *_tdSyncSingleton;
 				sync1WayPending = NO;
 				
 				[[BusyController getInstance] setBusy:YES withCode:BUSY_TD_SYNC];
-				[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];		
+				
+                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+                dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+                
+                dispatch_async(backgroundQueue, ^{
+                    [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+                });
+                
 			}			
 		}		
 	}
@@ -2402,15 +2411,16 @@ TDSync *_tdSyncSingleton;
 				sync2WayPending = NO;
 				
 				[[BusyController getInstance] setBusy:YES withCode:BUSY_TD_SYNC];
-				[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];		
+				
+                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+                
+                dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+                
+                dispatch_async(backgroundQueue, ^{
+                    [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+                });
 			}			
 		}
-		/*else 
-         {
-         self.syncMode = -1;			
-         [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];
-         }*/
-        
 	}	
 }
 
@@ -2422,7 +2432,13 @@ TDSync *_tdSyncSingleton;
     
     [[BusyController getInstance] setBusy:YES withCode:BUSY_TD_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_TD2SD]];		
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_TD2SD]];
+    
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_TD2SD]];
+    });
     
 }
 

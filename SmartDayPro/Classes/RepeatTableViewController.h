@@ -11,7 +11,7 @@
 @class Task;
 @class RepeatData;
 
-@interface RepeatTableViewController : UITableViewController<UITextFieldDelegate> {
+@interface RepeatTableViewController : UIViewController<UITextFieldDelegate> {
 	UITableView *repeatTableView;
 	
 	NSInteger selectedIndex;

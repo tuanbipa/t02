@@ -10,7 +10,7 @@
 
 //@class Task;
 
-@interface ProjectSelectionTableViewController : UITableViewController {
+@interface ProjectSelectionTableViewController : UIViewController {
 	UITableView *projectTableView;
     UIView *contentView;
 	

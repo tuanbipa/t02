@@ -1221,14 +1221,26 @@ EKReminderSync *_ekReminderSyncSingleton;
 	
 	[[BusyController getInstance] setBusy:YES withCode:BUSY_REMINDER_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+    
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+    });
+    
 }
 
 -(void)initBackgroundAuto1WaySync
 {
     [[BusyController getInstance] setBusy:YES withCode:BUSY_REMINDER_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+    });
 }
 
 -(void)initBackgroundAuto2WaySync
@@ -1237,7 +1249,12 @@ EKReminderSync *_ekReminderSyncSingleton;
 	
 	[[BusyController getInstance] setBusy:YES withCode:BUSY_REMINDER_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+    });
 }
 
 -(void)syncBackground:(NSNumber *) mode

@@ -104,7 +104,7 @@ extern BOOL _isiPad;
     self.view = contentView;
     [contentView release];
     
-    linkTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    linkTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
     linkTableView.backgroundColor = [UIColor clearColor];
 	linkTableView.delegate = self;
 	linkTableView.dataSource = self;
@@ -267,6 +267,38 @@ extern BOOL _isiPad;
     return section == 0?2:self.task.links.count;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if(section == 1)
+        return 40.0f;
+    
+    return 0.01f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 40;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = _assetsText;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.textColor = [Colors darkSteelBlue];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LinkCell";
@@ -291,6 +323,10 @@ extern BOOL _isiPad;
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
     
     switch (indexPath.section)
     {
@@ -299,8 +335,6 @@ extern BOOL _isiPad;
             if (indexPath.row == 0)
             {
                 cell.textLabel.text = _addNewLinkText;
-                cell.textLabel.font = [UIFont systemFontOfSize:18];
-                cell.textLabel.textColor = [UIColor lightGrayColor];
             }
             else if (indexPath.row == 1)
             {
@@ -311,7 +345,8 @@ extern BOOL _isiPad;
                 
                 urlTextField.textAlignment = NSTextAlignmentLeft;
                 urlTextField.backgroundColor=[UIColor clearColor];
-                urlTextField.font=[UIFont systemFontOfSize:18];
+                urlTextField.font=[UIFont systemFontOfSize:16];
+                urlTextField.textColor = [UIColor grayColor];
                 
                 urlTextField.placeholder=_addNewURLText;
                 urlTextField.keyboardType=UIKeyboardTypeDefault;
@@ -401,10 +436,12 @@ extern BOOL _isiPad;
     return UITableViewCellEditingStyleNone;
 }
 
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return section == 0? @"":_assetsText;
 }
+*/
 
 /*
 // Override to support conditional editing of the table view.

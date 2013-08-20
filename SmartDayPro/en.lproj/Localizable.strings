@@ -244,6 +244,8 @@
 "_syncWindowText" = "Sync Window";
 "_syncFromToText" = "   Sync From               Sync To";
 "_syncFromTo4iPadText" = "   Sync From                                 Sync To";
+"_syncFromText" = "Sync From";
+"_syncToText" = "Sync To";
 
 "_thisWeekText" = "This Week";
 "_lastWeekText" = "Last Week";

@@ -144,10 +144,11 @@ extern BOOL _isiPad;
     
     [contentView release];
     
-    historyTableView = [[UITableView alloc] initWithFrame:CGRectInset(contentView.bounds, 5, 5) style:UITableViewStyleGrouped];
+    historyTableView = [[UITableView alloc] initWithFrame:CGRectInset(contentView.bounds, 5, 5) style:UITableViewStylePlain];
     
     historyTableView.delegate = self;
     historyTableView.dataSource = self;
+    historyTableView.backgroundColor = [UIColor clearColor];
     
 	[contentView addSubview:historyTableView];
 	[historyTableView release];
@@ -213,11 +214,44 @@ extern BOOL _isiPad;
     return 40;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if(section == 0)
+        return 40.0f;
+    
+    return 0.01f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 40;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = [_totalDurationText stringByAppendingFormat:@": %@", [Common getDurationString:actualDuration]];;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:16];
+        label.textColor = [UIColor darkGrayColor];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
 	return [_totalDurationText stringByAppendingFormat:@": %@", [Common getDurationString:actualDuration]];
 }
-
+*/
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
@@ -248,7 +282,8 @@ extern BOOL _isiPad;
     UILabel *timeValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 180, 25)];
     timeValueLabel.tag = 10013;
     timeValueLabel.textAlignment=UITextAlignmentLeft;
-    timeValueLabel.textColor= [Colors darkSteelBlue];
+    timeValueLabel.font = [UIFont systemFontOfSize:16];
+    timeValueLabel.textColor= [UIColor grayColor];
     timeValueLabel.backgroundColor=[UIColor clearColor];
     
     timeValueLabel.text = [Common getDateTimeString:progress.startTime];
@@ -256,10 +291,11 @@ extern BOOL _isiPad;
     [cell.contentView addSubview:timeValueLabel];
     [timeValueLabel release];
     
-    UILabel *durationValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(300-120, 5, 100, 25)];
+    UILabel *durationValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(historyTableView.bounds.size.width-120, 5, 100, 25)];
     durationValueLabel.tag = 10014;
     durationValueLabel.textAlignment=UITextAlignmentRight;
-    durationValueLabel.textColor= [Colors darkSteelBlue];
+    durationValueLabel.font = [UIFont systemFontOfSize:16];
+    durationValueLabel.textColor = [UIColor grayColor];
     durationValueLabel.backgroundColor=[UIColor clearColor];
     
     durationValueLabel.text = [Common getTimerDurationString:duration];

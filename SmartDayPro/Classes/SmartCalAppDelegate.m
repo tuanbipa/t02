@@ -267,9 +267,17 @@ BOOL _fromBackground = NO;
 	
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
     
-    [self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
+    //[self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
     
-    [_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
+    //[_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
+
+    [_abstractViewCtrler.miniMonthView initCalendar:[NSDate date]];
+    
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self check2AutoSync];
+    });
     
 	_appDidStartup = YES;
 }
@@ -295,9 +303,17 @@ BOOL _fromBackground = NO;
     
     autoSyncPending = settings.autoSyncEnabled && !openByURL;
     
-    [self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
+    //[self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
 
-    [_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
+    //[_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
+
+    [_abstractViewCtrler.miniMonthView initCalendar:[NSDate date]];
+    
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self check2AutoSync];
+    });
     
     if (_sdViewCtrler != nil)
     {
@@ -473,11 +489,12 @@ BOOL _fromBackground = NO;
     
     //[self testZone];
 	
-    //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(50, 30, 20, 20)];
-    busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    busyIndicatorView.transform = CGAffineTransformMakeScale(2.0, 2.0);
+    //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(200, 20, 20, 20)];
+    busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    busyIndicatorView.frame = CGRectMake(300, 30, 20, 20);
+    //busyIndicatorView.transform = CGAffineTransformMakeScale(2.0, 2.0);
     
-    busyIndicatorView.center = self.window.center;
+    //busyIndicatorView.center = self.window.center;
     
 	[self createCustomMenuItems];
     
@@ -515,7 +532,8 @@ BOOL _fromBackground = NO;
 		backgroundSupported = device.multitaskingSupported;
 	
 	[self performSelector:@selector(startup) withObject:nil afterDelay:0];
-	
+	//[self startup];
+    
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
     {
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:2];

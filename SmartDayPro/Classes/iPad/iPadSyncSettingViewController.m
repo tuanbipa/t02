@@ -202,20 +202,23 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     CGSize sz = [Common getScreenSize];
     
     CGRect frm = CGRectZero;
+    frm.origin.y = 20;
     frm.size = sz;
     
     frm.size.width = 2*frm.size.width/3;
     
     ContentView *contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     
     [contentView release];
     
-	settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
+    settingTableView.backgroundColor = [UIColor clearColor];
     
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
@@ -245,7 +248,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableSynchronization:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.setting.syncEnabled?0:1;
@@ -257,6 +260,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 - (void) createSyncAtStartUpCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
+    /*
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 250, 40)];
     titleLabel.numberOfLines = 2;
     titleLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -266,11 +270,13 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     titleLabel.text = _syncAtStartUp;
     
 	[cell.contentView addSubview:titleLabel];
-	[titleLabel release];
+	[titleLabel release];*/
+    
+    cell.textLabel.text = _syncAtStartUp;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableAutoSync:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.setting.autoSyncEnabled?0:1;
@@ -286,7 +292,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableAutoPush:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.setting.autoPushEnabled?0:1;
@@ -300,15 +306,17 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 {
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _mySmartDayDotCom, _others, nil];
     
+    CGFloat w = settingTableView.bounds.size.width - 20;
+    
 	UISegmentedControl *syncSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	syncSegmentedControl.frame = CGRectMake(10, 5, 430, 30);
+	syncSegmentedControl.frame = CGRectMake(10, 5, w, 30);
 	[syncSegmentedControl addTarget:self action:@selector(switchSyncSource:) forControlEvents:UIControlEventValueChanged];
 	syncSegmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	syncSegmentedControl.selectedSegmentIndex = (self.setting.sdwSyncEnabled?0:1);
 	syncSegmentedControl.tag = baseTag+1;
     
-    [syncSegmentedControl setWidth:280 forSegmentAtIndex:0];
-    [syncSegmentedControl setWidth:150 forSegmentAtIndex:1];
+    //[syncSegmentedControl setWidth:w/2 forSegmentAtIndex:0];
+    //[syncSegmentedControl setWidth:w/2 forSegmentAtIndex:1];
 	
 	[cell.contentView addSubview:syncSegmentedControl];
 	[syncSegmentedControl release];
@@ -316,10 +324,11 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 - (void) createSDWAccountCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-    UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 100, 5, 100, 30)];
+    UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 110 - 30, 5, 100, 30)];
     verifiedLabel.backgroundColor = [UIColor clearColor];
     verifiedLabel.textAlignment = NSTextAlignmentRight;
-    verifiedLabel.textColor = [Colors darkSteelBlue];
+    verifiedLabel.font = [UIFont boldSystemFontOfSize:16];
+    verifiedLabel.textColor = [UIColor darkGrayColor];
     verifiedLabel.tag = baseTag;
     verifiedLabel.text = (self.setting.sdwVerified?_verifiedText:_unverifiedText);
     
@@ -337,11 +346,12 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
 	cell.textLabel.text = _tasksText;
 	
-    UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 120, 10, 120, 20)];
+    UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 130 - 30, 10, 120, 20)];
 	nameLabel.tag = baseTag;
 	nameLabel.textAlignment=NSTextAlignmentRight;
 	nameLabel.backgroundColor=[UIColor clearColor];
-	nameLabel.font=[UIFont systemFontOfSize:15];
+	nameLabel.font=[UIFont boldSystemFontOfSize:16];
+    nameLabel.textColor = [UIColor darkGrayColor];
 	nameLabel.text = (!self.setting.tdSyncEnabled && !self.setting.rmdSyncEnabled)?_offText:(self.setting.tdSyncEnabled?_toodledoText:_reminderText);
     
 	[cell.contentView addSubview:nameLabel];
@@ -354,11 +364,12 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
 	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
 	
-    UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 120, 10, 120, 20)];
+    UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 130 - 30, 10, 120, 20)];
 	nameLabel.tag = baseTag;
 	nameLabel.textAlignment=NSTextAlignmentRight;
 	nameLabel.backgroundColor=[UIColor clearColor];
-	nameLabel.font=[UIFont systemFontOfSize:15];
+	nameLabel.font=[UIFont boldSystemFontOfSize:16];
+    nameLabel.textColor = [UIColor darkGrayColor];
 	nameLabel.text = self.setting.ekSyncEnabled?_onText:_offText;
     
 	[cell.contentView addSubview:nameLabel];
@@ -388,6 +399,38 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 40;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if(section == 1)
+        return 40.0f;
+    
+    return 0.01f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 40;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = _syncSetupText;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.textColor = [Colors darkSteelBlue];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -425,9 +468,13 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
     cell.imageView.image = nil;
     cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
     switch (indexPath.section)
     {

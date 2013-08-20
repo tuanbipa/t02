@@ -47,23 +47,33 @@ extern BOOL _isiPad;
         frm.size.width = 320;
     }
     
-    frm.size.width = frm.size.width/2;
+    UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-	self.tableView.sectionFooterHeight = 20;
+    self.view = contentView;
+    [contentView release];
+    
+    settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
+	settingTableView.delegate = self;
+	settingTableView.dataSource = self;
+    settingTableView.backgroundColor = [UIColor clearColor];
+    
+	[contentView addSubview:settingTableView];
+	[settingTableView release];
+    
+    frm.size.width = frm.size.width/2;
 	
-	syncFromTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
+	syncFromTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	
-	syncFromTableView.sectionHeaderHeight=5;
-	syncFromTableView.sectionFooterHeight=1;
 	syncFromTableView.delegate = self;
 	syncFromTableView.dataSource = self;
+    syncFromTableView.backgroundColor = [UIColor clearColor];
 	
-	syncToTableView = [[UITableView alloc] initWithFrame:CGRectOffset(frm, frm.size.width, 0) style:UITableViewStyleGrouped];
+	syncToTableView = [[UITableView alloc] initWithFrame:CGRectOffset(frm, frm.size.width, 0) style:UITableViewStylePlain];
 	
-	syncToTableView.sectionHeaderHeight=5;
-	syncToTableView.sectionFooterHeight=1;
 	syncToTableView.delegate = self;
 	syncToTableView.dataSource = self;
+    syncToTableView.backgroundColor = [UIColor clearColor];
 	
 	syncFromIndex = self.setting.syncWindowStart;
 	syncToIndex = self.setting.syncWindowEnd;
@@ -137,7 +147,7 @@ extern BOOL _isiPad;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-	if ([tableView isEqual:self.tableView])
+	if ([tableView isEqual:settingTableView])
 	{
 		return 1;
 	}
@@ -147,24 +157,82 @@ extern BOOL _isiPad;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ([tableView isEqual:self.tableView])
+	if ([tableView isEqual:settingTableView])
 	{
-		return 418;
+		//return 418;
+        
+        return 240;
 	}
 	
 	return 44;
 }
 
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if ([tableView isEqual:settingTableView] && section == 0)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 40;
+        
+        UIView *headerView = [[UIView alloc] initWithFrame:frm];
+        
+        frm.size.width /= 2;
+        
+        UILabel *fromLabel = [[UILabel alloc] initWithFrame:frm];
+        fromLabel.backgroundColor = [UIColor clearColor];
+        fromLabel.text = _syncFromText;
+        fromLabel.textAlignment = NSTextAlignmentCenter;
+        fromLabel.font = [UIFont boldSystemFontOfSize:20];
+        fromLabel.textColor = [Colors darkSteelBlue];
+        
+        [headerView addSubview:fromLabel];
+        [fromLabel release];
+        
+        frm.origin.x += frm.size.width;
+
+        UILabel *toLabel = [[UILabel alloc] initWithFrame:frm];
+        toLabel.backgroundColor = [UIColor clearColor];
+        toLabel.text = _syncToText;
+        toLabel.textAlignment = NSTextAlignmentCenter;
+        toLabel.font = [UIFont boldSystemFontOfSize:20];
+        toLabel.textColor = [Colors darkSteelBlue];
+        
+        [headerView addSubview:toLabel];
+        [toLabel release];
+
+        return [headerView autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    
+    if ([tableView isEqual:settingTableView] && section == 0)
+    {
+        return 40.0f;
+    }
+    
+    return 0.01f;
+}
+
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
-	if ([tableView isEqual:self.tableView])
+	if ([tableView isEqual:settingTableView])
 	{
 		return _isiPad?_syncFromTo4iPadText:_syncFromToText;//@"   Sync From               Sync To";
 	}
 	
 	return @"";
 }
-
+*/
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -175,12 +243,16 @@ extern BOOL _isiPad;
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 	
-	cell.textLabel.font = [cell.textLabel.font fontWithSize:16];
+	cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
+    
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
     
     // Set up the cell...
 	
-	if ([tableView isEqual:self.tableView])
+	if ([tableView isEqual:settingTableView])
 	{
 		[cell.contentView addSubview:syncFromTableView];
 		[cell.contentView addSubview:syncToTableView];
@@ -236,7 +308,7 @@ extern BOOL _isiPad;
 			cell.textLabel.textColor=[Colors darkSteelBlue];
 		}else {
 			[cell setAccessoryType:UITableViewCellAccessoryNone];
-			cell.textLabel.textColor=[UIColor blackColor];
+			cell.textLabel.textColor=[UIColor grayColor];
 		}		
 		
 	}		
@@ -282,7 +354,7 @@ extern BOOL _isiPad;
 			cell.textLabel.textColor=[Colors darkSteelBlue];
 		}else {
 			[cell setAccessoryType:UITableViewCellAccessoryNone];
-			cell.textLabel.textColor=[UIColor blackColor];
+			cell.textLabel.textColor=[UIColor grayColor];
 		}		
 		
 	}

@@ -63,9 +63,11 @@ extern BOOL _isiPad;
 	
 
     UIView *mainView = [[UIView alloc] initWithFrame:frm];
-    mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //mainView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    mainView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    CGFloat marginY = (_isiPad?10:0);
+    //CGFloat marginY = (_isiPad?10:0);
+    CGFloat marginY = 0;
 	
 	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+10, frm.size.width-20, 25)];
 	emailLabel.backgroundColor = [UIColor clearColor];
@@ -116,18 +118,28 @@ extern BOOL _isiPad;
 								  normalStateImage:nil
 								selectedStateImage:nil];						   
 	[checkButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    checkButton.titleLabel.font=[UIFont boldSystemFontOfSize:16];
 	
 	[mainView addSubview:checkButton];
 	
+    /*
 	UILabel *signupLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+190, frm.size.width-20, 40)];
 	signupLabel.numberOfLines = 0;
 	signupLabel.text = _toodledoSignupHintText;
-	signupLabel.backgroundColor = [UIColor clearColor];
-	
+	signupLabel.backgroundColor = [UIColor clearColor];*/
+
+    UILabel *signupLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+190, frm.size.width-20, 40)];
+    signupLabel.backgroundColor = [UIColor clearColor];
+    signupLabel.numberOfLines = 0;
+    signupLabel.text = _toodledoSignupHintText;
+    signupLabel.textAlignment = NSTextAlignmentLeft;
+    signupLabel.font = [UIFont systemFontOfSize:16];
+    signupLabel.textColor = [Colors darkSteelBlue];
+    
 	[mainView addSubview:signupLabel];
 	[signupLabel release];
-
-	UIButton *signupButton=[Common createButton:_toodledoSignupURLText
+    
+	UIButton *signupButton = [Common createButton:_toodledoSignupURLText
 									buttonType:UIButtonTypeCustom 
 										 frame:CGRectMake(10, marginY+230, 240, 25) 
 									titleColor:[UIColor blueColor] 
@@ -137,7 +149,7 @@ extern BOOL _isiPad;
 							selectedStateImage:nil];
 	
 	//signupButton.font=[UIFont systemFontOfSize:14];
-	signupButton.titleLabel.font=[UIFont systemFontOfSize:14];
+	signupButton.titleLabel.font = [UIFont systemFontOfSize:14];
 
 	
 	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 18, 240, 1)];

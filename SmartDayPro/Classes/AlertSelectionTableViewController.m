@@ -105,24 +105,27 @@ extern BOOL _isiPad;
         frm.size.width = 320;
     }
     
-    
-	//UIView *contentView= [[UIView alloc] initWithFrame:CGRectZero];
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
-	
+	//contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+	contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    
 	timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-20, 20)];
 	timeLabel.backgroundColor = [UIColor clearColor];
-	timeLabel.font = [UIFont systemFontOfSize:16];
+    timeLabel.textColor = [UIColor darkGrayColor];
+	timeLabel.font = [UIFont boldSystemFontOfSize:16];
+    timeLabel.textAlignment = NSTextAlignmentCenter;
 	
 	[contentView addSubview:timeLabel];
 	[timeLabel release];
+    
+    frm = contentView.bounds;
+    frm.origin.y = 30;
 	
-	//alertTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 30, 320, 416) style:UITableViewStyleGrouped];
-    alertTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    alertTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
                       
 	alertTableView.delegate = self;
 	alertTableView.dataSource = self;
-	alertTableView.sectionHeaderHeight=5;
+	//alertTableView.sectionHeaderHeight=5;
     alertTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:alertTableView];
@@ -222,6 +225,10 @@ extern BOOL _isiPad;
     return [self.taskEdit isADE]?6:8;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -241,8 +248,12 @@ extern BOOL _isiPad;
   	NSString *adeAlerts[6]={_4hoursBeforeText, _8hoursBeforeText, _12hoursBeforeText, _16hoursBeforeText, _1dot5daysBeforeText, _2dot5daysBeforeText};
 	
 	cell.textLabel.text = ([self.taskEdit isADE]?adeAlerts[indexPath.row]:alerts[indexPath.row]);
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
 	cell.accessoryType = (indexPath.row == selectedIndex?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
     return cell;
 }

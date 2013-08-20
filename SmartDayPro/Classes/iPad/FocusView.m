@@ -268,7 +268,7 @@ AbstractSDViewController *_abstractViewCtrler;
     
     //titleLabel.text = [Common getFullDateString3:tm.today];
     
-    if ([self checkExpanded])
+    if ([self checkExpanded] && tm.today != nil)
     {
         // get done list
         self.doneList = [tm getDoneTasksOnDate:tm.today];

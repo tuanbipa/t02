@@ -68,13 +68,15 @@ extern BOOL _isiPad;
     }
     
     UIView *contentView= [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[UIColor darkGrayColor];
+	//contentView.backgroundColor=[UIColor darkGrayColor];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	   
-	tagTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	tagTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	tagTableView.delegate = self;
 	tagTableView.dataSource = self;
-	tagTableView.sectionHeaderHeight=5;	
+	//tagTableView.sectionHeaderHeight=5;
 	tagTableView.allowsSelectionDuringEditing=YES;
+    tagTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:tagTableView];
 	[tagTableView release];
@@ -147,6 +149,10 @@ extern BOOL _isiPad;
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -163,11 +169,12 @@ extern BOOL _isiPad;
     return parts.count;
 }
 
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
 	return @"";
 }
-
+*/
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -186,7 +193,11 @@ extern BOOL _isiPad;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
 
-	cell.textLabel.text = [parts objectAtIndex:indexPath.row]; 
+	cell.textLabel.text = [parts objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
     return cell;
 }

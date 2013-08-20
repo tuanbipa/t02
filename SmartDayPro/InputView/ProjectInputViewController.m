@@ -92,6 +92,10 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
 	return projectList.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -112,6 +116,9 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
 	
 	cell.textLabel.text = prj.name;
 	cell.textLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
 	if (prj.primaryKey == self.task.project)
 	{

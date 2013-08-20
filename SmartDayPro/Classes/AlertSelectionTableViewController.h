@@ -11,7 +11,7 @@
 @class Task;
 @class AlertData;
 
-@interface AlertSelectionTableViewController : UITableViewController {
+@interface AlertSelectionTableViewController : UIViewController {
 	Task *taskEdit;
 	NSInteger alertIndex;
 	

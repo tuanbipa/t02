@@ -213,7 +213,7 @@ iPadViewController *_iPadViewCtrler;
         //searchBar.placeholder = _seekOrCreate;
         searchBar.translucent = YES;
         searchBar.delegate = self;
-        
+        /*
         UITextField *searchField = nil;
         for (UIView *subview in searchBar.subviews) {
             if ([subview isKindOfClass:[UITextField class]]) {
@@ -227,7 +227,7 @@ iPadViewController *_iPadViewCtrler;
             searchField.leftView = iView;
             [iView release];  
         }
-        
+        */
         UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
         [searchBar release];
         
@@ -455,7 +455,8 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) showDetail:(UIViewController *)ctrler
 {
-    self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
+//    self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
+    self.detailNavCtrler = [[[SDNavigationController alloc] initWithRootViewController:ctrler] autorelease];
     
     CGRect frm = self.detailNavCtrler.view.frame;
     frm.size.width = 384;

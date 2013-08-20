@@ -10,9 +10,11 @@
 
 @class Settings;
 
-@interface SyncWindow2TableViewController : UITableViewController {
+@interface SyncWindow2TableViewController : UIViewController {
 	UITableView *syncFromTableView;
 	UITableView *syncToTableView;
+    
+    UITableView *settingTableView;
 	
 	NSInteger syncFromIndex;
 	NSInteger syncToIndex;

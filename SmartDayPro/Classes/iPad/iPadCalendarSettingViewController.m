@@ -329,12 +329,15 @@
     CGSize sz = [Common getScreenSize];
     
     CGRect frm = CGRectZero;
+    frm.origin.y = 20;
     frm.size = sz;
     
     frm.size.width = 2*frm.size.width/3;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     
@@ -342,7 +345,7 @@
     
     //frm.size.height = 400;
     
-	settingTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
+	settingTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
     settingTableView.backgroundColor = [UIColor clearColor];
@@ -412,12 +415,12 @@
     
     switch (section)
     {
-        case 0: //TimeZone Support
+        case 0: //Week Start
+            return 1;
+        case 1: //TimeZone Support
         {
             return self.setting.timeZoneSupport?2:1;
         }
-        case 1: //Week Start
-            return 1;
         case 2:
             return 7;
     }
@@ -430,6 +433,39 @@
 	return 40;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if(section == 2)
+        return 40.0f;
+    
+    return 0.01f; // put 22 in case of plain one..
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 2)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 40;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = _workingTimeText;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.textColor = [Colors darkSteelBlue];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
     if (section == 2)
@@ -439,6 +475,7 @@
     
 	return @"";
 }
+*/
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -462,13 +499,34 @@
 	
     cell.imageView.image = nil;
     cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	//cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
 	
     switch (indexPath.section)
     {
         case 0:
+        {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = _weekStartText;
+            
+            NSArray *segmentTextContent = [NSArray arrayWithObjects: _sundayText, _mondayText, nil];
+            UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+            segmentedStyleControl.tag = 11000;
+            segmentedStyleControl.frame = CGRectMake(tableView.bounds.size.width - 180, 5, 170, 30);
+            [segmentedStyleControl addTarget:self action:@selector(changeWeekStart:) forControlEvents:UIControlEventValueChanged];
+            segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+            segmentedStyleControl.selectedSegmentIndex = self.setting.weekStart;
+            
+            [cell.contentView addSubview:segmentedStyleControl];
+            [segmentedStyleControl release];
+        }
+            break;
+            
+        case 1:
         {
             switch (indexPath.row)
             {
@@ -480,7 +538,7 @@
                     NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
                     UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
                     segmentedStyleControl.tag = 10000;
-                    segmentedStyleControl.frame = CGRectMake(tableView.bounds.size.width - 70 - 120, 5, 120, 30);
+                    segmentedStyleControl.frame = CGRectMake(tableView.bounds.size.width - 130, 5, 120, 30);
                     [segmentedStyleControl addTarget:self action:@selector(changeTimeZoneSupport:) forControlEvents:UIControlEventValueChanged];
                     segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
                     segmentedStyleControl.selectedSegmentIndex = self.setting.timeZoneSupport?0:1;
@@ -498,12 +556,12 @@
                     cell.textLabel.text = _timeZone;
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     
-                    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(tableView.bounds.size.width - 90 - 205, 8, 205, 20)];
+                    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(tableView.bounds.size.width - 215 - 30, 8, 205, 20)];
                     label.tag = 10001;
                     label.textAlignment=NSTextAlignmentRight;
                     label.backgroundColor=[UIColor clearColor];
-                    label.font=[UIFont systemFontOfSize:15];
-                    label.textColor= [Colors darkSteelBlue];
+                    label.font=[UIFont boldSystemFontOfSize:16];
+                    label.textColor= [UIColor darkGrayColor];
                     
                     label.text = timeZoneName==nil?@"":timeZoneName;
                     
@@ -514,36 +572,18 @@
             }
         }
             break;
-        case 1:
-        {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = _weekStartText;
-            
-            NSArray *segmentTextContent = [NSArray arrayWithObjects: _sundayText, _mondayText, nil];
-            UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-            segmentedStyleControl.tag = 11000;
-            segmentedStyleControl.frame = CGRectMake(tableView.bounds.size.width - 70 - 170, 5, 170, 30);
-            [segmentedStyleControl addTarget:self action:@selector(changeWeekStart:) forControlEvents:UIControlEventValueChanged];
-            segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
-            segmentedStyleControl.selectedSegmentIndex = self.setting.weekStart;
-            
-            [cell.contentView addSubview:segmentedStyleControl];
-            [segmentedStyleControl release];
-        }
-            break;
-            
         case 2:
         {
             NSString *wkStrings[7] = {@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"};
             
             cell.textLabel.text = wkStrings[indexPath.row];
             
-            UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(tableView.bounds.size.width - 70 - 205, 10, 205, 20)];
+            UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(tableView.bounds.size.width - 215, 10, 205, 20)];
             label.tag = 12000 + indexPath.row;
             label.textAlignment=NSTextAlignmentRight;
             label.backgroundColor=[UIColor clearColor];
-            label.font=[UIFont systemFontOfSize:15];
-            label.textColor= [Colors darkSteelBlue];
+            label.font=[UIFont boldSystemFontOfSize:16];
+            label.textColor= [UIColor darkGrayColor];
             
             NSString *wkStartTime[7] = {self.setting.sunStartTime, self.setting.monStartTime, self.setting.tueStartTime, self.setting.wedStartTime,
                 self.setting.thuStartTime, self.setting.friStartTime, self.setting.satStartTime};
@@ -572,7 +612,7 @@
 {
     switch (indexPath.section)
     {
-        case 0:
+        case 1:
         {
             if (indexPath.row == 1)
             {

@@ -14,7 +14,9 @@
 @class HighlightView;
 @class MonthlyCellView;
 
-@interface MonthlyCalendarView : AbstractMonthCalendarView {
+@interface MonthlyCalendarView : AbstractMonthCalendarView
+{
+	NSInteger allocTime[42];
 
 	NSInteger todayCellIndex;
 	

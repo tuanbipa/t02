@@ -47,15 +47,17 @@
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
     
-    listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
+    listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     
 	listTableView.delegate = self;
 	listTableView.dataSource = self;
+    listTableView.backgroundColor = [UIColor clearColor];
     
 	[contentView addSubview:listTableView];
     
@@ -92,6 +94,11 @@
     return 5;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -113,7 +120,10 @@
     }
     
     cell.textLabel.text = [Common getDurationString:duration];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
     
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 

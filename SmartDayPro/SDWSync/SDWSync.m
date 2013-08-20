@@ -401,7 +401,13 @@ NSInteger _sdwColor[32] = {
             sync2WayPending = NO;
             
             [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-            [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];		
+            
+            //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+            dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+            
+            dispatch_async(backgroundQueue, ^{
+                [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+            });
         }			
 	}	
 }
@@ -411,7 +417,12 @@ NSInteger _sdwColor[32] = {
 	@synchronized(self)
 	{
         [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-        [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_SD2mSD]];        
+        //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_SD2mSD]];
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_SD2mSD]];
+        });
     }
 }
 
@@ -420,7 +431,12 @@ NSInteger _sdwColor[32] = {
 	@synchronized(self)
 	{
         [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-        [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_mSD2SD]];        
+        //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_mSD2SD]];
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_mSD2SD]];
+        });
     }
 }
 
@@ -428,22 +444,6 @@ NSInteger _sdwColor[32] = {
 {
 	@synchronized(self)
 	{
-        /*
-        if (self.syncMode != -1)
-        {
-            ////printf("other sync is in progress, wait for 1 way sync\n");
-            syncAuto1WayPending = sync2WayPending?NO:YES;
-        }
-        else 
-        {
-            ////printf("start 1 way syncing\n");
-            syncAuto1WayPending = NO;
-            
-            [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-            [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
-        }
-        */
-        
         if (!syncAuto1WayPending)
         {
             NSInteger busyFlag = [[BusyController getInstance] getBusyFlag];
@@ -455,7 +455,12 @@ NSInteger _sdwColor[32] = {
             else
             {
                 [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-                [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];                
+                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+                dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+                
+                dispatch_async(backgroundQueue, ^{
+                    [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+                });
             }
         }
 	}
@@ -465,23 +470,6 @@ NSInteger _sdwColor[32] = {
 {
 	@synchronized(self)
 	{
-        /*
-        if (self.syncMode != -1)
-        {
-            ////printf("other sync is in progress, wait for 2 way sync\n");
-            sync2WayPending = YES;
-        }
-        else 
-        {
-            ////printf("start 2 way syncing\n");
-            
-            sync2WayPending = NO;
-            
-            [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-            [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];		
-        }
-        */
-        
         if (!sync2WayPending)
         {
             NSInteger busyFlag = [[BusyController getInstance] getBusyFlag];
@@ -493,7 +481,12 @@ NSInteger _sdwColor[32] = {
             else
             {
                 [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-                [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+                dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+                
+                dispatch_async(backgroundQueue, ^{
+                    [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+                });
             }
         }        
 	}	

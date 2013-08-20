@@ -91,14 +91,16 @@ extern BOOL _isiPad;
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor darkGrayColor];
+    //contentView.backgroundColor = [UIColor darkGrayColor];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
 	
-    settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
+    settingTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
@@ -123,7 +125,7 @@ extern BOOL _isiPad;
 {
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - (_isiPad?70:30) - 120, 5, 120, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 130, 5, 120, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableiOSCalSync:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.setting.ekSyncEnabled?0:1);
@@ -159,6 +161,12 @@ extern BOOL _isiPad;
     return 40;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -182,7 +190,9 @@ extern BOOL _isiPad;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.textLabel.text = @"";
-	cell.textLabel.backgroundColor = [UIColor clearColor];
+	cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.backgroundColor = [UIColor clearColor];
     
     switch (indexPath.row)
     {

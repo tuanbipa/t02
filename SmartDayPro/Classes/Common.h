@@ -32,6 +32,8 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 
 #define kMaxIdleTimeSeconds 10.0
 
+#define MAX_FAST_SCHEDULE_TASKS 30
+
 #define LONG_TAP_DURATION 0.1
 
 #define BOX_FULL_WIDTH 300

@@ -69,6 +69,7 @@
     if ([ctrler isKindOfClass:[iPadGeneralSettingViewController class]])
     {
         frm.size.width = 2*frm.size.width/3;
+        frm.origin.y = 20;
     }
     else
     {
@@ -76,12 +77,14 @@
     }
     
     contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	
-    projectTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    projectTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	projectTableView.delegate = self;
 	projectTableView.dataSource = self;
-	projectTableView.sectionHeaderHeight=5;	
+	//projectTableView.sectionHeaderHeight=5;
+    projectTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:projectTableView];
 	[projectTableView release];
@@ -195,6 +198,9 @@
     return 1;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01f;
+}
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -227,6 +233,9 @@
 	
 	cell.textLabel.text = prj.name;
 	cell.textLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
 	//if (prj.primaryKey == self.task.project)
 	if (prj.primaryKey == [self getProjectKey])

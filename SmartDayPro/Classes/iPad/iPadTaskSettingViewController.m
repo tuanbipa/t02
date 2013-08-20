@@ -76,20 +76,23 @@
     CGSize sz = [Common getScreenSize];
     
     CGRect frm = CGRectZero;
+    frm.origin.y = 20;
     frm.size = sz;
     
     frm.size.width = 2*frm.size.width/3;
     
     ContentView *contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
-    
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+
     self.view = contentView;
     
     [contentView release];
     
-	settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
+    settingTableView.backgroundColor = [UIColor clearColor];
     
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
@@ -118,12 +121,12 @@
 	
 	cell.textLabel.text = _durationText;
 	
-	UILabel *durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 205, 10, 205, 20)];
+	UILabel *durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 215 - 30, 10, 205, 20)];
 	durationLabel.tag = baseTag;
 	durationLabel.textAlignment = NSTextAlignmentRight;
 	durationLabel.backgroundColor = [UIColor clearColor];
-	durationLabel.font = [UIFont systemFontOfSize:15];
-	durationLabel.textColor = [Colors darkSteelBlue];
+	durationLabel.font = [UIFont boldSystemFontOfSize:16];
+	durationLabel.textColor = [UIColor darkGrayColor];
 	
 	durationLabel.text = [Common getDurationString:self.setting.taskDuration];
 	
@@ -138,12 +141,12 @@
     
     cell.textLabel.text = _mustDoRangeText;
     
-	UILabel *daysLabel = [[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 90 - 40, 10, 40, 20)];
+	UILabel *daysLabel = [[UILabel alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 50 - 30, 10, 40, 20)];
 	daysLabel.tag = baseTag;
 	daysLabel.textAlignment = NSTextAlignmentRight;
 	daysLabel.backgroundColor = [UIColor clearColor];
-	daysLabel.font = [UIFont systemFontOfSize:15];
-	daysLabel.textColor = [Colors darkSteelBlue];
+	daysLabel.font = [UIFont boldSystemFontOfSize:16];
+	daysLabel.textColor = [UIColor darkGrayColor];
     daysLabel.text = [NSString stringWithFormat:@"%d", self.setting.mustDoDays];
     
     [cell.contentView addSubview:daysLabel];
@@ -156,7 +159,7 @@
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeEventCombination:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.setting.eventCombination;
@@ -172,7 +175,7 @@
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 70 - 100, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(hideFutureTasks:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.setting.hideFutureTasks?0:1;
@@ -198,6 +201,11 @@
 	return 40;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -220,9 +228,13 @@
 	
     cell.imageView.image = nil;
     cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
     switch (indexPath.row)
     {

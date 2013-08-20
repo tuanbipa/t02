@@ -91,15 +91,16 @@ extern BOOL _isiPad;
         frm.size.width = 320;
     }
 	
-    contentView= [[UIView alloc] initWithFrame:frm];
+    contentView = [[UIView alloc] initWithFrame:frm];
 	//contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	
-    repeatTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    repeatTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
     repeatTableView.backgroundColor = [UIColor clearColor];
 	repeatTableView.delegate = self;
 	repeatTableView.dataSource = self;
-	repeatTableView.sectionHeaderHeight=5;	
+	//repeatTableView.sectionHeaderHeight=5;
+    repeatTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:repeatTableView];
 	[repeatTableView release];
@@ -526,8 +527,8 @@ extern BOOL _isiPad;
 	noneLabel.tag = 10001;
 	noneLabel.text=_noneText;
 	noneLabel.backgroundColor=[UIColor clearColor];
-	noneLabel.font=[UIFont boldSystemFontOfSize:16];
-	noneLabel.textColor=[UIColor blackColor];
+	noneLabel.font=[UIFont systemFontOfSize:16];
+	noneLabel.textColor=[UIColor grayColor];
 	
 	[cell.contentView addSubview:noneLabel];
 	[noneLabel release];
@@ -535,17 +536,20 @@ extern BOOL _isiPad;
 
 - (void) createDailyCell:(UITableViewCell *) cell
 {
+    CGFloat xMargin = repeatTableView.bounds.size.width - 3*60 - 30;
+    
 	UILabel *dailyLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 25)];
 	dailyLabel.tag = 10101;
 	dailyLabel.text=_dailyText;
 	dailyLabel.backgroundColor=[UIColor clearColor];
-	dailyLabel.font=[UIFont boldSystemFontOfSize:16];
-	dailyLabel.textColor=[UIColor blackColor];
+	dailyLabel.font=[UIFont systemFontOfSize:16];
+	dailyLabel.textColor=[UIColor grayColor];
 	
 	[cell.contentView addSubview:dailyLabel];
 	[dailyLabel release];
 	
-	UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+	//UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+    UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin, 5, 60, 25)];
 	everyLabel.tag = 10102;
 	everyLabel.text=_everyText;
 	everyLabel.backgroundColor=[UIColor clearColor];
@@ -555,7 +559,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyLabel];
 	[everyLabel release];
 	
-	UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+	//UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+    UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(xMargin + 50, 5, 60, 25)];
 	everyTextField.tag = 10103;
 	everyTextField.borderStyle = UITextBorderStyleRoundedRect;
 	everyTextField.text=(selectedIndex == 1? [NSString stringWithFormat:@"%d", self.repeatData.interval] : @"1");
@@ -571,7 +576,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyTextField];
 	[everyTextField release];
 	
-	UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+	//UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+    UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin + 120, 5, 60, 25)];
 	unitLabel.tag = 10104;
 	unitLabel.text=_dayUnitText;
 	unitLabel.backgroundColor=[UIColor clearColor];
@@ -584,17 +590,20 @@ extern BOOL _isiPad;
 
 - (void) createWeeklyCell:(UITableViewCell *) cell
 {
+    CGFloat xMargin = repeatTableView.bounds.size.width - 3*60 - 30;
+    
 	UILabel *weeklyLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 25)];
 	weeklyLabel.tag = 10201;
 	weeklyLabel.text=_weeklyText;
 	weeklyLabel.backgroundColor=[UIColor clearColor];
-	weeklyLabel.font=[UIFont boldSystemFontOfSize:16];
-	weeklyLabel.textColor=[UIColor blackColor];
+	weeklyLabel.font=[UIFont systemFontOfSize:16];
+	weeklyLabel.textColor=[UIColor grayColor];
 	
 	[cell.contentView addSubview:weeklyLabel];
 	[weeklyLabel release];
 	
-	UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+	//UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+    UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin, 5, 60, 25)];
 	everyLabel.tag = 10202;
 	everyLabel.text=_everyText;
 	everyLabel.backgroundColor=[UIColor clearColor];
@@ -604,7 +613,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyLabel];
 	[everyLabel release];
 	
-	UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+	//UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+	UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(xMargin + 50, 5, 60, 25)];
 	everyTextField.tag = 10203;
 	everyTextField.borderStyle = UITextBorderStyleRoundedRect;
 	everyTextField.text=(selectedIndex == 2? [NSString stringWithFormat:@"%d", self.repeatData.interval]:@"1");
@@ -620,7 +630,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyTextField];
 	[everyTextField release];
 	
-	UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+	//UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+    UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin + 120, 5, 60, 25)];
 	unitLabel.tag = 10204;
 	unitLabel.text=_weekUnitText;
 	unitLabel.backgroundColor=[UIColor clearColor];
@@ -642,9 +653,9 @@ extern BOOL _isiPad;
         
 		UIButton *wkDayButton = [Common createButton:nil 
 										  buttonType:UIButtonTypeCustom
-											   //frame:CGRectMake(2 + i*44, 35, 20, 20)
-                                               frame:CGRectMake(10 + mod*w, 35 + div*30, 20, 20)
-										  titleColor:[UIColor whiteColor] 
+                                               //frame:CGRectMake(10 + mod*w, 35 + div*30, 20, 20)
+                                               frame:CGRectMake(30 + mod*w, 35 + div*30, 20, 20)
+										  titleColor:[UIColor whiteColor]
 											  target:self 
 											selector:@selector(changeWeekOption:) 
 									normalStateImage:@"CheckOff20.png"
@@ -658,8 +669,8 @@ extern BOOL _isiPad;
 		
 		[cell.contentView addSubview:wkDayButton];
 		
-		//UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(2 + i*44 + 20, 35, 20, 20)];
-        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(10 + mod*w + 20, 35 + div*30, 40, 20)];
+//        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(10 + mod*w + 20, 35 + div*30, 40, 20)];
+        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(30 + mod*w + 20, 35 + div*30, 40, 20)];
 		unitLabel.tag = 10212 + i;
 		unitLabel.text=weekDays[i];
 		unitLabel.backgroundColor=[UIColor clearColor];
@@ -673,17 +684,20 @@ extern BOOL _isiPad;
 
 - (void) createMonthlyCell:(UITableViewCell *) cell
 {
+    CGFloat xMargin = repeatTableView.bounds.size.width - 3*60 - 30;
+
 	UILabel *monthlyLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 25)];
 	monthlyLabel.tag = 10301;
 	monthlyLabel.text=_monthlyText;
 	monthlyLabel.backgroundColor=[UIColor clearColor];
-	monthlyLabel.font=[UIFont boldSystemFontOfSize:16];
-	monthlyLabel.textColor=[UIColor blackColor];
+	monthlyLabel.font=[UIFont systemFontOfSize:16];
+	monthlyLabel.textColor=[UIColor grayColor];
 	
 	[cell.contentView addSubview:monthlyLabel];
 	[monthlyLabel release];
 	
-	UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+	//UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+    UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin, 5, 60, 25)];
 	everyLabel.tag = 10302;
 	everyLabel.text=_everyText;
 	everyLabel.backgroundColor=[UIColor clearColor];
@@ -693,7 +707,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyLabel];
 	[everyLabel release];
 	
-	UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+	//UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+	UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(xMargin + 50, 5, 60, 25)];
 	everyTextField.tag = 10303;
 	everyTextField.borderStyle = UITextBorderStyleRoundedRect;
 	everyTextField.text=(selectedIndex == 3? [NSString stringWithFormat:@"%d", self.repeatData.interval]:@"1");
@@ -709,7 +724,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyTextField];
 	[everyTextField release];
 	
-	UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+	//UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+    UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin + 120, 5, 60, 25)];
 	unitLabel.tag = 10304;
 	unitLabel.text=_monthUnitText;
 	unitLabel.backgroundColor=[UIColor clearColor];
@@ -723,12 +739,15 @@ extern BOOL _isiPad;
 	NSInteger values[2] = {BY_DAY_OF_MONTH, BY_DAY_OF_WEEK};
 	
 	monthOptionButton = nil;
+    
+    CGFloat w = repeatTableView.bounds.size.width/2;
 	
 	for (int i=0; i<2; i++)
 	{
 		UIButton *optionButton = [Common createButton:nil 
 										   buttonType:UIButtonTypeCustom
-												frame:CGRectMake(20 + i*140, 35, 20, 20) 
+												//frame:CGRectMake(20 + i*140, 35, 20, 20)
+                                  frame:CGRectMake(20 + i*w, 35, 20, 20)
 										   titleColor:[UIColor whiteColor] 
 											   target:self 
 											 selector:@selector(changeMonthOption:) 
@@ -744,7 +763,8 @@ extern BOOL _isiPad;
 		
 		[cell.contentView addSubview:optionButton];
 		
-		UILabel *optionLabel=[[UILabel alloc] initWithFrame:CGRectMake(20 + i*140 + 25, 35, 120, 20)];
+		//UILabel *optionLabel=[[UILabel alloc] initWithFrame:CGRectMake(20 + i*140 + 25, 35, 120, 20)];
+        UILabel *optionLabel=[[UILabel alloc] initWithFrame:CGRectMake(20 + i*w + 25, 35, 120, 20)];
 		optionLabel.tag = 10307 + i;
 		optionLabel.text=options[i];
 		optionLabel.backgroundColor=[UIColor clearColor];
@@ -758,17 +778,20 @@ extern BOOL _isiPad;
 
 - (void) createYearlyCell:(UITableViewCell *) cell
 {
+    CGFloat xMargin = repeatTableView.bounds.size.width - 3*60 - 30;
+
 	UILabel *yearlyLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 25)];
 	yearlyLabel.tag = 10401;
 	yearlyLabel.text=_yearlyText;
 	yearlyLabel.backgroundColor=[UIColor clearColor];
-	yearlyLabel.font=[UIFont boldSystemFontOfSize:16];
-	yearlyLabel.textColor=[UIColor blackColor];
+	yearlyLabel.font=[UIFont systemFontOfSize:16];
+	yearlyLabel.textColor=[UIColor grayColor];
 	
 	[cell.contentView addSubview:yearlyLabel];
 	[yearlyLabel release];
 	
-	UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+	//UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(100, 5, 60, 25)];
+    UILabel *everyLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin, 5, 60, 25)];
 	everyLabel.tag = 10402;
 	everyLabel.text=_everyText;
 	everyLabel.backgroundColor=[UIColor clearColor];
@@ -778,7 +801,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyLabel];
 	[everyLabel release];
 	
-	UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+	//UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(150, 5, 60, 25)];
+	UITextField *everyTextField=[[UITextField alloc] initWithFrame:CGRectMake(xMargin + 50, 5, 60, 25)];
 	everyTextField.tag = 10403;
 	everyTextField.borderStyle = UITextBorderStyleRoundedRect;
 	everyTextField.text=(selectedIndex == 4? [NSString stringWithFormat:@"%d", self.repeatData.interval]:@"1");
@@ -794,7 +818,8 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:everyTextField];
 	[everyTextField release];
 	
-	UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+	//UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(220, 5, 60, 25)];
+    UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(xMargin + 120, 5, 60, 25)];
 	unitLabel.tag = 10404;
 	unitLabel.text=_yearUnitText;
 	unitLabel.backgroundColor=[UIColor clearColor];
@@ -986,6 +1011,11 @@ extern BOOL _isiPad;
 	return 40; 
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -1011,6 +1041,8 @@ extern BOOL _isiPad;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.textLabel.text = @"";
+    
+    cell.backgroundColor = [UIColor clearColor];
 	
 	if (indexPath.section == 0)
 	{

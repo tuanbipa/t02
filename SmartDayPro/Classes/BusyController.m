@@ -54,13 +54,17 @@ BusyController *_busyCtrlerSingleton = nil;
     [self showBusyIndicator];
     
     //if (busyFlag != 0)
-    if ([self checkSyncBusy])
+    //if ([self checkSyncBusy])
+    if (busyFlag != 0)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"AppBusyNotification" object:nil];
+        //[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"AppBusyNotification" waitUntilDone:NO];
     }
     else
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"AppNoBusyNotification" object:nil];
+        //[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"AppNoBusyNotification" waitUntilDone:NO];
+        
     }
 }
 

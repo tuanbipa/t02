@@ -1410,21 +1410,37 @@ extern BOOL _syncMatchHintShown;
 	
 	[[BusyController getInstance] setBusy:YES withCode:BUSY_EK_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+    });
+    
 }
 
 -(void)initBackgroundSyncBack
 {
 	[[BusyController getInstance] setBusy:YES withCode:BUSY_EK_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY_BACK]];
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY_BACK]];
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_2WAY_BACK]];
+    });
 }
 
 -(void)initBackgroundAuto1WaySync
 {
     [[BusyController getInstance] setBusy:YES withCode:BUSY_EK_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+    });
 }
 
 -(void)initBackgroundAuto2WaySync
@@ -1433,7 +1449,13 @@ extern BOOL _syncMatchHintShown;
 	
 	[[BusyController getInstance] setBusy:YES withCode:BUSY_EK_SYNC];
     
-    [self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+    //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+    
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+    });
 }
 
 -(void)syncBackground:(NSNumber *) mode

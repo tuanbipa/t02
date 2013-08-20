@@ -79,14 +79,16 @@ extern BOOL _isiPad;
     }
 
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
-    
+    //contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+
     self.view = contentView;
     [contentView release];
     
     searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 44)];
     searchBar.delegate = self;
     searchBar.placeholder = _linkSearchHintText;
+    searchBar.backgroundColor = [UIColor clearColor];
     
     [contentView addSubview:searchBar];
     [searchBar release];
@@ -201,13 +203,42 @@ extern BOOL _isiPad;
     return 3;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *headers[3] = {_eventsText, _tasksText, _notesText};
+
+    //if (section == 1)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 40;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        //label.text = _assetsText;
+        label.text = headers[section];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.textColor = [Colors darkSteelBlue];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *headers[3] = {_eventText, _taskText, _noteText};
     
     return headers[section];
 }
-
+*/
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
@@ -246,7 +277,9 @@ extern BOOL _isiPad;
     Task *task = [list objectAtIndex:indexPath.row];
     
     cell.textLabel.text = task.name;
-    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }

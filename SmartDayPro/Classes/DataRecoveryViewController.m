@@ -134,14 +134,37 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor darkGrayColor];
+    //contentView.backgroundColor = [UIColor darkGrayColor];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
     
-    settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    frm = contentView.bounds;
+    frm.origin.x = 10;
+    frm.origin.y = 20;
+    frm.size.width -= 20;
+    frm.size.height = 100;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:frm];
+    label.backgroundColor = [UIColor clearColor];
+    label.numberOfLines = 0;
+    label.text = _dataRecoveryHint;
+    label.textAlignment = NSTextAlignmentLeft;
+    label.font = [UIFont systemFontOfSize:16];
+    label.textColor = [Colors darkSteelBlue];
+    
+    [contentView addSubview:label];
+    [label release];
+    
+    frm = contentView.bounds;
+    frm.origin.y = 120;
+    frm.size.height -= 120;
+    
+    settingTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
+    settingTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
@@ -178,6 +201,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     return 70;
 }
 
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section)
     {
@@ -186,6 +210,12 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	}
     
 	return @"";
+}
+*/
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
 }
 
 
@@ -212,8 +242,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.textLabel.text = @"";
-	cell.textLabel.backgroundColor = [UIColor clearColor];
-    
+	//cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = [UIColor clearColor];
     switch (indexPath.section)
     {
         case 0:
@@ -222,7 +252,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
             {
                 UIButton *fromSDButton = [Common createButton:@""
                                                    buttonType:UIButtonTypeCustom
-                                                        frame:CGRectMake((settingTableView.bounds.size.width-(_isiPad?70:30)-135)/2, 5, 135, 60)
+                                                        frame:CGRectMake((settingTableView.bounds.size.width-135)/2, 5, 135, 60)
                                                    titleColor:[UIColor whiteColor]
                                                        target:self
                                                      selector:@selector(confirmSync1way2SDW:)
@@ -240,7 +270,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
             {
                 UIButton *toSDButton = [Common createButton:@""
                                                  buttonType:UIButtonTypeCustom
-                                                      frame:CGRectMake((settingTableView.bounds.size.width-(_isiPad?70:30)-135)/2, 5, 135, 60)
+                                                      frame:CGRectMake((settingTableView.bounds.size.width-135)/2, 5, 135, 60)
                                                  titleColor:[UIColor whiteColor]
                                                      target:self
                                                    selector:@selector(confirmSync1way2SD:)

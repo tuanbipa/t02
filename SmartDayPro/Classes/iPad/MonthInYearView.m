@@ -189,7 +189,12 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) refresh
 {
-	[self performSelectorInBackground:@selector(updateBusyTimeFromDate) withObject:nil];
+	//[self performSelectorInBackground:@selector(updateBusyTimeFromDate) withObject:nil];
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [self updateBusyTimeFromDate];
+    });
 }
 
 - (void) updateBusyTimeFromDate//:(NSDate *)fromDate toDate:(NSDate *)toDate

@@ -237,40 +237,6 @@ extern BOOL _isiPad;
 	[headerView setNeedsDisplay];
 }
 
-/*
-- (void) initCalendar
-{
-	////NSLog(@"begin WeekPlanner initCalendar");
-	
-	//initCalBGInProgress = YES;
-    
-    TaskManager *tm = [TaskManager getInstance];
-	
-    NSInteger mode = [headerView getMWMode];
-    
-	//NSDate *dt = [[[TaskManager getInstance] today] copy];
-    
-    NSDate *dt = (mode==1?tm.today:[Common getFirstMonthDate:tm.today]);
-    
-    if ([Common daysBetween:dt sinceDate:tm.today] != 0)
-    {
-        [tm initCalendarData:dt];
-    }
-    
-    [self.calView initCalendar:dt];
-    
-	//[[BusyController getInstance] setBusy:YES withCode:BUSY_WEEKPLANNER_INIT_CALENDAR];
-	
-	//[self.calView performSelectorInBackground:@selector(initCalendar:) withObject:dt];
-	
-	//[dt release];
-	
-	[headerView setNeedsDisplay];
-	
-	////NSLog(@"end WeekPlanner initCalendar");	
-}
-*/
-
 - (void) highlight:(NSDate *)date
 {
     //use for scrolling in Calendar view
@@ -305,6 +271,7 @@ extern BOOL _isiPad;
     [self changeFrame:frm];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:nil];
+    //[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"MiniMonthResizeNotification" waitUntilDone:NO];
 }
 
 - (void) jumpToDate:(NSDate *)date
