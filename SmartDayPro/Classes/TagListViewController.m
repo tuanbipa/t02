@@ -18,6 +18,7 @@
 #import "iPadGeneralSettingViewController.h"
 
 #import "DetailViewController.h"
+#import "TagDetailViewController.h"
 
 //#import "SCTabBarController.h"
 
@@ -365,10 +366,22 @@ extern BOOL _isiPad;
 			
 			NSString *presetTag = [dict.presetTagDict objectForKey:cell.textLabel.text];
 			
-			if (presetTag != nil)
+            if (presetTag != nil)
 			{
-				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+				//cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [[cell imageView] setImage:[UIImage imageNamed:@"checkMark"]];
 			}
+            
+            // tag location
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            
+            UIButton *editTagButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            editTagButton.frame = CGRectMake(tableView.frame.size.width - 30, 0, 30, cell.frame.size.height);
+            [editTagButton addTarget:self action:@selector(editTag:) forControlEvents:UIControlEventTouchUpInside];
+            
+            editTagButton.tag = presetTag;
+            
+            [cell.contentView addSubview:editTagButton];
 		}
 			break;
 	}
@@ -449,4 +462,16 @@ extern BOOL _isiPad;
 	return YES;
 }
 
+#pragma mark Tag detail
+
+- (void)editTag: (id)sender
+{
+    //NSLog(@"edit tag");
+    
+	TagDetailViewController *ctrler = [[TagDetailViewController alloc] init];
+	//ctrler.task = self.taskCopy;
+	
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
+}
 @end

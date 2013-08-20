@@ -720,3 +720,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 
 "_addNewURLText" = "Add New URL ...";
 "_conversationsText" = "Conversations";
+
+// mapkit
+"_applyCurrentLocationText" = "Apply Current Location";
+"_currentLocationText" = "Current Location";

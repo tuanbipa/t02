@@ -708,5 +708,6 @@
 
 #define _conversationsText NSLocalizedString(@"_conversationsText", "")
 
-
-
+// mapkit
+#define _applyCurrentLocationText NSLocalizedString(@"_applyCurrentLocationText", "")
+#define _currentLocationText NSLocalizedString(@"_currentLocationText", "")
