@@ -19,10 +19,11 @@
     UITableView *listTableView;
     
     NSArray *searchPlacemarksCache;
+    
+    CLLocationManager *locationManager;
 }
 
-//@property (nonatomic, strong) NSArray *searchPlacemarksCache;
-@property (nonatomic, strong) CLLocationManager *locationManager;
+//@property (nonatomic, strong) CLLocationManager *locationManager;
 
 @property (nonatomic, strong) NSIndexPath *checkedIndexPath;
 
@@ -80,6 +81,7 @@
     locationText = [[UITextField alloc] initWithFrame:frm];
     locationText.backgroundColor = [UIColor whiteColor];
     locationText.delegate = self;
+    [locationText setReturnKeyType:UIReturnKeySearch];
     [contentView addSubview:locationText];
     [locationText release];
     
@@ -98,6 +100,17 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    locationManager = [[CLLocationManager alloc] init];
+    
+    
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    
+    [locationManager startUpdatingLocation];
+    
+    //startLocation = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -300,5 +313,56 @@
         case CoordinateSelectorLastSelectedTypeCurrent:
             break; // no need to update for current location (CL delegate callback sets it)
     }
+}
+
+#pragma mark - CLLocationManagerDelegate - Location updates
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *location = [locations lastObject];
+    
+    CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
+    
+    [gc reverseGeocodeLocation:location completionHandler:^(NSArray *placemark, NSError *error) {
+        CLPlacemark *pm = [placemark objectAtIndex:0];
+        NSDictionary *addressDict = pm.addressDictionary;
+        // do something with the address, see keys in the remark below
+        NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
+        
+        //NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
+        NSLog(@"OldLocation %f %f, address %@", location.coordinate.latitude, location.coordinate.longitude, addressStr);
+        [currentLocationButton setTitle:addressStr forState:UIControlStateNormal];
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    // if the location is older than 30s ignore
+    if (fabs([newLocation.timestamp timeIntervalSinceDate:[NSDate date]]) > 30 )
+    {
+        return;
+    }
+    
+//    _selectedCoordinate = [newLocation coordinate];
+//    
+//    // update the current location cells detail label with these coords
+//    _currentLocationLabel.text = [NSString stringWithFormat:@"φ:%.4F, λ:%.4F", _selectedCoordinate.latitude, _selectedCoordinate.longitude];
+//    
+//    // after recieving a location, stop updating
+//    [self stopUpdatingCurrentLocation];
+    
+    //CLLocation *location = [locations lastObject];
+    
+    CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
+    NSDictionary *addressDict = nil;
+    [gc reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemark, NSError *error) {
+        CLPlacemark *pm = [placemark objectAtIndex:0];
+        NSDictionary *addressDict = pm.addressDictionary;
+        // do something with the address, see keys in the remark below
+    }];
+    
+    NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
+    //NSLog(@"OldLocation %f %f, address %@", location.coordinate.latitude, location.coordinate.longitude, addressStr);
+    [currentLocationButton setTitle:addressStr forState:UIControlStateNormal];
 }
 @end

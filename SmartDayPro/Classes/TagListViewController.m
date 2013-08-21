@@ -366,11 +366,13 @@ extern BOOL _isiPad;
 			
 			NSString *presetTag = [dict.presetTagDict objectForKey:cell.textLabel.text];
 			
-            if (presetTag != nil)
+            /*if (presetTag != nil)
 			{
 				//cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [[cell imageView] setImage:[UIImage imageNamed:@"checkMark"]];
-			}
+			}*/
+            [[cell imageView] setImage:[UIImage imageNamed:@"checkMark"]];
+            [cell imageView].hidden = presetTag == nil;
             
             // tag location
             cell.accessoryType = UITableViewCellAccessoryNone;
