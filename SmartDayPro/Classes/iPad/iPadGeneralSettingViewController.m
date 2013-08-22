@@ -216,11 +216,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	UIButton *resetButton = [Common createButton:_resetText
                                       buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(settingTableView.bounds.size.width - 90, 5, 80, 30)
-                                      titleColor:[UIColor whiteColor]
+                                      titleColor:[Colors blueButton]
                                           target:self
                                         selector:@selector(resetHint:)
-                                normalStateImage:@"hint_button.png"
-                              selectedStateImage:nil];	
+                                normalStateImage:nil
+                              selectedStateImage:nil];
+    
+    resetButton.layer.cornerRadius = 8;
+    resetButton.layer.borderWidth = 1;
+    resetButton.layer.borderColor = [[Colors blueButton] CGColor];
+    resetButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    
 	resetButton.tag = baseTag;
 	[cell.contentView addSubview:resetButton];
 }
@@ -313,11 +319,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	UIButton *deleteButton = [Common createButton:_deleteText
                                        buttonType:UIButtonTypeCustom
                                             frame:CGRectMake(settingTableView.bounds.size.width - 90, 5, 80, 30)
-                                       titleColor:[UIColor whiteColor]
+                                       titleColor:[Colors redButton]
                                            target:self
                                          selector:@selector(deleteSuspectedDuplication:)
-                                 normalStateImage:@"delete_button.png"
+                                 normalStateImage:nil
                                selectedStateImage:nil];
+    
+    deleteButton.layer.cornerRadius = 8;
+    deleteButton.layer.borderWidth = 1;
+    deleteButton.layer.borderColor = [[Colors redButton] CGColor];
+    deleteButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    
 	deleteButton.tag = baseTag;
 	[cell.contentView addSubview:deleteButton];
 }

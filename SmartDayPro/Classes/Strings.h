@@ -711,3 +711,5 @@
 // mapkit
 #define _applyCurrentLocationText NSLocalizedString(@"_applyCurrentLocationText", "")
 #define _currentLocationText NSLocalizedString(@"_currentLocationText", "")
+#define _hideAllProjects NSLocalizedString(@"_hideAllProjects", "")
+#define _showAllProjects NSLocalizedString(@"_showAllProjects", "")

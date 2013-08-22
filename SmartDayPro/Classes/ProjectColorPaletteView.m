@@ -70,7 +70,7 @@
     CGFloat w = rect.size.width/8;
     CGFloat h = rect.size.height/4;
     
-    UIColor *shadowColor = [Common getShadowColor];
+    //UIColor *shadowColor = [Common getShadowColor];
     
     for (int i=0; i<32; i++)
     {
@@ -79,11 +79,11 @@
         
         CGRect r = CGRectMake(mod*w + COLOR_CELL_PAD, div*h + COLOR_CELL_PAD, w - 2*COLOR_CELL_PAD, h - 2*COLOR_CELL_PAD);
         
-        CGRect shadowR = CGRectOffset(r, 2, 2);
+        //CGRect shadowR = CGRectOffset(r, 2, 2);
         
-        [shadowColor setFill];
+        //[shadowColor setFill];
         
-        CGContextFillRect(ctx, shadowR);
+        //CGContextFillRect(ctx, shadowR);
         
         UIColor *color = [Common getColorByID:i colorIndex:0];
         

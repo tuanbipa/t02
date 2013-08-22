@@ -344,14 +344,23 @@ extern iPadViewController *_iPadViewCtrler;
         infoStr = [[infoStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%C%C",0x2705,0x274E]]] componentsJoinedByString:@""];
         
         infoStr = [infoStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
+        
         CGRect textRec = rect;
+        
+        // margin
+        CGFloat margin = 4;
+        //textRec.size.height -= 2*margin;
+        
         textRec.size.height = oneCharSize.height;
         
         if (task.name.length <= lineMaxChars && [infoStr isEqualToString:@""])
         {
             //1 line name only without note content -> align center
             textRec.origin.y += (rect.size.height - oneCharSize.height)/2;
+        }
+        else
+        {
+            textRec.origin.y += margin;
         }
         
         CGRect embossedRec = CGRectOffset(textRec, 0, -1);
@@ -364,9 +373,14 @@ extern iPadViewController *_iPadViewCtrler;
         
         if (![infoStr isEqualToString:@""])
         {
+            /*
             textRec = rect;
             textRec.origin.y += oneCharSize.height;
             textRec.size.height -= oneCharSize.height;
+            */
+            
+            textRec.origin.y += textRec.size.height;
+            textRec.size.height = rect.size.height - textRec.origin.y - margin;
             
             embossedRec = CGRectOffset(textRec, 0, -1);
             

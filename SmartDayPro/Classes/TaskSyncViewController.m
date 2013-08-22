@@ -339,7 +339,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
         label.text = _toodledoText;
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont boldSystemFontOfSize:20];
-        label.textColor = [Colors darkSteelBlue];
+        label.textColor = [UIColor lightGrayColor];
         
         return [label autorelease];
     }

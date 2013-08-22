@@ -78,7 +78,8 @@ NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
 	
 	//contentView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
     contentView = [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+	//contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	
     tableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     tableView.delegate = self;
@@ -232,6 +233,10 @@ NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
 
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	// The header for the section is the region name -- get this from the dictionary at the section index
@@ -307,7 +312,8 @@ NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"MyIdentifier"] autorelease];
 	}
 	
-	[cell.textLabel setTextColor:[UIColor blackColor]];
+	cell.textLabel.textColor = [UIColor blackColor];
+    cell.backgroundColor = [UIColor clearColor];
 	
 	if(sortAddress.selectedSegmentIndex==1){
 		NSArray *locationDisplayListByName = [[ContactManager getInstance] getLocationDisplayList:YES];

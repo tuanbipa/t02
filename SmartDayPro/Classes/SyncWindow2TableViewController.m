@@ -172,6 +172,7 @@ extern BOOL _isiPad;
     if ([tableView isEqual:settingTableView] && section == 0)
     {
         CGRect frm = tableView.bounds;
+        frm.origin.x = 10;
         frm.size.height = 40;
         
         UIView *headerView = [[UIView alloc] initWithFrame:frm];
@@ -181,9 +182,9 @@ extern BOOL _isiPad;
         UILabel *fromLabel = [[UILabel alloc] initWithFrame:frm];
         fromLabel.backgroundColor = [UIColor clearColor];
         fromLabel.text = _syncFromText;
-        fromLabel.textAlignment = NSTextAlignmentCenter;
+        fromLabel.textAlignment = NSTextAlignmentLeft;
         fromLabel.font = [UIFont boldSystemFontOfSize:20];
-        fromLabel.textColor = [Colors darkSteelBlue];
+        fromLabel.textColor = [UIColor lightGrayColor];
         
         [headerView addSubview:fromLabel];
         [fromLabel release];
@@ -193,9 +194,9 @@ extern BOOL _isiPad;
         UILabel *toLabel = [[UILabel alloc] initWithFrame:frm];
         toLabel.backgroundColor = [UIColor clearColor];
         toLabel.text = _syncToText;
-        toLabel.textAlignment = NSTextAlignmentCenter;
+        toLabel.textAlignment = NSTextAlignmentLeft;
         toLabel.font = [UIFont boldSystemFontOfSize:20];
-        toLabel.textColor = [Colors darkSteelBlue];
+        toLabel.textColor = [UIColor lightGrayColor];
         
         [headerView addSubview:toLabel];
         [toLabel release];

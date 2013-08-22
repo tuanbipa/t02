@@ -233,7 +233,7 @@ extern BOOL _isiPad;
         label.text = [_totalDurationText stringByAppendingFormat:@": %@", [Common getDurationString:actualDuration]];;
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont boldSystemFontOfSize:16];
-        label.textColor = [UIColor darkGrayColor];
+        label.textColor = [UIColor lightGrayColor];
         
         return [label autorelease];
     }

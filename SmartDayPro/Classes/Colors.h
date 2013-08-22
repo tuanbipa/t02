@@ -12,6 +12,8 @@
 @interface Colors : NSObject {
 	
 }
++(UIColor *)blueButton;
++(UIColor *)redButton;
 
 //whites/pastels
 +(UIColor *)snow;					//	255-250-250	fffafa	 

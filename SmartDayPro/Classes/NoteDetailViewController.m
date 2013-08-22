@@ -164,7 +164,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
     frm.size.width = 384;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor clearColor];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	
 	self.view = contentView;
 	[contentView release];
@@ -408,8 +408,6 @@ NoteDetailViewController *_noteDetailViewCtrler;
 - (void) createDateCell:(UITableViewCell *)cell
 {
     cell.textLabel.text = _dateText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
     
     cell.detailTextLabel.text = [Common getFullDateString:self.noteCopy.startTime];
 }
@@ -417,8 +415,6 @@ NoteDetailViewController *_noteDetailViewCtrler;
 - (void) createProjectCell:(UITableViewCell *)cell
 {    
 	cell.textLabel.text = _projectText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
 	ProjectManager *pm = [ProjectManager getInstance];
 	
@@ -426,7 +422,6 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     cell.detailTextLabel.text = prj.name;
     cell.detailTextLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
 - (void) createTagCell:(UITableViewCell *)cell
@@ -448,7 +443,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	tagInputTextField.textAlignment = NSTextAlignmentLeft;
 	tagInputTextField.backgroundColor=[UIColor clearColor];
 	tagInputTextField.textColor = [Colors darkSteelBlue];
-	tagInputTextField.font=[UIFont systemFontOfSize:15];
+	tagInputTextField.font=[UIFont systemFontOfSize:16];
     
 	tagInputTextField.placeholder=_tagGuideText;
 	tagInputTextField.keyboardType=UIKeyboardTypeDefault;
@@ -597,7 +592,13 @@ NoteDetailViewController *_noteDetailViewCtrler;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.textLabel.text = @"";
-	cell.textLabel.backgroundColor = [UIColor clearColor];
+	cell.backgroundColor = [UIColor clearColor];
+    
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
+    
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     
     switch (indexPath.row)
     {

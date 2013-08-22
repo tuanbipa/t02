@@ -137,8 +137,9 @@ extern iPadViewController *_iPadViewCtrler;
 - (void)loadView
 {
     ContentView *contentView = [[ContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 440)];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
-    
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:246.0/255 green:246.0/255 blue:246.0/255 alpha:1];
+
     self.view = contentView;
     
     [contentView release];

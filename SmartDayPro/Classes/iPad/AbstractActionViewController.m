@@ -244,7 +244,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (Task *) getActiveTask
 {
-    if (activeView != nil && [activeView isKindOfClass:[MovableView class]])
+    if (activeView != nil && [activeView isKindOfClass:[TaskView class]])
     {
         return ((TaskView *) activeView).task;
     }
@@ -477,6 +477,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) applyFilter
 {
+    [self hidePopover];
+    
     TaskManager *tm = [TaskManager getInstance];
     
     NSDate *dt = [tm.today copy];
@@ -512,7 +514,7 @@ extern iPadViewController *_iPadViewCtrler;
     [ctrler release];
     
     
-    CGRect frm = CGRectMake(100, 0, 20, 10);
+    CGRect frm = CGRectMake(100-contentView.frame.origin.x, 0, 20, 10);
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
@@ -527,7 +529,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     [ctrler release];
     
-    CGRect frm = CGRectMake(180, 0, 20, 10);
+    CGRect frm = CGRectMake(180-contentView.frame.origin.x, 0, 20, 10);
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     
@@ -580,7 +582,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     CGFloat x = UIInterfaceOrientationIsLandscape(_iPadViewCtrler.interfaceOrientation)?sz.height/2:sz.width/2;
     
-    CGRect frm = CGRectMake(x-10, 0, 20, 10);
+    CGRect frm = CGRectMake(x-10-contentView.frame.origin.x, 0, 20, 10);
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
@@ -595,7 +597,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     [ctrler release];
     
-    CGRect frm = CGRectMake(40, 0, 20, 10);
+    CGRect frm = CGRectMake(40-contentView.frame.origin.x, 0, 20, 10);
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
@@ -775,7 +777,7 @@ extern iPadViewController *_iPadViewCtrler;
         
         [ctrler release];
         
-        CGRect frm = CGRectMake(600, 0, 20, 10);
+        CGRect frm = CGRectMake(600-contentView.frame.origin.x, 0, 20, 10);
         
         [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
