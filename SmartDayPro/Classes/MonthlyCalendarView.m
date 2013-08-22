@@ -540,11 +540,11 @@ extern BOOL _isiPad;
 
 		NSMutableArray *eventList = [tm getEventListOnDate:date];
 		
-		NSInteger allocTime = 0;
+		NSInteger allocTimeCount = 0;
 		
 		for (Task *task in eventList)
 		{
-			allocTime += [Common timeIntervalNoDST:task.endTime sinceDate:task.startTime];
+			allocTimeCount += [Common timeIntervalNoDST:task.endTime sinceDate:task.startTime];
 		}
 		
 		NSMutableArray *dTaskList = [tm getDTaskListOnDate:date];
@@ -561,7 +561,7 @@ extern BOOL _isiPad;
 
 		[cell setDSDots:hasDTask sTask:hasSTask];
         		
-		CGFloat ratio = (CGFloat) allocTime/(24*3600);
+		CGFloat ratio = (CGFloat) allocTimeCount/(24*3600);
 		
 		cell.freeRatio = (allocTime == 0?0:ratio);			
 	}

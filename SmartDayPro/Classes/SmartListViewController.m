@@ -2254,7 +2254,9 @@ SmartListViewController *_smartListViewCtrler;
 {
     NSLog(@"fast schedule finished");
     
+    self.layoutController.layoutMode = 1;
     [self refreshLayout];
+    self.layoutController.layoutMode = 0;
 }
 
 /*

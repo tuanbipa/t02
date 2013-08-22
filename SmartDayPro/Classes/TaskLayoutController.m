@@ -29,12 +29,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 @synthesize taskDict;
 @synthesize listKeys;
 
+@synthesize layoutMode;
+
 - (id) init
 {
     if (self = [super init])
     {
         self.taskDict = [NSMutableDictionary dictionaryWithCapacity:0];
         self.listKeys = [NSArray array];
+        
+        self.layoutMode = 0;
     }
     
     return  self;
@@ -64,7 +68,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     for (Task *task in tasks)
     {
-        if (!task.isScheduled)
+        if (self.layoutMode == 1 && c == MAX_FAST_SCHEDULE_TASKS)
         {
             NSLog(@"task layout fast end");
             break;
