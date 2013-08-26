@@ -711,7 +711,7 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) refreshLink
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?9:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?10:9):([self.task isShared]?6:5) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark Input Views
@@ -1390,7 +1390,7 @@ DetailViewController *_detailViewCtrler = nil;
 {
     DBManager *dbm = [DBManager getInstance];
     
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     cell.textLabel.text = _conversationsText;
     
     cell.textLabel.textColor = [UIColor grayColor];

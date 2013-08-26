@@ -156,6 +156,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     titleTextView.backgroundColor = [UIColor whiteColor];
     titleTextView.layer.borderWidth = 1;
     titleTextView.layer.cornerRadius = 8;
+    titleTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
     titleTextView.text = self.task.name;    
 	
@@ -500,8 +501,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			locationTextView.delegate=self;
 			locationTextView.backgroundColor=[UIColor whiteColor];
 			locationTextView.keyboardType=UIKeyboardTypeDefault;
-            locationTextView.returnKeyType = UIReturnKeyDone;
+            //locationTextView.returnKeyType = UIReturnKeyDone;
 			locationTextView.font=[UIFont systemFontOfSize:18];
+            locationTextView.layer.borderWidth = 1;
+            locationTextView.layer.cornerRadius = 8;
+            locationTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 			
 			locationTextView.text = self.task.location;
 			

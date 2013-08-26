@@ -242,6 +242,8 @@ extern BOOL _isiPad;
         
         UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 25)];
         commentLabel.backgroundColor = [UIColor clearColor];
+        commentLabel.font = [UIFont systemFontOfSize:16];
+        commentLabel.textColor = [UIColor grayColor];
         commentLabel.text = _conversationsText;
         
         [commentView addSubview:commentLabel];
@@ -252,6 +254,8 @@ extern BOOL _isiPad;
         UILabel *commentCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(frm.size.width - 45 - 100, 2, 100, 25)];
         commentCountLabel.backgroundColor = [UIColor clearColor];
         commentCountLabel.textAlignment = NSTextAlignmentRight;
+        commentCountLabel.font = [UIFont boldSystemFontOfSize:16];
+        commentCountLabel.textColor = [UIColor darkGrayColor];
         commentCountLabel.text = [NSString stringWithFormat:@"%d", commentCount];
         
         [commentView addSubview:commentCountLabel];
