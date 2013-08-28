@@ -82,18 +82,49 @@ NoteDetailViewController *_noteDetailViewCtrler;
 {
     contentView.frame = frm;
     
-    frm = CGRectInset(contentView.bounds, 5, 5);
+    //frm = CGRectInset(contentView.bounds, 5, 5);
+    frm = contentView.bounds;
+    frm.size.width -= 10;
     
     detailTableView.frame = frm;
     
     inputView.frame = CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300);
 }
 
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 2*44;
+    
+    frm.size.width = 384;
+    
+    [self changeFrame:frm];
+}
+
+
 - (void) refreshData
 {
     self.noteCopy = self.note;
     
     self.previewViewCtrler.item = self.noteCopy;
+    
+    [self.previewViewCtrler refreshData];
+    
+    [detailTableView reloadData];
 }
 
 #pragma mark Refresh
@@ -114,7 +145,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 
 - (void) refreshLink
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark Actions
@@ -215,6 +246,8 @@ NoteDetailViewController *_noteDetailViewCtrler;
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
     
     self.navigationItem.rightBarButtonItem = deleteItem;
+    
+    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -489,8 +522,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
 
 - (void) createLinkCell:(UITableViewCell *)cell
 {
+/*
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
+
 	UILabel *linkLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 30)];
 
 	linkLabel.text = _assetsText;
@@ -524,10 +558,18 @@ NoteDetailViewController *_noteDetailViewCtrler;
     frm.origin.y = 40;
     frm.size.width = detailTableView.bounds.size.width;
     frm.size.height = h - 40;
+     
+    [self.previewViewCtrler changeFrame:frm];
     
-    [cell.contentView addSubview:self.previewViewCtrler.view];
+    */
+    
+    CGRect frm = self.previewViewCtrler.view.frame;
+    frm.origin.x = 10;
+    frm.size.width = detailTableView.bounds.size.width-10;
     
     [self.previewViewCtrler changeFrame:frm];
+    
+    [cell.contentView addSubview:self.previewViewCtrler.view];
 }
 
 
@@ -542,7 +584,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 5;
+	return 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -555,8 +597,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
     {
         return 120;
     }
-    else if (indexPath.row == 4)
+    else if (indexPath.row == 5)
     {
+        /*
         CGFloat rowH = 0;
         
         for (int i=0;i<4;i++)
@@ -566,7 +609,10 @@ NoteDetailViewController *_noteDetailViewCtrler;
         
         CGFloat h = detailTableView.bounds.size.height - rowH;
         
-        return h>400?h:400;        
+        return h>400?h:400;
+        */
+        
+        return [self.previewViewCtrler getHeight];
     }
     
     return 40;
@@ -615,6 +661,12 @@ NoteDetailViewController *_noteDetailViewCtrler;
             [self createTagCell:cell];
             break;
         case 4:
+        {
+            cell.textLabel.text = _assetsText;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+            break;
+        case 5:
             [self createLinkCell:cell];
             break;
     }
@@ -632,6 +684,8 @@ NoteDetailViewController *_noteDetailViewCtrler;
         case 2:
             [self editProject];
             break;
+        case 4:
+            [self editLink:nil];
     }
 }
 

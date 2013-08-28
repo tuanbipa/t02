@@ -581,10 +581,11 @@ extern BOOL _isiPad;
     NSDate *fromDate = [self getFirstDate];
     NSDate *toDate = [self getLastDate];
     
-	[self updateBusyTimeFromDate:fromDate toDate:toDate];
 	[self updateDotFromDate:fromDate toDate:toDate];
 	[adeView setStartDate:fromDate endDate:toDate];
-	
+
+    [self updateBusyTimeFromDate:fromDate toDate:toDate];
+
 	//////NSLog(@"end refresh all cells");
 }
 

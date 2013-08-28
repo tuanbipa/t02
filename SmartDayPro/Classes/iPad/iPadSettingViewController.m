@@ -403,11 +403,18 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	backButton = [Common createButton:_doneText
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(navView.bounds.size.width - 70, 5, 60, 30)
-                                         titleColor:[UIColor whiteColor]
+                                         titleColor:nil
                                              target:self
                                            selector:@selector(back:)
-                                   normalStateImage:@"done_btn.png"
+                                   //normalStateImage:@"done_btn.png"
+                                normalStateImage:nil
                                  selectedStateImage:nil];
+    
+    backButton.titleLabel.font = [UIFont systemFontOfSize:16];
+
+    [backButton setTitleColor:[Colors blueButton] forState:UIControlStateNormal];
+    [backButton setTitleColor:[Colors blueButton] forState:UIControlStateSelected];
+    
     [navView addSubview:backButton];
     
     /*

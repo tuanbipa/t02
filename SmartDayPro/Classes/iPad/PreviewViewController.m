@@ -186,6 +186,45 @@ PreviewViewController *_previewCtrler;
     [linkTableView reloadData];
 }
 
+- (CGFloat) getHeight
+{
+    CGFloat rowH = 0;
+    
+    NSInteger rows = self.linkList.count;
+    
+    if (!hasNote && ![self.item isNote]) //don't show empty Note for Note
+    {
+        rows += 1;
+    }
+    
+    for (int i=0;i<rows;i++)
+    {
+        NSInteger index = selectedIndex;
+        
+        if (!hasNote && ![self.item isNote])
+        {
+            if (index > 0)
+            {
+                index -= 1;
+            }
+        }
+        
+        if (i == selectedIndex && index >= 0)
+        {
+            NSObject *asset = [self.linkList objectAtIndex:index];
+            
+            rowH += ![asset isKindOfClass:[URLAsset class]]?170:40;
+        }
+        else
+        {
+            rowH += 40;
+        }
+    }
+    
+    return rowH;
+    
+}
+
 /*
 - (void) editTask:(Task *)task
 {
@@ -624,7 +663,7 @@ PreviewViewController *_previewCtrler;
     
     linkTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     linkTableView.backgroundColor = [UIColor clearColor];
-    linkTableView.separatorColor = [UIColor grayColor];
+    linkTableView.separatorColor = [UIColor clearColor];
     linkTableView.delegate = self;
     linkTableView.dataSource = self;
     
