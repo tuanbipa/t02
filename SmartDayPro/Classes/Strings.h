@@ -713,3 +713,5 @@
 #define _currentLocationText NSLocalizedString(@"_currentLocationText", "")
 #define _geoFencingText NSLocalizedString(@"_geoFencingText", "")
 #define _geoIntervalText NSLocalizedString(@"_geoIntervalText", "")
+#define _hideAllProjects NSLocalizedString(@"_hideAllProjects", "")
+#define _showAllProjects NSLocalizedString(@"_showAllProjects", "")
