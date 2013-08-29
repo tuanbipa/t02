@@ -708,6 +708,8 @@
 
 #define _conversationsText NSLocalizedString(@"_conversationsText", "")
 
-// mapkit
+// mapkit and geo fancing
 #define _applyCurrentLocationText NSLocalizedString(@"_applyCurrentLocationText", "")
 #define _currentLocationText NSLocalizedString(@"_currentLocationText", "")
+#define _geoFencingText NSLocalizedString(@"_geoFencingText", "")
+#define _geoIntervalText NSLocalizedString(@"_geoIntervalText", "")

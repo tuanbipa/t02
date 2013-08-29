@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface SmartCalAppDelegate : NSObject <UIApplicationDelegate, UIAlertViewDelegate, UIActionSheetDelegate> {
+@interface SmartCalAppDelegate : NSObject <UIApplicationDelegate, UIAlertViewDelegate, UIActionSheetDelegate, CLLocationManagerDelegate> {
     UIWindow *window;
 	
 	UINavigationController *navController;
@@ -25,6 +26,19 @@
 	
 	BOOL autoSyncPending;
     BOOL launchFromBackground;
+    
+    // location check
+    CLLocationManager *locationManager;
+    NSTimer *locationTimer;
+    NSInteger geoItemCount;
+    
+    dispatch_group_t geocodeDispatchGroup;
+    NSOperationQueue * geocodeQueue;
+    dispatch_semaphore_t geocodingLock;
+    
+    NSMutableString *notifyStr;
+    BOOL locationUpdating;
+    UILocalNotification *geoLocalNotification;
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -39,5 +53,7 @@
 
 + (void)backupDB;
 
+- (void)disableGeoFencing;
+- (void)startGeoFencing: (NSInteger)interval;
 @end
 

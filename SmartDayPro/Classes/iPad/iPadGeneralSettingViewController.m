@@ -22,8 +22,10 @@
 #import "SnoozeDurationViewController.h"
 
 #import "AbstractSDViewController.h"
+#import "SmartCalAppDelegate.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern SmartCalAppDelegate *_appDelegate;
 
 @interface iPadGeneralSettingViewController ()
 
@@ -62,6 +64,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 - (void) editSnoozeDuration
+{
+    SnoozeDurationViewController *ctrler = [[SnoozeDurationViewController alloc] init];
+    ctrler.settings = self.setting;
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    
+    [ctrler release];
+}
+
+- (void)editGeoInterVal
 {
     SnoozeDurationViewController *ctrler = [[SnoozeDurationViewController alloc] init];
     ctrler.settings = self.setting;
@@ -190,6 +202,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	{
         [_abstractViewCtrler sync];
 	}
+}
+
+- (void)changeGeoFencing: (id)sender
+{
+    UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
+	
+	self.setting.geoFencingEnable = (segmentedStyleControl.selectedSegmentIndex == 0);
+    if (!self.setting.geoFencingEnable) {
+        [_appDelegate disableGeoFencing];
+    } else {
+        [_appDelegate startGeoFencing:self.setting.geoFencingInterval];
+    }
+    [settingTableView reloadData];
 }
 
 #pragma mark Cell Creation
@@ -322,6 +347,50 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[cell.contentView addSubview:deleteButton];
 }
 
+- (void) createGeoFencingCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.textLabel.text = _geoFencingText;
+	
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(settingTableView.bounds.size.width - 110, 5, 100, 30);
+	[segmentedStyleControl addTarget:self action:@selector(changeGeoFencing:) forControlEvents:UIControlEventValueChanged];
+	//segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+	segmentedStyleControl.selectedSegmentIndex = (self.setting.geoFencingEnable?0:1);
+	segmentedStyleControl.tag = baseTag;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];
+}
+
+- (void) createGeoIntervalCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryNone;
+	
+	cell.textLabel.text = _geoIntervalText;
+	
+    UITextField *geoInterValTextField = [[UITextField alloc] initWithFrame:CGRectMake(settingTableView.bounds.size.width - 130 - 30, 5, 120, 30)];
+    geoInterValTextField.backgroundColor = [UIColor whiteColor];
+    geoInterValTextField.textAlignment = NSTextAlignmentRight;
+	geoInterValTextField.keyboardType = UIKeyboardTypeNumberPad;
+    geoInterValTextField.returnKeyType = UIReturnKeyDone;
+	geoInterValTextField.delegate = self;
+    geoInterValTextField.text = [NSString stringWithFormat:@"%d", self.setting.geoFencingInterval/60];
+    
+	[cell.contentView addSubview:geoInterValTextField];
+	[geoInterValTextField release];
+    
+    UILabel *minsLable = [[UILabel alloc] initWithFrame:CGRectMake(geoInterValTextField.frame.origin.x + geoInterValTextField.frame.size.width, 10, 40, 20)];
+    minsLable.tag = baseTag;
+	minsLable.textAlignment=NSTextAlignmentRight;
+	minsLable.backgroundColor=[UIColor clearColor];
+	minsLable.font=[UIFont boldSystemFontOfSize:16];
+    minsLable.textColor=[UIColor darkGrayColor];
+    minsLable.text = @"mins";
+    
+    [cell.contentView addSubview:minsLable];
+    [minsLable release];
+}
 
 #pragma mark Table view methods
 
@@ -332,7 +401,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    if (self.setting.geoFencingEnable) {
+        return 9;
+    }
+    return 8;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -412,6 +484,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
             [self createDeleteSuspectedDuplicationCell:cell baseTag:10060];
         }
             break;
+        case 7:
+        {
+            [self createGeoFencingCell:cell baseTag:10070];
+        }
+            break;
+        case 8:
+        {
+            [self createGeoIntervalCell:cell baseTag:10080];
+        }
+            break;
     }
 
 	
@@ -437,7 +519,50 @@ extern AbstractSDViewController *_abstractViewCtrler;
             [self editSnoozeDuration];
         }
             break;
+        case 8:
+        {
+            [self editGeoInterVal];
+        }
+            break;
     }
 }
 
+#pragma mark TextFieldDelegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+	unichar c;
+	
+	if ([string length]>0)
+	{
+		c = [string characterAtIndex:0];
+	}
+	else
+	{
+		return YES;
+	}
+	
+	if ([[NSCharacterSet decimalDigitCharacterSet] characterIsMember:c])
+	{
+		return YES;
+	}
+    
+	return NO;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    return NO;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSInteger number = [textField.text isEqualToString:@""]?0:[textField.text intValue];
+    
+    self.setting.geoFencingInterval = number*60;
+    
+    [_appDelegate startGeoFencing:self.setting.geoFencingInterval];
+}
 @end

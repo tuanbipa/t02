@@ -44,12 +44,13 @@
 	<string>130820</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIPrerenderedIcon</key>
-	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 	</array>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

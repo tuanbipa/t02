@@ -10,7 +10,7 @@
 
 @class Settings;
 
-@interface iPadGeneralSettingViewController : UIViewController
+@interface iPadGeneralSettingViewController : UIViewController <UITextFieldDelegate>
 {
     UITableView *settingTableView;
 }

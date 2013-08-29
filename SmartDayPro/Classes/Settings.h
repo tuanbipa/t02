@@ -239,6 +239,10 @@
 @property BOOL timeZoneSupport;
 @property NSInteger timeZoneID;
 
+// geo fencing
+@property BOOL geoFencingEnable;
+@property NSInteger geoFencingInterval;
+
 @property (nonatomic, copy) NSDate *updateTime;
 
 @property (nonatomic, copy) NSString *dbVersion;

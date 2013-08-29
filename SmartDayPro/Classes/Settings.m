@@ -152,6 +152,10 @@ extern BOOL _isiPad;
 @synthesize timeZoneSupport;
 @synthesize timeZoneID;
 
+// geo fencing
+@synthesize geoFencingEnable;
+@synthesize geoFencingInterval;
+
 @synthesize updateTime;
 
 @synthesize dbVersion;
@@ -273,6 +277,10 @@ extern BOOL _isiPad;
         
         self.timeZoneSupport = NO;
         self.timeZoneID = 0;
+        
+        // geo fencing
+        self.geoFencingEnable = NO;
+        self.geoFencingInterval = 5;
         
         self.sdwEmail = @"";
         self.sdwPassword = @"";
@@ -537,6 +545,10 @@ extern BOOL _isiPad;
     copy.timeZoneSupport = timeZoneSupport;
     copy.timeZoneID = timeZoneID;
     
+    // geo fencing
+    copy.geoFencingEnable = geoFencingEnable;
+    copy.geoFencingInterval = geoFencingInterval;
+    
     copy.updateTime = updateTime;
 	
 	return copy;
@@ -604,6 +616,10 @@ extern BOOL _isiPad;
     
     self.timeZoneSupport = settings.timeZoneSupport;
     self.timeZoneID = settings.timeZoneID;
+    
+    // geo fencing
+    self.geoFencingEnable = settings.geoFencingEnable;
+    self.geoFencingInterval = settings.geoFencingInterval;
     
     self.updateTime = settings.updateTime;
     
@@ -873,6 +889,21 @@ extern BOOL _isiPad;
 		if (timeZoneIDSetting != nil)
 		{
 			self.timeZoneID = [timeZoneIDSetting intValue];
+		}
+        
+        // geo fencing
+        NSNumber *geoFencingEbanleSetting = [self.settingDict objectForKey:@"GeoFencingEbanle"];
+		
+		if (geoFencingEbanleSetting != nil)
+		{
+			self.geoFencingEnable = [geoFencingEbanleSetting boolValue];
+		}
+        
+		NSNumber *geoFencingIntervalSetting = [self.settingDict objectForKey:@"GeoFencingInterval"];
+		
+		if (geoFencingIntervalSetting != nil)
+		{
+			self.geoFencingInterval = [geoFencingIntervalSetting intValue];
 		}
 
 		NSNumber *updateTimeSetting = [self.settingDict objectForKey:@"UpdateTime"];
@@ -1512,6 +1543,13 @@ extern BOOL _isiPad;
 
 	NSNumber *timeZoneIDSetting = [NSNumber numberWithInt:self.timeZoneID];
 	[settingDict setValue:timeZoneIDSetting forKey:@"TimeZoneID"];
+    
+    // geo fencing
+    NSNumber *geoFencingEnableSetting = [NSNumber numberWithBool:self.geoFencingEnable];
+	[settingDict setValue:geoFencingEnableSetting forKey:@"GeoFencingEnable"];
+    
+    NSNumber *geoFencingIntervalSetting = [NSNumber numberWithInt:self.geoFencingInterval];
+	[settingDict setValue:geoFencingIntervalSetting forKey:@"GeoFencingInterval"];
     
 	if (self.updateTime != nil)
 	{

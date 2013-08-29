@@ -12,6 +12,7 @@
 
 #import "Common.h"
 #import "iPadGeneralSettingViewController.h"
+#import "TagDictionary.h"
 
 @interface TagDetailViewController () {
     UIButton *currentLocationButton;
@@ -21,37 +22,22 @@
     NSArray *searchPlacemarksCache;
     
     CLLocationManager *locationManager;
+    
+    CLLocation *currentLocation;
 }
-
-//@property (nonatomic, strong) CLLocationManager *locationManager;
-
 @property (nonatomic, strong) NSIndexPath *checkedIndexPath;
-
-@property (readonly) NSInteger selectedIndex;
 
 @end
 
 @implementation TagDetailViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize keyStr;
 
 - (id)init
 {
     self = [super init];
     if (self) {
         // Custom initialization
-        
-        _selectedCoordinate = kCLLocationCoordinate2DInvalid;
-        _selectedType = CoordinateSelectorLastSelectedTypeUndefined;
-        //[self updateSelectedName];
-        //[self updateSelectedCoordinate];
     }
     return self;
 }
@@ -82,6 +68,11 @@
     locationText.backgroundColor = [UIColor whiteColor];
     locationText.delegate = self;
     [locationText setReturnKeyType:UIReturnKeySearch];
+    
+    TagDictionary *dict = [TagDictionary getInstance];
+    NSString *address = [dict.tagDict objectForKey:self.keyStr];
+    locationText.text = address;
+    
     [contentView addSubview:locationText];
     [locationText release];
     
@@ -110,7 +101,22 @@
     
     [locationManager startUpdatingLocation];
     
-    //startLocation = nil;
+    // add action for done
+    /*UIBarButtonItem *doneButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                   target:self action:@selector(saveLocation:)];
+	self.navigationItem.rightBarButtonItem = doneButtonItem;
+	[doneButtonItem release];*/
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [locationManager stopUpdatingLocation];
+    
+    if (self.isMovingFromParentViewController) {
+        [self saveLocation:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,13 +129,40 @@
 {
     [super dealloc];
     [searchPlacemarksCache release];
+    [locationManager release];
+    
+    [keyStr release];
+    if (currentLocation != nil) {
+        [currentLocation release];
+    }
 }
 
 #pragma mark Actions
 
 - (void)setCurrentLocaton: (id)sender
 {
+    if (currentLocation == nil) {
+        return;
+    }
     
+    CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
+    
+    [gc reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemark, NSError *error) {
+        CLPlacemark *pm = [placemark objectAtIndex:0];
+        NSDictionary *addressDict = pm.addressDictionary;
+        // do something with the address, see keys in the remark below
+        NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
+        addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
+        
+        locationText.text = addressStr;
+    }];
+}
+
+- (void)saveLocation: (id)sender
+{
+    TagDictionary *tagDict = [TagDictionary getInstance];
+    [tagDict.tagDict setObject:locationText.text forKey:self.keyStr];
+    //tagDict setObject:address forKey:tag]
 }
 
 #pragma mark - UITextFieldDelegate
@@ -145,10 +178,10 @@
 	return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [self updateSelectedCoordinate];
-}
+//- (void)textFieldDidEndEditing:(UITextField *)textField
+//{
+//    [self updateSelectedCoordinate];
+//}
 
 #pragma mark Search
 
@@ -171,11 +204,7 @@
         // performed from the main thread.
         //
         dispatch_async(dispatch_get_main_queue(),^ {
-            if (_checkedIndexPath.section == 0)
-            {
-                // clear any current selections if they are search result selections
-                _checkedIndexPath = nil;
-            }
+            
             //searchPlacemarksCache = placemarks; // might be nil
             if (searchPlacemarksCache != nil) {
                 [searchPlacemarksCache release];
@@ -223,36 +252,17 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    // configure the cell...
-//    NSInteger section = indexPath.section;
-    
     {
-        // Search
-        //
-//        if (indexPath.row == 0)
-//        {
-//            return _searchCell;
-//        }
         // otherwise display the list of results
         CLPlacemark *placemark = searchPlacemarksCache[indexPath.row];
         
         NSString *addressStr = ABCreateStringWithAddressDictionary(placemark.addressDictionary, NO);
-        //addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
         cell.textLabel.text = addressStr;
         
-        CLLocationDegrees latitude = placemark.location.coordinate.latitude;
+        /*CLLocationDegrees latitude = placemark.location.coordinate.latitude;
         CLLocationDegrees longitude = placemark.location.coordinate.longitude;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"φ:%.4F, λ:%.4F", latitude, longitude];
-    }
-    
-    // show a check next to the selected option / cell
-    if ([_checkedIndexPath isEqual:indexPath])
-    {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    else
-    {
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"φ:%.4F, λ:%.4F", latitude, longitude];*/
     }
     
     return cell;
@@ -261,65 +271,19 @@
 #pragma mark UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-}
-
-#pragma mark - update selected cell
-
-// keys off selectedType and selectedCoordinates
-- (void)updateSelectedName
-{
-    switch (_selectedType)
-    {
-        case CoordinateSelectorLastSelectedTypeCurrent:
-        {
-            _selectedName = @"Current Location";
-            break;
-        }
-            
-        case CoordinateSelectorLastSelectedTypeSearch:
-        {
-            CLPlacemark *placemark = searchPlacemarksCache[_selectedIndex]; // take into account the first 'search' cell
-            _selectedName = ABCreateStringWithAddressDictionary(placemark.addressDictionary, NO);
-            break;
-        }
-            
-        case CoordinateSelectorLastSelectedTypeUndefined:
-        {
-            _selectedName = @"Select a Place";
-            break;
-        }
-    }
-}
-
-// keys off selectedType and selectedCoordinates
-- (void)updateSelectedCoordinate
-{
-    switch (_selectedType)
-    {
-        case CoordinateSelectorLastSelectedTypeSearch:
-        {
-            // allow for the selection of search results,
-            // take into account the first 'search' cell
-            CLPlacemark *placemark = searchPlacemarksCache[_selectedIndex];
-            _selectedCoordinate = placemark.location.coordinate;
-            break;
-        }
-            
-        case CoordinateSelectorLastSelectedTypeUndefined:
-            _selectedCoordinate = kCLLocationCoordinate2DInvalid;
-            break;
-            
-        case CoordinateSelectorLastSelectedTypeCurrent:
-            break; // no need to update for current location (CL delegate callback sets it)
-    }
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    locationText.text = cell.textLabel.text;
 }
 
 #pragma mark - CLLocationManagerDelegate - Location updates
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    CLLocation *location = [locations lastObject];
+    if (currentLocation != nil) {
+        [currentLocation release];
+    }
+    currentLocation = [[locations lastObject] retain];
+    /*CLLocation *location = [locations lastObject];
     
     CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
     
@@ -328,41 +292,11 @@
         NSDictionary *addressDict = pm.addressDictionary;
         // do something with the address, see keys in the remark below
         NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
+        addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
         
         //NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
         NSLog(@"OldLocation %f %f, address %@", location.coordinate.latitude, location.coordinate.longitude, addressStr);
         [currentLocationButton setTitle:addressStr forState:UIControlStateNormal];
-    }];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    // if the location is older than 30s ignore
-    if (fabs([newLocation.timestamp timeIntervalSinceDate:[NSDate date]]) > 30 )
-    {
-        return;
-    }
-    
-//    _selectedCoordinate = [newLocation coordinate];
-//    
-//    // update the current location cells detail label with these coords
-//    _currentLocationLabel.text = [NSString stringWithFormat:@"φ:%.4F, λ:%.4F", _selectedCoordinate.latitude, _selectedCoordinate.longitude];
-//    
-//    // after recieving a location, stop updating
-//    [self stopUpdatingCurrentLocation];
-    
-    //CLLocation *location = [locations lastObject];
-    
-    CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
-    NSDictionary *addressDict = nil;
-    [gc reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemark, NSError *error) {
-        CLPlacemark *pm = [placemark objectAtIndex:0];
-        NSDictionary *addressDict = pm.addressDictionary;
-        // do something with the address, see keys in the remark below
-    }];
-    
-    NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
-    //NSLog(@"OldLocation %f %f, address %@", location.coordinate.latitude, location.coordinate.longitude, addressStr);
-    [currentLocationButton setTitle:addressStr forState:UIControlStateNormal];
+    }];*/
 }
 @end

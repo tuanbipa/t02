@@ -17,9 +17,13 @@ typedef enum
 } CoordinateSelectorLastSelectedType;
 
 @interface TagDetailViewController : UIViewController <UITextFieldDelegate, CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
+{
+    NSString *keyStr;
+}
+
+@property (nonatomic, retain) NSString *keyStr;
 
 @property (readonly) CLLocationCoordinate2D selectedCoordinate;
 @property (readonly) CoordinateSelectorLastSelectedType selectedType;
-@property (readonly) NSString *selectedName;
 
 @end

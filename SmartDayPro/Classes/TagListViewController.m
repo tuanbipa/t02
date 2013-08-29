@@ -371,8 +371,8 @@ extern BOOL _isiPad;
 				//cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [[cell imageView] setImage:[UIImage imageNamed:@"checkMark"]];
 			}*/
-            [[cell imageView] setImage:[UIImage imageNamed:@"checkMark"]];
-            [cell imageView].hidden = presetTag == nil;
+            [[cell imageView] setImage:[UIImage imageNamed:@"checkmark.png"]];
+            [cell imageView].hidden = (presetTag == nil);
             
             // tag location
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -381,7 +381,7 @@ extern BOOL _isiPad;
             editTagButton.frame = CGRectMake(tableView.frame.size.width - 30, 0, 30, cell.frame.size.height);
             [editTagButton addTarget:self action:@selector(editTag:) forControlEvents:UIControlEventTouchUpInside];
             
-            editTagButton.tag = presetTag;
+            editTagButton.tag = cell.textLabel.text;//presetTag;
             
             [cell.contentView addSubview:editTagButton];
 		}
@@ -469,9 +469,10 @@ extern BOOL _isiPad;
 - (void)editTag: (id)sender
 {
     //NSLog(@"edit tag");
+    UIButton *button = (UIButton*)sender;
     
 	TagDetailViewController *ctrler = [[TagDetailViewController alloc] init];
-	//ctrler.task = self.taskCopy;
+	ctrler.keyStr = button.tag;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];
