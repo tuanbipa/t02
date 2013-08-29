@@ -122,6 +122,10 @@ CalendarViewController *_sc2ViewCtrler;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
 													 name:@"ScheduleFinishedNotification" object:nil];
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(fastScheduleFinished:)
+													 name:@"FastScheduleFinishedNotification" object:nil];
 	}
 	
 	return self;
@@ -1880,6 +1884,11 @@ CalendarViewController *_sc2ViewCtrler;
 */
 
 - (void)scheduleFinished:(NSNotification *)notification
+{
+    [self refreshLayout];
+}
+
+- (void)fastScheduleFinished:(NSNotification *)notification
 {
     [self refreshLayout];
 }

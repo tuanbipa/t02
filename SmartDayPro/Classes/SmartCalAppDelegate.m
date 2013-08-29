@@ -123,17 +123,21 @@ BOOL _fromBackground = NO;
             
             [self.window addSubview: busyIndicatorView];			
 		}
-        
-        [busyIndicatorView performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];        
+
+        dispatch_async(dispatch_get_main_queue(),^ {
+            [busyIndicatorView startAnimating];
+        });
 	}
 	else
 	{
-		[busyIndicatorView performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
-        
-        if ([busyIndicatorView superview])
-        {
-            [busyIndicatorView removeFromSuperview];
-        }
+        dispatch_async(dispatch_get_main_queue(),^ {
+            [busyIndicatorView stopAnimating];
+            
+            if ([busyIndicatorView superview])
+            {
+                [busyIndicatorView removeFromSuperview];
+            }
+        });
 	}
 }
 
@@ -272,9 +276,9 @@ BOOL _fromBackground = NO;
     
     //[self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
     
-    //[_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
+    [_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
 
-    [_abstractViewCtrler.miniMonthView initCalendar:[NSDate date]];
+    //[_abstractViewCtrler.miniMonthView initCalendar:[NSDate date]];
     
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
     
@@ -308,9 +312,9 @@ BOOL _fromBackground = NO;
     
     //[self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
 
-    //[_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
+    [_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
 
-    [_abstractViewCtrler.miniMonthView initCalendar:[NSDate date]];
+    //[_abstractViewCtrler.miniMonthView initCalendar:[NSDate date]];
     
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
     

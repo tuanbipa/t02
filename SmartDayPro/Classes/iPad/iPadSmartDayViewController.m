@@ -1600,7 +1600,8 @@ iPadViewController *_iPadViewCtrler;
     [headerView release];
     
     UIView *moduleView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 10 + btnHeight + headerView.frame.size.height, w-10, frm.size.height - (20 + btnHeight + headerView.frame.size.height))];
-    moduleView.backgroundColor = [UIColor greenColor];
+    //moduleView.backgroundColor = [UIColor greenColor];
+    moduleView.backgroundColor = [UIColor clearColor];
     moduleView.tag = 33000;
     
     [contentView addSubview:moduleView];

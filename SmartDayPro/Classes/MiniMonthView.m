@@ -212,6 +212,8 @@ extern BOOL _isiPad;
 {
     [_abstractViewCtrler deselect];
     
+    [headerView setNeedsDisplay];
+    
     TaskManager *tm = [TaskManager getInstance];
     
     NSInteger mode = [headerView getMWMode];
@@ -233,8 +235,6 @@ extern BOOL _isiPad;
     [self.calView initCalendar:dt];
     
     [self.calView highlightCellOnDate:tm.today];
-	
-	[headerView setNeedsDisplay];
 }
 
 - (void) highlight:(NSDate *)date

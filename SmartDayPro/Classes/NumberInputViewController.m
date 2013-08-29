@@ -80,6 +80,7 @@ extern BOOL _isiPad;
     hintLabel.backgroundColor = [UIColor clearColor];
     hintLabel.font = [UIFont systemFontOfSize:15];
     hintLabel.numberOfLines = 0;
+    hintLabel.textColor = [UIColor grayColor];
 
     hintLabel.text = _mustDoHint;
     

@@ -15,6 +15,8 @@
 @property (nonatomic, retain) NSMutableDictionary *taskDict;
 @property (nonatomic, retain) NSArray *listKeys;
 
+@property NSInteger layoutMode;//0:normal - 1:fast
+
 - (void) layout;
 
 @end

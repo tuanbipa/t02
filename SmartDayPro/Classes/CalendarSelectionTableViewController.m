@@ -5,6 +5,7 @@
 //  Created by Huy Le on 12/4/09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
+#import <QuartzCore/QuartzCore.h>
 #import <EventKit/EventKit.h>
 
 #import "CalendarSelectionTableViewController.h"
@@ -29,10 +30,13 @@
 
 #import "iPadSmartDayViewController.h"
 #import "AbstractSDViewController.h"
+#import "iPadViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
+
+extern iPadViewController *_iPadViewCtrler;
 
 extern BOOL _isiPad;
 
@@ -124,12 +128,13 @@ extern BOOL _isiPad;
     
 	calendarTableView.delegate = self;
 	calendarTableView.dataSource = self;
-	//calendarTableView.sectionHeaderHeight = 5;
+	calendarTableView.sectionHeaderHeight = 10;
     calendarTableView.backgroundColor = [UIColor clearColor];
 	
 	[contentView addSubview:calendarTableView];
 	[calendarTableView release];    
     
+    /*
     frm = _isiPad?CGRectMake(10, 5, 100, 30):CGRectMake(40, 5, 100, 30);
 	
 	UIButton *showAllButton = [Common createButton:_showAllText 
@@ -157,23 +162,26 @@ extern BOOL _isiPad;
 								selectedStateImage:nil];
 	
 	[contentView addSubview:hideAllButton];
+    */
 
     if (_isiPad)
     {
         frm = CGRectMake(contentView.bounds.size.width-70, 5, 60, 30);
-        UIButton *applyButton = [Common createButton:_applyText
+        
+        UIButton *applyButton = [Common createButton:_doneText
                                             buttonType:UIButtonTypeCustom
                                                  frame:frm
-                                            titleColor:[UIColor whiteColor]
+                                            titleColor:[Colors blueButton]
                                                 target:self
                                               selector:@selector(apply:)
-                                      normalStateImage:@"blue_button.png"
+                                      normalStateImage:nil
                                     selectedStateImage:nil];
+        applyButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
         
         [contentView addSubview:applyButton];
     }
 	
-	doneButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+	doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																			   target:self action:@selector(done:)];
 	self.navigationItem.rightBarButtonItem = doneButton;
 	[doneButton release];	
@@ -326,23 +334,42 @@ extern BOOL _isiPad;
 {
     [self done:sender];
     
+    /*
     [_abstractViewCtrler hidePopover];
     
     [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
     [[_abstractViewCtrler getNoteViewController] loadAndShowList];
+    */
+    
+    [_iPadViewCtrler.activeViewCtrler hidePopover];
+    
+    [_iPadViewCtrler.activeViewCtrler refreshData];
 }
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 40;
+}
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-    return calList.count;
+    if (section == 0)
+    {
+        return 1;
+    }
+    else if (section == 1)
+    {
+        return calList.count;
+    }
+    
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -379,81 +406,111 @@ extern BOOL _isiPad;
     // Set up the cell...
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	NSNumber *flag = [selectedCalDict objectForKey:[NSNumber numberWithInt:indexPath.row]];
-	
-	cell.accessoryType = ([flag intValue] == 1?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
-	//cell.backgroundColor = ([flag intValue] == 1?[UIColor whiteColor]:[UIColor lightGrayColor]);
     
-    cell.backgroundColor = ([flag intValue] == 1?[UIColor clearColor]:[UIColor lightGrayColor]);
-	
-	Project *prj = [self.calList objectAtIndex:indexPath.row];
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
     
-    BOOL isDefault = [prj checkDefault];
-			
-	UILabel *prjLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 5, 240 - (isDefault?25:0), 30)];
-	prjLabel.backgroundColor = [UIColor clearColor];
-	prjLabel.font = [UIFont systemFontOfSize:16];
-	prjLabel.text = prj.name;
-	prjLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
-	prjLabel.tag = 10000;
-	
-	[cell.contentView addSubview:prjLabel];
-	[prjLabel release];
-    	
-	if (prj.type == TYPE_LIST)
-	{
-		UIImage *listImage = [[ProjectManager getInstance] getListIcon:prj.primaryKey];
-		
-		UIImageView *listImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 9, 9)];
-		listImageView.image = listImage;
-		listImageView.tag = 10001;
-		
-		[cell.contentView addSubview:listImageView];
-		[listImageView release];
-		
-	}
-	else 
-	{
-		NSInteger taskCount = [[DBManager getInstance] getTaskCountForProject:prj.primaryKey];
-		NSInteger eventCount = [[DBManager getInstance] getEventCountForProject:prj.primaryKey];
-		
-		if (eventCount > 0)
-		{
-			UIImage *eventImage = [[ProjectManager getInstance] getEventIcon:prj.primaryKey];
-			
-			UIImageView *eventImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 16, 8, 8)];
-			eventImageView.image = eventImage;
-			eventImageView.tag = 10001;	
-			
-			[cell.contentView addSubview:eventImageView];
-			[eventImageView release];			
-		}
-		
-		if (taskCount > 0)
-		{
-			UIImage *taskImage = [[ProjectManager getInstance] getTaskIcon:prj.primaryKey];
-			
-			UIImageView *taskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 8, 8)];
-			taskImageView.image = taskImage;
-			taskImageView.tag = 10002;
-			
-			[cell.contentView addSubview:taskImageView];
-			[taskImageView release];			
-		}
-		
-	}
-	
-    if (isDefault)
+    if (indexPath.section == 0)
     {
-		UIImageView *pinImageView = [[UIImageView alloc] initWithFrame:CGRectMake(250, 10, 20, 20)];
-		pinImageView.image = [UIImage imageNamed:@"default_cate.png"];
-		pinImageView.tag = 10003;
-		
-		[cell.contentView addSubview:pinImageView];
-		[pinImageView release];
+        BOOL hideCalendar = YES;
         
-    }    
+        for (NSNumber *flag in selectedCalDict.objectEnumerator.allObjects)
+        {
+            if ([flag intValue] == 0)
+            {
+                hideCalendar = NO;
+                break;
+            }
+        }
+        
+        cell.textLabel.text = (hideCalendar?_hideAllProjects:_showAllProjects);
+        cell.textLabel.tag = (hideCalendar?1:0);
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        
+        cell.textLabel.layer.cornerRadius = 8;
+        cell.textLabel.layer.borderWidth = 1;
+        cell.textLabel.layer.borderColor = [[Colors blueButton] CGColor];
+        
+        cell.textLabel.textColor = [Colors blueButton];
+    }
+	else
+    {
+        NSNumber *flag = [selectedCalDict objectForKey:[NSNumber numberWithInt:indexPath.row]];
+        
+        cell.accessoryType = ([flag intValue] == 1?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
+        //cell.backgroundColor = ([flag intValue] == 1?[UIColor whiteColor]:[UIColor lightGrayColor]);
+        
+        cell.backgroundColor = ([flag intValue] == 1?[UIColor clearColor]:[UIColor lightGrayColor]);
+        
+        Project *prj = [self.calList objectAtIndex:indexPath.row];
+        
+        BOOL isDefault = [prj checkDefault];
+        
+        UILabel *prjLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 5, 240 - (isDefault?25:0), 30)];
+        prjLabel.backgroundColor = [UIColor clearColor];
+        prjLabel.font = [UIFont systemFontOfSize:16];
+        prjLabel.text = prj.name;
+        prjLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
+        prjLabel.tag = 10000;
+        
+        [cell.contentView addSubview:prjLabel];
+        [prjLabel release];
+    	
+        if (prj.type == TYPE_LIST)
+        {
+            UIImage *listImage = [[ProjectManager getInstance] getListIcon:prj.primaryKey];
+            
+            UIImageView *listImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 9, 9)];
+            listImageView.image = listImage;
+            listImageView.tag = 10001;
+            
+            [cell.contentView addSubview:listImageView];
+            [listImageView release];
+            
+        }
+        else
+        {
+            NSInteger taskCount = [[DBManager getInstance] getTaskCountForProject:prj.primaryKey];
+            NSInteger eventCount = [[DBManager getInstance] getEventCountForProject:prj.primaryKey];
+            
+            if (eventCount > 0)
+            {
+                UIImage *eventImage = [[ProjectManager getInstance] getEventIcon:prj.primaryKey];
+                
+                UIImageView *eventImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 16, 8, 8)];
+                eventImageView.image = eventImage;
+                eventImageView.tag = 10001;
+                
+                [cell.contentView addSubview:eventImageView];
+                [eventImageView release];
+            }
+            
+            if (taskCount > 0)
+            {
+                UIImage *taskImage = [[ProjectManager getInstance] getTaskIcon:prj.primaryKey];
+                
+                UIImageView *taskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 8, 8)];
+                taskImageView.image = taskImage;
+                taskImageView.tag = 10002;
+                
+                [cell.contentView addSubview:taskImageView];
+                [taskImageView release];			
+            }
+            
+        }
+        
+        if (isDefault)
+        {
+            UIImageView *pinImageView = [[UIImageView alloc] initWithFrame:CGRectMake(250, 10, 20, 20)];
+            pinImageView.image = [UIImage imageNamed:@"default_cate.png"];
+            pinImageView.tag = 10003;
+            
+            [cell.contentView addSubview:pinImageView];
+            [pinImageView release];
+            
+        }
+    }
     
     return cell;
 }
@@ -465,7 +522,22 @@ extern BOOL _isiPad;
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
-	
+	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+		
+    if (indexPath.section == 0)
+    {
+        if (cell.textLabel.tag == 1)
+        {
+            [self hideAllProjects:nil];
+        }
+        else
+        {
+            [self showAllProjects:nil];
+        }
+        
+        return;
+    }
+    
 	if (indexPath.row == defaultProjectIndex)
 	{
 		return;
@@ -475,8 +547,6 @@ extern BOOL _isiPad;
 	
 	int flagVal = [flag intValue];
 
-	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-	
 	if (flagVal == 1)
 	{
 		[cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -493,8 +563,10 @@ extern BOOL _isiPad;
 	}
 	
 	[selectedCalDict setObject:[NSNumber numberWithInt:flagVal] forKey:[NSNumber numberWithInt:indexPath.row]];
+    
+    [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 	
-	if (flagVal == 0)
+	/*if (flagVal == 0)
 	{
 		NSNumber *flag;
 		NSEnumerator *enumarator = [selectedCalDict objectEnumerator];
@@ -508,7 +580,7 @@ extern BOOL _isiPad;
 				break;
 			}
 		}		
-	}
+	}*/
 }
 
 

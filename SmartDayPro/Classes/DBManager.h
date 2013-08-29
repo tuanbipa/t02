@@ -121,6 +121,7 @@
 - (void) cleanAllProjects;
 - (void) deleteAllItemsForProject:(NSInteger)prjKey;
 - (void) deleteAllProgressForTask:(NSInteger)taskKey;
+- (void) deleteAllComments:(NSInteger)itemKey;
 -(NSMutableArray *) getActiveTaskList;
 -(NSMutableArray *) getInProgressTaskList;
 -(TaskProgress *)getLastProgressForTask:(NSInteger) taskKey;

@@ -29,12 +29,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 @synthesize taskDict;
 @synthesize listKeys;
 
+@synthesize layoutMode;
+
 - (id) init
 {
     if (self = [super init])
     {
         self.taskDict = [NSMutableDictionary dictionaryWithCapacity:0];
         self.listKeys = [NSArray array];
+        
+        self.layoutMode = 0;
     }
     
     return  self;
@@ -64,7 +68,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     for (Task *task in tasks)
     {
-        if (!task.isScheduled)
+        if (self.layoutMode == 1 && c == MAX_FAST_SCHEDULE_TASKS)
         {
             NSLog(@"task layout fast end");
             break;
@@ -146,6 +150,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return 20;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     /*if (section == 0)
@@ -188,7 +197,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     UILabel *label = [[[UILabel alloc] init] autorelease];
     label.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20);
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:12];
+    label.font = [UIFont systemFontOfSize:14];
     label.textColor = [UIColor whiteColor];
     //label.shadowColor = [UIColor grayColor];
     //label.shadowOffset = CGSizeMake(-1.0, 1.0);

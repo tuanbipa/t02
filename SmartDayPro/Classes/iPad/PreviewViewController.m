@@ -186,6 +186,45 @@ PreviewViewController *_previewCtrler;
     [linkTableView reloadData];
 }
 
+- (CGFloat) getHeight
+{
+    CGFloat rowH = 0;
+    
+    NSInteger rows = self.linkList.count;
+    
+    if (!hasNote && ![self.item isNote]) //don't show empty Note for Note
+    {
+        rows += 1;
+    }
+    
+    for (int i=0;i<rows;i++)
+    {
+        NSInteger index = selectedIndex;
+        
+        if (!hasNote && ![self.item isNote])
+        {
+            if (index > 0)
+            {
+                index -= 1;
+            }
+        }
+        
+        if (i == selectedIndex && index >= 0)
+        {
+            NSObject *asset = [self.linkList objectAtIndex:index];
+            
+            rowH += ![asset isKindOfClass:[URLAsset class]]?170:40;
+        }
+        else
+        {
+            rowH += 40;
+        }
+    }
+    
+    return rowH;
+    
+}
+
 /*
 - (void) editTask:(Task *)task
 {
@@ -624,7 +663,7 @@ PreviewViewController *_previewCtrler;
     
     linkTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     linkTableView.backgroundColor = [UIColor clearColor];
-    linkTableView.separatorColor = [UIColor grayColor];
+    linkTableView.separatorColor = [UIColor clearColor];
     linkTableView.delegate = self;
     linkTableView.dataSource = self;
     
@@ -917,7 +956,7 @@ PreviewViewController *_previewCtrler;
         UIButton *jumpButton = [Common createButton:_jumpText
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(10, 135, 60, 30)
-                                         titleColor:[UIColor blackColor]
+                                         titleColor:[Colors blueButton]
                                              target:self
                                            selector:@selector(jump:)
                                    normalStateImage:nil
@@ -925,17 +964,17 @@ PreviewViewController *_previewCtrler;
         jumpButton.tag = asset;
         
         jumpButton.titleLabel.font = [UIFont systemFontOfSize:14];
-        jumpButton.backgroundColor = [UIColor lightGrayColor];
+        //jumpButton.backgroundColor = [UIColor lightGrayColor];
         jumpButton.layer.cornerRadius = 5;
         jumpButton.layer.borderWidth = 1;
-        jumpButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        jumpButton.layer.borderColor = [[Colors blueButton] CGColor];
         
         [cell.contentView addSubview:jumpButton];
         
         UIButton *editButton = [Common createButton:_editText
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(w-70, 135, 60, 30)
-                                         titleColor:[UIColor blackColor]
+                                         titleColor:[Colors blueButton]
                                              target:self
                                            selector:@selector(editAsset:)
                                    normalStateImage:nil
@@ -944,10 +983,10 @@ PreviewViewController *_previewCtrler;
         editButton.tag = asset;
         
         editButton.titleLabel.font = [UIFont systemFontOfSize:14];
-        editButton.backgroundColor = [UIColor lightGrayColor];
+        //editButton.backgroundColor = [UIColor lightGrayColor];
         editButton.layer.cornerRadius = 5;
         editButton.layer.borderWidth = 1;
-        editButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        editButton.layer.borderColor = [[Colors blueButton] CGColor];
         
         [cell.contentView addSubview:editButton];
     }
@@ -1089,7 +1128,7 @@ PreviewViewController *_previewCtrler;
         UIButton *editButton = [Common createButton:_editText
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(w-70, 135, 60, 30)
-                                         titleColor:[UIColor blackColor]
+                                         titleColor:[Colors blueButton]
                                              target:self
                                            selector:@selector(editAsset:)
                                    normalStateImage:nil
@@ -1098,10 +1137,10 @@ PreviewViewController *_previewCtrler;
         editButton.tag = asset;
         
         editButton.titleLabel.font = [UIFont systemFontOfSize:14];
-        editButton.backgroundColor = [UIColor lightGrayColor];
+        //editButton.backgroundColor = [UIColor lightGrayColor];
         editButton.layer.cornerRadius = 5;
         editButton.layer.borderWidth = 1;
-        editButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        editButton.layer.borderColor = [[Colors blueButton] CGColor];
         
         [cell.contentView addSubview:editButton];        
     }
@@ -1216,6 +1255,7 @@ PreviewViewController *_previewCtrler;
     // Configure the cell...
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
     
     NSInteger index = indexPath.row;
     

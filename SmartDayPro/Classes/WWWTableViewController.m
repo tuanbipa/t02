@@ -16,7 +16,7 @@
 
 #import "ImageManager.h"
 
-#import "HPGrowingTextView.h"
+#import "GrowingTextView.h"
 
 #import "LocationViewController.h"
 
@@ -88,7 +88,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	//contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	
-    wwwTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    wwwTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	wwwTableView.delegate = self;
 	wwwTableView.dataSource = self;
 	wwwTableView.sectionHeaderHeight=5;
@@ -140,20 +140,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	self.view = contentView;
 	[contentView release];
     
-    titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(10, 75, wwwTableView.bounds.size.width-40, 30)];
-    //titleTextView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
-    titleTextView.placeholder = _titleGuideText;
+    titleTextView = [[GrowingTextView alloc] initWithFrame:CGRectMake(10, 75, wwwTableView.bounds.size.width-20, 30)];
+
+    //titleTextView.placeholder = _titleGuideText;
     
-    titleTextView.minNumberOfLines = 1;
-    titleTextView.maxNumberOfLines = 4;
-    titleTextView.returnKeyType = UIReturnKeyDone; //just as an example
+    //titleTextView.minNumberOfLines = 1;
+    //titleTextView.maxNumberOfLines = 4;
+    //titleTextView.returnKeyType = UIReturnKeyDone; //just as an example
+    
+    titleTextView.maxLineNumber = 4;
+    titleTextView.textView.returnKeyType = UIReturnKeyDone;
     titleTextView.font = [UIFont systemFontOfSize:15.0f];
     titleTextView.delegate = self;
-    //titleTextView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
-    //titleTextView.backgroundColor = [UIColor clearColor];
     titleTextView.layer.borderColor = [[UIColor grayColor] CGColor];
+    titleTextView.backgroundColor = [UIColor whiteColor];
     titleTextView.layer.borderWidth = 1;
     titleTextView.layer.cornerRadius = 8;
+    titleTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
     titleTextView.text = self.task.name;    
 	
@@ -331,6 +334,44 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return 1;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30.0f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *titles[3] = {_whatText, _whoText, _whereText};
+    
+    CGRect frm = tableView.bounds;
+    frm.size.height = 30;
+    frm.origin.x = 20;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:frm];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = titles[section];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont boldSystemFontOfSize:20];
+    label.textColor = [UIColor lightGrayColor];
+    
+    frm = tableView.bounds;
+    frm.size.height = 1;
+    UIView *line = [[UIView alloc] initWithFrame:frm];
+    line.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.3];
+    
+    [label addSubview:line];
+    [line release];
+    
+    return [label autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section) {
 		case 0:
@@ -345,14 +386,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	}
 	return @"";
 }
-
+*/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	switch (indexPath.section) {
 		case 0:
         {
-			//return 130;
-            CGFloat h = [titleTextView getHeight];
-            //printf("title height: %f\n", h);
+            //CGFloat h = [titleTextView getHeight];
+            CGFloat h = titleTextView.bounds.size.height;
             
             return h + 80;
         }
@@ -376,7 +416,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
 /*	else
 	{
@@ -390,7 +430,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	}*/
     
     // Set up the cell...
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
 	cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
 	
 	switch (indexPath.section) 
 	{
@@ -414,69 +462,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			[whatButtonGroup release];
             
             CGFloat btnWidth = (whatButtonGroup.bounds.size.width - 4*20)/5;
-			
-            /*
-			UIButton *gotoButton=[Common createButton:@"" 
-										   buttonType:UIButtonTypeCustom 
-												frame:CGRectMake(0, 0, 40, 40) 
-										   titleColor:nil 
-											   target:self 
-											 selector:@selector(whatAction:) 
-									 normalStateImage:@"Go.png"
-								   selectedStateImage:@"blueGo.png"];
-			
-			gotoButton.tag = 10002;
-			[whatButtonGroup addSubview:gotoButton];
-			
-			UIButton *callButton=[Common createButton:@"" 
-										   buttonType:UIButtonTypeCustom 
-												frame:CGRectMake(60, 0, 40, 40) 
-										   titleColor:nil 
-											   target:self 
-											 selector:@selector(whatAction:) 
-									 normalStateImage:@"Call.png"
-								   selectedStateImage:@"blueCall.png"];
-			
-			callButton.tag = 10003;
-			[whatButtonGroup addSubview:callButton];
-			
-			UIButton *buyButton=[Common createButton:@"" 
-										  buttonType:UIButtonTypeCustom 
-											   frame:CGRectMake(120, 0, 40, 40) 
-										  titleColor:nil 
-											  target:self 
-											selector:@selector(whatAction:) 
-									normalStateImage:@"Buy.png"
-								  selectedStateImage:@"blueBuy.png" ];
-			
-			buyButton.tag = 10004;
-			[whatButtonGroup addSubview:buyButton];
-			
-			UIButton *mailButton=[Common createButton:@"" 
-										   buttonType:UIButtonTypeCustom 
-												frame:CGRectMake(180, 0, 40, 40) 
-										   titleColor:nil 
-											   target:self 
-											 selector:@selector(whatAction:) 
-									 normalStateImage:@"Mail.png"
-								   selectedStateImage:@"blueMail.png"];
-			
-			mailButton.tag = 10005;
-			[whatButtonGroup addSubview:mailButton];
-			
-			UIButton *meetButton=[Common createButton:@""
-										   buttonType:UIButtonTypeCustom 
-												frame:CGRectMake(240, 0, 40, 40) 
-										   titleColor:nil 
-											   target:self 
-											 selector:@selector(whatAction:) 
-									 normalStateImage:@"Meet.png"
-								   selectedStateImage:@"blueMeet.png"];
-			
-			meetButton.tag = 10006;
-			[whatButtonGroup addSubview:meetButton];
-            */
-            
+			         
             NSString *normalNames[5] = {@"Go.png", @"Call.png", @"Buy.png", @"Mail.png", @"Meet.png"};
             NSString *selectedNames[5] = {@"blueGo.png", @"blueCall.png", @"blueBuy.png", @"blueMail.png", @"blueMeet.png"};
 
@@ -503,7 +489,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		case 1:
 		{
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-			cell.textLabel.text = self.task.contactName;
+			cell.detailTextLabel.text = [self.task.contactName isEqualToString:@""]?_noneText:self.task.contactName;
 		}
 			break;
 		case 2:
@@ -511,12 +497,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			
-			locationTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 0, 250, 80)];
+			locationTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width-20-40, 80)];
 			locationTextView.delegate=self;
-			locationTextView.backgroundColor=[UIColor clearColor];
+			locationTextView.backgroundColor=[UIColor whiteColor];
 			locationTextView.keyboardType=UIKeyboardTypeDefault;
-            locationTextView.returnKeyType = UIReturnKeyDone;
+            //locationTextView.returnKeyType = UIReturnKeyDone;
 			locationTextView.font=[UIFont systemFontOfSize:18];
+            locationTextView.layer.borderWidth = 1;
+            locationTextView.layer.cornerRadius = 8;
+            locationTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 			
 			locationTextView.text = self.task.location;
 			
@@ -833,7 +822,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 #pragma mark GrowingTextView Delegate
-- (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
+/*
+- (void)growingTextView:(GrowingTextView *)growingTextView willChangeHeight:(float)height
 {
     //self.task.name = growingTextView.text;
     
@@ -851,13 +841,28 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [titleTextView becomeFirstResponder];
     }
 }
+*/
 
-- (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView
+- (void)growingTextView:(GrowingTextView *)growingTextView didChangeHeight:(float)height
+{
+    BOOL isFirstResponder = [titleTextView.textView isFirstResponder];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    [wwwTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    if (isFirstResponder)
+    {
+        [titleTextView.textView becomeFirstResponder];
+    }
+}
+
+- (BOOL)growingTextViewShouldReturn:(GrowingTextView *)growingTextView
 {
     return NO;
 }
 
-- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView;
+- (void)growingTextViewDidEndEditing:(GrowingTextView *)growingTextView;
 {
     NSString *text = [titleTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     

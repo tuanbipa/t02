@@ -110,13 +110,21 @@ DetailViewController *_detailViewCtrler = nil;
 {
     contentView.frame = frm;
     
-    frm = CGRectInset(contentView.bounds, 5, 5);
+    //frm = CGRectInset(contentView.bounds, 5, 5);
+    
+    frm = contentView.bounds;
+    frm.size.width -= 10;
     
     detailTableView.frame = frm;
     
     titleTextView.frame = CGRectMake(0, 0, frm.size.width-20-30, 30);
     
-    inputView.frame = CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300);
+    //inputView.frame = CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300);
+    
+    frm = CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300);
+    
+    inputView.frame = frm;
+
 }
 
 - (void) refreshData
@@ -163,6 +171,32 @@ DetailViewController *_detailViewCtrler = nil;
     self.previewViewCtrler.item = self.taskCopy;
     
     [self.previewViewCtrler refreshData];
+    
+    [detailTableView reloadData];
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 2*44;
+    
+    frm.size.width = 384;
+    
+    [self changeFrame:frm];
 }
 
 - (void) loadView
@@ -330,6 +364,8 @@ DetailViewController *_detailViewCtrler = nil;
     [markDoneItem release];
     [airDropItem release];
     [fixedItem release];
+    
+    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -711,7 +747,9 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) refreshLink
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?9:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    //[detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?10:9):([self.task isShared]?6:5) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?11:10):([self.task isShared]?7:6) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
 #pragma mark Input Views
@@ -724,8 +762,9 @@ DetailViewController *_detailViewCtrler = nil;
     [inputView addSubview:ctrler.view];
     
     inputView.hidden = NO;
-    [contentView bringSubviewToFront:inputView];
     
+    [contentView bringSubviewToFront:inputView];
+
 	CATransition *animation = [CATransition animation];
 	[animation setDelegate:self];
 	
@@ -856,12 +895,12 @@ DetailViewController *_detailViewCtrler = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     cell.textLabel.text = _durationText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    //cell.textLabel.textColor = [UIColor grayColor];
+    //cell.textLabel.font = [UIFont systemFontOfSize:16];
     
     cell.detailTextLabel.text = [Common getDurationString:self.taskCopy.duration];
-    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
 - (void) createProjectCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -869,8 +908,8 @@ DetailViewController *_detailViewCtrler = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
 	cell.textLabel.text = _projectText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    //cell.textLabel.textColor = [UIColor grayColor];
+    //cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
 	ProjectManager *pm = [ProjectManager getInstance];
 	
@@ -878,7 +917,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     cell.detailTextLabel.text = prj.name;
     cell.detailTextLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
 - (void) createStartDueCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1150,12 +1189,12 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) createRepeatUntilCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _repeatUntilText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    //cell.textLabel.textColor = [UIColor grayColor];
+    //cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
     cell.detailTextLabel.text = [self.taskCopy getRepeatDisplayString];
-    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
 - (void) createAlertCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1163,23 +1202,23 @@ DetailViewController *_detailViewCtrler = nil;
     AlertData *alert = ([self.taskCopy isTask] && self.taskCopy.deadline == nil? nil: (self.taskCopy.alerts.count > 0?[self.taskCopy.alerts objectAtIndex:0]:nil));
     
 	cell.textLabel.text = _alertText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    //cell.textLabel.textColor = [UIColor grayColor];
+    //cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
     cell.detailTextLabel.text = alert == nil?_noneText:[alert getAbsoluteTimeString:self.taskCopy];
-    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
 - (void) createDescriptionCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _descriptionText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    //cell.textLabel.textColor = [UIColor grayColor];
+    //cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
     cell.detailTextLabel.text = self.taskCopy.note == nil?@"":self.taskCopy.note;
-    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
 - (void) createTagCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1268,14 +1307,14 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) createTimerHistoryCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _timerHistoryText;
-    cell.textLabel.textColor = [UIColor grayColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    //cell.textLabel.textColor = [UIColor grayColor];
+    //cell.textLabel.font = [UIFont systemFontOfSize:16];
 }
 
 - (void) createLinkCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
+/*
 	UILabel *linkLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 30)];
 	linkLabel.tag = baseTag;
 	linkLabel.text = _assetsText;
@@ -1285,13 +1324,6 @@ DetailViewController *_detailViewCtrler = nil;
 	
 	[cell.contentView addSubview:linkLabel];
 	[linkLabel release];
-    
-    /*
-	UIButton *linkDetailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-	linkDetailButton.frame = CGRectMake(detailTableView.bounds.size.width - 30, 0, 25, 25);
-	linkDetailButton.tag = baseTag + 1;
-	[linkDetailButton addTarget:self action:@selector(editLink:) forControlEvents:UIControlEventTouchUpInside];
-	[cell.contentView addSubview:linkDetailButton];*/
     
     UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
     detailImgView.tag = baseTag + 1;
@@ -1310,23 +1342,9 @@ DetailViewController *_detailViewCtrler = nil;
     [linkEditButton addTarget:self action:@selector(editLink:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell.contentView addSubview:linkEditButton];
+*/
     
-/*
-    CGFloat h = [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:9 inSection:0]];
-    
-    frm = detailTableView.bounds;
-
-    frm.size.height = h/2;
-    frm.origin.y = 40;
-    
-    noteView = [[NoteView alloc] initWithFrame:frm];
-    noteView.editEnabled = YES;
-    noteView.touchEnabled = YES;
-    noteView.tag = baseTag + 3;
-    
-    [cell.contentView addSubview:noteView];
-    [noteView release];*/
-    
+    /*
     CGFloat h = [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?10:9):([self.task isShared]?6:5) inSection:0]];
     
     frm = self.previewViewCtrler.view.frame;
@@ -1334,10 +1352,17 @@ DetailViewController *_detailViewCtrler = nil;
     frm.origin.y = 40;
     frm.size.width = detailTableView.bounds.size.width;
     frm.size.height = h - 40;
+    [self.previewViewCtrler changeFrame:frm];
+    */
     
-    [cell.contentView addSubview:self.previewViewCtrler.view];
+    CGRect frm = self.previewViewCtrler.view.frame;
+    
+    frm.origin.x = 10;
+    frm.size.width = detailTableView.bounds.size.width-10;
     
     [self.previewViewCtrler changeFrame:frm];
+    
+    [cell.contentView addSubview:self.previewViewCtrler.view];
 }
 
 - (void) createDeleteCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1390,7 +1415,7 @@ DetailViewController *_detailViewCtrler = nil;
 {
     DBManager *dbm = [DBManager getInstance];
     
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     cell.textLabel.text = _conversationsText;
     
     cell.textLabel.textColor = [UIColor grayColor];
@@ -1412,11 +1437,12 @@ DetailViewController *_detailViewCtrler = nil;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSInteger count = (showAll?10:6);
+	//NSInteger count = (showAll?10:6);
+    NSInteger count = (showAll?11:7);
     
     if ([self.task isShared])
     {
-        count = count + 1;
+        count = count + 1; //conversation cell
     }
     
     return count;
@@ -1441,8 +1467,15 @@ DetailViewController *_detailViewCtrler = nil;
     {
         return 120;
     }
-    else if ((showAll && indexPath.row == ([self.task isShared]?10:9)) || (!showAll && indexPath.row == ([self.task isShared]?6:5)))
+    else if ((showAll && indexPath.row == ([self.task isShared]?11:10)) || (!showAll && indexPath.row == ([self.task isShared]?7:6))) //asset list
     {
+        CGFloat h = [self.previewViewCtrler getHeight];
+        
+        return h;
+    }
+    /*else if ((showAll && indexPath.row == ([self.task isShared]?10:9)) || (!showAll && indexPath.row == ([self.task isShared]?6:5)))
+    {
+        
         CGFloat rowH = 0;
         
         for (int i=0;i<(showAll?([self.task isShared]?10:9):([self.task isShared]?6:5));i++)
@@ -1452,8 +1485,16 @@ DetailViewController *_detailViewCtrler = nil;
         
         CGFloat h = detailTableView.bounds.size.height - rowH;
         
+        printf("row height:%f, asset height:%f\n", rowH, h);
+        
         return h>400?h:400;
-    }
+        
+        //CGFloat h = [self.previewViewCtrler getHeight] + 320; //cannot understand why 320 could make tableview scrollable in landscape, otherwise it does not scroll
+        
+        printf("asset height:%f", h);
+        
+        return h;
+    }*/
     
     return 40;
 }
@@ -1488,6 +1529,12 @@ DetailViewController *_detailViewCtrler = nil;
 	cell.textLabel.text = @"";
 	cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.backgroundColor = [UIColor clearColor];
+    
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
     
     //printf("index row: %d\n", indexPath.row);
 
@@ -1535,8 +1582,12 @@ DetailViewController *_detailViewCtrler = nil;
                 }
                 else
                 {
-                    [self createLinkCell:cell baseTag:10500];
+                    cell.textLabel.text = _assetsText;
                 }
+                /*else
+                {
+                    [self createLinkCell:cell baseTag:10500];
+                }*/
             }
             break;
         case 6:
@@ -1546,11 +1597,29 @@ DetailViewController *_detailViewCtrler = nil;
             }
             else
             {
-                [self createLinkCell:cell baseTag:10600];
+                if ([self.task isShared])
+                {
+                    cell.textLabel.text = _assetsText;
+                }
+                else
+                {
+                    [self createLinkCell:cell baseTag:10600];
+                }
             }
+            /*else
+            {
+                [self createLinkCell:cell baseTag:10600];
+            }*/
             break;
         case 7:
-            [self createTagCell:cell baseTag:10700];
+            if (showAll)
+            {
+                [self createTagCell:cell baseTag:10700];
+            }
+            else
+            {
+                [self createLinkCell:cell baseTag:10700];
+            }
             break;
         case 8:
             [self createTimerHistoryCell:cell baseTag:10800];
@@ -1562,12 +1631,25 @@ DetailViewController *_detailViewCtrler = nil;
             }
             else
             {
-                [self createLinkCell:cell baseTag:10900];
+                //[self createLinkCell:cell baseTag:10900];
+                cell.textLabel.text = _assetsText;
             }
             break;
         case 10:
+            //[self createLinkCell:cell baseTag:11000];
+            if ([self.task isShared])
+            {
+                cell.textLabel.text = _assetsText;
+            }
+            else
+            {
+                [self createLinkCell:cell baseTag:11000];
+            }
+            break;
+        case 11:
             [self createLinkCell:cell baseTag:11000];
             break;
+            
     }
     
     return cell;
@@ -1602,9 +1684,20 @@ DetailViewController *_detailViewCtrler = nil;
             {
                 [self editComment];
             }
+            else
+            {
+                [self editLink:nil];
+            }
             break;
         case 6:
-            [self editDescription];
+            if (showAll)
+            {
+                [self editDescription];
+            }
+            else
+            {
+                [self editLink:nil];
+            }
             break;
         case 8:
             [self showTimerHistory];
@@ -1614,6 +1707,13 @@ DetailViewController *_detailViewCtrler = nil;
             {
                 [self editComment];
             }
+            else
+            {
+                [self editLink:nil];
+            }
+            break;
+        case 10:
+            [self editLink:nil];
             break;
     }
 }

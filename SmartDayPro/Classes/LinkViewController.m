@@ -286,7 +286,7 @@ extern BOOL _isiPad;
         label.text = _assetsText;
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont boldSystemFontOfSize:20];
-        label.textColor = [Colors darkSteelBlue];
+        label.textColor = [UIColor lightGrayColor];
         
         return [label autorelease];
     }

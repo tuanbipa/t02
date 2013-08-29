@@ -1377,7 +1377,9 @@ static sqlite3_stmt *prj_delete_statement = nil;
         
         //[item deleteFromDatabase:[dbm getDatabase]];
         [item cleanFromDatabase:[dbm getDatabase]];
-	}   
+	}
+    
+    [[DBManager getInstance] deleteAllComments:self.primaryKey];
     
     // Compile the delete statement if needed.
 	sqlite3_stmt *statement = nil;

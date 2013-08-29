@@ -241,7 +241,7 @@
 
     timerTableView.delegate = self;
     timerTableView.dataSource = self;
-    timerTableView.sectionHeaderHeight=25;
+    //timerTableView.sectionHeaderHeight=25;
     timerTableView.backgroundColor = [UIColor clearColor];
     timerTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
@@ -337,6 +337,84 @@
 	return 45;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    TimerManager *timer = [TimerManager getInstance];
+    NSString *title = nil;
+    
+	NSInteger activateSectionCount = (timer.taskToActivate != nil? 1:0);
+	
+	if (section == 1+activateSectionCount)
+	{
+		title = _inProgressTasksText;
+	}
+    
+	if (section == activateSectionCount)
+	{
+		if (taskList == timer.inProgressTaskList)
+		{
+			title = _inProgressTasksText;
+		}
+		
+		title = _activeTasksText;
+	}
+    
+    if (title != nil)
+    {
+        return 30.0f;
+    }
+    
+    return 0.01f;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    TimerManager *timer = [TimerManager getInstance];
+    NSString *title = nil;
+    
+	NSInteger activateSectionCount = (timer.taskToActivate != nil? 1:0);
+	
+	if (section == 1+activateSectionCount)
+	{
+		title = _inProgressTasksText;
+	}
+    
+	if (section == activateSectionCount)
+	{
+		if (taskList == timer.inProgressTaskList)
+		{
+			title = _inProgressTasksText;
+		}
+		else
+        {
+            title = _activeTasksText;
+        }
+	}
+    
+    if (title != nil)
+    {
+        CGRect frm = tableView.bounds;
+        frm.size.height = 30;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:frm];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = title;
+        label.textAlignment = NSTextAlignmentLeft;
+        label.font = [UIFont boldSystemFontOfSize:20];
+        label.textColor = [UIColor lightGrayColor];
+        
+        return [label autorelease];
+    }
+    
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	TimerManager *timer = [TimerManager getInstance];
 	
@@ -359,7 +437,7 @@
 	
 	return @"";
 }
-
+*/
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
    	TimerManager *timer = [TimerManager getInstance];
@@ -523,29 +601,36 @@
 		[activateNameLabel release];
 		
 		UIButton *startButton = [Common createButton:_startText
-                               //buttonType:UIButtonTypeRoundedRect
                                         buttonType:UIButtonTypeCustom
                                              frame:CGRectMake(40, 30, 60, 30)
-                                        titleColor:[UIColor whiteColor]
+                                        titleColor:[Colors blueButton]
                                             target:self
                                           selector:@selector(startTaskActivation:)
-                               //normalStateImage:nil
-                                  normalStateImage:@"blue_button.png"
+                               normalStateImage:nil
                                 selectedStateImage:nil];
+        
+        startButton.layer.cornerRadius = 8;
+        startButton.layer.borderWidth = 1;
+        startButton.layer.borderColor = [[Colors blueButton] CGColor];
+        startButton.titleLabel.font = [UIFont systemFontOfSize:16];
 		
 		startButton.tag = 10005;
 		
 		[cell.contentView addSubview:startButton];
 		
 		UIButton *holdButton = [Common createButton:_holdAllAndStartText
-                              //buttonType:UIButtonTypeRoundedRect
                                        buttonType:UIButtonTypeCustom
 											frame:CGRectMake(140, 30, 140, 30)
-									   titleColor:[UIColor whiteColor]
+									   titleColor:[Colors blueButton]
 										   target:self 
 										 selector:@selector(holdAllActiveTasksAndStart:) 
-								 normalStateImage:@"blue_button.png"
+								 normalStateImage:nil
 							   selectedStateImage:nil];
+        
+        holdButton.layer.cornerRadius = 8;
+        holdButton.layer.borderWidth = 1;
+        holdButton.layer.borderColor = [[Colors blueButton] CGColor];
+        holdButton.titleLabel.font = [UIFont systemFontOfSize:16];
 		
 		holdButton.tag = 10006;
 		

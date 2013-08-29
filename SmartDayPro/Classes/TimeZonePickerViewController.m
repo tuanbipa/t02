@@ -287,6 +287,8 @@ extern BOOL _isiPad;
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 
     NSNumber *key = [self.tzIDList objectAtIndex:indexPath.row];
     

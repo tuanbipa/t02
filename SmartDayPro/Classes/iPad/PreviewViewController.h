@@ -43,4 +43,6 @@
 - (void) editNoteContent;
 - (void) refreshData;
 
+- (CGFloat) getHeight;
+
 @end

@@ -132,7 +132,7 @@ extern iPadViewController *_iPadViewCtrler;
     //NSString *name = plan.name;
     NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"[%@] ", plan.ownerName]:@"", plan.name];
 	
-	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
 	
 	UIColor *embossedColor = [UIColor colorWithRed:94.0/255 green:120.0/255 blue:112.0/255 alpha:1];
 	UIColor *textColor = [UIColor whiteColor];
@@ -152,6 +152,10 @@ extern iPadViewController *_iPadViewCtrler;
     if (name.length > lineMaxChars) //2 lines
     {
         sz.height *= 2;
+    }
+    else
+    {
+        sz.height += 8;
     }
     
     CGRect textRec = rect;

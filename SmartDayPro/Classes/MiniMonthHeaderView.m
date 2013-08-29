@@ -147,11 +147,16 @@ extern BOOL _isiPad;
             UIButton *todayButton = [Common createButton:_todayText
                                               buttonType:UIButtonTypeCustom
                                                    frame:CGRectMake(self.bounds.size.width-65, 5, 60, 25)
-                                              titleColor:[UIColor grayColor]
+                                              titleColor:[Colors blueButton]
                                                   target:self
                                                 selector:@selector(goToday:)
-                                        normalStateImage:@"module_today.png"
+                                        normalStateImage:nil
                                       selectedStateImage:nil];
+            
+            todayButton.layer.cornerRadius = 4;
+            todayButton.layer.borderWidth = 1;
+            todayButton.layer.borderColor = [[Colors blueButton] CGColor];
+            todayButton.titleLabel.font = [UIFont systemFontOfSize:16];
             
             [self addSubview:todayButton];
         }

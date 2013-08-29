@@ -152,14 +152,15 @@ extern BOOL _isiPad;
 
 - (void) createTagQuickAddCell:(UITableViewCell *)cell
 {
-	UITextField *quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, 300, 30)];
+	UITextField *quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, tagTableView.bounds.size.width-20, 30)];
 	
 	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;
+    quickAddTextField.borderStyle = UITextBorderStyleRoundedRect;
 	quickAddTextField.placeholder = _tapToAddTagText;
 	quickAddTextField.textAlignment = NSTextAlignmentLeft;
 	quickAddTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	quickAddTextField.backgroundColor = [UIColor clearColor];
+	quickAddTextField.backgroundColor = [UIColor whiteColor];
 	quickAddTextField.delegate = self;
 	
 	quickAddTextField.tag = 10000;
@@ -281,7 +282,7 @@ extern BOOL _isiPad;
         label.text = section==1?_presetsText:_customText;
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont boldSystemFontOfSize:20];
-        label.textColor = [Colors darkSteelBlue];
+        label.textColor = [UIColor lightGrayColor];
         
         return [label autorelease];
     }

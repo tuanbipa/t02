@@ -1642,7 +1642,8 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSInteger) countLines:(NSString *)text boundWidth:(CGFloat)boundWidth withFont:(UIFont *)withFont
 {
-    CGSize maximumSize = CGSizeMake(boundWidth-16, 100000);
+    //CGSize maximumSize = CGSizeMake(boundWidth-16, 100000);
+    CGSize maximumSize = CGSizeMake(boundWidth-8, 100000);
     
     CGSize expectedSize = [text sizeWithFont:withFont
                               constrainedToSize:maximumSize

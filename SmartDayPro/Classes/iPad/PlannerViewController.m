@@ -911,6 +911,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     frm.size.height = sz.width - 20;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     
@@ -970,13 +971,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     moduleHeaderView = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x, 50, frm.size.width, 40)];
     //moduleHeaderView.backgroundColor = [UIColor brownColor];
     moduleHeaderView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    //moduleHeaderView.backgroundColor = [UIColor clearColor];
     //headerView.tag = TAG_VIEW_HEADER_VIEW;
     
     [contentView addSubview:moduleHeaderView];
     [moduleHeaderView release];
     
     moduleView = [[UIView alloc] initWithFrame:CGRectMake(frm.origin.x, 90, frm.size.width, frm.size.height - 90)];
-    moduleView.backgroundColor = [UIColor greenColor];
+    //moduleView.backgroundColor = [UIColor greenColor];
+    moduleView.backgroundColor = [UIColor clearColor];
     moduleView.tag = 33000;
     
     [contentView addSubview:moduleView];

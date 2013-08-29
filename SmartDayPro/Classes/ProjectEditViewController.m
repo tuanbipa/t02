@@ -129,6 +129,8 @@ extern BOOL _isiPad;
     UILabel *transparentLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 100, 25)];
 	transparentLabel.backgroundColor = [UIColor clearColor];
 	transparentLabel.text = _transparentText;
+    transparentLabel.font = [UIFont systemFontOfSize:16];
+    transparentLabel.textColor = [UIColor grayColor];
 	
 	[transparentView addSubview:transparentLabel];
 	[transparentLabel release];    
@@ -136,7 +138,9 @@ extern BOOL _isiPad;
     UILabel *projectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 45, frm.size.width - 20, 25)];
 	projectNameLabel.backgroundColor = [UIColor clearColor];
 	projectNameLabel.text = _nameText;
-	
+    projectNameLabel.font = [UIFont systemFontOfSize:16];
+    projectNameLabel.textColor = [UIColor grayColor];
+    
 	[mainView addSubview:projectNameLabel];
 	[projectNameLabel release];
 
@@ -150,6 +154,8 @@ extern BOOL _isiPad;
 	projectNameTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
 	projectNameTextField.tag = 0;
     [projectNameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    projectNameTextField.font = [UIFont boldSystemFontOfSize:16];
+    projectNameTextField.textColor = [UIColor darkGrayColor];
 	
 	[mainView addSubview:projectNameTextField];
 	[projectNameTextField release];	
@@ -157,6 +163,8 @@ extern BOOL _isiPad;
     UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, frm.size.width - 20, 25)];
 	projectColorLabel.backgroundColor = [UIColor clearColor];
 	projectColorLabel.text = _colorText;
+    projectColorLabel.font = [UIFont systemFontOfSize:16];
+    projectColorLabel.textColor = [UIColor grayColor];
 	
 	[mainView addSubview:projectColorLabel];
 	[projectColorLabel release];
@@ -172,7 +180,9 @@ extern BOOL _isiPad;
     UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 285, frm.size.width - 20, 25)];
 	tagLabel.backgroundColor = [UIColor clearColor];
 	tagLabel.text = _tagText;
-	
+    tagLabel.font = [UIFont systemFontOfSize:16];
+    tagLabel.textColor = [UIColor grayColor];
+    
 	[mainView addSubview:tagLabel];
 	[tagLabel release];
 
@@ -232,6 +242,8 @@ extern BOOL _isiPad;
         
         UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 200, 25)];
         commentLabel.backgroundColor = [UIColor clearColor];
+        commentLabel.font = [UIFont systemFontOfSize:16];
+        commentLabel.textColor = [UIColor grayColor];
         commentLabel.text = _conversationsText;
         
         [commentView addSubview:commentLabel];
@@ -242,6 +254,8 @@ extern BOOL _isiPad;
         UILabel *commentCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(frm.size.width - 45 - 100, 2, 100, 25)];
         commentCountLabel.backgroundColor = [UIColor clearColor];
         commentCountLabel.textAlignment = NSTextAlignmentRight;
+        commentCountLabel.font = [UIFont boldSystemFontOfSize:16];
+        commentCountLabel.textColor = [UIColor darkGrayColor];
         commentCountLabel.text = [NSString stringWithFormat:@"%d", commentCount];
         
         [commentView addSubview:commentCountLabel];

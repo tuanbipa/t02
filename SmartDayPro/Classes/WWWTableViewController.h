@@ -11,7 +11,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 
 @class Task;
-@class HPGrowingTextView;
+@class GrowingTextView;
 
 @interface WWWTableViewController : UITableViewController<ABPeoplePickerNavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate> {
 	UIView *contentView;
@@ -19,8 +19,7 @@
 	
 	Task *task;
 	
-	//UITextField *taskTitleEditField;
-    HPGrowingTextView *titleTextView;
+    GrowingTextView *titleTextView;
 	UIButton *selectedButton;
 	UIView *doneBarView;
 	UITextView *locationTextView;

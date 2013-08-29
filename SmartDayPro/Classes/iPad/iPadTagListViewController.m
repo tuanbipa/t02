@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "iPadTagListViewController.h"
 
 #import "Common.h"
@@ -17,8 +19,11 @@
 #import "ContentView.h"
 
 #import "iPadSmartDayViewController.h"
+#import "iPadViewController.h"
 
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
+
+extern iPadViewController *_iPadViewCtrler;
 
 @interface iPadTagListViewController ()
 
@@ -134,7 +139,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         tm.filterData = filter;
     }
 
-    [_iPadSDViewCtrler applyFilter];
+    //[_iPadSDViewCtrler applyFilter];
+    [_iPadViewCtrler.activeViewCtrler applyFilter];
 }
 
 - (void) loadView
@@ -175,6 +181,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     tagTextField.backgroundColor = [UIColor whiteColor];
 	tagTextField.keyboardType = UIKeyboardTypeDefault;
 	tagTextField.returnKeyType = UIReturnKeyDone;
+    tagTextField.borderStyle = UITextBorderStyleRoundedRect;
 	tagTextField.placeholder = _tapToAddTagText;
 	tagTextField.textAlignment = NSTextAlignmentLeft;
 	tagTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -188,12 +195,16 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	UIButton *noFilterButton = [Common createButton:_noFilterText
 										buttonType:UIButtonTypeCustom
                                              frame:frm
-										titleColor:[UIColor whiteColor]
+										titleColor:[Colors blueButton]
 											target:self
 										  selector:@selector(filter:)
-								  normalStateImage:@"blue_button.png"
+								  normalStateImage:nil
 								selectedStateImage:nil];
     noFilterButton.tag = 10000;
+    noFilterButton.layer.cornerRadius = 8;
+    noFilterButton.layer.borderWidth = 1;
+    noFilterButton.layer.borderColor = [[Colors blueButton] CGColor];
+    noFilterButton.titleLabel.font = [UIFont systemFontOfSize:16];
 	
 	[contentView addSubview:noFilterButton];
     
@@ -202,12 +213,16 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 	UIButton *applyButton = [Common createButton:_applyText
 										buttonType:UIButtonTypeCustom
                                              frame:frm
-										titleColor:[UIColor whiteColor]
+										titleColor:[Colors blueButton]
 											target:self
 										  selector:@selector(filter:)
-								  normalStateImage:@"blue_button.png"
+								  normalStateImage:nil
 								selectedStateImage:nil];
     applyButton.tag = 10001;
+    applyButton.layer.cornerRadius = 8;
+    applyButton.layer.borderWidth = 1;
+    applyButton.layer.borderColor = [[Colors blueButton] CGColor];
+    applyButton.titleLabel.font = [UIFont systemFontOfSize:16];
 	
 	[contentView addSubview:applyButton];
 }

@@ -84,6 +84,8 @@
 - (void) hideDropDownMenu;
 - (void) showOptionMenu;
 - (void) deselect;
+- (void) refreshData;
+- (void) applyFilter;
 
 - (void) showSeekOrCreate:(NSString *)text;
 - (void) createItem:(NSInteger)index title:(NSString *)title;

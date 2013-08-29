@@ -75,6 +75,10 @@
 								<reference key="IBUIToolbar" ref="918034171"/>
 							</object>
 						</array>
+						<object class="NSColor" key="IBUIBarTintColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC45Mjk0MTE3NjQ3IDAuOTI5NDExNzY0NyAwLjkyOTQxMTc2NDcAA</bytes>
+						</object>
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 44}}</string>

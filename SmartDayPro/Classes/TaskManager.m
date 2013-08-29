@@ -1292,7 +1292,8 @@ TaskManager *_sctmSingleton = nil;
             {
                 NSLog(@"notify fast schedule finished");
 
-                [self notifyFastScheduleCompletion];
+                //[self notifyFastScheduleCompletion];
+                [self performSelectorOnMainThread:@selector(notifyFastScheduleCompletion) withObject:nil waitUntilDone:NO];
                 
                 break;
             }
@@ -2400,9 +2401,9 @@ TaskManager *_sctmSingleton = nil;
 	
 	//[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
 	
-	//[self scheduleTasks];
+	[self scheduleTasks];
 	
-	[self performSelector:@selector(scheduleTasks) withObject:nil afterDelay:0];
+	//[self performSelector:@selector(scheduleTasks) withObject:nil afterDelay:0];
 	
 	//////printf("task list init time: %f\n", [now timeIntervalSinceNow]);	
 }
