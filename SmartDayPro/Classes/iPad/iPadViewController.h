@@ -24,6 +24,7 @@
     UIButton *timerButton;
     UIButton *tagButton;
     UIButton *eyeButton;
+    UIButton *commentButton;
     
     BOOL inSlidingMode;
 }

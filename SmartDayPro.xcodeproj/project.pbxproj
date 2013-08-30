@@ -13,6 +13,10 @@
 		670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */; };
 		67086205178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
 		67086206178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
+		672111C017CF250100054FC6 /* UnreadComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111BF17CF250100054FC6 /* UnreadComment.m */; };
+		672111C117CF250100054FC6 /* UnreadComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111BF17CF250100054FC6 /* UnreadComment.m */; };
+		672111C417CF453000054FC6 /* UnreadCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111C317CF453000054FC6 /* UnreadCommentViewController.m */; };
+		672111C517CF453000054FC6 /* UnreadCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111C317CF453000054FC6 /* UnreadCommentViewController.m */; };
 		6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6728E5D916DC7441001024DD /* TimerViewController.m */; };
 		672F54A81622779400480BC4 /* LinkPreviewPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54A71622779400480BC4 /* LinkPreviewPane.m */; };
 		672F54AF16227E3400480BC4 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54AE16227E3300480BC4 /* NoteView.m */; };
@@ -863,6 +867,10 @@
 		67E839E116D609A000155ADE /* SC_aboutUS_768.html in Resources */ = {isa = PBXBuildFile; fileRef = 67E839DE16D609A000155ADE /* SC_aboutUS_768.html */; };
 		67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E98FF116D47F7D000E0DC6 /* iPadCalendarSettingViewController.m */; };
 		67E98FF516D4BDF5000E0DC6 /* iPadTaskSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E98FF416D4BDF4000E0DC6 /* iPadTaskSettingViewController.m */; };
+		67E9F0DF17D0335A00B4B003 /* bar_comments.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E9F0DD17D0335A00B4B003 /* bar_comments.png */; };
+		67E9F0E017D0335A00B4B003 /* bar_comments.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E9F0DD17D0335A00B4B003 /* bar_comments.png */; };
+		67E9F0E117D0335A00B4B003 /* bar_comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E9F0DE17D0335A00B4B003 /* bar_comments@2x.png */; };
+		67E9F0E217D0335A00B4B003 /* bar_comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E9F0DE17D0335A00B4B003 /* bar_comments@2x.png */; };
 		67EABEA1171E7F0E007C3680 /* planner_task_top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EABE9F171E7F0E007C3680 /* planner_task_top_bg.png */; };
 		67EABEA2171E7F0E007C3680 /* planner_task_top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EABE9F171E7F0E007C3680 /* planner_task_top_bg.png */; };
 		67EABEA3171E7F0E007C3680 /* planner_task_top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67EABEA0171E7F0E007C3680 /* planner_task_top_bg@2x.png */; };
@@ -1694,6 +1702,10 @@
 		670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AlarmDrum.wav; sourceTree = "<group>"; };
 		67086203178D588A0078F4FA /* DateInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateInputViewController.h; sourceTree = "<group>"; };
 		67086204178D588A0078F4FA /* DateInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateInputViewController.m; sourceTree = "<group>"; };
+		672111BE17CF250100054FC6 /* UnreadComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadComment.h; sourceTree = "<group>"; };
+		672111BF17CF250100054FC6 /* UnreadComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadComment.m; sourceTree = "<group>"; };
+		672111C217CF453000054FC6 /* UnreadCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadCommentViewController.h; sourceTree = "<group>"; };
+		672111C317CF453000054FC6 /* UnreadCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadCommentViewController.m; sourceTree = "<group>"; };
 		6728E5D816DC7441001024DD /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
 		6728E5D916DC7441001024DD /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
 		672F54A61622779400480BC4 /* LinkPreviewPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPreviewPane.h; sourceTree = "<group>"; };
@@ -2630,6 +2642,8 @@
 		67E98FF116D47F7D000E0DC6 /* iPadCalendarSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadCalendarSettingViewController.m; sourceTree = "<group>"; };
 		67E98FF316D4BDF4000E0DC6 /* iPadTaskSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadTaskSettingViewController.h; sourceTree = "<group>"; };
 		67E98FF416D4BDF4000E0DC6 /* iPadTaskSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadTaskSettingViewController.m; sourceTree = "<group>"; };
+		67E9F0DD17D0335A00B4B003 /* bar_comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_comments.png; sourceTree = "<group>"; };
+		67E9F0DE17D0335A00B4B003 /* bar_comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_comments@2x.png"; sourceTree = "<group>"; };
 		67EABE9F171E7F0E007C3680 /* planner_task_top_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner_task_top_bg.png; sourceTree = "<group>"; };
 		67EABEA0171E7F0E007C3680 /* planner_task_top_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "planner_task_top_bg@2x.png"; sourceTree = "<group>"; };
 		67EBDB00169676C1006DD864 /* PreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewViewController.h; sourceTree = "<group>"; };
@@ -3259,6 +3273,10 @@
 				67CF2C6216195196001FE1AA /* TransparentToolbar.m */,
 				67CF2C6316195196001FE1AA /* UIViewController+Transitions.h */,
 				67CF2C6416195196001FE1AA /* UIViewController+Transitions.m */,
+				672111BE17CF250100054FC6 /* UnreadComment.h */,
+				672111BF17CF250100054FC6 /* UnreadComment.m */,
+				672111C217CF453000054FC6 /* UnreadCommentViewController.h */,
+				672111C317CF453000054FC6 /* UnreadCommentViewController.m */,
 				67FBA11817A665D200EB1BD5 /* URLAsset.h */,
 				67FBA11917A665D400EB1BD5 /* URLAsset.m */,
 				67FBA11417A646CC00EB1BD5 /* URLAssetManager.h */,
@@ -3461,6 +3479,8 @@
 				A22A62481778293800AD1634 /* atask_lines.png */,
 				A22A62491778293900AD1634 /* atask_lines@2x.png */,
 				67CF2DAC161951B8001FE1AA /* background_button.png */,
+				67E9F0DD17D0335A00B4B003 /* bar_comments.png */,
+				67E9F0DE17D0335A00B4B003 /* bar_comments@2x.png */,
 				67EEF93216D20A5F00D0A7D0 /* bar_eye.png */,
 				67EEF93316D20A5F00D0A7D0 /* bar_eye@2x.png */,
 				67E7F7A217602DBD0019FAFF /* bar_eye_blue.png */,
@@ -4506,6 +4526,7 @@
 				67E5E2081652521500B41134 /* week_separator@2x.png in Resources */,
 				67E5134716533B65007B25A9 /* Trans_CheckOff@2x.png in Resources */,
 				67E5134816533B65007B25A9 /* Trans_CheckOn@2x.png in Resources */,
+				67E9F0E117D0335A00B4B003 /* bar_comments@2x.png in Resources */,
 				67E513531653571F007B25A9 /* blueBuy@2x.png in Resources */,
 				67E513541653571F007B25A9 /* blueCall@2x.png in Resources */,
 				67E513551653571F007B25A9 /* blueGo@2x.png in Resources */,
@@ -4529,6 +4550,7 @@
 				67D51F9916563B7B007017E3 /* hints_calendar_ip4.png in Resources */,
 				67D51F9A16563B7B007017E3 /* hints_calendar_ip4@2x.png in Resources */,
 				67D51F9B16563B7B007017E3 /* hints_note_ip4.png in Resources */,
+				67E9F0DF17D0335A00B4B003 /* bar_comments.png in Resources */,
 				67D51F9C16563B7B007017E3 /* hints_note_ip4@2x.png in Resources */,
 				67D51F9D16563B7B007017E3 /* hints_project_ip4.png in Resources */,
 				67D51F9E16563B7B007017E3 /* hints_project_ip4@2x.png in Resources */,
@@ -5133,6 +5155,7 @@
 				67EC0EC816F8081F00929BFD /* week_separator@2x.png in Resources */,
 				67EC0EC916F8081F00929BFD /* Trans_CheckOff@2x.png in Resources */,
 				67EC0ECA16F8081F00929BFD /* Trans_CheckOn@2x.png in Resources */,
+				67E9F0E217D0335A00B4B003 /* bar_comments@2x.png in Resources */,
 				67EC0ECB16F8081F00929BFD /* blueBuy@2x.png in Resources */,
 				67EC0ECC16F8081F00929BFD /* blueCall@2x.png in Resources */,
 				67EC0ECD16F8081F00929BFD /* blueGo@2x.png in Resources */,
@@ -5156,6 +5179,7 @@
 				67EC0EDE16F8081F00929BFD /* hints_calendar_ip4.png in Resources */,
 				67EC0EDF16F8081F00929BFD /* hints_calendar_ip4@2x.png in Resources */,
 				67EC0EE016F8081F00929BFD /* hints_note_ip4.png in Resources */,
+				67E9F0E017D0335A00B4B003 /* bar_comments.png in Resources */,
 				67EC0EE116F8081F00929BFD /* hints_note_ip4@2x.png in Resources */,
 				67EC0EE216F8081F00929BFD /* hints_project_ip4.png in Resources */,
 				67EC0EE316F8081F00929BFD /* hints_project_ip4@2x.png in Resources */,
@@ -5441,6 +5465,7 @@
 				67CF2D1716195196001FE1AA /* ProjectManager.m in Sources */,
 				67CF2D1816195196001FE1AA /* ProjectSelectionTableViewController.m in Sources */,
 				67CF2D1916195196001FE1AA /* QuickColorPickerView.m in Sources */,
+				672111C017CF250100054FC6 /* UnreadComment.m in Sources */,
 				67CF2D1A16195196001FE1AA /* RepeatData.m in Sources */,
 				67CF2D1B16195196001FE1AA /* RepeatTableViewController.m in Sources */,
 				67CF2D1C16195196001FE1AA /* ScheduleView.m in Sources */,
@@ -5448,6 +5473,7 @@
 				67CF2D1E16195196001FE1AA /* SDApplication.m in Sources */,
 				67CF2D2016195196001FE1AA /* Settings.m in Sources */,
 				67CF2D2116195196001FE1AA /* SettingTableViewController.m in Sources */,
+				672111C417CF453000054FC6 /* UnreadCommentViewController.m in Sources */,
 				67CF2D2216195196001FE1AA /* SmartCalAppDelegate.m in Sources */,
 				67CF2D2416195196001FE1AA /* SmartDayViewController.m in Sources */,
 				67CF2D2516195196001FE1AA /* SmartListLayoutController.m in Sources */,
@@ -5653,6 +5679,7 @@
 				67EC0CC916F8081F00929BFD /* ProjectManager.m in Sources */,
 				67EC0CCA16F8081F00929BFD /* ProjectSelectionTableViewController.m in Sources */,
 				67EC0CCB16F8081F00929BFD /* QuickColorPickerView.m in Sources */,
+				672111C117CF250100054FC6 /* UnreadComment.m in Sources */,
 				67EC0CCC16F8081F00929BFD /* RepeatData.m in Sources */,
 				67EC0CCD16F8081F00929BFD /* RepeatTableViewController.m in Sources */,
 				67EC0CCE16F8081F00929BFD /* ScheduleView.m in Sources */,
@@ -5660,6 +5687,7 @@
 				67EC0CD016F8081F00929BFD /* SDApplication.m in Sources */,
 				67EC0CD116F8081F00929BFD /* Settings.m in Sources */,
 				67EC0CD216F8081F00929BFD /* SettingTableViewController.m in Sources */,
+				672111C517CF453000054FC6 /* UnreadCommentViewController.m in Sources */,
 				67EC0CD316F8081F00929BFD /* SmartCalAppDelegate.m in Sources */,
 				67EC0CD416F8081F00929BFD /* SmartDayViewController.m in Sources */,
 				67EC0CD516F8081F00929BFD /* SmartListLayoutController.m in Sources */,

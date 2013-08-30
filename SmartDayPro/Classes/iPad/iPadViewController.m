@@ -25,6 +25,7 @@
 #import "ProjectManager.h"
 #import "MusicManager.h"
 #import "CommentManager.h"
+#import "DBManager.h"
 
 #import "CalendarViewController.h"
 #import "iPadSmartDayViewController.h"
@@ -81,6 +82,11 @@ iPadViewController *_iPadViewCtrler;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveNewComments:)
                                                      name:@"NewCommentReceivedNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshUnreadComments:)
+                                                     name:@"CommentUpdateNotification" object:nil];
+
     }
     
     return self;
@@ -100,6 +106,11 @@ iPadViewController *_iPadViewCtrler;
 {
     //[_iPadSDViewCtrler showCategory];
     [self.activeViewCtrler showCategory];
+}
+
+- (void) showUnreadComments:(id) sender
+{
+    [self.activeViewCtrler showUnreadComments];
 }
 
 - (void) showTag:(id) sender
@@ -163,7 +174,8 @@ iPadViewController *_iPadViewCtrler;
         UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                    target:nil
                                                                                    action:nil];
-        fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?285:155;
+        //fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?285:155;
+        fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?215:85;
         
         UIButton *settingButton = [Common createButton:@""
                                             buttonType:UIButtonTypeCustom
@@ -198,6 +210,32 @@ iPadViewController *_iPadViewCtrler;
         
         UIBarButtonItem *tagButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tagButton];
         
+        commentButton = [Common createButton:@""
+                                buttonType:UIButtonTypeCustom
+                                     frame:CGRectMake(0, 0, 40, 40)
+                                titleColor:[UIColor whiteColor]
+                                    target:self
+                                  selector:@selector(showUnreadComments:)
+                          normalStateImage:@"bar_comments.png"
+                        selectedStateImage:nil];
+        
+        //commentButton.layer.cornerRadius = 4;
+        //commentButton.layer.borderColor = [[Colors redButton] CGColor];
+        //commentButton.layer.borderWidth = 1;
+        
+        UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
+        commentBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
+        commentBadgeLabel.textColor = [UIColor whiteColor];
+        commentBadgeLabel.textAlignment = NSTextAlignmentCenter;
+        commentBadgeLabel.tag = 10000;
+        commentBadgeLabel.layer.cornerRadius = 3;
+        commentBadgeLabel.backgroundColor = [Colors redButton];
+
+        [commentButton addSubview:commentBadgeLabel];
+        [commentBadgeLabel release];
+        
+        UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
+        
         timerButton = [Common createButton:@""
                                 buttonType:UIButtonTypeCustom
                                      frame:CGRectMake(0, 0, 40, 40)
@@ -231,7 +269,7 @@ iPadViewController *_iPadViewCtrler;
         UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
         [searchBar release];
         
-        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixedItem, timerButtonItem, flexItem, searchBarItem,nil];
+        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixed40Item, commentButtonItem, fixedItem, timerButtonItem, flexItem, searchBarItem,nil];
         //NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, flexItem, searchBarItem,nil];
         
         [flexItem release];
@@ -242,6 +280,7 @@ iPadViewController *_iPadViewCtrler;
         [eyeButtonItem release];
         [tagButtonItem release];
         [searchBarItem release];
+        [commentButtonItem  release];
         
         self.navigationItem.leftBarButtonItems = items;
     }
@@ -522,11 +561,29 @@ iPadViewController *_iPadViewCtrler;
         printf("[%s - %s] %s\n", [comment.firstName UTF8String], [comment.lastName UTF8String], [comment.content UTF8String]);
     }*/
     
-    if (list.count > 0)
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    if (list.count > 0 && app.applicationState == UIApplicationStateBackground)
     {
         CommentManager *cmdM = [CommentManager getInstance];
         [cmdM notify:list];
     }
+}
+
+- (void)refreshUnreadComments:(NSNotification *)notification
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSInteger count = [dbm countUnreadComments];
+    
+    NSLog(@"unread comment count: %d", count);
+    
+    dispatch_async(dispatch_get_main_queue(),^ {
+        //[commentButton setTitle:[NSString stringWithFormat:@"%d", count] forState:UIControlStateNormal];
+        commentButton.hidden = (count == 0);
+        UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
+        badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+    });
 }
 
 #pragma mark View
@@ -812,36 +869,9 @@ iPadViewController *_iPadViewCtrler;
     
     [_appDelegate dismissAllAlertViews];
     
-    /*
-    CGSize sz = [Common getScreenSize];
-    sz.height += 20 + 44;
-    
-    CGRect frm = CGRectZero;
-    
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
-    {
-        frm.size.height = sz.width;
-        frm.size.width = sz.height;
-        
-        [self showLandscapeView];
-    }
-    else
-    {
-        frm.size = sz;
-        
-        [self showPortraitView];
-    }
-    
-    contentView.frame = frm;
-    
-    frm.size.width = 384;
-    
-    frm.origin.x = contentView.bounds.size.width - frm.size.width;
-    
-    detailView.frame = frm;
-    */
-    
     [self changeOrientation:toInterfaceOrientation];
+    
+    [self refreshUnreadComments:nil];
 }
 
 - (void)didReceiveMemoryWarning

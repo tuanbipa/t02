@@ -230,6 +230,7 @@ typedef enum
 typedef enum
 {
     COMMENT_STATUS_NONE,
+    COMMENT_STATUS_UNREAD,
     COMMENT_STATUS_DELETED
 } CommentStatus;
 

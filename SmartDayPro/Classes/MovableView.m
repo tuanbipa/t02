@@ -273,7 +273,7 @@
     
     NSTimeInterval diff = [touchTime timeIntervalSinceNow]*(-1);
     
-    if (diff > .05 && [self checkMovable:touches])
+    if (diff > .7 && [self checkMovable:touches])
     {
         if (self.movableController != nil)
         {

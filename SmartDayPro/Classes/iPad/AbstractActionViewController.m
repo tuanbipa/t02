@@ -50,6 +50,7 @@
 #import "TimerViewController.h"
 #import "MenuTableViewController.h"
 #import "SeekOrCreateViewController.h"
+#import "UnreadCommentViewController.h"
 
 #import "SDNavigationController.h"
 
@@ -515,6 +516,21 @@ extern iPadViewController *_iPadViewCtrler;
     
     
     CGRect frm = CGRectMake(100-contentView.frame.origin.x, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) showUnreadComments
+{
+    [self hidePopover];
+    
+    UnreadCommentViewController *ctrler = [[UnreadCommentViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }

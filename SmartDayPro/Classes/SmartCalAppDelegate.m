@@ -586,6 +586,8 @@ BOOL _fromBackground = NO;
 
 	}
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CommentUpdateNotification" object:nil];
+    
 	//////NSLog(@"did become active");
 	
     // geo-fencing
