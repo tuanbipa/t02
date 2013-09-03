@@ -892,11 +892,11 @@ extern BOOL _isiPad;
 		}
         
         // geo fencing
-        NSNumber *geoFencingEbanleSetting = [self.settingDict objectForKey:@"GeoFencingEbanle"];
+        NSNumber *geoFencingEnableSetting = [self.settingDict objectForKey:@"GeoFencingEnable"];
 		
-		if (geoFencingEbanleSetting != nil)
+		if (geoFencingEnableSetting != nil)
 		{
-			self.geoFencingEnable = [geoFencingEbanleSetting boolValue];
+			self.geoFencingEnable = [geoFencingEnableSetting boolValue];
 		}
         
 		NSNumber *geoFencingIntervalSetting = [self.settingDict objectForKey:@"GeoFencingInterval"];
