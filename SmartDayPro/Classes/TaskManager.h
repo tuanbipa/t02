@@ -34,6 +34,7 @@
 	FilterData *filterData;
 	
 	NSInteger taskTypeFilter;
+    BOOL filterChanged;
 	
 	// remember duration and color of previous Task for quick edit
 	NSInteger lastTaskDuration;

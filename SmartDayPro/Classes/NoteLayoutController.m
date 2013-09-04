@@ -16,7 +16,11 @@
 #import "AbstractSDViewController.h"
 #import "NoteViewController.h"
 
-extern AbstractSDViewController *_abstractViewCtrler;
+#import "iPadViewController.h"
+
+//extern AbstractSDViewController *_abstractViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
+
 extern BOOL _isiPad;
 
 @implementation NoteLayoutController
@@ -64,7 +68,7 @@ extern BOOL _isiPad;
     taskView.task = task;
     taskView.listStyle = YES;
     taskView.starEnable = NO;
-    taskView.checkEnable = YES;
+    taskView.checkEnable = !_iPadViewCtrler.inSlidingMode;
     taskView.showSeparator = YES;
     [taskView enableMove:_isiPad?![task isShared]:NO];
     [taskView refreshCheckImage];
@@ -77,7 +81,8 @@ extern BOOL _isiPad;
 
 - (NSMutableArray *) getObjectList
 {
-    NoteViewController *ctrler = [_abstractViewCtrler getNoteViewController];
+    //NoteViewController *ctrler = [_abstractViewCtrler getNoteViewController];
+    NoteViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getNoteViewController];
     
     return ctrler.noteList;
 }

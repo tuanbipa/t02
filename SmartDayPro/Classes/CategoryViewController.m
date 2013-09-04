@@ -226,7 +226,8 @@ extern iPadViewController *_iPadViewCtrler;
 	
     [movableController reset];
 	
-	[layoutController performSelector:@selector(layout) withObject:nil afterDelay:0];
+	//[layoutController performSelector:@selector(layout) withObject:nil afterDelay:0];
+    [layoutController layout];
 }
 
 - (void) refreshView
@@ -676,6 +677,20 @@ extern iPadViewController *_iPadViewCtrler;
      CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
      
      noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);*/
+}
+
+- (void) enableMultiEdit:(BOOL)enabled
+{
+    for (UIView *view in listView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            TaskView *tv = (TaskView *) view;
+            
+            tv.checkEnable = enabled;
+            [tv refresh];
+        }
+    }
 }
 
 #pragma mark Alert delegate

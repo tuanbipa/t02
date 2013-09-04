@@ -98,7 +98,8 @@ extern iPadViewController *_iPadViewCtrler;
     [movableController unhighlight];
     [movableController reset];
 	
-	[noteLayoutCtrler performSelector:@selector(layout) withObject:nil afterDelay:0];
+	//[noteLayoutCtrler performSelector:@selector(layout) withObject:nil afterDelay:0];
+    [noteLayoutCtrler layout];
 }
 
 - (void) loadAndShowList
@@ -113,6 +114,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) filter:(NSInteger)type
 {
+    BOOL filterChange = (self.filterType != type);
+    
     self.filterType = type;
     
     //DBManager *dbm = [DBManager getInstance];
@@ -163,6 +166,11 @@ extern iPadViewController *_iPadViewCtrler;
     [self reconcileLinkCopy];
     
     [self refreshLayout];
+    
+    if (filterChange)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChangeNotification" object:nil]; //refresh Detail view in sliding mode
+    }
     
     //[listTableView reloadData];
 }
@@ -470,6 +478,21 @@ extern iPadViewController *_iPadViewCtrler;
 	{
         [self doMultiDeleteTask];
 	}
+}
+
+- (void) enableMultiEdit:(BOOL)enabled
+{
+    for (UIView *view in noteListView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            TaskView *tv = (TaskView *) view;
+            
+            tv.checkEnable = enabled;
+            [tv refresh];
+        }
+    }
+    
 }
 
 #pragma mark Views

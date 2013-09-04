@@ -688,9 +688,11 @@ SmartListViewController *_smartListViewCtrler;
                 
                 if (tmp.primaryKey == taskKey)
                 {
+                    /*
                     [taskView setNeedsDisplay];
                     [taskView refreshStarImage];
-                    [taskView refreshCheckImage];
+                    [taskView refreshCheckImage];*/
+                    [taskView refresh];
                     
                     break;
                 }
@@ -823,6 +825,29 @@ SmartListViewController *_smartListViewCtrler;
     ProjectManager *pm = [ProjectManager getInstance];
     
 	self.quickAddPlaceHolder.backgroundColor = [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.2];
+}
+
+- (void) enableMultiEdit:(BOOL)enabled
+{
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=0; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if (taskView != nil)
+            {
+                taskView.checkEnable = enabled;
+                [taskView refresh];
+            }
+        }
+    }
 }
 
 
@@ -1388,7 +1413,7 @@ SmartListViewController *_smartListViewCtrler;
         
 		[[Settings getInstance] changeFilterTab:filterType];
         
-        [self hideQuickAdd];
+        //[self hideQuickAdd];
 	}
 	
 	if (filterType == TASK_FILTER_STAR || filterType == TASK_FILTER_TOP)

@@ -591,6 +591,9 @@ iPadViewController *_iPadViewCtrler;
         //selectedModuleButton.backgroundColor = [UIColor cyanColor];
         
         [self refreshHeaderView];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChangeNotification" object:nil]; //refresh Detail view in sliding mode
+
     }
 }
 

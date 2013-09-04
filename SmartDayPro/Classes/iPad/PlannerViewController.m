@@ -1071,6 +1071,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     _plannerViewCtrler = nil;
 }
 
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(miniMonthResize:)
+                                                 name:@"MiniMonthResizeNotification" object:nil];
+}
+
 - (void) adjustSubFrame: (NSNotification*) notification {
     
     CGRect frm = CGRectMake(8,plannerView.frame.origin.y + plannerView.frame.size.height + 8, 750, contentView.frame.size.height - (plannerView.frame.origin.y + plannerView.frame.size.height) - 16);

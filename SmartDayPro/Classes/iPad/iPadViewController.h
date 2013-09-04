@@ -25,13 +25,14 @@
     UIButton *tagButton;
     UIButton *eyeButton;
     UIButton *commentButton;
-    
-    BOOL inSlidingMode;
+
 }
 
 @property (nonatomic, retain) AbstractActionViewController *activeViewCtrler;
 
 @property (nonatomic, retain) UINavigationController *detailNavCtrler;
+
+@property BOOL inSlidingMode;
 
 - (void) deactivateSearchBar;
 - (UIButton *) getTimerButton;

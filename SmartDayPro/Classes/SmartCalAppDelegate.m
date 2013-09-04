@@ -725,7 +725,7 @@ BOOL _fromBackground = NO;
         }
     }
     
-    application.applicationIconBadgeNumber = 0;
+    //application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application

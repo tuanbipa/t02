@@ -85,6 +85,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return nil;
 }
 
+- (void) enableMultiEdit:(BOOL)enabled
+{
+    
+}
+
 - (void) reconcileItem:(Task *)item
 {
     

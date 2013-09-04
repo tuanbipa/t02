@@ -60,6 +60,7 @@
 
 - (MovableView *) getActiveView4Item:(NSObject *)item;
 - (PageAbstractViewController *)getActiveModule;
+- (PageAbstractViewController *)getModuleAtIndex:(NSInteger)index;
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
 - (void) markDoneTask:(Task *)task;

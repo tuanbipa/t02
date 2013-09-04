@@ -95,6 +95,7 @@
 - (void) backToSingleSelectMode;
 - (void) refreshSmartList:(BOOL) needSchedule;
 -(void)setNeedsDisplay;
+- (void) enableMultiEdit:(BOOL)enabled;
 
 - (void) starTaskInView:(TaskView *)taskView;
 - (void) pinTaskInView:(TaskView *)taskView;

@@ -809,10 +809,10 @@ extern BOOL _isiPad;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	if (textField.tag == 10000)
+	/*if (textField.tag == 10000)
 	{
 		[self performSelector:@selector(scroll) withObject:nil afterDelay:.1]; 
-	}
+	}*/
 }
 
 - (void) textFieldDidChange:(id)sender

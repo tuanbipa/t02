@@ -109,7 +109,15 @@ extern iPadViewController *_iPadViewCtrler;
 {
 	[super doubleTouch];
 	
-    if (_abstractViewCtrler != nil)
+    if (_iPadViewCtrler != nil)
+    {
+        [_iPadViewCtrler slideView:YES];
+        
+        MovableView *activeView = [_iPadViewCtrler.activeViewCtrler getActiveView4Item:self.project];
+        
+        [_iPadViewCtrler.activeViewCtrler editProject:self.project inView:activeView];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editProject:self.project inView:self];
     }

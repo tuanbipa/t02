@@ -230,8 +230,8 @@ extern BOOL _isiPad;
     self.setting.sdwVerified = (errorCode == 0);
     
     NSString *msg = (errorCode == -1004?_wifiConnectionOffText:(errorCode == 0?_sdwAccountValidText:_sdwAccountInvalidText));
-        
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_checkValidityText message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorCode == -1004? _checkValidityText:(errorCode == 0?_verifiedTitleText:_invalidAccountText) message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
     [alert show];
     [alert release];    
 }

@@ -127,6 +127,119 @@ DetailViewController *_detailViewCtrler = nil;
 
 }
 
+- (void) refreshToolbar
+{
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+    
+    self.navigationItem.leftBarButtonItem = doneItem;
+    
+    [doneItem release];
+    
+    if (self.task == nil)
+    {
+        self.navigationItem.rightBarButtonItems = nil;
+        return;
+    }
+    
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(0, 0, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(delete:)
+                                 normalStateImage:@"menu_trash.png"
+                               selectedStateImage:nil];
+    
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+    
+    UIButton *copyButton = [Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(0, 0, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                       selector:@selector(copy:)
+                               normalStateImage:@"menu_duplicate.png"
+                             selectedStateImage:nil];
+    
+    UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
+    
+    UIButton *starButton = [Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
+                                          frame:CGRectMake(0, 0, 30, 30)
+                                     titleColor:[UIColor whiteColor]
+                                         target:self
+                                       selector:@selector(star:)
+                               normalStateImage:@"menu_star.png"
+                             selectedStateImage:nil];
+    
+    UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
+    
+    UIButton *deferButton = [Common createButton:@""
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(0, 0, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(defer:)
+                                normalStateImage:@"menu_defer.png"
+                              selectedStateImage:nil];
+    
+    UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
+    
+    UIButton *todayButton = [Common createButton:@""
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(0, 0, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(doToday:)
+                                normalStateImage:@"menu_dotoday.png"
+                              selectedStateImage:nil];
+    
+    UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
+    
+    UIButton *markDoneButton = [Common createButton:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(0, 0, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(markDone:)
+                                   normalStateImage:@"menu_done.png"
+                                 selectedStateImage:nil];
+    
+    UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
+    
+    UIButton *airDropButton = [Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(0, 0, 30, 30)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(share2AirDrop:)
+                                  normalStateImage:@"menu_airdrop.png"
+                                selectedStateImage:nil];
+    
+    UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
+    
+    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedItem.width = 10;
+    
+    NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, copyItem, nil]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        [items addObject:airDropItem];
+    }
+    
+    self.navigationItem.rightBarButtonItems = items;
+    
+    [copyItem release];
+    [deleteItem release];
+    [starItem release];
+    [deferItem release];
+    [todayItem release];
+    [markDoneItem release];
+    [airDropItem release];
+    [fixedItem release];
+}
+
 - (void) refreshData
 {
 	if (task.original != nil && ![task isREException]) //Calendar Task or REException
@@ -173,6 +286,9 @@ DetailViewController *_detailViewCtrler = nil;
     [self.previewViewCtrler refreshData];
     
     [detailTableView reloadData];
+    
+    
+    [self refreshToolbar];
 }
 
 - (void) changeOrientation:(UIInterfaceOrientation) orientation
@@ -260,110 +376,6 @@ DetailViewController *_detailViewCtrler = nil;
 	// Do any additional setup after loading the view.
     
     //UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:_closeText style:UIBarButtonItemStyleDone target:self action:@selector(close:)];
-    
-    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-    
-    self.navigationItem.leftBarButtonItem = doneItem;
-    
-    [doneItem release];
-    
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(0, 0, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(delete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
-    
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
-
-    UIButton *copyButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(0, 0, 30, 30)
-                                     titleColor:[UIColor whiteColor]
-                                         target:self
-                                       selector:@selector(copy:)
-                               normalStateImage:@"menu_duplicate.png"
-                             selectedStateImage:nil];
-    
-    UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
-    
-    UIButton *starButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(0, 0, 30, 30)
-                                     titleColor:[UIColor whiteColor]
-                                         target:self
-                                       selector:@selector(star:)
-                               normalStateImage:@"menu_star.png"
-                             selectedStateImage:nil];
-    
-    UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
-    
-    UIButton *deferButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(0, 0, 30, 30)
-                                     titleColor:[UIColor whiteColor]
-                                         target:self
-                                       selector:@selector(defer:)
-                               normalStateImage:@"menu_defer.png"
-                             selectedStateImage:nil];
-    
-    UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
-
-    UIButton *todayButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(0, 0, 30, 30)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(doToday:)
-                                normalStateImage:@"menu_dotoday.png"
-                              selectedStateImage:nil];
-    
-    UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
-    
-    UIButton *markDoneButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(0, 0, 30, 30)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                           selector:@selector(markDone:)
-                                normalStateImage:@"menu_done.png"
-                              selectedStateImage:nil];
-    
-    UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
-    
-    UIButton *airDropButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(0, 0, 30, 30)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(share2AirDrop:)
-                                normalStateImage:@"menu_airdrop.png"
-                              selectedStateImage:nil];
-    
-    UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
-    
-    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedItem.width = 10;
-    
-    NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, copyItem, nil]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil];
-    
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-    {
-        [items addObject:airDropItem];
-    }
-    
-    self.navigationItem.rightBarButtonItems = items;
-    
-    [copyItem release];
-    [deleteItem release];
-    [starItem release];
-    [deferItem release];
-    [todayItem release];
-    [markDoneItem release];
-    [airDropItem release];
-    [fixedItem release];
     
     [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
 }
@@ -1437,6 +1449,11 @@ DetailViewController *_detailViewCtrler = nil;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.task == nil)
+    {
+        return 0;
+    }
+    
 	//NSInteger count = (showAll?10:6);
     NSInteger count = (showAll?11:7);
     

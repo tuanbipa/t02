@@ -61,6 +61,8 @@ iPadViewController *_iPadViewCtrler;
 @synthesize activeViewCtrler;
 @synthesize detailNavCtrler;
 
+@synthesize inSlidingMode;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -87,6 +89,10 @@ iPadViewController *_iPadViewCtrler;
                                                  selector:@selector(refreshUnreadComments:)
                                                      name:@"CommentUpdateNotification" object:nil];
 
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(filterChange:)
+                                                     name:@"FilterChangeNotification" object:nil];
+        
     }
     
     return self;
@@ -549,6 +555,8 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+#pragma mark Notification
+
 - (void)receiveNewComments:(NSNotification *)notification
 {
     NSMutableArray *list = [notification.userInfo objectForKey:@"CommentList"];
@@ -584,6 +592,30 @@ iPadViewController *_iPadViewCtrler;
         UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
         badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
     });
+}
+
+- (void)filterChange:(NSNotification *)notification
+{
+    if (self.inSlidingMode)
+    {
+        //update detail view if in sliding mode
+        
+        PageAbstractViewController *ctrler = [self.activeViewCtrler getActiveModule];
+        
+        if (ctrler != nil)
+        {
+            MovableView *firstView = [ctrler getFirstMovableView];
+            
+            if (firstView != nil)
+            {
+                [firstView singleTouch];
+            }
+            else
+            {
+                [self editItemDetail:nil];
+            }
+        }
+    }
 }
 
 #pragma mark View
@@ -728,6 +760,11 @@ iPadViewController *_iPadViewCtrler;
     [self.activeViewCtrler.view.layer addAnimation:animation forKey:kInfoViewAnimationKey];
     
     inSlidingMode = enabled;
+    
+    for (int i=1;i<4;i++)
+    {
+        [[self.activeViewCtrler getModuleAtIndex:i] enableMultiEdit:!inSlidingMode];
+    }
 }
 
 - (void) changeFrame:(CGRect) frm
@@ -764,7 +801,7 @@ iPadViewController *_iPadViewCtrler;
     
     if (UIInterfaceOrientationIsLandscape(orientation))
     {
-        [_iPadSDViewCtrler loadView];
+        //[_iPadSDViewCtrler loadView];
         
         [self showLandscapeView];
         

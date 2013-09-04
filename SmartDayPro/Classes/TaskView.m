@@ -200,6 +200,13 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)refreshCheckImage
 {
+    if (!self.checkEnable)
+    {
+        checkImageView.image = nil;
+        checkView.userInteractionEnabled = NO;
+        return;
+    }
+    
     if (self.listStyle) {
         checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
         checkView.userInteractionEnabled = YES;
@@ -1889,6 +1896,7 @@ extern iPadViewController *_iPadViewCtrler;
     }
     
     //if (self.multiSelectionEnable)
+    if (self.checkEnable)
     {
         rect = CGRectOffset(rect, TASK_HEIGHT, 0);
         rect.size.width -= TASK_HEIGHT;
@@ -2490,7 +2498,18 @@ extern iPadViewController *_iPadViewCtrler;
     self.layer.borderWidth = 0.25;
     self.layer.borderColor = [prjColor CGColor];
     
-    self.layer.backgroundColor = self.transparent?[[UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]] CGColor]: [[prjColor colorWithAlphaComponent:0.4] CGColor];
+    //self.layer.backgroundColor = self.transparent?[[UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]] CGColor]: [[prjColor colorWithAlphaComponent:0.4] CGColor];
+    
+    self.layer.backgroundColor = [[prjColor colorWithAlphaComponent:0.4] CGColor];
+    
+    if (self.transparent)
+    {
+        UIColor *color = [UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]];
+        
+        [color setFill];
+        CGContextFillRect(ctx, frm);
+    }
+
 
     /*
     [[prjColor colorWithAlphaComponent:0.4] setFill];

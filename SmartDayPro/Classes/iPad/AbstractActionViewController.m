@@ -65,6 +65,8 @@ BOOL _autoPushPending = NO;
 
 extern iPadViewController *_iPadViewCtrler;
 
+extern DetailViewController *_detailViewCtrler;
+
 @interface AbstractActionViewController ()
 
 @end
@@ -293,6 +295,18 @@ extern iPadViewController *_iPadViewCtrler;
     }
     
     return nil;    
+}
+
+- (PageAbstractViewController *)getModuleAtIndex:(NSInteger)index
+{
+    PageAbstractViewController *ctrlers[4] = {
+        [self getCalendarViewController],
+        [self getSmartListViewController],
+        [self getNoteViewController],
+        [self getCategoryViewController]
+    };
+
+    return ctrlers[index];
 }
 
 - (BOOL) checkControllerActive:(NSInteger)index
@@ -1874,7 +1888,12 @@ extern iPadViewController *_iPadViewCtrler;
         {
             [ctrler loadAndShowList];
         }
-    }    
+    }
+    
+    if (_iPadViewCtrler.inSlidingMode && _detailViewCtrler != nil && _detailViewCtrler.task.primaryKey == task.primaryKey)
+    {
+        _detailViewCtrler.taskCopy.status = task.status;
+    }
 }
 
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task
@@ -2081,7 +2100,7 @@ extern iPadViewController *_iPadViewCtrler;
             case DO_ANYTIME:
             {
                 task.startTime = [settings getWorkingStartTimeForDate:[NSDate date]];
-                task.deadline = nil;
+                //task.deadline = nil;
             }
                 break;
         }
