@@ -685,7 +685,8 @@ extern BOOL _isiPad;
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
-            [ctrler refreshView];
+            //[ctrler refreshView];
+            [ctrler setNeedsDisplay];
             
             CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
             
@@ -696,12 +697,13 @@ extern BOOL _isiPad;
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
-            [ctrler refreshView];
+            //[ctrler refreshView];
+            [ctrler setNeedsDisplay];
         }
 
     }
     
-    [_abstractViewCtrler hidePopover];
+    //[_abstractViewCtrler hidePopover];
     
     if (_isiPad)
     {

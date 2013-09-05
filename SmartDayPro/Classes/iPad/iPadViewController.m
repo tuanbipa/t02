@@ -553,6 +553,8 @@ iPadViewController *_iPadViewCtrler;
         
         self.detailNavCtrler = nil;
     }
+    
+    [self.activeViewCtrler deselect];
 }
 
 #pragma mark Notification
@@ -818,6 +820,8 @@ iPadViewController *_iPadViewCtrler;
     }
     
     [self.activeViewCtrler resetMovableContentView];
+    
+    [self refreshFilterStatus];
 }
 
 - (void) loadView

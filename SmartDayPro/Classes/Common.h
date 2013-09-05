@@ -358,7 +358,8 @@ typedef enum
 {
 	TASK_EDIT_DEADLINE = PROJECT_EDIT_END + 1,
 	TASK_EDIT_START,
-    TASK_EDIT_END
+    TASK_EDIT_END,
+    TASK_EDIT_UNTIL
 } TaskEdit;
 
 typedef enum 

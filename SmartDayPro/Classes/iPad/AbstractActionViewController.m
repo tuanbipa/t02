@@ -464,6 +464,8 @@ extern DetailViewController *_detailViewCtrler;
     DBManager *dbm = [DBManager getInstance];
     Settings *settings = [Settings getInstance];
     
+    [self deselect];
+    
     [settings refreshTimeZone];
     
     [pm initProjectList:[dbm getProjects]];
@@ -672,19 +674,6 @@ extern DetailViewController *_detailViewCtrler;
     
     if (showAction)
     {
-        /*
-        UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
-        
-        if (enable)
-        {
-            [self performSelector:@selector(showActionMenu:) withObject:view afterDelay:0];
-        }
-        else
-        {
-            [menuCtrler setMenuVisible:NO animated:YES];
-        }
-        */
-        
         activeView = enable?view:nil;
         
         if (activeView != nil)
@@ -724,25 +713,12 @@ extern DetailViewController *_detailViewCtrler;
         return;
     }
     
-    if (activeView != nil)
-    {
-        [activeView doSelect:NO];
-    }
+    BOOL showAction = activeView != view;
     
-    if (activeView != view)
+    [self deselect];
+    
+    if (showAction)
     {
-        /*
-        UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
-        
-        if (enable)
-        {
-            [self performSelector:@selector(showProjectActionMenu:) withObject:view afterDelay:0];
-        }
-        else
-        {
-            [menuCtrler setMenuVisible:NO animated:YES];
-        }*/
-        
         activeView = enable?view:nil;
         
         if (activeView != nil)
@@ -1339,7 +1315,7 @@ extern DetailViewController *_detailViewCtrler;
     
     [self reconcileItem:task reSchedule:reSchedule];
         
-    [self deselect];
+    //[self deselect];
 }
 
 - (void) convertRE2Task:(NSInteger)option

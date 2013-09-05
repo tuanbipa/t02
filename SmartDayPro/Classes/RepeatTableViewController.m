@@ -18,12 +18,18 @@
 
 #import "DetailViewController.h"
 
+#import "DateInputViewController.h"
+
 extern BOOL _isiPad;
+
+RepeatTableViewController *_repeatViewCtrler = nil;
 
 @implementation RepeatTableViewController
 
 @synthesize task;
 @synthesize repeatData;
+
+@synthesize inputViewCtrler;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -44,6 +50,14 @@ extern BOOL _isiPad;
 	}
 	
 	return self;
+}
+
+- (void)dealloc {
+	
+	self.repeatData = nil;
+    self.inputViewCtrler = nil;
+	
+    [super dealloc];
 }
 
 - (void)loadView 
@@ -104,7 +118,14 @@ extern BOOL _isiPad;
 	
 	[contentView addSubview:repeatTableView];
 	[repeatTableView release];
-	
+    
+    inputView = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300)];
+    inputView.hidden = YES;
+    
+    [contentView addSubview:inputView];
+    [inputView release];
+    
+/*
 	doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
     //doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height - [Common getKeyboardHeight] - 40, frm.size.width, 40)];
 	doneBarView.backgroundColor=[UIColor clearColor];
@@ -141,18 +162,12 @@ extern BOOL _isiPad;
 	
 	[contentView addSubview: untilPicker];
 	[untilPicker release];
-	
+*/
 	self.view = contentView;
 	[contentView release];
     
     contentView.userInteractionEnabled = ![self.task isShared];
 	
-    /*
-	UIBarButtonItem *saveButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
-															  target:self action:@selector(save:)];
-	self.navigationItem.rightBarButtonItem = [self.task isShared]?nil:saveButton;
-	[saveButton release];	*/
-		
 	self.navigationItem.title = _repeatText;
 }
 
@@ -207,6 +222,20 @@ extern BOOL _isiPad;
 	// e.g. self.myOutlet = nil;
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    _repeatViewCtrler = self;
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _repeatViewCtrler = nil;
+}
+
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -240,7 +269,7 @@ extern BOOL _isiPad;
 
 - (void)changeType
 {
-	doneBarView.hidden = YES;
+	//doneBarView.hidden = YES;
 	
 	if (selectedIndex == 0)
 	{
@@ -405,7 +434,9 @@ extern BOOL _isiPad;
         
 		self.repeatData.until = until;
         
-        untilPicker.date = until;
+        //untilPicker.date = until;
+        
+        [repeatTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
 	}
 }
 
@@ -443,6 +474,7 @@ extern BOOL _isiPad;
 	[self.navigationController popViewControllerAnimated:YES];	
 }
 
+/*
 -(void)done:(id)sender
 {
 	doneBarView.hidden = YES;
@@ -458,6 +490,7 @@ extern BOOL _isiPad;
 	}
 	
 }
+*/
 
 -(void)changeWeekOption:(id)sender
 {
@@ -501,14 +534,27 @@ extern BOOL _isiPad;
 
 -(void)repeatUntil:(id)sender
 {
-	repeatTableView.frame = CGRectMake(0, 0, 320, 160);
+    /*
+    if (!_isiPad)
+    {
+        repeatTableView.frame = CGRectMake(0, 0, 320, 160);
 	
-	[repeatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [repeatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
     
 	doneBarView.hidden = NO;
 	untilPicker.hidden = NO;
 
 	untilPicker.date = (self.repeatData != nil && self.repeatData.until != nil?self.repeatData.until:[NSDate date]);
+    */
+    
+    DateInputViewController *ctrler = [[DateInputViewController alloc] initWithNibName:@"DateInputViewController" bundle:nil];
+    ctrler.task = self.task;
+    ctrler.dateEdit = TASK_EDIT_UNTIL;
+    
+    [self showInputView:ctrler];
+    
+    [ctrler release];
 }
 
 -(void)untilChanged:(id)sender
@@ -518,6 +564,55 @@ extern BOOL _isiPad;
 	[self changeUntil:picker.date];
 	
 	untilValueLabel.text = [Common getFullDateString3:picker.date];
+}
+
+#pragma mark Input Views
+-(void) showInputView:(UIViewController *)ctrler
+{
+    self.inputViewCtrler = ctrler;
+    
+    ctrler.view.frame = inputView.bounds;
+    
+    [inputView addSubview:ctrler.view];
+    
+    inputView.hidden = NO;
+    
+    [contentView bringSubviewToFront:inputView];
+    
+	CATransition *animation = [CATransition animation];
+	[animation setDelegate:self];
+	
+	[animation setType:kCATransitionMoveIn];
+	[animation setSubtype:kCATransitionFromTop];
+	
+	// Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
+	[animation setDuration:kTransitionDuration];
+	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+	
+	[inputView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
+}
+
+- (void) closeInputView
+{
+    if (self.inputViewCtrler != nil)
+    {
+        [self.inputViewCtrler.view removeFromSuperview];
+        
+        inputView.hidden = YES;
+        CATransition *animation = [CATransition animation];
+        [animation setDelegate:self];
+        
+        [animation setType:kCATransitionReveal];
+        [animation setSubtype:kCATransitionFromBottom];
+        
+        // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
+        [animation setDuration:kTransitionDuration];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        
+        [inputView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
+        
+        self.inputViewCtrler = nil;
+    }
 }
 
 #pragma mark Cell Creation
@@ -857,7 +952,7 @@ extern BOOL _isiPad;
 	[cell.contentView addSubview:untilLabel];
 	[untilLabel release];
 	
-	untilValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(70, 0, 195, 25)];
+	untilValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(repeatTableView.bounds.size.width - 195 - 30, 0, 195, 25)];
 	untilValueLabel.tag = 11002;
 	untilValueLabel.textAlignment=NSTextAlignmentRight;
 	untilValueLabel.textColor= [Colors darkSteelBlue];
@@ -897,7 +992,7 @@ extern BOOL _isiPad;
 	UIButton *onDateButton = [Common createButton:_onDateText 
 										   buttonType:UIButtonTypeCustom
 												//frame:CGRectMake(80, 30, 60, 25) 
-                              frame:CGRectMake(160, 25, 120, 30) 
+                              frame:CGRectMake(repeatTableView.bounds.size.width - 120 - 20, 25, 120, 30)
 										   titleColor:[UIColor whiteColor] 
 											   target:self 
 											 selector:@selector(repeatUntil:) 
@@ -1250,14 +1345,6 @@ extern BOOL _isiPad;
 	
 	activeTextField = textField;
 }
-
-- (void)dealloc {
-	
-	self.repeatData = nil;
-	
-    [super dealloc];
-}
-
 
 @end
 

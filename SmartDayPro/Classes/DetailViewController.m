@@ -608,7 +608,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     DateInputViewController *ctrler = [[DateInputViewController alloc] initWithNibName:@"DateInputViewController" bundle:nil];
     ctrler.task = self.taskCopy;
-    ctrler.dateEdit = (btn.tag == 10300+8?TASK_EDIT_START:TASK_EDIT_DEADLINE);
+    ctrler.dateEdit = (btn.tag == 10300+8?TASK_EDIT_START:([self.taskCopy isTask]?TASK_EDIT_DEADLINE:TASK_EDIT_END));
     
     [self showInputView:ctrler];
     
@@ -878,7 +878,7 @@ DetailViewController *_detailViewCtrler = nil;
 	//task Location
 	UITextField *taskLocation=[[UITextField alloc] initWithFrame:CGRectMake(35, y, detailTableView.bounds.size.width-75, 26)];
 	taskLocation.font=[UIFont systemFontOfSize:16];
-	taskLocation.textColor=[UIColor brownColor];
+	taskLocation.textColor=[UIColor grayColor];
 	taskLocation.keyboardType=UIKeyboardTypeDefault;
 	taskLocation.returnKeyType = UIReturnKeyDone;
 	taskLocation.placeholder=_locationGuideText;//@"Location";
@@ -932,11 +932,46 @@ DetailViewController *_detailViewCtrler = nil;
     //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
+- (void) createADECell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    cell.backgroundColor = [UIColor colorWithRed:223.0/255 green:223.0/255 blue:223.0/255 alpha:1];
+    
+    /*
+     UILabel *adeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
+     adeLabel.backgroundColor = [UIColor clearColor];
+     adeLabel.text = _allDayText;
+     adeLabel.textColor = [UIColor grayColor];
+     adeLabel.font = [UIFont systemFontOfSize:16];
+     
+     [cell.contentView addSubview:adeLabel];
+     [adeLabel release];
+    */
+    
+    cell.textLabel.text = _allDayText;
+     
+     NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+     UISegmentedControl *adeSegmentedCtrl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+     adeSegmentedCtrl.frame = CGRectMake(detailTableView.bounds.size.width-110, 5, 100, 30);
+     [adeSegmentedCtrl addTarget:self action:@selector(changeADE:) forControlEvents:UIControlEventValueChanged];
+     adeSegmentedCtrl.selectedSegmentIndex = ([self.taskCopy isADE]?0:1);
+     
+     [cell.contentView addSubview:adeSegmentedCtrl];
+     [adeSegmentedCtrl release];
+     
+     UIView *adeSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, detailTableView.bounds.size.width, 1)];
+     adeSeparatorView.backgroundColor = [UIColor lightGrayColor];
+     
+     [cell.contentView addSubview:adeSeparatorView];
+     [adeSeparatorView release];
+}
+
 - (void) createStartDueCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     cell.accessoryType = UITableViewCellAccessoryNone;
     
-    cell.backgroundColor = [UIColor grayColor];
+    cell.backgroundColor = [UIColor colorWithRed:223.0/255 green:223.0/255 blue:223.0/255 alpha:1];
 
     UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
     startLabel.backgroundColor = [UIColor clearColor];
@@ -1057,8 +1092,9 @@ DetailViewController *_detailViewCtrler = nil;
 {
     cell.accessoryType = UITableViewCellAccessoryNone;
     
-    cell.backgroundColor = [UIColor grayColor];
+    cell.backgroundColor = [UIColor colorWithRed:223.0/255 green:223.0/255 blue:223.0/255 alpha:1];
 
+    /*
     UILabel *adeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
     adeLabel.backgroundColor = [UIColor clearColor];
     adeLabel.text = _allDayText;
@@ -1082,8 +1118,9 @@ DetailViewController *_detailViewCtrler = nil;
     
     [cell.contentView addSubview:adeSeparatorView];
     [adeSeparatorView release];
+    */
     
-    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 100, 20)];
+    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
     startLabel.backgroundColor = [UIColor clearColor];
     startLabel.text = _startText;
     startLabel.textColor = [UIColor grayColor];
@@ -1094,7 +1131,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:startLabel];
     [startLabel release];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 80, self.taskCopy.startTime == nil?70:40, 30)];
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 40, self.taskCopy.startTime == nil?70:40, 30)];
     dayLabel.backgroundColor = [UIColor clearColor];
     dayLabel.textAlignment = NSTextAlignmentRight;
     dayLabel.text = self.taskCopy.startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.startTime]];
@@ -1106,7 +1143,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dayLabel];
     [dayLabel release];
     
-    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, 100, 20)];
+    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 35, 100, 20)];
     wkdayLabel.backgroundColor = [UIColor clearColor];
     wkdayLabel.text = self.taskCopy.startTime == nil?@"":[Common getFullWeekdayString:self.taskCopy.startTime];
     wkdayLabel.textColor = [UIColor darkGrayColor];
@@ -1117,7 +1154,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:wkdayLabel];
     [wkdayLabel release];
     
-    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 95, 200, 20)];
+    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 55, 200, 20)];
     monYearLabel.backgroundColor = [UIColor clearColor];
     monYearLabel.text = self.taskCopy.startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:self.taskCopy.startTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:self.taskCopy.startTime], [Common getTimeString:self.taskCopy.startTime]]);
     monYearLabel.textColor = [UIColor darkGrayColor];
@@ -1128,13 +1165,13 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:monYearLabel];
     [monYearLabel release];
     
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, 45, 1, 70)];
+    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, 5, 1, 70)];
     separatorView.backgroundColor = [UIColor lightGrayColor];
     
     [cell.contentView addSubview:separatorView];
     [separatorView release];
     
-    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, 50, 100, 20)];
+    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, 10, 100, 20)];
     dueLabel.backgroundColor = [UIColor clearColor];
     dueLabel.text = _endText;
     dueLabel.textColor = [UIColor grayColor];
@@ -1145,7 +1182,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueLabel];
     [dueLabel release];
     
-    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, 80, self.taskCopy.endTime == nil?70:40, 30)];
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, 40, self.taskCopy.endTime == nil?70:40, 30)];
     dueDayLabel.backgroundColor = [UIColor clearColor];
     dueDayLabel.textAlignment = NSTextAlignmentRight;
     dueDayLabel.text = self.taskCopy.endTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.endTime]];
@@ -1157,7 +1194,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueDayLabel];
     [dueDayLabel release];
     
-    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, 75, 100, 20)];
+    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, 35, 100, 20)];
     dueWkdayLabel.backgroundColor = [UIColor clearColor];
     dueWkdayLabel.text = self.taskCopy.endTime == nil?@"":[Common getFullWeekdayString:self.taskCopy.endTime];
     dueWkdayLabel.textColor = [UIColor darkGrayColor];
@@ -1168,7 +1205,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueWkdayLabel];
     [dueWkdayLabel release];
     
-    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, 95, 200, 20)];
+    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, 55, 200, 20)];
     dueMonYearLabel.backgroundColor = [UIColor clearColor];
     dueMonYearLabel.text = self.taskCopy.endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:self.taskCopy.endTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:self.taskCopy.endTime], [Common getTimeString:self.taskCopy.endTime]]);
     dueMonYearLabel.textColor = [UIColor darkGrayColor];
@@ -1181,7 +1218,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    startButton.frame = CGRectMake(0, 40, 190, 80);
+    startButton.frame = CGRectMake(0, 0, 190, 80);
     startButton.backgroundColor = [UIColor clearColor];
     startButton.tag = baseTag + 8;
     [startButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1190,7 +1227,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *dueButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    dueButton.frame = CGRectMake(190, 40, 190, 80);
+    dueButton.frame = CGRectMake(190, 0, 190, 80);
     dueButton.backgroundColor = [UIColor clearColor];
     dueButton.tag = baseTag + 9;
     [dueButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1478,7 +1515,8 @@ DetailViewController *_detailViewCtrler = nil;
     }
     else if (indexPath.row == 3) //start/due
     {
-        return [self.taskCopy isEvent]?120:80;
+        //return [self.taskCopy isEvent]?120:80;
+        return 80;
     }
     else if (indexPath.row == 7) //tag
     {
@@ -1521,6 +1559,7 @@ DetailViewController *_detailViewCtrler = nil;
     return 0.01f;
 }
 
+/*
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 3 && tableView == detailTableView)
@@ -1528,6 +1567,7 @@ DetailViewController *_detailViewCtrler = nil;
         cell.backgroundColor = [UIColor colorWithRed:223.0/255 green:223.0/255 blue:223.0/255 alpha:1];
     }
 }
+*/
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
@@ -1561,10 +1601,24 @@ DetailViewController *_detailViewCtrler = nil;
             [self createTitleCell:cell baseTag:10000];
             break;
         case 1:
-            [self createDurationCell:cell baseTag:10100];
+            if ([self.taskCopy isTask])
+            {
+                [self createDurationCell:cell baseTag:10100];
+            }
+            else
+            {
+                [self createProjectCell:cell baseTag:10100];
+            }
             break;
         case 2:
-            [self createProjectCell:cell baseTag:10200];
+            if ([self.taskCopy isTask])
+            {
+                [self createProjectCell:cell baseTag:10200];
+            }
+            else
+            {
+                [self createADECell:cell baseTag:10200];
+            }
             break;
         case 3:
             if ([self.taskCopy isTask])
@@ -1677,10 +1731,20 @@ DetailViewController *_detailViewCtrler = nil;
     switch (indexPath.row)
     {
         case 1:
-            [self editDuration];
+            if ([self.taskCopy isTask])
+            {
+                [self editDuration];
+            }
+            else
+            {
+                [self editProject];
+            }
             break;
         case 2:
-            [self editProject];
+            if ([self.taskCopy isTask])
+            {
+                [self editProject];
+            }
             break;
         case 4:
             if (showAll)

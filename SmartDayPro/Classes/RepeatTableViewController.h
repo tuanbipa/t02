@@ -17,7 +17,9 @@
 	NSInteger selectedIndex;
 	
     UIView *contentView;
-	UIView *doneBarView;
+    UIView *inputView;
+	//UIView *doneBarView;
+    
 	
 	UITextField *activeTextField;
 	UIButton *monthOptionButton;
@@ -31,5 +33,10 @@
 
 @property (nonatomic, assign) Task *task;
 @property (nonatomic, copy) RepeatData *repeatData;
+
+@property (nonatomic, retain) UIViewController *inputViewCtrler;
+
+- (void) changeUntil:(NSDate *) until;
+- (void) closeInputView;
 
 @end
