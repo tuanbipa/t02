@@ -553,8 +553,6 @@ iPadViewController *_iPadViewCtrler;
         
         self.detailNavCtrler = nil;
     }
-    
-    [self.activeViewCtrler deselect];
 }
 
 #pragma mark Notification

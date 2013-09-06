@@ -2204,6 +2204,12 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             [Common sortList:self.taskList byKey:@"completionTime" ascending:YES];
             break;
+        case TASK_FILTER_LONG:
+            [Common sortList:self.taskList byKey:@"duration" ascending:NO];
+            break;
+        case TASK_FILTER_SHORT:
+            [Common sortList:self.taskList byKey:@"duration" ascending:YES];
+            break;
     }
 }
 
@@ -3272,8 +3278,9 @@ TaskManager *_sctmSingleton = nil;
         BOOL becomeDue = (slTask.deadline == nil && task.deadline != nil && self.taskTypeFilter == TASK_FILTER_DUE) ||
         (slTask.startTime == nil && task.startTime != nil && self.taskTypeFilter == TASK_FILTER_ACTIVE);	
 
-        BOOL dueChange = (slTask.deadline != nil && task.deadline != nil && [slTask.deadline compare:task.deadline] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_DUE) ||
-        (slTask.startTime != nil && task.startTime != nil && [slTask.startTime compare:task.startTime] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_ACTIVE);
+        BOOL needSort = (slTask.deadline != nil && task.deadline != nil && [slTask.deadline compare:task.deadline] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_DUE) ||
+        (slTask.startTime != nil && task.startTime != nil && [slTask.startTime compare:task.startTime] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_ACTIVE)
+            || (slTask.duration != task.duration && (self.taskTypeFilter == TASK_FILTER_SHORT || self.taskTypeFilter == TASK_FILTER_LONG));
         
         BOOL mustDoLost = ([slTask checkMustDo] && ![task checkMustDo]);
         //BOOL becomeMustDo = (![slTask checkMustDo] && [task checkMustDo]);
@@ -3284,9 +3291,7 @@ TaskManager *_sctmSingleton = nil;
         
         BOOL becomeFuture = settings.hideFutureTasks && ([Common daysBetween:slTask.startTime sinceDate:[NSDate date]] <= 0 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1);
         
-        //reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || dueChange || mustDoLost || becomeMustDo || mustDoChange || projectStatusChange;
-        
-        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || dueChange || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture;
+        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || needSort || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture;
         
         if ([slTask isRE] && [task isNREvent])
         {
@@ -3415,7 +3420,7 @@ TaskManager *_sctmSingleton = nil;
                 //[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
             }
             
-            if (dueChange)
+            if (needSort)
             {
                 [self resort];
             }

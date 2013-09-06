@@ -704,6 +704,7 @@ extern iPadViewController *_iPadViewCtrler;
 }
 
 #pragma mark TextFieldDelegate
+/*
 - (void) saveAndMore:(id) sender
 {
 	NSString *text = [quickAddTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -720,7 +721,7 @@ extern iPadViewController *_iPadViewCtrler;
     quickAddTextField.text = @"";
     quickAddTextField.tag = -2;
 }
-
+*/
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     maskView.hidden = NO;
@@ -747,7 +748,16 @@ extern iPadViewController *_iPadViewCtrler;
         
         if (![text isEqualToString:@""])
         {
-            [_iPadViewCtrler.activeViewCtrler quickAddProject:text];
+            if ([[ProjectManager getInstance] checkExistingProjectName:text excludeProject:-1])
+            {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_categoryNameExistsText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+                [alertView show];
+                [alertView release];
+            }
+            else
+            {
+                [_iPadViewCtrler.activeViewCtrler quickAddProject:text];
+            }
         }
         
         quickAddTextField.tag = -1;

@@ -561,7 +561,7 @@ extern BOOL _isiPad;
 - (void) delete:(id)sender
 {
     [_iPadViewCtrler closeDetail];
-    [_abstractViewCtrler deleteCategory];
+    [_iPadViewCtrler.activeViewCtrler deleteCategory];
 }
 
 - (void) copy:(id)sender
