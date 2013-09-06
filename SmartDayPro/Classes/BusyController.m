@@ -38,6 +38,11 @@ BusyController *_busyCtrlerSingleton = nil;
     [_appDelegate showBusyIndicator:NO];
 }
 
+- (void) notifyAppBusy
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:busyFlag != 0?@"AppBusyNotification":@"AppNoBusyNotification" object:nil];
+}
+
 - (void)setBusy:(BOOL)isBusy withCode:(NSInteger) withCode
 {
 	////printf("setBusy %s with code:%d\n", isBusy?"YES":"NO", withCode);
@@ -53,19 +58,21 @@ BusyController *_busyCtrlerSingleton = nil;
 		
     [self showBusyIndicator];
     
-    //if (busyFlag != 0)
-    //if ([self checkSyncBusy])
+    /*
     if (busyFlag != 0)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AppBusyNotification" object:nil];
-        //[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"AppBusyNotification" waitUntilDone:NO];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"AppBusyNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"AppBusyNotification" waitUntilDone:NO];
     }
     else
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AppNoBusyNotification" object:nil];
-        //[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"AppNoBusyNotification" waitUntilDone:NO];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"AppNoBusyNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"AppNoBusyNotification" waitUntilDone:NO];
         
     }
+    */
+    
+    [self performSelectorOnMainThread:@selector(notifyAppBusy) withObject:nil waitUntilDone:NO];
 }
 
 - (void) showBusyIndicator

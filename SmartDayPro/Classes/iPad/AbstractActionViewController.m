@@ -50,6 +50,7 @@
 #import "TimerViewController.h"
 #import "MenuTableViewController.h"
 #import "SeekOrCreateViewController.h"
+#import "UnreadCommentViewController.h"
 
 #import "SDNavigationController.h"
 
@@ -63,6 +64,8 @@ extern BOOL _isiPad;
 BOOL _autoPushPending = NO;
 
 extern iPadViewController *_iPadViewCtrler;
+
+extern DetailViewController *_detailViewCtrler;
 
 @interface AbstractActionViewController ()
 
@@ -294,6 +297,18 @@ extern iPadViewController *_iPadViewCtrler;
     return nil;    
 }
 
+- (PageAbstractViewController *)getModuleAtIndex:(NSInteger)index
+{
+    PageAbstractViewController *ctrlers[4] = {
+        [self getCalendarViewController],
+        [self getSmartListViewController],
+        [self getNoteViewController],
+        [self getCategoryViewController]
+    };
+
+    return ctrlers[index];
+}
+
 - (BOOL) checkControllerActive:(NSInteger)index
 {
     //0:Calendar, 1:Tasks, 2:Notes, 3:Projects
@@ -449,6 +464,8 @@ extern iPadViewController *_iPadViewCtrler;
     DBManager *dbm = [DBManager getInstance];
     Settings *settings = [Settings getInstance];
     
+    [self deselect];
+    
     [settings refreshTimeZone];
     
     [pm initProjectList:[dbm getProjects]];
@@ -515,6 +532,21 @@ extern iPadViewController *_iPadViewCtrler;
     
     
     CGRect frm = CGRectMake(100-contentView.frame.origin.x, 0, 20, 10);
+    
+    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) showUnreadComments
+{
+    [self hidePopover];
+    
+    UnreadCommentViewController *ctrler = [[UnreadCommentViewController alloc] init];
+    
+    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    
+    [ctrler release];
+    
+    CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
@@ -642,19 +674,6 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (showAction)
     {
-        /*
-        UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
-        
-        if (enable)
-        {
-            [self performSelector:@selector(showActionMenu:) withObject:view afterDelay:0];
-        }
-        else
-        {
-            [menuCtrler setMenuVisible:NO animated:YES];
-        }
-        */
-        
         activeView = enable?view:nil;
         
         if (activeView != nil)
@@ -694,25 +713,12 @@ extern iPadViewController *_iPadViewCtrler;
         return;
     }
     
-    if (activeView != nil)
-    {
-        [activeView doSelect:NO];
-    }
+    BOOL showAction = activeView != view;
     
-    if (activeView != view)
+    [self deselect];
+    
+    if (showAction)
     {
-        /*
-        UIMenuController *menuCtrler = [UIMenuController sharedMenuController];
-        
-        if (enable)
-        {
-            [self performSelector:@selector(showProjectActionMenu:) withObject:view afterDelay:0];
-        }
-        else
-        {
-            [menuCtrler setMenuVisible:NO animated:YES];
-        }*/
-        
         activeView = enable?view:nil;
         
         if (activeView != nil)
@@ -1309,7 +1315,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     [self reconcileItem:task reSchedule:reSchedule];
         
-    [self deselect];
+    //[self deselect];
 }
 
 - (void) convertRE2Task:(NSInteger)option
@@ -1858,7 +1864,12 @@ extern iPadViewController *_iPadViewCtrler;
         {
             [ctrler loadAndShowList];
         }
-    }    
+    }
+    
+    if (_iPadViewCtrler.inSlidingMode && _detailViewCtrler != nil && _detailViewCtrler.task.primaryKey == task.primaryKey)
+    {
+        _detailViewCtrler.taskCopy.status = task.status;
+    }
 }
 
 - (void) convertRE2Task:(NSInteger)option task:(Task *)task
@@ -2065,7 +2076,7 @@ extern iPadViewController *_iPadViewCtrler;
             case DO_ANYTIME:
             {
                 task.startTime = [settings getWorkingStartTimeForDate:[NSDate date]];
-                task.deadline = nil;
+                //task.deadline = nil;
             }
                 break;
         }

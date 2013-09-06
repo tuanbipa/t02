@@ -117,6 +117,9 @@ NSInteger _sdwColor[32] = {
                           nil];
     
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"SDWSyncCompleteNotification" object:nil userInfo:dict];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CommentUpdateNotification" object:nil];
+    
 }
 
 - (void) syncComplete
@@ -4293,6 +4296,7 @@ NSInteger _sdwColor[32] = {
     comment.createTime = sdwComment.createTime;
     
     comment.updateTime = sdwComment.updateTime;
+    comment.status = COMMENT_STATUS_NONE;
     
 	if (comment.primaryKey > -1)
 	{
@@ -4303,6 +4307,7 @@ NSInteger _sdwColor[32] = {
 - (void) syncComments
 {
     DBManager *dbm = [DBManager getInstance];
+    Settings *settings = [Settings getInstance];
     
     NSString *url = [NSString stringWithFormat:@"%@/api/conversations.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
@@ -4385,6 +4390,11 @@ NSInteger _sdwColor[32] = {
                 [self updateComment:comment withSDWComment:sdwComment];
                 
                 //printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
+                
+                if (settings.sdwLastSyncTime != nil)
+                {
+                    comment.status = COMMENT_STATUS_UNREAD;
+                }
                 
                 if (comment.itemKey != -1)
                 {

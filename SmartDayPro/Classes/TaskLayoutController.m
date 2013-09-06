@@ -17,10 +17,12 @@
 
 #import "TaskMovableController.h"
 
-#import "AbstractSDViewController.h"
+//#import "AbstractSDViewController.h"
 #import "SmartListViewController.h"
+#import "iPadViewController.h"
 
-extern AbstractSDViewController *_abstractViewCtrler;
+//extern AbstractSDViewController *_abstractViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation TaskLayoutController
 
@@ -180,6 +182,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         dayStr = [NSString stringWithFormat:@"%@ - %@", _tomorrowText, weekdays[wkday-1]];
     }
+    else if ([Common daysBetween:key sinceDate:[Common dateByAddNumDay:7 toDate:[NSDate date]]] == 0)
+    {
+        NSDate *dt = [Common dateByAddNumDay:6 toDate:[NSDate date]];
+                      
+        dayStr = [NSString stringWithFormat:@"%@ %@", _AfterText, [Common getDayLineString:dt]];
+    }
     
     return dayStr;
 }
@@ -263,6 +271,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         task.listSource = SOURCE_SMARTLIST;
         taskView.task = task;
         taskView.starEnable = (task.status != TASK_STATUS_DONE && ![task isShared]);
+        taskView.checkEnable = !_iPadViewCtrler.inSlidingMode;
         taskView.showDue = (tm.taskTypeFilter == TASK_FILTER_DUE);
         taskView.showFlag = (tm.taskTypeFilter == TASK_FILTER_TOP);
         taskView.showDuration = (tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT);

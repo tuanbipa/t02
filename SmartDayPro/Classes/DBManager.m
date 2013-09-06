@@ -20,6 +20,7 @@
 #import "AlertData.h"
 #import "URLAsset.h"
 #import "Comment.h"
+#import "UnreadComment.h"
 
 extern BOOL _versionUpgrade;
 extern BOOL _firstLaunch;
@@ -3485,6 +3486,77 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_finalize(statement);
 	
 	return count;
+}
+
+- (void) updateCommentStatus:(NSInteger)status forItem:(NSInteger)itemId
+{
+    sqlite3_stmt *statement;
+    
+    static char *sql = "UPDATE CommentTable SET Comment_Status=? WHERE Comment_ItemID=?";
+    
+    if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+    {
+        NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_bind_int(statement, 1, status);
+    sqlite3_bind_int(statement, 2, itemId);
+    
+    if (sqlite3_step(statement) == SQLITE_ERROR)
+    {
+        NSAssert1(0, @"Error: failed to update into the database with message '%s'.", sqlite3_errmsg(database));
+    }
+    
+    sqlite3_finalize(statement);
+    
+}
+
+- (NSInteger) countUnreadComments
+{
+	NSInteger count = 0;
+    
+	const char *sql = "SELECT Count(Comment_ID) FROM CommentTable WHERE Comment_Status = ?";
+    
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, COMMENT_STATUS_UNREAD);
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			// The second parameter indicates the column index into the result set.
+			count += sqlite3_column_int(statement, 0);
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return count;
+}
+
+- (NSMutableArray *) getUnreadComments
+{
+	NSMutableArray *list = [NSMutableArray arrayWithCapacity:200];
+	
+	const char *sql = "SELECT Count(Comment_ID), Comment_ItemID, Comment_Type  FROM CommentTable WHERE Comment_Status = ? GROUP BY Comment_ItemID, Comment_Type";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, COMMENT_STATUS_UNREAD);
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+            UnreadComment *comment = [[UnreadComment alloc] init];
+            
+            comment.count = sqlite3_column_int(statement, 0);
+            comment.itemKey = sqlite3_column_int(statement, 1);
+            comment.itemType = sqlite3_column_int(statement, 2);
+            
+			[list addObject:comment];
+			[comment release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return list;
 }
 
 - (NSMutableArray *) getAllURLAssets

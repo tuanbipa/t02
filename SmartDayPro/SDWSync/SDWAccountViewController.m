@@ -69,6 +69,8 @@ extern BOOL _isiPad;
 	
 	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+10, frm.size.width-20, 25)];
 	emailLabel.backgroundColor = [UIColor clearColor];
+    emailLabel.textColor = [UIColor grayColor];
+    emailLabel.font = [UIFont systemFontOfSize:16];
 	emailLabel.text = _emailText;
 	
 	[mainView addSubview:emailLabel];
@@ -88,6 +90,8 @@ extern BOOL _isiPad;
 	
 	UILabel *pwdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+75, frm.size.width-20, 25)];
 	pwdLabel.backgroundColor = [UIColor clearColor];
+    pwdLabel.textColor = [UIColor grayColor];
+    pwdLabel.font = [UIFont systemFontOfSize:16];
 	pwdLabel.text = _passwordText;
 	
 	[mainView addSubview:pwdLabel];
@@ -226,8 +230,8 @@ extern BOOL _isiPad;
     self.setting.sdwVerified = (errorCode == 0);
     
     NSString *msg = (errorCode == -1004?_wifiConnectionOffText:(errorCode == 0?_sdwAccountValidText:_sdwAccountInvalidText));
-        
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_checkValidityText message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorCode == -1004? _checkValidityText:(errorCode == 0?_verifiedTitleText:_invalidAccountText) message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
     [alert show];
     [alert release];    
 }

@@ -295,6 +295,7 @@
 "_foreverText" = "Forever";
 "_onDateText" = "On Date";
 "_afterText" = "after";
+"_AfterText" = "After";
 "_timesText" = "times";
 "_repeatFromDueText" = "Repeat From Due";
 "_repeatFromCompletionText" = "Repeat From Completion";
@@ -365,6 +366,8 @@
 "_passwordText" = "Password";
 "_checkValidityText" = "Check Validity";
 "_accountValidText" = "Toodledo account is valid";
+"_invalidAccountText" = "Invalid Account";
+"_verifiedTitleText" = "Verified!";
 "_accountInvalidText" = "Toodledo acccount is invalid. Please specify another one.";
 "_errorText" = "Error";
 "_syncErrorText" = "Sync Error";
@@ -490,8 +493,9 @@
 "_mySDAccountText" = "mySmartDay Account";
 "_signupText" = "Sign Up";
 "_sdwSyncingText" = "mySmartDay.com Sync'ing ...";
-"_sdwAccountValidText" = "Verified! Your mySmartDay account is valid.";
-"_sdwAccountInvalidText" = "Your account with mySmartDay.com appears to be invalid. Please check your user name and password. If you cannot remember your password, you can recover it by loging in to mySmartDay.com from any computer browser.";
+//"_sdwAccountValidText" = "Verified! Your mySmartDay account is valid.";
+"_sdwAccountValidText" = "Your SmartDay account is valid.  You can now perform two-way sync with mySmartDay.com. You can also perform one-way sync by selecting 'Data Recovery' from the menu on the left.";
+"_sdwAccountInvalidText" = "Your account with mySmartDay.com appears to be invalid. Please check your user name and password. If you cannot remember your password, you can recover it by logging in to mySmartDay.com from any computer browser.";
 //"_sdwSignupSuccessText" = "Your account has been successfully registered to mySmartDay, please check the email to activate the account";
 "_sdwSignupSuccessText" = "Congratulations!\nPlease check your email to activate your account. If you do not receive an email within 1 hour, please contact support@leftcoastlogic.com.";
 "_sdwSignupFailedText" = "Account registration is failed.";

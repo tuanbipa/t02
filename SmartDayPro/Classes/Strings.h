@@ -298,6 +298,7 @@
 #define _foreverText NSLocalizedString(@"_foreverText" , @"Forever")
 #define _onDateText NSLocalizedString(@"_onDateText" , @"On Date")
 #define _afterText NSLocalizedString(@"_afterText" , @"after")
+#define _AfterText NSLocalizedString(@"_AfterText" , @"")
 #define _timesText NSLocalizedString(@"_timesText" , @"times")
 #define _repeatFromDueText NSLocalizedString(@"_repeatFromDueText" , @"Repeat From Due")
 #define _repeatFromCompletionText NSLocalizedString(@"_repeatFromCompletionText" , @"Repeat From Completion")
@@ -370,6 +371,9 @@
 #define _checkValidityText NSLocalizedString(@"_checkValidityText" , "")
 #define _accountValidText NSLocalizedString(@"_accountValidText" , "")
 #define _accountInvalidText NSLocalizedString(@"_accountInvalidText" , "")
+#define _invalidAccountText NSLocalizedString(@"_invalidAccountText" , "")
+#define _verifiedTitleText NSLocalizedString(@"_verifiedTitleText" , "")
+
 #define _errorText NSLocalizedString(@"_errorText" , "")
 #define _syncErrorText NSLocalizedString(@"_syncErrorText" , "")
 #define _noInternetConnectionText NSLocalizedString(@"_noInternetConnectionText" , "")

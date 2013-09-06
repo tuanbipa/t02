@@ -586,6 +586,8 @@ BOOL _fromBackground = NO;
 
 	}
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CommentUpdateNotification" object:nil];
+    
 	//////NSLog(@"did become active");
 	
     // geo-fencing
@@ -723,7 +725,7 @@ BOOL _fromBackground = NO;
         }
     }
     
-    application.applicationIconBadgeNumber = 0;
+    //application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application

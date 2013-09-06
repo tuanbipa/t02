@@ -27,6 +27,7 @@
 - (void) deselect;
 - (Task *) getSelectedTask;
 - (Project *) getSelectedCategory;
+- (void) enableMultiEdit:(BOOL)enabled;
 
 - (void) changeFrame:(CGRect)frm;
 - (void) loadAndShowList;

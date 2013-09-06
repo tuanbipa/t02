@@ -131,6 +131,9 @@
 - (NSMutableArray *) getAllComments;
 - (NSInteger) countCommentsForItem:(NSInteger) itemId;
 - (NSMutableArray *) getComments4Item:(NSInteger)itemId;
+- (void) updateCommentStatus:(NSInteger)status forItem:(NSInteger)itemId;
+- (NSInteger) countUnreadComments;
+- (NSMutableArray *) getUnreadComments;
 - (NSMutableArray *) getAllURLAssets;
 - (NSMutableArray *) getDeletedURLAssets;
 - (NSMutableArray *) getItems2Sync;

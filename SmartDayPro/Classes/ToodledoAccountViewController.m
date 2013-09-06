@@ -71,6 +71,9 @@ extern BOOL _isiPad;
 	
 	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+10, frm.size.width-20, 25)];
 	emailLabel.backgroundColor = [UIColor clearColor];
+    emailLabel.textColor = [UIColor grayColor];
+    emailLabel.font = [UIFont systemFontOfSize:16];
+
 	emailLabel.text = _emailText;
 	
 	[mainView addSubview:emailLabel];
@@ -91,6 +94,9 @@ extern BOOL _isiPad;
 	
 	UILabel *pwdLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, marginY+75, frm.size.width-20, 25)];
 	pwdLabel.backgroundColor = [UIColor clearColor];
+    pwdLabel.textColor = [UIColor grayColor];
+    pwdLabel.font = [UIFont systemFontOfSize:16];
+
 	pwdLabel.text = _passwordText;
 	
 	[mainView addSubview:pwdLabel];

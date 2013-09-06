@@ -561,7 +561,7 @@ extern BOOL _isiPad;
 - (void) delete:(id)sender
 {
     [_iPadViewCtrler closeDetail];
-    [_abstractViewCtrler deleteCategory];
+    [_iPadViewCtrler.activeViewCtrler deleteCategory];
 }
 
 - (void) copy:(id)sender
@@ -685,7 +685,8 @@ extern BOOL _isiPad;
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
-            [ctrler refreshView];
+            //[ctrler refreshView];
+            [ctrler setNeedsDisplay];
             
             CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
             
@@ -696,12 +697,13 @@ extern BOOL _isiPad;
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
-            [ctrler refreshView];
+            //[ctrler refreshView];
+            [ctrler setNeedsDisplay];
         }
 
     }
     
-    [_abstractViewCtrler hidePopover];
+    //[_abstractViewCtrler hidePopover];
     
     if (_isiPad)
     {
@@ -809,10 +811,10 @@ extern BOOL _isiPad;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	if (textField.tag == 10000)
+	/*if (textField.tag == 10000)
 	{
 		[self performSelector:@selector(scroll) withObject:nil afterDelay:.1]; 
-	}
+	}*/
 }
 
 - (void) textFieldDidChange:(id)sender

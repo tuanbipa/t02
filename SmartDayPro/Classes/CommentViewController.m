@@ -133,6 +133,16 @@ extern BOOL _isiPad;
         
         y += h + 10;
     }
+
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0ul);
+    
+    dispatch_async(backgroundQueue, ^{
+        [dbm updateCommentStatus:COMMENT_STATUS_NONE forItem:self.itemId];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"CommentUpdateNotification" object:nil];
+        
+    });
+    
 }
 
 - (void) loadView

@@ -81,7 +81,7 @@ SmartListViewController *_smartListViewCtrler;
 
 //@synthesize smartListLayoutController;
 @synthesize layoutController;
-@synthesize quickAddPlaceHolder;
+//@synthesize quickAddPlaceHolder;
 
 @synthesize quickAddOption;
 @synthesize quickAddOptionToolbar;
@@ -152,7 +152,7 @@ SmartListViewController *_smartListViewCtrler;
 	
 	[hintView release];
     
-    self.quickAddPlaceHolder = nil;
+    //self.quickAddPlaceHolder = nil;
 	
     [super dealloc];
 }
@@ -688,9 +688,11 @@ SmartListViewController *_smartListViewCtrler;
                 
                 if (tmp.primaryKey == taskKey)
                 {
+                    /*
                     [taskView setNeedsDisplay];
                     [taskView refreshStarImage];
-                    [taskView refreshCheckImage];
+                    [taskView refreshCheckImage];*/
+                    [taskView refresh];
                     
                     break;
                 }
@@ -822,7 +824,30 @@ SmartListViewController *_smartListViewCtrler;
     Settings *settings = [Settings getInstance];
     ProjectManager *pm = [ProjectManager getInstance];
     
-	self.quickAddPlaceHolder.backgroundColor = [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.2];
+	quickAddPlaceHolder.backgroundColor = [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.2];
+}
+
+- (void) enableMultiEdit:(BOOL)enabled
+{
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=0; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if (taskView != nil)
+            {
+                taskView.checkEnable = enabled;
+                [taskView refresh];
+            }
+        }
+    }
 }
 
 
@@ -1388,7 +1413,7 @@ SmartListViewController *_smartListViewCtrler;
         
 		[[Settings getInstance] changeFilterTab:filterType];
         
-        [self hideQuickAdd];
+        //[self hideQuickAdd];
 	}
 	
 	if (filterType == TASK_FILTER_STAR || filterType == TASK_FILTER_TOP)
@@ -3199,13 +3224,14 @@ SmartListViewController *_smartListViewCtrler;
 	//smartListLayoutController.viewContainer = smartListView;
     layoutController.listTableView = smartListView;
 	
-    self.quickAddPlaceHolder = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)] autorelease];
-
-    self.quickAddPlaceHolder.tag = -30000;
-	//[smartListView addSubview:quickAddPlaceHolder];
-	//[quickAddPlaceHolder release];
+    //self.quickAddPlaceHolder = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)] autorelease];
     
-    [contentView addSubview:self.quickAddPlaceHolder];
+    quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)];
+
+    quickAddPlaceHolder.tag = -30000;
+    
+    [contentView addSubview:quickAddPlaceHolder];
+    [quickAddPlaceHolder release];
     
     [self refreshQuickAddColor];
     
@@ -3221,7 +3247,8 @@ SmartListViewController *_smartListViewCtrler;
     quickAddTextField.backgroundColor = [UIColor clearColor];
     //[quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
 	
-	[self.quickAddPlaceHolder addSubview:quickAddTextField];
+	//[self.quickAddPlaceHolder addSubview:quickAddTextField];
+    [quickAddPlaceHolder addSubview:quickAddTextField];
 	[quickAddTextField release];
 	
 	/*UIButton *moreButton = [Common createButton:@""

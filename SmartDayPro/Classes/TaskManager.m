@@ -1194,11 +1194,14 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) notifyFastScheduleCompletion
 {
-    //[self cleanupGarbage];
-    
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
     
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"CalendarDayReadyNotification" object:nil];
+    if (filterChanged)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChangeNotification" object:nil];
+    }
+    
+    filterChanged = NO;
 }
 
 - (void) wait4SortComplete
@@ -1229,27 +1232,9 @@ TaskManager *_sctmSingleton = nil;
 -(NSInteger) scheduleBackground:(NSInteger)scheduledIndex segments:(NSMutableArray *)segments
 {
 	NSLog(@"begin schedule with index:%d", scheduledIndex);
-	
-	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    
-    //NSLog(@"before wait ....\n");
-	
-	//[self wait4SortComplete];
-
-    //NSLog(@"end wait ....\n");
     
     NSMutableArray *list = [self getDisplayList];  
-    
-	//NSMutableArray *segments = [NSMutableArray arrayWithCapacity:20];
-	
-	//NSDate *startDate = [Common dateByAddNumDay:2 toDate:[NSDate date]];
-	
-	//NSInteger scheduledIndex = [scheduledIndexNum intValue];
-	
-	//[self findFreeTimeSlotsFromDate:startDate inDays:4 segments:segments];
-	
-    //NSDate *lastScheduleDate = (scheduledIndex-1>=0?[[self.taskList objectAtIndex:scheduledIndex-1] smartTime]:nil);
-    
+
     NSDate *lastScheduleDate = (scheduledIndex-1>=0?[[list objectAtIndex:scheduledIndex-1] smartTime]:nil);
     
     NSInteger index = scheduledIndex;
@@ -1290,11 +1275,6 @@ TaskManager *_sctmSingleton = nil;
             
             if (index == MAX_FAST_SCHEDULE_TASKS)
             {
-                NSLog(@"notify fast schedule finished");
-
-                //[self notifyFastScheduleCompletion];
-                [self performSelectorOnMainThread:@selector(notifyFastScheduleCompletion) withObject:nil waitUntilDone:NO];
-                
                 break;
             }
             
@@ -1304,6 +1284,29 @@ TaskManager *_sctmSingleton = nil;
             //}
         }
 	}
+
+    if (index == MAX_FAST_SCHEDULE_TASKS || list.count < MAX_FAST_SCHEDULE_TASKS)
+    {
+        NSLog(@"notify fast schedule finished");
+        
+        if (refreshGTD)
+        {
+            [self refreshTopTasks];
+        }
+        
+        //[self notifyFastScheduleCompletion];
+        [self performSelectorOnMainThread:@selector(notifyFastScheduleCompletion) withObject:nil waitUntilDone:NO];
+    }
+    else if (index == list.count)
+    {
+        if (refreshGTD)
+        {
+            [self refreshTopTasks];
+        }
+        
+        [self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
+            
+    }
     
     if (scheduledIndex > 0)
     {
@@ -1318,14 +1321,7 @@ TaskManager *_sctmSingleton = nil;
         
         [[BusyController getInstance] setBusy:NO withCode:BUSY_TASK_SCHEDULE];
     }
-
-	if (index == list.count && refreshGTD)
-	{
-		[self refreshTopTasks];
-        
-        [self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
-    	
-	}
+    
 
     NSLog(@"end schedule");
     
@@ -1338,12 +1334,7 @@ TaskManager *_sctmSingleton = nil;
 	if ((self.mustDoTaskList.count == 0 && self.taskList.count == 0) || self.taskTypeFilter == TASK_FILTER_DONE)
 	{
 		self.scheduledTaskList = [NSMutableArray arrayWithCapacity:0];
-        
-		//[[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
-		
-		//[self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
-        
-        [self notifyScheduleCompletion];
+        [self notifyFastScheduleCompletion];
         
 		return;
 	}
@@ -1354,101 +1345,12 @@ TaskManager *_sctmSingleton = nil;
     
     NSMutableArray *list = [self getDisplayList];
     
-	//@synchronized(self)
-	//{
-        self.scheduledTaskList = [NSMutableArray arrayWithCapacity:list.count];
-        
-        NSMutableArray *segments = [NSMutableArray arrayWithCapacity:20];
-        
-        //[self findFreeTimeSlotsFromDate:[NSDate date] inDays:1 segments:segments];
-        [self findFreeTimeSlotsFromDate:[NSDate date] inDays:6 segments:segments];
-/*
-        NSDate *lastScheduleDate = nil;
-        
-        NSInteger count = 0;
-        
-        for (Task *task in list)
-        {
-            //printf("task %s - start: %s\n", [task.name UTF8String], [[task.startTime description] UTF8String]);
+    self.scheduledTaskList = [NSMutableArray arrayWithCapacity:list.count];
+    
+    NSMutableArray *segments = [NSMutableArray arrayWithCapacity:20];
+    
+    [self findFreeTimeSlotsFromDate:[NSDate date] inDays:6 segments:segments];
 
-            task.smartTime = nil;
-            
-            if (segments.count == 0)
-            {
-                task.smartTime = (lastScheduleDate == nil? [NSDate date]:[Common dateByAddNumDay:1 toDate:lastScheduleDate]);
-                
-                //break;
-                
-                ////printf("Assign 1 %s - smart time: %s - last schedule: %s\n", [task.name UTF8String], [[task.smartTime description] UTF8String], [[lastScheduleDate description] UTF8String]);
-                
-            }
-            else if (task.duration == 0)
-            {
-                task.smartTime = (lastScheduleDate == nil? [NSDate date]:lastScheduleDate);
-                
-                ////printf("Assign 2 %s - smart time: %s - last schedule: %s\n", [task.name UTF8String], [[task.smartTime description] UTF8String], [[lastScheduleDate description] UTF8String]);
-                
-                scheduledIndex++;
-                
-                ////printf("task %s with duration 0: smart - %s\n", [task.name UTF8String], [[task.smartTime description] UTF8String]);
-            }
-            else 
-            {
-                [self assignTimeForTask:task durationLeft:task.duration segments:segments list:self.scheduledTaskList];
-                
-                if (task.smartTime == nil)
-                {
-                    task.smartTime = lastScheduleDate;
-                }
-                
-                lastScheduleDate = task.smartTime;
-                scheduledIndex++;
-                
-                ////printf("Assign 3 %s - smart time: %s - last schedule: %s\n", [task.name UTF8String], [[task.smartTime description] UTF8String], [[lastScheduleDate description] UTF8String]);
-                
-            }
-            
-            count ++;
-            
-            if (count == MAX_FAST_SCHEDULE_TASKS)
-            {
-                break;
-            }
-        }
-	//}
-    
-    if (count == MAX_FAST_SCHEDULE_TASKS)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"FastScheduleFinishedNotification" object:nil];
-        
-    }
-	
-	if (scheduledIndex < list.count && segments.count > 0)
-	{
-		scheduleBGInProgress = YES;
-		
-		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SCHEDULE];
-        
-		//[self performSelectorInBackground:@selector(scheduleBackground:) withObject:[NSNumber numberWithInteger:scheduledIndex]];
-        
-        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-        
-        dispatch_async(backgroundQueue, ^{
-            [self scheduleBackground:[NSNumber numberWithInteger:scheduledIndex] segments:segments];
-        });
-	}
-	else
-	{
-		if (refreshGTD)
-		{
-			[self refreshTopTasks];
-		}
-        
-		[self performSelectorOnMainThread:@selector(notifyScheduleCompletion) withObject:nil waitUntilDone:NO];
-	}	
- 
-*/
-    
     scheduledIndex = [self scheduleBackground:0 segments:segments];
     
     if (scheduledIndex < list.count)
@@ -2301,6 +2203,12 @@ TaskManager *_sctmSingleton = nil;
             break;
         case TASK_FILTER_DONE:
             [Common sortList:self.taskList byKey:@"completionTime" ascending:YES];
+            break;
+        case TASK_FILTER_LONG:
+            [Common sortList:self.taskList byKey:@"duration" ascending:NO];
+            break;
+        case TASK_FILTER_SHORT:
+            [Common sortList:self.taskList byKey:@"duration" ascending:YES];
             break;
     }
 }
@@ -3370,8 +3278,9 @@ TaskManager *_sctmSingleton = nil;
         BOOL becomeDue = (slTask.deadline == nil && task.deadline != nil && self.taskTypeFilter == TASK_FILTER_DUE) ||
         (slTask.startTime == nil && task.startTime != nil && self.taskTypeFilter == TASK_FILTER_ACTIVE);	
 
-        BOOL dueChange = (slTask.deadline != nil && task.deadline != nil && [slTask.deadline compare:task.deadline] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_DUE) ||
-        (slTask.startTime != nil && task.startTime != nil && [slTask.startTime compare:task.startTime] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_ACTIVE);
+        BOOL needSort = (slTask.deadline != nil && task.deadline != nil && [slTask.deadline compare:task.deadline] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_DUE) ||
+        (slTask.startTime != nil && task.startTime != nil && [slTask.startTime compare:task.startTime] != NSOrderedSame && self.taskTypeFilter == TASK_FILTER_ACTIVE)
+            || (slTask.duration != task.duration && (self.taskTypeFilter == TASK_FILTER_SHORT || self.taskTypeFilter == TASK_FILTER_LONG));
         
         BOOL mustDoLost = ([slTask checkMustDo] && ![task checkMustDo]);
         //BOOL becomeMustDo = (![slTask checkMustDo] && [task checkMustDo]);
@@ -3382,9 +3291,7 @@ TaskManager *_sctmSingleton = nil;
         
         BOOL becomeFuture = settings.hideFutureTasks && ([Common daysBetween:slTask.startTime sinceDate:[NSDate date]] <= 0 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1);
         
-        //reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || dueChange || mustDoLost || becomeMustDo || mustDoChange || projectStatusChange;
-        
-        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || dueChange || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture;
+        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || needSort || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture;
         
         if ([slTask isRE] && [task isNREvent])
         {
@@ -3513,7 +3420,7 @@ TaskManager *_sctmSingleton = nil;
                 //[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskListReadyNotification" object:nil];
             }
             
-            if (dueChange)
+            if (needSort)
             {
                 [self resort];
             }
@@ -5289,18 +5196,28 @@ TaskManager *_sctmSingleton = nil;
             {
                 NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:(settings.weekStart == 1)];
                 
+                dt = [Common getFirstWeekDate:dt mondayAsWeekStart:YES];
+                
+                slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+                dt = [Common dateByAddNumDay:4 toDate:dt];
+                
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                
+                /*
                 slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
                 
                 dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart == 1)];
                 
                 slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                */
                 
             }
                 break;
                 
             case 2:
             {
-                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:1];
+                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:2];
                 
                 slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
                 
@@ -5544,6 +5461,8 @@ TaskManager *_sctmSingleton = nil;
 
 - (void) filterForTaskType:(NSInteger) type
 {
+    filterChanged = (self.taskTypeFilter != type);
+    
 	self.taskTypeFilter = type;
 	
 	//[self initSmartListData];

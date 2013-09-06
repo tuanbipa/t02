@@ -76,7 +76,7 @@
 
 //@property (nonatomic, readonly) SmartListLayoutController *smartListLayoutController;
 @property (nonatomic, readonly) TaskLayoutController *layoutController;
-@property (nonatomic, retain) UIView *quickAddPlaceHolder;
+//@property (nonatomic, retain) UIView *quickAddPlaceHolder;
 
 //Quick Add
 @property NSInteger quickAddOption;
@@ -95,6 +95,7 @@
 - (void) backToSingleSelectMode;
 - (void) refreshSmartList:(BOOL) needSchedule;
 -(void)setNeedsDisplay;
+- (void) enableMultiEdit:(BOOL)enabled;
 
 - (void) starTaskInView:(TaskView *)taskView;
 - (void) pinTaskInView:(TaskView *)taskView;

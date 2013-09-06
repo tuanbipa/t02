@@ -333,7 +333,8 @@ extern iPadViewController *_iPadViewCtrler;
     CGFloat lineHeight = [noteTextView.font lineHeight];
     
     //iOS7
-    return CGRectMake(0, lineIdx*lineHeight+2, 34, 34);
+    //return CGRectMake(0, lineIdx*lineHeight+2, 34, 34);
+    return CGRectMake(0, lineIdx*lineHeight+2, 35, 35);
 }
 
 - (void) createCheckButtons:(NSString *)text

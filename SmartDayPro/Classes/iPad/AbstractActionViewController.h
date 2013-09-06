@@ -13,6 +13,7 @@
 @class MovableView;
 @class ContentView;
 @class TaskView;
+@class PlanView;
 @class AbstractMonthCalendarView;
 @class FocusView;
 @class MiniMonthView;
@@ -59,6 +60,7 @@
 
 - (MovableView *) getActiveView4Item:(NSObject *)item;
 - (PageAbstractViewController *)getActiveModule;
+- (PageAbstractViewController *)getModuleAtIndex:(NSInteger)index;
 
 - (void) updateTask:(Task *)task withTask:(Task *)taskCopy;
 - (void) markDoneTask:(Task *)task;
@@ -69,7 +71,7 @@
 - (void) convert2Task:(Task *)task;
 - (void) changeTime:(Task *)task time:(NSDate *)time;
 - (void) changeTask:(Task *)task toProject:(NSInteger)prjKey;
-- (void)quickAddEvent:(NSString *)name startTime:(NSDate *)startTime;
+- (void) quickAddEvent:(NSString *)name startTime:(NSDate *)startTime;
 - (void) quickAddItem:(NSString *)name type:(NSInteger)type defer:(NSInteger)defer;
 - (void) quickAddProject:(NSString *)name;
 - (void) createTaskFromNote:(Task *)fromNote;
@@ -78,6 +80,7 @@
 - (void) editItem:(Task *)task inRect:(CGRect)inRect;
 - (void) editItem:(Task *)item inView:(TaskView *)inView;
 
+- (void) editProject:(Project *)project inView:(PlanView *)inView;
 - (void) editProject:(Project *)project inRect:(CGRect)inRect;
 
 - (void) hidePopover;
@@ -102,6 +105,7 @@
 - (void) share2AirDrop;
 
 - (void) showCategory;
+- (void) showUnreadComments;
 - (void) showTag;
 - (void) showTimer;
 - (void) showSettingMenu;

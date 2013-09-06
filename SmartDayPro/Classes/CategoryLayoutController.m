@@ -18,9 +18,11 @@
 #import "PlanView.h"
 
 #import "CategoryViewController.h"
-#import "AbstractSDViewController.h"
+//#import "AbstractSDViewController.h"
+#import "iPadViewController.h"
 
-extern AbstractSDViewController *_abstractViewCtrler;
+//extern AbstractSDViewController *_abstractViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation CategoryLayoutController
 
@@ -44,7 +46,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     MovableView *ret = nil;
     
-    CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+    //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+    CategoryViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCategoryViewController];
     
     BOOL isPlan = [obj isKindOfClass:[Project class]];
     
@@ -86,6 +89,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         taskView.task = obj;
         taskView.listStyle = YES;
         taskView.starEnable = ([task isTask] && task.status != TASK_STATUS_DONE && ![task isShared]);
+        taskView.checkEnable = !_iPadViewCtrler.inSlidingMode;
         
         [taskView refreshStarImage];
         [taskView refreshCheckImage];
@@ -100,7 +104,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (NSMutableArray *) getObjectList
 {
-    CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+    //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+    CategoryViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCategoryViewController];
     
     return ctrler.list;
 }

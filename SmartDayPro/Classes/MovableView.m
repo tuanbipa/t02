@@ -237,6 +237,7 @@
     
 	touchTime = [[NSDate date] retain];
 	
+/*
 	UITouch *touch = [touches anyObject];
 	
 	NSUInteger tapCount = [touch tapCount];
@@ -253,7 +254,8 @@
 
 		default:
 			break;
-	}			
+	}	
+*/
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -273,7 +275,8 @@
     
     NSTimeInterval diff = [touchTime timeIntervalSinceNow]*(-1);
     
-    if (diff > .05 && [self checkMovable:touches])
+    //if (diff > .7 && [self checkMovable:touches])
+    if (diff > .4 && [self checkMovable:touches])
     {
         if (self.movableController != nil)
         {
@@ -306,6 +309,26 @@
 				[self touchAndHold];
 			}
 		}
+        else
+        {
+            UITouch *touch = [touches anyObject];
+            
+            NSUInteger tapCount = [touch tapCount];
+            
+            switch (tapCount) {
+                case 0:
+                case 1:
+                    [self performSelector:@selector(singleTouch) withObject:nil afterDelay:.4];
+                    break;
+                case 2:
+                    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTouch) object:nil];
+                    [self doubleTouch];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
 	}
 
 	[touchTime release];

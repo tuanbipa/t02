@@ -15,9 +15,11 @@
 
 #import "DetailViewController.h"
 #import "NoteDetailViewController.h"
+#import "RepeatTableViewController.h"
 
 extern DetailViewController *_detailViewCtrler;
 extern NoteDetailViewController *_noteDetailViewCtrler;
+extern RepeatTableViewController *_repeatViewCtrler;
 
 @implementation DateInputViewController
 
@@ -52,7 +54,7 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
         self.noneItem = nil;
     }
     
-    if ([task isTask] || [task isNote])
+    if ([task isTask] || [task isNote] || dateEdit == TASK_EDIT_UNTIL)
     {
         picker.datePickerMode = UIDatePickerModeDate;
     }
@@ -90,6 +92,11 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
             }
         }
             break;
+        case TASK_EDIT_UNTIL:
+        {
+            noneItem.enabled = NO;
+        }
+            break;
     }
 }
 
@@ -110,6 +117,10 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
     {
         [_noteDetailViewCtrler refreshDate];
         [_noteDetailViewCtrler closeInputView];
+    }
+    else if (_repeatViewCtrler != nil)
+    {
+        [_repeatViewCtrler closeInputView];
     }
 }
 
@@ -132,12 +143,26 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
             }
             else
             {
+                if (task.endTime != nil && [task.endTime compare:date] == NSOrderedAscending)
+                {
+                    NSTimeInterval diff = [task.endTime timeIntervalSinceDate:task.startTime];
+                    
+                    task.endTime = [Common dateByAddNumSecond:diff toDate:date];
+                }
+                
                 task.startTime = date;
             }
         }
             break;
         case TASK_EDIT_END:
         {
+            if (task.startTime != nil && [date compare:task.startTime] == NSOrderedAscending)
+            {
+                NSTimeInterval diff = [task.endTime timeIntervalSinceDate:task.startTime];
+                
+                task.startTime = [Common dateByAddNumSecond:-diff toDate:date];
+            }
+            
             task.endTime = date;
         }
             break;
@@ -160,6 +185,13 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
             }
         }
             break;
+        case TASK_EDIT_UNTIL:
+        {
+            if (_repeatViewCtrler != nil)
+            {
+                [_repeatViewCtrler changeUntil:date];
+            }
+        }
     }
     
     noneItem.tintColor = date == nil?[UIColor blueColor]:nil;

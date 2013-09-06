@@ -44,11 +44,15 @@
 
 #import "SmartListLayoutController.h"
 
+#import "iPadViewController.h"
+
 #import "SmartCalAppDelegate.h"
 
 extern BOOL _isiPad;
 
 extern PlannerViewController *_plannerViewCtrler;
+
+extern iPadViewController *_iPadViewCtrler;
 
 @interface AbstractSDViewController ()
 
@@ -249,7 +253,6 @@ extern PlannerViewController *_plannerViewCtrler;
         }
     }
     
-    
     return title;
     
     /*
@@ -305,35 +308,47 @@ extern PlannerViewController *_plannerViewCtrler;
     
     NSString *title = @"";
     
+    NSInteger type = TYPE_TASK;
+    
     switch (button.tag)
     {
         case 0:
         {
-            ctrler.filterType = TYPE_TASK;
+            type = TYPE_TASK;
             title = _tasksText;
         }
             break;
         case 1:
         {
-            ctrler.filterType = TYPE_EVENT;
+            type = TYPE_EVENT;
             title = _eventsText;
         }
             break;
         case 2:
         {
-            ctrler.filterType = TYPE_NOTE;
+            type = TYPE_NOTE;
             title = _notesText;
         }
             break;
         case 3:
         {
-            ctrler.filterType = TASK_FILTER_PINNED;
+            type = TASK_FILTER_PINNED;
             title = _anchoredText;
         }
             break;
     }
     
+    BOOL filterChange = (ctrler.filterType != type);
+    
+    ctrler.filterType = type;
+    
     [ctrler loadAndShowList];
+    
+    if (filterChange)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChangeNotification" object:nil]; //refresh Detail view in sliding mode
+
+    }
     
     return title;
     
