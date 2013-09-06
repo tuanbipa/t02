@@ -715,3 +715,9 @@
 #define _geoIntervalText NSLocalizedString(@"_geoIntervalText", "")
 #define _hideAllProjects NSLocalizedString(@"_hideAllProjects", "")
 #define _showAllProjects NSLocalizedString(@"_showAllProjects", "")
+
+#define _addAlertText NSLocalizedString(@"_addAlertText", "")
+#define _routeText NSLocalizedString(@"_routeText", "")
+#define _saveRouteText NSLocalizedString(@"_saveRouteText", "")
+#define _directionsNotAvailable NSLocalizedString(@"_directionsNotAvailable", "")
+#define _cannotLocateThe NSLocalizedString(@"_cannotLocateThe", "")

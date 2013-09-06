@@ -10,7 +10,7 @@
 
 #import "WWWTableViewController.h"
 
-#import "Common.h";
+#import "Common.h"
 #import "Colors.h"
 #import "Task.h"
 
@@ -23,6 +23,10 @@
 #import "AbstractSDViewController.h"
 
 #import "DetailViewController.h"
+#import "Settings.h"
+#import "AlertData.h"
+#import "DBManager.h"
+#import "AlertManager.h"
 
 //#import "SCTabBarController.h"
 //extern SCTabBarController *_tabBarCtrler;
@@ -58,6 +62,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     if (self = [super init])
     {
         self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        isRefreshWhen = NO;
     }
     
     return self;
@@ -211,6 +216,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
         DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
         
         [ctrler refreshTitle];
+        
+        if (isRefreshWhen) {
+            [ctrler refreshWhen];
+        }
     }
 }
 
@@ -401,7 +410,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			return 60;
 			break;
 		case 2:
-			return 80;
+			return 600;//80;
 			break;
 	}
 	return 0;
@@ -496,8 +505,33 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		{
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.accessoryType = UITableViewCellAccessoryNone;
+            
+            // start location
+            startLocationTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width-20-40, 80)];
+            //startLocationTextView.delegate=self;
+			startLocationTextView.backgroundColor=[UIColor whiteColor];
+			startLocationTextView.keyboardType=UIKeyboardTypeDefault;
+            //locationTextView.returnKeyType = UIReturnKeyDone;
+			startLocationTextView.font=[UIFont systemFontOfSize:18];
+            startLocationTextView.layer.borderWidth = 1;
+            startLocationTextView.layer.cornerRadius = 8;
+            startLocationTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 			
-			locationTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width-20-40, 80)];
+			startLocationTextView.text = _currentLocationText;
+			
+			startLocationTextView.tag = 10010;
+			[cell.contentView addSubview:startLocationTextView];
+			[startLocationTextView release];
+            
+            UIButton *editStartLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+			editStartLocationButton.frame = CGRectMake(tableView.bounds.size.width-55, 20, 40, 40);
+			[editStartLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
+			editStartLocationButton.tag = 10011;
+			
+			[cell.contentView addSubview:editStartLocationButton];
+            // end: start location
+			
+			locationTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 80 + 10, tableView.bounds.size.width-20-40, 80)];
 			locationTextView.delegate=self;
 			locationTextView.backgroundColor=[UIColor whiteColor];
 			locationTextView.keyboardType=UIKeyboardTypeDefault;
@@ -514,13 +548,75 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			[locationTextView release];
 			
 			UIButton *editLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-			editLocationButton.frame = CGRectMake(tableView.bounds.size.width-55, 20, 40, 40);
+			editLocationButton.frame = CGRectMake(tableView.bounds.size.width-55, 20 + 80 + 10, 40, 40);
 			[editLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
 			
 			editLocationButton.tag = 10009;
 			
 			[cell.contentView addSubview:editLocationButton];
 			
+            
+            UIColor *textColor = [UIColor colorWithRed:21.0/255 green:125.0/255 blue:251.0/255 alpha:1];
+            CGRect frm = CGRectMake(10, 160 + 20, tableView.frame.size.width - 20, 40);
+            
+            // ETA
+            etaLable = [[UILabel alloc] initWithFrame:frm];
+            etaLable.textColor = [UIColor blackColor];
+            
+            [cell.contentView addSubview:etaLable];
+            [etaLable release];
+            
+            // Add alert
+            frm.origin.y += frm.size.height + 5;
+            frm.size.width = 80;
+            UIButton *addAlertButton = [Common createButton:@"Add alert"
+                                                 buttonType:UIButtonTypeCustom
+                                                      frame:frm//CGRectMake(10, 160 + 20, 80, 40)
+                                                 titleColor:textColor target:self
+                                                   selector:@selector(addAlert:)
+                                           normalStateImage:nil
+                                         selectedStateImage:nil];
+            addAlertButton.tag = 10012;
+            addAlertButton.enabled = NO;
+            
+            [cell.contentView addSubview:addAlertButton];
+            
+            // refresh button
+            frm.origin.x = (tableView.frame.size.width-80)/2;
+            UIButton *refreshButton = [Common createButton:@"Refresh"
+                                                buttonType:UIButtonTypeCustom
+                                                     frame:frm//CGRectMake((tableView.frame.size.width-80)/2, 160 + 20, 80, 40)
+                                                titleColor:textColor target:self
+                                                  selector:@selector(routeDirection:)
+                                          normalStateImage:nil
+                                        selectedStateImage:nil];
+            
+            [cell.contentView addSubview:refreshButton];
+            
+            // save route
+            frm.origin.x = tableView.frame.size.width - 80 - 10;
+            UIButton *saveButton = [Common createButton:@"Save route"
+                                             buttonType:UIButtonTypeCustom
+                                                  frame:frm//CGRectMake(tableView.frame.size.width - 80 - 10, 160 + 20, 80, 40)
+                                             titleColor:textColor
+                                                 target:self
+                                               selector:@selector(saveMapRoute:)
+                                       normalStateImage:nil
+                                     selectedStateImage:nil];
+            
+            [cell.contentView addSubview:saveButton];
+            
+            // map kit
+            frm.origin.y += frm.size.height + 5;
+            frm.origin.x = 10;
+            frm.size = CGSizeMake(tableView.frame.size.width - 10, 400);
+            mapView = [[MKMapView alloc] initWithFrame:CGRectMake(10, saveButton.frame.origin.y + saveButton.frame.size.height + 5, tableView.frame.size.width - 10, 400)];
+            mapView.delegate = self;
+            mapView.showsUserLocation = YES;
+            //NSLog(@"height: %f", mapView.frame.origin.y + mapView.frame.size.height);
+            
+            [cell.contentView addSubview:mapView];
+            [mapView release];
 		}
 			break;			
 	}
@@ -875,6 +971,313 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super dealloc];
 }
 
+#pragma mark map delegate
+- (void)mapView:(MKMapView *)map didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 800, 800);
+    [mapView setRegion:[mapView regionThatFits:region] animated:YES];
+}
 
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKPolylineView *line = [[[MKPolylineView alloc] initWithPolyline:overlay] autorelease];
+    line.strokeColor = [UIColor blueColor];
+    line.lineWidth = 5;
+    return line;
+}
+
+#pragma mark mapkit methods
+
+- (void)routeDirection: (id)sender
+{
+    [self routing:YES];
+    
+    CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
+    // start location
+    __block CLLocation *starLocation;
+    if ([startLocationTextView.text isEqualToString:_currentLocationText]) {
+        starLocation = [[mapView userLocation] location];
+        
+        [gc reverseGeocodeLocation:starLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+            if (placemarks.count > 0) {
+                CLPlacemark *sPlacemark = placemarks[0];
+                [self geoEndLocation:gc startPlacemark:sPlacemark];
+            }
+        }];
+        //[self geoEndLocation:gc startLocation:starLocation];
+    } else {
+        [gc geocodeAddressString:startLocationTextView.text completionHandler:^(NSArray *placemarks, NSError *error) {
+            
+            if (placemarks.count > 0) {
+            
+                CLPlacemark *sPlacemark = placemarks[0];
+                //CLLocation *sLocation = sPlacemark.location;
+                //starLocation = sLocation.coordinate;
+                starLocation = sPlacemark.location;
+                
+                //[self geoEndLocation:gc startLocation:starLocation];
+                [self geoEndLocation:gc startPlacemark:sPlacemark];
+            } else {
+                [self showNotFoundLocation:_starText];
+            }
+        }];
+    }
+}
+
+//- (void)geoEndLocation: (CLGeocoder *) gc startLocation: (CLLocation*) starLocation
+- (void)geoEndLocation: (CLGeocoder *) gc startPlacemark: (CLPlacemark*) startPlacemark
+{
+    // get end location
+    [gc geocodeAddressString:locationTextView.text completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (placemarks.count > 0) {
+            
+            CLPlacemark *placemark = placemarks[0];
+            /*CLLocation *destinationLocation = placemark.location;
+            
+            // get location points by using google map api
+            NSArray *routePoints = [NSArray array];
+            routePoints = [self calculateRoutesFrom:starLocation.coordinate to:destinationLocation.coordinate];
+            
+            NSInteger numberOfSteps = routePoints.count;
+            
+            CLLocationCoordinate2D coordinates[numberOfSteps];
+            
+            for (NSInteger index = 0; index < numberOfSteps; index++)
+            {
+                CLLocation *location = [routePoints objectAtIndex:index];
+                CLLocationCoordinate2D coordinate = location.coordinate;
+                coordinates[index] = coordinate;
+            }
+            MKPolyline *polyLine = [MKPolyline polylineWithCoordinates:coordinates count:numberOfSteps];
+            [mapView addOverlay:polyLine];*/
+            
+            // check api
+            MKPlacemark *sourceMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:startPlacemark];
+            MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourceMapPlaceMark];
+            
+            MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
+            MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+            
+            MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
+            req.source = source;
+            req.destination = destination;
+            
+            MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
+            [direction calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+                if (error) {
+                    //[self handleError:error];
+                    NSLog(error.debugDescription);
+                } else {
+                    [self showDirections:response];
+                }
+            }];
+            
+            // release
+            [sourceMapPlaceMark release];
+            [source release];
+            [desMapPlaceMark release];
+            [destination release];
+            
+            [req release];
+            [direction release];
+        } else {
+            [self showNotFoundLocation:_endText];
+        }
+    }];
+}
+
+- (void)showDirections: (MKDirectionsResponse*)response
+{
+    double totalDistance = 0.0;
+    double totalTime = 0.0;
+    
+    // remove old overlay
+    if ([mapView.overlays count] > 0) {
+        [mapView removeOverlays:mapView.overlays];
+    }
+    
+    for (MKRoute *route in response.routes) {
+        [mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
+        
+        totalDistance += route.distance;
+        totalTime += route.expectedTravelTime;
+    }
+    
+    MKDistanceFormatter *distanceFormat = [[MKDistanceFormatter alloc] init];
+    distanceFormat.units = MKDistanceFormatterUnitsDefault;
+    distanceFormat.unitStyle = MKDistanceFormatterUnitStyleAbbreviated;
+    
+    NSString *distance = [distanceFormat stringFromDistance:totalDistance];
+    [distanceFormat release];
+    
+    etaLable.text = [NSString stringWithFormat:@"ETA: %@, %@ to destination", distance, [Common getDurationString:totalTime]];
+    etaLable.tag = totalTime;
+    
+    // enable add alert button
+    UITableViewCell *cell = [wwwTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    
+    UIButton *addAlertButton = (UIButton*)[cell.contentView viewWithTag:10012];
+    addAlertButton.enabled = YES;
+}
+
+//-(NSArray*) calculateRoutesFrom:(CLLocationCoordinate2D) f to: (CLLocationCoordinate2D) t
+//{
+//    NSString* saddr = [NSString stringWithFormat:@"%f,%f", f.latitude, f.longitude];
+//    NSString* daddr = [NSString stringWithFormat:@"%f,%f", t.latitude, t.longitude];
+//
+//    NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.google.com/maps?output=dragdir&saddr=%@&daddr=%@", saddr, daddr];
+//    //NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.apple.com/maps?output=dragdir&saddr=%@&daddr=%@", saddr, daddr];
+//    NSURL* apiUrl = [NSURL URLWithString:apiUrlStr];
+//    //NSLog(@"api url: %@", apiUrl);
+//    NSError* error = nil;
+//    NSString *apiResponse = [NSString stringWithContentsOfURL:apiUrl encoding:NSASCIIStringEncoding error:&error];
+//    
+//    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"points:\"([^\"]*)\"" options:0 error:NULL];
+//    NSTextCheckingResult *match = [regex firstMatchInString:apiResponse options:0 range:NSMakeRange(0, [apiResponse length])];
+//    NSString *encodedPoints = [apiResponse substringWithRange:[match rangeAtIndex:1]];
+//    
+//    NSString *info = [Common getStringFrom:apiResponse matching:@"tooltipHtml:\"([^\"]*)\""];
+//    etaLable.text = info;
+//    
+//    
+//    
+//    return [self decodePolyLine:[encodedPoints mutableCopy]];
+//}
+//
+//- (NSMutableArray *)decodePolyLine: (NSMutableString *)encoded
+//{
+//    [encoded replaceOccurrencesOfString:@"\\\\" withString:@"\\" options:NSLiteralSearch range:NSMakeRange(0, [encoded length])];
+//    NSInteger len = [encoded length];
+//    NSInteger index = 0;
+//    NSMutableArray *array = [[NSMutableArray alloc] init];
+//    NSInteger lat=0;
+//    NSInteger lng=0;
+//    while (index < len)
+//    {
+//        NSInteger b;
+//        NSInteger shift = 0;
+//        NSInteger result = 0;
+//        do
+//        {
+//            b = [encoded characterAtIndex:index++] - 63;
+//            result |= (b & 0x1f) << shift;
+//            shift += 5;
+//        } while (b >= 0x20);
+//        NSInteger dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
+//        lat += dlat;
+//        shift = 0;
+//        result = 0;
+//        do
+//        {
+//            b = [encoded characterAtIndex:index++] - 63;
+//            result |= (b & 0x1f) << shift;
+//            shift += 5;
+//        } while (b >= 0x20);
+//        NSInteger dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
+//        lng += dlng;
+//        NSNumber *latitude = [[NSNumber alloc] initWithFloat:lat * 1e-5];
+//        NSNumber *longitude = [[NSNumber alloc] initWithFloat:lng * 1e-5];
+//        //printf("[%f,", [latitude doubleValue]);
+//        //printf("%f]", [longitude doubleValue]);
+//        CLLocation *loc = [[CLLocation alloc] initWithLatitude:[latitude floatValue] longitude:[longitude floatValue]];
+//        [array addObject:loc];
+//    }
+//    return array;
+//}
+
+- (void)showNotFoundLocation: (NSString*) locationStr
+{
+    NSString *mess = [NSString stringWithFormat:@"%@ %@ %@", _cannotLocateThe, locationStr, _locationText];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable  message:mess delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+    
+    [alertView show];
+    [self routing:NO];
+}
+
+- (void)routing: (BOOL) route
+{
+    if (route) {
+        etaLable.text = _loadingText;
+        //etaLable.tag = -1;
+        
+        UITableViewCell *cell = [wwwTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+        
+        UIButton *addAlertButton = (UIButton*)[cell.contentView viewWithTag:10012];
+        addAlertButton.enabled = NO;
+    } else {
+        etaLable.text = @"";
+    }
+}
+
+- (void)doAddAlert
+{
+    // check deadline
+    if (self.task.deadline == nil && [self.task isTask]) {
+        
+        NSInteger diff = 0;
+        NSDate *date = [NSDate date];
+        Settings *settings = [Settings getInstance];
+        
+        if (task.startTime != nil && task.deadline != nil && date != nil)
+        {
+            diff = [task.deadline timeIntervalSinceDate:task.startTime];
+        }
+        
+        task.deadline = date == nil?nil:[settings getWorkingEndTimeForDate:date];
+        
+        if (diff > 0)
+        {
+            NSDate *dt = [NSDate dateWithTimeInterval:-diff sinceDate:task.deadline];
+            
+            task.startTime = [settings getWorkingStartTimeForDate:dt];
+        }
+        
+        isRefreshWhen = YES;
+    }
+    
+    NSInteger beforeDuration = -etaLable.tag;
+    // add alert
+    AlertData *alertData =[[AlertData alloc] init];
+    
+    alertData.beforeDuration = (beforeDuration * 20)/100 + beforeDuration;
+
+    if (task.primaryKey != -1) {
+        alertData.taskKey = task.primaryKey;
+        [alertData insertIntoDB:[[DBManager getInstance] getDatabase]];
+        [[AlertManager getInstance] generateAlert:alertData forTask:task];
+    }
+
+    [self.task.alerts addObject:alertData];
+}
+
+- (void)addAlert: (id)sender
+{
+    NSInteger beforeDuration = (etaLable.tag * 20)/100 + etaLable.tag;
+    NSString *mss = [NSString stringWithFormat:@"Add new alert at %@ before deadline", [Common getDurationString:beforeDuration]];
+                     
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Add alert"  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+    alertView.tag = -10001;
+    [alertView show];
+    [alertView release];
+}
+
+- (void)saveMapRoute: (id)sender
+{
+    mapView snapshotViewAfterScreenUpdates:<#(BOOL)#>
+    //MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
+    MKMapSnapshotter *mapShotter = [[MKMapSnapshotter alloc] init];
+    [mapShotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+        
+    }];
+}
+
+#pragma mark alert delegate
+
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertVw.tag == -10001 && buttonIndex != 0)
+	{
+		[self doAddAlert];
+	}
+}
 @end
-

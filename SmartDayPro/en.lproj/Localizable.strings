@@ -728,3 +728,8 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_geoIntervalText" = "Geo Interval";
 "_hideAllProjects" = "Hide All Projects";
 "_showAllProjects" = "Show All Projects";
+"_addAlertText" = "Add Alert";
+"_routeText" = "Route";
+"_saveRouteText" = "Save Route";
+"_directionsNotAvailable" = "Directions Not Available";
+"_cannotLocateThe" = "Cannot locate the";

@@ -43,6 +43,7 @@
 
 - (void) closeInputView;
 
+- (void) refreshTitle;
 - (void) refreshDuration;
 - (void) refreshProject;
 - (void) refreshWhen;

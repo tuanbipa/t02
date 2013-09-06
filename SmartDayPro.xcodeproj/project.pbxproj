@@ -1625,6 +1625,7 @@
 		A22A624D1778293A00AD1634 /* atask_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62491778293900AD1634 /* atask_lines@2x.png */; };
 		A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 		A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
+		A2587D9017CF4D450097CA51 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2587D8F17CF4D450097CA51 /* MapKit.framework */; };
 		A25C05AA1783D96200FA84FE /* settings_backup.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A81783D96200FA84FE /* settings_backup.png */; };
 		A25C05AB1783D96200FA84FE /* settings_backup.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A81783D96200FA84FE /* settings_backup.png */; };
 		A25C05AC1783D96200FA84FE /* settings_backup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A91783D96200FA84FE /* settings_backup@2x.png */; };
@@ -2707,6 +2708,7 @@
 		A22A62491778293900AD1634 /* atask_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atask_lines@2x.png"; sourceTree = "<group>"; };
 		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
 		A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarPlannerMovableController.m; sourceTree = "<group>"; };
+		A2587D8F17CF4D450097CA51 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A25C05A81783D96200FA84FE /* settings_backup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_backup.png; sourceTree = "<group>"; };
 		A25C05A91783D96200FA84FE /* settings_backup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_backup@2x.png"; sourceTree = "<group>"; };
 		A2A8BA6617C370E500EB4C64 /* TagDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagDetailViewController.h; sourceTree = "<group>"; };
@@ -2771,6 +2773,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2587D9017CF4D450097CA51 /* MapKit.framework in Frameworks */,
 				A2A8BA6B17C3710200EB4C64 /* CoreLocation.framework in Frameworks */,
 				67EC0D3216F8081F00929BFD /* AudioToolbox.framework in Frameworks */,
 				67EC0D3316F8081F00929BFD /* MessageUI.framework in Frameworks */,
@@ -2899,6 +2902,7 @@
 		67CF2B23161950D7001FE1AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A2587D8F17CF4D450097CA51 /* MapKit.framework */,
 				A2A8BA6A17C3710200EB4C64 /* CoreLocation.framework */,
 				67E506BD16F2BF1E00DCFE06 /* AudioToolbox.framework */,
 				67C8F0DD1638D3F00098CFEB /* MessageUI.framework */,

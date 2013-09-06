@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 #import <AddressBookUI/AddressBookUI.h>
 
 @class Task;
 @class GrowingTextView;
 
-@interface WWWTableViewController : UITableViewController<ABPeoplePickerNavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate> {
+@interface WWWTableViewController : UITableViewController<ABPeoplePickerNavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate, MKMapViewDelegate> {
 	UIView *contentView;
     UITableView *wwwTableView;
 	
@@ -23,6 +24,12 @@
 	UIButton *selectedButton;
 	UIView *doneBarView;
 	UITextView *locationTextView;
+    
+    // map kit
+    UITextView *startLocationTextView;
+    MKMapView *mapView;
+    UILabel *etaLable;
+    BOOL isRefreshWhen;
 }
 
 @property (nonatomic, assign) Task *task;
