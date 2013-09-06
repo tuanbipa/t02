@@ -1263,12 +1263,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)saveMapRoute: (id)sender
 {
-    mapView snapshotViewAfterScreenUpdates:<#(BOOL)#>
-    //MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
-    MKMapSnapshotter *mapShotter = [[MKMapSnapshotter alloc] init];
-    [mapShotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
-        
-    }];
+//    mapView snapshotViewAfterScreenUpdates:<#(BOOL)#>
+//    //MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
+//    MKMapSnapshotter *mapShotter = [[MKMapSnapshotter alloc] init];
+//    [mapShotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+//        
+//    }];
 }
 
 #pragma mark alert delegate
