@@ -73,6 +73,7 @@ extern DetailViewController *_detailViewCtrler;
 
 @implementation AbstractActionViewController
 @synthesize contentView;
+@synthesize activeView;
 
 @synthesize popoverCtrler;
 
@@ -91,7 +92,7 @@ extern DetailViewController *_detailViewCtrler;
 {
     if (self = [super init])
     {
-        activeView = nil;
+        self.activeView = nil;
         
         self.task2Link = nil;
         self.actionTaskCopy = nil;
@@ -158,7 +159,9 @@ extern DetailViewController *_detailViewCtrler;
     self.task2Link = nil;
     self.actionTaskCopy = nil;
     
-    self.popoverCtrler = nil;    
+    self.popoverCtrler = nil;
+    
+    self.activeView = nil;
     
     [super dealloc];
 }
@@ -214,10 +217,10 @@ extern DetailViewController *_detailViewCtrler;
 }
 -(void) deselect
 {
-    if (activeView != nil)
+    if (self.activeView != nil)
     {
         [CATransaction begin];
-        [activeView doSelect:NO];
+        [self.activeView doSelect:NO];
         [CATransaction commit];
     }
 
@@ -225,7 +228,7 @@ extern DetailViewController *_detailViewCtrler;
     
     [self hidePopover];
     
-    activeView = nil;
+    self.activeView = nil;
     
     /*
     PageAbstractViewController *ctrlers[4] = {
@@ -247,9 +250,9 @@ extern DetailViewController *_detailViewCtrler;
 
 - (Task *) getActiveTask
 {
-    if (activeView != nil && [activeView isKindOfClass:[TaskView class]])
+    if (self.activeView != nil && [self.activeView isKindOfClass:[TaskView class]])
     {
-        return ((TaskView *) activeView).task;
+        return ((TaskView *) self.activeView).task;
     }
     
     return nil;
@@ -257,9 +260,9 @@ extern DetailViewController *_detailViewCtrler;
 
 - (Project *) getActiveProject
 {
-    if (activeView != nil && [activeView isKindOfClass:[PlanView class]])
+    if (self.activeView != nil && [self.activeView isKindOfClass:[PlanView class]])
     {
-        return ((PlanView *) activeView).project;
+        return ((PlanView *) self.activeView).project;
     }
     
     return nil;
@@ -360,6 +363,11 @@ extern DetailViewController *_detailViewCtrler;
 		
         [Common animateGrowViewFromPoint:optionView.frame.origin toPoint:CGPointMake(optionView.frame.origin.x, optionView.frame.origin.y + optionView.bounds.size.height/2) forView:optionView];
 	}
+}
+
+- (void) showModuleByIndex:(NSInteger)index
+{
+    
 }
 
 #pragma mark Refresh
@@ -668,22 +676,22 @@ extern DetailViewController *_detailViewCtrler;
         return;
     }
     
-    BOOL showAction = activeView != view;
+    BOOL showAction = self.activeView != view;
     
     [self deselect];
     
     if (showAction)
     {
-        activeView = enable?view:nil;
+        self.activeView = enable?view:nil;
         
-        if (activeView != nil)
+        if (self.activeView != nil)
         {
-            [activeView doSelect:YES];
+            [self.activeView doSelect:YES];
         }
     }
     else
     {
-        activeView = nil;
+        self.activeView = nil;
     }
 }
 
@@ -713,22 +721,22 @@ extern DetailViewController *_detailViewCtrler;
         return;
     }
     
-    BOOL showAction = activeView != view;
+    BOOL showAction = self.activeView != view;
     
     [self deselect];
     
     if (showAction)
     {
-        activeView = enable?view:nil;
+        self.activeView = enable?view:nil;
         
-        if (activeView != nil)
+        if (self.activeView != nil)
         {
-            [activeView doSelect:YES];
+            [self.activeView doSelect:YES];
         }
     }
     else
     {
-        activeView = nil;
+        self.activeView = nil;
     }
 }
 
@@ -1313,9 +1321,9 @@ extern DetailViewController *_detailViewCtrler;
         [smartlistController refreshData];
     }*/
     
+    [self deselect];
+    
     [self reconcileItem:task reSchedule:reSchedule];
-        
-    //[self deselect];
 }
 
 - (void) convertRE2Task:(NSInteger)option

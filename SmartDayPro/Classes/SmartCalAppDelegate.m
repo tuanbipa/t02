@@ -65,6 +65,8 @@ SmartDayViewController *_sdViewCtrler = nil;
 iPadSmartDayViewController *_iPadSDViewCtrler = nil;
 AbstractSDViewController *_abstractViewCtrler = nil;
 
+iPadViewController *_iPadViewCtrler;
+
 extern CalendarViewController *_sc2ViewCtrler;
 
 BOOL _isiPad = NO;
@@ -332,7 +334,7 @@ BOOL _fromBackground = NO;
 {
     Settings *settings = [Settings getInstance];
     
-    [_abstractViewCtrler performSelectorOnMainThread:@selector(deselect) withObject:nil waitUntilDone:NO];
+    [_iPadViewCtrler.activeViewCtrler performSelectorOnMainThread:@selector(deselect) withObject:nil waitUntilDone:NO];
     
     if (settings.autoSyncEnabled)
     {
@@ -383,7 +385,7 @@ BOOL _fromBackground = NO;
     
     TaskManager *tm = [TaskManager getInstance];
     
-    [tm wait4ThumbPlannerInitComplete];
+    //[tm wait4ThumbPlannerInitComplete];
     
     [tm wait4SortComplete];
     

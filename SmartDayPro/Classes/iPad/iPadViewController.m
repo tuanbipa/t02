@@ -62,6 +62,7 @@ iPadViewController *_iPadViewCtrler;
 @synthesize detailNavCtrler;
 
 @synthesize inSlidingMode;
+@synthesize selectedModuleIndex;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -80,6 +81,8 @@ iPadViewController *_iPadViewCtrler;
         _iPadViewCtrler = self;
         
         inSlidingMode = NO;
+        
+        self.selectedModuleIndex = 0;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveNewComments:)
@@ -662,12 +665,13 @@ iPadViewController *_iPadViewCtrler;
     
     [contentView addSubview:self.activeViewCtrler.view];
     
+    /*
     if (_iPadSDViewCtrler != nil)
     {
-        //[_iPadSDViewCtrler showTaskModule:YES];
         [_iPadSDViewCtrler showTaskModule];
     }
-
+    */
+    
     [_iPadSDViewCtrler refreshTaskFilterTitle];
     
     [self refreshToolbar:UIInterfaceOrientationPortrait];
@@ -820,6 +824,8 @@ iPadViewController *_iPadViewCtrler;
     [self.activeViewCtrler resetMovableContentView];
     
     [self refreshFilterStatus];
+ 
+    [self.activeViewCtrler showModuleByIndex:self.selectedModuleIndex];
 }
 
 - (void) loadView

@@ -30,6 +30,7 @@
 - (void) enableMultiEdit:(BOOL)enabled;
 
 - (void) changeFrame:(CGRect)frm;
+- (void)refreshLayout;
 - (void) loadAndShowList;
 - (void) reloadAlert4Task:(NSInteger)taskId;
 - (void) reconcileItem:(Task *)item;

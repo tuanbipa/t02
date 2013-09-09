@@ -176,10 +176,6 @@
 		67CF2CFE16195196001FE1AA /* MonthlyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BE516195195001FE1AA /* MonthlyCellView.m */; };
 		67CF2D0416195196001FE1AA /* MovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF116195195001FE1AA /* MovableController.m */; };
 		67CF2D0516195196001FE1AA /* MovableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF316195195001FE1AA /* MovableView.m */; };
-		67CF2D0616195196001FE1AA /* multiOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF416195195001FE1AA /* multiOff.png */; };
-		67CF2D0716195196001FE1AA /* multiOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF516195195001FE1AA /* multiOff@2x.png */; };
-		67CF2D0816195196001FE1AA /* multiOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF616195195001FE1AA /* multiOn.png */; };
-		67CF2D0916195196001FE1AA /* multiOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF716195195001FE1AA /* multiOn@2x.png */; };
 		67CF2D0A16195196001FE1AA /* NoteDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */; };
 		67CF2D0B16195196001FE1AA /* NoteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFB16195195001FE1AA /* NoteInfoViewController.m */; };
 		67CF2D0C16195196001FE1AA /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFD16195195001FE1AA /* NoteViewController.m */; };
@@ -1058,10 +1054,6 @@
 		67EC0D4116F8081F00929BFD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2B36161950D7001FE1AA /* Default.png */; };
 		67EC0D4216F8081F00929BFD /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2B38161950D7001FE1AA /* Default@2x.png */; };
 		67EC0D4316F8081F00929BFD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2B3A161950D7001FE1AA /* Default-568h@2x.png */; };
-		67EC0D4416F8081F00929BFD /* multiOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF416195195001FE1AA /* multiOff.png */; };
-		67EC0D4516F8081F00929BFD /* multiOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF516195195001FE1AA /* multiOff@2x.png */; };
-		67EC0D4616F8081F00929BFD /* multiOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF616195195001FE1AA /* multiOn.png */; };
-		67EC0D4716F8081F00929BFD /* multiOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2BF716195195001FE1AA /* multiOn@2x.png */; };
 		67EC0D4816F8081F00929BFD /* Pause.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9C16195196001FE1AA /* Pause.wav */; };
 		67EC0D4916F8081F00929BFD /* Start.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9D16195196001FE1AA /* Start.wav */; };
 		67EC0D4A16F8081F00929BFD /* Stop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9E16195196001FE1AA /* Stop.wav */; };
@@ -1916,10 +1908,6 @@
 		67CF2BF116195195001FE1AA /* MovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovableController.m; sourceTree = "<group>"; };
 		67CF2BF216195195001FE1AA /* MovableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovableView.h; sourceTree = "<group>"; };
 		67CF2BF316195195001FE1AA /* MovableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovableView.m; sourceTree = "<group>"; };
-		67CF2BF416195195001FE1AA /* multiOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multiOff.png; sourceTree = "<group>"; };
-		67CF2BF516195195001FE1AA /* multiOff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multiOff@2x.png"; sourceTree = "<group>"; };
-		67CF2BF616195195001FE1AA /* multiOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = multiOn.png; sourceTree = "<group>"; };
-		67CF2BF716195195001FE1AA /* multiOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multiOn@2x.png"; sourceTree = "<group>"; };
 		67CF2BF816195195001FE1AA /* NoteDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDetailTableViewController.h; sourceTree = "<group>"; };
 		67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteDetailTableViewController.m; sourceTree = "<group>"; };
 		67CF2BFA16195195001FE1AA /* NoteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteInfoViewController.h; sourceTree = "<group>"; };
@@ -3138,10 +3126,6 @@
 				67CF2BF116195195001FE1AA /* MovableController.m */,
 				67CF2BF216195195001FE1AA /* MovableView.h */,
 				67CF2BF316195195001FE1AA /* MovableView.m */,
-				67CF2BF416195195001FE1AA /* multiOff.png */,
-				67CF2BF516195195001FE1AA /* multiOff@2x.png */,
-				67CF2BF616195195001FE1AA /* multiOn.png */,
-				67CF2BF716195195001FE1AA /* multiOn@2x.png */,
 				67DD5B3A179F871300CC1A72 /* NoteContentViewController.h */,
 				67DD5B3B179F871400CC1A72 /* NoteContentViewController.m */,
 				67CF2BF816195195001FE1AA /* NoteDetailTableViewController.h */,
@@ -4133,10 +4117,6 @@
 				67CF2B37161950D7001FE1AA /* Default.png in Resources */,
 				67CF2B39161950D7001FE1AA /* Default@2x.png in Resources */,
 				67CF2B3B161950D7001FE1AA /* Default-568h@2x.png in Resources */,
-				67CF2D0616195196001FE1AA /* multiOff.png in Resources */,
-				67CF2D0716195196001FE1AA /* multiOff@2x.png in Resources */,
-				67CF2D0816195196001FE1AA /* multiOn.png in Resources */,
-				67CF2D0916195196001FE1AA /* multiOn@2x.png in Resources */,
 				67CF2D5B16195196001FE1AA /* Pause.wav in Resources */,
 				67CF2D5C16195196001FE1AA /* Start.wav in Resources */,
 				67CF2D5D16195196001FE1AA /* Stop.wav in Resources */,
@@ -4762,10 +4742,6 @@
 				67EC0D4116F8081F00929BFD /* Default.png in Resources */,
 				67EC0D4216F8081F00929BFD /* Default@2x.png in Resources */,
 				67EC0D4316F8081F00929BFD /* Default-568h@2x.png in Resources */,
-				67EC0D4416F8081F00929BFD /* multiOff.png in Resources */,
-				67EC0D4516F8081F00929BFD /* multiOff@2x.png in Resources */,
-				67EC0D4616F8081F00929BFD /* multiOn.png in Resources */,
-				67EC0D4716F8081F00929BFD /* multiOn@2x.png in Resources */,
 				67EC0D4816F8081F00929BFD /* Pause.wav in Resources */,
 				67EC0D4916F8081F00929BFD /* Start.wav in Resources */,
 				67EC0D4A16F8081F00929BFD /* Stop.wav in Resources */,

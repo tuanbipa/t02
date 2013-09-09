@@ -294,7 +294,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) reconcileItem:(Task *)item
 {
-    if ([item isNote] && [_abstractViewCtrler checkControllerActive:2])
+    if ([item isNote] && [_iPadViewCtrler.activeViewCtrler checkControllerActive:2])
     {
         [self loadAndShowList];
     }

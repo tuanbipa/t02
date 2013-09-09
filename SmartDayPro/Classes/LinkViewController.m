@@ -543,7 +543,8 @@ extern BOOL _isiPad;
             [urlTextField becomeFirstResponder];
             
         }
-        else if (linkedAssetType == ASSET_ITEM)
+        //else if (linkedAssetType == ASSET_ITEM)
+        else
         {
             Task *asset = [[Task alloc] initWithPrimaryKey:linkedId database:[[DBManager getInstance] getDatabase]];
             asset.listSource = SOURCE_NONE;//to update smart list as well when there is any change
@@ -558,27 +559,6 @@ extern BOOL _isiPad;
                 asset.endTime = firstInstance.endTime;
                 
             }
-            
-            /*
-            if ([task isNote])
-            {
-                NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-                
-                ctrler.note = task;
-                
-                [self.navigationController pushViewController:ctrler animated:YES];
-                [ctrler release];
-            }
-            else
-            {
-                TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-                
-                ctrler.task = task;
-                
-                [self.navigationController pushViewController:ctrler animated:YES];
-                [ctrler release];            
-                
-            }*/
             
             [_iPadViewCtrler.activeViewCtrler editItem:asset inView:nil];
         }

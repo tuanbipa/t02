@@ -242,9 +242,9 @@ SmartListViewController *_smartListViewCtrler;
 
 - (BOOL) checkControllerActive
 {
-    AbstractActionViewController *ctrler = (_plannerViewCtrler != nil?_plannerViewCtrler:_abstractViewCtrler);
+    //AbstractActionViewController *ctrler = (_plannerViewCtrler != nil?_plannerViewCtrler:_abstractViewCtrler);
     
-    return [ctrler checkControllerActive:1];
+    return [_iPadViewCtrler.activeViewCtrler checkControllerActive:1];
 }
 
 - (void) reconcileItem:(Task *)item

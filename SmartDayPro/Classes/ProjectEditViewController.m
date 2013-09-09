@@ -599,7 +599,7 @@ extern BOOL _isiPad;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; 
         
-        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+        CategoryViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCategoryViewController];
         
         [ctrler loadAndShowList];
     }
@@ -659,8 +659,7 @@ extern BOOL _isiPad;
             
 			[tm initSmartListData];
 			
-            //[_abstractViewCtrler.miniMonthView initCalendar:tm.today];
-            [_abstractViewCtrler refreshData];
+            [_iPadViewCtrler.activeViewCtrler refreshData];
 			
 			[dt release];
 		}
@@ -671,21 +670,16 @@ extern BOOL _isiPad;
         
         if (tagChange && tm.filterData != nil)
         {
-            [_abstractViewCtrler resetAllData];
+            [_iPadViewCtrler.activeViewCtrler resetAllData];
         }
-		/*else if (needRefresh)
-		{
-            [_abstractViewCtrler refreshView];
-		}*/
         else if (colorChange)
         {
-            [_abstractViewCtrler setNeedsDisplay];
+            [_iPadViewCtrler.activeViewCtrler setNeedsDisplay];
         }
         else if (transparentChange)
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
-            //[ctrler refreshView];
             [ctrler setNeedsDisplay];
             
             CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
@@ -697,13 +691,10 @@ extern BOOL _isiPad;
         {
             CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
             
-            //[ctrler refreshView];
             [ctrler setNeedsDisplay];
         }
 
     }
-    
-    //[_abstractViewCtrler hidePopover];
     
     if (_isiPad)
     {

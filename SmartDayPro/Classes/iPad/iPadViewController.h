@@ -34,6 +34,8 @@
 
 @property BOOL inSlidingMode;
 
+@property NSInteger selectedModuleIndex;
+
 - (void) deactivateSearchBar;
 - (UIButton *) getTimerButton;
 

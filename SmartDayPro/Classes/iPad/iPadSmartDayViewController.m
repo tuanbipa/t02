@@ -552,13 +552,37 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+- (void) showModuleByIndex:(NSInteger)index
+{
+    //index: 0-Task, 1-Note, 2-Project
+    UIButton *button = (UIButton *) [contentView viewWithTag:31000+index];
+    
+    if (selectedModuleButton != nil)
+    {
+        UIView *moduleView = [contentView viewWithTag:33000];
+        [[moduleView.subviews lastObject] removeFromSuperview];
+        
+        selectedModuleButton = nil;
+    }
+    
+    [self showModule:button];
+    
+    PageAbstractViewController *ctrler = [self getModuleAtIndex:index+1];
+    
+    [ctrler refreshLayout];
+}
+
 - (void) showTaskModule
 {
+    /*
     UIButton *taskButton = (UIButton *) [contentView viewWithTag:31000];
     
     [self showModule:taskButton];
     
     [[self getSmartListViewController] refreshLayout];
+    */
+    
+    [self showModuleByIndex:0];
 }
 
 - (void) showModule:(id)sender
@@ -574,7 +598,11 @@ iPadViewController *_iPadViewCtrler;
             [[moduleView.subviews lastObject] removeFromSuperview];
         }
         
-        PageAbstractViewController *ctrler = viewCtrlers[btn.tag - 31000 + 1];
+        _iPadViewCtrler.selectedModuleIndex = btn.tag - 31000;
+        
+        //PageAbstractViewController *ctrler = viewCtrlers[_iPadViewCtrler.selectedModuleIndex + 1];
+        
+        PageAbstractViewController *ctrler = [self getModuleAtIndex:_iPadViewCtrler.selectedModuleIndex + 1];
         
         [ctrler changeFrame:moduleView.bounds];
         
