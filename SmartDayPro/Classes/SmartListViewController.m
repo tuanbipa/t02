@@ -2042,7 +2042,7 @@ SmartListViewController *_smartListViewCtrler;
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_deferText
                                                         message:@""
                                                        delegate:self
-                                              cancelButtonTitle:nil
+                                              cancelButtonTitle:_cancelText
                                               otherButtonTitles:_nextWeekText, _nextMonthText,nil];
     alertView.tag = -10006;
     [alertView show];
