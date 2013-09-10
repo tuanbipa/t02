@@ -14,4 +14,5 @@
     //UILabel *titleLabel;
 }
 
+- (NSInteger) getMWMode;
 @end

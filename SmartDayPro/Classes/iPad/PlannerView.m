@@ -70,10 +70,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [UIView beginAnimations:@"resize_animation" context:NULL];
     [UIView setAnimationDuration:0.3];
     
+    /*
     // get first day in month
     NSDate *dt = [self.monthView getFirstDate];
     dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
     dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
+    */
+    
+    // get month/week mode
+    NSInteger mwMode = [headerView getMWMode];
+    
+    NSDate *dt = [self.monthView getFirstDate];
+    if (mwMode == 0) {
+        // month mode
+        dt = [Common getFirstMonthDate:[Common dateByAddNumDay:7 toDate:dt]];
+        dt = [Common dateByAddNumMonth:(mode == 0?-1:1) toDate:dt];
+    } else {
+        // week mode
+        dt = [Common dateByAddNumDay:(mode == 0?-7:7) toDate:dt];
+    }
     [self goToDate:dt];
     
     [UIView commitAnimations];
@@ -91,15 +106,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)goToDate: (NSDate *) dt {
     
+    /*
     NSDate *firstMonDate = [Common getFirstMonthDate:dt];
     //NSInteger weeks = [Common getWeeksInMonth:firstMonDate];
     Settings *st = [Settings getInstance];
     NSInteger weeks = [Common getWeeksInMonth:firstMonDate mondayAsWeekStart:st.isMondayAsWeekStart];
     [monthView changeWeekPlanner:7 weeks:weeks];
+     */
+    [self updateWeeks:dt];
     [monthView collapseWeek];
     [self finishInitCalendar];
     // change month
-    [monthView changeMonth:firstMonDate];
+    //[monthView changeMonth:firstMonDate];
+    [monthView initCalendar:dt];
     
     // collapse week
     [monthView collapseExpandByDate:dt];
@@ -137,5 +156,38 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		[monthView unhighlight];
 	}
     
+}
+
+- (void) switchView:(NSInteger)mode
+{
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSDate *dt = (tm.today==nil?[NSDate date]:tm.today);
+    
+    NSDate *calDate = (mode == 1?dt:[Common getFirstMonthDate:dt]);
+    
+    [self updateWeeks:calDate];
+    [monthView initCalendar:calDate];
+    [monthView collapseWeek];
+    [self finishInitCalendar];
+    
+    [monthView collapseExpandByDate:dt];
+    [monthView highlightCellOnDate:dt];
+}
+
+- (void) updateWeeks:(NSDate *)date
+{
+    Settings *settings = [Settings getInstance];
+    
+    NSInteger mode = [headerView getMWMode];
+    
+    NSDate *calDate = (mode == 1?date:[Common getFirstMonthDate:date]);
+    
+    NSDate *lastWeekDate = [Common getLastWeekDate:calDate mondayAsWeekStart:settings.isMondayAsWeekStart];
+    
+    NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:lastWeekDate mondayAsWeekStart:settings.isMondayAsWeekStart]);
+    
+    NSLog(@"weekk : %d", weeks);
+    [self.monthView changeWeekPlanner:7 weeks:weeks];
 }
 @end

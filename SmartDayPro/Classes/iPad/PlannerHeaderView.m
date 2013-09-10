@@ -98,7 +98,6 @@ extern PlannerViewController *_plannerViewCtrler;
         
         [self addSubview:todayButton];
         
-        /*
         // zoom out button
         frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
         frm.origin.y -= PAD_WIDTH;
@@ -132,7 +131,6 @@ extern PlannerViewController *_plannerViewCtrler;
         zoomOutButton.userInteractionEnabled = NO;
         zoomInButton.selected = NO;
         zoomInButton.userInteractionEnabled = YES;
-         */
     }
     return self;
 }
@@ -230,7 +228,22 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void)switchMWMode:(id)sender
 {
+    UIButton *button = (UIButton*)sender;
+    [self changeMWMode:button.tag - 12000];
+}
+
+- (void) changeMWMode:(NSInteger)mode
+{
+    UIButton *zoomOutButton = (UIButton*)[self viewWithTag:12000];
+    UIButton *zoomInButton = (UIButton*)[self viewWithTag:12001];
+    zoomOutButton.userInteractionEnabled = mode==1;
+    zoomOutButton.selected = !zoomOutButton.userInteractionEnabled;
+    zoomInButton.userInteractionEnabled = mode==0;
+    zoomInButton.selected = !zoomInButton.userInteractionEnabled;
     
+    PlannerView *mmView = (PlannerView *) self.superview;
+    
+    [mmView switchView:mode];
 }
 
 - (void) goToday:(id) sender
@@ -245,5 +258,12 @@ extern PlannerViewController *_plannerViewCtrler;
 {
     UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
     [_plannerViewCtrler showYearView:monthButton];
+}
+
+- (NSInteger) getMWMode
+{
+    //return selectedButton.selected?0:1;
+    UIButton *zoomOutButton = (UIButton*)[self viewWithTag:12000];
+    return zoomOutButton.selected?0:1;
 }
 @end

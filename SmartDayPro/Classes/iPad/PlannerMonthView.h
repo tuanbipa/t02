@@ -43,7 +43,6 @@
 - (void)changeWeekPlanner:(NSInteger)days weeks:(NSInteger)weeks;
 // draw calendar
 - (void)initCalendar: (NSDate *)date;
-- (void)changeMonth: (NSDate *) date;
 - (void)expandWeek: (int) week;
 - (void)collapseWeek;
 - (BOOL)collapseExpand: (int) week;

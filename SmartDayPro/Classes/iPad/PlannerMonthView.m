@@ -118,11 +118,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self refresh];
 }
 
-- (void)changeMonth: (NSDate *) date {
-    [self setTitleForCells:date];
-    [self refresh];
-}
-
 - (void)setTitleForCells: (NSDate *) date {
     NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
 	
@@ -425,7 +420,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     // update height
     CGRect selfFrm = self.frame;
-    selfFrm.size.height = selfFrm.size.height + alterHeight;
+    selfFrm.size.height = selfFrm.size.height + alterHeight + 1.5;
     self.frame = selfFrm;
     
     // update height of supper view

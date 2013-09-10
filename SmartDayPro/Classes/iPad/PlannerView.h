@@ -26,4 +26,5 @@
 - (void)goToDate: (NSDate *) dt;
 
 - (void) changeFrame:(CGRect)frm;
+- (void) switchView:(NSInteger)mode;
 @end

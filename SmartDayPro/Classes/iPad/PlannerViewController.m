@@ -1059,9 +1059,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) viewWillDisappear:(BOOL)animated
 {
+    [self deselect];
     [super viewWillDisappear:animated];
     
-    [self deselect];
+    //[self deselect];
     
     //SmartListViewController *ctrler = [self getSmartListViewController];
     
