@@ -187,7 +187,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     NSInteger weeks = (mode==1?1:[Common getWeeksInMonth:lastWeekDate mondayAsWeekStart:settings.isMondayAsWeekStart]);
     
-    NSLog(@"weekk : %d", weeks);
     [self.monthView changeWeekPlanner:7 weeks:weeks];
 }
 @end
