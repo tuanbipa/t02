@@ -1080,6 +1080,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super viewDidDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:self];
+    
+    CalendarViewController *ctrler = [self getCalendarViewController];
+    
+    [ctrler refreshLayout];//fix bug: create Event in landscape, rotate to portrait -> events are shown incorrectly in day calendar
 }
 
 - (void) adjustSubFrame: (NSNotification*) notification {

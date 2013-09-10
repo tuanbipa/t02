@@ -1543,13 +1543,13 @@ extern DetailViewController *_detailViewCtrler;
 
 - (void) markDoneTask:(Task *)task
 {
-    AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
+    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
+    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
     
     TaskManager *tm = [TaskManager getInstance];
     
-    NSDate *oldDeadline = [[task.deadline copy] autorelease];
-    BOOL isRT = [task isRT];
+    //NSDate *oldDeadline = [[task.deadline copy] autorelease];
+    //BOOL isRT = [task isRT];
     
     //[tm markDoneTask:task];
     /*NSDate *startTime = nil;
@@ -1573,6 +1573,7 @@ extern DetailViewController *_detailViewCtrler;
         [plannerDayCal refreshLayout];
     }*/
     
+    /*
     if (oldDeadline != nil)
     {
         [calView refreshCellByDate:oldDeadline];
@@ -1598,7 +1599,9 @@ extern DetailViewController *_detailViewCtrler;
     {
         [calView refreshCellByDate:task.deadline];
         [plannerCalView refreshCellByDate:task.deadline];
-    }
+    }*/
+    
+    [self reconcileItem:task reSchedule:YES];
     
 }
 
@@ -1640,10 +1643,10 @@ extern DetailViewController *_detailViewCtrler;
         {
             [ctrler setNeedsDisplay];
             
-            if ([self checkControllerActive:1])
+            /*if ([self checkControllerActive:1])
             {
                 [slViewCtrler refreshLayout];
-            }
+            }*/
         }
         else if ([self checkControllerActive:3])
         {
