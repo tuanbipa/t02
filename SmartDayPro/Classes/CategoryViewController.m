@@ -90,7 +90,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) reconcileItem:(Task *)item
 {
-    if ([_abstractViewCtrler checkControllerActive:3])
+    if ([_iPadViewCtrler.activeViewCtrler checkControllerActive:3])
     {
         //comment out: when convert a task into event, it does not match filter type anymore
         /*if (([item isNote] && self.filterType == TYPE_NOTE) ||

@@ -150,7 +150,7 @@ extern RepeatTableViewController *_repeatViewCtrler;
                     task.endTime = [Common dateByAddNumSecond:diff toDate:date];
                 }
                 
-                task.startTime = date;
+                task.startTime = ([task isADE]?[Common clearTimeForDate:date]:date);
             }
         }
             break;
@@ -163,7 +163,7 @@ extern RepeatTableViewController *_repeatViewCtrler;
                 task.startTime = [Common dateByAddNumSecond:-diff toDate:date];
             }
             
-            task.endTime = date;
+            task.endTime = [task isADE]?[Common getEndDate:date]:date;
         }
             break;
         case TASK_EDIT_DEADLINE:

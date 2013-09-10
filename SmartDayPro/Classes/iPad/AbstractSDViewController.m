@@ -358,55 +358,8 @@ extern iPadViewController *_iPadViewCtrler;
         self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
     }*/
 }
-/*
-- (void) applyFilter
-{
-    TaskManager *tm = [TaskManager getInstance];
-    
-    NSDate *dt = [tm.today copy];
-    
-    [tm initCalendarData:dt];
-    [tm initSmartListData];
-    
-    [dt release];
-    
-    [miniMonthView initCalendar:tm.today];
-    
-    NoteViewController *noteCtrler = [self getNoteViewController];
-    [noteCtrler loadAndShowList];
-    
-    CategoryViewController *catCtrler = [self getCategoryViewController];
-    [catCtrler loadAndShowList];    
-}
 
-#pragma mark Alert Handle
 
-- (void)reloadAlerts:(NSNotification *)notification
-{
-    NSInteger taskId = [[notification.userInfo objectForKey:@"TaskId"] intValue];
-    
-    [self reloadAlert4Task:taskId];
-}
-
-- (void) reloadAlert4Task:(NSInteger)taskId
-{
-    TaskManager *tm = [TaskManager getInstance];
-    
-    [tm reloadAlert4Task:taskId];
-    
-    for (int i=0; i<4; i++)
-    {
-        PageAbstractViewController *ctrler = viewCtrlers[i];
-        
-        [ctrler reloadAlert4Task:taskId];
-    }
-    
-    if (focusView != nil)
-    {
-        [focusView reloadAlert4Task:taskId];
-    }
-}
-*/
 #pragma mark View
 
 -(void)changeSkin

@@ -136,7 +136,7 @@ AbstractSDViewController *_abstractViewCtrler;
             
             ////printf("ade %s - start: %s, end: %s\n", [task.name UTF8String], [[task.startTime description] UTF8String], [[task.endTime description] UTF8String]);
             
-            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 30);
+            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 35);
             
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
@@ -151,7 +151,7 @@ AbstractSDViewController *_abstractViewCtrler;
             [contentView addSubview:taskView];
             [taskView release];
             
-            y += frm.size.height + 5;
+            y += frm.size.height;
         }
         
         for (int i=0; i<self.adeList.count; i++)
@@ -161,7 +161,7 @@ AbstractSDViewController *_abstractViewCtrler;
             
             ////printf("ade %s - start: %s, end: %s\n", [task.name UTF8String], [[task.startTime description] UTF8String], [[task.endTime description] UTF8String]);
             
-            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 30);
+            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 35);
             
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
@@ -176,7 +176,7 @@ AbstractSDViewController *_abstractViewCtrler;
             [contentView addSubview:taskView];
             [taskView release];
             
-            y += frm.size.height + 5;
+            y += frm.size.height;
         }
         
         for (int i=0; i<self.dueList.count; i++)
@@ -185,7 +185,7 @@ AbstractSDViewController *_abstractViewCtrler;
             
             task.listSource = SOURCE_FOCUS;
             
-            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 30);
+            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 35);
             
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
@@ -200,7 +200,7 @@ AbstractSDViewController *_abstractViewCtrler;
             [contentView addSubview:taskView];
             [taskView release];
             
-            y += frm.size.height + 5;
+            y += frm.size.height;
             
         }
 
@@ -210,7 +210,7 @@ AbstractSDViewController *_abstractViewCtrler;
             
             task.listSource = SOURCE_FOCUS;
             
-            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 30);
+            CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 35);
             
             TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
             taskView.task = task;
@@ -225,7 +225,7 @@ AbstractSDViewController *_abstractViewCtrler;
             [contentView addSubview:taskView];
             [taskView release];
             
-            y += frm.size.height + 5;
+            y += frm.size.height;
             
         }
         

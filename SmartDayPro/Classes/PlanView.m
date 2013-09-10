@@ -135,15 +135,18 @@ extern iPadViewController *_iPadViewCtrler;
 	//Project *plan = (Project *)self.tag;
     Project *plan = self.project;
     
+    UIColor *textColor = [Common getColorByID:plan.colorId colorIndex:0];
+    
     //NSString *name = [NSString stringWithFormat:@"%@%@", plan.source == CATEGORY_SOURCE_ICAL?@"[iOS/OSX] ":(plan.source == CATEGORY_SOURCE_SDW?@"[mySmartDay] ":@""), plan.name];
     
     //NSString *name = plan.name;
     NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"[%@] ", plan.ownerName]:@"", plan.name];
 	
-	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
+	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
 	
-	UIColor *embossedColor = [UIColor colorWithRed:94.0/255 green:120.0/255 blue:112.0/255 alpha:1];
-	UIColor *textColor = [UIColor whiteColor];
+	//UIColor *embossedColor = [UIColor colorWithRed:94.0/255 green:120.0/255 blue:112.0/255 alpha:1];
+    
+	//UIColor *textColor = [UIColor whiteColor];
 	
 	UITextAlignment alignment = NSTextAlignmentLeft;
 	    
@@ -173,10 +176,12 @@ extern iPadViewController *_iPadViewCtrler;
     textRec.origin.y = rect.origin.y + (rect.size.height - sz.height - oneCharSize.height)/2;
     textRec.size.height = sz.height;
     
+    /*
     CGRect embossedRec = CGRectOffset(textRec, 0, -1);
     
     [embossedColor set];
     [name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
+    */
 
     [textColor set];
     [name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
@@ -196,9 +201,9 @@ extern iPadViewController *_iPadViewCtrler;
 	
 	[[UIColor whiteColor] set];
 	
-	UIFont *font = [UIFont systemFontOfSize:13];
+    UIFont *infoFont = [UIFont fontWithName:@"Verdana" size:11];
 	
-	[str drawInRect:rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
+	[str drawInRect:rect withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
 }
 
 - (void)drawListInfo:(CGRect)rect context:(CGContextRef) ctx info:(PlanInfo) info
@@ -214,9 +219,9 @@ extern iPadViewController *_iPadViewCtrler;
 	
 	[[UIColor whiteColor] set];
 	
-	UIFont *font = [UIFont systemFontOfSize:13];
+    UIFont *infoFont = [UIFont fontWithName:@"Verdana" size:11];
 	
-	[str drawInRect:rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
+	[str drawInRect:rect withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
 	
 	//UIImage *listImage = [UIImage imageNamed:@"list_style.png"];
 	UIImage *listImage = [[ImageManager getInstance] getImageWithName:@"list_style.png"];
@@ -296,9 +301,9 @@ extern iPadViewController *_iPadViewCtrler;
     //Project *plan = (Project *) self.tag;
     Project *plan = self.project;
 
-    UIColor *color = [Common getColorByID:plan.colorId colorIndex:0];
+    UIColor *color = [Common getColorByID:plan.colorId colorIndex:1];
     
-    [color setFill];
+    [[color colorWithAlphaComponent:0.4] setFill];
     
     CGRect frm = rect;
     
@@ -310,44 +315,7 @@ extern iPadViewController *_iPadViewCtrler;
         
         [color setFill];
         CGContextFillRect(ctx, frm);
-    }    
-    
-    //frm.size.width -= PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH - 80;
-    //frm.origin.x += PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
-    
-    /*NSString *infoStr = @"";
-    
-    if (self.listType == TYPE_TASK)
-    {
-        PlanInfo info = [plan getInfo];
-        
-        CGFloat hrs = info.totalDuration*1.0/3600;
-        
-        infoStr = [NSString stringWithFormat:@"%d/%d - %.1f hrs - %.0f%%", info.doneTotal, info.total, hrs, info.progress*100];
     }
-    else 
-    {
-        NSInteger count = [[DBManager getInstance] countItems:self.listType inPlan:plan.primaryKey];
-        
-        infoStr = [NSString stringWithFormat:@"%d", count];
-    }
-    
-    UIFont *font = [UIFont systemFontOfSize:14];
-    
-    CGSize sz = [infoStr sizeWithFont:font];
-    sz.width += SPACE_PAD;
-    
-    frm.size = sz;
-    frm.origin.x = rect.origin.x + rect.size.width - sz.width;
-    frm.origin.y = rect.origin.y + (rect.size.height - sz.height)/2;
-    
-	[[UIColor whiteColor] set];
-	[infoStr drawInRect:frm withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentCenter];
-    
-    //rect.size.width -= frm.size.width + SPACE_PAD + PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
-    //rect.origin.x += PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
-    
-    rect.size.width -= frm.size.width + SPACE_PAD;*/
     
     if ([plan checkDefault]) 
     {
@@ -404,9 +372,9 @@ extern iPadViewController *_iPadViewCtrler;
         infoStr = [NSString stringWithFormat:@"%d", count];
     }
     
-    UIFont *font = [UIFont systemFontOfSize:14];
+    UIFont *infoFont = [UIFont fontWithName:@"Verdana" size:11];
     
-    CGSize sz = [infoStr sizeWithFont:font];
+    CGSize sz = [infoStr sizeWithFont:infoFont];
     //sz.width += SPACE_PAD;
     
     frm.size = sz;
@@ -415,8 +383,8 @@ extern iPadViewController *_iPadViewCtrler;
     frm.origin.x = textRect.origin.x;
     frm.origin.y = textRect.origin.y + textRect.size.height;
     
-	[[UIColor whiteColor] set];
-	[infoStr drawInRect:frm withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft];
+	[color set];
+	[infoStr drawInRect:frm withFont:infoFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft];
 }
 
 - (void)drawRect:(CGRect)rect {

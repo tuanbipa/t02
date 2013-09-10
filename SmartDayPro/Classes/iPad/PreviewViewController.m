@@ -1149,12 +1149,14 @@ PreviewViewController *_previewCtrler;
 
 - (void) createURLCell:(UITableViewCell *)cell asset:(URLAsset *)asset
 {
-    GuideWebView *webView = [[GuideWebView alloc] initWithFrame:CGRectMake(0, 0, linkTableView.bounds.size.width, 40)];
+    NSInteger lines = [Common countLines:asset.urlValue boundWidth:linkTableView.bounds.size.width withFont:[UIFont fontWithName:@"Helvetica" size:16]];
+    
+    GuideWebView *webView = [[GuideWebView alloc] initWithFrame:CGRectMake(0, lines>1?-5:0, linkTableView.bounds.size.width, 50)];
     webView.backgroundColor = [UIColor clearColor];
     
     webView.safariEnabled = YES;
     
-    NSString *url = [NSString stringWithFormat:@"<a href='%@'>%@</a>", asset.urlValue, asset.urlValue];
+    NSString *url = [NSString stringWithFormat:@"<a style='font-size:14px;font-family:Helvetica' href='%@'>%@</a>", asset.urlValue, asset.urlValue];
     
     [webView loadHTMLContent:url];
     

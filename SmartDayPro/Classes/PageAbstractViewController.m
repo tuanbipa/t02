@@ -119,6 +119,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     contentView.frame = frm;
 }
 
+- (void)refreshLayout
+{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

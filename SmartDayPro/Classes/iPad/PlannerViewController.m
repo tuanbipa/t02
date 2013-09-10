@@ -40,7 +40,10 @@
 #import "NoteViewController.h"
 #import "CategoryViewController.h"
 
+#import "iPadViewController.h"
+
 PlannerViewController *_plannerViewCtrler = nil;
+extern iPadViewController *_iPadViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -1038,12 +1041,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     [plannerView goToDate:dt];
     
+    /*
     UIButton *taskButton = (UIButton *)[contentView viewWithTag:31000];
     if (taskButton != nil)
     {
         //[self showModule:taskButton];
         [self performSelector:@selector(showModule:) withObject:taskButton afterDelay:0];
-    }
+    }*/
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -1076,9 +1080,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [super viewDidDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(miniMonthResize:)
-                                                 name:@"MiniMonthResizeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:self];
+    
+    CalendarViewController *ctrler = [self getCalendarViewController];
+    
+    [ctrler refreshLayout];//fix bug: create Event in landscape, rotate to portrait -> events are shown incorrectly in day calendar
 }
 
 - (void) adjustSubFrame: (NSNotification*) notification {
@@ -1133,6 +1139,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 #pragma mark Modules
+- (void) showModuleByIndex:(NSInteger)index
+{
+    //index: 0-Task, 1-Note, 2-Project
+    UIButton *button = (UIButton *) [contentView viewWithTag:31000+index];
+    
+    if (selectedModuleButton != nil)
+    {
+        UIView *moduleView = [contentView viewWithTag:33000];
+        [[moduleView.subviews lastObject] removeFromSuperview];
+        
+        selectedModuleButton = nil;
+    }
+    
+    [self showModule:button];
+    
+    PageAbstractViewController *ctrler = [self getModuleAtIndex:index+1];
+    
+    [ctrler refreshLayout];
+}
 
 - (void) showModule:(id)sender
 {
@@ -1147,7 +1172,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
             [[moduleView.subviews lastObject] removeFromSuperview];
         }
         
-        PageAbstractViewController *ctrler = viewCtrlers[btn.tag - 31000];
+        _iPadViewCtrler.selectedModuleIndex = btn.tag - 31000;
+        
+        PageAbstractViewController *ctrler = [self getModuleAtIndex:_iPadViewCtrler.selectedModuleIndex + 1];
         
         [ctrler changeFrame:moduleView.bounds];
         

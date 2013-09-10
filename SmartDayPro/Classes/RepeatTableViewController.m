@@ -19,8 +19,10 @@
 #import "DetailViewController.h"
 
 #import "DateInputViewController.h"
+#import "iPadViewController.h"
 
 extern BOOL _isiPad;
+extern iPadViewController *_iPadViewCtrler;
 
 RepeatTableViewController *_repeatViewCtrler = nil;
 
@@ -58,6 +60,41 @@ RepeatTableViewController *_repeatViewCtrler = nil;
     self.inputViewCtrler = nil;
 	
     [super dealloc];
+}
+
+- (void) changeFrame:(CGRect)frm
+{
+    contentView.frame = frm;
+    
+    repeatTableView.frame = contentView.bounds;
+    
+    frm = CGRectMake(0, contentView.bounds.size.height - 300, contentView.bounds.size.width, 300);
+    
+    inputView.frame = frm;
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 2*44;
+    
+    frm.size.width = 384;
+    
+    [self changeFrame:frm];
 }
 
 - (void)loadView 
@@ -125,44 +162,6 @@ RepeatTableViewController *_repeatViewCtrler = nil;
     [contentView addSubview:inputView];
     [inputView release];
     
-/*
-	doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 160, 320, 40)];
-    //doneBarView=[[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height - [Common getKeyboardHeight] - 40, frm.size.width, 40)];
-	doneBarView.backgroundColor=[UIColor clearColor];
-	
-	doneBarView.hidden = YES;
-	
-	[contentView addSubview:doneBarView];
-	[doneBarView release];
-	
-	//UIView *doneBarBackground=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    UIView *doneBarBackground=[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-	doneBarBackground.backgroundColor=[UIColor viewFlipsideBackgroundColor];
-	doneBarBackground.alpha=0.3;
-	[doneBarView addSubview:doneBarBackground];
-	[doneBarBackground release];
-	
-	UIButton *doneButton = [Common createButton:_doneText 
-									   buttonType:UIButtonTypeCustom
-											//frame:CGRectMake(250, 5, 60, 30)
-                            frame:CGRectMake(frm.size.width-70, 5, 60, 30)
-									   titleColor:[UIColor whiteColor] 
-										   target:self 
-										 selector:@selector(done:) 
-								 normalStateImage:@"blue_button.png"
-							   selectedStateImage:nil];
-	
-	[doneBarView addSubview:doneButton];
-	
-	untilPicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 200, 0, 0)];
-	[untilPicker addTarget:self action:@selector(untilChanged:) forControlEvents:UIControlEventValueChanged];
-	untilPicker.minuteInterval=5;
-    untilPicker.datePickerMode = UIDatePickerModeDate;
-	untilPicker.hidden = YES;
-	
-	[contentView addSubview: untilPicker];
-	[untilPicker release];
-*/
 	self.view = contentView;
 	[contentView release];
     
@@ -170,44 +169,6 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 	
 	self.navigationItem.title = _repeatText;
 }
-
-/*
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-*/
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -220,6 +181,11 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+}
+
+- (void) viewDidLoad
+{
+    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
 }
 
 - (void) viewDidAppear:(BOOL)animated

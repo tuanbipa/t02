@@ -327,7 +327,7 @@ extern iPadViewController *_iPadViewCtrler;
     CGSize oneCharSize = [@"a" sizeWithFont:font];
     NSInteger lineMaxChars = floor(rect.size.width/oneCharSize.width);
     
-    BOOL isList = self.listStyle || self.focusStyle;
+    //BOOL isList = self.listStyle || self.focusStyle;
     
     NSTextAlignment alignment = NSTextAlignmentLeft;
     

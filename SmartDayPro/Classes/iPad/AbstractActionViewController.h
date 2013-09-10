@@ -41,7 +41,7 @@
 @property (nonatomic, retain) Task *task2Link;
 @property (nonatomic, retain) Task *actionTaskCopy;
 
-
+@property (nonatomic, retain) MovableView *activeView;
 @property (nonatomic, readonly) ContentView *contentView;
 
 @property (nonatomic, retain) UIPopoverController *popoverCtrler;
@@ -87,8 +87,11 @@
 - (void) hideDropDownMenu;
 - (void) showOptionMenu;
 - (void) deselect;
+- (void) setNeedsDisplay;
+- (void) resetAllData;
 - (void) refreshData;
 - (void) applyFilter;
+- (void) showModuleByIndex:(NSInteger)index;
 
 - (void) showSeekOrCreate:(NSString *)text;
 - (void) createItem:(NSInteger)index title:(NSString *)title;

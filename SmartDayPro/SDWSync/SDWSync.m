@@ -719,7 +719,8 @@ NSInteger _sdwColor[32] = {
     
     ret.deleteWarning = [[dict objectForKey:@"confirm_delete"] boolValue];
     
-    NSString *catId = [[dict objectForKey:@"default_category_id"] stringValue];
+    //NSString *catId = [[dict objectForKey:@"default_category_id"] stringValue];
+    NSString *catId = [self getKeyValue:@"default_category_id" dict:dict];
     
     NSNumber *catNum = [self.sdwSCMappingDict objectForKey:catId];
     
@@ -942,11 +943,14 @@ NSInteger _sdwColor[32] = {
 {
     Project *ret = [[[Project alloc] init] autorelease];
     
-    ret.sdwId = [[dict objectForKey:@"id"] stringValue];
-    ret.name = [dict objectForKey:@"name"];
+    //ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.sdwId = [self getKeyValue:@"id" dict:dict];
+    //ret.name = [dict objectForKey:@"name"];
+    ret.name = [self getStringValue:@"name" dict:dict];
     ret.type = [[dict objectForKey:@"category_type"] intValue];
     ret.colorId = [self getColorIndex:[[dict objectForKey:@"color"] intValue]];
-    ret.tag = [dict objectForKey:@"tags"];
+    //ret.tag = [dict objectForKey:@"tags"];
+    ret.name = [self getStringValue:@"tags" dict:dict];
     ret.isTransparent = ([[dict objectForKey:@"is_transparent"] intValue] == 1);
     ret.status = ([[dict objectForKey:@"invisible"] intValue] == 1?PROJECT_STATUS_INVISIBLE:PROJECT_STATUS_NONE);
     ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
@@ -959,8 +963,10 @@ NSInteger _sdwColor[32] = {
         
         if (ownerDict != nil)
         {
-            NSString *lastName = [ownerDict objectForKey:@"oLastName"];
-            NSString *firstName = [ownerDict objectForKey:@"oFirstName"];
+            //NSString *lastName = [ownerDict objectForKey:@"oLastName"];
+            NSString *lastName = [self getStringValue:@"oLastName" dict:ownerDict];
+            //NSString *firstName = [ownerDict objectForKey:@"oFirstName"];
+            NSString *firstName = [self getStringValue:@"oFirstName" dict:ownerDict];
             
             if (lastName == nil)
             {
@@ -1490,14 +1496,28 @@ NSInteger _sdwColor[32] = {
     }
 }
 
+- (NSString *) getStringValue:(NSString *)value dict:(NSDictionary *) dict
+{
+    return [dict objectForKey:value] != [NSNull null]?[dict objectForKey:value]:@"";
+}
+
+- (NSString *) getKeyValue:(NSString *)value dict:(NSDictionary *) dict
+{
+    return [dict objectForKey:value] != [NSNull null]?[[dict objectForKey:value] stringValue]:@"";
+}
+
 #pragma mark Sync Task
 - (Task *) getSDWTask:(NSDictionary *) dict
 {
     Task *ret = [[[Task alloc] init] autorelease];
     
-    ret.sdwId = [[dict objectForKey:@"id"] stringValue];
-    ret.name = [dict objectForKey:@"title"];
-    ret.note = [dict objectForKey:@"content"];
+    //ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.sdwId = [self getKeyValue:@"id" dict:dict];
+    
+    //ret.name = [dict objectForKey:@"title"];
+    ret.name = [self getStringValue:@"title" dict:dict];
+    //ret.note = [dict objectForKey:@"content"];
+    ret.note = [self getStringValue:@"content" dict:dict];
     
     //ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
     [ret setShared:[[dict objectForKey:@"shared"] intValue]];
@@ -1543,9 +1563,11 @@ NSInteger _sdwColor[32] = {
     
     ret.project = (prjNum != nil? [prjNum intValue]:-1);
     
-    ret.location = [dict objectForKey:@"location"];
+    //ret.location = [dict objectForKey:@"location"];
+    ret.location = [self getStringValue:@"location" dict:dict];
     
-    ret.tag = [dict objectForKey:@"tags"];
+    //ret.tag = [dict objectForKey:@"tags"];
+    ret.tag = [self getStringValue:@"tags" dict:dict];
     
     ret.duration = ([[dict objectForKey:@"duration"] intValue])*60;
     
@@ -1584,9 +1606,11 @@ NSInteger _sdwColor[32] = {
         ret.status = TASK_STATUS_DONE;
     }
     
-    NSString *groupId = ( [dict objectForKey:@"group_id"] != [NSNull null]?[[dict objectForKey:@"group_id"] stringValue]:nil);
+    //NSString *groupId = ( [dict objectForKey:@"group_id"] != [NSNull null]?[[dict objectForKey:@"group_id"] stringValue]:nil);
     
-    if (groupId != nil && ![groupId isEqualToString:@"0"])
+    NSString *groupId = [self getKeyValue:@"group_id" dict:dict];
+    
+    if (![groupId isEqualToString:@""] && ![groupId isEqualToString:@"0"])
     {
         ret.groupKey = [[DBManager getInstance] getKey4SDWId:groupId];
         
@@ -2954,9 +2978,12 @@ NSInteger _sdwColor[32] = {
     
     Link *ret = [[[Link alloc] init] autorelease];
     
-    ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    //ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.sdwId = [self getKeyValue:@"id" dict:dict];
+    
     ret.destAssetType = [[dict objectForKey:@"link_type"] intValue];
     
+    /*
     id root = [dict objectForKey:@"root_id"];
     id target = [dict objectForKey:@"target_id"];
     
@@ -2967,6 +2994,15 @@ NSInteger _sdwColor[32] = {
     
     NSString *rootId = [root stringValue];
     NSString *targetId = [target stringValue];
+    */
+    
+    NSString *rootId = [self getKeyValue:@"root_id" dict:dict];
+    NSString *targetId = [self getKeyValue:@"target_id" dict:dict];
+    
+    if ([rootId isEqualToString:@""] || [targetId isEqualToString:@""])
+    {
+        return nil;
+    }
     
     ret.srcId = [dbm getKey4SDWId:rootId];
     ret.destId = (ret.destAssetType == 1?[dbm getURLAssetKey4SDWId:targetId]:[dbm getKey4SDWId:targetId]);
@@ -3473,8 +3509,10 @@ NSInteger _sdwColor[32] = {
 {
     URLAsset *ret = [[[URLAsset alloc] init] autorelease];
     
-    ret.sdwId = [[dict objectForKey:@"id"] stringValue];
-    ret.urlValue = [dict objectForKey:@"url"];
+    //ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.sdwId = [self getKeyValue:@"id" dict:dict];
+    //ret.urlValue = [dict objectForKey:@"url"];
+    ret.urlValue = [self getStringValue:@"url" dict:dict];
     ret.updateTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"last_update"] intValue]];
     
     return ret;
@@ -4248,16 +4286,21 @@ NSInteger _sdwColor[32] = {
     
     Comment *ret = [[[Comment alloc] init] autorelease];
     
-    ret.sdwId = [[dict objectForKey:@"id"] stringValue];
-    ret.content = [dict objectForKey:@"content"];
+    //ret.sdwId = [[dict objectForKey:@"id"] stringValue];
+    ret.sdwId = [self getKeyValue:@"id" dict:dict];
+    //ret.content = [dict objectForKey:@"content"];
+    ret.content = [self getStringValue:@"content" dict:dict];
     ret.isOwner = ([[dict objectForKey:@"is_owner"] intValue] == 1);
     ret.type = [[dict objectForKey:@"comment_type"] intValue];
-    ret.lastName = [dict objectForKey:@"last_name"];
-    ret.firstName = [dict objectForKey:@"first_name"];
+    //ret.lastName = [dict objectForKey:@"last_name"];
+    ret.lastName = [self getStringValue:@"last_name" dict:dict];
+    //ret.firstName = [dict objectForKey:@"first_name"];
+    ret.firstName = [self getStringValue:@"first_name" dict:dict];
     ret.createTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"create_time"] intValue]];
     ret.updateTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"last_update"] intValue]];
     
-    NSString *itemId = [[dict objectForKey:@"root_id"] stringValue];
+    //NSString *itemId = [[dict objectForKey:@"root_id"] stringValue];
+    NSString *itemId = [self getKeyValue:@"root_id" dict:dict];
     
     ret.itemKey = (ret.type == COMMENT_TYPE_ITEM?[dbm getKey4SDWId:itemId]:[dbm getProjectKey4SDWId:itemId]);
     
