@@ -18,7 +18,10 @@
 #import "RepeatTableViewController.h"
 #import "TaskNoteViewController.h"
 
+#import "iPadViewController.h"
+
 extern BOOL _isiPad;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation TaskReadonlyDetailViewController
 
@@ -52,8 +55,28 @@ extern BOOL _isiPad;
     [super dealloc];
 }
 
+- (void) done:(id) sender
+{
+    [_iPadViewCtrler.activeViewCtrler deselect];
+    [_iPadViewCtrler closeDetail];
+}
+
+- (void) markDone:(id)sender
+{
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler markDoneTask];
+}
+
+- (void) share2AirDrop:(id) sender
+{
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler share2AirDrop];
+}
+
 - (void) setTask:(Task *)taskParam
 {
+    task = taskParam;
+    
 	if (taskParam.original != nil && ![taskParam isREException]) //Calendar Task or REException
 	{
         //printf("task original: %s\n", [[task.original name] UTF8String]);
@@ -66,30 +89,127 @@ extern BOOL _isiPad;
 	}
 }
 
+-(void)changeSkin
+{
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+}
+
+- (void) changeFrame:(CGRect)frm
+{
+    contentView.frame = frm;
+    
+    //frm = CGRectInset(contentView.bounds, 5, 5);
+    
+    frm = contentView.bounds;
+    frm.size.width -= 10;
+    
+    taskTableView.frame = frm;
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 2*44;
+    
+    frm.size.width = 384;
+    
+    [self changeFrame:frm];
+}
+
+- (void) refreshToolbar
+{
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+    
+    self.navigationItem.leftBarButtonItem = doneItem;
+    
+    [doneItem release];
+    
+    if (self.task == nil)
+    {
+        self.navigationItem.rightBarButtonItems = nil;
+        return;
+    }
+    
+    UIButton *markDoneButton = [Common createButton:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(0, 0, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(markDone:)
+                                   normalStateImage:@"menu_done.png"
+                                 selectedStateImage:nil];
+    
+    UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
+    
+    UIButton *airDropButton = [Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(0, 0, 30, 30)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(share2AirDrop:)
+                                  normalStateImage:@"menu_airdrop.png"
+                                selectedStateImage:nil];
+    
+    UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
+    
+    NSMutableArray *items = [self.task isTask]?[NSMutableArray arrayWithObject:markDoneItem]:[NSMutableArray arrayWithCapacity:0];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        [items addObject:airDropItem];
+    }
+    
+    self.navigationItem.rightBarButtonItems = items;
+    
+    [markDoneItem release];
+    [airDropItem  release];
+}
+
 - (void)loadView
 {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    if (_isiPad)
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
     {
-        frm.size.width = 320;
-        frm.size.height = 416;
+        frm.size.height = frm.size.width - 20;
     }
     
-	UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    frm.size.width = 384;
+    
+	contentView = [[UIView alloc] initWithFrame:frm];
 	contentView.backgroundColor = [UIColor clearColor];
-	
-    taskTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStyleGrouped];
-	taskTableView.delegate = self;
-	taskTableView.dataSource = self;
-	
-	[contentView addSubview:taskTableView];
-	[taskTableView release];
-	
+    
 	self.view = contentView;
 	[contentView release];
     
+    frm = CGRectInset(contentView.bounds, 5, 5);
+	
+    taskTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
+	taskTableView.delegate = self;
+	taskTableView.dataSource = self;
+    taskTableView.backgroundColor = [UIColor clearColor];
+	
+	[contentView addSubview:taskTableView];
+	[taskTableView release];
+    
+    /*
 	UISegmentedControl *taskTypeSegmentedControl = [[UISegmentedControl alloc] initWithItems:
 								[NSArray arrayWithObjects:_taskText, _eventText,nil]];
 	
@@ -105,13 +225,19 @@ extern BOOL _isiPad;
 	
 	self.navigationItem.titleView = taskTypeSegmentedControl;
 	[taskTypeSegmentedControl release];
-    
+    */
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [self changeSkin];
+    
+    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
+    
+    [self refreshToolbar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,6 +269,11 @@ extern BOOL _isiPad;
 	return 40;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -157,8 +288,14 @@ extern BOOL _isiPad;
     // Set up the cell...
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	cell.textLabel.text = @"";
-	cell.textLabel.backgroundColor = [UIColor clearColor];
+
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
     
     switch (indexPath.row)
     {
@@ -226,19 +363,19 @@ extern BOOL _isiPad;
         {
             cell.accessoryType = [self.taskCopy isREException]?UITableViewCellAccessoryNone: UITableViewCellAccessoryDisclosureIndicator;
             
-            UILabel *repeatLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 80, 25)];
+            UILabel *repeatLabel=[[UILabel alloc] initWithFrame:CGRectMake(15, 0, 80, 25)];
             repeatLabel.text=_repeatText;
             repeatLabel.backgroundColor=[UIColor clearColor];
-            repeatLabel.font=[UIFont boldSystemFontOfSize:16];
-            repeatLabel.textColor=[UIColor blackColor];
+            repeatLabel.font=[UIFont systemFontOfSize:16];
+            repeatLabel.textColor=[UIColor grayColor];
             
             [cell.contentView addSubview:repeatLabel];
             [repeatLabel release];
             
-            UILabel *repeatValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 0, 205, 25)];
+            UILabel *repeatValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(taskTableView.bounds.size.width - 30 - 200, 0, 200, 25)];
             repeatValueLabel.textAlignment=NSTextAlignmentRight;
-            repeatValueLabel.textColor= [Colors darkSteelBlue];
-            repeatValueLabel.font=[UIFont systemFontOfSize:15];
+            repeatValueLabel.textColor= [UIColor darkGrayColor];
+            repeatValueLabel.font=[UIFont boldSystemFontOfSize:16];
             repeatValueLabel.backgroundColor=[UIColor clearColor];
             
             repeatValueLabel.text = [self.taskCopy getRepeatTypeString];
@@ -246,19 +383,19 @@ extern BOOL _isiPad;
             [cell.contentView addSubview:repeatValueLabel];
             [repeatValueLabel release];
             
-            UILabel *repeatUntilLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 25, 120, 25)];
+            UILabel *repeatUntilLabel=[[UILabel alloc] initWithFrame:CGRectMake(15, 25, 120, 25)];
             repeatUntilLabel.text=_untilText;
             repeatUntilLabel.backgroundColor=[UIColor clearColor];
-            repeatUntilLabel.font=[UIFont boldSystemFontOfSize:16];
-            repeatUntilLabel.textColor=[UIColor blackColor];
+            repeatUntilLabel.font=[UIFont systemFontOfSize:16];
+            repeatUntilLabel.textColor=[UIColor grayColor];
             
             [cell.contentView addSubview:repeatUntilLabel];
             [repeatUntilLabel release];
             
-            UILabel *repeatUntilValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 25, 205, 25)];
+            UILabel *repeatUntilValueLabel=[[UILabel alloc] initWithFrame:CGRectMake(taskTableView.bounds.size.width - 30 - 200, 25, 200, 25)];
             repeatUntilValueLabel.textAlignment=NSTextAlignmentRight;
-            repeatUntilValueLabel.textColor= [Colors darkSteelBlue];
-            repeatUntilValueLabel.font=[UIFont systemFontOfSize:15];
+            repeatUntilValueLabel.textColor= [UIColor darkGrayColor];
+            repeatUntilValueLabel.font=[UIFont boldSystemFontOfSize:16];
             repeatUntilValueLabel.backgroundColor=[UIColor clearColor];
             
             repeatUntilValueLabel.text = [self.taskCopy getRepeatUntilString];

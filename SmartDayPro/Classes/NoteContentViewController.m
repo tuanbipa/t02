@@ -181,6 +181,11 @@ extern BOOL _isiPad;
     self.noteCopy = self.note;
     noteView.note = self.noteCopy;
     
+    if ([self.note isShared])
+    {
+        noteView.editEnabled = NO;
+    }
+    
     [noteView startEdit];
     
 }

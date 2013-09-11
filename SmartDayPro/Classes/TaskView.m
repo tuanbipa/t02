@@ -1456,6 +1456,8 @@ extern iPadViewController *_iPadViewCtrler;
 		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
         
 		[image drawInRect:frm];
+        
+        rect.size.width -= frm.size.width + SPACE_PAD;
 	}
 	/*else if ([task isTask] && hasHashMark)
 	{

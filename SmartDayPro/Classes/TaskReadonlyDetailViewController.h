@@ -12,11 +12,12 @@
 
 @interface TaskReadonlyDetailViewController : UIViewController
 {
+    UIView *contentView;
     UITableView *taskTableView;
 }
 
 @property (nonatomic, assign) Task *task;
 
-@property (nonatomic, retain) Task *taskCopy;
+@property (nonatomic, copy) Task *taskCopy;
 
 @end

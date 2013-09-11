@@ -135,7 +135,7 @@ extern iPadViewController *_iPadViewCtrler;
 	//Project *plan = (Project *)self.tag;
     Project *plan = self.project;
     
-    UIColor *textColor = [Common getColorByID:plan.colorId colorIndex:0];
+    UIColor *textColor = [Common getColorByID:plan.colorId colorIndex:1];
     
     //NSString *name = [NSString stringWithFormat:@"%@%@", plan.source == CATEGORY_SOURCE_ICAL?@"[iOS/OSX] ":(plan.source == CATEGORY_SOURCE_SDW?@"[mySmartDay] ":@""), plan.name];
     
@@ -337,9 +337,9 @@ extern iPadViewController *_iPadViewCtrler;
     
     if ([plan isShared])
     {
-        [[[Colors darkSlateGray] colorWithAlphaComponent:0.5] setFill];
+        //[[[Colors darkSlateGray] colorWithAlphaComponent:0.5] setFill];
         
-        CGContextFillRect(ctx, self.bounds);
+        //CGContextFillRect(ctx, self.bounds);
         
         frm.size.width = HAND_SIZE;
         frm.size.height = HAND_SIZE;

@@ -151,7 +151,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 #pragma mark Actions
 - (void) done:(id) sender
 {
-    if (![self.noteCopy.name isEqualToString:@""])
+    if (![self.noteCopy.name isEqualToString:@""] && ![self.note isShared])
     {
         [_iPadViewCtrler.activeViewCtrler updateTask:self.note withTask:self.noteCopy];
     }
@@ -178,6 +178,12 @@ NoteDetailViewController *_noteDetailViewCtrler;
     {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void) share2AirDrop:(id) sender
+{
+    [_iPadViewCtrler closeDetail];
+    [_iPadViewCtrler.activeViewCtrler share2AirDrop];
 }
 
 #pragma mark Views
@@ -234,6 +240,20 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     [doneItem release];
     
+    UIButton *airDropButton = [Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(0, 0, 30, 30)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(share2AirDrop:)
+                                  normalStateImage:@"menu_airdrop.png"
+                                selectedStateImage:nil];
+    
+    UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
+    
+    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedItem.width = 10;
+    
     UIButton *deleteButton = [Common createButton:@""
                                        buttonType:UIButtonTypeCustom
                                             frame:CGRectMake(0, 0, 30, 30)
@@ -245,7 +265,14 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
     
-    self.navigationItem.rightBarButtonItem = deleteItem;
+    if ([self.note isShared])
+    {
+        self.navigationItem.rightBarButtonItem = airDropItem;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, airDropItem, nil];
+    }
     
     [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
 }
@@ -343,32 +370,41 @@ NoteDetailViewController *_noteDetailViewCtrler;
 #pragma mark Edit
 - (void) editDate
 {
-    DateInputViewController *ctrler = [[DateInputViewController alloc] initWithNibName:@"DateInputViewController" bundle:nil];
-    ctrler.task = self.noteCopy;
-    ctrler.dateEdit = TASK_EDIT_START;
-    
-    [self showInputView:ctrler];
-    
-    [ctrler release];
+    if (![self.note isShared])
+    {
+        DateInputViewController *ctrler = [[DateInputViewController alloc] initWithNibName:@"DateInputViewController" bundle:nil];
+        ctrler.task = self.noteCopy;
+        ctrler.dateEdit = TASK_EDIT_START;
+        
+        [self showInputView:ctrler];
+        
+        [ctrler release];
+    }
 }
 
 - (void) editProject
 {
-	ProjectInputViewController *ctrler = [[ProjectInputViewController alloc] init];
-	ctrler.task = self.noteCopy;
-	
-	[self showInputView:ctrler];
-	[ctrler release];    
+    if (![self.note isShared])
+    {
+        ProjectInputViewController *ctrler = [[ProjectInputViewController alloc] init];
+        ctrler.task = self.noteCopy;
+        
+        [self showInputView:ctrler];
+        [ctrler release];    
+    }
 }
 
 - (void)editLink:(id)sender
 {
-	LinkViewController *ctrler = [[LinkViewController alloc] init];
-    
-    ctrler.task = self.noteCopy;
-	
-	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];
+    if (![self.note isShared])
+    {
+        LinkViewController *ctrler = [[LinkViewController alloc] init];
+        
+        ctrler.task = self.noteCopy;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
 }
 
 #pragma mark Input Views
@@ -669,6 +705,11 @@ NoteDetailViewController *_noteDetailViewCtrler;
         case 5:
             [self createLinkCell:cell];
             break;
+    }
+    
+    if ([self.note isShared] && indexPath.row != 0)
+    {
+        cell.contentView.userInteractionEnabled = NO;
     }
     
     return cell;

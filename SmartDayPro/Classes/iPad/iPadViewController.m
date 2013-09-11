@@ -33,6 +33,7 @@
 #import "iPadSettingViewController.h"
 
 #import "DetailViewController.h"
+#import "TaskReadonlyDetailViewController.h"
 //#import "NoteDetailTableViewController.h"
 #import "NoteDetailViewController.h"
 #import "NoteContentViewController.h"
@@ -448,6 +449,22 @@ iPadViewController *_iPadViewCtrler;
     if ([item isNote])
     {
         [self editNoteDetail:item];
+    }
+    else if ([item isShared])
+    {
+        TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
+        ctrler.task = item;
+        
+        if (self.detailNavCtrler != nil)
+        {
+            [self.detailNavCtrler initWithRootViewController:ctrler];
+        }
+        else
+        {
+            [self showDetail:ctrler];
+        }
+        
+        [ctrler release];
     }
     else
     {

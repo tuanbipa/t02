@@ -430,7 +430,14 @@ extern BOOL _isiPad;
         UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         fixedItem.width = 20;
         
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, copyItem, airDropItem, nil];
+        if ([self.project isShared])
+        {
+            self.navigationItem.rightBarButtonItem = airDropItem;
+        }
+        else
+        {
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, copyItem, airDropItem, nil];
+        }
         
         [copyItem release];
         [deleteItem release];

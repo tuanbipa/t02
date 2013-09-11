@@ -216,6 +216,19 @@ extern BOOL _isiPad;
 #pragma mark TextFieldDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    if ([textField.text isEqualToString:@""] && textField.tag != -10000)
+    {
+        TaskLinkManager *tlm = [TaskLinkManager getInstance];
+        
+        NSNumber *linkIdNum = [self.task.links objectAtIndex:textField.tag];
+        
+        NSInteger linkedId = [tlm getLinkedId4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+        
+        URLAssetManager *uam = [URLAssetManager getInstance];
+        
+        textField.text = [uam getURLValue:linkedId];
+    }
+    
     [textField resignFirstResponder];
     
 	return YES;
@@ -380,6 +393,7 @@ extern BOOL _isiPad;
                 URLAssetManager *uam = [URLAssetManager getInstance];
                 
                 cell.textLabel.text = [uam getURLValue:linkedId];
+                cell.textLabel.numberOfLines = 0;
             }
             else
             {
@@ -527,7 +541,7 @@ extern BOOL _isiPad;
             
             urlTextField.textAlignment = NSTextAlignmentLeft;
             urlTextField.backgroundColor=[UIColor clearColor];
-            urlTextField.font=[UIFont systemFontOfSize:18];
+            urlTextField.font=[UIFont systemFontOfSize:16];
             
             urlTextField.keyboardType=UIKeyboardTypeDefault;
             urlTextField.returnKeyType = UIReturnKeyDone;
