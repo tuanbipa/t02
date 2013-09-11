@@ -947,10 +947,11 @@ NSInteger _sdwColor[32] = {
     ret.sdwId = [self getKeyValue:@"id" dict:dict];
     //ret.name = [dict objectForKey:@"name"];
     ret.name = [self getStringValue:@"name" dict:dict];
+    //NSLog(@"project name:%@", ret.name);
     ret.type = [[dict objectForKey:@"category_type"] intValue];
     ret.colorId = [self getColorIndex:[[dict objectForKey:@"color"] intValue]];
     //ret.tag = [dict objectForKey:@"tags"];
-    ret.name = [self getStringValue:@"tags" dict:dict];
+    ret.tag = [self getStringValue:@"tags" dict:dict];
     ret.isTransparent = ([[dict objectForKey:@"is_transparent"] intValue] == 1);
     ret.status = ([[dict objectForKey:@"invisible"] intValue] == 1?PROJECT_STATUS_INVISIBLE:PROJECT_STATUS_NONE);
     ret.extraStatus = [[dict objectForKey:@"shared"] intValue];

@@ -221,7 +221,7 @@ DetailViewController *_detailViewCtrler = nil;
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedItem.width = 10;
     
-    NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, copyItem, nil]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil];
+    NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, copyItem, nil]:([self.task isShared]?[NSMutableArray arrayWithObject:markDoneItem]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil]);
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
     {
@@ -278,7 +278,7 @@ DetailViewController *_detailViewCtrler = nil;
             [longEvent release];
         }
 	}
-    
+
     titleTextView.text = self.taskCopy.name;
     
     self.previewViewCtrler.item = self.taskCopy;
@@ -286,7 +286,6 @@ DetailViewController *_detailViewCtrler = nil;
     [self.previewViewCtrler refreshData];
     
     [detailTableView reloadData];
-    
     
     [self refreshToolbar];
 }
@@ -506,16 +505,10 @@ DetailViewController *_detailViewCtrler = nil;
         [taskLocation resignFirstResponder];
     }
     
-    /*if (_plannerViewCtrler != nil)
+    if (![self.task isShared])
     {
-        [_plannerViewCtrler updateTask:self.task withTask:self.taskCopy];
+        [_iPadViewCtrler.activeViewCtrler updateTask:self.task withTask:self.taskCopy];
     }
-    else if (_abstractViewCtrler != nil)
-    {
-        [_abstractViewCtrler updateTask:self.task withTask:self.taskCopy];
-    }*/
-    
-    [_iPadViewCtrler.activeViewCtrler updateTask:self.task withTask:self.taskCopy];
     
     [_iPadViewCtrler closeDetail];
 }
@@ -594,25 +587,31 @@ DetailViewController *_detailViewCtrler = nil;
 
 -(void) editDuration
 {
-    DurationInputViewController *ctrler = [[DurationInputViewController alloc] initWithNibName:@"DurationInputViewController" bundle:nil];
-    ctrler.task = self.taskCopy;
-    
-    [self showInputView:ctrler];
-    
-    [ctrler release];
+    if (![self.task isShared])
+    {
+        DurationInputViewController *ctrler = [[DurationInputViewController alloc] initWithNibName:@"DurationInputViewController" bundle:nil];
+        ctrler.task = self.taskCopy;
+        
+        [self showInputView:ctrler];
+        
+        [ctrler release];
+    }
 }
 
 - (void) editWhen:(id) sender
 {
-    UIButton *btn = (UIButton *)sender;
-    
-    DateInputViewController *ctrler = [[DateInputViewController alloc] initWithNibName:@"DateInputViewController" bundle:nil];
-    ctrler.task = self.taskCopy;
-    ctrler.dateEdit = (btn.tag == 10300+8?TASK_EDIT_START:([self.taskCopy isTask]?TASK_EDIT_DEADLINE:TASK_EDIT_END));
-    
-    [self showInputView:ctrler];
-    
-    [ctrler release];
+    if (![self.task isShared])
+    {
+        UIButton *btn = (UIButton *)sender;
+        
+        DateInputViewController *ctrler = [[DateInputViewController alloc] initWithNibName:@"DateInputViewController" bundle:nil];
+        ctrler.task = self.taskCopy;
+        ctrler.dateEdit = (btn.tag == 10300+8?TASK_EDIT_START:([self.taskCopy isTask]?TASK_EDIT_DEADLINE:TASK_EDIT_END));
+        
+        [self showInputView:ctrler];
+        
+        [ctrler release];
+    }
 }
 
 - (void)editRepeat
@@ -621,72 +620,92 @@ DetailViewController *_detailViewCtrler = nil;
     {
         return;
     }
-    
-	RepeatTableViewController *ctrler = [[RepeatTableViewController alloc] init];
-	ctrler.task = self.taskCopy;
-	
-	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];
+
+    if (![self.task isShared])
+    {
+        RepeatTableViewController *ctrler = [[RepeatTableViewController alloc] init];
+        ctrler.task = self.taskCopy;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
 }
 
 - (void)editProject
 {
-	ProjectInputViewController *ctrler = [[ProjectInputViewController alloc] init];
-	ctrler.task = self.taskCopy;
-	
-	[self showInputView:ctrler];
-	[ctrler release];
+    if (![self.task isShared])
+    {
+        ProjectInputViewController *ctrler = [[ProjectInputViewController alloc] init];
+        ctrler.task = self.taskCopy;
+        
+        [self showInputView:ctrler];
+        [ctrler release];
+    }
 }
 
 - (void)editDescription
 {
-	TaskNoteViewController *ctrler = [[TaskNoteViewController alloc] init];
-	ctrler.task = self.taskCopy;
-	
-	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];
+    if (![self.task isShared])
+    {
+        TaskNoteViewController *ctrler = [[TaskNoteViewController alloc] init];
+        ctrler.task = self.taskCopy;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
 }
 
 - (void) editTag:(id) sender
 {
-	TagEditViewController *ctrler = [[TagEditViewController alloc] init];
-	
-	ctrler.objectEdit = self.taskCopy;
-	
-	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];
-	
+    if (![self.task isShared])
+    {
+        TagEditViewController *ctrler = [[TagEditViewController alloc] init];
+        
+        ctrler.objectEdit = self.taskCopy;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
 }
 
 - (void)editAlert
 {
-	AlertListViewController *ctrler = [[AlertListViewController alloc] init];
-	ctrler.taskEdit = self.taskCopy;
-	
-	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];
+    if (![self.task isShared])
+    {
+        AlertListViewController *ctrler = [[AlertListViewController alloc] init];
+        ctrler.taskEdit = self.taskCopy;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
 }
 
 - (void)editLink:(id)sender
 {
-	LinkViewController *ctrler = [[LinkViewController alloc] init];
-    
-    Task *tmp = (self.taskCopy.original != nil && ![self.taskCopy isREException])?self.taskCopy.original:self.taskCopy;
-    
-    ctrler.task = tmp;
-	
-	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];
+    if (![self.task isShared])
+    {
+        LinkViewController *ctrler = [[LinkViewController alloc] init];
+        
+        Task *tmp = (self.taskCopy.original != nil && ![self.taskCopy isREException])?self.taskCopy.original:self.taskCopy;
+        
+        ctrler.task = tmp;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
 }
 
 - (void) editAsset:(Task *)asset
 {
-    DetailViewController *ctrler = [[DetailViewController alloc] init];
-    ctrler.task = asset;
-    
-    [self.navigationController pushViewController:ctrler animated:YES];
-    
-    [ctrler release];    
+    if (![self.task isShared])
+    {
+        DetailViewController *ctrler = [[DetailViewController alloc] init];
+        ctrler.task = asset;
+        
+        [self.navigationController pushViewController:ctrler animated:YES];
+        
+        [ctrler release];
+    }
 }
 
 - (void) editComment

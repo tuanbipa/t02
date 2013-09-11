@@ -67,10 +67,12 @@ extern iPadViewController *_iPadViewCtrler;
     
     frm.size.width = 320;
     
-    if (_isiPad)
+    /*if (_isiPad)
     {
         frm.size.height = 440;
     }
+    */
+    frm.size.height = 416;
 	
 	UIView *contentView= [[UIView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor colorWithRed:246.0/255 green:246.0/255 blue:246.0/255 alpha:1];
@@ -130,11 +132,12 @@ extern iPadViewController *_iPadViewCtrler;
     
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = nil;
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-   	else
+   	/*else
 	{
 		for(UIView *view in cell.contentView.subviews)
 		{
@@ -143,7 +146,7 @@ extern iPadViewController *_iPadViewCtrler;
 				[view removeFromSuperview];
 			}
 		}
-	}
+	}*/
     // Set up the cell...
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
