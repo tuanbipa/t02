@@ -31,8 +31,9 @@
     CLLocationManager *locationManager;
     NSTimer *locationTimer;
     NSInteger geoItemCount;
+    NSInteger taskLocationNumber;
     
-    dispatch_group_t geocodeDispatchGroup;
+    //dispatch_group_t geocodeDispatchGroup;
     NSOperationQueue * geocodeQueue;
     dispatch_semaphore_t geocodingLock;
     

@@ -298,6 +298,32 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;
 }
 
+- (NSMutableArray *) getAllTasksEventsHaveLocation
+{
+	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:200];
+	
+	const char *sql = "SELECT Task_ID FROM TaskTable WHERE (Task_Type = ? OR Task_Type = ?) AND Task_Status <> ? AND Task_Status <> ? AND (Task_Location IS NOT NULL AND Task_Location NOT LIKE '') ORDER BY Task_SeqNo ASC";
+	sqlite3_stmt *statement;
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, TYPE_TASK);
+		sqlite3_bind_int(statement, 2, TYPE_EVENT);
+		sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
+        sqlite3_bind_int(statement, 4, TASK_STATUS_DONE);
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			int primaryKey = sqlite3_column_int(statement, 0);
+			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
+			
+			[taskList addObject:task];
+			[task release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return taskList;
+}
+
 - (NSMutableArray *) getTasks2Sync
 {
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:200];

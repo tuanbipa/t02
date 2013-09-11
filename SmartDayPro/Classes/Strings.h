@@ -725,3 +725,5 @@
 #define _saveRouteText NSLocalizedString(@"_saveRouteText", "")
 #define _directionsNotAvailable NSLocalizedString(@"_directionsNotAvailable", "")
 #define _cannotLocateThe NSLocalizedString(@"_cannotLocateThe", "")
+#define _atCurrentLocationText NSLocalizedString(@"_atCurrentLocationText", "")
+#define _atCurrentLocationYouHave NSLocalizedString(@"_atCurrentLocationYouHave", "")

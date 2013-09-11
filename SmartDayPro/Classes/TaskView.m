@@ -338,7 +338,8 @@ extern iPadViewController *_iPadViewCtrler;
     //UIColor *textColor = (isList?[UIColor blackColor]:[UIColor whiteColor]);
     UIColor *textColor = [[ProjectManager getInstance] getProjectColor0:task.project];
     
-    NSString *infoStr = task.location;
+    NSString *infoStr = [task.location stringByTrimmingCharactersInSet:
+    [NSCharacterSet whitespaceCharacterSet]];
     
     if ([task isNote])
     {

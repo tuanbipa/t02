@@ -737,3 +737,5 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_saveRouteText" = "Save Route";
 "_directionsNotAvailable" = "Directions Not Available";
 "_cannotLocateThe" = "Cannot locate the";
+"_atCurrentLocationText" = "At Current Location";
+"_atCurrentLocationYouHave" = "At current location you have %d item(s) to do";

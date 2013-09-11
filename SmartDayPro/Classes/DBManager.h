@@ -36,6 +36,7 @@
 - (NSString *) getItemNameByKey:(NSInteger)taskKey;
 - (NSString *) getProjectNameByKey:(NSInteger)prjKey;
 - (NSMutableArray *) getAllTasks;
+- (NSMutableArray *) getAllTasksEventsHaveLocation;
 - (NSMutableArray *) getTasks2Sync;
 - (NSMutableArray *) getModifiedTasks2Sync:(NSDate *)afterDate;
 - (NSMutableArray *) getTasks;

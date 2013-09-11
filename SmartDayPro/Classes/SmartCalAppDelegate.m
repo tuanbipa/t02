@@ -1124,65 +1124,6 @@ BOOL _fromBackground = NO;
     [locationManager stopUpdatingLocation];
     
     [self geocodeAllItems:locations];
-    
-    // 2.=====================
-    /*@synchronized(self)
-    {
-        geoNotifycationStr = [NSMutableString stringWithString:@""];
-        
-        // do geo-fencing
-        CLLocation *location = [locations lastObject];
-        CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
-        
-        // get all tasks
-        //TaskManager *tm = [TaskManager getInstance];
-        DBManager *dbm = [DBManager getInstance];
-        NSMutableArray *tasks = [dbm getAllTasks];
-        
-        NSMutableString *notifyStr = [NSMutableString string];
-        
-        NSOperationQueue *geoCodeQueue = [[NSOperationQueue alloc] init];
-        //NSBlockOperation *operation = [[[NSBlockOperation alloc] init] autorelease];
-        
-        // add finish block
-        NSOperation *finishOperation = [NSBlockOperation blockOperationWithBlock:^{
-            // ...
-            NSLog(@"+++ra day %@", notifyStr);
-        }];
-        //NSOperation *finishOperation = [[NSOperation alloc] init];
-        
-        for (Task *task in tasks) {
-            if (![task.location isEqual:@""]) {
-                
-                // NSBlockOperation can handle multiple execution blocks
-                NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-                
-                    [gc geocodeAddressString:task.location completionHandler:^(NSArray *placemarks, NSError *error) {
-                        
-                        //                dispatch_async(dispatch_get_main_queue(),^ {
-                        //                dispatch_group_async(group, queue, ^{
-                        if (placemarks.count > 0) {
-                            CLPlacemark *taskPlacemark = placemarks[0];
-                            CLLocation *taskLocation = taskPlacemark.location;
-                            
-                            if ([location distanceFromLocation:taskLocation] <= 200) {
-                                // add to aler list
-                                [notifyStr appendString:[NSString stringWithFormat:@"[%@] , ", task.name]];
-                                
-                                NSLog(@"task name: %@", task.name);
-                                NSLog(@"all: %@", notifyStr);
-                            }
-                        }
-                    }];
-                }];
-                
-                [finishOperation addDependency:operation];
-                [geoCodeQueue addOperation:operation];
-            }
-        }
-        
-        [geoCodeQueue addOperation:finishOperation];
-    }*/
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -1211,7 +1152,8 @@ BOOL _fromBackground = NO;
     
     // get all tasks
     DBManager *dbm = [DBManager getInstance];
-    NSMutableArray *tasks = [dbm getAllTasks];
+    //NSMutableArray *tasks = [dbm getAllTasks];
+    NSMutableArray *tasks = [dbm getAllTasksEventsHaveLocation];
     
     /*dispatch_group_t geocodeDispatchGroup = dispatch_group_create();
      NSOperationQueue * geocodeQueue = [[NSOperationQueue alloc] init];
@@ -1222,6 +1164,17 @@ BOOL _fromBackground = NO;
      geocodingLock = dispatch_semaphore_create(1);*/
     geoItemCount = 0;
     
+    taskLocationNumber = [tasks count];
+    for (Task *task in tasks) {
+        
+        [geocodeQueue addOperationWithBlock:^{
+            //NSLog(@"-Geocode Item-");
+            dispatch_semaphore_wait(geocodingLock, DISPATCH_TIME_FOREVER);
+            
+            [self geocodeItem:task withGeocoder:gc withLocation:location];
+        }];
+    }
+    /*
     for (Task *task in tasks) {
         dispatch_group_enter(geocodeDispatchGroup);
         
@@ -1267,29 +1220,96 @@ BOOL _fromBackground = NO;
             }
         }
     });
+     */
 }
+
+//- (void)geocodeItem_old:(Task *) task withGeocoder:(CLGeocoder *)gc withLocation: (CLLocation*) location{
+//    
+//    // geo each task
+//    [gc geocodeAddressString:task.location completionHandler:^(NSArray *placemarks, NSError *error) {
+//        
+//        if (placemarks.count > 0) {
+//            CLPlacemark *taskPlacemark = placemarks[0];
+//            CLLocation *taskLocation = taskPlacemark.location;
+//            
+//            if ([location distanceFromLocation:taskLocation] <= 200) {
+//                geoItemCount += 1;
+//                // add to aler list
+//                [notifyStr appendString:[NSString stringWithFormat:@"%d. %@\n",geoItemCount, task.name]];
+//                
+//                NSLog(@"1. task name: %@", task.name);
+//                //NSLog(@"2. all: %@", notifyStr);
+//            }
+//        }
+//        dispatch_group_leave(geocodeDispatchGroup);
+//        dispatch_semaphore_signal(geocodingLock);
+//    }];
+//}
 
 - (void)geocodeItem:(Task *) task withGeocoder:(CLGeocoder *)gc withLocation: (CLLocation*) location{
     
     // geo each task
-    [gc geocodeAddressString:task.location completionHandler:^(NSArray *placemarks, NSError *error) {
+    if ([[task.location stringByTrimmingCharactersInSet:
+         [NSCharacterSet whitespaceCharacterSet]] length] > 0) {
         
-        if (placemarks.count > 0) {
-            CLPlacemark *taskPlacemark = placemarks[0];
-            CLLocation *taskLocation = taskPlacemark.location;
-            
-            if ([location distanceFromLocation:taskLocation] <= 200) {
-                geoItemCount += 1;
-                // add to aler list
-                [notifyStr appendString:[NSString stringWithFormat:@"%d. %@\n",geoItemCount, task.name]];
+        [gc geocodeAddressString:task.location completionHandler:^(NSArray *placemarks, NSError *error) {
+            dispatch_semaphore_signal(geocodingLock);
+            taskLocationNumber--;
+            if (placemarks.count > 0) {
+                CLPlacemark *taskPlacemark = placemarks[0];
+                CLLocation *taskLocation = taskPlacemark.location;
                 
-                NSLog(@"1. task name: %@", task.name);
-                //NSLog(@"2. all: %@", notifyStr);
+                if ([location distanceFromLocation:taskLocation] <= 200) {
+                    geoItemCount += 1;
+                    // add to aler list
+                    [notifyStr appendString:[NSString stringWithFormat:@"%d. %@\n",geoItemCount, task.name]];
+                    
+                    //NSLog(@"\n1. task name: %@", task.name);
+                }
             }
+            
+            if (taskLocationNumber == 0) {
+                // push infor
+                [self pushGeoInfor];
+            }
+        }];
+    } else {
+        taskLocationNumber--;
+    }
+}
+
+- (void)pushGeoInfor
+{
+    locationUpdating = NO;
+    
+    if ([notifyStr length] > 0) {
+        
+        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+        {
+            // show by local notification
+            if (geoLocalNotification != nil) {
+                [[UIApplication sharedApplication] cancelLocalNotification:geoLocalNotification];
+            } else {
+                geoLocalNotification = [[UILocalNotification alloc] init];
+                geoLocalNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+            }
+            geoLocalNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+            
+            NSString *alertBody = [NSString stringWithFormat:_atCurrentLocationYouHave,geoItemCount];
+            geoLocalNotification.alertBody = alertBody;
+            //geoLocalNotification.userInfo = notifyStr;
+            geoLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:geoLocalNotification];
+            
+            //[geoLocalNotification release];
         }
-        dispatch_group_leave(geocodeDispatchGroup);
-        dispatch_semaphore_signal(geocodingLock);
-    }];
+        else
+        {
+            [self showGeoAlertWithBody:notifyStr];
+        }
+    }
 }
 
 - (void)initGeoLocation
@@ -1300,7 +1320,7 @@ BOOL _fromBackground = NO;
     
     [self deactiveLocationTimer];
     
-    geocodeDispatchGroup = dispatch_group_create();
+    //geocodeDispatchGroup = dispatch_group_create();
     geocodeQueue = [[NSOperationQueue alloc] init];
     geocodingLock = dispatch_semaphore_create(1);
     
@@ -1314,9 +1334,9 @@ BOOL _fromBackground = NO;
     // dismis old alert view
     [self dismissAllAlertViews];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"At Current Location"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_atCurrentLocationText
                                                     message:alertBody
-                                                   delegate:self cancelButtonTitle:@"OK"
+                                                   delegate:self cancelButtonTitle:_okText
                                           otherButtonTitles:nil];
     [alert show];
 }
