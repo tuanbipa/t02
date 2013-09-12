@@ -258,7 +258,7 @@ iPadViewController *_iPadViewCtrler;
         UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
         searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 250, 40)];
-        //searchBar.placeholder = _seekOrCreate;
+        searchBar.placeholder = _seekOrCreate;
         searchBar.translucent = YES;
         searchBar.delegate = self;
         /*

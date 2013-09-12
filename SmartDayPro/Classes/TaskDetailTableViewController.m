@@ -152,7 +152,7 @@ extern BOOL _isiPad;
 	titleTextView.minNumberOfLines = 1;
 	titleTextView.maxNumberOfLines = 4;
 	titleTextView.returnKeyType = UIReturnKeyDone; //just as an example
-	titleTextView.font = [UIFont systemFontOfSize:15.0f];
+	titleTextView.font = [UIFont systemFontOfSize:16];
 	titleTextView.delegate = self;
     //titleTextView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
     titleTextView.backgroundColor = [UIColor clearColor];

@@ -16,9 +16,9 @@
 #import "iPadViewController.h"
 #import "iPadSmartDayViewController.h"
 
-extern iPadSmartDayViewController *_iPadSDViewCtrler;
+//extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
-iPadViewController *_iPadViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @interface MenuTableViewController ()
 
@@ -56,12 +56,12 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) backup
 {
-    [_iPadSDViewCtrler backup];
+    [_iPadViewCtrler.activeViewCtrler backup];
 }
 
 - (void) sync
 {
-    [_iPadSDViewCtrler sync];
+    [_iPadViewCtrler.activeViewCtrler sync];
 }
 
 #pragma mark View
@@ -206,7 +206,7 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_iPadSDViewCtrler hidePopover];
+    [_iPadViewCtrler.activeViewCtrler hidePopover];
     
     switch (indexPath.section)
     {

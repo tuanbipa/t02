@@ -705,6 +705,7 @@ extern BOOL _isiPad;
     
     if (_isiPad)
     {
+        [_iPadViewCtrler.activeViewCtrler deselect];
         [_iPadViewCtrler closeDetail];
     }
     else

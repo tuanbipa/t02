@@ -115,4 +115,9 @@
 // cancel multi edit
 - (void)cancelEdit;
 
+- (void) backup;
+- (void) sync;
+- (void) autoPush;
+
+
 @end

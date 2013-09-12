@@ -57,8 +57,4 @@
 - (NSString *) showNoteWithOption:(id)sender;
 - (NSString *) showProjectWithOption:(id)sender;
 
-- (void) autoPush;
-- (void) backup;
-- (void) sync;
-
 @end

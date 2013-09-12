@@ -1510,13 +1510,20 @@ DetailViewController *_detailViewCtrler = nil;
         return 0;
     }
     
-	//NSInteger count = (showAll?10:6);
     NSInteger count = (showAll?11:7);
     
+    if (self.task.primaryKey == -1)
+    {
+        count -= 2; //don't show Assets
+    }
+    
+    /*
     if ([self.task isShared])
     {
         count = count + 1; //conversation cell
     }
+    */
+    
     
     return count;
 }

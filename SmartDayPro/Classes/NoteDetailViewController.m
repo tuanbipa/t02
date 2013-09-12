@@ -14,6 +14,7 @@
 #import "Project.h"
 
 #import "ProjectManager.h"
+#import "DBManager.h"
 #import "TagDictionary.h"
 
 #import "ContentView.h"
@@ -23,6 +24,8 @@
 #import "LinkViewController.h"
 #import "ProjectInputViewController.h"
 #import "DateInputViewController.h"
+
+#import "CommentViewController.h"
 
 #import "iPadViewController.h"
 
@@ -407,6 +410,15 @@ NoteDetailViewController *_noteDetailViewCtrler;
     }
 }
 
+- (void) editComment
+{
+	CommentViewController *ctrler = [[CommentViewController alloc] init];
+    ctrler.itemId = self.note.primaryKey;
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
+}
+
 #pragma mark Input Views
 -(void) showInputView:(UIViewController *)ctrler
 {
@@ -608,6 +620,16 @@ NoteDetailViewController *_noteDetailViewCtrler;
     [cell.contentView addSubview:self.previewViewCtrler.view];
 }
 
+- (void) createCommentCell:(UITableViewCell *)cell
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = _conversationsText;
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.note.primaryKey]];
+}
+
 
 #pragma mark TableView
 
@@ -620,7 +642,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 6;
+	return [self.note isShared]?4:(self.note.primaryKey == -1?4:6);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -629,7 +651,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
     {
         return 400;
     }
-    else if (indexPath.row == 3)
+    else if (indexPath.row == 3 && ![self.note isShared])
     {
         return 120;
     }
@@ -694,7 +716,14 @@ NoteDetailViewController *_noteDetailViewCtrler;
             [self createProjectCell:cell];
             break;
         case 3:
-            [self createTagCell:cell];
+            if ([self.note isShared])
+            {
+                [self createCommentCell:cell];
+            }
+            else
+            {
+                [self createTagCell:cell];
+            }
             break;
         case 4:
         {
@@ -724,6 +753,12 @@ NoteDetailViewController *_noteDetailViewCtrler;
             break;
         case 2:
             [self editProject];
+            break;
+        case 3:
+            if ([self.note isShared])
+            {
+                [self editComment];
+            }
             break;
         case 4:
             [self editLink:nil];

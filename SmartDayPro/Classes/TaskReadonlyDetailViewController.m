@@ -14,9 +14,12 @@
 #import "Settings.h"
 
 #import "ProjectManager.h"
+#import "DBManager.h"
 
 #import "RepeatTableViewController.h"
 #import "TaskNoteViewController.h"
+
+#import "CommentViewController.h"
 
 #import "iPadViewController.h"
 
@@ -256,7 +259,7 @@ extern iPadViewController *_iPadViewCtrler;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return 8;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -302,7 +305,8 @@ extern iPadViewController *_iPadViewCtrler;
         case 0:
         {
             cell.textLabel.text = self.taskCopy.name;
-            cell.textLabel.font = [UIFont systemFontOfSize:14];
+            //cell.textLabel.font = [UIFont systemFontOfSize:15];
+            cell.textLabel.textColor = [UIColor blackColor];
         }
             break;
         case 1:
@@ -412,6 +416,16 @@ extern iPadViewController *_iPadViewCtrler;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             break;
+        case 7:
+        {
+            DBManager *dbm = [DBManager getInstance];
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.text = _conversationsText;
+            
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.task.primaryKey]];
+            
+        }
     }
     
     return cell;
@@ -438,6 +452,15 @@ extern iPadViewController *_iPadViewCtrler;
         {
             TaskNoteViewController *ctrler = [[TaskNoteViewController alloc] init];
             ctrler.task = self.taskCopy;
+            
+            [self.navigationController pushViewController:ctrler animated:YES];
+            [ctrler release];
+        }
+            break;
+        case 7:
+        {
+            CommentViewController *ctrler = [[CommentViewController alloc] init];
+            ctrler.itemId = self.task.primaryKey;
             
             [self.navigationController pushViewController:ctrler animated:YES];
             [ctrler release];
