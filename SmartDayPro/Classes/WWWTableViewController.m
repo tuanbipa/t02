@@ -10,7 +10,7 @@
 
 #import "WWWTableViewController.h"
 
-#import "Common.h"
+#import "Common.h";
 #import "Colors.h"
 #import "Task.h"
 
@@ -23,10 +23,6 @@
 #import "AbstractSDViewController.h"
 
 #import "DetailViewController.h"
-#import "Settings.h"
-#import "AlertData.h"
-#import "DBManager.h"
-#import "AlertManager.h"
 
 //#import "SCTabBarController.h"
 //extern SCTabBarController *_tabBarCtrler;
@@ -49,20 +45,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
  */
 
 /*
-- (void)changeTableFrame
-{
-	CGFloat barHeight = [_tabBarCtrler getBarHeight];
-
-	wwwTableView.frame = CGRectMake(0, 0, 320, 416 - barHeight);
-}
-*/
+ - (void)changeTableFrame
+ {
+ CGFloat barHeight = [_tabBarCtrler getBarHeight];
+ 
+ wwwTableView.frame = CGRectMake(0, 0, 320, 416 - barHeight);
+ }
+ */
 
 - (id) init
 {
     if (self = [super init])
     {
         self.contentSizeForViewInPopover = CGSizeMake(320,416);
-        isRefreshWhen = NO;
     }
     
     return self;
@@ -88,7 +83,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         frm.size.width = 320;
     }
-
+    
     contentView = [[UIView alloc] initWithFrame:frm];
 	//contentView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
@@ -101,52 +96,52 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	[contentView addSubview:wwwTableView];
 	[wwwTableView release];
-
+    
 	/*
-    doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-[Common getKeyboardHeight]-40, frm.size.width, 40)];
-	doneBarView.backgroundColor=[UIColor clearColor];
-	doneBarView.hidden = YES;
-	
-	[contentView addSubview:doneBarView];
-	[doneBarView release];	
-	
-    UIView *backgroundView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-	backgroundView.backgroundColor=[UIColor viewFlipsideBackgroundColor];
-	backgroundView.alpha=0.3;
-	
-	[doneBarView addSubview:backgroundView];
-	[backgroundView release];
-	
-	UIButton *locationDoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	//locationDoneButton.frame = CGRectMake(250, 5, 60, 30);
-    locationDoneButton.frame = CGRectMake(frm.size.width-60-10, 5, 60, 30);
-	locationDoneButton.alpha=1;
-	[locationDoneButton setTitle:_doneText forState:UIControlStateNormal];
-	locationDoneButton.titleLabel.font=[UIFont systemFontOfSize:14];
-	[locationDoneButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];		
-	[locationDoneButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
-	
-	[locationDoneButton addTarget:self action:@selector(locationDone:) forControlEvents:UIControlEventTouchUpInside];
-	
-	UIButton *locationCleanButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	locationCleanButton.frame = CGRectMake(10, 5, 60, 30);
-	locationCleanButton.alpha=1;
-	[locationCleanButton setTitle:_cleanText forState:UIControlStateNormal];
-	locationCleanButton.titleLabel.font=[UIFont systemFontOfSize:14];
-	[locationCleanButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];		
-	[locationCleanButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
-	
-	[locationCleanButton addTarget:self action:@selector(cleanLocation:) forControlEvents:UIControlEventTouchUpInside];	
-	
-	[doneBarView addSubview:locationDoneButton];
-	[doneBarView addSubview:locationCleanButton];
-	*/
+     doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-[Common getKeyboardHeight]-40, frm.size.width, 40)];
+     doneBarView.backgroundColor=[UIColor clearColor];
+     doneBarView.hidden = YES;
+     
+     [contentView addSubview:doneBarView];
+     [doneBarView release];
+     
+     UIView *backgroundView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
+     backgroundView.backgroundColor=[UIColor viewFlipsideBackgroundColor];
+     backgroundView.alpha=0.3;
+     
+     [doneBarView addSubview:backgroundView];
+     [backgroundView release];
+     
+     UIButton *locationDoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+     //locationDoneButton.frame = CGRectMake(250, 5, 60, 30);
+     locationDoneButton.frame = CGRectMake(frm.size.width-60-10, 5, 60, 30);
+     locationDoneButton.alpha=1;
+     [locationDoneButton setTitle:_doneText forState:UIControlStateNormal];
+     locationDoneButton.titleLabel.font=[UIFont systemFontOfSize:14];
+     [locationDoneButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];
+     [locationDoneButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
+     
+     [locationDoneButton addTarget:self action:@selector(locationDone:) forControlEvents:UIControlEventTouchUpInside];
+     
+     UIButton *locationCleanButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+     locationCleanButton.frame = CGRectMake(10, 5, 60, 30);
+     locationCleanButton.alpha=1;
+     [locationCleanButton setTitle:_cleanText forState:UIControlStateNormal];
+     locationCleanButton.titleLabel.font=[UIFont systemFontOfSize:14];
+     [locationCleanButton setTitleColor:[UIColor whiteColor]  forState:UIControlStateNormal];
+     [locationCleanButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"blue-small.png"] forState:UIControlStateNormal];
+     
+     [locationCleanButton addTarget:self action:@selector(cleanLocation:) forControlEvents:UIControlEventTouchUpInside];
+     
+     [doneBarView addSubview:locationDoneButton];
+     [doneBarView addSubview:locationCleanButton];
+     */
     
 	self.view = contentView;
 	[contentView release];
     
     titleTextView = [[GrowingTextView alloc] initWithFrame:CGRectMake(10, 75, wwwTableView.bounds.size.width-20, 30)];
-
+    
     //titleTextView.placeholder = _titleGuideText;
     
     //titleTextView.minNumberOfLines = 1;
@@ -163,7 +158,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     titleTextView.layer.cornerRadius = 8;
     titleTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
-    titleTextView.text = self.task.name;    
+    titleTextView.text = self.task.name;
 	
 	selectedButton = nil;
 	
@@ -180,9 +175,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     CGRect frm = contentView.bounds;
     
     //contentView.frame = frm;
-    wwwTableView.frame = frm;    
+    wwwTableView.frame = frm;
 	
-	doneBarView.hidden = YES;	
+	doneBarView.hidden = YES;
 }
 
 /*
@@ -216,10 +211,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
         
         [ctrler refreshTitle];
-        
-        if (isRefreshWhen) {
-            [ctrler refreshWhen];
-        }
     }
 }
 
@@ -290,7 +281,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	//[self presentModalViewController:contactList animated:YES];
     contactList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentViewController:contactList animated:YES completion:NULL];
-
+    
 	[contactList release];
 }
 
@@ -298,7 +289,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)editLocation:(id) sender
 {
-	LocationViewController *locationViewController=[[LocationViewController alloc] init];	
+	LocationViewController *locationViewController=[[LocationViewController alloc] init];
 	
 	locationViewController.oldSelectedIndex=nil;
 	locationViewController.task=self.task;
@@ -311,7 +302,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void)locationDone:(id) sender
 {
 	[self stopTextEdit];
-    	
+    
 	//self.task.location = locationTextView.text;
 }
 
@@ -328,7 +319,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     if (textView != nil)
     {
         textView.text = @"";
-    }                       
+    }
 }
 
 #pragma mark Table view methods
@@ -381,21 +372,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 
 /*
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	switch (section) {
-		case 0:
-			return _whatText;//@"What";
-			break;
-		case 1:
-			return _whoText;//@"Who";
-			break;
-		case 2:
-			return _whereText;//@"Where";
-			break;
-	}
-	return @"";
-}
-*/
+ - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+ switch (section) {
+ case 0:
+ return _whatText;//@"What";
+ break;
+ case 1:
+ return _whoText;//@"Who";
+ break;
+ case 2:
+ return _whereText;//@"Where";
+ break;
+ }
+ return @"";
+ }
+ */
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	switch (indexPath.section) {
 		case 0:
@@ -410,7 +401,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			return 60;
 			break;
 		case 2:
-			return 600;//80;
+			return 80;
 			break;
 	}
 	return 0;
@@ -427,16 +418,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
-/*	else
-	{
-		for(UIView *view in cell.contentView.subviews)
-		{
-			if(view.tag >= 10000)
-			{
-				[view removeFromSuperview];
-			}
-		}		
-	}*/
+    /*	else
+     {
+     for(UIView *view in cell.contentView.subviews)
+     {
+     if(view.tag >= 10000)
+     {
+     [view removeFromSuperview];
+     }
+     }
+     }*/
     
     // Set up the cell...
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -449,7 +440,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
 	
-	switch (indexPath.section) 
+	switch (indexPath.section)
 	{
 		case 0:
 		{
@@ -471,20 +462,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			[whatButtonGroup release];
             
             CGFloat btnWidth = (whatButtonGroup.bounds.size.width - 4*20)/5;
-			         
+            
             NSString *normalNames[5] = {@"Go.png", @"Call.png", @"Buy.png", @"Mail.png", @"Meet.png"};
             NSString *selectedNames[5] = {@"blueGo.png", @"blueCall.png", @"blueBuy.png", @"blueMail.png", @"blueMeet.png"};
-
+            
             for (int i=0; i<5; i++)
             {
                 UIButton *actionButton=[Common createButton:@""
-                                               buttonType:UIButtonTypeCustom
-                                                    frame:CGRectMake(i*(btnWidth + 20), 0, 40, 40)
-                                               titleColor:nil
-                                                   target:self
-                                                 selector:@selector(whatAction:) 
-                                         normalStateImage:normalNames[i]
-                                       selectedStateImage:selectedNames[i]];
+                                                 buttonType:UIButtonTypeCustom
+                                                      frame:CGRectMake(i*(btnWidth + 20), 0, 40, 40)
+                                                 titleColor:nil
+                                                     target:self
+                                                   selector:@selector(whatAction:)
+                                           normalStateImage:normalNames[i]
+                                         selectedStateImage:selectedNames[i]];
                 
                 actionButton.tag = 10002+i;
                 
@@ -505,33 +496,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		{
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.accessoryType = UITableViewCellAccessoryNone;
-            
-            // start location
-            startLocationTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width-20-40, 80)];
-            //startLocationTextView.delegate=self;
-			startLocationTextView.backgroundColor=[UIColor whiteColor];
-			startLocationTextView.keyboardType=UIKeyboardTypeDefault;
-            //locationTextView.returnKeyType = UIReturnKeyDone;
-			startLocationTextView.font=[UIFont systemFontOfSize:18];
-            startLocationTextView.layer.borderWidth = 1;
-            startLocationTextView.layer.cornerRadius = 8;
-            startLocationTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 			
-			startLocationTextView.text = _currentLocationText;
-			
-			startLocationTextView.tag = 10010;
-			[cell.contentView addSubview:startLocationTextView];
-			[startLocationTextView release];
-            
-            UIButton *editStartLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-			editStartLocationButton.frame = CGRectMake(tableView.bounds.size.width-55, 20, 40, 40);
-			[editStartLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
-			editStartLocationButton.tag = 10011;
-			
-			[cell.contentView addSubview:editStartLocationButton];
-            // end: start location
-			
-			locationTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 80 + 10, tableView.bounds.size.width-20-40, 80)];
+			locationTextView=[[UITextView alloc] initWithFrame:CGRectMake(10, 0, tableView.bounds.size.width-20-40, 80)];
 			locationTextView.delegate=self;
 			locationTextView.backgroundColor=[UIColor whiteColor];
 			locationTextView.keyboardType=UIKeyboardTypeDefault;
@@ -548,77 +514,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			[locationTextView release];
 			
 			UIButton *editLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-			editLocationButton.frame = CGRectMake(tableView.bounds.size.width-55, 20 + 80 + 10, 40, 40);
+			editLocationButton.frame = CGRectMake(tableView.bounds.size.width-55, 20, 40, 40);
 			[editLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
 			
 			editLocationButton.tag = 10009;
 			
 			[cell.contentView addSubview:editLocationButton];
 			
-            
-            UIColor *textColor = [UIColor colorWithRed:21.0/255 green:125.0/255 blue:251.0/255 alpha:1];
-            CGRect frm = CGRectMake(10, 160 + 20, tableView.frame.size.width - 20, 40);
-            
-            // ETA
-            etaLable = [[UILabel alloc] initWithFrame:frm];
-            etaLable.textColor = [UIColor blackColor];
-            
-            [cell.contentView addSubview:etaLable];
-            [etaLable release];
-            
-            // Add alert
-            frm.origin.y += frm.size.height + 5;
-            frm.size.width = 80;
-            UIButton *addAlertButton = [Common createButton:@"Add alert"
-                                                 buttonType:UIButtonTypeCustom
-                                                      frame:frm//CGRectMake(10, 160 + 20, 80, 40)
-                                                 titleColor:textColor target:self
-                                                   selector:@selector(addAlert:)
-                                           normalStateImage:nil
-                                         selectedStateImage:nil];
-            addAlertButton.tag = 10012;
-            addAlertButton.enabled = NO;
-            
-            [cell.contentView addSubview:addAlertButton];
-            
-            // refresh button
-            frm.origin.x = (tableView.frame.size.width-80)/2;
-            UIButton *refreshButton = [Common createButton:@"Refresh"
-                                                buttonType:UIButtonTypeCustom
-                                                     frame:frm//CGRectMake((tableView.frame.size.width-80)/2, 160 + 20, 80, 40)
-                                                titleColor:textColor target:self
-                                                  selector:@selector(routeDirection:)
-                                          normalStateImage:nil
-                                        selectedStateImage:nil];
-            
-            [cell.contentView addSubview:refreshButton];
-            
-            // save route
-            frm.origin.x = tableView.frame.size.width - 80 - 10;
-            UIButton *saveButton = [Common createButton:@"Save route"
-                                             buttonType:UIButtonTypeCustom
-                                                  frame:frm//CGRectMake(tableView.frame.size.width - 80 - 10, 160 + 20, 80, 40)
-                                             titleColor:textColor
-                                                 target:self
-                                               selector:@selector(saveMapRoute:)
-                                       normalStateImage:nil
-                                     selectedStateImage:nil];
-            
-            [cell.contentView addSubview:saveButton];
-            
-            // map kit
-            frm.origin.y += frm.size.height + 5;
-            frm.origin.x = 10;
-            frm.size = CGSizeMake(tableView.frame.size.width - 10, 400);
-            mapView = [[MKMapView alloc] initWithFrame:CGRectMake(10, saveButton.frame.origin.y + saveButton.frame.size.height + 5, tableView.frame.size.width - 10, 400)];
-            mapView.delegate = self;
-            mapView.showsUserLocation = YES;
-            //NSLog(@"height: %f", mapView.frame.origin.y + mapView.frame.size.height);
-            
-            [cell.contentView addSubview:mapView];
-            [mapView release];
 		}
-			break;			
+			break;
 	}
 	
     return cell;
@@ -654,10 +558,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
  if (editingStyle == UITableViewCellEditingStyleDelete) {
  // Delete the row from the data source
  [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
- }   
+ }
  else if (editingStyle == UITableViewCellEditingStyleInsert) {
  // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
+ }
  }
  */
 
@@ -679,14 +583,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 
 #pragma mark ABPeoplePickerNavigationControllerDelegate
-- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
 {
 	//[peoplePicker dismissModalViewControllerAnimated:YES];
     [peoplePicker dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController*)peoplePicker 
-      shouldContinueAfterSelectingPerson:(ABRecordRef)person 
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController*)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
 	CFStringRef firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty);
 	CFStringRef lastName = ABRecordCopyValue(person, kABPersonLastNameProperty);
@@ -736,11 +640,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			CFStringRef label=ABMultiValueCopyLabelAtIndex(phoneEmailValue, i);
 			
 			if(label==nil){
-				label=(CFStringRef)@" ";	
+				label=(CFStringRef)@" ";
 			}
 			
 			if(phoneNo==nil){
-				phoneNo=(CFStringRef)@" ";	
+				phoneNo=(CFStringRef)@" ";
 			}
 			phoneNumber=[phoneNumber stringByAppendingFormat:@"/%@|%@",label,phoneNo];
 		}
@@ -759,7 +663,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		CFDictionaryRef dict = ABMultiValueCopyValueAtIndex(multiValue, 0);
 		CFStringRef street = CFDictionaryGetValue(dict, kABPersonAddressStreetKey);
 		CFStringRef city = CFDictionaryGetValue(dict, kABPersonAddressCityKey);
-		CFStringRef country = CFDictionaryGetValue(dict, kABPersonAddressCountryKey);		
+		CFStringRef country = CFDictionaryGetValue(dict, kABPersonAddressCountryKey);
 		CFStringRef state = CFDictionaryGetValue(dict,kABPersonAddressStateKey);
 		CFStringRef zip = CFDictionaryGetValue(dict,kABPersonAddressZIPKey);
 		
@@ -830,7 +734,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		CFStringRef emailAddr = ABMultiValueCopyValueAtIndex(multiEmailValue, 0);
 		
 		if(emailAddr==nil){
-			emailAddr=(CFStringRef)@" ";	
+			emailAddr=(CFStringRef)@" ";
 		}
 		emailAddress=[NSString stringWithFormat:@"%@",emailAddr];
 	}
@@ -845,8 +749,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			task.name = [task.name stringByAppendingString:[NSString stringWithFormat:@" %@", task.contactName]];
 			
 			break;
-		}	
-	}	
+		}
+	}
 	
 	// remove the controller
 	//[self dismissModalViewControllerAnimated:YES];
@@ -857,8 +761,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return NO;
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker 
-	  shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property 
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+	  shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property
 							  identifier:(ABMultiValueIdentifier)identifier{
 	return NO;
 }
@@ -868,7 +772,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
-	return YES;	
+	return YES;
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -878,7 +782,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	self.task.name = textField.text;		
+	self.task.name = textField.text;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -892,7 +796,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 #pragma mark textView delegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-
+    
     if (!_isiPad)
     {
         CGRect frm = contentView.bounds;
@@ -919,25 +823,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 #pragma mark GrowingTextView Delegate
 /*
-- (void)growingTextView:(GrowingTextView *)growingTextView willChangeHeight:(float)height
-{
-    //self.task.name = growingTextView.text;
-    
-    BOOL isFirstResponder = [titleTextView isFirstResponder];
-    
-    //[titleTextView retain];
-    //[titleTextView removeFromSuperview];
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    
-    [wwwTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    if (isFirstResponder)
-    {
-        [titleTextView becomeFirstResponder];
-    }
-}
-*/
+ - (void)growingTextView:(GrowingTextView *)growingTextView willChangeHeight:(float)height
+ {
+ //self.task.name = growingTextView.text;
+ 
+ BOOL isFirstResponder = [titleTextView isFirstResponder];
+ 
+ //[titleTextView retain];
+ //[titleTextView removeFromSuperview];
+ 
+ NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+ 
+ [wwwTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+ 
+ if (isFirstResponder)
+ {
+ [titleTextView becomeFirstResponder];
+ }
+ }
+ */
 
 - (void)growingTextView:(GrowingTextView *)growingTextView didChangeHeight:(float)height
 {
@@ -971,313 +875,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super dealloc];
 }
 
-#pragma mark map delegate
-- (void)mapView:(MKMapView *)map didUpdateUserLocation:(MKUserLocation *)userLocation
-{
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 800, 800);
-    [mapView setRegion:[mapView regionThatFits:region] animated:YES];
-}
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
-{
-    MKPolylineView *line = [[[MKPolylineView alloc] initWithPolyline:overlay] autorelease];
-    line.strokeColor = [UIColor blueColor];
-    line.lineWidth = 5;
-    return line;
-}
-
-#pragma mark mapkit methods
-
-- (void)routeDirection: (id)sender
-{
-    [self routing:YES];
-    
-    CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
-    // start location
-    __block CLLocation *starLocation;
-    if ([startLocationTextView.text isEqualToString:_currentLocationText]) {
-        starLocation = [[mapView userLocation] location];
-        
-        [gc reverseGeocodeLocation:starLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-            if (placemarks.count > 0) {
-                CLPlacemark *sPlacemark = placemarks[0];
-                [self geoEndLocation:gc startPlacemark:sPlacemark];
-            }
-        }];
-        //[self geoEndLocation:gc startLocation:starLocation];
-    } else {
-        [gc geocodeAddressString:startLocationTextView.text completionHandler:^(NSArray *placemarks, NSError *error) {
-            
-            if (placemarks.count > 0) {
-            
-                CLPlacemark *sPlacemark = placemarks[0];
-                //CLLocation *sLocation = sPlacemark.location;
-                //starLocation = sLocation.coordinate;
-                starLocation = sPlacemark.location;
-                
-                //[self geoEndLocation:gc startLocation:starLocation];
-                [self geoEndLocation:gc startPlacemark:sPlacemark];
-            } else {
-                [self showNotFoundLocation:_starText];
-            }
-        }];
-    }
-}
-
-//- (void)geoEndLocation: (CLGeocoder *) gc startLocation: (CLLocation*) starLocation
-- (void)geoEndLocation: (CLGeocoder *) gc startPlacemark: (CLPlacemark*) startPlacemark
-{
-    // get end location
-    [gc geocodeAddressString:locationTextView.text completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks.count > 0) {
-            
-            CLPlacemark *placemark = placemarks[0];
-            /*CLLocation *destinationLocation = placemark.location;
-            
-            // get location points by using google map api
-            NSArray *routePoints = [NSArray array];
-            routePoints = [self calculateRoutesFrom:starLocation.coordinate to:destinationLocation.coordinate];
-            
-            NSInteger numberOfSteps = routePoints.count;
-            
-            CLLocationCoordinate2D coordinates[numberOfSteps];
-            
-            for (NSInteger index = 0; index < numberOfSteps; index++)
-            {
-                CLLocation *location = [routePoints objectAtIndex:index];
-                CLLocationCoordinate2D coordinate = location.coordinate;
-                coordinates[index] = coordinate;
-            }
-            MKPolyline *polyLine = [MKPolyline polylineWithCoordinates:coordinates count:numberOfSteps];
-            [mapView addOverlay:polyLine];*/
-            
-            // check api
-            MKPlacemark *sourceMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:startPlacemark];
-            MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourceMapPlaceMark];
-            
-            MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
-            MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
-            
-            MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
-            req.source = source;
-            req.destination = destination;
-            
-            MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
-            [direction calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-                if (error) {
-                    //[self handleError:error];
-                    NSLog(error.debugDescription);
-                } else {
-                    [self showDirections:response];
-                }
-            }];
-            
-            // release
-            [sourceMapPlaceMark release];
-            [source release];
-            [desMapPlaceMark release];
-            [destination release];
-            
-            [req release];
-            [direction release];
-        } else {
-            [self showNotFoundLocation:_endText];
-        }
-    }];
-}
-
-- (void)showDirections: (MKDirectionsResponse*)response
-{
-    double totalDistance = 0.0;
-    double totalTime = 0.0;
-    
-    // remove old overlay
-    if ([mapView.overlays count] > 0) {
-        [mapView removeOverlays:mapView.overlays];
-    }
-    
-    for (MKRoute *route in response.routes) {
-        [mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
-        
-        totalDistance += route.distance;
-        totalTime += route.expectedTravelTime;
-    }
-    
-    MKDistanceFormatter *distanceFormat = [[MKDistanceFormatter alloc] init];
-    distanceFormat.units = MKDistanceFormatterUnitsDefault;
-    distanceFormat.unitStyle = MKDistanceFormatterUnitStyleAbbreviated;
-    
-    NSString *distance = [distanceFormat stringFromDistance:totalDistance];
-    [distanceFormat release];
-    
-    etaLable.text = [NSString stringWithFormat:@"ETA: %@, %@ to destination", distance, [Common getDurationString:totalTime]];
-    etaLable.tag = totalTime;
-    
-    // enable add alert button
-    UITableViewCell *cell = [wwwTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    
-    UIButton *addAlertButton = (UIButton*)[cell.contentView viewWithTag:10012];
-    addAlertButton.enabled = YES;
-}
-
-//-(NSArray*) calculateRoutesFrom:(CLLocationCoordinate2D) f to: (CLLocationCoordinate2D) t
-//{
-//    NSString* saddr = [NSString stringWithFormat:@"%f,%f", f.latitude, f.longitude];
-//    NSString* daddr = [NSString stringWithFormat:@"%f,%f", t.latitude, t.longitude];
-//
-//    NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.google.com/maps?output=dragdir&saddr=%@&daddr=%@", saddr, daddr];
-//    //NSString* apiUrlStr = [NSString stringWithFormat:@"http://maps.apple.com/maps?output=dragdir&saddr=%@&daddr=%@", saddr, daddr];
-//    NSURL* apiUrl = [NSURL URLWithString:apiUrlStr];
-//    //NSLog(@"api url: %@", apiUrl);
-//    NSError* error = nil;
-//    NSString *apiResponse = [NSString stringWithContentsOfURL:apiUrl encoding:NSASCIIStringEncoding error:&error];
-//    
-//    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"points:\"([^\"]*)\"" options:0 error:NULL];
-//    NSTextCheckingResult *match = [regex firstMatchInString:apiResponse options:0 range:NSMakeRange(0, [apiResponse length])];
-//    NSString *encodedPoints = [apiResponse substringWithRange:[match rangeAtIndex:1]];
-//    
-//    NSString *info = [Common getStringFrom:apiResponse matching:@"tooltipHtml:\"([^\"]*)\""];
-//    etaLable.text = info;
-//    
-//    
-//    
-//    return [self decodePolyLine:[encodedPoints mutableCopy]];
-//}
-//
-//- (NSMutableArray *)decodePolyLine: (NSMutableString *)encoded
-//{
-//    [encoded replaceOccurrencesOfString:@"\\\\" withString:@"\\" options:NSLiteralSearch range:NSMakeRange(0, [encoded length])];
-//    NSInteger len = [encoded length];
-//    NSInteger index = 0;
-//    NSMutableArray *array = [[NSMutableArray alloc] init];
-//    NSInteger lat=0;
-//    NSInteger lng=0;
-//    while (index < len)
-//    {
-//        NSInteger b;
-//        NSInteger shift = 0;
-//        NSInteger result = 0;
-//        do
-//        {
-//            b = [encoded characterAtIndex:index++] - 63;
-//            result |= (b & 0x1f) << shift;
-//            shift += 5;
-//        } while (b >= 0x20);
-//        NSInteger dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
-//        lat += dlat;
-//        shift = 0;
-//        result = 0;
-//        do
-//        {
-//            b = [encoded characterAtIndex:index++] - 63;
-//            result |= (b & 0x1f) << shift;
-//            shift += 5;
-//        } while (b >= 0x20);
-//        NSInteger dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
-//        lng += dlng;
-//        NSNumber *latitude = [[NSNumber alloc] initWithFloat:lat * 1e-5];
-//        NSNumber *longitude = [[NSNumber alloc] initWithFloat:lng * 1e-5];
-//        //printf("[%f,", [latitude doubleValue]);
-//        //printf("%f]", [longitude doubleValue]);
-//        CLLocation *loc = [[CLLocation alloc] initWithLatitude:[latitude floatValue] longitude:[longitude floatValue]];
-//        [array addObject:loc];
-//    }
-//    return array;
-//}
-
-- (void)showNotFoundLocation: (NSString*) locationStr
-{
-    NSString *mess = [NSString stringWithFormat:@"%@ %@ %@", _cannotLocateThe, locationStr, _locationText];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable  message:mess delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-    
-    [alertView show];
-    [self routing:NO];
-}
-
-- (void)routing: (BOOL) route
-{
-    if (route) {
-        etaLable.text = _loadingText;
-        //etaLable.tag = -1;
-        
-        UITableViewCell *cell = [wwwTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-        
-        UIButton *addAlertButton = (UIButton*)[cell.contentView viewWithTag:10012];
-        addAlertButton.enabled = NO;
-    } else {
-        etaLable.text = @"";
-    }
-}
-
-- (void)doAddAlert
-{
-    // check deadline
-    if (self.task.deadline == nil && [self.task isTask]) {
-        
-        NSInteger diff = 0;
-        NSDate *date = [NSDate date];
-        Settings *settings = [Settings getInstance];
-        
-        if (task.startTime != nil && task.deadline != nil && date != nil)
-        {
-            diff = [task.deadline timeIntervalSinceDate:task.startTime];
-        }
-        
-        task.deadline = date == nil?nil:[settings getWorkingEndTimeForDate:date];
-        
-        if (diff > 0)
-        {
-            NSDate *dt = [NSDate dateWithTimeInterval:-diff sinceDate:task.deadline];
-            
-            task.startTime = [settings getWorkingStartTimeForDate:dt];
-        }
-        
-        isRefreshWhen = YES;
-    }
-    
-    NSInteger beforeDuration = -etaLable.tag;
-    // add alert
-    AlertData *alertData =[[AlertData alloc] init];
-    
-    alertData.beforeDuration = (beforeDuration * 20)/100 + beforeDuration;
-
-    if (task.primaryKey != -1) {
-        alertData.taskKey = task.primaryKey;
-        [alertData insertIntoDB:[[DBManager getInstance] getDatabase]];
-        [[AlertManager getInstance] generateAlert:alertData forTask:task];
-    }
-
-    [self.task.alerts addObject:alertData];
-}
-
-- (void)addAlert: (id)sender
-{
-    NSInteger beforeDuration = (etaLable.tag * 20)/100 + etaLable.tag;
-    NSString *mss = [NSString stringWithFormat:@"Add new alert at %@ before deadline", [Common getDurationString:beforeDuration]];
-                     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Add alert"  message:mss delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
-    alertView.tag = -10001;
-    [alertView show];
-    [alertView release];
-}
-
-- (void)saveMapRoute: (id)sender
-{
-//    mapView snapshotViewAfterScreenUpdates:<#(BOOL)#>
-//    //MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
-//    MKMapSnapshotter *mapShotter = [[MKMapSnapshotter alloc] init];
-//    [mapShotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
-//        
-//    }];
-}
-
-#pragma mark alert delegate
-
-- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertVw.tag == -10001 && buttonIndex != 0)
-	{
-		[self doAddAlert];
-	}
-}
 @end
+
