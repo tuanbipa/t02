@@ -585,6 +585,11 @@ DetailViewController *_detailViewCtrler = nil;
 	[ctrler release];
 }
 
+- (void)editLocation: (id)sender
+{
+    [_iPadViewCtrler editMapLocation:self.taskCopy];
+}
+
 -(void) editDuration
 {
     if (![self.task isShared])
@@ -913,12 +918,27 @@ DetailViewController *_detailViewCtrler = nil;
 	[taskLocation release];
 	
 	UIButton *editTitleButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-	editTitleButton.frame = CGRectMake(detailTableView.bounds.size.width-35, y/2, 30, 30);
+	//editTitleButton.frame = CGRectMake(detailTableView.bounds.size.width-35, y/2, 30, 30);
+    editTitleButton.frame = CGRectMake(detailTableView.bounds.size.width-35, titleTextView.frame.origin.y, 30, 30);
 	[editTitleButton addTarget:self action:@selector(editTitle:) forControlEvents:UIControlEventTouchUpInside];
 	
 	editTitleButton.tag = baseTag + 3;
 	
 	[cell.contentView addSubview:editTitleButton];
+    
+    // edit location button
+    UIButton *editLocationButton = [Common createButton:nil
+                                             buttonType:UIButtonTypeCustom
+                                                  frame:CGRectMake(detailTableView.bounds.size.width-35, taskLocation.frame.origin.y, 30, 30)
+                                             titleColor:nil
+                                                 target:self
+                                               selector:@selector(editLocation:)
+                                       normalStateImage:@"map.png"
+                                     selectedStateImage:nil];
+	
+	editLocationButton.tag = baseTag + 4;
+	
+	[cell.contentView addSubview:editLocationButton];
 }
 
 - (void) createDurationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag

@@ -1666,6 +1666,12 @@
 		A2B7873C17A154B6008D200D /* tab_tasks_landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B7872517A154B6008D200D /* tab_tasks_landscape.png */; };
 		A2B7873D17A154B6008D200D /* tab_tasks_landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B7872617A154B6008D200D /* tab_tasks_landscape@2x.png */; };
 		A2B7873E17A154B6008D200D /* tab_tasks_landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B7872617A154B6008D200D /* tab_tasks_landscape@2x.png */; };
+		A2C17A7017E1837700468CC5 /* MapLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C17A6F17E1837700468CC5 /* MapLocationViewController.m */; };
+		A2C17A7117E1837700468CC5 /* MapLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C17A6F17E1837700468CC5 /* MapLocationViewController.m */; };
+		A2C17A7417E2E9F200468CC5 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C17A7217E2E9F200468CC5 /* map.png */; };
+		A2C17A7517E2E9F200468CC5 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C17A7217E2E9F200468CC5 /* map.png */; };
+		A2C17A7617E2E9F200468CC5 /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C17A7317E2E9F200468CC5 /* map@2x.png */; };
+		A2C17A7717E2E9F200468CC5 /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C17A7317E2E9F200468CC5 /* map@2x.png */; };
 		A2E036B61724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
 		A2E036B71724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
 		A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B91724ECA10039A2DF /* MonthInYearView.m */; };
@@ -2732,6 +2738,10 @@
 		A2B7872417A154B6008D200D /* tab_tasks_landscape_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_tasks_landscape_selected@2x.png"; sourceTree = "<group>"; };
 		A2B7872517A154B6008D200D /* tab_tasks_landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_tasks_landscape.png; sourceTree = "<group>"; };
 		A2B7872617A154B6008D200D /* tab_tasks_landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_tasks_landscape@2x.png"; sourceTree = "<group>"; };
+		A2C17A6E17E1837700468CC5 /* MapLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocationViewController.h; sourceTree = "<group>"; };
+		A2C17A6F17E1837700468CC5 /* MapLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLocationViewController.m; sourceTree = "<group>"; };
+		A2C17A7217E2E9F200468CC5 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
+		A2C17A7317E2E9F200468CC5 /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
 		A2E036B41724DDFA0039A2DF /* YearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearView.h; sourceTree = "<group>"; };
 		A2E036B51724DDFA0039A2DF /* YearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YearView.m; sourceTree = "<group>"; };
 		A2E036B81724ECA10039A2DF /* MonthInYearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthInYearView.h; sourceTree = "<group>"; };
@@ -3275,6 +3285,8 @@
 				67CF2C7216195196001FE1AA /* WorkingTime7ViewController.m */,
 				67CF2C7316195196001FE1AA /* WWWTableViewController.h */,
 				67CF2C7416195196001FE1AA /* WWWTableViewController.m */,
+				A2C17A6E17E1837700468CC5 /* MapLocationViewController.h */,
+				A2C17A6F17E1837700468CC5 /* MapLocationViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -3439,6 +3451,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A2C17A7217E2E9F200468CC5 /* map.png */,
+				A2C17A7317E2E9F200468CC5 /* map@2x.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
 				67CF2D9D161951B8001FE1AA /* 2-mash-blue.png */,
@@ -4149,6 +4163,7 @@
 				67CF2EC5161951B8001FE1AA /* task_icon.png in Resources */,
 				67CF2EC6161951B8001FE1AA /* MultiSelectHint.htm in Resources */,
 				67CF2EC7161951B8001FE1AA /* PinHint.htm in Resources */,
+				A2C17A7417E2E9F200468CC5 /* map.png in Resources */,
 				67CF2EC8161951B8001FE1AA /* PlanManagerHint.htm in Resources */,
 				67CF2EC9161951B8001FE1AA /* ProjectHint.htm in Resources */,
 				67CF2ECA161951B8001FE1AA /* SmartListHint.htm in Resources */,
@@ -4694,6 +4709,7 @@
 				67F2A1FB179D1605004617D1 /* tab_notes_selected@2x.png in Resources */,
 				67F2A1FD179D1605004617D1 /* tab_notes.png in Resources */,
 				67F2A1FF179D1605004617D1 /* tab_notes@2x.png in Resources */,
+				A2C17A7617E2E9F200468CC5 /* map@2x.png in Resources */,
 				67F2A201179D1605004617D1 /* tab_projects_selected.png in Resources */,
 				67F2A203179D1605004617D1 /* tab_projects_selected@2x.png in Resources */,
 				67F2A205179D1605004617D1 /* tab_projects.png in Resources */,
@@ -4774,6 +4790,7 @@
 				67EC0D6416F8081F00929BFD /* task_icon.png in Resources */,
 				67EC0D6516F8081F00929BFD /* MultiSelectHint.htm in Resources */,
 				67EC0D6616F8081F00929BFD /* PinHint.htm in Resources */,
+				A2C17A7517E2E9F200468CC5 /* map.png in Resources */,
 				67EC0D6716F8081F00929BFD /* PlanManagerHint.htm in Resources */,
 				67EC0D6816F8081F00929BFD /* ProjectHint.htm in Resources */,
 				67EC0D6916F8081F00929BFD /* SmartListHint.htm in Resources */,
@@ -5319,6 +5336,7 @@
 				67F2A1FC179D1605004617D1 /* tab_notes_selected@2x.png in Resources */,
 				67F2A1FE179D1605004617D1 /* tab_notes.png in Resources */,
 				67F2A200179D1605004617D1 /* tab_notes@2x.png in Resources */,
+				A2C17A7717E2E9F200468CC5 /* map@2x.png in Resources */,
 				67F2A202179D1605004617D1 /* tab_projects_selected.png in Resources */,
 				67F2A204179D1605004617D1 /* tab_projects_selected@2x.png in Resources */,
 				67F2A206179D1605004617D1 /* tab_projects.png in Resources */,
@@ -5491,6 +5509,7 @@
 				67CF2D5E16195196001FE1AA /* MusicManager.m in Sources */,
 				67CF2D5F16195196001FE1AA /* TDAccount.m in Sources */,
 				67CF2D6016195196001FE1AA /* TDAccountParser.m in Sources */,
+				A2C17A7017E1837700468CC5 /* MapLocationViewController.m in Sources */,
 				67CF2D6116195196001FE1AA /* TDClient.m in Sources */,
 				67CF2D6216195196001FE1AA /* TDFetchParam.m in Sources */,
 				67CF2D6316195196001FE1AA /* TDFolder.m in Sources */,
@@ -5705,6 +5724,7 @@
 				67EC0D0016F8081F00929BFD /* MusicManager.m in Sources */,
 				67EC0D0116F8081F00929BFD /* TDAccount.m in Sources */,
 				67EC0D0216F8081F00929BFD /* TDAccountParser.m in Sources */,
+				A2C17A7117E1837700468CC5 /* MapLocationViewController.m in Sources */,
 				67EC0D0316F8081F00929BFD /* TDClient.m in Sources */,
 				67EC0D0416F8081F00929BFD /* TDFetchParam.m in Sources */,
 				67EC0D0516F8081F00929BFD /* TDFolder.m in Sources */,

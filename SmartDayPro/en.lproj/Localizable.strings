@@ -734,7 +734,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_showAllProjects" = "Show All Projects";
 "_addAlertText" = "Add Alert";
 "_routeText" = "Route";
-"_saveRouteText" = "Save Route";
+"_exportMapText" = "Export Map";
 "_directionsNotAvailable" = "Directions Not Available";
 "_cannotLocateThe" = "Cannot locate the";
 "_atCurrentLocationText" = "At Current Location";

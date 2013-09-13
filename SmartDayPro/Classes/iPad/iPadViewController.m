@@ -42,6 +42,7 @@
 #import "SDNavigationController.h"
 
 #import "SmartCalAppDelegate.h"
+#import "MapLocationViewController.h"
 
 extern BOOL _isiPad;
 
@@ -334,6 +335,19 @@ iPadViewController *_iPadViewCtrler;
 {
     NoteContentViewController *ctrler = [[NoteContentViewController alloc] init];
     ctrler.note = note;
+    
+    SDNavigationController *navCtrler = [[SDNavigationController alloc] initWithRootViewController:ctrler];
+    
+    [self presentViewController:navCtrler animated:YES completion:nil];
+    
+    [ctrler release];
+    [navCtrler release];
+}
+
+- (void) editMapLocation:(Task *)task
+{
+    MapLocationViewController *ctrler = [[MapLocationViewController alloc] init];
+    ctrler.task = task;
     
     SDNavigationController *navCtrler = [[SDNavigationController alloc] initWithRootViewController:ctrler];
     

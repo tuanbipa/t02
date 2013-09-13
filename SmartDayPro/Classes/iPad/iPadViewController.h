@@ -43,6 +43,7 @@
 
 - (void) editNoteContent:(Task *)note;
 - (void) editNoteDetail:(Task *)note;
+- (void) editMapLocation:(Task *)task;
 -(void) editItemDetail:(Task *)item;
 - (void) editProjectDetail:(Project *)project;
 - (void) closeDetail;

@@ -722,7 +722,7 @@
 
 #define _addAlertText NSLocalizedString(@"_addAlertText", "")
 #define _routeText NSLocalizedString(@"_routeText", "")
-#define _saveRouteText NSLocalizedString(@"_saveRouteText", "")
+#define _exportMapText NSLocalizedString(@"_exportMapText", "")
 #define _directionsNotAvailable NSLocalizedString(@"_directionsNotAvailable", "")
 #define _cannotLocateThe NSLocalizedString(@"_cannotLocateThe", "")
 #define _atCurrentLocationText NSLocalizedString(@"_atCurrentLocationText", "")
