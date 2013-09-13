@@ -3457,6 +3457,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				67CEE35117E1A7E6003EB87F /* menu_converttotask.png */,
+				67CEE35217E1A7E6003EB87F /* menu_converttotask@2x.png */,
 				A2C17A7217E2E9F200468CC5 /* map.png */,
 				A2C17A7317E2E9F200468CC5 /* map@2x.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
