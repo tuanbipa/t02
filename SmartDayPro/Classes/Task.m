@@ -240,10 +240,9 @@ static sqlite3_stmt *task_delete_statement = nil;
         ![taskOriginal.contactPhone isEqualToString:task.contactPhone] ||
         ![taskOriginal.note isEqualToString:task.note] ||
         ![taskOriginal.tag isEqualToString:task.tag] ||
-        [taskStartTime compare:task.startTime] != NSOrderedSame ||
-        [taskEndTime compare:task.endTime] != NSOrderedSame ||
-        [taskOriginal.deadline compare:task.deadline] != NSOrderedSame ||
-        ![[taskOriginal getRepeatString] isEqualToString:[task getRepeatString]] ||
+        [Common compareDate:taskStartTime withDate:task.startTime] != NSOrderedSame ||
+        [Common compareDate:taskEndTime withDate:task.endTime] != NSOrderedSame ||
+        [Common compareDate:taskOriginal.deadline withDate:task.deadline] != NSOrderedSame ||        ![[taskOriginal getRepeatString] isEqualToString:[task getRepeatString]] ||
     ![[taskOriginal alertsToString] isEqualToString:[task alertsToString]];
     
 }
