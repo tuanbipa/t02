@@ -115,6 +115,21 @@ BOOL _fromBackground = NO;
 	return NO;
 }
 
+/*
+- (void) transformBusyIndicator
+{
+    if (_iPadViewCtrler.interfaceOrientation == UIInterfaceOrientationPortrait)
+        busyIndicatorView.transform      = CGAffineTransformIdentity;
+    else if (_iPadViewCtrler.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        busyIndicatorView.transform      = CGAffineTransformMakeRotation(-M_PI);
+    else if (UIInterfaceOrientationIsLandscape(_iPadViewCtrler.interfaceOrientation))
+    {
+        float rotate    = ((_iPadViewCtrler.interfaceOrientation == UIInterfaceOrientationLandscapeLeft) ? -1:1) * (M_PI / 2.0);
+        busyIndicatorView.transform      = CGAffineTransformMakeRotation(rotate);
+        busyIndicatorView.transform      = CGAffineTransformTranslate(busyIndicatorView.transform, 0, -busyIndicatorView.frame.origin.y);
+    }
+}
+*/
 - (void) showBusyIndicator:(BOOL)enable
 {
 	if (enable)
@@ -123,7 +138,8 @@ BOOL _fromBackground = NO;
 		{
             //printf("add busyIndicator\n");
             
-            [self.window addSubview: busyIndicatorView];			
+            //[self.window addSubview: busyIndicatorView];
+            [_iPadViewCtrler.navigationController.navigationBar addSubview:busyIndicatorView];
 		}
 
         dispatch_async(dispatch_get_main_queue(),^ {
@@ -500,7 +516,7 @@ BOOL _fromBackground = NO;
 	
     //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(200, 20, 20, 20)];
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    busyIndicatorView.frame = CGRectMake(340, 30, 20, 20);
+    busyIndicatorView.frame = CGRectMake(340, 10, 20, 20);
     //busyIndicatorView.transform = CGAffineTransformMakeScale(2.0, 2.0);
     
     //busyIndicatorView.center = self.window.center;
@@ -735,6 +751,23 @@ BOOL _fromBackground = NO;
    //[[AlertManager getInstance] generateAlerts];
 }
 
+/*
+- (void) application:(UIApplication *)application
+willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
+            duration:(NSTimeInterval)duration
+{
+    if (newStatusBarOrientation == UIInterfaceOrientationPortrait)
+        busyIndicatorView.transform      = CGAffineTransformIdentity;
+    else if (newStatusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        busyIndicatorView.transform      = CGAffineTransformMakeRotation(-M_PI);
+    else if (UIInterfaceOrientationIsLandscape(newStatusBarOrientation))
+    {
+        float rotate    = ((newStatusBarOrientation == UIInterfaceOrientationLandscapeLeft) ? -1:1) * (M_PI / 2.0);
+        busyIndicatorView.transform      = CGAffineTransformMakeRotation(rotate);
+        busyIndicatorView.transform      = CGAffineTransformTranslate(busyIndicatorView.transform, 0, -busyIndicatorView.frame.origin.y);
+    }
+}
+*/
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];

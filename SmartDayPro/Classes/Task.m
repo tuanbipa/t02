@@ -209,6 +209,45 @@ static sqlite3_stmt *task_delete_statement = nil;
     [super dealloc];
 }
 
+- (BOOL) checkChange:(Task *)task
+{
+    Task *taskOriginal = self;
+    
+    NSDate *taskStartTime = self.startTime;
+    NSDate *taskEndTime = self.endTime;
+    
+	if (self.original != nil && ![self isREException]) //Calendar Task or REException
+	{
+        taskOriginal = self.original;
+        
+        NSTimeInterval reDuration = [self.original.endTime timeIntervalSinceDate:self.original.startTime];
+        
+        taskStartTime = self.reInstanceStartTime;
+        taskEndTime = [self.reInstanceStartTime dateByAddingTimeInterval:reDuration];
+    }
+    
+    return
+        taskOriginal.project != task.project ||
+        taskOriginal.type != task.type ||
+        taskOriginal.status != task.status ||
+        taskOriginal.extraStatus != task.extraStatus ||
+        taskOriginal.duration != task.duration ||
+        taskOriginal.timeZoneId != task.timeZoneId ||
+        ![taskOriginal.name isEqualToString:task.name] ||
+        ![taskOriginal.contactName isEqualToString:task.contactName] ||
+        ![taskOriginal.location isEqualToString:task.location] ||
+        ![taskOriginal.contactEmail isEqualToString:task.contactEmail] ||
+        ![taskOriginal.contactPhone isEqualToString:task.contactPhone] ||
+        ![taskOriginal.note isEqualToString:task.note] ||
+        ![taskOriginal.tag isEqualToString:task.tag] ||
+        [taskStartTime compare:task.startTime] != NSOrderedSame ||
+        [taskEndTime compare:task.endTime] != NSOrderedSame ||
+        [taskOriginal.deadline compare:task.deadline] != NSOrderedSame ||
+        ![[taskOriginal getRepeatString] isEqualToString:[task getRepeatString]] ||
+    ![[taskOriginal alertsToString] isEqualToString:[task alertsToString]];
+    
+}
+
 - (void) updateByTask:(Task*) task 
 {
 	self.primaryKey = task.primaryKey;

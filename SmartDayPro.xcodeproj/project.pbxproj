@@ -110,6 +110,10 @@
 		67CE5E15171931E200F00F04 /* assign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CE5E14171931E200F00F04 /* assign@2x.png */; };
 		67CE5E16171931E200F00F04 /* assign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CE5E14171931E200F00F04 /* assign@2x.png */; };
 		67CE6FE8163F6C66000C641E /* CalendarScrollPageLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CE6FE7163F6C66000C641E /* CalendarScrollPageLayoutController.m */; };
+		67CEE35317E1A7E6003EB87F /* menu_converttotask.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CEE35117E1A7E6003EB87F /* menu_converttotask.png */; };
+		67CEE35417E1A7E6003EB87F /* menu_converttotask.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CEE35117E1A7E6003EB87F /* menu_converttotask.png */; };
+		67CEE35517E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CEE35217E1A7E6003EB87F /* menu_converttotask@2x.png */; };
+		67CEE35617E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CEE35217E1A7E6003EB87F /* menu_converttotask@2x.png */; };
 		67CF2B25161950D7001FE1AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF2B24161950D7001FE1AA /* UIKit.framework */; };
 		67CF2B27161950D7001FE1AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF2B26161950D7001FE1AA /* Foundation.framework */; };
 		67CF2B29161950D7001FE1AA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF2B28161950D7001FE1AA /* CoreGraphics.framework */; };
@@ -1785,6 +1789,8 @@
 		67CE5E14171931E200F00F04 /* assign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "assign@2x.png"; sourceTree = "<group>"; };
 		67CE6FE6163F6C66000C641E /* CalendarScrollPageLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarScrollPageLayoutController.h; sourceTree = "<group>"; };
 		67CE6FE7163F6C66000C641E /* CalendarScrollPageLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarScrollPageLayoutController.m; sourceTree = "<group>"; };
+		67CEE35117E1A7E6003EB87F /* menu_converttotask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_converttotask.png; sourceTree = "<group>"; };
+		67CEE35217E1A7E6003EB87F /* menu_converttotask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_converttotask@2x.png"; sourceTree = "<group>"; };
 		67CF2B20161950D7001FE1AA /* SmartDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67CF2B24161950D7001FE1AA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		67CF2B26161950D7001FE1AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -4178,6 +4184,7 @@
 				67CF2ED3161951B8001FE1AA /* WeekDayQuickAddHint.htm in Resources */,
 				67CF2ED4161951B8001FE1AA /* WeekViewHint.htm in Resources */,
 				67CF2ED5161951B8001FE1AA /* WorkBalanceHint.htm in Resources */,
+				67CEE35517E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */,
 				67CF2ED6161951B8001FE1AA /* 1-mash-blue.png in Resources */,
 				67CF2ED7161951B8001FE1AA /* 1-mash-white.png in Resources */,
 				67CF2ED8161951B8001FE1AA /* 2-mash-blue.png in Resources */,
@@ -4656,6 +4663,7 @@
 				A2E86A94171C06AF00299C9F /* planner_next.png in Resources */,
 				A2E86A96171C06AF00299C9F /* planner_next@2x.png in Resources */,
 				A2E86A98171C06AF00299C9F /* planner_prev.png in Resources */,
+				67CEE35317E1A7E6003EB87F /* menu_converttotask.png in Resources */,
 				A2E86A9A171C06AF00299C9F /* planner_prev@2x.png in Resources */,
 				A2E86A9C171C06AF00299C9F /* planner_top_bg.png in Resources */,
 				A2E86A9E171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
@@ -4805,6 +4813,7 @@
 				67EC0D7216F8081F00929BFD /* WeekDayQuickAddHint.htm in Resources */,
 				67EC0D7316F8081F00929BFD /* WeekViewHint.htm in Resources */,
 				67EC0D7416F8081F00929BFD /* WorkBalanceHint.htm in Resources */,
+				67CEE35617E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */,
 				67EC0D7516F8081F00929BFD /* 1-mash-blue.png in Resources */,
 				67EC0D7616F8081F00929BFD /* 1-mash-white.png in Resources */,
 				67EC0D7716F8081F00929BFD /* 2-mash-blue.png in Resources */,
@@ -5283,6 +5292,7 @@
 				A2E86A95171C06AF00299C9F /* planner_next.png in Resources */,
 				A2E86A97171C06AF00299C9F /* planner_next@2x.png in Resources */,
 				A2E86A99171C06AF00299C9F /* planner_prev.png in Resources */,
+				67CEE35417E1A7E6003EB87F /* menu_converttotask.png in Resources */,
 				A2E86A9B171C06AF00299C9F /* planner_prev@2x.png in Resources */,
 				A2E86A9D171C06AF00299C9F /* planner_top_bg.png in Resources */,
 				A2E86A9F171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
@@ -5967,6 +5977,8 @@
 		67EC0F2C16F8081F00929BFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDayPro/SmartDay_iPad-Info.plist";
@@ -5976,6 +5988,7 @@
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = SmartDay;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -5984,6 +5997,8 @@
 		67EC0F2D16F8081F00929BFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
@@ -5994,6 +6009,7 @@
 					"\"$(SRCROOT)/SmartDayPro/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = SmartDay;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -6002,6 +6018,8 @@
 		67EC0F2E16F8081F00929BFD /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
@@ -6016,6 +6034,7 @@
 					"-lz",
 				);
 				PRODUCT_NAME = SmartDay;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};

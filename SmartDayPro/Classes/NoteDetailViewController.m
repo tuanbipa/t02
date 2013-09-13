@@ -14,6 +14,7 @@
 #import "Project.h"
 
 #import "ProjectManager.h"
+#import "DBManager.h"
 #import "TagDictionary.h"
 
 #import "ContentView.h"
@@ -23,6 +24,8 @@
 #import "LinkViewController.h"
 #import "ProjectInputViewController.h"
 #import "DateInputViewController.h"
+
+#import "CommentViewController.h"
 
 #import "iPadViewController.h"
 
@@ -151,7 +154,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 #pragma mark Actions
 - (void) done:(id) sender
 {
-    if (![self.noteCopy.name isEqualToString:@""] && ![self.note isShared])
+    if (![self.noteCopy.name isEqualToString:@""] && ![self.note isShared] && [self.note checkChange:self.noteCopy])
     {
         [_iPadViewCtrler.activeViewCtrler updateTask:self.note withTask:self.noteCopy];
     }
@@ -184,6 +187,13 @@ NoteDetailViewController *_noteDetailViewCtrler;
 {
     [_iPadViewCtrler closeDetail];
     [_iPadViewCtrler.activeViewCtrler share2AirDrop];
+}
+
+- (void) convert2Task:(id) sender
+{
+    [_iPadViewCtrler.activeViewCtrler createTaskFromNote:self.note];
+    
+    [_iPadViewCtrler closeDetail];
 }
 
 #pragma mark Views
@@ -251,6 +261,17 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
     
+    UIButton *taskConvertButton = [Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(0, 0, 30, 30)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(convert2Task:)
+                                  normalStateImage:@"menu_converttotask.png"
+                                selectedStateImage:nil];
+    
+    UIBarButtonItem *taskConvertItem = [[UIBarButtonItem alloc] initWithCustomView:taskConvertButton];
+    
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedItem.width = 10;
     
@@ -271,10 +292,16 @@ NoteDetailViewController *_noteDetailViewCtrler;
     }
     else
     {
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, airDropItem, nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, taskConvertItem, fixedItem, airDropItem, nil];
     }
     
     [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
+    
+    [airDropItem release];
+    [taskConvertItem release];
+    [fixedItem release];
+    [deleteItem release];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -405,6 +432,15 @@ NoteDetailViewController *_noteDetailViewCtrler;
         [self.navigationController pushViewController:ctrler animated:YES];
         [ctrler release];
     }
+}
+
+- (void) editComment
+{
+	CommentViewController *ctrler = [[CommentViewController alloc] init];
+    ctrler.itemId = self.note.primaryKey;
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
 }
 
 #pragma mark Input Views
@@ -608,6 +644,16 @@ NoteDetailViewController *_noteDetailViewCtrler;
     [cell.contentView addSubview:self.previewViewCtrler.view];
 }
 
+- (void) createCommentCell:(UITableViewCell *)cell
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = _conversationsText;
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.note.primaryKey]];
+}
+
 
 #pragma mark TableView
 
@@ -620,7 +666,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 6;
+	return [self.note isShared]?4:(self.note.primaryKey == -1?4:6);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -629,7 +675,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
     {
         return 400;
     }
-    else if (indexPath.row == 3)
+    else if (indexPath.row == 3 && ![self.note isShared])
     {
         return 120;
     }
@@ -694,7 +740,14 @@ NoteDetailViewController *_noteDetailViewCtrler;
             [self createProjectCell:cell];
             break;
         case 3:
-            [self createTagCell:cell];
+            if ([self.note isShared])
+            {
+                [self createCommentCell:cell];
+            }
+            else
+            {
+                [self createTagCell:cell];
+            }
             break;
         case 4:
         {
@@ -724,6 +777,12 @@ NoteDetailViewController *_noteDetailViewCtrler;
             break;
         case 2:
             [self editProject];
+            break;
+        case 3:
+            if ([self.note isShared])
+            {
+                [self editComment];
+            }
             break;
         case 4:
             [self editLink:nil];

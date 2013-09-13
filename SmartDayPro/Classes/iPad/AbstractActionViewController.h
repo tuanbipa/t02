@@ -34,11 +34,12 @@
     UIView *optionView;
     UIImageView *optionImageView;
     
-    Task *actionTask;
-    Task *actionTaskCopy;
+    //Task *actionTask;
+    //Task *actionTaskCopy;
 }
 
 @property (nonatomic, retain) Task *task2Link;
+@property (nonatomic, retain) Task *actionTask;
 @property (nonatomic, retain) Task *actionTaskCopy;
 
 @property (nonatomic, retain) MovableView *activeView;
@@ -114,5 +115,10 @@
 - (void) showSettingMenu;
 // cancel multi edit
 - (void)cancelEdit;
+
+- (void) backup;
+- (void) sync;
+- (void) autoPush;
+
 
 @end

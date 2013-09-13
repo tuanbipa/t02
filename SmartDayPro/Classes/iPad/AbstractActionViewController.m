@@ -77,6 +77,7 @@ extern DetailViewController *_detailViewCtrler;
 
 @synthesize popoverCtrler;
 
+@synthesize actionTask;
 @synthesize actionTaskCopy;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -95,6 +96,7 @@ extern DetailViewController *_detailViewCtrler;
         self.activeView = nil;
         
         self.task2Link = nil;
+        self.actionTask = nil;
         self.actionTaskCopy = nil;
         
         self.popoverCtrler = nil;
@@ -157,6 +159,7 @@ extern DetailViewController *_detailViewCtrler;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     self.task2Link = nil;
+    self.actionTask = nil;
     self.actionTaskCopy = nil;
     
     self.popoverCtrler = nil;
@@ -1265,7 +1268,7 @@ extern DetailViewController *_detailViewCtrler;
     //[taskCopy addAnchorInTitle];
     //BOOL isManual = [task isManual];
     
-    actionTask = task;
+    self.actionTask = task;
     self.actionTaskCopy = taskCopy;
     
     BOOL reSchedule = NO;
