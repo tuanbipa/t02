@@ -183,6 +183,7 @@
 - (void) print;
 - (NSDictionary *) tojson;
 - (void) fromjson:(NSDictionary *)jsonDict;
+- (BOOL) checkChange:(Task *)task;
 
 -(BOOL)isRT;
 -(BOOL)isRE;

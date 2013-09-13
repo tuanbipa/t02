@@ -53,6 +53,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) dealloc
 {
+    self.task = nil;
     self.taskCopy = nil;
     
     [super dealloc];
@@ -78,7 +79,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) setTask:(Task *)taskParam
 {
-    task = taskParam;
+    task = [taskParam retain];
     
 	if (taskParam.original != nil && ![taskParam isREException]) //Calendar Task or REException
 	{
@@ -171,7 +172,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
     
-    NSMutableArray *items = [self.task isTask]?[NSMutableArray arrayWithObject:markDoneItem]:[NSMutableArray arrayWithCapacity:0];
+    NSMutableArray *items = [self.task isTask]?[NSMutableArray arrayWithObjects:markDoneItem, nil]:[NSMutableArray arrayWithCapacity:0];
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
     {

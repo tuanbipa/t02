@@ -130,6 +130,7 @@
 - (void) calculateDeadline;
 - (void) calculateWorkBalance;
 - (PlanInfo) getInfo;
+- (BOOL) checkChange:(Project *)project;
 - (BOOL) checkTransparent;
 - (BOOL) checkDefault;
 - (BOOL) checkCleanable;

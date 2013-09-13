@@ -505,7 +505,7 @@ DetailViewController *_detailViewCtrler = nil;
         [taskLocation resignFirstResponder];
     }
     
-    if (![self.task isShared])
+    if (![self.task isShared] && [self.task checkChange:self.taskCopy])
     {
         [_iPadViewCtrler.activeViewCtrler updateTask:self.task withTask:self.taskCopy];
     }
@@ -763,7 +763,10 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) refreshAlert
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    if (showAll)
+    {
+        [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 - (void) refreshDescription

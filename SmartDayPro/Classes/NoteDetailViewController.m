@@ -154,7 +154,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 #pragma mark Actions
 - (void) done:(id) sender
 {
-    if (![self.noteCopy.name isEqualToString:@""] && ![self.note isShared])
+    if (![self.noteCopy.name isEqualToString:@""] && ![self.note isShared] && [self.note checkChange:self.noteCopy])
     {
         [_iPadViewCtrler.activeViewCtrler updateTask:self.note withTask:self.noteCopy];
     }
@@ -187,6 +187,13 @@ NoteDetailViewController *_noteDetailViewCtrler;
 {
     [_iPadViewCtrler closeDetail];
     [_iPadViewCtrler.activeViewCtrler share2AirDrop];
+}
+
+- (void) convert2Task:(id) sender
+{
+    [_iPadViewCtrler.activeViewCtrler createTaskFromNote:self.note];
+    
+    [_iPadViewCtrler closeDetail];
 }
 
 #pragma mark Views
@@ -254,6 +261,17 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
     
+    UIButton *taskConvertButton = [Common createButton:@""
+                                        buttonType:UIButtonTypeCustom
+                                             frame:CGRectMake(0, 0, 30, 30)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(convert2Task:)
+                                  normalStateImage:@"menu_converttotask.png"
+                                selectedStateImage:nil];
+    
+    UIBarButtonItem *taskConvertItem = [[UIBarButtonItem alloc] initWithCustomView:taskConvertButton];
+    
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedItem.width = 10;
     
@@ -274,10 +292,16 @@ NoteDetailViewController *_noteDetailViewCtrler;
     }
     else
     {
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, airDropItem, nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, taskConvertItem, fixedItem, airDropItem, nil];
     }
     
     [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
+    
+    [airDropItem release];
+    [taskConvertItem release];
+    [fixedItem release];
+    [deleteItem release];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

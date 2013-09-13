@@ -159,7 +159,18 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	{
 		[task initialUpdate];
 	}
-}	
+}
+
+- (BOOL) checkChange:(Project *)project
+{
+    return self.type != project.type ||
+        self.status != project.status ||
+        self.extraStatus != project.extraStatus ||
+        self.colorId != project.colorId ||
+        self.isTransparent != project.isTransparent ||
+        ![self.name isEqualToString:project.name] ||
+    [self.tag isEqualToString:project.tag];
+}
 
 - (id) copyWithZone:(NSZone*) zone{
 	Project *copy = [[Project alloc] init];

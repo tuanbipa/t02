@@ -610,7 +610,7 @@ extern BOOL _isiPad;
         
         [ctrler loadAndShowList];
     }
-    else 
+    else if ([self.project checkChange:self.projectCopy])
     {
         BOOL nameChange = ![self.project.name isEqualToString:self.projectCopy.name];
         BOOL typeChange = (self.project.type != self.projectCopy.type);
