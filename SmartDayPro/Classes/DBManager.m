@@ -4676,6 +4676,9 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_ExtraStatus NUMERIC;", nil, nil, nil);
     sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_OnwerName TEXT;", nil, nil, nil);
     
+    // add 'alert location' field
+    sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_LocationAlert NUMERIC;", nil, nil, nil);
+    
 	NSString *sql = @"UPDATE ProjectTable SET Project_ExtraStatus = ?, Project_OwnerName = ''";
 	sqlite3_stmt *statement;
 	

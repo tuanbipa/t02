@@ -727,3 +727,4 @@
 #define _cannotLocateThe NSLocalizedString(@"_cannotLocateThe", "")
 #define _atCurrentLocationText NSLocalizedString(@"_atCurrentLocationText", "")
 #define _atCurrentLocationYouHave NSLocalizedString(@"_atCurrentLocationYouHave", "")
+#define _alertBasedOnLocationText NSLocalizedString(@"_alertBasedOnLocationText", "")

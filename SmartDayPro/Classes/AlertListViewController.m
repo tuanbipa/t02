@@ -179,7 +179,7 @@ extern BOOL _isiPad;
 {
 	AlertSelectionTableViewController *ctrler = [[AlertSelectionTableViewController alloc] init];
 	ctrler.taskEdit = self.taskEdit;
-	ctrler.alertIndex = index-1;
+	ctrler.alertIndex = index-2;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];
@@ -196,15 +196,24 @@ extern BOOL _isiPad;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (taskEdit.alerts != nil)
 	{
-		return taskEdit.alerts.count + 1;
+		return taskEdit.alerts.count + 2;
 	}
 	
-	return 1;
+	return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
     return 0.01f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0 && (![self.taskEdit isEvent] || self.taskEdit.location == nil || [[self.taskEdit.location stringByTrimmingCharactersInSet:
+                                                                 [NSCharacterSet whitespaceCharacterSet]] length] <= 0)) {
+        return 0.0f;
+    }
+    return 44.0f;
 }
 
 // Customize the appearance of table view cells.
@@ -231,11 +240,22 @@ extern BOOL _isiPad;
     
 	if (indexPath.row == 0)
 	{
-		cell.textLabel.text = _addText;
+        if (![self.taskEdit isEvent] ||
+            self.taskEdit.location == nil ||
+            [[self.taskEdit.location stringByTrimmingCharactersInSet:
+              [NSCharacterSet whitespaceCharacterSet]] length] <= 0) {
+            cell.hidden = YES;
+            return cell;
+        }
+		[self createAlertLocationCell:cell];
 	}
-	else 
+    else if (indexPath.row == 1)
+    {
+        cell.textLabel.text = _addText;
+    }
+	else
 	{
-		AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-1];
+		AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-2];
 		
 		cell.textLabel.text = _alertText;
 		
@@ -280,4 +300,26 @@ extern BOOL _isiPad;
 	[alertTableView reloadData];
 }
 
+- (void) createAlertLocationCell:(UITableViewCell *)cell
+{
+	cell.textLabel.text = _alertBasedOnLocationText;
+	
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(alertTableView.bounds.size.width - 110, 5, 100, 30);
+	[segmentedStyleControl addTarget:self action:@selector(editAlertBasedLocation:) forControlEvents:UIControlEventValueChanged];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    segmentedStyleControl.selectedSegmentIndex = self.taskEdit.locationAlert == 0 ? 1 : 0;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];
+}
+
+- (void)editAlertBasedLocation: (id)sender
+{
+    UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
+	
+    self.taskEdit.locationAlert = segmentedStyleControl.selectedSegmentIndex == 0 ? 1 : 0;
+}
 @end

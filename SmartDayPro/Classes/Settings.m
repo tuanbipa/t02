@@ -280,7 +280,7 @@ extern BOOL _isiPad;
         
         // geo fencing
         self.geoFencingEnable = NO;
-        self.geoFencingInterval = 5;
+        self.geoFencingInterval = 5*60;
         
         self.sdwEmail = @"";
         self.sdwPassword = @"";

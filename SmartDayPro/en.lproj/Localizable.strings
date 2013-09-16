@@ -729,7 +729,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_applyCurrentLocationText" = "Apply Current Location";
 "_currentLocationText" = "Current Location";
 "_geoFencingText" = "Geo Fencing";
-"_geoIntervalText" = "Geo Interval";
+"_geoIntervalText" = "Geo and Alert Based Location Interval";
 "_hideAllProjects" = "Hide All Projects";
 "_showAllProjects" = "Show All Projects";
 "_addAlertText" = "Add Alert";
@@ -739,3 +739,4 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_cannotLocateThe" = "Cannot locate the";
 "_atCurrentLocationText" = "At Current Location";
 "_atCurrentLocationYouHave" = "At current location you have %d item(s) to do";
+"_alertBasedOnLocationText" = "Alert based on location";

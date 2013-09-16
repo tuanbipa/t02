@@ -610,10 +610,10 @@ BOOL _fromBackground = NO;
 	
     // geo-fencing
     Settings *setting = [Settings getInstance];
-    if (setting.geoFencingEnable) {
+    //if (setting.geoFencingEnable) {
         
         [self startGeoFencing:setting.geoFencingInterval];
-    }
+    //}
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -1156,7 +1156,15 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     [locationManager stopUpdatingLocation];
     
-    [self geocodeAllItems:locations];
+    // get placemark
+    CLGeocoder *geocoder = [[[CLGeocoder alloc] init] autorelease];
+    [geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (placemarks.count > 0) {
+            [self geocodeAllItems:placemarks[0]];
+        }
+    }];
+    
+    //[self geocodeAllItems:locations];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -1175,12 +1183,12 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     }
 }
 
--(void) geocodeAllItems: (NSArray*) locations
+-(void) geocodeAllItems: (CLPlacemark*) currentPlacemark
 {
     [notifyStr setString:@""];
     
     // do geo-fencing
-    CLLocation *location = [locations lastObject];
+    //CLLocation *location = [locations lastObject];
     CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
     
     // get all tasks
@@ -1204,7 +1212,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             //NSLog(@"-Geocode Item-");
             dispatch_semaphore_wait(geocodingLock, DISPATCH_TIME_FOREVER);
             
-            [self geocodeItem:task withGeocoder:gc withLocation:location];
+            [self geocodeItem:task withGeocoder:gc withPlacemark:currentPlacemark];
         }];
     }
     /*
@@ -1279,7 +1287,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 //    }];
 //}
 
-- (void)geocodeItem:(Task *) task withGeocoder:(CLGeocoder *)gc withLocation: (CLLocation*) location{
+- (void)geocodeItem:(Task *) task withGeocoder:(CLGeocoder *)gc withPlacemark: (CLPlacemark*) currentPlacemark{
     
     // geo each task
     if ([[task.location stringByTrimmingCharactersInSet:
@@ -1288,20 +1296,61 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         [gc geocodeAddressString:task.location completionHandler:^(NSArray *placemarks, NSError *error) {
             dispatch_semaphore_signal(geocodingLock);
             taskLocationNumber--;
+            
+            Settings *setting = [Settings getInstance];
+            
             if (placemarks.count > 0) {
                 CLPlacemark *taskPlacemark = placemarks[0];
                 CLLocation *taskLocation = taskPlacemark.location;
                 
-                if ([location distanceFromLocation:taskLocation] <= 200) {
+                if (setting.geoFencingEnable && [currentPlacemark.location distanceFromLocation:taskLocation] <= 200) {
                     geoItemCount += 1;
                     // add to aler list
                     [notifyStr appendString:[NSString stringWithFormat:@"%d. %@\n",geoItemCount, task.name]];
                     
                     //NSLog(@"\n1. task name: %@", task.name);
                 }
+                
+                if ([task isEvent] && (task.locationAlert == 1)) {
+                    
+                    // alert based on location
+                    MKPlacemark *sourceMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:currentPlacemark];
+                    MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourceMapPlaceMark];
+                    [sourceMapPlaceMark release];
+                    
+                    MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:taskPlacemark];
+                    MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+                    [desMapPlaceMark release];
+                    
+                    MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
+                    req.source = source;
+                    req.destination = destination;
+                    [source release];
+                    [destination release];
+                    
+                    MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
+                    [req release];
+                    [direction calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+                        if (error != nil) {
+                            NSLog(error.description);
+                        } else {
+                            NSTimeInterval eta = response.expectedTravelTime;
+                            NSDate *dt = [NSDate date];
+                            NSDate *alertTime = [task.startTime dateByAddingTimeInterval:  -(eta + 0.25*eta)];
+                            if ([dt compare:alertTime] != NSOrderedAscending) {
+                                // update task
+                                DBManager *dbm = [DBManager getInstance];
+                                task.locationAlert = 0;
+                                [task updateLocationAlertIntoDB:[dbm getDatabase]];
+                                [self showLocationAlert:task];
+                            }
+                        }
+                    }];
+                    [direction release];
+                }
             }
             
-            if (taskLocationNumber == 0) {
+            if (setting.geoFencingEnable && taskLocationNumber == 0) {
                 // push infor
                 [self pushGeoInfor];
             }
@@ -1372,6 +1421,33 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                                                    delegate:self cancelButtonTitle:_okText
                                           otherButtonTitles:nil];
     [alert show];
+    [alert release];
+}
+
+- (void)showLocationAlert: (Task*)task
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+    {
+        UILocalNotification *alertLocalNotification = [[UILocalNotification alloc] init];;
+        //NSString *alertBody = [NSString stringWithFormat:_itTimeToDriveText, task.name];
+        alertLocalNotification.alertBody = task.name;
+        alertLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
+        
+        [[UIApplication sharedApplication] scheduleLocalNotification:alertLocalNotification];
+        
+        [alertLocalNotification release];
+    }
+    else
+    {
+        // show alert
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_alertText
+                                                        message:task.name
+                                                       delegate:self cancelButtonTitle:_okText
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 #pragma mark Location timer

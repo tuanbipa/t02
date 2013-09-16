@@ -209,11 +209,11 @@ extern SmartCalAppDelegate *_appDelegate;
     UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
 	
 	self.setting.geoFencingEnable = (segmentedStyleControl.selectedSegmentIndex == 0);
-    if (!self.setting.geoFencingEnable) {
+    /*if (!self.setting.geoFencingEnable) {
         [_appDelegate disableGeoFencing];
     } else {
         [_appDelegate startGeoFencing:self.setting.geoFencingInterval];
-    }
+    }*/
     [settingTableView reloadData];
 }
 
@@ -413,10 +413,10 @@ extern SmartCalAppDelegate *_appDelegate;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.setting.geoFencingEnable) {
+    /*if (self.setting.geoFencingEnable) {
         return 9;
-    }
-    return 8;
+    }*/
+    return 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

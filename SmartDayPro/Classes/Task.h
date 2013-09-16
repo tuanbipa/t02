@@ -79,6 +79,9 @@
     // for planner
     NSInteger plannerDuration;
     NSDate *plannerStartTime;
+    
+    // location alert
+    NSInteger locationAlert;
 }
 
 @property NSInteger primaryKey; 
@@ -143,6 +146,7 @@
 
 @property (nonatomic, assign) NSInteger plannerDuration;
 @property (nonatomic, copy) NSDate *plannerStartTime;
+@property NSInteger locationAlert;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) initialUpdate;
@@ -168,6 +172,7 @@
 - (void) updateSyncIDIntoDB:(sqlite3 *)database;
 - (void) updateSDWIDIntoDB:(sqlite3 *)database;
 - (void) updateLinkIntoDB:(sqlite3 *)database;
+- (void) updateLocationAlertIntoDB:(sqlite3 *)database;
 - (void) refreshSyncIDFromDB:(sqlite3 *)database;
 - (void)deleteFromDatabase:(sqlite3 *)database ;
 - (void)cleanFromDatabase:(sqlite3 *)database ;
