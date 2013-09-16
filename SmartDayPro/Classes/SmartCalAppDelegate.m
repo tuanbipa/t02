@@ -463,7 +463,7 @@ BOOL _fromBackground = NO;
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
 {
-    NSLog(@"########### Received Background Fetch ###########");
+    //NSLog(@"########### Received Background Fetch ###########");
     
     [[SDWSync getInstance] initSyncComments];
     

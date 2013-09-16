@@ -30,6 +30,7 @@ AbstractSDViewController *_abstractViewCtrler;
 @synthesize noteList;
 
 @synthesize doneList;
+@synthesize anchoredList;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -110,6 +111,7 @@ AbstractSDViewController *_abstractViewCtrler;
     self.noteList = nil;
     
     self.doneList = nil;
+    self.anchoredList = nil;
     
     [super dealloc];
 }
@@ -127,6 +129,8 @@ AbstractSDViewController *_abstractViewCtrler;
     //if (zoomButton.selected)
     {
         int y = 5;
+        
+        /*
         
         // show done tasks
         for (int i=0; i<self.doneList.count; i++)
@@ -228,6 +232,39 @@ AbstractSDViewController *_abstractViewCtrler;
             y += frm.size.height;
             
         }
+        */
+        
+        NSArray *lists[5] = {self.doneList, self.adeList, self.anchoredList, self.dueList, self.noteList};
+        
+        for (int i=0; i<5; i++)
+        {
+            NSArray *list = lists[i];
+            
+            for (int j=0; j<list.count; j++)
+            {
+                Task *task = [list objectAtIndex:j];
+                
+                task.listSource = SOURCE_FOCUS;
+                
+                CGRect frm = CGRectMake(10, y, contentView.bounds.size.width-20, 35);
+                
+                TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
+                taskView.task = task;
+                taskView.starEnable = NO;
+                taskView.listStyle = NO;
+                taskView.focusStyle = YES;
+                
+                [taskView enableMove:NO];
+                [taskView refreshStarImage];
+                [taskView refreshCheckImage];
+                
+                [contentView addSubview:taskView];
+                [taskView release];
+                
+                y += frm.size.height;
+                
+            }
+        }
         
         CGRect frm = contentView.frame;
         frm.size.height = y > 150?150:(y==5?0:y);
@@ -287,6 +324,8 @@ AbstractSDViewController *_abstractViewCtrler;
         }
         
         self.noteList = [tm getNoteListOnDate:tm.today];
+        
+        self.anchoredList = [tm getATaskListOnDate:tm.today];
     }
     
     [self refreshView];

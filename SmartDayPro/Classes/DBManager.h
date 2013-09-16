@@ -74,6 +74,7 @@
 - (NSMutableArray *) getSTasksFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (NSMutableArray *) getDueTasksOnDate:(NSDate *)date;
 - (NSMutableArray *) getDueTasksFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
+- (NSMutableArray *) getAnchoredTasksFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (BOOL) checkDueTasksOnDate:(NSDate *)date;
 - (NSMutableArray *) getEventsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (NSMutableArray *) getADEsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;

@@ -3395,7 +3395,7 @@ NSInteger _sdwColor[32] = {
                 
                 [self updateLink:link withSDWLink:sdwLink];
                 
-                printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
+                //printf("insert Link SDW->SC: %s\n", [link.sdwId UTF8String]);
                 
                 [link insertIntoDB:[dbm getDatabase]];
                 
@@ -4355,7 +4355,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/conversations.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
-    printf("get comments: %s\n", [url UTF8String]);
+    //printf("get comments: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]];
@@ -4377,9 +4377,9 @@ NSInteger _sdwColor[32] = {
     
     if (urlData)
     {
-        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        printf("comment URLs return:\n%s\n", [str UTF8String]);
+        //printf("comment URLs return:\n%s\n", [str UTF8String]);
         
         NSMutableArray *list = [dbm getAllComments];
         
@@ -5089,7 +5089,7 @@ NSInteger _sdwColor[32] = {
     NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",[email lowercaseString],pass,SDWAppRegId]];
     NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&appreg=%@&sig=%@",SDWSite,email,SDWAppRegId,sig];
     
-    printf("getToken: %s\n", [url UTF8String]);
+    //printf("getToken: %s\n", [url UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 

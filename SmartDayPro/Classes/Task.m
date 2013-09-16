@@ -227,6 +227,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     }
     
     return
+    task.primaryKey == -1 ||
         taskOriginal.project != task.project ||
         taskOriginal.type != task.type ||
         taskOriginal.status != task.status ||
