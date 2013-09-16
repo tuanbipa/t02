@@ -684,6 +684,27 @@ TaskManager *_sctmSingleton = nil;
 	return list;
 }
 
+- (NSMutableArray *) getATaskListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
+{
+	NSDate *start = [Common clearTimeForDate:fromDate];
+	NSDate *end =  [Common getEndDate:toDate];
+
+    NSMutableArray *list = [[DBManager getInstance] getAnchoredTasksFromDate:start toDate:end];
+	
+	list = [self filterList:list];
+	
+	[Common sortList:list byKey:@"startTime" ascending:YES];
+    
+    [self print:list];
+	
+	return list;
+}
+
+- (NSMutableArray *) getATaskListOnDate:(NSDate *)onDate
+{
+	return [self getATaskListFromDate:onDate toDate:onDate];
+}
+
 #pragma mark Calendar Day View Support
 
 - (void) initCalendarData:(NSDate *) date
@@ -1231,7 +1252,7 @@ TaskManager *_sctmSingleton = nil;
 //-(void) scheduleBackground:(NSNumber *)scheduledIndexNum segments:(NSMutableArray *)segments
 -(NSInteger) scheduleBackground:(NSInteger)scheduledIndex segments:(NSMutableArray *)segments
 {
-	NSLog(@"begin schedule with index:%d", scheduledIndex);
+	//NSLog(@"begin schedule with index:%d", scheduledIndex);
     
     NSMutableArray *list = [self getDisplayList];  
 
@@ -1287,7 +1308,7 @@ TaskManager *_sctmSingleton = nil;
 
     if (index == MAX_FAST_SCHEDULE_TASKS || list.count < MAX_FAST_SCHEDULE_TASKS)
     {
-        NSLog(@"notify fast schedule finished");
+        //NSLog(@"notify fast schedule finished");
         
         if (refreshGTD)
         {
@@ -1323,7 +1344,7 @@ TaskManager *_sctmSingleton = nil;
     }
     
 
-    NSLog(@"end schedule");
+    //NSLog(@"end schedule");
     
     return index;
 	//[pool release];
@@ -4482,15 +4503,20 @@ TaskManager *_sctmSingleton = nil;
 {
     sqlite3 *db = [[DBManager getInstance] getDatabase];
     
+    /*
     NSInteger pin = TASK_STATUS_PINNED;
     if (self.taskTypeFilter == TASK_FILTER_STAR) {
         pin = TASK_STATUS_NONE;
-    }
+    }*/
 
     for (Task *task in tasks) {
         Task *slTask = [self getTask2Update:task];
-        task.status = pin;
         
+        NSInteger status = (self.taskTypeFilter == TASK_FILTER_STAR?TASK_STATUS_NONE:(slTask.status == TASK_STATUS_PINNED?TASK_STATUS_NONE:TASK_STATUS_PINNED));
+        
+        //task.status = pin;
+        task.status = status;
+                            
         slTask.status = task.status;
         [slTask updateStatusIntoDB:db];
         

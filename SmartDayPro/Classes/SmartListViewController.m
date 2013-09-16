@@ -2270,14 +2270,14 @@ SmartListViewController *_smartListViewCtrler;
 #pragma mark Notification
 - (void)scheduleFinished:(NSNotification *)notification
 {
-    NSLog(@"schedule finished");
+    //NSLog(@"schedule finished");
     
     [self refreshLayout];
 }
 
 - (void)fastScheduleFinished:(NSNotification *)notification
 {
-    NSLog(@"fast schedule finished");
+    //NSLog(@"fast schedule finished");
     
     self.layoutController.layoutMode = 1;
     [self refreshLayout];

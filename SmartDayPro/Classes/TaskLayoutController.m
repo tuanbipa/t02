@@ -60,7 +60,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     NSMutableArray *tasks = [tm getDisplayList];
 
-    NSLog(@"task layout %d ...", tasks.count);
+    //NSLog(@"task layout %d ...", tasks.count);
     
     self.taskDict = [NSMutableDictionary dictionaryWithCapacity:10];
     
@@ -72,7 +72,7 @@ extern iPadViewController *_iPadViewCtrler;
     {
         if (self.layoutMode == 1 && c == MAX_FAST_SCHEDULE_TASKS)
         {
-            NSLog(@"task layout fast end");
+            //NSLog(@"task layout fast end");
             break;
         }
         

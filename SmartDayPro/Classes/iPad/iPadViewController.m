@@ -618,7 +618,7 @@ iPadViewController *_iPadViewCtrler;
     
     NSInteger count = [dbm countUnreadComments];
     
-    NSLog(@"unread comment count: %d", count);
+    //NSLog(@"unread comment count: %d", count);
     
     dispatch_async(dispatch_get_main_queue(),^ {
         //[commentButton setTitle:[NSString stringWithFormat:@"%d", count] forState:UIControlStateNormal];

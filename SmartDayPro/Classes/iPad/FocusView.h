@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSMutableArray *noteList;
 
 @property (nonatomic, retain) NSMutableArray *doneList;
+@property (nonatomic, retain) NSMutableArray *anchoredList;
 
 - (void) refreshData;
 - (void) refreshView;
