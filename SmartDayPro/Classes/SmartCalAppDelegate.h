@@ -41,6 +41,7 @@
     NSMutableString *notifyStr;
     BOOL locationUpdating;
     UILocalNotification *geoLocalNotification;
+    CLLocation *lastLocation;
 }
 
 @property (strong, nonatomic) UIWindow *window;

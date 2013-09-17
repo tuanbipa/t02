@@ -1152,6 +1152,18 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     if (locationUpdating) {
         return;
     }
+    
+    if (lastLocation != nil) {
+        lastLocation = [[locations lastObject] retain];
+    } else {
+        if ([[locations lastObject] distanceFromLocation:lastLocation] <= 400) {
+            return;
+        } else {
+            [lastLocation release];
+            lastLocation = [[locations lastObject] retain];
+        }
+    }
+    
     locationUpdating = YES;
     
     [locationManager stopUpdatingLocation];
@@ -1180,6 +1192,10 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         [locationManager stopUpdatingLocation];
         [locationManager release];
         locationManager = nil;
+    }
+    
+    if (lastLocation != nil) {
+        [lastLocation release];
     }
 }
 
