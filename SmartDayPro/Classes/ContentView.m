@@ -207,7 +207,7 @@ extern iPadViewController *_iPadViewCtrler;
 	////////printf("copy\n");
     if (_plannerViewCtrler != nil)
     {
-        [_plannerViewCtrler copyTask];
+        [_plannerViewCtrler copyTask:nil];
     }
     else if (_abstractViewCtrler != nil)
     {
@@ -217,7 +217,7 @@ extern iPadViewController *_iPadViewCtrler;
         }
         else
         {
-            [_abstractViewCtrler copyTask];
+            [_abstractViewCtrler copyTask:nil];
         }
     }
 }

@@ -1384,7 +1384,8 @@ extern iPadViewController *_iPadViewCtrler;
     if ([self.task isEvent] && ![self.task isADE])
     {
         //img = [pm getEventIcon:self.task.project];
-        img = [task isManual] ? [[ImageManager getInstance] getImageWithName:@"atask_lines.png"] : [[ImageManager getInstance] getImageWithName:@"event.png"];
+        /*img = [task isManual] ? [[ImageManager getInstance] getImageWithName:@"atask_lines.png"] : [[ImageManager getInstance] getImageWithName:@"event.png"];*/
+        img = [task isManual]?[pm getAnchoredIcon:self.task.project]:[pm getEventIcon:self.task.project];
     }
     else if ([self.task isTask])
     {

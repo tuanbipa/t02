@@ -516,7 +516,7 @@ BOOL _fromBackground = NO;
 	
     //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(200, 20, 20, 20)];
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    busyIndicatorView.frame = CGRectMake(340, 10, 20, 20);
+    busyIndicatorView.frame = CGRectMake(320, 10, 20, 20);
     //busyIndicatorView.transform = CGAffineTransformMakeScale(2.0, 2.0);
     
     //busyIndicatorView.center = self.window.center;

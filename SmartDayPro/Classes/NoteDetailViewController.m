@@ -681,19 +681,6 @@ NoteDetailViewController *_noteDetailViewCtrler;
     }
     else if (indexPath.row == 5)
     {
-        /*
-        CGFloat rowH = 0;
-        
-        for (int i=0;i<4;i++)
-        {
-            rowH += [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        }
-        
-        CGFloat h = detailTableView.bounds.size.height - rowH;
-        
-        return h>400?h:400;
-        */
-        
         return [self.previewViewCtrler getHeight];
     }
     

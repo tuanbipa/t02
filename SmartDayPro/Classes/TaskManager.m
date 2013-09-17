@@ -5257,6 +5257,8 @@ TaskManager *_sctmSingleton = nil;
         
         [slTask updateIntoDB:[[DBManager getInstance] getDatabase]];
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+        
         [self initSmartListData];
     }
 }
@@ -5265,7 +5267,8 @@ TaskManager *_sctmSingleton = nil;
 {
     sqlite3 *db = [[DBManager getInstance] getDatabase];
     Settings *settings = [Settings getInstance];
-    switch (option) {
+    switch (option)
+    {
         case 0:
         {
             BOOL mondayAsWeekStart = (settings.weekStart == 1);
@@ -5301,6 +5304,8 @@ TaskManager *_sctmSingleton = nil;
         }
             break;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
     
     [self initSmartListData];
 }

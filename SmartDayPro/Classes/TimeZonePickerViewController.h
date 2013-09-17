@@ -14,6 +14,7 @@
 {
 	UITableView *listTableView;
     UIView *contentView;
+    UISearchBar *searchBar;
 	
 	NSInteger selectedIndex;
 }

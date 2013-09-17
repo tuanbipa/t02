@@ -79,15 +79,6 @@ PreviewViewController *_previewCtrler;
         noteChange = NO;
         noteLinkCreated = NO;
         
-        /*
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(noteBeginEdit:)
-													 name:@"NoteBeginEditNotification" object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(noteFinishEdit:)
-													 name:@"NoteFinishEditNotification" object:nil];*/
-        
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteTap:)
 													 name:@"NoteTapNotification" object:nil];
@@ -158,17 +149,17 @@ PreviewViewController *_previewCtrler;
                 if ([itm isNote])
                 {
                     hasNote = YES;
-                    /*
-                     if (expandedNoteIndex == -1)
-                     {
-                     expandedNoteIndex = index;
-                     }*/
-                    
-                    selectedIndex = 0;
+
+                    selectedIndex = 0; //expand the primary note (first linked item)
                 }
             }
             
             index ++;
+        }
+        
+        if (!hasNote && self.linkList.count > 0)
+        {
+            selectedIndex = [self.item isNote]?0:1; // expand the first linked item
         }
     }
     
@@ -225,86 +216,20 @@ PreviewViewController *_previewCtrler;
     
 }
 
-/*
-- (void) editTask:(Task *)task
-{
-    if ([task isNote])
-    {
-        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-        ctrler.note = task;
-        
-        [self.navigationController pushViewController:ctrler animated:YES];
-        [ctrler release];
-    }
-    else
-    {
-        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-        
-        ctrler.task = task;
-        
-        [self.navigationController pushViewController:ctrler animated:YES];
-        [ctrler release];
-    }
-}
-*/
-
 - (void) singleTap
 {
     tapCount = 0;
  
-/*
-    if (!hasNote)
-    {
-        tapRow -= 1;
-    }
+    NSIndexPath *idxPath = nil;
     
-    if (tapRow >= 0)
+    if (selectedIndex != -1)
     {
-        Task *item = [self.linkList objectAtIndex:tapRow];
-        
-        if ([item isNote])
-        {
-            if (expandedNoteIndex != -1)
-            {
-                NSIndexPath *previousPath = [NSIndexPath indexPathForRow:expandedNoteIndex inSection:0];
-                
-                expandedNoteIndex = -1;
-                
-                [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            
-            expandedNoteIndex = tapRow;
-            
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:expandedNoteIndex inSection:0];
-            
-            [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            
-        }
-        else
-        {
-            if (expandedNoteIndex != -1)
-            {
-                NSIndexPath *previousPath = [NSIndexPath indexPathForRow:expandedNoteIndex inSection:0];
-                
-                expandedNoteIndex = -1;
-                
-                [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            
-            expandedNoteIndex = -1;
-            
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tapRow inSection:0];
-            
-            [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    }
-*/
+        idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
     
-    NSIndexPath *idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+        [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
     
     selectedIndex = tapRow;
-    
-    [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
     
@@ -329,16 +254,6 @@ PreviewViewController *_previewCtrler;
     {
         Task *itemEdit = [self.linkList objectAtIndex:tapRow];
     
-        /*
-        if (_plannerViewCtrler != nil)
-        {
-            [_plannerViewCtrler editItem:item];
-        }
-        else if (_abstractViewCtrler != nil)
-        {
-            [_abstractViewCtrler editItem:item];
-        }*/
-        
         [_iPadViewCtrler.activeViewCtrler editItem:itemEdit];
     }
 }
@@ -378,8 +293,6 @@ PreviewViewController *_previewCtrler;
     
     noteLinkCreated = YES;
     hasNote = YES;
-    
-    //expandedNoteIndex = 0;
     
     [linkTableView reloadData];
 }
@@ -422,42 +335,12 @@ PreviewViewController *_previewCtrler;
     
     //printf("note: %s\n", [note.note UTF8String]);
     
-    /*
-    NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-    ctrler.note = noteView.note;
-    
-    SDNavigationController *navCtrler = [[SDNavigationController alloc] initWithRootViewController:ctrler];
-    
-    UIViewController *mainCtrler = (_plannerViewCtrler != nil?_plannerViewCtrler:_abstractViewCtrler);
-    
-    [mainCtrler presentViewController:navCtrler animated:YES completion:nil];
-    
-    [navCtrler release];
-    
-    [ctrler release];
-    */
-    
     [_iPadViewCtrler editNoteContent:note];
 }
 
 #pragma mark Notification
 - (void) noteBeginEdit:(NSNotification *)notification
 {
-    /*
-    if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
-    {
-        noteFrm = noteView.frame;
-        CGRect frm = noteFrm;
-        
-        //frm.size.height = 220 - expandedNoteIndex*40;
-        frm.size.height = 220 - selectedIndex*40;
-        
-        [noteView changeFrame:frm];
-        
-        nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
-    }
-    */
-    
     if (!hasNote && selectedIndex != 0)
     {
         tapRow = 0;
@@ -465,61 +348,11 @@ PreviewViewController *_previewCtrler;
         [self singleTap];
     }
 }
-
-/*
-- (void) noteFinishEdit:(NSNotification *)notification
-{
-    if (UIInterfaceOrientationIsLandscape(_abstractViewCtrler.interfaceOrientation))
-    {
-        contentView.frame = CGRectMake(0, 0, 320, 416);
-        
-        [noteView changeFrame:noteFrm];
-        
-        nextButton.frame = CGRectMake(noteFrm.size.width - 30, noteFrm.size.height/2-30, 30, 30);        
-    }
-    
-    if (!hasNote)
-    {
-        NSString *text = [noteView getNoteText];
-        
-        if (![text isEqualToString:@""])
-        {
-            [self createLinkedNote:text];
-        }        
-    }
-    else
-    {
-        DBManager *dbm = [DBManager getInstance];
-        
-        [noteView.note updateIntoDB:[dbm getDatabase]];
-        
-        [self markNoteChange];
-    }
-}
-*/
-
 - (void) noteTap:(NSNotification *)notification
 {
     [self editNoteContent];
 }
 
-/*
-- (void) noteDoubleTap:(NSNotification *)notification
-{
-    if (noteView.note != nil)
-    {
-        //[_iPadSDViewCtrler editItem:noteView.note];
-        if (_plannerViewCtrler != nil)
-        {
-            [_plannerViewCtrler editItem:noteView.note];
-        }
-        else if (_abstractViewCtrler != nil)
-        {
-            [_abstractViewCtrler editItem:noteView.note];
-        }
-    }
-}
-*/
 #pragma mark Actions
 - (void) quickAddNote:(id)sender
 {
@@ -539,7 +372,6 @@ PreviewViewController *_previewCtrler;
 {
     [noteView finishEdit];
     
-    //[_iPadSDViewCtrler editItem:self.item];
     if (_plannerViewCtrler != nil)
     {
         [_plannerViewCtrler editItem:item];
@@ -552,8 +384,6 @@ PreviewViewController *_previewCtrler;
 
 - (void) showTimer:(id) sender
 {
-    //[_iPadSDViewCtrler showTimer];
-    
     if ([_abstractViewCtrler isKindOfClass:[iPadSmartDayViewController class]])
     {
         [(iPadSmartDayViewController *)_abstractViewCtrler showTimer];
@@ -613,54 +443,8 @@ PreviewViewController *_previewCtrler;
     
     [contentView release];
     
-    /*
-	UIButton *nameButton = [Common createButton:self.item.name
-										buttonType:UIButtonTypeCustom
-											 frame:CGRectMake(10, 0, frm.size.width-40, 40)
-										titleColor:[UIColor blackColor]
-											target:self
-										  selector:@selector(editItem:)
-								  normalStateImage:nil
-								selectedStateImage:nil];
-    nameButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    
-    [contentView addSubview:nameButton];
-    
-    UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    nextButton.frame = CGRectMake(frm.size.width - 30, 2, 30, 30);
-    [nextButton addTarget:self action:@selector(editItem:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [contentView addSubview:nextButton];
-    
-    UIImageView *linkBGView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 33, 320, 27)];
-    linkBGView.image = [UIImage imageNamed:@"category_header.png"];
-    
-    [contentView addSubview:linkBGView];
-    [linkBGView release];
-
-    UILabel *linkLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 300, 20)];
-    linkLabel.backgroundColor = [UIColor clearColor];
-    linkLabel.font = [UIFont boldSystemFontOfSize:16];
-    linkLabel.text = _linksText;
-    
-    [contentView addSubview:linkLabel];
-    [linkLabel release];
-    
-    UIImageView *separatorImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ade_separator.png"]];
-    separatorImgView.frame = CGRectMake(0, linkBGView.frame.origin.y + linkBGView.frame.size.height - 4, 320, 4);
-    
-    [contentView addSubview:separatorImgView];
-    [separatorImgView release];
-    */
-    
     frm = contentView.bounds;
 
-    /*
-    frm.origin.y += 60;
-    frm.size.height -= 60;
-    */
-    
     linkTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     linkTableView.backgroundColor = [UIColor clearColor];
     linkTableView.separatorColor = [UIColor clearColor];
@@ -669,26 +453,11 @@ PreviewViewController *_previewCtrler;
     
     [contentView addSubview:linkTableView];
     [linkTableView release];
-    
-    /*
-    frm = contentView.bounds;
-    frm.size.height -= 30;
-    frm.origin.y = 30;
-    
-    NoteView *noteView = [[NoteView alloc] initWithFrame:frm];
-    
-    [contentView addSubview:noteView];
-    [noteView release];*/
-    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    //expandedNoteIndex = -1;
-    
-	// Do any additional setup after loading the view.    
 
     [self refreshData];
 }
@@ -753,18 +522,6 @@ PreviewViewController *_previewCtrler;
 #pragma mark Cell Creation
 - (void) createEmptyNoteCell:(UITableViewCell *)cell expanded:(BOOL)expanded
 {
-    /*CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 0);
-    
-    frm.size.height = expanded?170:40;
-    
-    noteView = [[NoteView alloc] initWithFrame:frm];
-    
-    noteView.editEnabled = NO;
-    noteView.touchEnabled = YES;
-    
-    [cell.contentView addSubview:noteView];
-    [noteView release];*/
-    
     CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 40);
     
 	UIButton *emptyNoteButton = [Common createButton:_tapToAddNote
@@ -1165,33 +922,6 @@ PreviewViewController *_previewCtrler;
     [webView release];
 }
 
-/*
-- (CGFloat) calculateExpandedNoteHeight
-{
-    //CGFloat h = contentView.bounds.size.height-60;
-    CGFloat h = contentView.bounds.size.height;
-    
-    NSInteger count = self.linkList.count;
-    
-    if (hasNote)
-    {
-        count -= 1;
-    }
-    
-    h -= (count >= 3?2.5:count)*40;
-    
-    if (h<100)
-    {
-        h = 100;
-    }
-    else if (h>150)
-    {
-        h = 150;
-    }
-    
-    return h;
-}
-*/
 #pragma mark UITableView Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -1218,11 +948,6 @@ PreviewViewController *_previewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-	CGFloat h = (indexPath.row == expandedNoteIndex) || (!hasNote && indexPath.row == 0) ?[self calculateExpandedNoteHeight]:(indexPath.row == tapRow?150:40);
-    
-    return h;*/
-    
     NSInteger index = selectedIndex;
     
     if (!hasNote && ![self.item isNote])
@@ -1260,70 +985,6 @@ PreviewViewController *_previewCtrler;
     cell.backgroundColor = [UIColor clearColor];
     
     NSInteger index = indexPath.row;
-    
-    /*
-    if (!hasNote)
-    {
-        if (index == 0)
-        {
-            //CGRect frm = tableView.bounds;
-            
-            CGRect frm = CGRectMake(0, 0, tableView.bounds.size.width, 0);
-            
-            frm.size.height = [self calculateExpandedNoteHeight];
-            
-            noteView = [[NoteView alloc] initWithFrame:frm];
-            //noteView.editEnabled = YES;
-            noteView.editEnabled = NO;
-            noteView.touchEnabled = YES;
-            
-            [cell.contentView addSubview:noteView];
-            [noteView release];
-            
-            //nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            //nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
-            //[nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
-            
-            //[cell.contentView addSubview:nextButton];
-            
-            
-            return cell;
-        }
-        else
-        {
-            index -= 1;
-        }
-    }
-    
-    Task *item = [self.linkList objectAtIndex:index];
-    
-    if (indexPath.row == expandedNoteIndex)
-    {
-        CGRect frm = CGRectMake(0, 0, tableView.bounds.size.width, 0);
-        
-        frm.size.height = [self calculateExpandedNoteHeight];
-        
-        //printf("note view frame x:%f - y:%f\n", frm.origin.x, frm.origin.y);
-        
-        noteView = [[NoteView alloc] initWithFrame:frm];
-        
-        //noteView.editEnabled = YES;
-        noteView.editEnabled = NO;
-        noteView.touchEnabled = YES;
-        
-        noteView.note = item;
-        
-        [cell.contentView addSubview:noteView];
-        [noteView release];
-        
-        
-        //nextButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        //nextButton.frame = CGRectMake(frm.size.width - 30, frm.size.height/2-30, 30, 30);
-        //[nextButton addTarget:self action:@selector(editNote:) forControlEvents:UIControlEventTouchUpInside];
-        
-        //[cell.contentView addSubview:nextButton];
-    }*/
-    
     
     BOOL expanded = (selectedIndex == indexPath.row);
     

@@ -41,13 +41,14 @@
 #import "LinkViewController.h"
 #import "PreviewViewController.h"
 #import "CommentViewController.h"
+#import "TimeZonePickerViewController.h"
 
 #import "iPadViewController.h"
 
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
 
-#import "NoteDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
@@ -521,7 +522,7 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) copy:(id)sender
 {
-    self.task = [_iPadViewCtrler.activeViewCtrler copyTask];
+    self.task = [_iPadViewCtrler.activeViewCtrler copyTask:self.task];
     
     [self refreshData];
     
@@ -617,6 +618,16 @@ DetailViewController *_detailViewCtrler = nil;
         
         [ctrler release];
     }
+}
+
+- (void) editTimeZone:(id) sender
+{
+    TimeZonePickerViewController *ctrler = [[TimeZonePickerViewController alloc] init];
+    ctrler.objectEdit = self.taskCopy;
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    
+    [ctrler release];
 }
 
 - (void)editRepeat
@@ -1135,7 +1146,70 @@ DetailViewController *_detailViewCtrler = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     cell.backgroundColor = [UIColor colorWithRed:223.0/255 green:223.0/255 blue:223.0/255 alpha:1];
+    
+    Settings *settings = [Settings getInstance];
+    
+    CGFloat yMargin = 0;
+    
+    NSDate *startTime = self.taskCopy.startTime;
+    NSDate *endTime = self.taskCopy.endTime;
 
+    if (settings.timeZoneSupport && [self.taskCopy isNormalEvent])
+    {
+        UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 80, 20)];
+        tzLabel.tag = baseTag + 10;
+        tzLabel.text =_timeZone;
+        tzLabel.backgroundColor = [UIColor clearColor];
+        tzLabel.font = [UIFont systemFontOfSize:16];
+        tzLabel.textColor = [UIColor grayColor];
+        
+        [cell.contentView addSubview:tzLabel];
+        [tzLabel release];
+        
+        UILabel *tzValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 10, detailTableView.bounds.size.width - 90 - 30, 25)];
+        tzValueLabel.tag = baseTag + 11;
+        tzValueLabel.textAlignment = NSTextAlignmentRight;
+        tzValueLabel.textColor = [UIColor darkGrayColor];
+        tzValueLabel.font = [UIFont boldSystemFontOfSize:16];
+        tzValueLabel.backgroundColor = [UIColor clearColor];
+        
+        tzValueLabel.text = [Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId];
+        
+        [cell.contentView addSubview:tzValueLabel];
+        [tzValueLabel release];
+        
+        UIView *tzSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(10, 40, detailTableView.bounds.size.width-10, 1)];
+        tzSeparatorView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+        
+        [cell.contentView addSubview:tzSeparatorView];
+        [tzSeparatorView release];
+        
+        UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
+        detailImgView.tag = baseTag + 12;
+        detailImgView.frame = CGRectMake(detailTableView.bounds.size.width - 30, 8, 20, 20);
+        [cell.contentView addSubview:detailImgView];
+        [detailImgView release];
+        
+        UIButton *tzEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        CGRect frm = CGRectZero;
+        frm.size.width = detailTableView.bounds.size.width;
+        frm.size.height = 40;
+        
+        tzEditButton.frame = frm;
+        tzEditButton.tag = baseTag + 13;
+        [tzEditButton addTarget:self action:@selector(editTimeZone:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [cell.contentView addSubview:tzEditButton];
+        
+        NSInteger secs = [Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        
+        startTime = [startTime dateByAddingTimeInterval:secs];
+        endTime = [endTime dateByAddingTimeInterval:secs];
+        
+        yMargin = 40;
+    }
+    
     /*
     UILabel *adeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
     adeLabel.backgroundColor = [UIColor clearColor];
@@ -1162,7 +1236,7 @@ DetailViewController *_detailViewCtrler = nil;
     [adeSeparatorView release];
     */
     
-    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
+    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yMargin + 10, 100, 20)];
     startLabel.backgroundColor = [UIColor clearColor];
     startLabel.text = _startText;
     startLabel.textColor = [UIColor grayColor];
@@ -1173,10 +1247,10 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:startLabel];
     [startLabel release];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 40, self.taskCopy.startTime == nil?70:40, 30)];
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, yMargin + 40, startTime == nil?70:40, 30)];
     dayLabel.backgroundColor = [UIColor clearColor];
     dayLabel.textAlignment = NSTextAlignmentRight;
-    dayLabel.text = self.taskCopy.startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.startTime]];
+    dayLabel.text = startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:startTime]];
     dayLabel.textColor = [UIColor darkGrayColor];
     dayLabel.font = [UIFont boldSystemFontOfSize:28];
     
@@ -1185,9 +1259,9 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dayLabel];
     [dayLabel release];
     
-    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 35, 100, 20)];
+    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, yMargin + 35, 100, 20)];
     wkdayLabel.backgroundColor = [UIColor clearColor];
-    wkdayLabel.text = self.taskCopy.startTime == nil?@"":[Common getFullWeekdayString:self.taskCopy.startTime];
+    wkdayLabel.text = startTime == nil?@"":[Common getFullWeekdayString:startTime];
     wkdayLabel.textColor = [UIColor darkGrayColor];
     wkdayLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1196,9 +1270,9 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:wkdayLabel];
     [wkdayLabel release];
     
-    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 55, 200, 20)];
+    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, yMargin + 55, 200, 20)];
     monYearLabel.backgroundColor = [UIColor clearColor];
-    monYearLabel.text = self.taskCopy.startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:self.taskCopy.startTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:self.taskCopy.startTime], [Common getTimeString:self.taskCopy.startTime]]);
+    monYearLabel.text = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]);
     monYearLabel.textColor = [UIColor darkGrayColor];
     monYearLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1207,13 +1281,13 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:monYearLabel];
     [monYearLabel release];
     
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, 5, 1, 70)];
-    separatorView.backgroundColor = [UIColor lightGrayColor];
+    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, yMargin + 5, 1, 70)];
+    separatorView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
     
     [cell.contentView addSubview:separatorView];
     [separatorView release];
     
-    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, 10, 100, 20)];
+    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, yMargin + 10, 100, 20)];
     dueLabel.backgroundColor = [UIColor clearColor];
     dueLabel.text = _endText;
     dueLabel.textColor = [UIColor grayColor];
@@ -1224,10 +1298,10 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueLabel];
     [dueLabel release];
     
-    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, 40, self.taskCopy.endTime == nil?70:40, 30)];
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, yMargin + 40, endTime == nil?70:40, 30)];
     dueDayLabel.backgroundColor = [UIColor clearColor];
     dueDayLabel.textAlignment = NSTextAlignmentRight;
-    dueDayLabel.text = self.taskCopy.endTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.endTime]];
+    dueDayLabel.text = endTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:endTime]];
     dueDayLabel.textColor = [UIColor darkGrayColor];
     dueDayLabel.font = [UIFont boldSystemFontOfSize:28];
     
@@ -1236,9 +1310,9 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueDayLabel];
     [dueDayLabel release];
     
-    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, 35, 100, 20)];
+    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 35, 100, 20)];
     dueWkdayLabel.backgroundColor = [UIColor clearColor];
-    dueWkdayLabel.text = self.taskCopy.endTime == nil?@"":[Common getFullWeekdayString:self.taskCopy.endTime];
+    dueWkdayLabel.text = endTime == nil?@"":[Common getFullWeekdayString:endTime];
     dueWkdayLabel.textColor = [UIColor darkGrayColor];
     dueWkdayLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1247,9 +1321,9 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueWkdayLabel];
     [dueWkdayLabel release];
     
-    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, 55, 200, 20)];
+    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 55, 200, 20)];
     dueMonYearLabel.backgroundColor = [UIColor clearColor];
-    dueMonYearLabel.text = self.taskCopy.endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:self.taskCopy.endTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:self.taskCopy.endTime], [Common getTimeString:self.taskCopy.endTime]]);
+    dueMonYearLabel.text = endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:endTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:endTime], [Common getTimeString:endTime]]);
     dueMonYearLabel.textColor = [UIColor darkGrayColor];
     dueMonYearLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1260,7 +1334,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    startButton.frame = CGRectMake(0, 0, 190, 80);
+    startButton.frame = CGRectMake(0, yMargin + 0, 190, 80);
     startButton.backgroundColor = [UIColor clearColor];
     startButton.tag = baseTag + 8;
     [startButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1269,7 +1343,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *dueButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    dueButton.frame = CGRectMake(190, 0, 190, 80);
+    dueButton.frame = CGRectMake(190, yMargin + 0, 190, 80);
     dueButton.backgroundColor = [UIColor clearColor];
     dueButton.tag = baseTag + 9;
     [dueButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1565,6 +1639,14 @@ DetailViewController *_detailViewCtrler = nil;
     else if (indexPath.row == 3) //start/due
     {
         //return [self.taskCopy isEvent]?120:80;
+        
+        Settings *settings = [Settings getInstance];
+        
+        if (settings.timeZoneSupport && [self.taskCopy isNormalEvent])
+        {
+            return 120;
+        }
+        
         return 80;
     }
     else if (indexPath.row == 7) //tag
@@ -1577,29 +1659,7 @@ DetailViewController *_detailViewCtrler = nil;
         
         return h;
     }
-    /*else if ((showAll && indexPath.row == ([self.task isShared]?10:9)) || (!showAll && indexPath.row == ([self.task isShared]?6:5)))
-    {
-        
-        CGFloat rowH = 0;
-        
-        for (int i=0;i<(showAll?([self.task isShared]?10:9):([self.task isShared]?6:5));i++)
-        {
-            rowH += [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        }
-        
-        CGFloat h = detailTableView.bounds.size.height - rowH;
-        
-        printf("row height:%f, asset height:%f\n", rowH, h);
-        
-        return h>400?h:400;
-        
-        //CGFloat h = [self.previewViewCtrler getHeight] + 320; //cannot understand why 320 could make tableview scrollable in landscape, otherwise it does not scroll
-        
-        printf("asset height:%f", h);
-        
-        return h;
-    }*/
-    
+
     return 40;
 }
 
