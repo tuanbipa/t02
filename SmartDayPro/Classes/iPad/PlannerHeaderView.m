@@ -48,12 +48,23 @@ extern PlannerViewController *_plannerViewCtrler;
         [prevButton addSubview:prevImgView];
         [prevImgView release];
         
-        //frm = CGRectMake(self.bounds.size.width-125, 0, 30, 30);
-        frm = CGRectMake(self.bounds.size.width-50, 0, 50, 50);
+        // month button
+        UIButton *monthButton = [Common createButton:@""
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(frm.origin.x + frm.size.width + 50, 5, 160, 25)
+                                          titleColor:[UIColor grayColor]
+                                              target:self
+                                            selector:@selector(showYearView:)
+                                    normalStateImage:nil
+                                  selectedStateImage:nil];
+        monthButton.tag = 20000;
+        [self addSubview:monthButton];
+        
+        // next button
+        frm = CGRectMake(monthButton.frame.origin.x + monthButton.frame.size.width + 50, 0, 50, 50);
         
         UIButton *nextButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
-                                //frame:CGRectMake(self.bounds.size.width-55, 0, 50, 50)
                                               frame: frm
                                          titleColor:[UIColor whiteColor]
                                              target:self
@@ -69,38 +80,10 @@ extern PlannerViewController *_plannerViewCtrler;
         [nextButton addSubview:nextImgView];
         [nextImgView release];
         
-        // month button
-        UIButton *monthButton = [Common createButton:@""
-                                          buttonType:UIButtonTypeCustom
-                                               frame:CGRectMake(200, 5, 80, 25)
-                                          titleColor:[UIColor grayColor]
-                                              target:self
-                                            selector:@selector(showYearView:)
-                                    normalStateImage:nil
-                                  selectedStateImage:nil];
-        monthButton.tag = 20000;
-        [self addSubview:monthButton];
-        
-        // today button
-        UIButton *todayButton = [Common createButton:_todayText
-                                          buttonType:UIButtonTypeCustom
-                                               frame:CGRectMake(500, 5, 60, 25)
-                                          titleColor:[Colors blueButton]
-                                              target:self
-                                            selector:@selector(goToday:)
-                                    normalStateImage:nil
-                                  selectedStateImage:nil];
-        
-        todayButton.layer.cornerRadius = 4;
-        todayButton.layer.borderWidth = 1;
-        todayButton.layer.borderColor = [[Colors blueButton] CGColor];
-        todayButton.titleLabel.font = [UIFont systemFontOfSize:16];
-        
-        [self addSubview:todayButton];
-        
-        // zoom out button
-        frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
-        frm.origin.y -= PAD_WIDTH;
+        // zoom out button (month mode)
+        //frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
+        //frm.origin.y -= PAD_WIDTH;
+        frm.origin = CGPointMake(frm.origin.x + frm.size.width + 50, -8);
         frm.size = CGSizeMake(50, 50);
         
         UIButton *zoomOutButton = [Common createButton:@""
@@ -114,7 +97,7 @@ extern PlannerViewController *_plannerViewCtrler;
         zoomOutButton.tag = 12000;
         [self addSubview:zoomOutButton];
         
-        // zoom in button
+        // zoom in button (week mode)
         frm.origin.x += 50 + PAD_WIDTH/2;
         UIButton *zoomInButton = [Common createButton:@""
                                            buttonType:UIButtonTypeCustom
@@ -131,6 +114,23 @@ extern PlannerViewController *_plannerViewCtrler;
         zoomOutButton.userInteractionEnabled = NO;
         zoomInButton.selected = NO;
         zoomInButton.userInteractionEnabled = YES;
+        
+        // today button
+        UIButton *todayButton = [Common createButton:_todayText
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(self.bounds.size.width - PAD_WIDTH - 60, 5, 60, 25)
+                                          titleColor:[Colors blueButton]
+                                              target:self
+                                            selector:@selector(goToday:)
+                                    normalStateImage:nil
+                                  selectedStateImage:nil];
+        
+        todayButton.layer.cornerRadius = 4;
+        todayButton.layer.borderWidth = 1;
+        todayButton.layer.borderColor = [[Colors blueButton] CGColor];
+        todayButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        
+        [self addSubview:todayButton];
     }
     return self;
 }
@@ -206,8 +206,8 @@ extern PlannerViewController *_plannerViewCtrler;
     UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
     monthButton.frame = monRec;*/
     
-    //[monthButton setTitle:title forState:UIControlStateNormal];
-    CGRect monRec = CGRectMake(200, 5, 80, 25);
+    UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
+    CGRect monRec = monthButton.frame;
     
     [[UIColor grayColor] set];
     [title drawInRect:CGRectOffset(monRec, 0, 1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
