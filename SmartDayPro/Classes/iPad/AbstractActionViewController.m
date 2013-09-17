@@ -1499,17 +1499,20 @@ extern DetailViewController *_detailViewCtrler;
     }
 }
 
-- (Task *) copyTask
+- (Task *) copyTask:(Task *)task
 {
     Task *ret = nil;
     
-    Task *task = [self getActiveTask];
+    //Task *task = [self getActiveTask];
+    
+    if (task == nil)
+    {
+        task = [self getActiveTask];
+    }
     
     if (task != nil)
     {
         [task retain];
-        
-        //CGRect frm = [activeView.superview convertRect:activeView.frame toView:contentView];
         
         [self deselect];
         
@@ -1533,8 +1536,6 @@ extern DetailViewController *_detailViewCtrler;
             taskCopy.repeatData = nil;
             taskCopy.original = nil;
         }
-        
-        //[self editItem:taskCopy inRect:frm];
         
         [task release];
         
@@ -2146,6 +2147,8 @@ extern DetailViewController *_detailViewCtrler;
         
         [[TaskManager getInstance] defer:task deferOption:option];
         
+        /*
+        
         if ([self checkControllerActive:3])
         {
             CategoryViewController *ctrler = [self getCategoryViewController];
@@ -2154,7 +2157,10 @@ extern DetailViewController *_detailViewCtrler;
             {
                 [ctrler loadAndShowList];
             }
-        }        
+        }
+        */
+        
+        [self reconcileItem:task reSchedule:YES];
         
         [task release];
     }

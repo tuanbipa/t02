@@ -186,7 +186,7 @@ iPadViewController *_iPadViewCtrler;
                                                                                    target:nil
                                                                                    action:nil];
         //fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?285:155;
-        fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?215:85;
+        fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?195:65;
         
         UIButton *settingButton = [Common createButton:@""
                                             buttonType:UIButtonTypeCustom
@@ -229,6 +229,7 @@ iPadViewController *_iPadViewCtrler;
                                   selector:@selector(showUnreadComments:)
                           normalStateImage:@"bar_comments.png"
                         selectedStateImage:nil];
+        commentButton.hidden = YES;
         
         //commentButton.layer.cornerRadius = 4;
         //commentButton.layer.borderColor = [[Colors redButton] CGColor];

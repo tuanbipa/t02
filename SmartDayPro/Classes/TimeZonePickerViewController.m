@@ -16,6 +16,12 @@
 #import "StartEndPickerViewController.h"
 #import "SettingTableViewController.h"
 
+#import "DetailViewController.h"
+
+#import "iPadViewController.h"
+
+extern iPadViewController *_iPadViewCtrler;
+
 extern BOOL _isiPad;
 
 @implementation TimeZonePickerViewController
@@ -164,41 +170,82 @@ extern BOOL _isiPad;
     [listTableView reloadData];
 }
 
+- (void) changeFrame:(CGRect)frm
+{
+    contentView.frame = frm;
+    
+    searchBar.frame = CGRectMake(10, 10, frm.size.width-20, 30);
+    
+    listTableView.frame = CGRectMake(0, 50, frm.size.width, frm.size.height - 50);
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 44;
+    
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    
+    if ([ctrler isKindOfClass:[iPadCalendarSettingViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else if ([ctrler isKindOfClass:[DetailViewController class]])
+    {
+        frm.size.width = 384;
+        
+        frm.size.height -= 44;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
+    
+    [self changeFrame:frm];
+}
+
 - (void)loadView
 {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    //UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
-    CGFloat pad = 0;
-    
-    //if ([ctrler isKindOfClass:[iPadCalendarSettingViewController class]])
-    if (_isiPad)
+    if ([ctrler isKindOfClass:[iPadCalendarSettingViewController class]])
     {
         frm.size.width = 2*frm.size.width/3;
+    }
+    else if ([ctrler isKindOfClass:[DetailViewController class]])
+    {
+        frm.size.width = 384;
         
-        pad = 60;
+        frm.size.height -= 44;
     }
     else
     {
         frm.size.width = 320;
-        
-        pad = 20;
     }
     
-    //CGFloat marginY = (_isiPad?20:0);
-    CGFloat marginY = 0;
-    
     contentView = [[UIView alloc] initWithFrame:frm];
-    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(pad/2, marginY+10, frm.size.width-pad, 30)];
+    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(10, 10, frm.size.width-20, 30)];
     searchBar.placeholder = @"";
     searchBar.backgroundColor = [UIColor clearColor];
-    //searchBar.translucent = NO;
-    //searchBar.barStyle = UIBarStyleBlackTranslucent;
     searchBar.delegate = self;
     searchBar.backgroundImage = [UIImage imageNamed:@"none.png"];
     
@@ -206,14 +253,13 @@ extern BOOL _isiPad;
     [searchBar release];
     
     frm = contentView.bounds;
-    frm.origin.y = marginY + 50;
+    frm.origin.y = 50;
     frm.size.height -= frm.origin.y;
 	
     listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	listTableView.delegate = self;
 	listTableView.dataSource = self;
     listTableView.backgroundColor = [UIColor clearColor];
-	//listTableView.sectionHeaderHeight=5;
 	
 	[contentView addSubview:listTableView];
 	[listTableView release];
@@ -230,6 +276,8 @@ extern BOOL _isiPad;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -248,6 +296,13 @@ extern BOOL _isiPad;
         
         [ctrler refreshTimeZone];
     }
+    else if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+    {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshWhen];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -342,7 +397,18 @@ extern BOOL _isiPad;
     }
     else if ([self.objectEdit isKindOfClass:[Task class]])
     {
-        ((Task *)self.objectEdit).timeZoneId = [key intValue];
+        //((Task *)self.objectEdit).timeZoneId = [key intValue];
+        
+        NSInteger tzId = [key intValue];
+        
+        Task *item = (Task *)self.objectEdit;
+        NSInteger secs = [Common getSecondsFromTimeZoneID:item.timeZoneId]-[Common getSecondsFromTimeZoneID:tzId];
+        
+        item.startTime = [item.startTime dateByAddingTimeInterval:secs];
+        item.endTime = [item.endTime dateByAddingTimeInterval:secs];
+        
+        item.timeZoneId = tzId;
+        
     }
 }
 

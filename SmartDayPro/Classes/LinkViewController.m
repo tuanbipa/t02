@@ -26,6 +26,7 @@
 #import "AbstractSDViewController.h"
 
 #import "DetailViewController.h"
+#import "NoteDetailViewController.h"
 
 #import "iPadViewController.h"
 
@@ -131,7 +132,15 @@ extern BOOL _isiPad;
         [ctrler.previewViewCtrler refreshData];
         
         [ctrler refreshLink];
-    }    
+    }
+    else if ([self.navigationController.topViewController isKindOfClass:[NoteDetailViewController class]])
+    {
+        NoteDetailViewController *ctrler = (NoteDetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler.previewViewCtrler refreshData];
+        
+        [ctrler refreshLink];
+    }
 }
 
 - (void)viewDidLoad

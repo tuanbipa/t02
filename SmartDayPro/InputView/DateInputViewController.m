@@ -43,7 +43,7 @@ extern RepeatTableViewController *_repeatViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if ([task isNote])
+    if ([task isNote] || [task isEvent])
     {
         NSMutableArray *items = [NSMutableArray arrayWithArray:self.toolbar.items];
         
@@ -54,9 +54,14 @@ extern RepeatTableViewController *_repeatViewCtrler;
         self.noneItem = nil;
     }
     
-    if ([task isTask] || [task isNote] || dateEdit == TASK_EDIT_UNTIL)
+    if ([task isADE] || [task isTask] || [task isNote] || dateEdit == TASK_EDIT_UNTIL)
     {
         picker.datePickerMode = UIDatePickerModeDate;
+    }
+    
+    if ([task isEvent])
+    {
+        picker.timeZone = [Settings getTimeZoneByID:task.timeZoneId];
     }
     
     switch (dateEdit)

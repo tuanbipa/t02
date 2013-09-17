@@ -99,7 +99,7 @@
 
 - (void) markDoneTask;
 - (void) deleteTask;
-- (Task *) copyTask;
+- (Task *) copyTask:(Task *)task;
 - (void) starTask;
 - (void) moveTask2Top;
 - (void) defer:(NSInteger)option;
