@@ -106,19 +106,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)goToDate: (NSDate *) dt {
     
-    /*
-    NSDate *firstMonDate = [Common getFirstMonthDate:dt];
-    //NSInteger weeks = [Common getWeeksInMonth:firstMonDate];
-    Settings *st = [Settings getInstance];
-    NSInteger weeks = [Common getWeeksInMonth:firstMonDate mondayAsWeekStart:st.isMondayAsWeekStart];
-    [monthView changeWeekPlanner:7 weeks:weeks];
-     */
     [self updateWeeks:dt];
     [monthView collapseWeek];
     [self finishInitCalendar];
     // change month
     //[monthView changeMonth:firstMonDate];
-    [monthView initCalendar:dt];
+    NSInteger mode = [headerView getMWMode];
+    Settings *settings = [Settings getInstance];
+    NSDate *calDate = mode == 1 ? [Common getFirstWeekDate:dt mondayAsWeekStart:settings.isMondayAsWeekStart] : [Common getFirstMonthDate:dt];
+    [monthView initCalendar:calDate];
     
     // collapse week
     [monthView collapseExpandByDate:dt];
