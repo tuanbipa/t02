@@ -1149,39 +1149,39 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
+    [locationManager stopUpdatingLocation];
     if (locationUpdating) {
         return;
     }
     
     if (lastLocation != nil) {
-        lastLocation = [[locations lastObject] retain];
-    } else {
         if ([[locations lastObject] distanceFromLocation:lastLocation] <= 400) {
             return;
         } else {
             [lastLocation release];
             lastLocation = [[locations lastObject] retain];
         }
+    } else {
+        lastLocation = [[locations lastObject] retain];
     }
     
     locationUpdating = YES;
-    
-    [locationManager stopUpdatingLocation];
     
     // get placemark
     CLGeocoder *geocoder = [[[CLGeocoder alloc] init] autorelease];
     [geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
         if (placemarks.count > 0) {
             [self geocodeAllItems:placemarks[0]];
+        } else {
+            locationUpdating = NO;
         }
     }];
-    
-    //[self geocodeAllItems:locations];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"Geocoder Error");
+    dispatch_semaphore_signal(geocodingLock);
     locationUpdating = NO;
     [locationManager stopUpdatingLocation];
 }
@@ -1226,7 +1226,6 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         
         [geocodeQueue addOperationWithBlock:^{
             //NSLog(@"-Geocode Item-");
-            dispatch_semaphore_wait(geocodingLock, DISPATCH_TIME_FOREVER);
             
             [self geocodeItem:task withGeocoder:gc withPlacemark:currentPlacemark];
         }];
@@ -1305,15 +1304,16 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)geocodeItem:(Task *) task withGeocoder:(CLGeocoder *)gc withPlacemark: (CLPlacemark*) currentPlacemark{
     
+    Settings *setting = [Settings getInstance];
     // geo each task
     if ([[task.location stringByTrimmingCharactersInSet:
          [NSCharacterSet whitespaceCharacterSet]] length] > 0) {
+        // wait semaphore
+        dispatch_semaphore_wait(geocodingLock, DISPATCH_TIME_FOREVER);
         
         [gc geocodeAddressString:task.location completionHandler:^(NSArray *placemarks, NSError *error) {
             dispatch_semaphore_signal(geocodingLock);
             taskLocationNumber--;
-            
-            Settings *setting = [Settings getInstance];
             
             if (placemarks.count > 0) {
                 CLPlacemark *taskPlacemark = placemarks[0];
@@ -1373,6 +1373,10 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         }];
     } else {
         taskLocationNumber--;
+        if (setting.geoFencingEnable && taskLocationNumber == 0) {
+            // push infor
+            [self pushGeoInfor];
+        }
     }
 }
 
