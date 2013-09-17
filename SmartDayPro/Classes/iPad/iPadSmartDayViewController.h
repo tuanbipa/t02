@@ -14,7 +14,7 @@ typedef enum
 {
     TAG_VIEW_HEADER_VIEW = 32000,
 	TAG_VIEW_EDIT_BAR = 32010,
-    TAG_VIEW_COUNT_LABEL = 32011,
+    //TAG_VIEW_COUNT_LABEL = 32011,
     TAG_VIEW_COPY_BUTTON = 32012
 } TagsView;
 
@@ -25,6 +25,7 @@ typedef enum
     UIButton *selectedModuleButton;
     
     //UIButton *taskMultiEditButton;
+    NSInteger selectedCounter;
 }
 
 //@property (nonatomic, retain) UIPopoverController *popoverCtrler;

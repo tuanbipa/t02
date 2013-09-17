@@ -849,13 +849,14 @@ iPadViewController *_iPadViewCtrler;
     editBarView.hidden = YES;
     [headerView addSubview:editBarView];
     
-    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
+    /*UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
     countLabel.tag = TAG_VIEW_COUNT_LABEL;
     countLabel.text = @"0";
     countLabel.hidden = YES;
     [editBarView addSubview:countLabel];
 
-    [countLabel release];
+    [countLabel release];*/
+    selectedCounter = 0;
 
     /*UILabel *selectedLable = [[UILabel alloc] initWithFrame:CGRectMake(countLabel.frame.origin.x + countLabel.frame.size.width + SPACE_PAD, 0, 70, editBarView.frame.size.height)];
     selectedLable.text = _selectedText;
@@ -991,13 +992,14 @@ iPadViewController *_iPadViewCtrler;
     [headerView addSubview:editBarView];
     
     // count label
-    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
+    /*UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
     countLabel.tag = TAG_VIEW_COUNT_LABEL;
     countLabel.text = @"0";
     countLabel.hidden = YES;
     [editBarView addSubview:countLabel];
     
-    [countLabel release];
+    [countLabel release];*/
+    selectedCounter = 0;
     
     // delete button
     UIButton *deleteButton = [Common createButton:@""
@@ -1070,13 +1072,14 @@ iPadViewController *_iPadViewCtrler;
     [headerView addSubview:editBarView];
     
     // count label
-    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
+    /*UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
     countLabel.tag = TAG_VIEW_COUNT_LABEL;
     countLabel.text = @"0";
     countLabel.hidden = YES;
     [editBarView addSubview:countLabel];
     
-    [countLabel release];
+    [countLabel release];*/
+    selectedCounter = 0;
     
     // delete button
     UIButton *deleteButton = [Common createButton:@""
@@ -1862,16 +1865,19 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)refreshEditBarViewWithCheck: (BOOL) check
 {
-    UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
+    /*UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
     NSInteger count = countLabel.text.integerValue;
     BOOL firstCheck = count == 0;
     
     count = check ?  ++count : --count;
-    countLabel.text = [NSString stringWithFormat:@"%d", count];
+    countLabel.text = [NSString stringWithFormat:@"%d", count];*/
+    BOOL firstCheck = selectedCounter == 0;
+    
+    selectedCounter = check ?  ++selectedCounter : --selectedCounter;
     
     UIView *editBarView = (UIView *)[contentView viewWithTag:TAG_VIEW_EDIT_BAR];
 
-    if (count > 0) {
+    if (selectedCounter > 0) {
         editBarView.hidden = NO;
         filterSegmentedControl.hidden = YES;
     } else {
@@ -1880,7 +1886,7 @@ iPadViewController *_iPadViewCtrler;
     }
     
     UIButton *copyLinkButton = (UIButton*)[contentView viewWithTag:TAG_VIEW_COPY_BUTTON];
-    copyLinkButton.enabled = (count == 2);
+    copyLinkButton.enabled = (selectedCounter == 2);
     
     if (firstCheck) {
         switch (selectedModuleButton.tag - 31000)
@@ -1909,7 +1915,7 @@ iPadViewController *_iPadViewCtrler;
             }
                 break;
         }
-    } else if (count == 0) {
+    } else if (selectedCounter == 0) {
         switch (selectedModuleButton.tag - 31000)
         {
             case 0:
@@ -1940,8 +1946,9 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)cancelEdit
 {
-    UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
-    countLabel.text = @"0";
+    /*UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
+    countLabel.text = @"0";*/
+    selectedCounter = 0;
     
     UIView *editBarView = (UIView *)[contentView viewWithTag:TAG_VIEW_EDIT_BAR];
     editBarView.hidden = YES;
