@@ -728,8 +728,8 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 // mapkit and goe fencing
 "_applyCurrentLocationText" = "Apply Current Location";
 "_currentLocationText" = "Current Location";
-"_geoFencingText" = "Geo Fencing";
-"_geoIntervalText" = "Geo and Alert Based Location Interval";
+"_geoFencingText" = "Geo Fencing and Alert Based Location";
+"_geoIntervalText" = "Geo Fencing and Alert Based Location Interval";
 "_hideAllProjects" = "Hide All Projects";
 "_showAllProjects" = "Show All Projects";
 "_addAlertText" = "Add Alert";

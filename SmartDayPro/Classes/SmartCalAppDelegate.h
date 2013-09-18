@@ -42,6 +42,7 @@
     BOOL locationUpdating;
     UILocalNotification *geoLocalNotification;
     CLLocation *lastLocation;
+    BOOL isActiveGeoFencing;
 }
 
 @property (strong, nonatomic) UIWindow *window;
