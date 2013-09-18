@@ -1111,14 +1111,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)showYearView: (UIView *) view {
     //[super enableActions:enable onView:view];
+    CGRect frm = [view.superview convertRect:view.frame toView:contentView];
+    frm.size.height -= frm.size.height/2;
     
-    YearViewController *yearView = [[YearViewController alloc] init];
+    CGSize contentSize = contentView.bounds.size;
+    
+    CGSize yearViewSize = CGSizeMake(contentSize.width - 50, contentSize.height - (frm.origin.y + 6*frm.size.height));
+    YearViewController *yearView = [[YearViewController alloc] initWithSize:yearViewSize];
     self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:yearView] autorelease];
     [yearView release];
     
-    CGRect frm = [view.superview convertRect:view.frame toView:contentView];
-    
-    //[self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 

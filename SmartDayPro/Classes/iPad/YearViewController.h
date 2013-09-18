@@ -13,4 +13,5 @@
     YearView *contentView;
 }
 
+- (id)initWithSize: (CGSize)size;
 @end

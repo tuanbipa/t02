@@ -60,7 +60,6 @@
                                  selectedStateImage:nil];
         
         prevButton.tag = 11000;
-        prevButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
         [self addSubview:prevButton];
         
         UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_prev.png"]];
@@ -81,7 +80,6 @@
                                  selectedStateImage:nil];
         
         nextButton.tag = 11001;
-        nextButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
         [self addSubview:nextButton];
         
         UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
