@@ -494,8 +494,8 @@ DetailViewController *_detailViewCtrler = nil;
 #pragma  mark Actions
 - (void) done:(id) sender
 {
-    [titleTextView resignFirstResponder];
-    //[taskLocation resignFirstResponder];
+    //[titleTextView resignFirstResponder];
+    [self growingTextViewDidEndEditing:titleTextView];
     
     UITableViewCell *cell = [detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
@@ -503,15 +503,17 @@ DetailViewController *_detailViewCtrler = nil;
     
     if (taskLocation != nil)
     {
-        [taskLocation resignFirstResponder];
+        //[taskLocation resignFirstResponder];
+        [self textFieldDidEndEditing:taskLocation];
     }
-    
+
     if (![self.task isShared] && [self.task checkChange:self.taskCopy])
     {
         [_iPadViewCtrler.activeViewCtrler updateTask:self.task withTask:self.taskCopy];
     }
     
     [_iPadViewCtrler closeDetail];
+    
 }
 
 - (void) delete:(id)sender
@@ -727,7 +729,7 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) editComment
 {
 	CommentViewController *ctrler = [[CommentViewController alloc] init];
-    ctrler.itemId = self.task.primaryKey;
+    ctrler.itemId = self.taskCopy.primaryKey;
     
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];
@@ -1166,7 +1168,7 @@ DetailViewController *_detailViewCtrler = nil;
         [cell.contentView addSubview:tzLabel];
         [tzLabel release];
         
-        UILabel *tzValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 10, detailTableView.bounds.size.width - 90 - 30, 25)];
+        UILabel *tzValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 5, detailTableView.bounds.size.width - 90 - 30, 25)];
         tzValueLabel.tag = baseTag + 11;
         tzValueLabel.textAlignment = NSTextAlignmentRight;
         tzValueLabel.textColor = [UIColor darkGrayColor];
@@ -1586,7 +1588,7 @@ DetailViewController *_detailViewCtrler = nil;
     cell.textLabel.textColor = [UIColor grayColor];
     cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.task.primaryKey]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.taskCopy.primaryKey]];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
@@ -1609,7 +1611,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     NSInteger count = (showAll?11:7);
     
-    if (self.task.primaryKey == -1)
+    if (self.taskCopy.primaryKey == -1)
     {
         count -= 2; //don't show Assets
     }
@@ -1635,6 +1637,10 @@ DetailViewController *_detailViewCtrler = nil;
         //printf("title height: %f\n", h);
         
         return h + 30;
+    }
+    else if (indexPath.row == 2 && [self.task isManual])
+    {
+        return 0;
     }
     else if (indexPath.row == 3) //start/due
     {

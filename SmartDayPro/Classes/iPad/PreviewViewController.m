@@ -223,14 +223,16 @@ PreviewViewController *_previewCtrler;
  
     NSIndexPath *idxPath = nil;
     
-    if (selectedIndex != -1)
+    NSInteger index = selectedIndex;
+    
+    selectedIndex = tapRow;
+    
+    if (index != -1 || hasNote)
     {
-        idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+        idxPath = [NSIndexPath indexPathForRow:index inSection:0];
     
         [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    
-    selectedIndex = tapRow;
     
     idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
     
