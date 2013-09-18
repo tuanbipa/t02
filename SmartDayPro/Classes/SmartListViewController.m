@@ -1513,7 +1513,7 @@ SmartListViewController *_smartListViewCtrler;
 	CalendarSelectionTableViewController *ctrler = [[CalendarSelectionTableViewController alloc] init];
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];			
+	[ctrler release];
 	
 }
 
@@ -2232,6 +2232,8 @@ SmartListViewController *_smartListViewCtrler;
                                                      options:nil];
         
         quickAddTextField.inputAccessoryView = [views objectAtIndex:0];
+        
+        self.quickAddOption = 3;
         
         [self refreshQuickAddOption];
     }

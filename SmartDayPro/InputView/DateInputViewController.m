@@ -226,6 +226,11 @@ extern RepeatTableViewController *_repeatViewCtrler;
             break;
     }
     
+    for (UIBarButtonItem *barItem in toolbar.items)
+    {
+        barItem.tintColor = (barItem.tag == item.tag?[UIColor blueColor]:nil);
+    }
+    
     [self changeDate:dt];
     
     if (dt != nil)

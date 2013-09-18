@@ -255,10 +255,10 @@ extern BOOL _isiPad;
         [self updateWeeks:dt];
         [self.calView initCalendar:dt];
         
-        [headerView setNeedsDisplay];
     }
     
     [self.calView highlightCellOnDate:date];
+    [headerView setNeedsDisplay];
     
 }
 
