@@ -36,6 +36,7 @@
 #import "NoteDetailTableViewController.h"
 #import "DetailViewController.h"
 #import "iPadViewController.h"
+#import "PlannerView.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
@@ -413,7 +414,12 @@ PreviewViewController *_previewCtrler;
     
     Task *asset = (Task *) btn.tag;
     
-    [_abstractViewCtrler jumpToDate:asset.startTime];
+    if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
+        PlannerViewController *ctrl = (PlannerViewController*)_iPadViewCtrler.activeViewCtrler;
+        [ctrl.plannerView goToDate:asset.startTime];
+    } else {
+        [_abstractViewCtrler jumpToDate:asset.startTime];
+    }
 }
 
 - (void) editAsset:(id)sender
