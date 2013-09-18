@@ -156,7 +156,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 {
     if (![self.noteCopy.name isEqualToString:@""] && ![self.note isShared] && [self.note checkChange:self.noteCopy])
     {
-        [_iPadViewCtrler.activeViewCtrler updateTask:self.note withTask:self.noteCopy];
+        [[AbstractActionViewController getInstance] updateTask:self.note withTask:self.noteCopy];
     }
     
     if (_isiPad)
@@ -173,7 +173,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 {
     if (_isiPad)
     {
-        [_iPadViewCtrler.activeViewCtrler deleteNote:self.note];
+        [[AbstractActionViewController getInstance] deleteNote:self.note];
         
         [_iPadViewCtrler closeDetail];
     }
@@ -186,12 +186,12 @@ NoteDetailViewController *_noteDetailViewCtrler;
 - (void) share2AirDrop:(id) sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler share2AirDrop];
+    [[AbstractActionViewController getInstance] share2AirDrop];
 }
 
 - (void) convert2Task:(id) sender
 {
-    [_iPadViewCtrler.activeViewCtrler createTaskFromNote:self.note];
+    [[AbstractActionViewController getInstance] createTaskFromNote:self.note];
     
     [_iPadViewCtrler closeDetail];
 }

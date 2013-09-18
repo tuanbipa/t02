@@ -105,7 +105,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     UISegmentedControl *segmentCtrl = (UISegmentedControl *)sender;
     
-    [_iPadViewCtrler.activeViewCtrler createItem:segmentCtrl.selectedSegmentIndex title:self.title];
+    [[AbstractActionViewController getInstance] createItem:segmentCtrl.selectedSegmentIndex title:self.title];
 }
 
 - (void) singleTap
@@ -129,8 +129,8 @@ extern iPadViewController *_iPadViewCtrler;
         
         //[_iPadSDViewCtrler editItem:task inRect:CGRectMake(600, 0, 20, 10)];
         [_iPadViewCtrler deactivateSearchBar];
-        [_iPadViewCtrler.activeViewCtrler hidePopover];
-        [_iPadViewCtrler.activeViewCtrler editItem:task inView:nil];
+        [[AbstractActionViewController getInstance] hidePopover];
+        [[AbstractActionViewController getInstance] editItem:task inView:nil];
     }
 }
 

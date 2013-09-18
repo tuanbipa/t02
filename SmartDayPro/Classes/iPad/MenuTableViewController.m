@@ -56,12 +56,12 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) backup
 {
-    [_iPadViewCtrler.activeViewCtrler backup];
+    [[AbstractActionViewController getInstance] backup];
 }
 
 - (void) sync
 {
-    [_iPadViewCtrler.activeViewCtrler sync];
+    [[AbstractActionViewController getInstance] sync];
 }
 
 #pragma mark View
@@ -206,7 +206,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_iPadViewCtrler.activeViewCtrler hidePopover];
+    [[AbstractActionViewController getInstance] hidePopover];
     
     switch (indexPath.section)
     {

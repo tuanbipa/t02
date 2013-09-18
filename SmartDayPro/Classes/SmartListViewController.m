@@ -244,7 +244,7 @@ SmartListViewController *_smartListViewCtrler;
 {
     //AbstractActionViewController *ctrler = (_plannerViewCtrler != nil?_plannerViewCtrler:_abstractViewCtrler);
     
-    return [_iPadViewCtrler.activeViewCtrler checkControllerActive:1];
+    return [[AbstractActionViewController getInstance] checkControllerActive:1];
 }
 
 - (void) reconcileItem:(Task *)item
@@ -2195,7 +2195,7 @@ SmartListViewController *_smartListViewCtrler;
     }
 	else if (![text isEqualToString:@""])
 	{
-        [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK defer:self.quickAddOption];
+        [[AbstractActionViewController getInstance] quickAddItem:text type:TYPE_TASK defer:self.quickAddOption];
 	}
     
     quickAddTextField.text = @"";
@@ -2258,7 +2258,7 @@ SmartListViewController *_smartListViewCtrler;
         
         if (![text isEqualToString:@""])
         {
-            [_iPadViewCtrler.activeViewCtrler quickAddItem:text type:TYPE_TASK defer:self.quickAddOption];
+            [[AbstractActionViewController getInstance] quickAddItem:text type:TYPE_TASK defer:self.quickAddOption];
         }
         
         quickAddTextField.tag = -1;

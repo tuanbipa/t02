@@ -2757,7 +2757,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     if (_iPadViewCtrler != nil)
     {
-        [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:self];
+        [[AbstractActionViewController getInstance] editItem:self.task inView:self];
     }
     else if (_abstractViewCtrler != nil)
     {
@@ -2784,9 +2784,9 @@ extern iPadViewController *_iPadViewCtrler;
     {
         [_iPadViewCtrler slideView:YES];
         
-        MovableView *activeView = [_iPadViewCtrler.activeViewCtrler getActiveView4Item:self.task];
+        MovableView *activeView = [[AbstractActionViewController getInstance] getActiveView4Item:self.task];
         
-        [_iPadViewCtrler.activeViewCtrler editItem:self.task inView:activeView];
+        [[AbstractActionViewController getInstance] editItem:self.task inView:activeView];
     }
     else if (_abstractViewCtrler != nil)
     {

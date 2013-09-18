@@ -13,6 +13,7 @@
 		670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */; };
 		67086205178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
 		67086206178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
+		6711996B17E97FBF008ECDBC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2587D8F17CF4D450097CA51 /* MapKit.framework */; };
 		672111C017CF250100054FC6 /* UnreadComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111BF17CF250100054FC6 /* UnreadComment.m */; };
 		672111C117CF250100054FC6 /* UnreadComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111BF17CF250100054FC6 /* UnreadComment.m */; };
 		672111C417CF453000054FC6 /* UnreadCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111C317CF453000054FC6 /* UnreadCommentViewController.m */; };
@@ -2769,6 +2770,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6711996B17E97FBF008ECDBC /* MapKit.framework in Frameworks */,
 				A2A8BA6C17C372E000EB4C64 /* CoreLocation.framework in Frameworks */,
 				67E506BE16F2BF1E00DCFE06 /* AudioToolbox.framework in Frameworks */,
 				67C8F0DE1638D3F00098CFEB /* MessageUI.framework in Frameworks */,

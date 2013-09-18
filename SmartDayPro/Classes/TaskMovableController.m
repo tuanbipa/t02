@@ -59,8 +59,8 @@ iPadViewController *_iPadViewCtrler;
     
     [super move:touches withEvent:event];
     
-    if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
-        PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[_iPadViewCtrler.activeViewCtrler getPlannerDayCalendarView];
+    if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
+        PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
         CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:plannerDayCal.plannerScheduleView];
         if (moveInPlannerDayCalendar) {
             [plannerDayCal.plannerScheduleView highlight:rect];
@@ -158,7 +158,7 @@ iPadViewController *_iPadViewCtrler;
     // calculate date
     CGPoint touchPoint = [self.activeMovableView getTouchPoint];
     
-    PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[_iPadViewCtrler.activeViewCtrler getPlannerDayCalendarView];
+    PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
     touchPoint = [self.activeMovableView.superview convertPoint:touchPoint toView:plannerDayCal.plannerScheduleView];
     
     NSDate *startDate = [[plannerDayCal.calendarLayoutController.startDate copy] autorelease];

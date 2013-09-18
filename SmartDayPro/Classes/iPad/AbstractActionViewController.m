@@ -58,12 +58,14 @@
 #import "PlannerViewController.h"
 #import "PlannerMonthView.h"
 #import "iPadViewController.h"
+#import "SmartDayViewController.h"
 
 extern BOOL _isiPad;
 
 BOOL _autoPushPending = NO;
 
 extern iPadViewController *_iPadViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
 
 extern DetailViewController *_detailViewCtrler;
 
@@ -2831,6 +2833,20 @@ extern DetailViewController *_detailViewCtrler;
     {
         [focusView reloadAlert4Task:taskId];
     }
+}
+
++ (AbstractActionViewController *) getInstance
+{
+    if (_iPadViewCtrler != nil)
+    {
+        return _iPadViewCtrler.activeViewCtrler;
+    }
+    else if (_sdViewCtrler != nil)
+    {
+        return _sdViewCtrler;
+    }
+    
+    return nil;
 }
 
 @end

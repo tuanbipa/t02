@@ -81,8 +81,9 @@ extern BOOL _isiPad;
 
 - (NSMutableArray *) getObjectList
 {
-    //NoteViewController *ctrler = [_abstractViewCtrler getNoteViewController];
-    NoteViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getNoteViewController];
+    //NoteViewController *ctrler = [[AbstractActionViewController getInstance] getNoteViewController];
+    
+    NoteViewController *ctrler = [[AbstractActionViewController getInstance] getNoteViewController];
     
     return ctrler.noteList;
 }

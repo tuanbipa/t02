@@ -568,7 +568,7 @@ extern BOOL _isiPad;
 - (void) delete:(id)sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler deleteCategory];
+    [[AbstractActionViewController getInstance] deleteCategory];
 }
 
 - (void) copy:(id)sender
@@ -606,7 +606,7 @@ extern BOOL _isiPad;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; 
         
-        CategoryViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCategoryViewController];
+        CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
         
         [ctrler loadAndShowList];
     }
@@ -666,7 +666,7 @@ extern BOOL _isiPad;
             
 			[tm initSmartListData];
 			
-            [_iPadViewCtrler.activeViewCtrler refreshData];
+            [[AbstractActionViewController getInstance] refreshData];
 			
 			[dt release];
 		}
@@ -677,11 +677,11 @@ extern BOOL _isiPad;
         
         if (tagChange && tm.filterData != nil)
         {
-            [_iPadViewCtrler.activeViewCtrler resetAllData];
+            [[AbstractActionViewController getInstance] resetAllData];
         }
         else if (colorChange)
         {
-            [_iPadViewCtrler.activeViewCtrler setNeedsDisplay];
+            [[AbstractActionViewController getInstance] setNeedsDisplay];
         }
         else if (transparentChange)
         {
@@ -705,7 +705,7 @@ extern BOOL _isiPad;
     
     if (_isiPad)
     {
-        [_iPadViewCtrler.activeViewCtrler deselect];
+        [[AbstractActionViewController getInstance] deselect];
         [_iPadViewCtrler closeDetail];
     }
     else

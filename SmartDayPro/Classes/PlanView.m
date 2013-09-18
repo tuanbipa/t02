@@ -113,9 +113,9 @@ extern iPadViewController *_iPadViewCtrler;
     {
         [_iPadViewCtrler slideView:YES];
         
-        MovableView *activeView = [_iPadViewCtrler.activeViewCtrler getActiveView4Item:self.project];
+        MovableView *activeView = [[AbstractActionViewController getInstance] getActiveView4Item:self.project];
         
-        [_iPadViewCtrler.activeViewCtrler editProject:self.project inView:activeView];
+        [[AbstractActionViewController getInstance] editProject:self.project inView:activeView];
     }
     else if (_abstractViewCtrler != nil)
     {

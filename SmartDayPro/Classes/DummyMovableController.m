@@ -39,7 +39,7 @@ extern iPadViewController *_iPadViewCtrler;
         [_abstractViewCtrler deselect];
     }*/
     
-    [_iPadViewCtrler.activeViewCtrler deselect];
+    [[AbstractActionViewController getInstance] deselect];
     
     [super beginMove:view];
     

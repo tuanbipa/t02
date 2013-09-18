@@ -210,13 +210,13 @@ extern iPadViewController *_iPadViewCtrler;
     
     UnreadComment *comment = [self.unreadCommentList objectAtIndex:indexPath.row];
 
-    [_iPadViewCtrler.activeViewCtrler hidePopover];
+    [[AbstractActionViewController getInstance] hidePopover];
     
     if (comment.itemType == COMMENT_TYPE_PROJECT)
     {
         Project *prj = [[Project alloc] initWithPrimaryKey:comment.itemKey database:[dbm getDatabase]];
         
-        [_iPadViewCtrler.activeViewCtrler editProject:prj inView:nil];
+        [[AbstractActionViewController getInstance] editProject:prj inView:nil];
         
         [prj release];
     }
@@ -224,7 +224,7 @@ extern iPadViewController *_iPadViewCtrler;
     {
         Task *task = [[Task alloc] initWithPrimaryKey:comment.itemKey database:[dbm getDatabase]];
         
-        [_iPadViewCtrler.activeViewCtrler editItem:task inView:nil];
+        [[AbstractActionViewController getInstance] editItem:task inView:nil];
         
         [task release];
     }

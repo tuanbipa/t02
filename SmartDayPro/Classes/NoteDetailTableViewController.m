@@ -154,7 +154,7 @@ extern BOOL _isiPad;
 {
     if (_isiPad)
     {
-        [_iPadViewCtrler.activeViewCtrler deleteNote:self.note];
+        [[AbstractActionViewController getInstance] deleteNote:self.note];
         
         if (_detailViewCtrler != nil)
         {

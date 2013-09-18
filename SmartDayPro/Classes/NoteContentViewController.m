@@ -85,7 +85,7 @@ extern BOOL _isiPad;
     
     if (![self.noteCopy.name isEqualToString:@""])
     {
-        [_iPadViewCtrler.activeViewCtrler updateTask:self.note withTask:self.noteCopy];
+        [[AbstractActionViewController getInstance] updateTask:self.note withTask:self.noteCopy];
     }
     
     if (_isiPad)

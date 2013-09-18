@@ -350,7 +350,7 @@ BOOL _fromBackground = NO;
 {
     Settings *settings = [Settings getInstance];
     
-    [_iPadViewCtrler.activeViewCtrler performSelectorOnMainThread:@selector(deselect) withObject:nil waitUntilDone:NO];
+    [[AbstractActionViewController getInstance] performSelectorOnMainThread:@selector(deselect) withObject:nil waitUntilDone:NO];
     
     if (settings.autoSyncEnabled)
     {

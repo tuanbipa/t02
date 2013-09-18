@@ -90,7 +90,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) reconcileItem:(Task *)item
 {
-    if ([_iPadViewCtrler.activeViewCtrler checkControllerActive:3])
+    if ([[AbstractActionViewController getInstance] checkControllerActive:3])
     {
         //comment out: when convert a task into event, it does not match filter type anymore
         /*if (([item isNote] && self.filterType == TYPE_NOTE) ||
@@ -715,7 +715,7 @@ extern iPadViewController *_iPadViewCtrler;
     }
 	else if (![text isEqualToString:@""])
 	{
-        [_iPadViewCtrler.activeViewCtrler quickAddProject:text];
+        [[AbstractActionViewController getInstance] quickAddProject:text];
 	}
     
     quickAddTextField.text = @"";
@@ -726,7 +726,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     maskView.hidden = NO;
     
-    [_iPadViewCtrler.activeViewCtrler hideDropDownMenu];
+    [[AbstractActionViewController getInstance] hideDropDownMenu];
         
 	return YES;
 }
@@ -756,7 +756,7 @@ extern iPadViewController *_iPadViewCtrler;
             }
             else
             {
-                [_iPadViewCtrler.activeViewCtrler quickAddProject:text];
+                [[AbstractActionViewController getInstance] quickAddProject:text];
             }
         }
         

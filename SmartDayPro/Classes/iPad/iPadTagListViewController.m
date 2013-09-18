@@ -140,7 +140,7 @@ extern iPadViewController *_iPadViewCtrler;
     }
 
     //[_iPadSDViewCtrler applyFilter];
-    [_iPadViewCtrler.activeViewCtrler applyFilter];
+    [[AbstractActionViewController getInstance] applyFilter];
 }
 
 - (void) loadView

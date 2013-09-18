@@ -61,20 +61,20 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) done:(id) sender
 {
-    [_iPadViewCtrler.activeViewCtrler deselect];
+    [[AbstractActionViewController getInstance] deselect];
     [_iPadViewCtrler closeDetail];
 }
 
 - (void) markDone:(id)sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler markDoneTask];
+    [[AbstractActionViewController getInstance] markDoneTask];
 }
 
 - (void) share2AirDrop:(id) sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler share2AirDrop];
+    [[AbstractActionViewController getInstance] share2AirDrop];
 }
 
 - (void) setTask:(Task *)taskParam

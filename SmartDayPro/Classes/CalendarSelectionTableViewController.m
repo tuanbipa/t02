@@ -341,9 +341,9 @@ extern BOOL _isiPad;
     [[_abstractViewCtrler getNoteViewController] loadAndShowList];
     */
     
-    [_iPadViewCtrler.activeViewCtrler hidePopover];
+    [[AbstractActionViewController getInstance] hidePopover];
     
-    [_iPadViewCtrler.activeViewCtrler refreshData];
+    [[AbstractActionViewController getInstance] refreshData];
 }
 
 #pragma mark Table view methods

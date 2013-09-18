@@ -121,4 +121,6 @@
 - (void) autoPush;
 
 
++ (AbstractActionViewController *) getInstance;
+
 @end

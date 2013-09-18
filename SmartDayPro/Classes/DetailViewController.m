@@ -509,7 +509,7 @@ DetailViewController *_detailViewCtrler = nil;
 
     if (![self.task isShared] && [self.task checkChange:self.taskCopy])
     {
-        [_iPadViewCtrler.activeViewCtrler updateTask:self.task withTask:self.taskCopy];
+        [[AbstractActionViewController getInstance] updateTask:self.task withTask:self.taskCopy];
     }
     
     [_iPadViewCtrler closeDetail];
@@ -519,12 +519,12 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) delete:(id)sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler deleteTask];
+    [[AbstractActionViewController getInstance] deleteTask];
 }
 
 - (void) copy:(id)sender
 {
-    self.task = [_iPadViewCtrler.activeViewCtrler copyTask:self.task];
+    self.task = [[AbstractActionViewController getInstance] copyTask:self.task];
     
     [self refreshData];
     
@@ -534,7 +534,7 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) star:(id)sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler starTask];
+    [[AbstractActionViewController getInstance] starTask];
 }
 
 - (void) defer:(id)sender
@@ -552,19 +552,19 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) doToday:(id) sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler moveTask2Top];
+    [[AbstractActionViewController getInstance] moveTask2Top];
 }
 
 - (void) markDone:(id)sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler markDoneTask];
+    [[AbstractActionViewController getInstance] markDoneTask];
 }
 
 - (void) share2AirDrop:(id) sender
 {
     [_iPadViewCtrler closeDetail];
-    [_iPadViewCtrler.activeViewCtrler share2AirDrop];
+    [[AbstractActionViewController getInstance] share2AirDrop];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -572,7 +572,7 @@ DetailViewController *_detailViewCtrler = nil;
 	if (alertView.tag == -10000 && buttonIndex != 0)
 	{
         [_iPadViewCtrler closeDetail];
-        [_iPadViewCtrler.activeViewCtrler defer:buttonIndex];
+        [[AbstractActionViewController getInstance] defer:buttonIndex];
     }
 }
 

@@ -257,7 +257,7 @@ PreviewViewController *_previewCtrler;
     {
         Task *itemEdit = [self.linkList objectAtIndex:tapRow];
     
-        [_iPadViewCtrler.activeViewCtrler editItem:itemEdit];
+        [[AbstractActionViewController getInstance] editItem:itemEdit];
     }
 }
 

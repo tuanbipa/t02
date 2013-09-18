@@ -385,7 +385,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (touchHandle == 1 || touchHandle == 2)
     {
-        CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
+        CalendarViewController *ctrler = [[AbstractActionViewController getInstance] getCalendarViewController];
         ctrler.calendarView.scrollEnabled = NO;
     }
 }
@@ -423,7 +423,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    CalendarViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCalendarViewController];
+    CalendarViewController *ctrler = [[AbstractActionViewController getInstance] getCalendarViewController];
     ctrler.calendarView.scrollEnabled = YES;
     
     TaskManager *tm = [TaskManager getInstance];

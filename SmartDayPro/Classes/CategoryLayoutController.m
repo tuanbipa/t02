@@ -47,7 +47,7 @@ extern iPadViewController *_iPadViewCtrler;
     MovableView *ret = nil;
     
     //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
-    CategoryViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCategoryViewController];
+    CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
     
     BOOL isPlan = [obj isKindOfClass:[Project class]];
     
@@ -104,8 +104,9 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (NSMutableArray *) getObjectList
 {
-    //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
-    CategoryViewController *ctrler = [_iPadViewCtrler.activeViewCtrler getCategoryViewController];
+    //CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
+    
+    CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
     
     return ctrler.list;
 }

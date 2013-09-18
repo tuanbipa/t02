@@ -583,7 +583,7 @@ extern BOOL _isiPad;
                 
             }
             
-            [_iPadViewCtrler.activeViewCtrler editItem:asset inView:nil];
+            [[AbstractActionViewController getInstance] editItem:asset inView:nil];
         }
     }
 }
