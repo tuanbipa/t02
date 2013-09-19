@@ -728,3 +728,4 @@
 #define _atCurrentLocationText NSLocalizedString(@"_atCurrentLocationText", "")
 #define _atCurrentLocationYouHave NSLocalizedString(@"_atCurrentLocationYouHave", "")
 #define _alertBasedOnLocationText NSLocalizedString(@"_alertBasedOnLocationText", "")
+#define _itsTimeToDriveForText NSLocalizedString(@"_itsTimeToDriveForText", "")

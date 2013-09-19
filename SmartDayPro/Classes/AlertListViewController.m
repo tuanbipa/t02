@@ -19,6 +19,7 @@
 #import "GuideWebView.h"
 
 #import "DetailViewController.h"
+#import "Settings.h"
 
 extern BOOL _isiPad;
 
@@ -209,8 +210,14 @@ extern BOOL _isiPad;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0 && (![self.taskEdit isEvent] || self.taskEdit.location == nil || [[self.taskEdit.location stringByTrimmingCharactersInSet:
-                                                                 [NSCharacterSet whitespaceCharacterSet]] length] <= 0)) {
+    Settings *setting = [Settings getInstance];
+    if (indexPath.row == 0 &&
+        (!setting.geoFencingEnable ||
+         ![self.taskEdit isEvent] ||
+         self.taskEdit.location == nil ||
+         [[self.taskEdit.location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] <= 0))
+    {
+        
         return 0.0f;
     }
     return 44.0f;
@@ -240,10 +247,12 @@ extern BOOL _isiPad;
     
 	if (indexPath.row == 0)
 	{
-        if (![self.taskEdit isEvent] ||
+        Settings *setting = [Settings getInstance];
+        if (!setting.geoFencingEnable ||
+            ![self.taskEdit isEvent] ||
             self.taskEdit.location == nil ||
-            [[self.taskEdit.location stringByTrimmingCharactersInSet:
-              [NSCharacterSet whitespaceCharacterSet]] length] <= 0) {
+            [[self.taskEdit.location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] <= 0)
+        {
             cell.hidden = YES;
             return cell;
         }

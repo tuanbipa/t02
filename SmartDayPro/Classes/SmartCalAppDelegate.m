@@ -1149,7 +1149,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    if (locationUpdating) {
+    if (locationUpdating || taskLocationNumber > 0) {
         return;
     }
     locationUpdating = YES;
@@ -1172,15 +1172,21 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     Settings *st = [Settings getInstance];
     isActiveGeoFencing = (st.geoFencingEnable && isChangeLocation);
     
-    // get placemark
-    CLGeocoder *geocoder = [[[CLGeocoder alloc] init] autorelease];
-    [geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks.count > 0) {
-            [self geocodeAllItems:placemarks[0]];
-        }/* else {
-            locationUpdating = NO;
-        }*/
-    }];
+    // get all tasks
+    DBManager *dbm = [DBManager getInstance];
+    NSMutableArray *tasks = [dbm getAllTasksEventsHaveLocation];
+    taskLocationNumber = [tasks count];
+    
+    if (taskLocationNumber > 0) {
+        // get placemark
+        CLGeocoder *geocoder = [[[CLGeocoder alloc] init] autorelease];
+        [geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
+            if (placemarks.count > 0) {
+                //[self geocodeAllItems:placemarks[0]];
+                [self geocodeAllItems:tasks with:placemarks[0]];
+            }
+        }];
+    }
     locationUpdating = NO;
 }
 
@@ -1189,6 +1195,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     NSLog(@"Geocoder Error");
     dispatch_semaphore_signal(geocodingLock);
     locationUpdating = NO;
+    taskLocationNumber = 0;
     [locationManager stopUpdatingLocation];
 }
 
@@ -1205,18 +1212,13 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     }
 }
 
--(void) geocodeAllItems: (CLPlacemark*) currentPlacemark
+-(void) geocodeAllItems: (NSArray*)tasks with: (CLPlacemark*) currentPlacemark
 {
     [notifyStr setString:@""];
     
     // do geo-fencing
     //CLLocation *location = [locations lastObject];
     CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
-    
-    // get all tasks
-    DBManager *dbm = [DBManager getInstance];
-    //NSMutableArray *tasks = [dbm getAllTasks];
-    NSMutableArray *tasks = [dbm getAllTasksEventsHaveLocation];
     
     /*dispatch_group_t geocodeDispatchGroup = dispatch_group_create();
      NSOperationQueue * geocodeQueue = [[NSOperationQueue alloc] init];
@@ -1364,6 +1366,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     notifyStr = [[NSMutableString alloc] init];
     
     locationUpdating = NO;
+    taskLocationNumber = 0;
 }
 
 - (void)showGeoAlertWithBody: (NSString*) alertBody
@@ -1384,9 +1387,8 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
     {
-        UILocalNotification *alertLocalNotification = [[UILocalNotification alloc] init];;
-        //NSString *alertBody = [NSString stringWithFormat:_itTimeToDriveText, task.name];
-        alertLocalNotification.alertBody = task.name;
+        UILocalNotification *alertLocalNotification = [[UILocalNotification alloc] init];
+        alertLocalNotification.alertBody = [NSString stringWithFormat:_itsTimeToDriveForText, task.name];
         alertLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
         
         [[UIApplication sharedApplication] scheduleLocalNotification:alertLocalNotification];
@@ -1397,7 +1399,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     {
         // show alert
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_alertText
-                                                        message:task.name
+                                                        message:[NSString stringWithFormat:_itsTimeToDriveForText, task.name]
                                                        delegate:self cancelButtonTitle:_okText
                                               otherButtonTitles:nil];
         [alert show];

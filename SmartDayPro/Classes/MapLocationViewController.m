@@ -53,16 +53,24 @@ extern iPadViewController *_iPadViewCtrler;
     self.view = contentView;
     [contentView release];
     
-    UILabel *currentLocation  = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 200, 40)];
+    // start label
+    UILabel *currentLocation  = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 40)];
     currentLocation.text = [_startText stringByAppendingFormat:@": %@", _currentLocationText];
     [contentView addSubview:currentLocation];
     [currentLocation release];
     
-    locationTextField = [[UITextField alloc] initWithFrame:CGRectMake(currentLocation.frame.origin.x + currentLocation.frame.size.width + 20, currentLocation.frame.origin.y, 400, 40)];
+    // end lable
+    UILabel *endLabel  = [[UILabel alloc] initWithFrame:CGRectMake(currentLocation.frame.origin.x + currentLocation.frame.size.width + 10, 10, 40, 40)];
+    endLabel.text = _endText;
+    [contentView addSubview:endLabel];
+    [endLabel release];
+    
+    locationTextField = [[UITextField alloc] initWithFrame:CGRectMake(endLabel.frame.origin.x + endLabel.frame.size.width, currentLocation.frame.origin.y, 400, 40)];
     locationTextField.backgroundColor = [UIColor whiteColor];
     locationTextField.textAlignment = NSTextAlignmentLeft;
 	locationTextField.keyboardType = UIKeyboardTypeDefault;
     //locationTextField.returnKeyType = UIReturnKeyDone;
+    locationTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
     locationTextField.delegate = self;
     locationTextField.text = self.task.location;
     
@@ -78,7 +86,7 @@ extern iPadViewController *_iPadViewCtrler;
     // route button
     UIButton *routeButton = [Common createButton:_routeText
                                       buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(editLocationButton.frame.origin.x + editLocationButton.frame.size.width + 20, editLocationButton.frame.origin.y, 80, 40)
+                                           frame:CGRectMake(editLocationButton.frame.origin.x + editLocationButton.frame.size.width + 10, editLocationButton.frame.origin.y, 80, 40)
                                       titleColor:textColor target:self
                                         selector:@selector(routeDirection:)
                                 normalStateImage:nil
@@ -126,14 +134,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     [super viewWillDisappear:animated];
     
-    //[locationTextField resignFirstResponder];
-    
-//    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
-//    {
-//        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
-//        
-//        [ctrler refreshTitle];
-//    }
+    [locationTextField resignFirstResponder];
     
     if ([_iPadViewCtrler.detailNavCtrler.topViewController isKindOfClass:[DetailViewController class]])
     {
