@@ -1793,6 +1793,8 @@ SmartListViewController *_smartListViewCtrler;
     [monthView refresh];
     
     [[_abstractViewCtrler getMonthCalendarView] refresh];
+    
+    [_abstractViewCtrler cancelEdit];
 }
 
 - (void) confirmMultiMarkDone
