@@ -13,8 +13,10 @@
 #import "Common.h"
 #import "SimpleCoreTextView.h"
 #import "PlannerViewController.h"
+#import "iPadViewController.h"
 
 extern PlannerViewController *_plannerViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation PlannerItemView
 
@@ -339,16 +341,29 @@ extern PlannerViewController *_plannerViewCtrler;
 {
 	[super doubleTouch];
 	
-    if (_plannerViewCtrler != nil)
+    /*if (_plannerViewCtrler != nil)
     {
+        [_plannerViewCtrler editItem:self.task inView:self];
+    }*/
+    if (_iPadViewCtrler != nil) {
+        
+        [_iPadViewCtrler slideView:YES];
+        MovableView *activeView = [_plannerViewCtrler getActiveView4Item:self.task];
+        [[AbstractActionViewController getInstance] editItem:self.task inView:activeView];
+    } else {
         [_plannerViewCtrler editItem:self.task inView:self];
     }
 }
 
 - (void) singleTouch
 {
-    //[_plannerViewCtrler showPreview:self];
-    [self enableActions:YES];
+    if (_iPadViewCtrler != nil)
+    {
+        [[AbstractActionViewController getInstance] editItem:self.task inView:self];
+    } else {
+        //[_plannerViewCtrler showPreview:self];
+        [self enableActions:YES];
+    }
 }
 
 - (void)dealloc {
