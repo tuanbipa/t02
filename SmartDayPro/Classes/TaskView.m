@@ -298,15 +298,16 @@ extern iPadViewController *_iPadViewCtrler;
     button.selected = !button.selected;
         
     [self refreshCheckImage];
-    if (_plannerViewCtrler)
+    /*if (_plannerViewCtrler)
     {
         [_plannerViewCtrler refreshEditBarViewWithCheck: button.selected];
     }
     else
     {
         [_abstractViewCtrler refreshEditBarViewWithCheck: button.selected];
-    }
-    //[_abstractViewCtrler refreshEditBarViewWithCheck: button.selected];
+    }*/
+    
+    [_iPadViewCtrler.activeViewCtrler refreshEditBarViewWithCheck: button.selected];
 }
 
 -(void)star:(id)sender
