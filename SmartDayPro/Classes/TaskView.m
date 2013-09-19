@@ -36,6 +36,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 
 extern iPadViewController *_iPadViewCtrler;
+extern BOOL _isiPad;
 
 @implementation TaskView
 
@@ -2744,6 +2745,7 @@ extern iPadViewController *_iPadViewCtrler;
 #pragma mark MovableView Interface Customization
 - (void) enableActions:(BOOL)enable
 {
+    /*
     if (_plannerViewCtrler != nil)
     {
         [_plannerViewCtrler enableActions:enable onView:self];
@@ -2751,18 +2753,29 @@ extern iPadViewController *_iPadViewCtrler;
     else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler enableActions:enable onView:self];
-    }
+    }*/
+    
+    [[AbstractActionViewController getInstance] enableActions:enable onView:self];
 }
 
 - (void) singleTouch
 {
-    if (_iPadViewCtrler != nil)
+    /*if (_iPadViewCtrler != nil)
     {
         [[AbstractActionViewController getInstance] editItem:self.task inView:self];
     }
     else if (_abstractViewCtrler != nil)
     {
         //[_abstractViewCtrler editItem:self.task inView:self];
+        [self enableActions:YES];
+    }*/
+    
+    if (_isiPad)
+    {
+        [[AbstractActionViewController getInstance] editItem:self.task inView:self];
+    }
+    else
+    {
         [self enableActions:YES];
     }
 }
@@ -2781,7 +2794,8 @@ extern iPadViewController *_iPadViewCtrler;
         [_abstractViewCtrler editItem:self.task inView:self];
     }*/
     
-    if (_iPadViewCtrler != nil)
+    //if (_iPadViewCtrler != nil)
+    if (_isiPad)
     {
         [_iPadViewCtrler slideView:YES];
         

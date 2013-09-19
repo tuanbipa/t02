@@ -24,6 +24,7 @@
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
+extern BOOL _isiPad;
 
 @implementation PlanView
 
@@ -90,16 +91,23 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) enableActions:(BOOL)enable
 {
-    if (_abstractViewCtrler != nil)
+    /*if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler enableCategoryActions:enable onView:self];
-    }
+    }*/
+    
+    [[AbstractActionViewController getInstance] enableActions:enable onView:self];
 }
 
 - (void) singleTouch
 {
     //[self enableActions:YES];
-    if (_abstractViewCtrler != nil)
+    //if (_iPadViewCtrler != nil)
+    if (_isiPad)
+    {
+        [[AbstractActionViewController getInstance] editProject:self.project inView:self];
+    }
+    else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editProject:self.project inView:self];
     }
@@ -109,7 +117,8 @@ extern iPadViewController *_iPadViewCtrler;
 {
 	[super doubleTouch];
 	
-    if (_iPadViewCtrler != nil)
+    //if (_iPadViewCtrler != nil)
+    if (_isiPad)
     {
         [_iPadViewCtrler slideView:YES];
         
