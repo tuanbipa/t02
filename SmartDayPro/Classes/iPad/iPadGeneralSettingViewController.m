@@ -177,7 +177,8 @@ extern SmartCalAppDelegate *_appDelegate;
 {
     [[DBManager getInstance] deleteSuspectedDuplication];
     
-    [_abstractViewCtrler resetAllData];
+    //[_abstractViewCtrler resetAllData];
+    [[AbstractActionViewController getInstance] resetAllData];
     
     BOOL syncEnabled = self.setting.syncEnabled && (self.setting.ekSyncEnabled || self.setting.tdSyncEnabled || self.setting.sdwSyncEnabled || self.setting.rmdSyncEnabled);
     
