@@ -47,13 +47,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     return self;
 }
 
-- (void) changeFrame:(CGRect)frm
-{
-    self.frame = frm;
-    
-    headerView.frame = CGRectMake(0, 0, frm.size.width, 50);
-    monthView.frame = CGRectMake(0, headerView.frame.size.height, frm.size.width, 26*6);
-}
+//- (void) changeFrame:(CGRect)frm
+//{
+//    self.frame = frm;
+//    
+//    headerView.frame = CGRectMake(0, 0, frm.size.width, 50);
+//    monthView.frame = CGRectMake(0, headerView.frame.size.height, frm.size.width, 26*6);
+//}
 
 /*
 // Only override drawRect: if you perform custom drawing.
