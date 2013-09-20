@@ -209,8 +209,8 @@ extern PlannerViewController *_plannerViewCtrler;
     UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
     CGRect monRec = monthButton.frame;
     
-    [[UIColor grayColor] set];
-    [title drawInRect:CGRectOffset(monRec, 0, 1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+    /*[[UIColor grayColor] set];
+    [title drawInRect:CGRectOffset(monRec, 0, 1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];*/
     [grnColor set];
     [title drawInRect:monRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
