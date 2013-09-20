@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PlannerMovableController.h"
+#import "MiniMonthMovableController.h"
 
-@interface CalendarPlannerMovableController : PlannerMovableController
+@interface CalendarPlannerMovableController : MiniMonthMovableController
 {
     BOOL moveInSmartList;
 }

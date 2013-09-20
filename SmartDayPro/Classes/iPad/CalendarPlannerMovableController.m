@@ -7,19 +7,17 @@
 //
 
 #import "CalendarPlannerMovableController.h"
-#import "TaskManager.h"
+//#import "TaskManager.h"
 #import "Common.h"
 #import "MovableView.h"
 #import "TaskView.h"
-#import "Task.h"
+//#import "Task.h"
 #import "PlannerViewController.h"
 #import "PlannerBottomDayCal.h"
 #import "PlannerScheduleView.h"
 #import "TimeSlotView.h"
 #import "PlannerCalendarLayoutController.h"
 #import "SmartListViewController.h"
-
-extern PlannerViewController *_plannerViewCtrler;
 
 @implementation CalendarPlannerMovableController
 
@@ -37,10 +35,23 @@ extern PlannerViewController *_plannerViewCtrler;
     moveInSmartList = NO;
     [super move:touches withEvent:event];
     
-    if (!moveInSmartList && !moveInPlannerDayCal) {
-        CGPoint touchPoint = [self.activeMovableView getTouchPoint];
-        SmartListViewController *smartlistViewController = [_plannerViewCtrler getSmartListViewController];
-        moveInSmartList = CGRectContainsPoint(smartlistViewController.view.frame, touchPoint);
+    if (moveInPlannerDayCalendar) {
+        // hilight time slot
+        PlannerBottomDayCal *plannerDayCal = [[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+        
+        [plannerDayCal.plannerScheduleView highlight:self.activeMovableView.frame];
+    } else {
+        PlannerBottomDayCal *plannerDayCal = [[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+        [plannerDayCal.plannerScheduleView unhighlight];
+        
+        // check move in SmartList
+        if (!moveInPlannerMM) {
+            CGPoint touchPoint = [self.activeMovableView getTouchPoint];
+            SmartListViewController *smartlistViewController = [[AbstractActionViewController getInstance] getSmartListViewController];
+            
+            touchPoint = [self.activeMovableView.superview convertPoint:touchPoint toView:smartlistViewController.view];
+            moveInSmartList = CGRectContainsPoint(smartlistViewController.view.frame, touchPoint);
+        }
     }
 }
 
@@ -56,7 +67,9 @@ extern PlannerViewController *_plannerViewCtrler;
     
     dummyView.hidden = YES;
 
-    if (moveInSmartList) {
+    if (moveInPlannerDayCalendar) {
+        [self doTaskMovementInPlannerDayCal];
+    } else if (moveInSmartList) {
         Task *task = [((TaskView *) self.activeMovableView).task retain];
         if ([task isREInstance])
         {
@@ -89,6 +102,41 @@ extern PlannerViewController *_plannerViewCtrler;
     [view release];
 }
 
+#pragma mark Actions
+
+- (void)doTaskMovementInPlannerDayCal {
+    Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
+    
+    [self changeEventDateTime:task];
+    [super endMove:self.activeMovableView];
+}
+
+- (void)changeEventDateTime: (Task *) task {
+    
+    // calculate date
+    CGPoint touchPoint = [self.activeMovableView getTouchPoint];
+    
+    PlannerBottomDayCal *plannerDayCal = [[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+    
+    NSDate *startDate = [[plannerDayCal.calendarLayoutController.startDate copy] autorelease];
+    
+    CGFloat dayWidth = (plannerDayCal.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
+    NSInteger dayNumber = (touchPoint.x-TIMELINE_TITLE_WIDTH)/dayWidth;
+    
+    TimeSlotView *timeSlot = [plannerDayCal.plannerScheduleView getTimeSlot];
+    
+    startDate = [Common copyTimeFromDate:[timeSlot getTime] toDate:startDate];
+    NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
+    
+    Task *copyTask = [[task copy] autorelease];
+    /*if ([task isTask]) { // for only convert task -> event
+        copyTask.original = task;
+    }*/
+    
+    [plannerDayCal.plannerScheduleView unhighlight];
+    [[AbstractActionViewController getInstance] changeTime:copyTask time:toDate];
+}
+
 #pragma mark Alert
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -98,7 +146,7 @@ extern PlannerViewController *_plannerViewCtrler;
         
         if (buttonIndex != 0)
         {
-            [_plannerViewCtrler convertRE2Task:buttonIndex task:task];
+            [[AbstractActionViewController getInstance] convertRE2Task:buttonIndex task:task];
         }
     } else if (alertVw.tag == -11000) {
         Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
@@ -106,7 +154,7 @@ extern PlannerViewController *_plannerViewCtrler;
         
         if (buttonIndex == 1)
         {
-            [_plannerViewCtrler convert2Task:task];
+            [[AbstractActionViewController getInstance] convert2Task:task];
         }
     } else {
         [super alertView:alertVw clickedButtonAtIndex:buttonIndex];
