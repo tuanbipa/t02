@@ -47,7 +47,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGFloat width = frame.size.width - TIMELINE_TITLE_WIDTH;
         
         CGFloat dayWidth = (width)/7;
-		CGFloat cellHeight = floor((frame.size.height)/6);
+		CGFloat cellHeight = PLANNER_DAY_CELL_COLLAPSE_HEIGHT;//floor((frame.size.height)/6);
 		
 		CGFloat ymargin = 0;
 		CGFloat yoffset = 0;
@@ -420,7 +420,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     // update height
     CGRect selfFrm = self.frame;
-    selfFrm.size.height = selfFrm.size.height + alterHeight + 1.5;
+    selfFrm.size.height = selfFrm.size.height + alterHeight;
     self.frame = selfFrm;
     
     // update height of supper view

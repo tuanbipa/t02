@@ -130,7 +130,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     NSInteger weeks = self.monthView.nWeeks;
 	    
     CGRect frm = self.monthView.frame;
-    frm.size.height = weeks*26;
+    frm.size.height = weeks*PLANNER_DAY_CELL_COLLAPSE_HEIGHT;
     self.monthView.frame = frm;
     
     frm = self.frame;
