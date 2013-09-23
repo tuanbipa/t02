@@ -33,6 +33,7 @@
 
 #import "CategoryViewController.h"
 #import "PlannerViewController.h"
+#import "PlannerMonthView.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
@@ -465,11 +466,17 @@ extern iPadViewController *_iPadViewCtrler;
         [focusView refreshData];
     }
     
-    if (_plannerViewCtrler) {
+    /*if (_plannerViewCtrler) {
         [_plannerViewCtrler cancelEdit];
     } else {
         [_abstractViewCtrler cancelEdit];
+    }*/
+    AbstractActionViewController *ctrler = [AbstractActionViewController getInstance];
+    if ([ctrler isKindOfClass:[PlannerViewController class]]) {
+        PlannerMonthView *plannerMonthView = (PlannerMonthView*)[ctrler getPlannerMonthCalendarView];
+        [plannerMonthView refreshOpeningWeek: nil];
     }
+    [ctrler cancelEdit];
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex

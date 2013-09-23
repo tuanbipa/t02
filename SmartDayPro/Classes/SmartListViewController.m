@@ -1633,13 +1633,15 @@ SmartListViewController *_smartListViewCtrler;
         */
         
         //[_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
-        if (_plannerViewCtrler) {
+        /*if (_plannerViewCtrler) {
             [_plannerViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
             [_plannerViewCtrler cancelEdit];
         } else {
             [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
             [_abstractViewCtrler cancelEdit];
-        }
+        }*/
+        AbstractActionViewController *ctrler = [AbstractActionViewController getInstance];
+        [ctrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
     }
 }
 
