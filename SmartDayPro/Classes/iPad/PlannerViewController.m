@@ -1336,7 +1336,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [copyLinkButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"menu_copylink_idle.png"] forState:UIControlStateDisabled];
     //copyLinkButton.tag = TAG_VIEW_COPY_BUTTON;
     [editBarView addSubview:copyLinkButton];
-    [copyLinkButton release];
+    //[copyLinkButton release];
     
     // 6 paste link button
     /*UIButton *pasteLinkButton = [Common createButton:@""
