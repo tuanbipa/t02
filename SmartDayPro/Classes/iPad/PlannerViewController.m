@@ -1140,6 +1140,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+- (void)setNeedsDisplay
+{
+    //[super setNeedsDisplay];
+    PlannerMonthView *plannerCalView = (PlannerMonthView *)[self getPlannerMonthCalendarView];
+
+    [plannerCalView refresh];
+    [plannerCalView refreshOpeningWeek:nil];
+    NSLog(@"planner view set need display");
+}
+
 #pragma mark Modules
 - (void) showModuleByIndex:(NSInteger)index
 {

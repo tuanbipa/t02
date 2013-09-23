@@ -643,6 +643,7 @@ SmartListViewController *_smartListViewCtrler;
         }
     }
 
+    [self refreshQuickAddColor];
 }
 
 -(void)refreshView
