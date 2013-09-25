@@ -101,21 +101,18 @@ extern BOOL _isiPad;
 
 - (void) singleTouch
 {
-    //[self enableActions:YES];
-    //if (_iPadViewCtrler != nil)
+    [[AbstractActionViewController getInstance] hideDropDownMenu];
+
     if (_isiPad)
     {
         [[AbstractActionViewController getInstance] editProject:self.project inView:self];
-    }
-    else if (_abstractViewCtrler != nil)
-    {
-        [_abstractViewCtrler editProject:self.project inView:self];
     }
 }
 
 - (void) doubleTouch
 {
-	[super doubleTouch];
+    [[AbstractActionViewController getInstance] hideDropDownMenu];
+	//[super doubleTouch];
 	
     //if (_iPadViewCtrler != nil)
     if (_isiPad)
@@ -126,9 +123,13 @@ extern BOOL _isiPad;
         
         [[AbstractActionViewController getInstance] editProject:self.project inView:activeView];
     }
-    else if (_abstractViewCtrler != nil)
+    /*else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editProject:self.project inView:self];
+    }*/
+    else
+    {
+        [[AbstractActionViewController getInstance] editProject:self.project inView:self];
     }
 }
 

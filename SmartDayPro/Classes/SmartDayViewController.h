@@ -29,8 +29,10 @@
 @class SmartListViewController;
 @class NoteViewController;
 @class CategoryViewController;
-@class PageAbstractViewController;
 */
+
+@class PageAbstractViewController;
+
 
 @interface SmartDayViewController : AbstractSDViewController
 {
@@ -70,28 +72,26 @@
     //Task *task2Link;
 }
 
-@property (nonatomic, retain) UIViewController *activeViewCtrler;
+@property (nonatomic, retain) PageAbstractViewController *activeViewCtrler;
 //@property (nonatomic, readonly) MiniMonthView *miniMonthView;
-@property (nonatomic, readonly) ContentView *contentView;
+//@property (nonatomic, readonly) ContentView *contentView;
 @property (nonatomic, readonly) FilterView *filterView;
 @property (nonatomic, readonly) LinkPreviewPane *previewPane;
 
 //@property (nonatomic, retain) Task *task2Link;
 
 -(void) switchView:(NSInteger)idx;
-/*
-- (CalendarViewController *) getCalendarViewController;
-- (SmartListViewController *) getSmartListViewController;
-- (NoteViewController *) getNoteViewController;
-- (CategoryViewController *) getCategoryViewController;
-*/
+
+- (void) multiEdit:(BOOL) check;
+- (void) showMultiEditBar;
+
 - (void) enableCategoryActions:(BOOL)enable onView:(PlanView *)view;
 - (void) copyCategory;
 - (void) deleteCategory;
-- (void) editCategory:(Project *) project;
+//- (void) editCategory:(Project *) project;
 
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view;
-- (void) editTask:(Task *)task;
+//- (void) editTask:(Task *)task;
 - (void) deleteTask;
 - (void) copyTask;
 - (void) markDoneTask;
@@ -104,6 +104,10 @@
 - (void) showCalendarView;
 - (void) markDoneTaskInView:(TaskView *)view;
 - (void) starTaskInView:(TaskView *)taskView;
+
+-(void) editItemDetail:(Task *)item;
+- (void) editProjectDetail:(Project *)project;
+- (void) editNoteContent:(Task *)note;
 
 - (void) copyLink;
 - (void) pasteLink;

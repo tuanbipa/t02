@@ -36,12 +36,14 @@
 #import "NoteDetailTableViewController.h"
 #import "DetailViewController.h"
 #import "iPadViewController.h"
+#import "SmartDayViewController.h"
 #import "PlannerView.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 extern DetailViewController *_detailViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
 
 //extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
@@ -366,7 +368,14 @@ PreviewViewController *_previewCtrler;
     note.type = TYPE_NOTE;
     note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
     
-    [_iPadViewCtrler editNoteContent:note];
+    if (_isiPad)
+    {
+        [_iPadViewCtrler editNoteContent:note];
+    }
+    else
+    {
+        [_sdViewCtrler editNoteContent:note];
+    }
     
     [note release];
 }

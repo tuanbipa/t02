@@ -362,6 +362,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     filterLabel.text = title;
 }
 
+/*
 - (void) startMultiEdit:(id)sender
 {
     [self deselect];
@@ -370,7 +371,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [ctrler multiEdit:YES];
 }
-
+*/
 #pragma mark Filter
 - (void) refreshTaskFilterTitle
 {
@@ -987,29 +988,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [contentView addSubview:moduleView];
     [moduleView release];
+    
+    [self createMultiEditBar];
 }
 
-- (void)viewDidLoad_old
+-(void) createMultiEditBar
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    multiEditBar = [[UIToolbar alloc] initWithFrame:moduleHeaderView.frame];
+    multiEditBar.hidden = YES;
     
-    SmartListViewController *ctrler = [self getSmartListViewController];
+    [contentView addSubview:multiEditBar];
+    [multiEditBar release];
     
-    [ctrler resetMovableController:YES];
-    
-    [ctrler setMovableContentView:self.contentView];
-    
-    [plannerBottomDayCal setMovableContentView:self.contentView];
-    
-    TaskManager *tm = [TaskManager getInstance];
-    NSDate *dt = nil;
-    if (tm.today != nil) {
-        dt = [[tm.today copy] autorelease];
-    } else {
-        dt = [NSDate date];
-    }
-    [plannerView goToDate:dt];
+    multiCount = 0;
 }
 
 - (void)viewDidLoad
@@ -1017,21 +1008,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    //SmartListViewController *ctrler = [self getSmartListViewController];
-    //[ctrler resetMovableController:YES];
-    
-    //[ctrler setMovableContentView:self.contentView];
-
-    /*
-    for (int i=0; i<3; i++)
-    {
-        PageAbstractViewController *ctrler = viewCtrlers[i];
-        
-        [ctrler setMovableContentView:self.contentView];
-    }
-    
-    [plannerBottomDayCal setMovableContentView:self.contentView];*/
-    
     TaskManager *tm = [TaskManager getInstance];
     NSDate *dt = nil;
     if (tm.today != nil) {
@@ -1040,14 +1016,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         dt = [NSDate date];
     }
     [plannerView goToDate:dt];
-    
-    /*
-    UIButton *taskButton = (UIButton *)[contentView viewWithTag:31000];
-    if (taskButton != nil)
-    {
-        //[self showModule:taskButton];
-        [self performSelector:@selector(showModule:) withObject:taskButton afterDelay:0];
-    }*/
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -1555,6 +1523,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [editBarView release];
 }
 
+/*
 #pragma mark multi actions
 - (void)multiMarkDone: (id) sender
 {
@@ -1620,4 +1589,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     editBarView.hidden = YES;
     filterSegmentedControl.hidden = NO;
 }
+ 
+ */
 @end

@@ -53,11 +53,9 @@ extern BOOL _workingTimeHintShown;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-	//UIView *contentView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-	//contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    contentView.backgroundColor = [UIColor darkGrayColor];
-	
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+
 	//doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, halfHeight - 40, 320, 40)];
     doneBarView = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height - [Common getKeyboardHeight] - 40, 320, 40)];
 	doneBarView.backgroundColor = [UIColor clearColor];
@@ -66,8 +64,9 @@ extern BOOL _workingTimeHintShown;
 	[doneBarView release];	
 	
 	UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-	backgroundView.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-	backgroundView.alpha = 0.3;
+	//backgroundView.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+    backgroundView.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
+	//backgroundView.alpha = 0.3;
 	
 	[doneBarView addSubview:backgroundView];
 	[backgroundView release];
@@ -90,12 +89,15 @@ extern BOOL _workingTimeHintShown;
 	[datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
 	datePicker.minuteInterval=5;
 	datePicker.datePickerMode=UIDatePickerModeTime;
+    datePicker.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
+    
 	[contentView addSubview: datePicker];
 	[datePicker release];
 		
-	tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, frm.size.height - [Common getKeyboardHeight] -doneBarView.frame.size.height) style:UITableViewStyleGrouped];
+	tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, frm.size.height - [Common getKeyboardHeight] -doneBarView.frame.size.height) style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.backgroundColor = [UIColor clearColor];
 	
     [contentView addSubview:tableView];
 	[tableView release];	
@@ -117,7 +119,8 @@ extern BOOL _workingTimeHintShown;
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:tableView.indexPathForSelectedRow];
 	
 	UILabel *label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
-	label.textColor = [UIColor whiteColor];
+	//label.textColor = [UIColor whiteColor];
+    label.textColor = [Colors darkSteelBlue];
 	
 	BOOL showHint = [[Settings getInstance] workingTimeHint];
 	
@@ -445,6 +448,11 @@ extern BOOL _workingTimeHintShown;
     return 7;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableViewParam cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -470,14 +478,17 @@ extern BOOL _workingTimeHintShown;
 	
 	NSString *wkStrings[7] = {@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"}; 
 	
-	cell.textLabel.text = wkStrings[indexPath.row]; 
+    cell.backgroundColor = [UIColor clearColor];
+	cell.textLabel.text = wkStrings[indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
-	UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
+	UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, tableView.bounds.size.width - 70, 20)];
 	label.tag = 10000 + indexPath.row;
 	label.textAlignment=NSTextAlignmentRight;
 	label.backgroundColor=[UIColor clearColor];
-	label.font=[UIFont systemFontOfSize:15];
-	label.textColor= [Colors darkSteelBlue];
+	label.font=[UIFont boldSystemFontOfSize:16];
+	label.textColor= [UIColor darkGrayColor];
 	
 	NSString *wkStartTime[7] = {self.settings.sunStartTime, self.settings.monStartTime, self.settings.tueStartTime, self.settings.wedStartTime,
 		self.settings.thuStartTime, self.settings.friStartTime, self.settings.satStartTime};	
@@ -508,13 +519,15 @@ extern BOOL _workingTimeHintShown;
 	UITableViewCell *cell = [tableViewParam cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
 	
 	UILabel *label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
-	label.textColor = [Colors darkSteelBlue];	
+	//label.textColor = [Colors darkSteelBlue];
+    label.textColor = [UIColor darkGrayColor];
 	
 	selectedIndex = indexPath.row;
 		
 	cell = [tableViewParam cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
 	label = (UILabel *)[cell viewWithTag:10000+selectedIndex];
-	label.textColor = [UIColor whiteColor];		
+	//label.textColor = [UIColor whiteColor];
+    label.textColor = [Colors darkSteelBlue];
 	
 	[self refreshPicker];
 }

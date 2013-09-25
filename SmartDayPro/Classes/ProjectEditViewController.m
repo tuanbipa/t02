@@ -35,7 +35,7 @@ extern BOOL _transparentHintShown;
 extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation ProjectEditViewController
 
@@ -92,7 +92,7 @@ extern BOOL _isiPad;
         frm.size.height = frm.size.width - 20;
     }
     
-    frm.size.width = 384;
+    frm.size.width = _isiPad?384:320;
     
 	mainView = [[UIScrollView alloc] initWithFrame:frm];
     //mainView.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
@@ -169,15 +169,18 @@ extern BOOL _isiPad;
 	[mainView addSubview:projectColorLabel];
 	[projectColorLabel release];
 	
-    colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(10, 125, frm.size.width-20, 160)];
+    colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(10, 125, frm.size.width-20, _isiPad?170:150)];
     
     //colorPaletteView.projectEdit = self.projectCopy;
     //colorPaletteView.colorId = self.projectCopy.colorId;
     
     [mainView addSubview:colorPaletteView];
     [colorPaletteView release];
+    
+    CGFloat y = colorPaletteView.frame.origin.y + colorPaletteView.frame.size.height;
 	
-    UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 285, frm.size.width - 20, 25)];
+//    UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 285, frm.size.width - 20, 25)];
+    UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, y, frm.size.width - 20, 25)];
 	tagLabel.backgroundColor = [UIColor clearColor];
 	tagLabel.text = _tagText;
     tagLabel.font = [UIFont systemFontOfSize:16];
@@ -185,14 +188,19 @@ extern BOOL _isiPad;
     
 	[mainView addSubview:tagLabel];
 	[tagLabel release];
+    
+    y += 30;
 
-    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, 315, frm.size.width - 20, 125)];
+//    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, 315, frm.size.width - 20, 125)];
+    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(10, y, frm.size.width - 20, 125)];
 	tagView.backgroundColor = [UIColor whiteColor];
 	
 	tagView.layer.cornerRadius = 8;
 	
 	[mainView addSubview:tagView];
 	[tagView release];
+    
+    y += 130;
 	
 	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width - 20 - 40, 25)];
 	tagInputTextField.tag = 10000;
@@ -235,7 +243,8 @@ extern BOOL _isiPad;
     
     if ([self.project isShared])
     {
-        UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(10, 450, frm.size.width - 20, 25)];
+//        UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(10, 450, frm.size.width - 20, 25)];
+        UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(10, y, frm.size.width - 20, 25)];
         commentView.backgroundColor = [UIColor clearColor];
         [mainView addSubview:commentView];
         [commentView release];
@@ -280,7 +289,8 @@ extern BOOL _isiPad;
         [commentView addSubview:commentButton];
     }
     
-    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainView.bounds.size.width, 450)];
+//    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainView.bounds.size.width, 450)];
+    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainView.bounds.size.width, y)];
     maskView.backgroundColor = [UIColor clearColor];
     maskView.hidden = ![self.project isShared];
     [mainView addSubview:maskView];
@@ -322,7 +332,7 @@ extern BOOL _isiPad;
 	for (NSString *tag in [dict.presetTagDict allKeys])
 	{
 		[tagButtons[j] setTitle:tag forState:UIControlStateNormal];
-		[tagButtons[j] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[tagButtons[j] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 		[tagButtons[j] setEnabled:YES];
 		
 		Project *prj = [prjDict objectForKey:tag];
@@ -400,7 +410,7 @@ extern BOOL _isiPad;
                                            titleColor:[UIColor whiteColor]
                                                target:self
                                              selector:@selector(delete:)
-                                     normalStateImage:@"menu_trash.png"
+                                     normalStateImage:_isiPad?@"menu_trash.png":@"menu_trash_white.png"
                                    selectedStateImage:nil];
         
         UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
@@ -411,7 +421,7 @@ extern BOOL _isiPad;
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(copy:)
-                                   normalStateImage:@"menu_duplicate.png"
+                                   normalStateImage:_isiPad?@"menu_duplicate.png":@"menu_duplicate_white.png"
                                  selectedStateImage:nil];
         
         UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
@@ -422,7 +432,7 @@ extern BOOL _isiPad;
                                             titleColor:[UIColor whiteColor]
                                                 target:self
                                               selector:@selector(share2AirDrop:)
-                                      normalStateImage:@"menu_airdrop.png"
+                                      normalStateImage:_isiPad?@"menu_airdrop.png":@"menu_airdrop_white.png"
                                     selectedStateImage:nil];
         
         UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
@@ -563,12 +573,26 @@ extern BOOL _isiPad;
     }
 }
 
+- (void) close
+{
+    if (_isiPad)
+    {
+        [_iPadViewCtrler closeDetail];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma mark Actions
 
 - (void) delete:(id)sender
 {
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] deleteCategory];
+    
+    [self close];
 }
 
 - (void) copy:(id)sender

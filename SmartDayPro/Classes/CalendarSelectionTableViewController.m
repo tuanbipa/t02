@@ -38,7 +38,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 extern iPadViewController *_iPadViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation CalendarSelectionTableViewController
 
@@ -124,7 +124,7 @@ extern BOOL _isiPad;
 	self.view = contentView;
 	[contentView release];
     
-    calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40) style:UITableViewStylePlain];
+    calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _isiPad?40:10, frm.size.width, frm.size.height-(_isiPad?40:10)) style:UITableViewStylePlain];
     
 	calendarTableView.delegate = self;
 	calendarTableView.dataSource = self;

@@ -23,7 +23,7 @@
 
 #import "iPadViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 extern iPadViewController *_iPadViewCtrler;
 
 @implementation TaskReadonlyDetailViewController

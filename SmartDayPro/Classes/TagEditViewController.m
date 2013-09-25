@@ -18,7 +18,7 @@
 
 extern SmartDayViewController *_sdViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation TagEditViewController
 

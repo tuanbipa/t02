@@ -19,7 +19,7 @@
 
 #import "ContentView.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation TimerHistoryViewController
 

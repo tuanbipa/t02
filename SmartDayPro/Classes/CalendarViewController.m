@@ -73,7 +73,7 @@ extern BOOL _appDidStartup;
 extern BOOL _navigationTabChanged;
 extern BOOL _scFreeVersion;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 extern SmartCalAppDelegate *_appDelegate;
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
@@ -1588,7 +1588,8 @@ CalendarViewController *_sc2ViewCtrler;
     contentView.frame = frm;
     calendarView.frame = contentView.bounds;
     
-    adeView.frame = CGRectMake(0, 0, frm.size.width, 40);
+    //adeView.frame = CGRectMake(0, 0, frm.size.width, 40);
+    adeView.frame = CGRectMake(0, 0, frm.size.width, 50);
     adeSeparatorImgView.frame = CGRectMake(0, 0, frm.size.width, 6);
     
     //printf("calendar frame w:%f\n", calendarView.bounds.size.width);
@@ -1633,7 +1634,8 @@ CalendarViewController *_sc2ViewCtrler;
 	self.view = contentView;
 	[contentView release];
 
-    adeView = [[CalendarADEView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
+    //adeView = [[CalendarADEView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
+    adeView = [[CalendarADEView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 50)];
     adeView.hidden = YES;
     [contentView addSubview:adeView];
     [adeView release];

@@ -13,7 +13,7 @@
 #import "MiniMonthView.h"
 #import "MonthlyCalendarView.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation MiniMonthWeekHeaderView
 

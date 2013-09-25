@@ -17,7 +17,7 @@
 
 #import "iPadSettingViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 extern iPadSettingViewController *_iPadSettingViewCtrler;
 

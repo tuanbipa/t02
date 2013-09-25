@@ -403,10 +403,14 @@ extern iPadViewController *_iPadViewCtrler;
     
     contentView.frame = frm;
     
-    listView.frame = CGRectMake(0, 40, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40) - 40);
+    CGRect frame = contentView.bounds;
+    frame.origin.y = 40;
+    frame.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    
+    listView.frame = frame;
     listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
     
-    maskView.frame= CGRectMake(0, 40, frm.size.width, frm.size.height-40);
+    maskView.frame = CGRectMake(0, 40, frm.size.width, frm.size.height-40);
     
     UIView *quickAddPlaceHolder = [contentView viewWithTag:-30000];
     
@@ -434,7 +438,13 @@ extern iPadViewController *_iPadViewCtrler;
     self.view = contentView;
     [contentView release];
     
-    listView = [[ContentScrollView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40) - 40)];
+    frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    
+    //listView = [[ContentScrollView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40) - 40)];
+    listView = [[ContentScrollView alloc] initWithFrame:frm];
+    listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
     
     listView.backgroundColor = [UIColor clearColor];
     listView.delegate = self;
@@ -514,11 +524,13 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)tabBarModeChanged:(NSNotification *)notification
 {
-    CGSize sz = [Common getScreenSize];
-    
     Settings *settings = [Settings getInstance];
     
-    listView.frame = CGRectMake(0, 0, sz.width, sz.height - (settings.tabBarAutoHide?0:40));
+    CGRect frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    
+    listView.frame = frm;
 }
 
 #pragma mark Links
@@ -558,6 +570,55 @@ extern iPadViewController *_iPadViewCtrler;
 }
 
 #pragma mark Multi Edit
+
+- (NSMutableArray *) getMultiEditList
+{
+    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:10];
+    
+    for (UIView *view in listView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            TaskView *tv = (TaskView *)view;
+            
+            if ([tv isMultiSelected])
+            {
+                [ret addObject:tv.task];
+            }
+        }
+    }
+    
+    return ret;
+}
+
+- (void) enableMultiEdit:(BOOL)enabled
+{
+    for (UIView *view in listView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            TaskView *tv = (TaskView *) view;
+            
+            tv.checkEnable = enabled;
+            [tv refresh];
+        }
+    }
+}
+
+- (void) cancelMultiEdit
+{
+    for (UIView *view in listView.subviews)
+    {
+        if ([view isKindOfClass:[MovableView class]])
+        {
+            [(MovableView *) view multiSelect:NO];
+        }
+    }
+    
+    [[AbstractActionViewController getInstance] hideMultiEditBar];
+}
+
+/*
 
 - (void) multiDelete:(id)sender
 {
@@ -626,16 +687,6 @@ extern iPadViewController *_iPadViewCtrler;
     
     [self refreshLayout];
     
-    /*if ([_abstractViewCtrler checkControllerActive:3])
-    {
-        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
-        
-        if (ctrler.filterType == TYPE_NOTE)
-        {
-            [ctrler loadAndShowList];
-        }
-    }*/
-    
     FocusView *focusView = [_abstractViewCtrler getFocusView];
     
     if (focusView != nil && [focusView checkExpanded])
@@ -652,18 +703,6 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) multiEdit:(BOOL)enabled
 {
-    //Settings *settings = [Settings getInstance];
-    
-    /*
-     for (int i=0; i<self.noteList.count; i++)
-     {
-     UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-     
-     TaskView *taskView = (TaskView *) [cell.contentView viewWithTag:10000];
-     
-     [taskView multiSelect:enabled];
-     }
-     */
     for (UIView *view in listView.subviews)
     {
         if ([view isKindOfClass:[MovableView class]])
@@ -671,27 +710,9 @@ extern iPadViewController *_iPadViewCtrler;
             [(MovableView *) view multiSelect:enabled];
         }
     }
-    
-    /*editBarPlaceHolder.hidden = !enabled;
-     
-     CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
-     
-     noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);*/
 }
 
-- (void) enableMultiEdit:(BOOL)enabled
-{
-    for (UIView *view in listView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            TaskView *tv = (TaskView *) view;
-            
-            tv.checkEnable = enabled;
-            [tv refresh];
-        }
-    }
-}
+*/
 
 #pragma mark Alert delegate
 

@@ -72,7 +72,7 @@ extern BOOL _scFreeVersion;
 
 extern SmartCalAppDelegate *_appDelegate;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 SmartListViewController *_smartListViewCtrler;
 
@@ -127,6 +127,10 @@ SmartListViewController *_smartListViewCtrler;
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(appNoBusy:)
 													 name:@"AppNoBusyNotification" object:nil];
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(tabBarModeChanged:)
+													 name:@"TabBarModeChangeNotification" object:nil];
 
 		firstLoad = YES;
         
@@ -597,7 +601,8 @@ SmartListViewController *_smartListViewCtrler;
 {
     [self stopQuickAdd];
     
-    [self multiEdit:NO];
+    //[self multiEdit:NO];
+    [self cancelMultiEdit];
 }
 
 -(void)multiShrinkEnd
@@ -782,6 +787,7 @@ SmartListViewController *_smartListViewCtrler;
 	////printf("finish Layout\n");	
 }
 
+/*
 - (void) multiDelete
 {
     NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
@@ -814,7 +820,7 @@ SmartListViewController *_smartListViewCtrler;
     }
 
 }
-
+*/
 - (void) hideQuickAdd
 {
     [smartListView setContentOffset:CGPointMake(0, 40)];
@@ -826,6 +832,34 @@ SmartListViewController *_smartListViewCtrler;
     ProjectManager *pm = [ProjectManager getInstance];
     
 	quickAddPlaceHolder.backgroundColor = [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.2];
+}
+
+#pragma mark Multi-Edit
+- (NSMutableArray *) getMultiEditList
+{
+    NSMutableArray *list = [NSMutableArray arrayWithCapacity:10];
+    
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=0; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            if ([taskView isMultiSelected])
+            {
+                [list addObject:taskView.task];
+            }
+            
+        }
+    }
+    
+    return list;
 }
 
 - (void) enableMultiEdit:(BOOL)enabled
@@ -851,6 +885,26 @@ SmartListViewController *_smartListViewCtrler;
     }
 }
 
+- (void) cancelMultiEdit
+{
+    NSInteger sections = smartListView.numberOfSections;
+    
+    for (int i=0; i<sections; i++)
+    {
+        NSInteger rows = [smartListView numberOfRowsInSection:i];
+        
+        for (int j=0; j<rows; j++)
+        {
+            UITableViewCell *cell = [smartListView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+            
+            TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
+            
+            [taskView multiSelect:NO];
+        }
+    }
+    
+    [[AbstractActionViewController getInstance] hideMultiEditBar];
+}
 
 #pragma mark Sync
 
@@ -1501,11 +1555,12 @@ SmartListViewController *_smartListViewCtrler;
 	
 	editBarPlaceHolder.hidden = YES;
 }
-*/
+
 - (void) backToSingleSelectMode
 {
 	[self cancelEditTasks:nil];
 }
+*/
 
 - (void) showHideCategory: (id) sender
 {
@@ -1527,39 +1582,15 @@ SmartListViewController *_smartListViewCtrler;
     [self refreshQuickAddOption];
 }
 
-#pragma mark Multi-Select Actions
 /*
-- (void) multiUnSelect:(id)sender
-{
-	[self hideDropDownMenu];
-	
-	//[smartListMovableController unselectAll:YES];
-    [movableController unselectAll:YES];
-}
-*/
+#pragma mark Multi-Select Actions
+
 
 - (void) doMultiDeleteTask
 {
     NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
     
     NSMutableArray *viewList = [NSMutableArray arrayWithCapacity:10];
-    
-    /*
-    for (UIView *view in smartListView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            TaskView *tv = (TaskView *)view;
-            
-            if ([tv isMultiSelected])
-            {
-                //[taskList addObject:(Task *)view.tag];
-                [taskList addObject:tv.task];
-                
-                [viewList addObject:view];            
-            }            
-        }
-    }*/
     
     NSInteger sections = smartListView.numberOfSections;
     
@@ -1595,8 +1626,6 @@ SmartListViewController *_smartListViewCtrler;
         //printf("1\n");
         
         [[TaskManager getInstance] deleteTasks:taskList];
-        
-        /*
 
         printf("2\n");
         if ([_abstractViewCtrler checkControllerActive:3])
@@ -1619,27 +1648,13 @@ SmartListViewController *_smartListViewCtrler;
         }
                 printf("5\n");
         
-<<<<<<< Updated upstream
         if (_plannerViewCtrler) {
             PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
             [monthView refresh];
         } else {
             [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
         }
-=======
-        [_abstractViewCtrler.miniMonthView.calView refresh]; //refresh red dots
-        
-                printf("6\n");
-        */
-        
-        //[_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
-        /*if (_plannerViewCtrler) {
-            [_plannerViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
-            [_plannerViewCtrler cancelEdit];
-        } else {
-            [_abstractViewCtrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
-            [_abstractViewCtrler cancelEdit];
-        }*/
+ 
         AbstractActionViewController *ctrler = [AbstractActionViewController getInstance];
         [ctrler performSelector:@selector(refreshData) withObject:nil afterDelay:0.01];
     }
@@ -1671,23 +1686,6 @@ SmartListViewController *_smartListViewCtrler;
 	[self hideDropDownMenu];
     
     BOOL needConfirm = NO;
-    
-    /*
-    for (UIView *view in smartListView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            TaskView *tv = (TaskView *)view;
-            
-            if ([tv isMultiSelected])
-            {
-                needConfirm = YES;
-                
-                break;
-            }
-        }
-    }
-	*/
     
     NSInteger sections = smartListView.numberOfSections;
     
@@ -1722,23 +1720,6 @@ SmartListViewController *_smartListViewCtrler;
     NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
     
     NSMutableArray *viewList = [NSMutableArray arrayWithCapacity:10];
-    
-    /*
-    for (UIView *view in smartListView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            TaskView *tv = (TaskView *)view;
-            
-            if ([tv isMultiSelected])
-            {
-                //[taskList addObject:(Task *)view.tag];
-                [taskList addObject:tv.task];
-                
-                [viewList addObject:view];            
-            }            
-        }
-    }*/
     
     NSInteger sections = smartListView.numberOfSections;
     
@@ -1826,23 +1807,6 @@ SmartListViewController *_smartListViewCtrler;
 
     BOOL needConfirm = NO;
     
-    /*
-    for (UIView *view in smartListView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            TaskView *tv = (TaskView *)view;
-     
-            if ([tv isMultiSelected])
-            {
-                needConfirm = YES;
-                
-                break;
-            }
-        }
-    }
-    */
-    
     NSInteger sections = smartListView.numberOfSections;
     
     for (int i=0; i<sections; i++)
@@ -1871,31 +1835,9 @@ SmartListViewController *_smartListViewCtrler;
 	}
 }
 
-/*
-- (void) singleSelectMode:(id)sender
-{
-	[self hideDropDownMenu];
-	
-	[self backToSingleSelectMode];
-}
-
-- (void) menuOutside:(id)sender
-{
-    ////printf("outside menu\n");
-}
-*/
 - (void) multiEdit:(BOOL)enabled
 {
     [self cancelQuickAdd];
-    
-    /*
-    for (UIView *view in smartListView.subviews)
-    {
-        if ([view isKindOfClass:[MovableView class]])
-        {
-            [(MovableView *) view multiSelect:enabled];
-        }
-    }*/
     
     NSInteger sections = smartListView.numberOfSections;
     
@@ -1912,12 +1854,6 @@ SmartListViewController *_smartListViewCtrler;
             [taskView multiSelect:enabled];
         }
     }
-    
-    /*editBarPlaceHolder.hidden = !enabled;
-    
-    TaskManager *tm = [TaskManager getInstance];
-    
-    doneButton.hidden = (tm.taskTypeFilter == TASK_FILTER_DONE);*/
 }
 
 - (BOOL)isInMultiEditMode
@@ -2092,29 +2028,6 @@ SmartListViewController *_smartListViewCtrler;
         [tm deferTasks:taskList withOption:option];
     }
     [_abstractViewCtrler cancelEdit];
-    
-    /*if ([_abstractViewCtrler checkControllerActive:3])
-    {
-        CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
-        
-        if (ctrler.filterType == TYPE_TASK)
-        {
-            [ctrler loadAndShowList];
-        }
-    }
-    
-    FocusView *focusView = [_abstractViewCtrler getFocusView];
-    
-    if (focusView != nil && [focusView checkExpanded])
-    {
-        [focusView refreshData];
-    }
-    
-    PlannerMonthView *monthView = (PlannerMonthView*)[_plannerViewCtrler getPlannerMonthCalendarView];
-    [monthView refreshOpeningWeek:nil];
-    [monthView refresh];
-    
-    [[_abstractViewCtrler getMonthCalendarView] refresh];*/
 }
 
 - (void)createLink: (id)sender
@@ -2165,6 +2078,7 @@ SmartListViewController *_smartListViewCtrler;
     }
     [self multiEdit:NO];
 }
+*/
 
 #pragma mark UIScrollView Delegate
 
@@ -2291,138 +2205,10 @@ SmartListViewController *_smartListViewCtrler;
     self.layoutController.layoutMode = 0;
 }
 
-/*
-- (void)taskListReset:(NSNotification *)notification
-{
-	////NSLog(@"begin smart list reset");
-	
-	Task *taskDummy = [[TaskManager getInstance] taskDummy];
-	
-	for (UIView *view in smartListView.subviews)
-	{
-		view.tag = taskDummy;
-	}	
-	
-	////NSLog(@"end smart list reset");
-}
-*/
-
-/*
-- (void)taskListReady:(NSNotification *)notification
-{
-    TaskManager *tm = [TaskManager getInstance];
-
-    NSMutableArray *displayList = [tm getDisplayList];
-    
-    int index = 0;
-    
-    for (UIView *view in smartListView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            if (index < displayList.count)
-            {
-                view.tag = [displayList objectAtIndex:index++];
-            }
-            else
-            {
-                view.tag = tm.taskDummy;
-            }
-            
-        }
-    }			
-    
-}
-*/
-
-- (void)taskListReady_v32:(NSNotification *)notification
-{
-	////NSLog(@"begin smart list ready");
-	//if (_smartListViewCtrler != nil)
-	{
-		//////printf("task list ready -> renew objects\n");
-		
-		TaskManager *tm = [TaskManager getInstance];
-		
-		int max = tm.taskList.count;
-		int index = 0;
-		// switch tab -> re-assign Task object to reuse views
-		for (UIView *view in smartListView.subviews)
-		{
-			if ([view isKindOfClass:[TaskView class]])
-			{
-				if (index < max)
-				{
-					view.tag = [tm.taskList objectAtIndex:index++];
-				}
-				else 
-				{
-					[view removeFromSuperview];
-				}
-				
-			}
-		}			
-		
-	}
-	////NSLog(@"end smart list ready");	
-}
-
 - (void)dayManagerReady:(NSNotification *)notification
 {
 	[dayManagerView initData];
 }
-
-/*
-- (void)tdSyncComplete:(NSNotification *)notification
-{
-	////NSLog(@"Toodle sync complete");
-	NSNumber *modeNum = [notification object];
-	
-	NSInteger mode = [modeNum intValue];
-	
-	//CalendarViewController *sc2ViewCtrler = [_tabBarCtrler getSC2ViewCtrler];
-			
-	[_appDelegate hideProgress];		
-	
-	if (mode != -1)
-	{
-		TaskManager *tm = [TaskManager getInstance];
-
-		if (mode == SYNC_AUTO_2WAY)
-		{
-			if ([[Settings getInstance] ekAutoSyncEnabled]) //finish sync both EK and TD
-			{
-				[tm initData];
-				
-				//[sc2ViewCtrler.weekPlannerView performSelector:@selector(initCalendar) withObject:nil afterDelay:0];				
-			}
-			else 
-			{
-				[tm initSmartListData];
-			}
-		}
-		else if (mode == SYNC_MANUAL_2WAY || mode == SYNC_MANUAL_1WAY_TD2SD)
-		{
-			[tm initSmartListData];
-		}
-		else
-		{
-			[tm refreshSyncID4AllTasks];
-		}
-	}
-	
-	[[BusyController getInstance] setBusy:NO withCode:BUSY_TD_SYNC];
-}
-
-- (void)sdwSyncComplete:(NSNotification *)notification
-{
-    TaskManager *tm = [TaskManager getInstance];
-    
-    [tm initSmartListData];
-    
-    [self syncComplete];
-}
-*/
 
 - (void)miniMonthResize:(NSNotification *)notification
 {
@@ -2448,6 +2234,17 @@ SmartListViewController *_smartListViewCtrler;
 - (void)appNoBusy:(NSNotification *)notification
 {
     quickAddPlaceHolder.userInteractionEnabled = YES;
+}
+
+- (void)tabBarModeChanged:(NSNotification *)notification
+{
+    Settings *settings = [Settings getInstance];
+    
+    CGRect frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    
+    smartListView.frame = frm;
 }
 
 #pragma mark OS4 Support
@@ -3165,11 +2962,13 @@ SmartListViewController *_smartListViewCtrler;
 {
     contentView.frame = frm;
     
+    Settings *settings = [Settings getInstance];
+    
     CGPoint offset = smartListView.contentOffset;
     
     frm = contentView.bounds;
     frm.origin.y = 40;
-    frm.size.height -= 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
     
     smartListView.frame = frm;
     
@@ -3195,6 +2994,8 @@ SmartListViewController *_smartListViewCtrler;
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
+    Settings *settings = [Settings getInstance];
+
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
@@ -3209,11 +3010,11 @@ SmartListViewController *_smartListViewCtrler;
     
     frm = contentView.bounds;
     frm.origin.y = 40;
-    frm.size.height -= 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
 	
     //smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
     smartListView = [[ContentTableView alloc] initWithFrame:frm];
-    smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    //smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
     smartListView.backgroundColor = [UIColor clearColor];
 	smartListView.delegate = self;
 	smartListView.scrollsToTop = NO;	
@@ -3228,11 +3029,8 @@ SmartListViewController *_smartListViewCtrler;
     maskView.hidden = YES;
     [maskView release];
 
-	//smartListLayoutController.viewContainer = smartListView;
     layoutController.listTableView = smartListView;
 	
-    //self.quickAddPlaceHolder = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)] autorelease];
-    
     quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)];
 
     quickAddPlaceHolder.tag = -30000;
@@ -3242,7 +3040,6 @@ SmartListViewController *_smartListViewCtrler;
     
     [self refreshQuickAddColor];
     
-    //quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
     quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-10, 30)];
 	quickAddTextField.delegate = self;
     quickAddTextField.tag = -1;
@@ -3252,39 +3049,9 @@ SmartListViewController *_smartListViewCtrler;
 	quickAddTextField.font=[UIFont systemFontOfSize:16];
 	quickAddTextField.placeholder = _quickAddNewTask;
     quickAddTextField.backgroundColor = [UIColor clearColor];
-    //[quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
-	
-	//[self.quickAddPlaceHolder addSubview:quickAddTextField];
     [quickAddPlaceHolder addSubview:quickAddTextField];
 	[quickAddTextField release];
-	
-	/*UIButton *moreButton = [Common createButton:@""
-									  buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(frm.size.width-35, 4, 30, 30)
-									  titleColor:nil
-										  target:self
-										selector:@selector(saveAndMore:)
-								normalStateImage:@"addmore.png"
-							  selectedStateImage:nil];
-    moreButton.tag = 10000;
-	
-	[self.quickAddPlaceHolder addSubview:moreButton];*/
-	/*
-    timePlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, frm.size.height-60, frm.size.width, 20)];
-	timePlaceHolder.backgroundColor = [UIColor clearColor];
-	timePlaceHolder.userInteractionEnabled = NO;
-	[contentView addSubview:timePlaceHolder];
-	[timePlaceHolder release];	
-	
-    suggestedTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 20)];
-	suggestedTimeLabel.backgroundColor=[[Colors darkSlateGray] colorWithAlphaComponent:0.8];
-	suggestedTimeLabel.hidden = YES;
-	suggestedTimeLabel.font=[UIFont systemFontOfSize:14];
-	suggestedTimeLabel.textColor=[UIColor yellowColor];	
-	
-	[timePlaceHolder addSubview:suggestedTimeLabel];
-	[suggestedTimeLabel release];*/
-	
+		
 	filterView = [[FilterView alloc] initWithOrientation:0];
 	[contentView addSubview:filterView];
 	[filterView release];
@@ -3294,8 +3061,6 @@ SmartListViewController *_smartListViewCtrler;
 	[self createEditBar];
     
     [self changeSkin];
-
-    //[self createQuickAddEditBar];
 }
 
 - (void) viewDidLoad

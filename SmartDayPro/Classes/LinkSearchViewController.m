@@ -14,7 +14,7 @@
 
 #import "LinkViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation LinkSearchViewController
 
@@ -203,11 +203,17 @@ extern BOOL _isiPad;
     return 3;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 20.0f;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
     return 0.01f;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *headers[3] = {_eventsText, _tasksText, _notesText};
@@ -230,15 +236,15 @@ extern BOOL _isiPad;
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
+*/
 
-/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *headers[3] = {_eventText, _taskText, _noteText};
     
     return headers[section];
 }
-*/
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.

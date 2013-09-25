@@ -60,7 +60,7 @@
 #import "iPadViewController.h"
 #import "SmartDayViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 BOOL _autoPushPending = NO;
 
@@ -81,6 +81,7 @@ extern DetailViewController *_detailViewCtrler;
 
 @synthesize actionTask;
 @synthesize actionTaskCopy;
+@synthesize actionProject;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -100,6 +101,7 @@ extern DetailViewController *_detailViewCtrler;
         self.task2Link = nil;
         self.actionTask = nil;
         self.actionTaskCopy = nil;
+        self.actionProject = nil;
         
         self.popoverCtrler = nil;
         
@@ -163,6 +165,7 @@ extern DetailViewController *_detailViewCtrler;
     self.task2Link = nil;
     self.actionTask = nil;
     self.actionTaskCopy = nil;
+    self.actionProject = nil;
     
     self.popoverCtrler = nil;
     
@@ -255,22 +258,28 @@ extern DetailViewController *_detailViewCtrler;
 
 - (Task *) getActiveTask
 {
+    /*
     if (self.activeView != nil && [self.activeView isKindOfClass:[TaskView class]])
     {
         return ((TaskView *) self.activeView).task;
     }
     
     return nil;
+    */
+    
+    return self.actionTask;
 }
 
 - (Project *) getActiveProject
 {
-    if (self.activeView != nil && [self.activeView isKindOfClass:[PlanView class]])
+    /*if (self.activeView != nil && [self.activeView isKindOfClass:[PlanView class]])
     {
         return ((PlanView *) self.activeView).project;
     }
     
-    return nil;
+    return nil;*/
+    
+    return self.actionProject;
 }
 
 - (MovableView *) getActiveView4Item:(NSObject *)item
@@ -698,6 +707,11 @@ extern DetailViewController *_detailViewCtrler;
     {
         self.activeView = nil;
     }
+    
+    if (self.activeView != nil && [self.activeView isKindOfClass:[TaskView class]])
+    {
+        self.actionTask = ((TaskView *)self.activeView).task;
+    }
 }
 
 - (void)showProjectActionMenu:(PlanView *)view
@@ -743,6 +757,12 @@ extern DetailViewController *_detailViewCtrler;
     {
         self.activeView = nil;
     }
+    
+    if (self.activeView != nil && [self.activeView isKindOfClass:[PlanView class]])
+    {
+        self.actionProject = ((PlanView *)self.activeView).project;
+    }
+    
 }
 
 
@@ -804,16 +824,12 @@ extern DetailViewController *_detailViewCtrler;
 
 - (void) createItem:(NSInteger)index title:(NSString *)title
 {
-    //[self.popoverCtrler dismissPopoverAnimated:NO];
-    
     TaskManager *tm = [TaskManager getInstance];
     Settings *settings = [Settings getInstance];
     
     Task *task = [[[Task alloc] init] autorelease];
     task.name = title;
     task.listSource = SOURCE_NONE;
-    
-    //UIViewController *ctrler = nil;
     
     switch (index)
     {
@@ -836,11 +852,6 @@ extern DetailViewController *_detailViewCtrler;
                     break;
             }
             
-            /*
-            TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
-            taskCtrler.task = task;
-            
-            ctrler = taskCtrler;*/
         }
             break;
         case 1:
@@ -852,44 +863,27 @@ extern DetailViewController *_detailViewCtrler;
             task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
             task.endTime = [Common dateByAddNumSecond:3600 toDate:task.startTime];
             
-            /*
-            TaskDetailTableViewController *taskCtrler = [[TaskDetailTableViewController alloc] init];
-            taskCtrler.task = task;
-            
-            ctrler = taskCtrler;*/
         }
             break;
         case 2:
         {
             task.type = TYPE_NOTE;
-            //task.listSource = SOURCE_NOTE;
             task.note = title;
             
             task.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
-            
-            /*
-            NoteDetailTableViewController *noteCtrler = [[NoteDetailTableViewController alloc] init];
-            noteCtrler.note = task;
-            
-            ctrler = noteCtrler;*/
             
         }
             break;
     }
 	
-    /*
-	SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
-	[ctrler release];
-	
-	self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-	
-	[navController release];
-    
-    CGRect frm = CGRectMake(600, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];*/
-    
-    [_iPadViewCtrler editItemDetail:task];
+    if (_isiPad)
+    {
+        [_iPadViewCtrler editItemDetail:task];
+    }
+    else
+    {
+        [_sdViewCtrler editItemDetail:task];
+    }
 }
 
 #pragma mark Edit
@@ -938,8 +932,15 @@ extern DetailViewController *_detailViewCtrler;
         }
         else
         {
+            /*
             TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
             
+            ctrler.task = item;
+            
+            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [ctrler release];*/
+            
+            DetailViewController *ctrler = [[DetailViewController alloc] init];
             ctrler.task = item;
             
             [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
@@ -962,17 +963,25 @@ extern DetailViewController *_detailViewCtrler;
             
             ctrler.task = item;
             
-            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
+            [self.navigationController pushViewController:ctrler animated:YES];
             [ctrler release];
         }
         else
         {
-            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+/*            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
             
             ctrler.task = item;
             
             [self.navigationController pushViewController:ctrler animated:YES];
             [ctrler release];
+*/
+            DetailViewController *ctrler = [[DetailViewController alloc] init];
+            
+            ctrler.task = item;
+            
+            [self.navigationController pushViewController:ctrler animated:YES];
+            [ctrler release];
+            
         }
 
     }
@@ -1042,71 +1051,19 @@ extern DetailViewController *_detailViewCtrler;
 
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
-    if (!_isiPad)
-    {
-        [self editItem:item];
-        
-        return;
-    }
-    
-    /*
-    UIViewController *editCtrler = nil;
-    
-    if ([item isNote])
-    {
-        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-        
-        ctrler.note = item;
-        
-        editCtrler = ctrler;
-    }
-    else if ([item isShared])
-    {
-        TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
-        
-        ctrler.task = item;
-        
-        editCtrler = ctrler;
-    }
-    else
-    {
-        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-        
-        ctrler.task = item;
-        
-        editCtrler = ctrler;
-    }
-	
-    if (editCtrler != nil)
-    {
-        [self hidePopover];
-        
-        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:editCtrler];
-        [editCtrler release];
-        
-        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-        
-        [navController release];
-        
-        CGRect frm = [inView.superview convertRect:inView.frame toView:contentView];
-
-        if (item.listSource == SOURCE_PLANNER_CALENDAR) {
-            if (frm.origin.x <= editCtrler.view.frame.size.width) {
-                [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
-            } else {
-                [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
-            }
-        } else {
-            [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:item.listSource == SOURCE_CALENDAR || item.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
-        }
-    }*/
-    
     if (inView != nil)
     {
         [self enableActions:YES onView:inView]; //to make activeView not nil to do actions
     }
-    
-    [_iPadViewCtrler editItemDetail:item];
+
+    if (!_isiPad)
+    {
+        [_sdViewCtrler editItemDetail:item];
+    }
+    else
+    {
+        [_iPadViewCtrler editItemDetail:item];
+    }
 }
 
 - (void) editCategory:(Project *) project
@@ -2222,7 +2179,8 @@ extern DetailViewController *_detailViewCtrler;
 		{
             UIActionSheet *deleteActionSheet = [[UIActionSheet alloc] initWithTitle:_deleteCategoryWarningText delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:_deleteText otherButtonTitles: nil];
             
-            [deleteActionSheet showInView:contentView];
+            //[deleteActionSheet showInView:contentView];
+            [deleteActionSheet showInView:_isiPad?contentView:_sdViewCtrler.navigationController.topViewController.view];
             
             [deleteActionSheet release];
 		}
@@ -2341,6 +2299,226 @@ extern DetailViewController *_detailViewCtrler;
     }
 }
 
+#pragma mark MultiEdits
+- (NSMutableArray *) getMultiEditList
+{
+    PageAbstractViewController *ctrler = [self getActiveModule];
+    
+    if (ctrler != nil)
+    {
+        return [ctrler getMultiEditList];
+    }
+    
+    return nil;
+}
+
+- (void) confirmMultiDeleteTask
+{
+	if ([[Settings getInstance] deleteWarning])
+	{
+		NSString *msg = _itemDeleteText;
+		NSInteger tag = -14000;
+		
+		UIAlertView *taskDeleteAlertView = [[UIAlertView alloc] initWithTitle:_itemDeleteTitle  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
+		
+		taskDeleteAlertView.tag = tag;
+		
+		[taskDeleteAlertView addButtonWithTitle:_okText];
+		[taskDeleteAlertView show];
+		[taskDeleteAlertView release];
+	}
+	else
+	{
+		[self doMultiDeleteTask];
+	}
+}
+
+- (void) confirmMultiMarkDone
+{
+	if ([[Settings getInstance] doneWarning])
+	{
+		NSString *title = _taskMarkDoneTitle;
+		NSString *msg = _taskMarkDoneText;
+		
+		UIAlertView *taskDoneAlertView = [[UIAlertView alloc] initWithTitle:title  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
+		taskDoneAlertView.tag = -14001;
+		
+		[taskDoneAlertView addButtonWithTitle:_okText];
+		[taskDoneAlertView show];
+		[taskDoneAlertView release];
+	}
+	else
+	{
+		[self doMultiMarkDoneTask];
+	}
+}
+
+- (void) doMultiDeleteTask
+{
+    NSMutableArray *list = [self getMultiEditList];
+    
+    [self hideMultiEditBar];
+    
+    [[TaskManager getInstance] deleteTasks:list];
+    
+    [[AbstractActionViewController getInstance] refreshData];
+}
+
+- (void) doMultiMarkDoneTask
+{
+    NSMutableArray *list = [self getMultiEditList];
+    
+    [self hideMultiEditBar];
+    
+    [[TaskManager getInstance] markDoneTasks:list];
+    
+    [[AbstractActionViewController getInstance] refreshData];
+}
+
+- (void)doMultiDefer: (NSInteger) option
+{
+    NSMutableArray *list = [self getMultiEditList];
+    
+    [self hideMultiEditBar];
+    
+    TaskManager *tm = [TaskManager getInstance];
+        
+    [tm deferTasks:list withOption:option];
+    
+    [[AbstractActionViewController getInstance] refreshData];
+}
+
+- (void) multiDelete:(id)sender
+{
+    [self confirmMultiDeleteTask];
+}
+
+- (void)multiDefer: (id)sender
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_deferText
+                                                        message:@""
+                                                       delegate:self
+                                              cancelButtonTitle:_cancelText
+                                              otherButtonTitles:_nextWeekText, _nextMonthText,nil];
+    alertView.tag = -14002;
+    [alertView show];
+    [alertView release];
+}
+
+- (void) multiDoToday:(id)sender
+{
+    NSMutableArray *list = [self getMultiEditList];
+    
+    [self hideMultiEditBar];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    [tm moveTop:list];
+    
+    [[AbstractActionViewController getInstance] refreshData];
+}
+
+- (void) multiMarkDone:(id)sender
+{
+    [self confirmMultiMarkDone];
+}
+
+- (void) multiEdit:(BOOL) check
+{
+    BOOL firstCheck = (multiCount == 0 && check);
+    BOOL lastCheck = (multiCount == 1 && !check);
+    
+    multiCount = check ? multiCount+1 : multiCount-1;
+    
+    if (firstCheck)
+    {
+        [self showMultiEditBar];
+    }
+    else if (lastCheck)
+    {
+        [self hideMultiEditBar];
+    }
+}
+
+-(void) createMultiEditBar
+{
+    multiEditBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, 40)];
+    multiEditBar.hidden = YES;
+    
+    [contentView addSubview:multiEditBar];
+    [multiEditBar release];
+    
+    multiCount = 0;
+}
+
+- (void) hideMultiEditBar
+{
+    multiEditBar.hidden = YES;
+    
+    multiCount = 0;
+}
+
+- (void) showMultiEditBar
+{
+    UIButton *deleteButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(0, 0, 30, 30)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(multiDelete:)
+                                 normalStateImage:@"menu_trash.png"
+                               selectedStateImage:nil];
+    
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+    
+    UIButton *deferButton = [Common createButton:@""
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(0, 0, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(multiDefer:)
+                                normalStateImage:@"menu_defer.png"
+                              selectedStateImage:nil];
+    
+    UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
+    
+    UIButton *todayButton = [Common createButton:@""
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(0, 0, 30, 30)
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(multiDoToday:)
+                                normalStateImage:@"menu_dotoday.png"
+                              selectedStateImage:nil];
+    
+    UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
+    
+    UIButton *markDoneButton = [Common createButton:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(0, 0, 30, 30)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(multiMarkDone:)
+                                   normalStateImage:@"menu_done.png"
+                                 selectedStateImage:nil];
+    
+    UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
+    
+    UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    PageAbstractViewController *ctrler = [self getActiveModule];
+    
+    multiEditBar.items = [ctrler isKindOfClass:[SmartListViewController class]]?[NSArray arrayWithObjects:markDoneItem,flexItem, todayItem, flexItem, deferItem, flexItem, deleteItem, nil]:[NSArray arrayWithObjects:flexItem, deleteItem, nil];
+    
+    [multiEditBar.superview bringSubviewToFront:multiEditBar];
+    multiEditBar.hidden = NO;
+    
+    [deleteItem release];
+    [deferItem release];
+    [todayItem release];
+    [markDoneItem release];
+}
+
 #pragma mark Actions
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
 {    
@@ -2425,7 +2603,18 @@ extern DetailViewController *_detailViewCtrler;
         
         [self hidePopover];
     }
-    
+    else if (alertVw.tag == -14000 && buttonIndex == 1)
+    {
+        [self doMultiDeleteTask];
+    }
+    else if (alertVw.tag == -14001 && buttonIndex == 1)
+    {
+        [self doMultiMarkDoneTask];
+    }
+    else if (alertVw.tag == -14002)
+    {
+        [self doMultiDefer:buttonIndex];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -2507,6 +2696,8 @@ extern DetailViewController *_detailViewCtrler;
 
 - (void) sync
 {
+    [self deselect];
+    
     Settings *settings = [Settings getInstance];
     
     if (settings.syncEnabled)

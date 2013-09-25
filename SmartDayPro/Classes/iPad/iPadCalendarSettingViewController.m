@@ -67,8 +67,8 @@
     
     pickerView.frame = CGRectMake(0, self.setting.timeZoneSupport?500:470, contentView.bounds.size.width, 220);
     
-    //[settingTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [settingTableView reloadData];
+    [settingTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+    //[settingTableView reloadData];
 }
 
 - (void) changeWeekStart: (id) sender
@@ -345,7 +345,7 @@
     
     //frm.size.height = 400;
     
-	settingTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
+	settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
     settingTableView.backgroundColor = [UIColor clearColor];
@@ -354,6 +354,7 @@
 	[settingTableView release];
     
     pickerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.setting.timeZoneSupport?500:470, contentView.bounds.size.width, 220)];
+    pickerView.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
     //pickerView.hidden = YES;
     
     [contentView addSubview:pickerView];
@@ -394,7 +395,7 @@
     [super viewDidAppear:animated];
 	// Do any additional setup after loading the view.
     
-    [settingTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:1] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [settingTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:2] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void)didReceiveMemoryWarning
@@ -439,12 +440,16 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if(section == 2)
-        return 40.0f;
+    if(section != 0)
+        //return 40.0f;
+        return 20.0f;
     
-    return 0.01f; // put 22 in case of plain one..
+    //return 0.01f; // put 22 in case of plain one..
+    
+    return 0;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 2)
@@ -464,18 +469,21 @@
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
+*/
 
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-
-    if (section == 2)
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        return _timeZoneSupport;
+    }
+    else if (section == 2)
     {
         return _workingTimeText;
     }
     
 	return @"";
 }
-*/
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -497,7 +505,7 @@
 		}
 	}
 	
-    cell.imageView.image = nil;
+    //cell.imageView.image = nil;
     cell.textLabel.text = @"";
     cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.textColor = [UIColor grayColor];
@@ -533,6 +541,7 @@
                 case 0:
                 {
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
                     cell.textLabel.text = _timeZoneSupport;
                     
                     NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
@@ -576,6 +585,7 @@
         {
             NSString *wkStrings[7] = {@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"};
             
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.textLabel.text = wkStrings[indexPath.row];
             
             UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(tableView.bounds.size.width - 215, 10, 205, 20)];

@@ -16,7 +16,7 @@
 #import "AbstractSDViewController.h"
 #import "Settings.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 extern AbstractSDViewController *_abstractViewCtrler;
 

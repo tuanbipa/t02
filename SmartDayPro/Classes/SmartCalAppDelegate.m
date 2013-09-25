@@ -475,6 +475,14 @@ BOOL _fromBackground = NO;
 {
     //[self testSound];
     
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+
+    [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
+
+    [[UITableViewHeaderFooterView appearance] setTintColor:[[Colors slateGray] colorWithAlphaComponent:0.2]];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 
 #ifdef _SC_FREE
@@ -516,7 +524,7 @@ BOOL _fromBackground = NO;
 	
     //busyIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(200, 20, 20, 20)];
     busyIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    busyIndicatorView.frame = CGRectMake(320, 10, 20, 20);
+    busyIndicatorView.frame = CGRectMake(_isiPad?320:60, 10, 20, 20);
     //busyIndicatorView.transform = CGAffineTransformMakeScale(2.0, 2.0);
     
     //busyIndicatorView.center = self.window.center;

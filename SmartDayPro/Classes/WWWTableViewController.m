@@ -24,10 +24,7 @@
 
 #import "DetailViewController.h"
 
-//#import "SCTabBarController.h"
-//extern SCTabBarController *_tabBarCtrler;
-
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -336,9 +333,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30.0f;
+    return 20.0f;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *titles[3] = {_whatText, _whoText, _whereText};
@@ -364,6 +362,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     return [label autorelease];
 }
+*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
@@ -371,22 +370,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 
-/*
- - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
- switch (section) {
- case 0:
- return _whatText;//@"What";
- break;
- case 1:
- return _whoText;//@"Who";
- break;
- case 2:
- return _whereText;//@"Where";
- break;
- }
- return @"";
- }
- */
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0:
+            return _whatText;//@"What";
+            break;
+        case 1:
+            return _whoText;//@"Who";
+            break;
+        case 2:
+            return _whereText;//@"Where";
+            break;
+    }
+    return @"";
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	switch (indexPath.section) {
 		case 0:

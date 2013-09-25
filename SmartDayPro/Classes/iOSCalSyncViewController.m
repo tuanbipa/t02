@@ -19,7 +19,7 @@
 #import "SyncWindow2TableViewController.h"
 #import "iPadSyncSettingViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @interface iOSCalSyncViewController ()
 

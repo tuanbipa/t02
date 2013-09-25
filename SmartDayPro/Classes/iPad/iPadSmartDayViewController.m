@@ -47,7 +47,7 @@
 
 #import "iPadViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 iPadViewController *_iPadViewCtrler;
 
@@ -309,40 +309,6 @@ iPadViewController *_iPadViewCtrler;
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
-
-/*
-- (void) enableActions:(BOOL)enable onView:(TaskView *)view
-{
-    BOOL showPopover = activeView != view;
-    
-    [super enableActions:enable onView:view];
-    
-    if (showPopover)
-    {
-        PreviewViewController *ctrler = [[PreviewViewController alloc] init];
-        ctrler.item = view.task;
-        
-        SDNavigationController *navController = [[SDNavigationController alloc] initWithRootViewController:ctrler];
-        [ctrler release];
-        
-        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:navController] autorelease];
-        
-        UIButton *timerButton = [_iPadViewCtrler getTimerButton];
-        
-        if (timerButton != nil)
-        {
-            self.popoverCtrler.passthroughViews = [NSArray arrayWithObjects:timerButton,view,_iPadViewCtrler.view,nil];
-        }
-        
-        [navController release];
-        
-        CGRect frm = [view.superview convertRect:view.frame toView:contentView];
-        
-        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:view.task.listSource == SOURCE_CALENDAR || view.task.listSource == SOURCE_FOCUS?UIPopoverArrowDirectionLeft:UIPopoverArrowDirectionRight animated:YES];
-        
-    }
-}
-*/
 
 - (void) scrollToDate:(NSDate *)date
 {
@@ -625,6 +591,7 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+/*
 - (void)multiMarkDone: (id) sender
 {
     SmartListViewController *ctrlr = [self getSmartListViewController];
@@ -681,6 +648,7 @@ iPadViewController *_iPadViewCtrler;
     [ctrlr createLink:sender];
     [self cancelEdit];
 }
+*/
 
 #pragma mark Filter
 - (NSString *) showProjectWithOption:(id)sender
@@ -1640,237 +1608,26 @@ iPadViewController *_iPadViewCtrler;
     
     [contentView addSubview:moduleView];
     [moduleView release];
+    
+    [self createMultiEditBar];
 }
 
-- (void) loadView_old
+-(void) createMultiEditBar
 {
-    CGRect frm = [Common getFrame];
+    UIView *headerView = [contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
-    contentView = [[ContentView alloc] initWithFrame:frm];
+    multiEditBar = [[UIToolbar alloc] initWithFrame:headerView.frame];
+    multiEditBar.hidden = YES;
     
-    //contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
-    contentView.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:multiEditBar];
+    [multiEditBar release];
     
-    self.view = contentView;
-
-    CGFloat w = frm.size.width/2-10;
-    
-    UIImageView *leftDecoView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, w, frm.size.height-10)];
-    leftDecoView.image = [UIImage imageNamed:@"module_bg.png"];
-    //leftDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
-    [contentView addSubview:leftDecoView];
-    [leftDecoView release];
-
-    UIImageView *rightDecoView = [[UIImageView alloc] initWithFrame:CGRectMake(w+15, 5, w, frm.size.height-10)];
-    //rightDecoView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
-    rightDecoView.image = [UIImage imageNamed:@"module_bg.png"];
-    [contentView addSubview:rightDecoView];
-    [rightDecoView release];
-
-    CalendarViewController *ctrler = [self getCalendarViewController];
-    
-    [ctrler changeFrame:CGRectMake(5, 10, w-5, frm.size.height-20)];
-    
-    [contentView addSubview:ctrler.view];
-    
-	//miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT + 6)];
-
-	miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT)];
-	
-	[contentView addSubview:miniMonthView];
-	[miniMonthView release];
-    
-    //[miniMonthView.headerView changeMWMode:0];
-    
-    focusView = [[FocusView alloc] initWithFrame:_isiPad?CGRectMake(10, miniMonthView.bounds.origin.y + miniMonthView.bounds.size.height, w-10, 40):CGRectZero];
-    focusView.hidden = !_isiPad;
-    
-    [contentView addSubview:focusView];
-    [focusView release];
-
-    NSString *titles[3] = {_tasksText, _notesText, _projectsText};
-    NSString *filters[3] = {_allText, _allText, _tasksText};
-    
-    for (int i=0; i<3; i++)
-    {
-        UIView *moduleBorderView = [[UIView alloc] initWithFrame:CGRectZero];
-        moduleBorderView.layer.borderWidth = 1;
-        moduleBorderView.layer.cornerRadius = 5;
-        moduleBorderView.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
-        moduleBorderView.tag = 18000+i;
-        
-        [contentView addSubview:moduleBorderView];
-        [moduleBorderView release];
-        
-        
-        UIImageView *headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(w+20, 10 + 50*i, w-10, 40)];
-        headerImageView.image = [UIImage imageNamed:@"module_header.png"];
-        headerImageView.tag = 19000+i;
-        
-        [contentView addSubview:headerImageView];
-        [headerImageView release];
-        
-        UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(w+20, 10 + 50*i, w-10, 40)];
-        //headView.backgroundColor = [UIColor darkGrayColor];
-        headView.backgroundColor = [UIColor clearColor];
-        headView.tag = 20000+i;
-        
-        [contentView addSubview:headView];
-        [headView release];
-        
-        UIButton *expandButton = [Common createButton:@""
-                                               buttonType:UIButtonTypeCustom
-                                                    frame:CGRectMake(0, 0, 40, 40)
-                                               titleColor:[UIColor whiteColor]
-                                                   target:self
-                                                 selector:@selector(expand:)
-                                         normalStateImage:nil
-                                       selectedStateImage:nil];
-        expandButton.tag = 21000+i;
-        
-        if (i==0 || i==1)
-        {
-            expandButton.selected = YES;
-        }
-        
-        [headView addSubview:expandButton];
-        
-        UIImageView *expandImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 25, 25)];
-        expandImgView.tag = 21010;
-        
-        expandImgView.image = [UIImage imageNamed:@"collapse.png"];
-        
-        [expandButton addSubview:expandImgView];
-        [expandImgView release];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(40, 5, 100, 25)];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont boldSystemFontOfSize:16];
-        label.textColor = [UIColor whiteColor];
-        label.textAlignment = NSTextAlignmentLeft;
-        label.text = titles[i];
-        
-        [headView addSubview:label];
-        [label release];
-        
-        UIView *actionView = [[UIView alloc] initWithFrame:CGRectMake(headView.bounds.size.width-220, 5, 180, 30)];
-        actionView.backgroundColor = [UIColor clearColor];
-        actionView.tag = 30000+i;
-        actionView.hidden = YES;
-        
-        [headView addSubview:actionView];
-        [actionView release];
-        
-        UIButton *addButton = [Common createButton:@""
-                                           buttonType:UIButtonTypeCustom
-                                                frame:CGRectMake(headView.bounds.size.width-35, 5, 30, 30)
-                                           titleColor:[UIColor whiteColor]
-                                               target:self
-                                             selector:@selector(add:)
-                                     normalStateImage:@"module_add.png"
-                                   selectedStateImage:nil];
-        addButton.tag = 22000+i;
-        
-        [headView addSubview:addButton];
-                
-        UIButton *filterButton = [Common createButton:@""
-                                           buttonType:UIButtonTypeCustom
-                                                //frame:CGRectMake(headView.bounds.size.width-70, 5, 30, 30)
-                                  frame:CGRectMake(actionView.bounds.size.width-30, 0, 30, 30)
-                                           titleColor:[UIColor whiteColor]
-                                               target:self
-                                             selector:@selector(filter:)
-                                     normalStateImage:nil
-                                   selectedStateImage:nil];
-        filterButton.tag = 23000+i;
-        //[headView addSubview:filterButton];
-        [actionView addSubview:filterButton];
-        
-        UIImageView *filterImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 10, 10)];
-        
-        filterImgView.image = [UIImage imageNamed:@"arrow_down.png"];
-        
-        [filterButton addSubview:filterImgView];
-        [filterImgView release];
-        
-        //UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(headView.bounds.size.width-70, 5, 1, 30)];
-        UIView *filterSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(actionView.bounds.size.width-30, 0, 1, 30)];
-        filterSeparatorView.backgroundColor = [UIColor whiteColor];
-        
-        //[headView addSubview:filterSeparatorView];
-        [actionView addSubview:filterSeparatorView];
-        [filterSeparatorView release];
-        
-        //UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(headView.bounds.size.width-180, 5, 100, 30)];
-        UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(actionView.bounds.size.width-140, 0, 100, 30)];
-        filterLabel.backgroundColor = [UIColor clearColor];
-        filterLabel.textAlignment =  NSTextAlignmentRight;
-        filterLabel.textColor = [UIColor whiteColor];
-        filterLabel.font = [UIFont boldSystemFontOfSize:16];
-        filterLabel.tag = 24000+i;
-        filterLabel.text = filters[i];
-        
-        //[headView addSubview:filterLabel];
-        [actionView addSubview:filterLabel];
-        [filterLabel release];
-        
-        if (i==0 || i==1)
-        {
-            UIButton *taskMultiEditButton = [Common createButton:@"Edit"
-                                              buttonType:UIButtonTypeCustom
-                                                   //frame:CGRectMake(160, 10, 60, 20)
-                                             frame:CGRectMake(0, 5, 60, 20)
-                                              titleColor:[UIColor whiteColor]
-                                                  target:self
-                                                selector:@selector(startMultiEdit:)
-                                        normalStateImage:nil
-                                      selectedStateImage:nil];
-            taskMultiEditButton.tag = 25000+i;
-            taskMultiEditButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
-            
-            //[headView addSubview:taskMultiEditButton];
-            [actionView addSubview:taskMultiEditButton];
-        }
-        else if (i==2)
-        {
-            projectShowDoneButton = [Common createButton:@""
-                                               buttonType:UIButtonTypeCustom
-                                                    //frame:CGRectMake(180, 10, 20, 20)
-                                     frame:CGRectMake(20, 5, 20, 20)
-                                               titleColor:[UIColor whiteColor]
-                                                   target:self
-                                                 selector:@selector(showDone:)
-                                         normalStateImage:@"module_hidedone.png"
-                                       selectedStateImage:@"module_showdone.png"];
-            
-            CategoryViewController *ctrler = [self getCategoryViewController];
-            projectShowDoneButton.selected = ctrler.showDone;
-            
-            //[headView addSubview:projectShowDoneButton];
-            [actionView addSubview:projectShowDoneButton];
-        }
-        
-    }
-    
-    for (int i=1;i<4;i++)
-    {
-        UIView *view = viewCtrlers[i].view;
-        
-        view.frame = CGRectZero;
-        view.clipsToBounds = YES;
-
-        [contentView addSubview:view];
-    }
+    multiCount = 0;
 }
 
+/*
 - (void)refreshEditBarViewWithCheck: (BOOL) check
 {
-    /*UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
-    NSInteger count = countLabel.text.integerValue;
-    BOOL firstCheck = count == 0;
-    
-    count = check ?  ++count : --count;
-    countLabel.text = [NSString stringWithFormat:@"%d", count];*/
     BOOL firstCheck = selectedCounter == 0;
     
     selectedCounter = check ?  ++selectedCounter : --selectedCounter;
@@ -1946,14 +1703,13 @@ iPadViewController *_iPadViewCtrler;
 
 - (void)cancelEdit
 {
-    /*UILabel *countLabel = (UILabel *)[contentView viewWithTag:TAG_VIEW_COUNT_LABEL];
-    countLabel.text = @"0";*/
     selectedCounter = 0;
     
     UIView *editBarView = (UIView *)[contentView viewWithTag:TAG_VIEW_EDIT_BAR];
     editBarView.hidden = YES;
     filterSegmentedControl.hidden = NO;
 }
+*/
 
 - (void) refreshHeaderView
 {
@@ -2046,75 +1802,6 @@ iPadViewController *_iPadViewCtrler;
     [self refreshTaskFilterTitle];
 }
 
-/*
-- (void) showTaskModule:(BOOL)enabled
-{
-    SmartListViewController *ctrler = [self getSmartListViewController];
-    
-    UIView *view = ctrler.view;
-    
-    if (!enabled)
-    {
-        if (view.superview != nil)
-        {
-            //[ctrler clearLayout];
-            
-            [view removeFromSuperview];
-        }
-    }
-    else if (view.superview != contentView)
-    {
-        if (view.superview != nil)
-        {
-            //[ctrler clearLayout];
-            
-            [view removeFromSuperview];
-        }
-
-        view.frame = CGRectZero;
-        view.clipsToBounds = YES;
-        
-        [contentView addSubview:view];
-        
-        UIView *taskHeaderView = (UIView *)[contentView viewWithTag:20000];
-        UIView *noteHeaderView = (UIView *)[contentView viewWithTag:20001];
-        UIView *projectHeaderView = (UIView *)[contentView viewWithTag:20002];
-        
-        UIButton *taskModuleButton = (UIButton *)[taskHeaderView viewWithTag:21000];
-        UIButton *noteModuleButton = (UIButton *)[noteHeaderView viewWithTag:21001];
-        UIButton *projectModuleButton = (UIButton *)[projectHeaderView viewWithTag:21002];
-        
-        UIButton *buttons[3] = {taskModuleButton, noteModuleButton, projectModuleButton};
-        
-        NSInteger expandNum = 0;
-        
-        for (int i=0; i<3; i++)
-        {
-            if (buttons[i].selected)
-            {
-                expandNum += 1;
-            }
-        }
- 
-        NSInteger moduleHeight = (expandNum == 0?0:(contentView.bounds.size.height-160)/expandNum);
-        
-        CGFloat w = contentView.bounds.size.width/2 - 10;
-        
-        CGRect frm = !taskModuleButton.selected?CGRectMake(w+20, 0, w-10, 0):CGRectMake(w+20, 50, w-10, moduleHeight);
-        
-        [ctrler resetMovableController:NO];
-        
-        [ctrler setMovableContentView:self.contentView];
-        
-        [ctrler changeFrame:frm];
-        
-        if (expandNum != 0)
-        {
-            [ctrler performSelector:@selector(refreshLayout) withObject:nil afterDelay:0.1];
-        }
-    }
-}
-*/
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -102,7 +102,7 @@ extern iPadViewController *_iPadViewCtrler;
         
         c++;
     }
-    
+
     self.listKeys = [self.taskDict.allKeys sortedArrayUsingSelector:@selector(compare:)];
     
     self.movableCtrler.listTableView = self.listTableView;

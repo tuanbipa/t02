@@ -26,7 +26,7 @@ extern BOOL _versionUpgrade;
 extern BOOL _firstLaunch;
 extern BOOL _dbUpgrade;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 DBManager *_dbManagerSingleton;
 

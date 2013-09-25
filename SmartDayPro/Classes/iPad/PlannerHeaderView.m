@@ -13,7 +13,7 @@
 #import "PlannerView.h"
 #import "PlannerViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 extern PlannerViewController *_plannerViewCtrler;
 
 @implementation PlannerHeaderView

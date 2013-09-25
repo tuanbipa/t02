@@ -28,6 +28,7 @@
 #import "PlannerViewController.h"
 #import "PlannerBottomDayCal.h"
 #import "iPadViewController.h"
+#import "SmartDayViewController.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
@@ -36,7 +37,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 
 extern iPadViewController *_iPadViewCtrler;
-extern BOOL _isiPad;
+extern SmartDayViewController *_sdViewCtrler;
 
 @implementation TaskView
 
@@ -299,16 +300,8 @@ extern BOOL _isiPad;
     button.selected = !button.selected;
         
     [self refreshCheckImage];
-    /*if (_plannerViewCtrler)
-    {
-        [_plannerViewCtrler refreshEditBarViewWithCheck: button.selected];
-    }
-    else
-    {
-        [_abstractViewCtrler refreshEditBarViewWithCheck: button.selected];
-    }*/
-    
-    [_iPadViewCtrler.activeViewCtrler refreshEditBarViewWithCheck: button.selected];
+
+    [[AbstractActionViewController getInstance] multiEdit:button.selected];
 }
 
 -(void)star:(id)sender
@@ -2760,29 +2753,19 @@ extern BOOL _isiPad;
 
 - (void) singleTouch
 {
-    /*if (_iPadViewCtrler != nil)
-    {
-        [[AbstractActionViewController getInstance] editItem:self.task inView:self];
-    }
-    else if (_abstractViewCtrler != nil)
-    {
-        //[_abstractViewCtrler editItem:self.task inView:self];
-        [self enableActions:YES];
-    }*/
-    
+    [[AbstractActionViewController getInstance] hideDropDownMenu];
+
     if (_isiPad)
     {
         [[AbstractActionViewController getInstance] editItem:self.task inView:self];
-    }
-    else
-    {
-        [self enableActions:YES];
     }
 }
 
 - (void) doubleTouch
 {
-	[super doubleTouch];
+    [[AbstractActionViewController getInstance] hideDropDownMenu];
+    
+	//[super doubleTouch];
 	
     /*
     if (_plannerViewCtrler != nil)
@@ -2803,9 +2786,12 @@ extern BOOL _isiPad;
         
         [[AbstractActionViewController getInstance] editItem:self.task inView:activeView];
     }
-    else if (_abstractViewCtrler != nil)
+    else /*if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler editItem:self.task inView:nil];
+    }*/
+    {
+        [[AbstractActionViewController getInstance] editItem:self.task inView:self];
     }
 }
 

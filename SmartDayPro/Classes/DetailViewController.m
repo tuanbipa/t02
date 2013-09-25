@@ -142,85 +142,87 @@ DetailViewController *_detailViewCtrler = nil;
         return;
     }
     
+    CGFloat iconSize = _isiPad?30:28;
+    
     UIButton *deleteButton = [Common createButton:@""
                                        buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(0, 0, 30, 30)
+                                            frame:CGRectMake(0, 0, iconSize, iconSize)
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(delete:)
-                                 normalStateImage:@"menu_trash.png"
+                                 normalStateImage:_isiPad?@"menu_trash.png":@"menu_trash_white.png"
                                selectedStateImage:nil];
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
     
     UIButton *copyButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(0, 0, 30, 30)
+                                          frame:CGRectMake(0, 0, iconSize, iconSize)
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(copy:)
-                               normalStateImage:@"menu_duplicate.png"
+                               normalStateImage:_isiPad?@"menu_duplicate.png":@"menu_duplicate_white.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
     
     UIButton *starButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(0, 0, 30, 30)
+                                          frame:CGRectMake(0, 0, iconSize, iconSize)
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(star:)
-                               normalStateImage:@"menu_star.png"
+                               normalStateImage:_isiPad?@"menu_star.png":@"menu_star_white.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
     
     UIButton *deferButton = [Common createButton:@""
                                       buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(0, 0, 30, 30)
+                                           frame:CGRectMake(0, 0, iconSize, iconSize)
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                         selector:@selector(defer:)
-                                normalStateImage:@"menu_defer.png"
+                                normalStateImage:_isiPad?@"menu_defer.png":@"menu_defer_white.png"
                               selectedStateImage:nil];
     
     UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
     
     UIButton *todayButton = [Common createButton:@""
                                       buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(0, 0, 30, 30)
+                                           frame:CGRectMake(0, 0, iconSize, iconSize)
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                         selector:@selector(doToday:)
-                                normalStateImage:@"menu_dotoday.png"
+                                normalStateImage:_isiPad?@"menu_dotoday.png":@"menu_dotoday_white.png"
                               selectedStateImage:nil];
     
     UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
     
     UIButton *markDoneButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(0, 0, 30, 30)
+                                              frame:CGRectMake(0, 0, iconSize, iconSize)
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(markDone:)
-                                   normalStateImage:@"menu_done.png"
+                                   normalStateImage:_isiPad?@"menu_done.png":@"menu_done_white.png"
                                  selectedStateImage:nil];
     
     UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
     
     UIButton *airDropButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 0, 30, 30)
+                                             frame:CGRectMake(0, 0, iconSize, iconSize)
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(share2AirDrop:)
-                                  normalStateImage:@"menu_airdrop.png"
+                                  normalStateImage:_isiPad?@"menu_airdrop.png":@"menu_airdrop_white.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
     
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedItem.width = 10;
+    fixedItem.width = (_isiPad?10:0);
     
     NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, copyItem, nil]:([self.task isShared]?[NSMutableArray arrayWithObject:markDoneItem]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil]);
     
@@ -308,9 +310,9 @@ DetailViewController *_detailViewCtrler = nil;
         frm.size = sz;
     }
     
-    frm.size.height -= 20 + 2*44;
+    frm.size.height -= 20 + (_isiPad?2*44:44);
     
-    frm.size.width = 384;
+    frm.size.width = _isiPad?384:320;
     
     [self changeFrame:frm];
 }
@@ -325,7 +327,7 @@ DetailViewController *_detailViewCtrler = nil;
         frm.size.height = frm.size.width - 20;
     }
     
-    frm.size.width = 384;
+    frm.size.width = _isiPad?384:320;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor clearColor];
@@ -378,6 +380,11 @@ DetailViewController *_detailViewCtrler = nil;
     //UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:_closeText style:UIBarButtonItemStyleDone target:self action:@selector(close:)];
     
     [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
+    
+    if (_isiPad)
+    {
+        [self.navigationController.navigationBar setTintColor:nil];
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -435,7 +442,7 @@ DetailViewController *_detailViewCtrler = nil;
 	for (NSString *tag in [dict.presetTagDict allKeys])
 	{
 		[tagButtons[j] setTitle:tag forState:UIControlStateNormal];
-		[tagButtons[j] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[tagButtons[j] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 		[tagButtons[j] setEnabled:YES];
 		
 		Project *prj = [prjDict objectForKey:tag];
@@ -491,6 +498,18 @@ DetailViewController *_detailViewCtrler = nil;
     [self.previewViewCtrler refreshData];
 }
 
+- (void) close
+{
+    if (_isiPad)
+    {
+        [_iPadViewCtrler closeDetail];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma  mark Actions
 - (void) done:(id) sender
 {
@@ -512,14 +531,14 @@ DetailViewController *_detailViewCtrler = nil;
         [[AbstractActionViewController getInstance] updateTask:self.task withTask:self.taskCopy];
     }
     
-    [_iPadViewCtrler closeDetail];
-    
+    [self close];
 }
 
 - (void) delete:(id)sender
 {
-    [_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] deleteTask];
+    
+    [self close];
 }
 
 - (void) copy:(id)sender
@@ -533,8 +552,10 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) star:(id)sender
 {
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] starTask];
+    
+    [self close];
 }
 
 - (void) defer:(id)sender
@@ -551,28 +572,36 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) doToday:(id) sender
 {
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] moveTask2Top];
+    
+    [self close];
 }
 
 - (void) markDone:(id)sender
 {
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] markDoneTask];
+    
+    [self close];
 }
 
 - (void) share2AirDrop:(id) sender
 {
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] share2AirDrop];
+    
+    [self close];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if (alertView.tag == -10000 && buttonIndex != 0)
 	{
-        [_iPadViewCtrler closeDetail];
+        //[_iPadViewCtrler closeDetail];
         [[AbstractActionViewController getInstance] defer:buttonIndex];
+        
+        [self close];
     }
 }
 
@@ -1039,19 +1068,19 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:startLabel];
     [startLabel release];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, self.taskCopy.startTime == nil?70:40, 30)];
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 40, self.taskCopy.startTime == nil?70:(_isiPad?40:30), 30)];
     dayLabel.backgroundColor = [UIColor clearColor];
     dayLabel.textAlignment = NSTextAlignmentRight;
     dayLabel.text = self.taskCopy.startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.startTime]];
     dayLabel.textColor = [UIColor darkGrayColor];
-    dayLabel.font = [UIFont boldSystemFontOfSize:28];
+    dayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
     
     dayLabel.tag = baseTag+1;
     
     [cell.contentView addSubview:dayLabel];
     [dayLabel release];
     
-    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 35, 100, 20)];
+    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?50:40, 35, 200, 20)];
     wkdayLabel.backgroundColor = [UIColor clearColor];
     wkdayLabel.text = self.taskCopy.startTime == nil?@"":[Common getFullWeekdayString:self.taskCopy.startTime];
     wkdayLabel.textColor = [UIColor darkGrayColor];
@@ -1062,7 +1091,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:wkdayLabel];
     [wkdayLabel release];
     
-    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 55, 100, 20)];
+    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?50:40, 55, 200, 20)];
     monYearLabel.backgroundColor = [UIColor clearColor];
     monYearLabel.text = self.taskCopy.startTime == nil?@"":[Common getMonthYearString:self.taskCopy.startTime];
     monYearLabel.textColor = [UIColor darkGrayColor];
@@ -1073,13 +1102,15 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:monYearLabel];
     [monYearLabel release];
     
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, 5, 1, 70)];
+    CGFloat xMargin = detailTableView.bounds.size.width/2;
+    
+    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(xMargin, 5, 1, 70)];
     separatorView.backgroundColor = [UIColor lightGrayColor];
     
     [cell.contentView addSubview:separatorView];
     [separatorView release];
     
-    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, 10, 100, 20)];
+    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, 10, 100, 20)];
     dueLabel.backgroundColor = [UIColor clearColor];
     dueLabel.text = _dueText;
     dueLabel.textColor = [UIColor grayColor];
@@ -1090,19 +1121,19 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueLabel];
     [dueLabel release];
     
-    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, 40, self.taskCopy.deadline == nil?70:40, 30)];
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, 40, self.taskCopy.deadline == nil?70:(_isiPad?40:30), 30)];
     dueDayLabel.backgroundColor = [UIColor clearColor];
     dueDayLabel.textAlignment = NSTextAlignmentRight;
     dueDayLabel.text = self.taskCopy.deadline == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.deadline]];
     dueDayLabel.textColor = [UIColor darkGrayColor];
-    dueDayLabel.font = [UIFont boldSystemFontOfSize:28];
+    dueDayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
     
     dueDayLabel.tag = baseTag+5;
     
     [cell.contentView addSubview:dueDayLabel];
     [dueDayLabel release];
     
-    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(245, 35, 100, 20)];
+    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+(_isiPad?50:40), 35, 200, 20)];
     dueWkdayLabel.backgroundColor = [UIColor clearColor];
     dueWkdayLabel.text = self.taskCopy.deadline == nil?@"":[Common getFullWeekdayString:self.taskCopy.deadline];
     dueWkdayLabel.textColor = [UIColor darkGrayColor];
@@ -1113,7 +1144,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueWkdayLabel];
     [dueWkdayLabel release];
     
-    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(245, 55, 100, 20)];
+    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+(_isiPad?50:40), 55, 200, 20)];
     dueMonYearLabel.backgroundColor = [UIColor clearColor];
     dueMonYearLabel.text = self.taskCopy.deadline == nil?@"":[Common getMonthYearString:self.taskCopy.deadline];
     dueMonYearLabel.textColor = [UIColor darkGrayColor];
@@ -1126,7 +1157,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    startButton.frame = CGRectMake(0, 0, 190, 80);
+    startButton.frame = CGRectMake(0, 0, xMargin, 80);
     startButton.backgroundColor = [UIColor clearColor];
     startButton.tag = baseTag + 8;
     [startButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1135,7 +1166,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *dueButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    dueButton.frame = CGRectMake(190, 0, 190, 80);
+    dueButton.frame = CGRectMake(xMargin, 0, xMargin, 80);
     dueButton.backgroundColor = [UIColor clearColor];
     dueButton.tag = baseTag + 9;
     [dueButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1212,32 +1243,6 @@ DetailViewController *_detailViewCtrler = nil;
         yMargin = 40;
     }
     
-    /*
-    UILabel *adeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
-    adeLabel.backgroundColor = [UIColor clearColor];
-    adeLabel.text = _allDayText;
-    adeLabel.textColor = [UIColor grayColor];
-    adeLabel.font = [UIFont systemFontOfSize:16];
-    
-    [cell.contentView addSubview:adeLabel];
-    [adeLabel release];
-    
-    NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
-    UISegmentedControl *adeSegmentedCtrl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-    adeSegmentedCtrl.frame = CGRectMake(detailTableView.bounds.size.width-110, 5, 100, 30);
-    [adeSegmentedCtrl addTarget:self action:@selector(changeADE:) forControlEvents:UIControlEventValueChanged];
-    adeSegmentedCtrl.selectedSegmentIndex = ([self.taskCopy isADE]?0:1);
-    
-    [cell.contentView addSubview:adeSegmentedCtrl];
-    [adeSegmentedCtrl release];
-    
-    UIView *adeSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, detailTableView.bounds.size.width, 1)];
-    adeSeparatorView.backgroundColor = [UIColor lightGrayColor];
-    
-    [cell.contentView addSubview:adeSeparatorView];
-    [adeSeparatorView release];
-    */
-    
     UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yMargin + 10, 100, 20)];
     startLabel.backgroundColor = [UIColor clearColor];
     startLabel.text = _startText;
@@ -1249,21 +1254,24 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:startLabel];
     [startLabel release];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, yMargin + 40, startTime == nil?70:40, 30)];
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, yMargin + 40, startTime == nil?70:(_isiPad?40:30), 30)];
     dayLabel.backgroundColor = [UIColor clearColor];
     dayLabel.textAlignment = NSTextAlignmentRight;
     dayLabel.text = startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:startTime]];
     dayLabel.textColor = [UIColor darkGrayColor];
-    dayLabel.font = [UIFont boldSystemFontOfSize:28];
+    dayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
     
     dayLabel.tag = baseTag+1;
     
     [cell.contentView addSubview:dayLabel];
     [dayLabel release];
     
-    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, yMargin + 35, 100, 20)];
+    NSString *dayStr = (startTime == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:startTime]:(_isiPad?[Common getFullWeekdayString:startTime]:[Common getFullDateString4:startTime])));
+    
+    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?50:40, yMargin + 35, 200, 20)];
     wkdayLabel.backgroundColor = [UIColor clearColor];
-    wkdayLabel.text = startTime == nil?@"":[Common getFullWeekdayString:startTime];
+    //wkdayLabel.text = startTime == nil?@"":[Common getFullWeekdayString:startTime];
+    wkdayLabel.text = dayStr;
     wkdayLabel.textColor = [UIColor darkGrayColor];
     wkdayLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1272,9 +1280,12 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:wkdayLabel];
     [wkdayLabel release];
     
-    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, yMargin + 55, 200, 20)];
+    NSString *timeStr = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]:[Common getTimeString:startTime]));
+    
+    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?50:40, yMargin + 55, 200, 20)];
     monYearLabel.backgroundColor = [UIColor clearColor];
-    monYearLabel.text = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]);
+    //monYearLabel.text = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]);
+    monYearLabel.text = timeStr;
     monYearLabel.textColor = [UIColor darkGrayColor];
     monYearLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1283,13 +1294,17 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:monYearLabel];
     [monYearLabel release];
     
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, yMargin + 5, 1, 70)];
+    CGFloat xMargin = detailTableView.bounds.size.width/2;
+    
+//    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, yMargin + 5, 1, 70)];
+    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(xMargin, yMargin + 5, 1, 70)];
     separatorView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
     
     [cell.contentView addSubview:separatorView];
     [separatorView release];
     
-    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, yMargin + 10, 100, 20)];
+//    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, yMargin + 10, 100, 20)];
+    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, yMargin + 10, 100, 20)];
     dueLabel.backgroundColor = [UIColor clearColor];
     dueLabel.text = _endText;
     dueLabel.textColor = [UIColor grayColor];
@@ -1300,21 +1315,27 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueLabel];
     [dueLabel release];
     
-    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, yMargin + 40, endTime == nil?70:40, 30)];
+//    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, yMargin + 40, endTime == nil?70:40, 30)];
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, yMargin + 40, endTime == nil?70:(_isiPad?40:30), 30)];
     dueDayLabel.backgroundColor = [UIColor clearColor];
     dueDayLabel.textAlignment = NSTextAlignmentRight;
     dueDayLabel.text = endTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:endTime]];
     dueDayLabel.textColor = [UIColor darkGrayColor];
-    dueDayLabel.font = [UIFont boldSystemFontOfSize:28];
+    dueDayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
     
     dueDayLabel.tag = baseTag+5;
     
     [cell.contentView addSubview:dueDayLabel];
     [dueDayLabel release];
     
-    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 35, 100, 20)];
+    dayStr = (endTime == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:endTime]:(_isiPad?[Common getFullWeekdayString:endTime]:[Common getFullDateString4:endTime])));
+
+    
+//    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 35, 100, 20)];
+    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+(_isiPad?50:40), yMargin + 35, 200, 20)];
     dueWkdayLabel.backgroundColor = [UIColor clearColor];
-    dueWkdayLabel.text = endTime == nil?@"":[Common getFullWeekdayString:endTime];
+    //dueWkdayLabel.text = endTime == nil?@"":[Common getFullWeekdayString:endTime];
+    dueWkdayLabel.text = dayStr;
     dueWkdayLabel.textColor = [UIColor darkGrayColor];
     dueWkdayLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1323,9 +1344,13 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueWkdayLabel];
     [dueWkdayLabel release];
     
-    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 55, 200, 20)];
+    timeStr = endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:endTime]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:endTime], [Common getTimeString:endTime]]:[Common getTimeString:endTime]));
+    
+//    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 55, 200, 20)];
+    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+(_isiPad?50:40), yMargin + 55, 200, 20)];
     dueMonYearLabel.backgroundColor = [UIColor clearColor];
-    dueMonYearLabel.text = endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:endTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:endTime], [Common getTimeString:endTime]]);
+    //dueMonYearLabel.text = endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:endTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:endTime], [Common getTimeString:endTime]]);
+    dueMonYearLabel.text = timeStr;
     dueMonYearLabel.textColor = [UIColor darkGrayColor];
     dueMonYearLabel.font = [UIFont boldSystemFontOfSize:15];
     
@@ -1336,7 +1361,8 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    startButton.frame = CGRectMake(0, yMargin + 0, 190, 80);
+    //startButton.frame = CGRectMake(0, yMargin + 0, 190, 80);
+    startButton.frame = CGRectMake(0, yMargin + 0, xMargin, 80);
     startButton.backgroundColor = [UIColor clearColor];
     startButton.tag = baseTag + 8;
     [startButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1345,7 +1371,8 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIButton *dueButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    dueButton.frame = CGRectMake(190, yMargin + 0, 190, 80);
+    //dueButton.frame = CGRectMake(190, yMargin + 0, 190, 80);
+    dueButton.frame = CGRectMake(190, yMargin + 0, xMargin, 80);
     dueButton.backgroundColor = [UIColor clearColor];
     dueButton.tag = baseTag + 9;
     [dueButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
@@ -1456,7 +1483,7 @@ DetailViewController *_detailViewCtrler = nil;
 		UIButton *tagButton = [Common createButton:@""
 										buttonType:UIButtonTypeCustom
 											 frame:CGRectMake(mod*(w + 10) + 10, div*30 + 30, w, 25)
-										titleColor:[UIColor blackColor]
+										titleColor:[UIColor darkGrayColor]
 											target:self
 										  selector:@selector(selectTag:)
 								  normalStateImage:@"sort_button.png"

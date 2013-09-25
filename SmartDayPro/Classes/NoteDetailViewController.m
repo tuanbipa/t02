@@ -31,7 +31,7 @@
 
 extern iPadViewController *_iPadViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 NoteDetailViewController *_noteDetailViewCtrler;
 
@@ -58,6 +58,14 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	{
         self.inputViewCtrler = nil;
         self.previewViewCtrler = nil;
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(noteBeginEdit:)
+													 name:@"NoteBeginEditNotification" object:nil];
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(noteFinishEdit:)
+													 name:@"NoteFinishEditNotification" object:nil];
 	}
 	
 	return self;
@@ -111,9 +119,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
         frm.size = sz;
     }
     
-    frm.size.height -= 20 + 2*44;
+    frm.size.height -= 20 + (_isiPad?2*44:44);
     
-    frm.size.width = 384;
+    frm.size.width = _isiPad?384:320;
     
     [self changeFrame:frm];
 }
@@ -208,7 +216,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
         frm.size.height = frm.size.width - 20;
     }
     
-    frm.size.width = 384;
+    frm.size.width = _isiPad?384:320;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
@@ -256,7 +264,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(share2AirDrop:)
-                                  normalStateImage:@"menu_airdrop.png"
+                                  normalStateImage:_isiPad?@"menu_airdrop.png":@"menu_airdrop_white.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
@@ -267,7 +275,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(convert2Task:)
-                                  normalStateImage:@"menu_converttotask.png"
+                                  normalStateImage:_isiPad?@"menu_converttotask.png":@"menu_converttotask.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *taskConvertItem = [[UIBarButtonItem alloc] initWithCustomView:taskConvertButton];
@@ -281,7 +289,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(delete:)
-                                 normalStateImage:@"menu_trash.png"
+                                 normalStateImage:_isiPad?@"menu_trash.png":@"menu_trash_white.png"
                                selectedStateImage:nil];
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
@@ -359,7 +367,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	for (NSString *tag in [dict.presetTagDict allKeys])
 	{
 		[tagButtons[j] setTitle:tag forState:UIControlStateNormal];
-		[tagButtons[j] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[tagButtons[j] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 		[tagButtons[j] setEnabled:YES];
 		
 		Project *prj = [prjDict objectForKey:tag];
@@ -443,6 +451,26 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	[ctrler release];
 }
 
+#pragma mark Notification
+-(void) noteBeginEdit:(NSNotification *)notif
+{
+    CGRect frm = noteView.frame;
+
+    frm.size.height = 240;
+    
+    [noteView changeFrame:frm];
+}
+
+-(void) noteFinishEdit:(NSNotification *)notif
+{
+    CGRect frm = noteView.frame;
+    
+    frm.size.height = 400;
+    
+    [noteView changeFrame:frm];
+}
+
+
 #pragma mark Input Views
 -(void) showInputView:(UIViewController *)ctrler
 {
@@ -499,9 +527,10 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     frm.size.height = 400;
     
-    NoteView *noteView = [[NoteView alloc] initWithFrame:frm];
+    noteView = [[NoteView alloc] initWithFrame:frm];
     
-    noteView.editEnabled = NO;
+    //noteView.editEnabled = NO;
+    noteView.editEnabled = !_isiPad;
     noteView.touchEnabled = YES;
     
     noteView.note = self.noteCopy;

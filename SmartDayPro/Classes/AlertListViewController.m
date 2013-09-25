@@ -21,7 +21,7 @@
 #import "DetailViewController.h"
 #import "Settings.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation AlertListViewController
 

@@ -12,7 +12,7 @@
 #import "DetailViewController.h"
 #import "iPadViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 extern iPadViewController *_iPadViewCtrler;
 
 @interface MapLocationViewController ()

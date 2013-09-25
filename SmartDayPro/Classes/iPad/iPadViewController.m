@@ -44,7 +44,7 @@
 #import "SmartCalAppDelegate.h"
 #import "MapLocationViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 extern SmartCalAppDelegate *_appDelegate;
 
@@ -360,13 +360,6 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) editNoteDetail:(Task *)note
 {
-    /*
-    if (self.detailNavCtrler != nil)
-    {
-        [self closeDetail];
-    }
-    */
-    
     NoteDetailViewController *ctrler = [[NoteDetailViewController alloc] init];
     ctrler.note = note;
     
@@ -378,43 +371,10 @@ iPadViewController *_iPadViewCtrler;
     {
         [self showDetail:ctrler];
     }
-/*
-    self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
-    
-    CGRect frm = self.detailNavCtrler.view.frame;
-    frm.size.width = 384;
-    
-    self.detailNavCtrler.view.frame = frm;
-    self.detailNavCtrler.navigationBar.barStyle = UIBarStyleBlack;
-    
-    [detailView addSubview:self.detailNavCtrler.view];
-    
-    detailView.hidden = NO;
-    [contentView bringSubviewToFront:detailView];
-    
-    CATransition *animation = [CATransition animation];
-    [animation setDelegate:self];
-    
-    [animation setType:kCATransitionMoveIn];
-    [animation setSubtype:kCATransitionFromRight];
-    
-    // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
-    [animation setDuration:kTransitionDuration];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    
-    [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
-*/
 }
 
 - (void) editProjectDetail:(Project *)project
 {
-    /*
-    if (self.detailNavCtrler != nil)
-    {
-        [self closeDetail];
-    }
-    */
-    
     ProjectEditViewController *ctrler = [[ProjectEditViewController alloc] init];
     ctrler.project = project;
     
@@ -428,33 +388,6 @@ iPadViewController *_iPadViewCtrler;
     }
     
     [ctrler release];
-    
-    /*
-    self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
-    
-    CGRect frm = self.detailNavCtrler.view.frame;
-    frm.size.width = 384;
-    
-    self.detailNavCtrler.view.frame = frm;
-    self.detailNavCtrler.navigationBar.barStyle = UIBarStyleBlack;
-    
-    [detailView addSubview:self.detailNavCtrler.view];
-    
-    detailView.hidden = NO;
-    [contentView bringSubviewToFront:detailView];
-    
-    CATransition *animation = [CATransition animation];
-    [animation setDelegate:self];
-    
-    [animation setType:kCATransitionMoveIn];
-    [animation setSubtype:kCATransitionFromRight];
-    
-    // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
-    [animation setDuration:kTransitionDuration];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    
-    [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];  
-    */
 }
 
 -(void) editItemDetail:(Task *)item
@@ -496,40 +429,6 @@ iPadViewController *_iPadViewCtrler;
         }
         
         [ctrler release];
-        /*
-        if (self.detailNavCtrler != nil)
-        {
-            [self closeDetail];
-        }
-        
-        DetailViewController *ctrler = [[DetailViewController alloc] init];
-        ctrler.task = item;
-        
-        self.detailNavCtrler = [[[UINavigationController alloc] initWithRootViewController:ctrler] autorelease];
-
-        CGRect frm = self.detailNavCtrler.view.frame;
-        frm.size.width = 384;
-        
-        self.detailNavCtrler.view.frame = frm;
-        self.detailNavCtrler.navigationBar.barStyle = UIBarStyleBlack;
-        
-        [detailView addSubview:self.detailNavCtrler.view];
-        
-        detailView.hidden = NO;
-        [contentView bringSubviewToFront:detailView];
-        
-        CATransition *animation = [CATransition animation];
-        [animation setDelegate:self];
-        
-        [animation setType:kCATransitionMoveIn];
-        [animation setSubtype:kCATransitionFromRight];
-        
-        // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
-        [animation setDuration:kTransitionDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        
-        [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey]; 
-        */
     }
 }
 

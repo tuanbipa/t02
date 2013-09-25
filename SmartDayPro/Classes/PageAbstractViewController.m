@@ -90,6 +90,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 }
 
+- (void) cancelMultiEdit
+{
+    
+}
+
+- (NSMutableArray *) getMultiEditList
+{
+    return nil;
+}
+
 - (void) reconcileItem:(Task *)item
 {
     

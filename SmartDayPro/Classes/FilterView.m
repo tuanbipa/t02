@@ -71,8 +71,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		[contentView release];		
 		
 		UIView *backgroundView = [[UIView alloc] initWithFrame:self.bounds];
-		backgroundView.backgroundColor = [UIColor blackColor];
-		backgroundView.alpha = 0.8;
+        backgroundView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+		//backgroundView.backgroundColor = [UIColor blackColor];
+		//backgroundView.alpha = 0.8;
 		
 		[contentView addSubview:backgroundView];
 		[backgroundView release];
@@ -82,13 +83,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
             UIButton *presetButton = [Common createButton:_newPresetText 
                                             buttonType:UIButtonTypeCustom 
                                                  frame:CGRectMake(10 + 105*i, 10, 90, 30)
-                                            titleColor:[UIColor whiteColor]
+                                            titleColor:[UIColor grayColor]
                                                 target:self
                                               selector:@selector(editPreset:) 
-                                      normalStateImage:@"gray_button.png" 
-                                    selectedStateImage:@"blue_button.png"];
+                                      //normalStateImage:@"gray_button.png"
+                                      //selectedStateImage:@"blue_button.png"
+                                      normalStateImage:nil
+                                    selectedStateImage:nil];
             
             presetButton.tag = i;
+            
+            presetButton.layer.cornerRadius = 4;
+            presetButton.layer.borderWidth = 1;
+            presetButton.layer.borderColor = [[UIColor grayColor] CGColor];
+            [presetButton setTitleColor:[Colors blueButton] forState:UIControlStateSelected];
             
             [contentView addSubview:presetButton];
             
@@ -107,7 +115,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UILabel *presetLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 50, 30)];
 		presetLabel.text = _presetText;
 		presetLabel.backgroundColor = [UIColor clearColor];
-		presetLabel.textColor = [UIColor whiteColor];
+		presetLabel.textColor = [UIColor grayColor];
 		
 		[presetView addSubview:presetLabel];
 		[presetLabel release];   
@@ -133,7 +141,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 50, 30)];
 		nameLabel.text = _titleText;
 		nameLabel.backgroundColor = [UIColor clearColor];
-		nameLabel.textColor = [UIColor whiteColor];
+		nameLabel.textColor = [UIColor grayColor];
 		
 		[criteriaView addSubview:nameLabel];
 		[nameLabel release];
@@ -157,7 +165,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UILabel *typeLabel = [[UILabel alloc] initWithFrame:frm];
 		typeLabel.text = _typeText;
 		typeLabel.backgroundColor = [UIColor clearColor];
-		typeLabel.textColor = [UIColor whiteColor];
+		typeLabel.textColor = [UIColor grayColor];
 		
 		[criteriaView addSubview:typeLabel];
 		[typeLabel release];
@@ -170,12 +178,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UIButton *eventButton=[Common createButton:_eventText 
                                         buttonType:UIButtonTypeCustom 
                                              frame:frm
-                                        titleColor:[UIColor whiteColor]
+                                        titleColor:[UIColor grayColor]
                                             target:self
                                           selector:@selector(changeType:) 
-                                  normalStateImage:@"gray_button.png" 
-                                selectedStateImage:@"blue_button.png"];
-		
+                                  //normalStateImage:@"gray_button.png"
+                               //selectedStateImage:@"blue_button.png"
+                               normalStateImage:nil
+                                selectedStateImage:nil];
+        
+        eventButton.layer.cornerRadius = 4;
+        eventButton.layer.borderWidth = 1;
+        eventButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        [eventButton setTitleColor:[Colors blueButton] forState:UIControlStateSelected];
+        
 		eventButton.tag = _taskFilterValues[0];
 		
 		[criteriaView addSubview:eventButton];
@@ -188,11 +203,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UIButton *taskButton=[Common createButton:_taskText
                                        buttonType:UIButtonTypeCustom 
                                             frame:frm
-                                       titleColor:[UIColor whiteColor]
+                                       titleColor:[UIColor grayColor]
                                            target:self
                                          selector:@selector(changeType:) 
-                                 normalStateImage:@"gray_button.png" 
-                               selectedStateImage:@"blue_button.png"];
+                                 //normalStateImage:@"gray_button.png"
+                              //selectedStateImage:@"blue_button.png"
+                              normalStateImage:nil
+                               selectedStateImage:nil];
+        
+        taskButton.layer.cornerRadius = 4;
+        taskButton.layer.borderWidth = 1;
+        taskButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        [taskButton setTitleColor:[Colors blueButton] forState:UIControlStateSelected];
+        
 		taskButton.tag = _taskFilterValues[1];
 		
 		[criteriaView addSubview:taskButton];
@@ -201,14 +224,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
         frm = CGRectMake(230, 50, 80, 30);
 		
-		UIButton *noteButton=[Common createButton:_noteText 
+		UIButton *noteButton = [Common createButton:_noteText
                                        buttonType:UIButtonTypeCustom 
                                             frame:frm
-                                       titleColor:[UIColor whiteColor]
+                                       titleColor:[UIColor grayColor]
                                            target:self
                                          selector:@selector(changeType:) 
-                                 normalStateImage:@"gray_button.png" 
-                               selectedStateImage:@"blue_button.png"];
+                                 //normalStateImage:@"gray_button.png"
+                              //selectedStateImage:@"blue_button.png"
+                              normalStateImage:nil
+                               selectedStateImage:nil];
+        
+        noteButton.layer.cornerRadius = 4;
+        noteButton.layer.borderWidth = 1;
+        noteButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        [noteButton setTitleColor:[Colors blueButton] forState:UIControlStateSelected];
         
 		noteButton.tag = _taskFilterValues[2];
 		
@@ -221,7 +251,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UILabel *tagLabel = [[UILabel alloc] initWithFrame:frm];
 		tagLabel.text = _tagText;
 		tagLabel.backgroundColor = [UIColor clearColor];
-		tagLabel.textColor = [UIColor whiteColor];
+		tagLabel.textColor = [UIColor grayColor];
 		
 		[criteriaView addSubview:tagLabel];
 		[tagLabel release];
@@ -291,11 +321,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UIButton *deleteButton = [Common createButton:_deleteText 
                                              buttonType:UIButtonTypeCustom 
                                                   frame:frm
-                                             titleColor:[UIColor whiteColor]
+                                             titleColor:[Colors redButton]
                                                  target:self
                                                selector:@selector(deletePreset:) 
-                                       normalStateImage:@"blue_button.png" 
+                                       //normalStateImage:@"blue_button.png"
+                                  normalStateImage:nil
                                      selectedStateImage:nil];
+        
+        deleteButton.layer.cornerRadius = 8;
+        deleteButton.layer.borderWidth = 1;
+        deleteButton.layer.borderColor = [[Colors redButton] CGColor];
 		
 		[presetActionView addSubview:deleteButton];
 		
@@ -304,11 +339,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UIButton *saveButton=[Common createButton:_saveText 
 										buttonType:UIButtonTypeCustom 
 											 frame:frm
-										titleColor:[UIColor whiteColor]
+										titleColor:[Colors blueButton]
 											target:self
 										  selector:@selector(savePreset:) 
-								  normalStateImage:@"blue_button.png" 
+								  //normalStateImage:@"blue_button.png"
+                              normalStateImage:nil
 								selectedStateImage:nil];
+        
+        saveButton.layer.cornerRadius = 8;
+        saveButton.layer.borderWidth = 1;
+        saveButton.layer.borderColor = [[Colors blueButton] CGColor];
 		
 		[presetActionView addSubview:saveButton];
         
@@ -317,11 +357,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UIButton *doneButton=[Common createButton:_doneText 
                                        buttonType:UIButtonTypeCustom 
                                             frame:frm
-                                       titleColor:[UIColor whiteColor]
+                                       titleColor:[Colors blueButton]
                                            target:self
                                          selector:@selector(donePreset:) 
-                                 normalStateImage:@"blue_button.png" 
+                                 //normalStateImage:@"blue_button.png"
+                              normalStateImage:nil
                                selectedStateImage:nil];
+        
+        doneButton.layer.cornerRadius = 8;
+        doneButton.layer.borderWidth = 1;
+        doneButton.layer.borderColor = [[Colors blueButton] CGColor];
 		
 		[presetActionView addSubview:doneButton];
         
@@ -336,25 +381,35 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		UIButton *noFilterButton = [Common createButton:_noFilterText 
 										buttonType:UIButtonTypeCustom 
 											 frame:frm
-										titleColor:[UIColor whiteColor]
+										titleColor:[Colors blueButton]
 											target:self
 										  selector:@selector(noFilter:) 
-								  normalStateImage:@"blue_button.png" 
+								  //normalStateImage:@"blue_button.png"
+                                    normalStateImage:nil
 								selectedStateImage:nil];
+        
+        noFilterButton.layer.cornerRadius = 8;
+        noFilterButton.layer.borderWidth = 1;
+        noFilterButton.layer.borderColor = [[Colors blueButton] CGColor];
 		
 		[filterActionView addSubview:noFilterButton];
 		
 		//frm = CGRectMake(self.bounds.size.width - 100 - 10, self.bounds.size.height - barHeight - 40, 100, 30);	
         frm = CGRectMake(self.bounds.size.width - 100 - 10, 0, 100, 30);	
 		
-		UIButton *applyButton=[Common createButton:_applyText 
+		UIButton *applyButton = [Common createButton:_applyText
 										buttonType:UIButtonTypeCustom 
 											 frame:frm
-										titleColor:[UIColor whiteColor]
+										titleColor:[Colors blueButton]
 											target:self
 										  selector:@selector(applyFilter:) 
-								  normalStateImage:@"blue_button.png" 
+								  //normalStateImage:@"blue_button.png"
+                               normalStateImage:nil
 								selectedStateImage:nil];
+        
+        applyButton.layer.cornerRadius = 8;
+        applyButton.layer.borderWidth = 1;
+        applyButton.layer.borderColor = [[Colors blueButton] CGColor];
 		
 		[filterActionView addSubview:applyButton];
 		
@@ -452,7 +507,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	for (NSString *tag in [dict.presetTagDict allKeys])
 	{
 		[tagButtons[j] setTitle:tag forState:UIControlStateNormal];
-		[tagButtons[j] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[tagButtons[j] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 		[tagButtons[j] setEnabled:YES];
 		
 		Project *prj = [prjDict objectForKey:tag];
@@ -626,19 +681,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
         selectedPresetButton.selected = YES;
         
         Settings *settings = [Settings getInstance];
-        
-        /*
-        if (settings.filterPresets.count > 0 && selectedPresetButton.tag < settings.filterPresets.count)
-        {
-            FilterData *dat = [FilterData fromDictionary:[settings.filterPresets objectAtIndex:selectedPresetButton.tag]];
-            
-            [self populateFilterData:dat];
-        }
-        else 
-        {
-            [self populateFilterData:nil];
-        }
-        */
         
         NSString *key = [NSString stringWithFormat:@"%d", selectedPresetButton.tag];
         

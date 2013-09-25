@@ -15,7 +15,7 @@
 #import "ContactManager.h"
 #import "ImageManager.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
 

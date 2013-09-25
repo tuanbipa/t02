@@ -21,7 +21,7 @@
 //extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation NoteLayoutController
 
@@ -55,6 +55,7 @@ extern BOOL _isiPad;
 	
 	if (taskView != nil)
 	{
+        [taskView multiSelect:NO];
         [taskView changeFrame:frm];
 	}
 	else
@@ -71,6 +72,7 @@ extern BOOL _isiPad;
     taskView.checkEnable = !_iPadViewCtrler.inSlidingMode;
     taskView.showSeparator = YES;
     [taskView enableMove:_isiPad?![task isShared]:NO];
+
     [taskView refreshCheckImage];
     
     [taskView setNeedsDisplay];

@@ -1227,6 +1227,19 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return ret;
 }
 
++ (NSString *) getFullDateString4:(NSDate *)argDate
+{
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	
+	[dateFormatter setDateFormat:@"EEE, MMM yyyy"];
+	
+	NSString *ret = [dateFormatter stringFromDate:argDate];
+	
+	[dateFormatter release];
+	
+	return ret;
+}
+
 + (NSString *) getFullDateTimeString:(NSDate *)argDate
 {
     /*

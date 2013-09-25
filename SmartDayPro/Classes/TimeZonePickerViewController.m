@@ -22,7 +22,7 @@
 
 extern iPadViewController *_iPadViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation TimeZonePickerViewController
 

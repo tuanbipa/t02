@@ -24,7 +24,7 @@
 #import "CalendarViewController.h"
 
 extern CalendarViewController *_sc2ViewCtrler;
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation MonthlyCalendarView
 
@@ -41,7 +41,8 @@ extern BOOL _isiPad;
 		todayCellIndex = -1;
         nDays = 0;
         nWeeks = 0;
-        self.skinStyle = _isiPad?0:1;
+        //self.skinStyle = _isiPad?0:1;
+        self.skinStyle = 0;
 		
 		CGFloat width = frame.size.width;
 		CGFloat dayWidth = floor(width/7);

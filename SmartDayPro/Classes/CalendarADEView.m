@@ -65,7 +65,7 @@
     
     //CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
     
-    int y = 0;
+    int y = 5;
     
     for (int i=0; i<self.adeList.count; i++)
     {
@@ -95,22 +95,25 @@
     
     if (self.adeList.count == 1)
     {
-        h = 30;
+        //h = 30;
+        h = 45;
     }
     else if (self.adeList.count == 2)
     {
-        h = 70;
+        //h = 70;
+        h = 80;
     }
     else if (self.adeList.count > 2)
     {
-        h = 90;
+        //h = 90;
+        h = 100;
     }
     
     CGRect frm = self.frame;
     frm.size.height = h;
     self.frame = frm;
     
-    self.contentSize = CGSizeMake(self.bounds.size.width, y);
+    self.contentSize = CGSizeMake(self.bounds.size.width, y + 5);
     self.contentOffset = CGPointMake(0, 0);
 }
 

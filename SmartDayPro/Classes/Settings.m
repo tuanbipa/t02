@@ -43,7 +43,7 @@ BOOL _firstLaunch = NO;
 
 extern BOOL _scFreeVersion;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation Settings
 

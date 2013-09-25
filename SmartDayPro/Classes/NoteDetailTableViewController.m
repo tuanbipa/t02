@@ -44,7 +44,7 @@ extern PlannerViewController *_plannerViewCtrler;
 extern DetailViewController *_detailViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @interface NoteDetailTableViewController ()
 

@@ -26,7 +26,7 @@
 
 extern BOOL _tagHintShown;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation TagListViewController
 
@@ -188,7 +188,7 @@ extern BOOL _isiPad;
 									  buttonType:UIButtonTypeCustom
 										   //frame:CGRectMake(mod*100 + 5, div*30 + 5, 90, 25)
                                   frame:CGRectMake(mod*(w+10) + 10, div*30 + 5, w, 25)
-									  titleColor:[UIColor blackColor]
+									  titleColor:[UIColor darkGrayColor]
 										  target:self 
 										selector:@selector(selectPreset:) 
 								normalStateImage:@"sort_button.png"
@@ -208,7 +208,7 @@ extern BOOL _isiPad;
 	for (NSString *tag in [dict.presetTagDict allKeys])
 	{
 		[presetButtons[j] setTitle:tag forState:UIControlStateNormal];
-		[presetButtons[j] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[presetButtons[j] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 		
 		Project *prj = [prjDict objectForKey:tag];
 		
@@ -265,11 +265,13 @@ extern BOOL _isiPad;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if(section != 0)
-        return 40.0f;
+        //return 40.0f;
+        return 20.0f;
     
     return 0.01f;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section != 0)
@@ -289,6 +291,7 @@ extern BOOL _isiPad;
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
+*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer

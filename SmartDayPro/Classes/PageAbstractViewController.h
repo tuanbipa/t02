@@ -27,7 +27,11 @@
 - (void) deselect;
 - (Task *) getSelectedTask;
 - (Project *) getSelectedCategory;
+
+//Multi-Edit
 - (void) enableMultiEdit:(BOOL)enabled;
+- (NSMutableArray *) getMultiEditList;
+- (void) cancelMultiEdit;
 
 - (void) changeFrame:(CGRect)frm;
 - (void)refreshLayout;

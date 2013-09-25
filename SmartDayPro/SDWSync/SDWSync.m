@@ -1281,7 +1281,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
 	
-    //printf("getCategories: %s\n", [url UTF8String]);
+    printf("getCategories: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -1302,9 +1302,9 @@ NSInteger _sdwColor[32] = {
     
     if (urlData) 
     {
-        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        //printf("get categories returns:\n%s\n", [str UTF8String]);
+        printf("get categories returns:\n%s\n", [str UTF8String]);
 
         NSMutableArray *prjList = [NSMutableArray arrayWithArray: pm.projectList];
         
@@ -2384,9 +2384,9 @@ NSInteger _sdwColor[32] = {
     
     if (urlData) 
     {
-        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
-        //printf("SDW get tasks return:\n%s\n", [str UTF8String]);
+        printf("SDW get tasks return:\n%s\n", [str UTF8String]);
         
         NSMutableArray *taskList = [dbm getItems2Sync];
         
@@ -5089,7 +5089,7 @@ NSInteger _sdwColor[32] = {
     NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",[email lowercaseString],pass,SDWAppRegId]];
     NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&appreg=%@&sig=%@",SDWSite,email,SDWAppRegId,sig];
     
-    //printf("getToken: %s\n", [url UTF8String]);
+    printf("getToken: %s\n", [url UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -5103,7 +5103,7 @@ NSInteger _sdwColor[32] = {
 
     if (error != nil)
     {
-        //printf("get Token error code %d - %s\n", error.code, [[error description] UTF8String]);
+        printf("get Token error code %d - %s\n", error.code, [[error description] UTF8String]);
         
         /*if (error.code == -1004)
         {
@@ -5117,7 +5117,7 @@ NSInteger _sdwColor[32] = {
     if (urlData)
     {
         NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
-        //printf("getToken return:\n%s\n", [str UTF8String]);
+        printf("getToken return:\n%s\n", [str UTF8String]);
         
         NSDictionary *result = [self getDictionaryResult:urlData];
         

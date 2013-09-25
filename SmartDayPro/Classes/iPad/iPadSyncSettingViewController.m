@@ -403,11 +403,13 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if(section == 1)
-        return 40.0f;
+        return 20.0f;
     
-    return 0.01f;
+    //return 0.01f;
+    return 0;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 1)
@@ -427,6 +429,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
+*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
@@ -436,8 +439,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section)
     {
-        case 0:
-            return _synchronizationText;
+        //case 0:
+            //return _synchronizationText;
 		case 1:
 			return _syncSetupText;
 	}

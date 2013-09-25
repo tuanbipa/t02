@@ -242,8 +242,8 @@
 
 //pragma mark SyncWindow2SettingViewController
 "_syncWindowText" = "Sync Window";
-"_syncFromToText" = "   Sync From               Sync To";
-"_syncFromTo4iPadText" = "   Sync From                                 Sync To";
+"_syncFromToText" = "Sync From                      Sync To";
+"_syncFromTo4iPadText" = "Sync From                                              Sync To";
 "_syncFromText" = "Sync From";
 "_syncToText" = "Sync To";
 

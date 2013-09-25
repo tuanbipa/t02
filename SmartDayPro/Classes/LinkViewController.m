@@ -34,7 +34,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 extern iPadViewController *_iPadViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @interface LinkViewController ()
 
@@ -291,11 +291,13 @@ extern BOOL _isiPad;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if(section == 1)
-        return 40.0f;
+        //return 40.0f;
+        return 20.0f;
     
     return 0.01f;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 1)
@@ -315,10 +317,21 @@ extern BOOL _isiPad;
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
+*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
     return 0.01f;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	switch (section)
+    {
+		case 1:
+			return _assetsText;
+	}
+	return @"";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -23,6 +23,8 @@ extern void strokeRoundedRect(CGContextRef context, CGRect rect, float ovalWidth
 extern void gradientRoundedRect(CGContextRef context, CGRect rect, float ovalWidth, float ovalHeight, CGFloat components[], CGFloat locations[], size_t num_locations);
 extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[], CGFloat locations[], size_t num_locations);
 
+extern BOOL _isiPad;
+
 #define ToodledoAppID @"SmartCal"
 #define ToodledoAppToken @"api4ce4d580c343e"
 
@@ -122,7 +124,7 @@ extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[]
 #define WEEKVIEW_FREETIME_WIDTH 10
 #define MONTHVIEW_FREETIME_WIDTH 10
 
-#define MINI_MONTH_HEADER_HEIGHT 100
+#define MINI_MONTH_HEADER_HEIGHT (_isiPad?100:60)
 #define MINI_MONTH_WEEK_HEADER_WIDTH 28
 
 #define MINI_BAR_HEIGHT 20
@@ -510,7 +512,6 @@ typedef struct
 	NSInteger totalDuration;
 } PlanInfo;
 
-
 @interface Common : NSObject {
 }
 /*
@@ -576,6 +577,7 @@ typedef struct
 + (NSString *) getFullDateString:(NSDate *)argDate;
 + (NSString *) getFullDateString2:(NSDate *)argDate;
 + (NSString *) getFullDateString3:(NSDate *)argDate;
++ (NSString *) getFullDateString4:(NSDate *)argDate;
 + (NSString *) getFullDateTimeString:(NSDate *)argDate;
 + (NSString *) getFullDateTimeString2:(NSDate *)argDate;
 + (NSString *) getCalendarDateString:(NSDate *)argDate;
@@ -611,4 +613,6 @@ typedef struct
 + (BOOL)validateEmail:(NSString *)candidate;
 + (NSString *)md5:(NSString *)str;
 + (NSString *)getFilePath: (NSString *) path;
+
 @end
+

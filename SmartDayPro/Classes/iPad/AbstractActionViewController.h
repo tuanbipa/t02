@@ -33,14 +33,15 @@
     
     UIView *optionView;
     UIImageView *optionImageView;
-    
-    //Task *actionTask;
-    //Task *actionTaskCopy;
+
+    UIToolbar *multiEditBar;
+    NSInteger multiCount;
 }
 
 @property (nonatomic, retain) Task *task2Link;
 @property (nonatomic, retain) Task *actionTask;
 @property (nonatomic, retain) Task *actionTaskCopy;
+@property (nonatomic, retain) Project *actionProject;
 
 @property (nonatomic, retain) MovableView *activeView;
 @property (nonatomic, readonly) ContentView *contentView;
@@ -115,6 +116,11 @@
 - (void) showSettingMenu;
 // cancel multi edit
 - (void)cancelEdit;
+
+//multi-edit
+- (void) multiEdit:(BOOL) check;
+- (void) hideMultiEditBar;
+- (void) confirmMultiDeleteTask;
 
 - (void) backup;
 - (void) sync;

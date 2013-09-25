@@ -44,8 +44,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		[contentView release];		
 		
 		UIView *backgroundView = [[UIView alloc] initWithFrame:self.bounds];
-		backgroundView.backgroundColor = [UIColor blackColor];
-		backgroundView.alpha = 0.8;
+        backgroundView.backgroundColor = [UIColor colorWithRed:217.0/255 green:217.0/255 blue:217.0/255 alpha:1];
+		//backgroundView.backgroundColor = [UIColor blackColor];
+		//backgroundView.alpha = 0.8;
 		
 		[contentView addSubview:backgroundView];
 		[backgroundView release];
@@ -66,22 +67,33 @@ extern AbstractSDViewController *_abstractViewCtrler;
 										 buttonType:UIButtonTypeCustom
 											  //frame:CGRectMake(frame.size.width - 100, 40, 80, 30) 
 							  frame:CGRectMake(pad + 20, 10, 80, 30) 
-										 titleColor:[UIColor whiteColor] 
+										 titleColor:[Colors blueButton]
 											 target:self 
 										   selector:@selector(goAction:) 
-								   normalStateImage:@"blue_button.png" 
+								   //normalStateImage:@"blue_button.png"
+                              normalStateImage:nil
 								 selectedStateImage:nil];
 		[contentView addSubview:goButton];
+        
+        goButton.layer.cornerRadius = 4;
+        goButton.layer.borderWidth = 1;
+        goButton.layer.borderColor = [[Colors blueButton] CGColor];
 
 		UIButton *todayButton = [Common createButton:_todayText 
 									 buttonType:UIButtonTypeCustom
 										  //frame:CGRectMake(frame.size.width - 100, 110, 80, 30) 
 								 frame:CGRectMake(frame.size.width - pad - 100, 10, 80, 30) 
-									 titleColor:[UIColor whiteColor] 
+									 titleColor:[Colors blueButton]
 										 target:self 
 									   selector:@selector(goToday:) 
-							   normalStateImage:@"blue_button.png" 
+							   //normalStateImage:@"blue_button.png"
+                                 normalStateImage:nil
 							 selectedStateImage:nil];
+        
+        todayButton.layer.cornerRadius = 4;
+        todayButton.layer.borderWidth = 1;
+        todayButton.layer.borderColor = [[Colors blueButton] CGColor];
+        
 		[contentView addSubview:todayButton];
 		
 	}

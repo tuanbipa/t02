@@ -45,6 +45,11 @@
 #import "ProjectEditViewController.h"
 #import "CalendarSelectionTableViewController.h"
 
+#import "NoteDetailViewController.h"
+#import "TaskReadonlyDetailViewController.h"
+#import "DetailViewController.h"
+#import "NoteContentViewController.h"
+
 #import "CalendarViewController.h"
 #import "SmartListViewController.h"
 #import "CategoryViewController.h"
@@ -136,36 +141,6 @@ extern BOOL _gtdoTabHintShown;
     [super dealloc];
 }
 
-/*
-- (void) initViewControllers
-{
-    for (int i=0; i<TAB_NUM; i++)
-    {
-        PageAbstractViewController *ctrler = nil;
-        
-        switch (i) 
-        {
-            case 0:
-                ctrler = [[CalendarViewController alloc] init];       
-                break;
-            case 1:
-                ctrler = [[SmartListViewController alloc] init];
-                break;
-            case 2:
-                ctrler = [[NoteViewController alloc] init];
-                break;
-            case 3:
-                ctrler = [[CategoryViewController alloc] init];                    
-                break;
-        }
-        
-        [ctrler loadView];
-        
-        viewCtrlers[i] = ctrler;
-    }
-}
-*/
-
 - (BOOL) checkControllerActive:(NSInteger)index
 {
     UIViewController *ctrler = viewCtrlers[index];
@@ -182,7 +157,7 @@ extern BOOL _gtdoTabHintShown;
 {
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]){
         [self.navigationController.navigationBar setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"top_bg.png"] forBarMetrics:UIBarMetricsDefault];
-    }    
+    }
 }
 
 
@@ -288,8 +263,14 @@ extern BOOL _gtdoTabHintShown;
             case TASK_FILTER_DUE:
                 title = _dueText;
                 break;
-            case TASK_FILTER_ACTIVE:
+            /*case TASK_FILTER_ACTIVE:
                 title = _startText;
+                break;*/
+            case TASK_FILTER_LONG:
+                title = _longText;
+                break;
+            case TASK_FILTER_SHORT:
+                title = _shortText;
                 break;
             case TASK_FILTER_DONE:
                 title = _doneText;
@@ -318,11 +299,13 @@ extern BOOL _gtdoTabHintShown;
     {
         UIButton *menuButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(0, 10, 35, 30)
+                                              //frame:CGRectMake(0, 10, 35, 30)
+                                frame:CGRectMake(0, 0, 40, 40)
                                          titleColor:nil
                                              target:self
                                            selector:@selector(showMenu:)
-                                   normalStateImage:@"menu_icon.png"
+                                   //normalStateImage:@"menu_icon.png"
+                                normalStateImage:@"bar_setting.png"
                                  selectedStateImage:nil];
         
         UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
@@ -397,8 +380,10 @@ extern BOOL _gtdoTabHintShown;
                         title = _allText;
                         break;
                     case NOTE_FILTER_CURRENT:
-                        //title = _todayText;
                         title = _currentText;
+                        break;
+                    case NOTE_FILTER_WEEK:
+                        title = _thisWeekText;
                         break;
                 }
                 
@@ -425,6 +410,9 @@ extern BOOL _gtdoTabHintShown;
                     case TYPE_NOTE:
                         title = _notesText;
                         break;
+                    case TASK_FILTER_PINNED:
+                        title = _anchoredText;
+                        break;
                 }
                 self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
                 
@@ -433,6 +421,7 @@ extern BOOL _gtdoTabHintShown;
                 break;
         }
         
+        /*
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         addButton.backgroundColor = [UIColor clearColor];
         [addButton setImage:[[ImageManager getInstance] getImageWithName:@"menu_addnew.png"] forState:UIControlStateNormal];
@@ -452,6 +441,7 @@ extern BOOL _gtdoTabHintShown;
         self.navigationItem.rightBarButtonItem = addButtonItem;
         
         [addButtonItem release];
+        */
         
         [self.navigationController.navigationBar addSubview:filterIndicator];
     }
@@ -1021,6 +1011,7 @@ extern BOOL _gtdoTabHintShown;
     [menuCtrler setMenuVisible:YES animated:YES];
 }
 
+/*
 - (void) enableActions:(BOOL)enable onView:(TaskView *)view
 {
 	if ([[BusyController getInstance] checkSyncBusy])
@@ -1076,461 +1067,62 @@ extern BOOL _gtdoTabHintShown;
     
     [previewPane show];
 }
-
-- (void) editTask:(Task *)task
+*/
+ 
+-(void) editItemDetail:(Task *)item
 {
-    if ([task isNote])
-    {
-        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-        ctrler.note = task;
-        
-        [self.navigationController pushViewController:ctrler animated:YES];
-        [ctrler release];	                
-    }
-    else 
-    {
-        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-        
-        ctrler.task = task;		
-        
-        [self.navigationController pushViewController:ctrler animated:YES];
-        [ctrler release];	        
-    }
-}
-
-/*
-- (void) editItem:(Task *)item inView:(TaskView *)inView
-{
+    UIViewController *editCtrler = nil;
+    
     if ([item isNote])
     {
-        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+        NoteDetailViewController *ctrler = [[NoteDetailViewController alloc] init];
         ctrler.note = item;
         
-        [self.navigationController pushViewController:ctrler animated:YES];
-        [ctrler release];
+        editCtrler = ctrler;
+
+    }
+    else if ([item isShared])
+    {
+        TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
+        ctrler.task = item;
+
+        editCtrler = ctrler;
     }
     else
     {
-        TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
+        DetailViewController *ctrler = [[DetailViewController alloc] init];
         
         ctrler.task = item;
         
-        [self.navigationController pushViewController:ctrler animated:YES];
-        [ctrler release];
+        editCtrler = ctrler;
     }
+    
+    if (editCtrler != nil)
+    {
+        [self.navigationController pushViewController:editCtrler animated:YES];
+        [editCtrler release];
+    }
+    
 }
 
-- (void) editProject:(Project *)project inView:(PlanView *)inView
+- (void) editProjectDetail:(Project *)project
 {
-    [self editCategory:project];
+    ProjectEditViewController *ctrler = [[ProjectEditViewController alloc] init];
+    ctrler.project = project;
+
+    [self.navigationController pushViewController:ctrler animated:YES];
+    [ctrler release];
 }
 
-- (void) markDoneTaskInView:(TaskView *)view
+- (void) editNoteContent:(Task *)note
 {
-    //Task *task = (Task *)view.tag;
-    Task *task = view.task;
-    
-    [task retain];
-    
-    [self deselect];
-    
-    NSDate *oldDue = [[task.deadline copy] autorelease];
-    BOOL isRT = [task isRT]; //note: task original could be removed from task list so need to store this information instead of directly call the method after done
-        
-    TaskManager *tm = [TaskManager getInstance];
-    
-    if ([task isDone])
-    {
-        [tm unDone:task];
-    }
-    else 
-    {
-        [tm markDoneTask:task];
-    }
+    NoteContentViewController *ctrler = [[NoteContentViewController alloc] init];
+    ctrler.note = note;
 
-    [self.miniMonthView.calView refreshCellByDate:oldDue];
-        
-    if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-    {
-        CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-        
-        //remove done task from list
-        [ctrler markDoneTask:task];
-    }
-    else if (isRT)
-    {
-        [self.miniMonthView.calView refreshCellByDate:task.deadline];
-        
-        [view setNeedsDisplay];
-    }
-    
-    [task release];
+    [self.navigationController pushViewController:ctrler animated:YES];
+    [ctrler release];
 }
 
-- (void) starTaskInView:(TaskView *)taskView
-{
-    [super starTaskInView:taskView];
-    
-    if ([self.activeViewCtrler isKindOfClass:[SmartListViewController class]])
-    {
-        SmartListViewController *ctrler = (SmartListViewController *) self.activeViewCtrler;
-        
-        [ctrler starTaskInView:taskView];
-    }
-    else 
-    {
-        [taskView refreshStarImage];
-        
-        SmartListViewController *ctrler = [self getSmartListViewController];
-        [ctrler setNeedsDisplay];
-    }
-    
-}
-
-- (void) deleteRE
-{
-    TaskManager *tm = [TaskManager getInstance];
-    
-    Task *task = [self getActiveTask];
-    
-    [task retain];
-    
-    [self deselect];
-    
-    NSInteger pk = task.primaryKey;
-    
-    if (task.original != nil && ![task isREException])
-    {
-        pk = task.original.primaryKey;
-    }
-    
-    if (pk == self.task2Link.primaryKey)
-    {
-        self.task2Link = nil;
-    }
-    
-    Task *rootRE = [tm findREByKey:task.primaryKey];
-    
-    if (rootRE != nil)
-    {
-        Task *instance = [[rootRE copy] autorelease];
-        instance.original = rootRE;
-        
-        [tm deleteREInstance:instance deleteOption:2];
-        
-        [self.miniMonthView.calView refresh];
-        
-        if ([task isADE])
-        {
-            [self.miniMonthView.calView refreshADEView];
-            
-            CalendarViewController *ctrler = [self getCalendarViewController];
-            [ctrler refreshADEPane];//refresh ADE
-        }
-        
-        if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-        {
-            CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-            
-            [ctrler loadAndShowList];
-        }
-    }
-    
-    [task release];
-}
-
--(void) deleteRE:(NSInteger)deleteOption
-{
-    //Task *task = [self.activeViewCtrler getSelectedTask];
-    Task *task = [self getActiveTask];
-    
-    NSInteger pk = task.primaryKey;
-    
-    if (task.original != nil && ![task isREException])
-    {
-        pk = task.original.primaryKey;
-    }
-    
-    if (pk == self.task2Link.primaryKey)
-    {
-        self.task2Link = nil;
-    }
-    
-    [task retain];
-    
-    [self deselect];
-	
-	[[TaskManager getInstance] deleteREInstance:task deleteOption:deleteOption];
-    
-    [self.miniMonthView.calView refresh];
-    
-    CalendarViewController *calCtrler = [self getCalendarViewController];
-    
-    [calCtrler refreshView];
-    
-    if ([task isADE])
-    {
-        [self.miniMonthView.calView refreshADEView];
-        
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        [ctrler refreshADEPane];//refresh ADE
-    }    
-    
-    if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-    {
-        CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-        
-        [ctrler loadAndShowList];
-    }
-    
-    [task release];
-}
-
-- (void) doDeleteTask
-{
-    TaskManager *tm = [TaskManager getInstance];
-    
-    Task *task = [self getActiveTask];
-    
-    [task retain];
-    
-    [self deselect];
-    
-    NSInteger pk = task.primaryKey;
-    
-    if (task.original != nil && ![task isREException])
-    {
-        pk = task.original.primaryKey;
-    }
-    
-    if (pk == self.task2Link.primaryKey)
-    {
-        self.task2Link = nil;
-    }
-        
-    if ([task isNote])
-    {
-        [tm deleteTask:task];
-
-        [self changeItem:task action:TASK_DELETE];
-    }
-    else 
-    {
-        //note: task original could be removed from task list so need to store neccessary information instead of directly call methods on the task after done
-        BOOL isRE = [task isRE];
-        NSInteger type = task.type;
-        NSDate *start = [[task.startTime copy] autorelease];
-        NSDate *deadline = [[task.deadline copy] autorelease];
-        
-        [tm deleteTask:task];
-        
-        if (isRE)
-        {
-            [self.miniMonthView.calView refresh];
-        }
-        
-        if (type == TYPE_ADE)
-        {
-            [self.miniMonthView.calView refreshADEView];            
-        }
-        else if (type == TYPE_TASK)
-        {
-            if (start != nil)
-            {
-                [self.miniMonthView.calView refreshCellByDate:start];
-            }
-            
-            if (deadline != nil)
-            {
-                [self.miniMonthView.calView refreshCellByDate:deadline];
-            }
-        }
-        else if (type == TYPE_EVENT)
-        {
-            [self.miniMonthView.calView refreshCellByDate:start];
-        }  
-        
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        [ctrler refreshADEPane];//refresh ADE for any link removement
-        
-        if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-        {
-            CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-            
-            [ctrler loadAndShowList];
-        }
-    }
-    
-    [task release];
-}
-
-- (void) deleteTask
-{
-    //Task *task = [self.activeViewCtrler getSelectedTask];
-    
-    Task *task = [self getActiveTask];
-    
-    if (task != nil)
-    {
-        if (task.primaryKey == -1 && task.original != nil && [task.original isRE]) //change RE
-        {
-            UIAlertView *deleteREAlert= [[UIAlertView alloc] initWithTitle:_deleteRETitleText  message:_deleteREInstanceText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
-            deleteREAlert.tag = -11000;
-            [deleteREAlert addButtonWithTitle:_onlyInstanceText];
-            [deleteREAlert addButtonWithTitle:_allEventsText];
-            [deleteREAlert addButtonWithTitle:_allFollowingText];
-            [deleteREAlert show];
-            [deleteREAlert release];
-        }
-        else if ([[Settings getInstance] deleteWarning])
-        {
-            if ([task isRE])
-            {
-                UIAlertView *deleteREAlert= [[UIAlertView alloc] initWithTitle:_deleteRETitleText  message:_deleteAllInSeriesText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
-                deleteREAlert.tag = -12000;
-                [deleteREAlert show];
-                [deleteREAlert release];                
-            }
-            else 
-            {
-                NSString *msg = _itemDeleteText;
-                NSInteger tag = -10000;
-                
-                UIAlertView *taskDeleteAlertView = [[UIAlertView alloc] initWithTitle:_itemDeleteTitle  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
-                
-                taskDeleteAlertView.tag = tag;
-                
-                [taskDeleteAlertView addButtonWithTitle:_okText];
-                [taskDeleteAlertView show];
-                [taskDeleteAlertView release];                
-                
-            }
-        }
-        else 
-        {
-            [self doDeleteTask];
-        }
-    }
-}
-
-- (void) copyTask
-{
-    //Task *task = [self.activeViewCtrler getSelectedTask];
-    Task *task = [self getActiveTask];
-    
-    [task retain];
-    
-    [self deselect];
-    
-    if (task != nil)
-    {
-        Task *tmp = task;
-        
-        if (task.original != nil && ![task isREException])
-        {
-            tmp = task.original;
-        }
-        
-        Task *taskCopy = [[tmp copy] autorelease];
-        
-        taskCopy.primaryKey = -1;
-        taskCopy.name = ([tmp isNote]?taskCopy.name:[NSString stringWithFormat:@"%@ (copy)", taskCopy.name]);
-        taskCopy.links = nil;
-        
-        if ([task isREException])
-        {
-            taskCopy.groupKey = -1;
-            taskCopy.repeatData = nil;
-            taskCopy.original = nil;
-        }
-        
-        [self editTask:taskCopy];
-    }
-    
-    [task release];
-}
-
-- (void) markDoneTask
-{
-    Task *task = [self getActiveTask];
-    
-    if (task != nil)
-    {
-        [task retain];
-        
-        [self deselect];
-        
-        TaskManager *tm = [TaskManager getInstance];
-        
-        NSDate *oldDeadline = [[task.deadline copy] autorelease];
-        BOOL isRT = [task isRT];
-        
-        [tm markDoneTask:task];
-        
-        [self.miniMonthView.calView refreshCellByDate:oldDeadline];
-        
-        if (isRT)
-        {
-            [self.miniMonthView.calView refreshCellByDate:task.deadline];
-        }        
-        
-        [task release];
-    }
-}
-
-- (void) changeItem:(Task *)task action:(NSInteger)action
-{
-    if ([task isNote])
-    {
-        if ([self.activeViewCtrler isKindOfClass:[NoteViewController class]])
-        {
-            NoteViewController *ctrler = (NoteViewController *) self.activeViewCtrler;
-            
-            [ctrler loadAndShowList];
-        }
-        else if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-        {
-            CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-            
-            if (ctrler.filterType == TYPE_NOTE)
-            {
-                [ctrler loadAndShowList];
-            }
-        }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil];
-    }
-    else if ([task isEvent])
-    {
-        if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-        {
-            CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-            
-            if (ctrler.filterType == TYPE_EVENT)
-            {
-                [ctrler loadAndShowList];
-            }
-        }
-        
-        CalendarViewController *ctrler = [self getCalendarViewController];
-        
-        [ctrler refreshLayout];
-        
-    }
-    else if ([task isTask])
-    {
-        if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]])
-        {
-            CategoryViewController *ctrler = (CategoryViewController *) self.activeViewCtrler;
-            
-            if (ctrler.filterType == TYPE_TASK)
-            {
-                [ctrler loadAndShowList];
-            }
-        }        
-    }
-}
-*/
 #pragma mark Actions
 - (void) addNote:(id) sender
 {
@@ -1635,6 +1227,7 @@ extern BOOL _gtdoTabHintShown;
     [self editCategory:project];
 }
 
+/*
 - (void) add:(id)sender
 {
     switch (selectedTabButton.tag)
@@ -1661,6 +1254,7 @@ extern BOOL _gtdoTabHintShown;
         [self showAddMenu:nil];
     }
 }
+*/
 
 - (void)tab:(id)sender
 {
@@ -1826,6 +1420,7 @@ extern BOOL _gtdoTabHintShown;
     [super sync];
 }
 
+/*
 - (void) multiEdit:(id) sender
 {
     [self hideDropDownMenu];
@@ -1843,6 +1438,7 @@ extern BOOL _gtdoTabHintShown;
         [ctrler multiEdit:YES];
     }
 }
+*/
 
 - (void) showToday:(id)sender
 {
@@ -2178,6 +1774,7 @@ extern BOOL _gtdoTabHintShown;
 }
 
 #pragma mark Views
+
 - (void)createNavigationView
 {
     //navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 416-40, 320, 40)];
@@ -2543,11 +2140,149 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) createTasksMenuView
 {
-	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 250)];
+	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
 	menuView.hidden = YES;
 	menuView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:menuView];
 	[menuView release];	
+	
+	menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+	menuImageView.alpha = 0.9;
+	[menuView addSubview:menuImageView];
+	[menuImageView release];
+    
+	UIImageView *filterImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 30, 30)];
+	filterImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_filter.png"];
+	[menuView addSubview:filterImageView];
+	[filterImageView release];
+	
+	UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 160, 25)];
+	filterLabel.text = _filterText;
+	filterLabel.textColor = [UIColor whiteColor];
+	filterLabel.backgroundColor = [UIColor clearColor];
+	filterLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:filterLabel];
+	[filterLabel release];
+	filterLabel.tag = 10000 + TASK_FILTER_GLOBAL;
+	
+	UIButton *filterButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom 
+                                            frame:CGRectMake(0, 22, menuView.bounds.size.width, 30)
+                                       titleColor:nil 
+                                           target:self 
+                                         selector:@selector(showFilterView:) 
+                                 normalStateImage:nil
+                               selectedStateImage:nil];
+	filterButton.titleLabel.font = [UIFont systemFontOfSize:18];
+	[menuView addSubview:filterButton];	
+	
+	UIImageView *syncImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 55, 30, 30)];
+	syncImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_sync.png"];
+	[menuView addSubview:syncImageView];
+	[syncImageView release];
+    
+	UILabel *syncLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+	syncLabel.text = _syncText;
+	syncLabel.textColor = [UIColor whiteColor];
+	syncLabel.backgroundColor = [UIColor clearColor];
+	syncLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:syncLabel];
+	[syncLabel release];	
+	
+	UIButton *syncButton=[Common createButton:@"" 
+								   buttonType:UIButtonTypeCustom 
+										frame:CGRectMake(0, 57, menuView.bounds.size.width, 30)
+								   titleColor:nil
+									   target:self 
+									 selector:@selector(sync:) 
+							 normalStateImage:nil
+						   selectedStateImage:nil];
+	syncButton.titleLabel.font=[UIFont systemFontOfSize:18];
+	
+	[menuView addSubview:syncButton];
+    
+	UIImageView *hideImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, 30, 30)];
+	hideImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_showhide.png"];
+	[menuView addSubview:hideImageView];
+	[hideImageView release];
+	
+	UILabel *hideLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
+	hideLabel.text = _showHideCategoryText;
+	hideLabel.textColor = [UIColor whiteColor];
+	hideLabel.backgroundColor = [UIColor clearColor];
+	hideLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:hideLabel];
+	[hideLabel release];	
+	
+	UIButton *hideButton=[Common createButton:@"" 
+                                   buttonType:UIButtonTypeCustom 
+                                        frame:CGRectMake(0, 92, menuView.bounds.size.width, 30)
+                                   titleColor:nil
+                                       target:self 
+                                     selector:@selector(showHideCategory:) 
+                             normalStateImage:nil
+                           selectedStateImage:nil];
+	hideButton.titleLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:hideButton];    
+
+    
+	UIImageView *settingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 125, 30, 30)];
+	settingImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_setting.png"];
+	[menuView addSubview:settingImageView];
+	[settingImageView release];
+	
+	UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
+	settingLabel.text = _settingTitle;
+	settingLabel.textColor = [UIColor whiteColor];
+	settingLabel.backgroundColor = [UIColor clearColor];
+	settingLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:settingLabel];
+	[settingLabel release];	
+	
+	UIButton *settingButton=[Common createButton:@"" 
+									  buttonType:UIButtonTypeCustom 
+										   frame:CGRectMake(0, 127, menuView.bounds.size.width, 30)
+									  titleColor:nil
+										  target:self 
+										selector:@selector(editSetting:) 
+								normalStateImage:nil
+							  selectedStateImage:nil];
+	settingButton.titleLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:settingButton];
+    
+	UIImageView *backupImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 160, 30, 30)];
+	backupImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_backup.png"];
+	[menuView addSubview:backupImageView];
+	[backupImageView release];
+	
+	UILabel *backupLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 162, 120, 25)];
+	backupLabel.text = _backupText;
+	backupLabel.textColor = [UIColor whiteColor];
+	backupLabel.backgroundColor = [UIColor clearColor];
+	backupLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:backupLabel];
+	[backupLabel release];	
+	
+	UIButton *backupButton=[Common createButton:@"" 
+                                     buttonType:UIButtonTypeCustom 
+                                          frame:CGRectMake(0, 162, menuView.bounds.size.width, 30)
+                                     titleColor:nil
+                                         target:self 
+                                       selector:@selector(backup:) 
+                               normalStateImage:nil
+                             selectedStateImage:nil];
+	backupButton.titleLabel.font=[UIFont systemFontOfSize:18];
+	[menuView addSubview:backupButton];    
+    
+}
+
+- (void) createTasksMenuView_old
+{
+	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 250)];
+	menuView.hidden = YES;
+	menuView.backgroundColor = [UIColor clearColor];
+	[contentView addSubview:menuView];
+	[menuView release];
 	
 	menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 250)];
 	menuImageView.alpha = 0.9;
@@ -2568,15 +2303,15 @@ extern BOOL _gtdoTabHintShown;
 	[multiEditLabel release];
 	
 	UIButton *multiEditButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom 
-                                            frame:CGRectMake(0, 22, menuView.bounds.size.width, 30) 
-                                       titleColor:nil 
-                                           target:self 
-                                         selector:@selector(multiEdit:) 
-                                 normalStateImage:nil
-                               selectedStateImage:nil];
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(0, 22, menuView.bounds.size.width, 30)
+                                          titleColor:nil
+                                              target:self
+                                            selector:@selector(multiEdit:)
+                                    normalStateImage:nil
+                                  selectedStateImage:nil];
 	multiEditButton.titleLabel.font = [UIFont systemFontOfSize:18];
-	[menuView addSubview:multiEditButton];    
+	[menuView addSubview:multiEditButton];
     
     UIImageView *separatorImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 50, menuView.bounds.size.width-10, 2)];
 	separatorImgView.image = [[ImageManager getInstance] getImageWithName:@"menu_separator.png"];
@@ -2598,15 +2333,15 @@ extern BOOL _gtdoTabHintShown;
 	filterLabel.tag = 10000 + TASK_FILTER_GLOBAL;
 	
 	UIButton *filterButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom 
-                                            frame:CGRectMake(0, 57, menuView.bounds.size.width, 30) 
-                                       titleColor:nil 
-                                           target:self 
-                                         selector:@selector(showFilterView:) 
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(0, 57, menuView.bounds.size.width, 30)
+                                       titleColor:nil
+                                           target:self
+                                         selector:@selector(showFilterView:)
                                  normalStateImage:nil
                                selectedStateImage:nil];
 	filterButton.titleLabel.font = [UIFont systemFontOfSize:18];
-	[menuView addSubview:filterButton];	
+	[menuView addSubview:filterButton];
 	
 	UIImageView *syncImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, 30, 30)];
 	syncImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_sync.png"];
@@ -2619,14 +2354,14 @@ extern BOOL _gtdoTabHintShown;
 	syncLabel.backgroundColor = [UIColor clearColor];
 	syncLabel.font=[UIFont systemFontOfSize:18];
 	[menuView addSubview:syncLabel];
-	[syncLabel release];	
+	[syncLabel release];
 	
-	UIButton *syncButton=[Common createButton:@"" 
-								   buttonType:UIButtonTypeCustom 
-										frame:CGRectMake(0, 92, menuView.bounds.size.width, 30) 
+	UIButton *syncButton=[Common createButton:@""
+								   buttonType:UIButtonTypeCustom
+										frame:CGRectMake(0, 92, menuView.bounds.size.width, 30)
 								   titleColor:nil
-									   target:self 
-									 selector:@selector(sync:) 
+									   target:self
+									 selector:@selector(sync:)
 							 normalStateImage:nil
 						   selectedStateImage:nil];
 	syncButton.titleLabel.font=[UIFont systemFontOfSize:18];
@@ -2644,19 +2379,19 @@ extern BOOL _gtdoTabHintShown;
 	hideLabel.backgroundColor = [UIColor clearColor];
 	hideLabel.font=[UIFont systemFontOfSize:18];
 	[menuView addSubview:hideLabel];
-	[hideLabel release];	
+	[hideLabel release];
 	
-	UIButton *hideButton=[Common createButton:@"" 
-                                   buttonType:UIButtonTypeCustom 
-                                        frame:CGRectMake(0, 127, menuView.bounds.size.width, 30) 
+	UIButton *hideButton=[Common createButton:@""
+                                   buttonType:UIButtonTypeCustom
+                                        frame:CGRectMake(0, 127, menuView.bounds.size.width, 30)
                                    titleColor:nil
-                                       target:self 
-                                     selector:@selector(showHideCategory:) 
+                                       target:self
+                                     selector:@selector(showHideCategory:)
                              normalStateImage:nil
                            selectedStateImage:nil];
 	hideButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:hideButton];    
-
+	[menuView addSubview:hideButton];
+    
     
 	UIImageView *settingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 160, 30, 30)];
 	settingImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_setting.png"];
@@ -2669,14 +2404,14 @@ extern BOOL _gtdoTabHintShown;
 	settingLabel.backgroundColor = [UIColor clearColor];
 	settingLabel.font=[UIFont systemFontOfSize:18];
 	[menuView addSubview:settingLabel];
-	[settingLabel release];	
+	[settingLabel release];
 	
-	UIButton *settingButton=[Common createButton:@"" 
-									  buttonType:UIButtonTypeCustom 
+	UIButton *settingButton=[Common createButton:@""
+									  buttonType:UIButtonTypeCustom
 										   frame:CGRectMake(0, 162, menuView.bounds.size.width, 30)
 									  titleColor:nil
-										  target:self 
-										selector:@selector(editSetting:) 
+										  target:self
+										selector:@selector(editSetting:)
 								normalStateImage:nil
 							  selectedStateImage:nil];
 	settingButton.titleLabel.font=[UIFont systemFontOfSize:18];
@@ -2693,18 +2428,18 @@ extern BOOL _gtdoTabHintShown;
 	backupLabel.backgroundColor = [UIColor clearColor];
 	backupLabel.font=[UIFont systemFontOfSize:18];
 	[menuView addSubview:backupLabel];
-	[backupLabel release];	
+	[backupLabel release];
 	
-	UIButton *backupButton=[Common createButton:@"" 
-                                     buttonType:UIButtonTypeCustom 
+	UIButton *backupButton=[Common createButton:@""
+                                     buttonType:UIButtonTypeCustom
                                           frame:CGRectMake(0, 197, menuView.bounds.size.width, 30)
                                      titleColor:nil
-                                         target:self 
-                                       selector:@selector(backup:) 
+                                         target:self
+                                       selector:@selector(backup:)
                                normalStateImage:nil
                              selectedStateImage:nil];
 	backupButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:backupButton];    
+	[menuView addSubview:backupButton];
     
 }
 
@@ -2881,13 +2616,13 @@ extern BOOL _gtdoTabHintShown;
 
 -(void) createProjectOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 140)];
+	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 140, 180)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 140)];
+	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 180)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -2973,6 +2708,32 @@ extern BOOL _gtdoTabHintShown;
     noteButton.tag = 2;
 	[optionView addSubview:noteButton];
     
+    UIImageView *anchoredImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 130, 20, 20)];
+	anchoredImageView.image = [[ImageManager getInstance] getImageWithName:@"newTask.png"];
+	[optionView addSubview:anchoredImageView];
+	[anchoredImageView release];
+	
+	UILabel *anchoredLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
+	anchoredLabel.text = _anchoredText;
+	anchoredLabel.textColor = [UIColor whiteColor];
+	anchoredLabel.backgroundColor = [UIColor clearColor];
+	anchoredLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:anchoredLabel];
+	[anchoredLabel release];
+	
+	UIButton *anchoredButton=[Common createButton:@""
+                                  buttonType:UIButtonTypeCustom
+                                       frame:CGRectMake(0, 127, 160, 30)
+                                  titleColor:nil
+                                      target:self
+                                    selector:@selector(showProjectWithOption:)
+                            normalStateImage:nil
+                          selectedStateImage:nil];
+	anchoredButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    anchoredButton.tag = 3;
+    
+	[optionView addSubview:anchoredButton];
+    
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2;
     
@@ -2983,13 +2744,13 @@ extern BOOL _gtdoTabHintShown;
 
 -(void) createTaskOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 240)];
+	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 280)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -3093,7 +2854,83 @@ extern BOOL _gtdoTabHintShown;
 	dueButton.titleLabel.font=[UIFont systemFontOfSize:18];
     dueButton.tag = TASK_FILTER_DUE;
 	[optionView addSubview:dueButton];
+  
+    UIImageView *longImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 165, 20, 20)];
+	longImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+	[optionView addSubview:longImageView];
+	[longImageView release];
+	
+	UILabel *longLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 162, 120, 25)];
+	longLabel.text = _longText;
+	longLabel.textColor = [UIColor whiteColor];
+	longLabel.backgroundColor = [UIColor clearColor];
+	longLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:longLabel];
+	[longLabel release];
+	
+	UIButton *longButton=[Common createButton:@""
+                                    buttonType:UIButtonTypeCustom
+                                         frame:CGRectMake(0, 162, 160, 30)
+                                    titleColor:nil
+                                        target:self
+                                      selector:@selector(showTaskWithOption:)
+                              normalStateImage:nil
+                            selectedStateImage:nil];
+	longButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    longButton.tag = TASK_FILTER_LONG;
+	[optionView addSubview:longButton];
     
+    UIImageView *shortImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 200, 20, 20)];
+	shortImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+	[optionView addSubview:shortImageView];
+	[shortImageView release];
+	
+	UILabel *shortLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 197, 120, 25)];
+	shortLabel.text = _shortText;
+	shortLabel.textColor = [UIColor whiteColor];
+	shortLabel.backgroundColor = [UIColor clearColor];
+	shortLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:shortLabel];
+	[shortLabel release];
+	
+	UIButton *shortButton=[Common createButton:@""
+                                   buttonType:UIButtonTypeCustom
+                                        frame:CGRectMake(0, 197, 160, 30)
+                                   titleColor:nil
+                                       target:self
+                                     selector:@selector(showTaskWithOption:)
+                             normalStateImage:nil
+                           selectedStateImage:nil];
+	shortButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    shortButton.tag = TASK_FILTER_SHORT;
+	[optionView addSubview:shortButton];
+    
+    UIImageView *doneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 235, 20, 20)];
+	doneImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_done.png"];
+	[optionView addSubview:doneImageView];
+	[doneImageView release];
+	
+	UILabel *doneLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 232, 120, 25)];
+	doneLabel.text = _doneText;
+	doneLabel.textColor = [UIColor whiteColor];
+	doneLabel.backgroundColor = [UIColor clearColor];
+	doneLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:doneLabel];
+	[doneLabel release];
+	
+	UIButton *doneButton=[Common createButton:@""
+                                   buttonType:UIButtonTypeCustom
+                                        frame:CGRectMake(0, 232, 160, 30)
+                                   titleColor:nil
+                                       target:self
+                                     selector:@selector(showTaskWithOption:)
+                             normalStateImage:nil
+                           selectedStateImage:nil];
+	doneButton.titleLabel.font=[UIFont systemFontOfSize:18];
+    doneButton.tag = TASK_FILTER_DONE;
+	[optionView addSubview:doneButton];
+    
+/*
     UIImageView *startImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 165, 20, 20)];
 	startImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
 	[optionView addSubview:startImageView];
@@ -3143,7 +2980,7 @@ extern BOOL _gtdoTabHintShown;
 	doneButton.titleLabel.font=[UIFont systemFontOfSize:18];
     doneButton.tag = TASK_FILTER_DONE;
 	[optionView addSubview:doneButton];
-    
+*/
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2;
     
@@ -3355,6 +3192,8 @@ extern BOOL _gtdoTabHintShown;
     filterIndicator.image = [UIImage imageNamed:@"filterWKV.png"];
     filterIndicator.hidden = YES;
     
+    [self createMultiEditBar];
+    
     [self createAddMenuView];
 
     [self createNavigationView];
@@ -3416,6 +3255,8 @@ extern BOOL _gtdoTabHintShown;
 	// Do any additional setup after loading the view.
     
     firstTimeLoad = YES;
+    
+    [self resetMovableContentView];
     
     [self performSelector:@selector(tab:) withObject:tabButtons[0] afterDelay:0];
 }

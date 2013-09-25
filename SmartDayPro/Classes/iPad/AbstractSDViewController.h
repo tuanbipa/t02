@@ -47,7 +47,7 @@
 - (void) jumpToDate:(NSDate *)date;
 - (void) applyFilter;
 
-- (void) enableActions:(BOOL)enable onView:(MovableView *)view;
+//- (void) enableActions:(BOOL)enable onView:(MovableView *)view;
 - (void) enableCategoryActions:(BOOL)enable onView:(PlanView *)view;
 
 - (void) starTaskInView:(TaskView *)taskView;

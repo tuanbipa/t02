@@ -38,6 +38,7 @@
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
 
 @interface NoteViewController ()
 
@@ -110,7 +111,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) deselect
 {
-    [self multiEdit:NO];
+    //[self multiEdit:NO];
+    [self cancelMultiEdit];
 }
 
 - (void) filter:(NSInteger)type
@@ -310,58 +312,72 @@ extern iPadViewController *_iPadViewCtrler;
     note.type = TYPE_NOTE;
     note.startTime = [Common dateByRoundMinute:15 toDate:tm.today];
     
-    [_iPadViewCtrler editNoteContent:note];
-    
+    if (_isiPad)
+    {
+        [_iPadViewCtrler editNoteContent:note];
+    }
+    else
+    {
+        [_sdViewCtrler editNoteContent:note];
+    }
     [note release];
 }
 
-/*
-- (void) singleTap
-{
-    ////printf("single tap\n");
-    
-    BOOL enabled = (selectedIndex != tapRow);
-    
-    selectedIndex = (enabled?tapRow:-1);
-    
-    [self enableActions:enabled];
-    
-    tapCount = 0;
-}
-
-- (void) doubleTap
-{
-    ////printf("double tap\n");
-    
-    UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tapRow inSection:0]];
-                             
-    TaskView *noteView = (TaskView *)[cell.contentView viewWithTag:10000];
-    
-    if (_abstractViewCtrler != nil)
-    {
-        [_abstractViewCtrler editItem:noteView.task inView:noteView];
-    }
-    
-    tapCount = 0;
-}
-*/
-
 #pragma mark Multi Edit
 
+- (NSMutableArray *) getMultiEditList
+{
+    NSMutableArray *list = [NSMutableArray arrayWithCapacity:10];
+    
+    for (UIView *view in noteListView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            TaskView *tv = (TaskView *)view;
+            
+            if ([tv isMultiSelected])
+            {
+                [list addObject:tv.task];
+            }
+        }
+    }
+
+    return list;
+}
+
+- (void) cancelMultiEdit
+{
+    for (UIView *view in noteListView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            TaskView *tv = (TaskView *) view;
+
+            [tv multiSelect:NO];
+        }
+    }
+    
+    [[AbstractActionViewController getInstance] hideMultiEditBar];
+}
+
+- (void) enableMultiEdit:(BOOL)enabled
+{
+    for (UIView *view in noteListView.subviews)
+    {
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            TaskView *tv = (TaskView *) view;
+            
+            tv.checkEnable = enabled;
+            [tv refresh];
+        }
+    }
+    
+}
+
+/*
 - (void) multiEdit:(BOOL)enabled
 {
-    //Settings *settings = [Settings getInstance];
-    
-    /*
-    for (int i=0; i<self.noteList.count; i++)
-    {
-        UITableViewCell *cell = [listTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        
-        TaskView *taskView = (TaskView *) [cell.contentView viewWithTag:10000];
-        
-        [taskView multiSelect:enabled];
-    }
-    */
     for (UIView *view in noteListView.subviews)
     {
         if ([view isKindOfClass:[MovableView class]])
@@ -369,12 +385,6 @@ extern iPadViewController *_iPadViewCtrler;
             [(MovableView *) view multiSelect:enabled];
         }
     }
-    
-    /*editBarPlaceHolder.hidden = !enabled;
-    
-    CGFloat h = (settings.tabBarAutoHide?0:40) + (enabled?40:0);
-    
-    noteListView.frame = CGRectMake(0, enabled?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);*/
 }
 
 - (void) cancelMultiEdit:(id) sender
@@ -465,12 +475,7 @@ extern iPadViewController *_iPadViewCtrler;
     {
         [focusView refreshData];
     }
-    
-    /*if (_plannerViewCtrler) {
-        [_plannerViewCtrler cancelEdit];
-    } else {
-        [_abstractViewCtrler cancelEdit];
-    }*/
+
     AbstractActionViewController *ctrler = [AbstractActionViewController getInstance];
     if ([ctrler isKindOfClass:[PlannerViewController class]]) {
         PlannerMonthView *plannerMonthView = (PlannerMonthView*)[ctrler getPlannerMonthCalendarView];
@@ -486,21 +491,7 @@ extern iPadViewController *_iPadViewCtrler;
         [self doMultiDeleteTask];
 	}
 }
-
-- (void) enableMultiEdit:(BOOL)enabled
-{
-    for (UIView *view in noteListView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            TaskView *tv = (TaskView *) view;
-            
-            tv.checkEnable = enabled;
-            [tv refresh];
-        }
-    }
-    
-}
+*/
 
 #pragma mark Views
 - (MovableView *)getFirstMovableView
@@ -553,22 +544,14 @@ extern iPadViewController *_iPadViewCtrler;
     UIToolbar *editToolbar = (UIToolbar *)[editBarPlaceHolder viewWithTag:10000];
     editToolbar.frame = editBarPlaceHolder.bounds;
     
-    //noteListView.frame = CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40));
-    
-    BOOL isMultiEdit = !editBarPlaceHolder.hidden;
-    
-    CGFloat h = (settings.tabBarAutoHide?0:40) + (isMultiEdit?40:0);
-
     frm = contentView.bounds;
     frm.size.height = 35;
     
     emptyNoteButton.frame = frm;
     
-    //noteListView.frame = CGRectMake(0, isMultiEdit?40:0, contentView.bounds.size.width, contentView.bounds.size.height - h);
-    
     frm = contentView.bounds;
     frm.origin.y = 40;
-    frm.size.height -= 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
 
     noteListView.frame = frm;
 }
@@ -627,10 +610,10 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)loadView
 {
+    Settings *settings = [Settings getInstance];
+    
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
-    
-    //Settings *settings = [Settings getInstance];
     
     //contentView = [[ContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
     contentView = [[ContentView alloc] initWithFrame:frm];
@@ -639,17 +622,6 @@ extern iPadViewController *_iPadViewCtrler;
     self.view = contentView;
     
     [contentView release];
-    
-/*
-    listTableView = [[ContentTableView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40)) style:UITableViewStylePlain];
-
-    listTableView.backgroundColor = [UIColor clearColor];
-    listTableView.delegate = self;
-    listTableView.dataSource = self;
-    
-    [contentView addSubview:listTableView];
-    [listTableView release];
-*/
     
     frm = contentView.bounds;
     frm.size.height = 35;
@@ -668,7 +640,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     frm = contentView.bounds;
     frm.origin.y = 40;
-    frm.size.height -= 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
     
     noteListView = [[ContentScrollView alloc] initWithFrame:frm];
     noteListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
@@ -721,73 +693,6 @@ extern iPadViewController *_iPadViewCtrler;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return self.noteList.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return 55;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    
-    // Configure the cell...
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //cell.backgroundColor = [UIColor clearColor];
-    
-    Task *task = [self.noteList objectAtIndex:indexPath.row];
-
-    TaskView *taskView = [[TaskView alloc] initWithFrame:CGRectMake(0, 5, tableView.bounds.size.width, 45)];
-    taskView.tag = 10000;
-    taskView.task = task;
-    taskView.listStyle = YES;
-    taskView.starEnable = NO;
-    taskView.checkEnable = YES;
-    taskView.showSeparator = NO;
-    
-    //taskView.movableController = self.movableController;
-    
-    [cell.contentView addSubview:taskView];
-    [taskView release];
-    
-    return cell;
-}
-
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (checkFocus)
-    {
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(focus) object:nil];
-    
-        [self performSelector:@selector(focus) withObject:nil afterDelay:0.1];
-    }
-}
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-}
-*/
-
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [_abstractViewCtrler deselect];
@@ -797,12 +702,13 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)tabBarModeChanged:(NSNotification *)notification
 {
-    CGSize sz = [Common getScreenSize];
-    
     Settings *settings = [Settings getInstance];
     
-    //listTableView.frame = CGRectMake(0, 0, sz.width, sz.height - (settings.tabBarAutoHide?0:40));
-    noteListView.frame = CGRectMake(0, 0, sz.width, sz.height - (settings.tabBarAutoHide?0:40));
+    CGRect frm = contentView.bounds;
+    frm.origin.y = 40;
+    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    
+    noteListView.frame = frm;
 }
 
 - (void)calendarDayChange:(NSNotification *)notification

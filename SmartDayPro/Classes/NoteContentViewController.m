@@ -14,13 +14,15 @@
 #import "NoteView.h"
 
 #import "iPadViewController.h"
+#import "SmartDayViewController.h"
 #import "DetailViewController.h"
 #import "NoteDetailViewController.h"
 
 extern iPadViewController *_iPadViewCtrler;
 extern DetailViewController *_detailViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation NoteContentViewController
 
@@ -45,23 +47,6 @@ extern BOOL _isiPad;
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(noteChanged:)
 													 name:@"NoteContentChangeNotification" object:nil];
-        
-		/*[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(noteBeginEdit:)
-													 name:@"NoteBeginEditNotification" object:nil];
-        
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(noteFinishEdit:)
-													 name:@"NoteFinishEditNotification" object:nil];*/
-        
-        /*
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyboardWillShow:)
-                                                     name:UIKeyboardWillShowNotification object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyboardWillBeHidden:)
-                                                     name:UIKeyboardWillHideNotification object:nil];*/
         
     }
     
@@ -123,6 +108,32 @@ extern BOOL _isiPad;
     else
     {
         [self.navigationController popViewControllerAnimated:YES];
+
+        if ([_sdViewCtrler.navigationController.topViewController isKindOfClass:[DetailViewController class]])
+        {
+            DetailViewController *ctrler = (DetailViewController *)_sdViewCtrler.navigationController.topViewController;
+            
+            if (self.noteCopy.primaryKey == -1)
+            {
+                [ctrler createLinkedNote:self.note];
+            }
+            
+            [ctrler refreshLink];
+        }
+        else if ([_sdViewCtrler.navigationController.topViewController isKindOfClass:[NoteDetailViewController class]])
+        {
+            NoteDetailViewController *ctrler = (NoteDetailViewController *)_sdViewCtrler.navigationController.topViewController;
+            
+            if (self.note.listSource == SOURCE_PREVIEW)
+            {
+                [ctrler refreshLink];
+            }
+            else
+            {
+                [ctrler refreshNote];
+            }
+        }
+        
     }
 }
 

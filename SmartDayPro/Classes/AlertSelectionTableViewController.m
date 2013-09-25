@@ -16,7 +16,7 @@
 #import "AlertManager.h"
 #import "ImageManager.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation AlertSelectionTableViewController
 

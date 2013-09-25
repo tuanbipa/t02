@@ -19,7 +19,7 @@
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation MiniMonthHeaderView
 
@@ -30,35 +30,11 @@ extern BOOL _isiPad;
     if (self) {
         // Initialization code.
         
-		//self.backgroundColor = [UIColor lightGrayColor];
         self.backgroundColor = [UIColor clearColor];
-        //self.backgroundColor = [UIColor colorWithRed:100.0/255 green:104.0/255 blue:124.0/255 alpha:1];
         
-        /*UIButton *zoomButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 0, 50, 50)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(switchMWMode:)
-                                  normalStateImage:nil
-                                selectedStateImage:nil];
-        
-        [self addSubview:zoomButton];
-        
-        UIImageView *zoomImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_week.png"]];
-        zoomImgView.frame = CGRectMake(5, 3, 30, 30);
-        zoomImgView.tag = 10000;
-        
-        [zoomButton addSubview:zoomImgView];
-        [zoomImgView release];
-        
-        
-        selectedButton = zoomButton;
-        selectedButton.selected = NO;*/
-        
-        //CGRect frm = _isiPad?CGRectMake(35, 0, 50, 50):CGRectMake(65, 0, 50, 50);
-        //CGRect frm = CGRectMake(35, 0, 50, 50);
-        CGRect frm = CGRectMake(5, 50, 50, 50);
+        CGFloat yMargin = (_isiPad?50:10);
+
+        CGRect frm = CGRectMake(5, yMargin, 50, 50);
         
         UIButton *prevButton = [Common createButton:@""
                                         buttonType:UIButtonTypeCustom
@@ -77,14 +53,13 @@ extern BOOL _isiPad;
         [self addSubview:prevButton];
         
         UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_prev.png"]];
-        //prevImgView.frame = CGRectMake(10, 0, 30, 30);
+
         prevImgView.frame = CGRectMake(0, 0, 30, 30);
         
         [prevButton addSubview:prevImgView];
         [prevImgView release];
         
-        //frm = _isiPad?CGRectMake(self.bounds.size.width-125, 0, 50, 50):CGRectMake(self.bounds.size.width-55, 0, 50, 50);
-        frm = CGRectMake(self.bounds.size.width-55, 50, 50, 50);
+        frm = CGRectMake(self.bounds.size.width-55, yMargin, 50, 50);
         
         UIButton *nextButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
@@ -285,56 +260,29 @@ extern BOOL _isiPad;
 		[dayName drawInRect:dayRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 	}
     
-    //font = [UIFont systemFontOfSize:18];
-
-    NSDate *dt = [[TaskManager getInstance] today];
-    
-    //NSString *title = [Common getFullMonthYearString:dt];
-    
-    // day
-    font = [UIFont systemFontOfSize:40];
-    NSString *day = [Common getDayString:dt];
-    CGSize sz = [day sizeWithFont:font];
-    CGRect titleRec = CGRectMake(5, 5, 0, 0);
-    titleRec.size = sz;
-    //[[UIColor redColor] set];
-    //CGContextFillRect(ctx, titleRec);
-    [[UIColor grayColor] set];
-    [day drawInRect:titleRec withFont:font];
-    
-    // full day
-    NSString *fullDay = [Common getFullDateString3:dt];
-    font = [UIFont systemFontOfSize:16];
-    titleRec.origin.x += titleRec.size.width + 5;
-    titleRec.origin.y += 4;
-    sz = [fullDay sizeWithFont:font];
-    titleRec.size = sz;
-    //[[UIColor redColor] set];
-    //CGContextFillRect(ctx, titleRec);
-    [[UIColor grayColor] set];
-    [fullDay drawInRect:titleRec withFont:font];
-    
-    /*if (!selectedButton.selected)
+    if (_isiPad)
     {
-        title = [NSString stringWithFormat:@"CW #%d, %@", [Common getWeekOfYear:dt], [Common getMonthYearString:dt]];
+        NSDate *dt = [[TaskManager getInstance] today];
+        
+        // day
+        font = [UIFont systemFontOfSize:40];
+        NSString *day = [Common getDayString:dt];
+        CGSize sz = [day sizeWithFont:font];
+        CGRect titleRec = CGRectMake(5, 5, 0, 0);
+        titleRec.size = sz;
+        [[UIColor grayColor] set];
+        [day drawInRect:titleRec withFont:font];
+        
+        // full day
+        NSString *fullDay = [Common getFullDateString3:dt];
+        font = [UIFont systemFontOfSize:16];
+        titleRec.origin.x += titleRec.size.width + 5;
+        titleRec.origin.y += 4;
+        sz = [fullDay sizeWithFont:font];
+        titleRec.size = sz;
+        [[UIColor grayColor] set];
+        [fullDay drawInRect:titleRec withFont:font];
     }
-    
-    UIButton *prevButton = (UIButton *) [self viewWithTag:11000];
-    UIButton *nextButton = (UIButton *) [self viewWithTag:11001];
-    
-    CGRect monRec = CGRectZero;
-    monRec.origin.x = prevButton.frame.origin.x + 30;
-    monRec.origin.y = 5;
-    monRec.size.width = nextButton.frame.origin.x - monRec.origin.x + 20;
-    monRec.size.height = 20;
-    
-    [[UIColor grayColor] set];
-    
-    [title drawInRect:CGRectOffset(monRec, 0, 1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
-    
-    [[UIColor whiteColor] set];
-    
-    [title drawInRect:monRec withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];   */
 }
 
 @end

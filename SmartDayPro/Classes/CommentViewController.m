@@ -21,7 +21,7 @@
 
 #import "GrowingTextView.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation CommentViewController
 

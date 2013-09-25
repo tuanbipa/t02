@@ -635,7 +635,14 @@ extern iPadViewController *_iPadViewCtrler;
             [_noteDetailViewCtrler editNoteContent];
         }*/
         
-        [_iPadViewCtrler editNoteContent:self.note];
+        if (_isiPad)
+        {
+            [_iPadViewCtrler editNoteContent:self.note];
+        }
+        else
+        {
+            [_sdViewCtrler editNoteContent:self.note];
+        }
         
         return NO;
     }

@@ -15,7 +15,7 @@
 
 #import "DetailViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation TaskNoteViewController
 

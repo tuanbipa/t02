@@ -93,13 +93,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-	//UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-	//contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    contentView.backgroundColor = [UIColor darkGrayColor];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	
-	//settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416) style:UITableViewStyleGrouped];
-    settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+    settingTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
+    settingTableView.backgroundColor = [UIColor clearColor];
 	settingTableView.delegate = self;
 	settingTableView.dataSource = self;
 	
@@ -117,9 +115,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		
 	self.navigationItem.title = _settingTitle;
     
+    /*
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:_backText style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
     self.navigationItem.leftBarButtonItem = backButton;
-    [backButton release];    
+    [backButton release];  */
 }
 
 - (void) help: (id) sender
@@ -779,7 +778,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     {
         NSTimeZone *tz = [NSTimeZone defaultTimeZone];
         
-        self.settingCopy.timeZoneID = [Settings findTimeZoneIDe:tz];
+        self.settingCopy.timeZoneID = [Settings findTimeZoneID:tz];
     }
     
     //[settingTableView reloadData];
@@ -1277,8 +1276,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	durationLabel.tag = baseTag;
 	durationLabel.textAlignment=NSTextAlignmentRight;
 	durationLabel.backgroundColor=[UIColor clearColor];
-	durationLabel.font=[UIFont systemFontOfSize:15];
-	durationLabel.textColor= [Colors darkSteelBlue];
+	durationLabel.font=[UIFont boldSystemFontOfSize:16];
+	durationLabel.textColor= [UIColor darkGrayColor];
 	
 	durationLabel.text = [Common getDurationString:self.settingCopy.taskDuration];
 	
@@ -1297,8 +1296,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	durationLabel.tag = baseTag;
 	durationLabel.textAlignment=NSTextAlignmentRight;
 	durationLabel.backgroundColor=[UIColor clearColor];
-	durationLabel.font=[UIFont systemFontOfSize:15];
-	durationLabel.textColor= [Colors darkSteelBlue];
+	durationLabel.font=[UIFont boldSystemFontOfSize:16];
+	durationLabel.textColor= [UIColor darkGrayColor];
 	
 	durationLabel.text = [Common getDurationString:self.settingCopy.snoozeDuration*60];
 	
@@ -1320,7 +1319,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	projectNameLabel.tag = baseTag;
 	projectNameLabel.textAlignment=NSTextAlignmentRight;
 	projectNameLabel.backgroundColor=[UIColor clearColor];
-	projectNameLabel.font=[UIFont systemFontOfSize:15];
+	projectNameLabel.font=[UIFont boldSystemFontOfSize:16];
 	
 	if (prj != nil)
 	{
@@ -1433,8 +1432,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	daysLabel.tag = baseTag;
 	daysLabel.textAlignment=NSTextAlignmentRight;
 	daysLabel.backgroundColor=[UIColor clearColor];
-	daysLabel.font=[UIFont systemFontOfSize:15];
-	daysLabel.textColor= [Colors darkSteelBlue];
+	daysLabel.font=[UIFont boldSystemFontOfSize:16];
+	daysLabel.textColor= [UIColor darkGrayColor];
     daysLabel.text = [NSString stringWithFormat:@"%d", self.settingCopy.mustDoDays];
     
     [cell.contentView addSubview:daysLabel];
@@ -1625,7 +1624,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	nameLabel.tag = baseTag;
 	nameLabel.textAlignment=NSTextAlignmentRight;
 	nameLabel.backgroundColor=[UIColor clearColor];
-	nameLabel.font=[UIFont systemFontOfSize:15];
+	nameLabel.font=[UIFont boldSystemFontOfSize:16];
+    nameLabel.textColor = [UIColor darkGrayColor];
 	nameLabel.text = (!self.settingCopy.tdSyncEnabled && !self.settingCopy.rmdSyncEnabled)?_offText:(self.settingCopy.tdSyncEnabled?_toodledoText:_reminderText);
 
 	[cell.contentView addSubview:nameLabel];
@@ -1700,9 +1700,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
     titleLabel.numberOfLines = 2;
-    titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    titleLabel.font = [UIFont systemFontOfSize:16];
     titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.textColor = [UIColor grayColor];
     titleLabel.tag = baseTag;
     titleLabel.text = _syncAtStartUp;
     
@@ -1867,7 +1867,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 5, 100, 30)];
     verifiedLabel.backgroundColor = [UIColor clearColor];
     verifiedLabel.textAlignment = NSTextAlignmentRight;
-    verifiedLabel.textColor = [Colors darkSteelBlue];
+    //verifiedLabel.textColor = [Colors darkSteelBlue];
+    verifiedLabel.font = [UIFont boldSystemFontOfSize:16];
+    verifiedLabel.textColor = [UIColor darkGrayColor];
     verifiedLabel.tag = baseTag;
     verifiedLabel.text = (self.settingCopy.sdwVerified?_verifiedText:_unverifiedText);
                             
@@ -2014,7 +2016,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 5, 100, 30)];
     verifiedLabel.backgroundColor = [UIColor clearColor];
     verifiedLabel.textAlignment = NSTextAlignmentRight;
-    verifiedLabel.textColor = [Colors darkSteelBlue];
+    //verifiedLabel.textColor = [Colors darkSteelBlue];
+    verifiedLabel.font = [UIFont boldSystemFontOfSize:16];
+    verifiedLabel.textColor = [UIColor darkGrayColor];
     verifiedLabel.tag = baseTag;
     verifiedLabel.text = (self.settingCopy.tdVerified?_verifiedText:_unverifiedText);
     
@@ -2097,37 +2101,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*if (indexPath.section == 4)
+    if (indexPath.section == 5)
     {
-        if (indexPath.row == 1)
-        {
-            return 80;
-        }
-    }
-    else*/ if (indexPath.section == 5)
-    {
-        /*if (indexPath.row == 0 && !self.settingCopy.sdwSyncEnabled)
-        {
-            return 80;
-        }*/
-        
         if (indexPath.row == 3) // SDW sync 1 way
         {
             return 95;
         }
     }
-/*    else if (indexPath.section == 6)
-    {
-        if (indexPath.row == 0)
-        {
-            return self.settingCopy.tdSyncEnabled?100:80;
-        }
-    }
-    else if (indexPath.section == 7)
-    {
-    }
-*/    
+
 	return 40;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
 }
 
 // Customize the appearance of table view cells.
@@ -2153,9 +2140,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
     // Set up the cell...
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.backgroundColor = [UIColor clearColor];
 	//cell.text = @"";
 	cell.textLabel.text = @"";
 	cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor grayColor];
 	
 	switch (indexPath.section)
 	{

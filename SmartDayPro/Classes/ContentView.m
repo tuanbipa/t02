@@ -269,6 +269,7 @@ extern iPadViewController *_iPadViewCtrler;
     
 	[super touchesEnded:touches withEvent:event];
     
+    /*
     if (_plannerViewCtrler != nil)
     {
         [_plannerViewCtrler deselect];
@@ -276,7 +277,10 @@ extern iPadViewController *_iPadViewCtrler;
     else if (_abstractViewCtrler != nil)
     {
         [_abstractViewCtrler deselect];
-    }
+    }*/
+    
+    [[AbstractActionViewController getInstance] deselect];
+    
 }
 
 @end

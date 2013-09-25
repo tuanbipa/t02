@@ -20,7 +20,7 @@
 
 extern iPadSettingViewController *_iPadSettingViewCtrler;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation SDWAccountViewController
 

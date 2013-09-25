@@ -21,7 +21,7 @@
 #import "DateInputViewController.h"
 #import "iPadViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 extern iPadViewController *_iPadViewCtrler;
 
 RepeatTableViewController *_repeatViewCtrler = nil;
@@ -92,7 +92,7 @@ RepeatTableViewController *_repeatViewCtrler = nil;
     
     frm.size.height -= 20 + 2*44;
     
-    frm.size.width = 384;
+    frm.size.width = _isiPad?384:320;
     
     [self changeFrame:frm];
 }

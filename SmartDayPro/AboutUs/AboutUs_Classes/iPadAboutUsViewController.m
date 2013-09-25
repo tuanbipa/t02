@@ -14,7 +14,7 @@
 
 extern BOOL _spLiteVersion;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation iPadAboutUsViewController
 

@@ -15,7 +15,7 @@
 
 extern BOOL _scFreeVersion;
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation SyncWindow2TableViewController
 
@@ -167,6 +167,7 @@ extern BOOL _isiPad;
 	return 44;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if ([tableView isEqual:settingTableView] && section == 0)
@@ -206,6 +207,7 @@ extern BOOL _isiPad;
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
+*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
@@ -217,13 +219,12 @@ extern BOOL _isiPad;
     
     if ([tableView isEqual:settingTableView] && section == 0)
     {
-        return 40.0f;
+        return 20.0f;
     }
     
     return 0.01f;
 }
 
-/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
 	if ([tableView isEqual:settingTableView])
@@ -233,7 +234,7 @@ extern BOOL _isiPad;
 	
 	return @"";
 }
-*/
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     

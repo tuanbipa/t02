@@ -40,12 +40,14 @@
     frm.size = [Common getScreenSize];
     
 	UIView *contentView = [[UIView alloc] initWithFrame:frm];
-	contentView.backgroundColor=[Colors linen];
+	//contentView.backgroundColor=[Colors linen];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	
-	aboutTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	aboutTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
+    aboutTableView.backgroundColor = [UIColor clearColor];
 	aboutTableView.delegate = self;
 	aboutTableView.dataSource = self;
-	aboutTableView.sectionHeaderHeight=5;	
+	//aboutTableView.sectionHeaderHeight=5;
 	
 	[contentView addSubview:aboutTableView];
 	[aboutTableView release];
@@ -108,6 +110,10 @@
     return 3;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,7 +130,10 @@
 	NSString *texts[3] = {_aboutSCText, _scGuideText, _smartAppsText};
 	
 	cell.textLabel.text = texts[indexPath.row];
+    cell.textLabel.textColor = [UIColor grayColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }

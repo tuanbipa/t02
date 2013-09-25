@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class ContentView;
+@class NoteView;
 @class Task;
 @class PreviewViewController;
 
@@ -18,6 +19,7 @@
     
     UIView *inputView;
     UITableView *detailTableView;
+    NoteView *noteView;
     
     UITextField *tagInputTextField;
     

@@ -22,7 +22,7 @@
 #import "iPadSyncSettingViewController.h"
 #import "iPadSettingViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 @interface TaskSyncViewController ()
@@ -322,11 +322,13 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if(section == 1)
-        return 40.0f;
+        //return 40.0f;
+        return 20.0f;
     
     return 0.01f;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 1)
@@ -346,14 +348,13 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
+*/
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
     return 0.01f;
 }
 
-
-/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 1)
@@ -363,7 +364,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
     return @"";
 }
-*/
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";

@@ -23,7 +23,7 @@
 #import "ToodledoSyncViewController.h"
 #import "TaskSyncViewController.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @implementation ToodledoAccountViewController
 

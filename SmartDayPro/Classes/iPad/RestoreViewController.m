@@ -10,7 +10,7 @@
 #import "Common.h"
 #import "SmartCalAppDelegate.h"
 
-extern BOOL _isiPad;
+//extern BOOL _isiPad;
 
 @interface RestoreViewController ()
 
