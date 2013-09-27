@@ -2244,6 +2244,11 @@ static sqlite3_stmt *task_delete_statement = nil;
     return self.status == TASK_STATUS_DONE;
 }
 
+- (BOOL)isStar
+{
+    return self.status == TASK_STATUS_PINNED;
+}
+
 -(BOOL) isMeetingInvited
 {
     return (self.extraStatus & TASK_EXTRA_STATUS_MEETING_INVITED) != 0;

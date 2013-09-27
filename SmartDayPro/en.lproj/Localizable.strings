@@ -635,6 +635,7 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 "_autoBackup" = "Auto Backup";
 "_autoBackupHint" = "Backups will be created for you automatically, and stored for the most recent five days.";
 "_backupOn" = "Backup on";
+"_backupList" = "Backup List";
 
 "_noSourceFoundText" = "You must have at least one calendar source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Cal to have that.";
 "_sourceLocalText" = "Local (From My iPhone/iPad)";
@@ -664,6 +665,7 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 "_tbdTaskText" = "TBD Task for ";
 "_newPlanText" = "New Project";
 "_newItemText" = "New Item";
+"_timerText" = "Timer";
 
 "_timerHistoryText" = "Timer History";
 "_totalDurationText" = "Total Duration";
@@ -729,7 +731,8 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_applyCurrentLocationText" = "Apply Current Location";
 "_currentLocationText" = "Current Location";
 "_geoFencingText" = "Geo Fencing and Alert Based Location";
-"_geoIntervalText" = "Geo Fencing and Alert Based Location Interval";
+//"_geoIntervalText" = "Geo Fencing and Alert Based Location Interval";
+"_geoIntervalText" = "Interval";
 "_hideAllProjects" = "Hide All Projects";
 "_showAllProjects" = "Show All Projects";
 "_addAlertText" = "Add Alert";

@@ -628,17 +628,26 @@ extern DetailViewController *_detailViewCtrler;
     
     TimerViewController *ctrler = [[TimerViewController alloc] init];
     
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+    if (_isiPad)
+    {
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+        
+        //[ctrler release];
+        
+        CGSize sz = [[UIScreen mainScreen] bounds].size;
+        
+        CGFloat x = UIInterfaceOrientationIsLandscape(_iPadViewCtrler.interfaceOrientation)?sz.height/2:sz.width/2;
+        
+        CGRect frm = CGRectMake(x-10-contentView.frame.origin.x, 0, 20, 10);
+        
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+    else
+    {
+        [_sdViewCtrler.navigationController pushViewController:ctrler animated:YES];
+    }
     
     [ctrler release];
-    
-    CGSize sz = [[UIScreen mainScreen] bounds].size;
-    
-    CGFloat x = UIInterfaceOrientationIsLandscape(_iPadViewCtrler.interfaceOrientation)?sz.height/2:sz.width/2;
-    
-    CGRect frm = CGRectMake(x-10-contentView.frame.origin.x, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void) showSettingMenu

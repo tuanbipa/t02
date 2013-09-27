@@ -2759,6 +2759,10 @@ extern SmartDayViewController *_sdViewCtrler;
     {
         [[AbstractActionViewController getInstance] editItem:self.task inView:self];
     }
+    else
+    {
+        [[AbstractActionViewController getInstance] enableActions:!self.isSelected onView:self];
+    }
 }
 
 - (void) doubleTouch

@@ -282,6 +282,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [plannerBottomDayCal setMovableContentView:self.contentView];
 }
 
+- (void) jumpToDate:(NSDate *)date
+{
+    [super jumpToDate:date];
+    
+    [self.plannerView goToDate:date];
+}
+
 #pragma mark Actions
 - (void) add:(id)sender
 {

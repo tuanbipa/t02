@@ -62,7 +62,7 @@
     frm.origin.x = 10;
     frm.origin.y = 10;
     frm.size.width -= 20;
-    frm.size.height = 40;
+    frm.size.height = _isiPad?40:80;
     
     UILabel *label = [[UILabel alloc] initWithFrame:frm];
     label.backgroundColor = [UIColor clearColor];
@@ -76,8 +76,8 @@
     [label release];
     
     frm = contentView.bounds;
-    frm.origin.y = 50;
-    frm.size.height -= 50;
+    frm.origin.y = label.bounds.size.height+10;
+    frm.size.height -= frm.origin.y;
     
     // list file table
     listFileTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];

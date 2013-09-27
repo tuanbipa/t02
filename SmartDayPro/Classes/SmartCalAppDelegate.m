@@ -474,8 +474,10 @@ BOOL _fromBackground = NO;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //[self testSound];
-    
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    _isiPad = [self checkiPad];
+	_is24HourFormat = [self check24HourFormat];
+
+    [[UINavigationBar appearance] setTintColor:(_isiPad?nil:[UIColor whiteColor])];
     
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
 
@@ -501,9 +503,6 @@ BOOL _fromBackground = NO;
     
 #endif
 */
-    _isiPad = [self checkiPad];
-	_is24HourFormat = [self check24HourFormat];
-    
     self.alertDict = [NSMutableDictionary dictionaryWithCapacity:5];
 		
 	[MusicManager startup];

@@ -475,7 +475,10 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) scroll
 {
-	[mainView setContentOffset:CGPointMake(0, 300)];	
+    if (!_isiPad)
+    {
+        [mainView setContentOffset:CGPointMake(0, 260)];
+    }
 }
 
 - (void) checkTransparent:(id) sender
@@ -838,6 +841,8 @@ extern iPadViewController *_iPadViewCtrler;
 	{
 		[self performSelector:@selector(scroll) withObject:nil afterDelay:.1]; 
 	}*/
+    
+    [self scroll];
 }
 
 - (void) textFieldDidChange:(id)sender

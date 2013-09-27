@@ -94,6 +94,8 @@
 - (void) refreshData;
 - (void) applyFilter;
 - (void) showModuleByIndex:(NSInteger)index;
+- (void) jumpToDate:(NSDate *)date;
+- (void) enableActions:(BOOL)enable onView:(MovableView *)view;
 
 - (void) showSeekOrCreate:(NSString *)text;
 - (void) createItem:(NSInteger)index title:(NSString *)title;

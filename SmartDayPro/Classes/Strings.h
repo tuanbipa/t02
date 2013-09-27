@@ -623,6 +623,7 @@
 #define _autoBackup NSLocalizedString(@"_autoBackup", "")
 #define _autoBackupHint NSLocalizedString(@"_autoBackupHint", "")
 #define _backupOn NSLocalizedString(@"_backupOn", "")
+#define _backupList NSLocalizedString(@"_backupList", "")
 
 #define _multiSourceWarningText NSLocalizedString(@"_multiSourceWarningText", "")
 #define _noSourceFoundText NSLocalizedString(@"_noSourceFoundText", "")
@@ -654,6 +655,7 @@
 #define _tbdTaskText NSLocalizedString(@"_tbdTaskText", "")
 #define _newPlanText NSLocalizedString(@"_newPlanText", "")
 #define _newItemText NSLocalizedString(@"_newItemText", "")
+#define _timerText NSLocalizedString(@"_timerText", "")
 
 #define _timerHistoryText NSLocalizedString(@"_timerHistoryText", "")
 #define _totalDurationText NSLocalizedString(@"_totalDurationText", "")

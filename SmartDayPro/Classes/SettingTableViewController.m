@@ -60,6 +60,7 @@
 
 #import "iOSCalSyncViewController.h"
 #import "DataRecoveryViewController.h"
+#import "RestoreViewController.h"
 
 #import "AbstractSDViewController.h"
 
@@ -556,6 +557,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[ctrler release];
 }
 
+- (void) showDataBackups
+{
+    RestoreViewController *ctrler = [[RestoreViewController alloc] init];
+    
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
+}
+
 -(void) viewAbout
 {
 	AboutTableViewController *ctrler = [[AboutTableViewController alloc] init];
@@ -926,6 +935,25 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	self.settingCopy.tabBarAutoHide = (segmentedStyleControl.selectedSegmentIndex == 0);
 }
 
+- (void) changeGeoFencing: (id) sender
+{
+	UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
+    
+	self.settingCopy.geoFencingEnable = (segmentedStyleControl.selectedSegmentIndex == 0);
+    
+    [settingTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:8 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void) doneGeoFencingInterval: (id) sender
+{
+    UIBarButtonItem *btn = (UIBarButtonItem *) sender;
+    
+    UITextField *textField = (UITextField *) btn.tag;
+    
+    [textField resignFirstResponder];
+    
+}
+
 -(void) save:(id) sender
 {
     [self save];
@@ -999,7 +1027,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     self.settingCopy.autoSyncEnabled = (segmentedControl.selectedSegmentIndex == 0);
     
-    [settingTableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [settingTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     if (self.settingCopy.autoSyncEnabled)
     {
@@ -1173,7 +1201,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(170, 5, 120, 30);
+	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeTimeZoneSupport:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.timeZoneSupport?0:1;
@@ -1257,11 +1285,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	UIButton *deleteButton = [Common createButton:_deleteText 
                                       buttonType:UIButtonTypeCustom 
                                            frame:CGRectMake(210, 5, 80, 30)
-                                      titleColor:[UIColor whiteColor]
+                                      titleColor:[Colors redButton]
                                           target:self
                                         selector:@selector(deleteSuspectedDuplication:) 
-                                normalStateImage:@"delete_button.png" 
-                              selectedStateImage:nil];	
+                                normalStateImage:nil
+                              selectedStateImage:nil];
+    
+    deleteButton.layer.cornerRadius = 8;
+    deleteButton.layer.borderWidth = 1;
+    deleteButton.layer.borderColor = [[Colors redButton] CGColor];
+    deleteButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    
 	deleteButton.tag = baseTag;
 	[cell.contentView addSubview:deleteButton];
 }
@@ -1680,6 +1714,80 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[segmentedStyleControl release];
 }
 
+- (void) createGeoFencingCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	//cell.textLabel.text = _geoFencingText;
+	
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 160, 40)];
+    titleLabel.numberOfLines = 2;
+    titleLabel.font = [UIFont systemFontOfSize:16];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textColor = [UIColor grayColor];
+    titleLabel.tag = baseTag;
+    titleLabel.text = _geoFencingText;
+    
+	[cell.contentView addSubview:titleLabel];
+	[titleLabel release];
+    
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	[segmentedStyleControl addTarget:self action:@selector(changeGeoFencing:) forControlEvents:UIControlEventValueChanged];
+	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+	segmentedStyleControl.selectedSegmentIndex = (self.settingCopy.geoFencingEnable?0:1);
+	segmentedStyleControl.tag = baseTag+1;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];
+    
+    if (self.settingCopy.geoFencingEnable)
+    {
+        UILabel *intervalLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 35, 160, 40)];
+        intervalLabel.font = [UIFont systemFontOfSize:16];
+        intervalLabel.backgroundColor = [UIColor clearColor];
+        intervalLabel.textColor = [UIColor grayColor];
+        intervalLabel.tag = baseTag+2;
+        intervalLabel.text = _geoIntervalText;
+        
+        [cell.contentView addSubview:intervalLabel];
+        [intervalLabel release];
+        
+        UITextField *intervalTextField = [[UITextField alloc] initWithFrame:CGRectMake(190, 40, 50, 30)];
+        
+        intervalTextField.backgroundColor = [UIColor whiteColor];
+        intervalTextField.keyboardType = UIKeyboardTypeNumberPad;
+        intervalTextField.textAlignment = NSTextAlignmentRight;
+        intervalTextField.delegate = self;
+        intervalTextField.text = [NSString stringWithFormat:@"%d", self.settingCopy.geoFencingInterval/60];
+        intervalTextField.tag = baseTag+3;
+        
+        UIToolbar *doneBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        
+        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneGeoFencingInterval:)];
+        doneItem.tag = intervalTextField;
+        
+        doneBar.items = [NSArray arrayWithObject:doneItem];
+        [doneItem release];
+        
+        intervalTextField.inputAccessoryView = doneBar;
+        [doneBar release];
+        
+        [cell.contentView addSubview:intervalTextField];
+        [intervalTextField release];
+        
+        UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, 35, 60, 40)];
+        minLabel.font = [UIFont systemFontOfSize:16];
+        minLabel.backgroundColor = [UIColor clearColor];
+        minLabel.textColor = [UIColor grayColor];
+        minLabel.text = @"mins";
+        minLabel.tag = baseTag+4;
+        
+        [cell.contentView addSubview:minLabel];
+        [minLabel release];
+        
+    }
+}
+
 - (void) createSynchronizationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.textLabel.text = _enableText;
@@ -1698,7 +1806,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) createSyncAtStartUpCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 40)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 150, 40)];
     titleLabel.numberOfLines = 2;
     titleLabel.font = [UIFont systemFontOfSize:16];
     titleLabel.backgroundColor = [UIColor clearColor];
@@ -2049,8 +2157,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    //return self.settingCopy.syncEnabled?8:5;
-    return self.settingCopy.syncEnabled?(self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?7:6):5;
+//    return self.settingCopy.syncEnabled?(self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?7:6):5;
+    return self.settingCopy.syncEnabled?(self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?8:7):6;
 }
 
 
@@ -2061,23 +2169,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		case 0: //About
 			return 1;
 		case 1: //General
-			return 8;
+			return 10;
 		case 2: //Task
 			return 4;
 		case 3: //Calendar
 			return self.settingCopy.timeZoneSupport?4:3;
-        case 4: //Syncronization
-            return (self.settingCopy.autoSyncEnabled?3:(self.settingCopy.syncEnabled?2:1));
-		case 5: //Split Source
-			//return (self.settingCopy.sdwSyncEnabled?(self.settingCopy.sdwVerified?4:3):1);
-            return (self.settingCopy.sdwSyncEnabled?2:3);
-        case 6:
+        case 4: //Auto Backup
             return 1;
-/*		case 6: //TD Sync
-			return (self.settingCopy.tdSyncEnabled?3:1);
-		case 7: //iCal Sync
-			return (self.settingCopy.ekSyncEnabled?3:1);
-*/
+        case 5: //Synchronization
+            return (self.settingCopy.autoSyncEnabled?3:(self.settingCopy.syncEnabled?2:1));
+		case 6: //Sync Setup
+            return (self.settingCopy.sdwSyncEnabled?2:3);
+        case 7: //Data Recovery
+            return 1;
+
 	}
 	
     return 0;
@@ -2092,8 +2197,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		case 3:
 			return _calendarText;
         case 4:
+            return _autoBackup;
+        case 5:
             return _synchronizationText;
-		case 5:
+		case 6:
 			return _syncSetupText;
 	}
 	return @"";
@@ -2101,7 +2208,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 5)
+    if (indexPath.section == 1)
+    {
+        if (indexPath.row == 8 && self.settingCopy.geoFencingEnable)
+        {
+            return 75;
+        }
+    }
+    else if (indexPath.section == 5)
     {
         if (indexPath.row == 3) // SDW sync 1 way
         {
@@ -2201,7 +2315,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 					break;
 				case 8:
 				{
-                    [self createDeleteSuspectedDuplicationCell:cell baseTag:11080];
+                    [self createGeoFencingCell:cell baseTag:11080];
+				}
+					break;
+				case 9:
+				{
+                    [self createDeleteSuspectedDuplicationCell:cell baseTag:11090];
 				}
 					break;
 			}
@@ -2265,47 +2384,53 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			break;
         case 4:
         {
+            cell.textLabel.text = _backupList;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+            break;
+        case 5:
+        {
 			switch (indexPath.row)
 			{
 				case 0:
 				{
-                    [self createSynchronizationCell:cell baseTag:10400];
+                    [self createSynchronizationCell:cell baseTag:10500];
                 }
                     break;
                 case 1:
                 {
-                    [self createSyncAtStartUpCell:cell baseTag:10410];
+                    [self createSyncAtStartUpCell:cell baseTag:10510];
                 }
                     break;
                 case 2:
                 {
-                    [self createAutoPushCell:cell baseTag:10420];
+                    [self createAutoPushCell:cell baseTag:10520];
                 }
                     break;
             }
             
             break;
         }
-		case 5:
+		case 6:
 		{
 			switch (indexPath.row)
 			{
 				case 0:
 				{
-                    [self createSyncSourceSwitchCell:cell baseTag:14000];
+                    [self createSyncSourceSwitchCell:cell baseTag:16000];
                 }
                     break;
 				case 1:
 				{
                     if (self.settingCopy.sdwSyncEnabled)
                     {
-                        [self createSDWAccountCell:cell baseTag:14010];
+                        [self createSDWAccountCell:cell baseTag:16010];
                     }
                     else
                     {
                         //cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_toodledoSyncText, _tasksText];
                         //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                        [self createTaskSyncCell:cell baseTag:14010];
+                        [self createTaskSyncCell:cell baseTag:16010];
                     }
                 }
                     break;
@@ -2318,7 +2443,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             }
         }
             break;
-        case 6:
+        case 7:
         {
 			switch (indexPath.row)
 			{
@@ -2419,7 +2544,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			}
 		}
 			break;
-		case 5:
+        case 4:
+        {
+            [self showDataBackups];
+        }
+            break;
+		case 6:
 		{
             if (self.settingCopy.sdwSyncEnabled)
             {
@@ -2452,7 +2582,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 		}
             break;
-        case 6:
+        case 7:
         {
             switch (indexPath.row)
             {
@@ -2507,7 +2637,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
  }
  */
 
-
 #pragma mark TextFieldDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {	
@@ -2518,10 +2647,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	if (textField.tag == 11050) //Must Do
-	{
-		
-	}
+
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -2533,6 +2659,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		if (![text isEqualToString:@""])
 		{
         }
+    }
+    else if (textField.tag == 11080 + 3) //Geo-Fencing Interval
+    {
+        self.settingCopy.geoFencingInterval = [textField.text integerValue]*60;
     }
 }
 

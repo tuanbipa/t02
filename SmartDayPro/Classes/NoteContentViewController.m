@@ -198,7 +198,6 @@ extern SmartDayViewController *_sdViewCtrler;
     }
     
     [noteView startEdit];
-    
 }
 
 - (void)didReceiveMemoryWarning

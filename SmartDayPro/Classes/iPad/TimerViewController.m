@@ -253,6 +253,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.navigationItem.title = _timerText;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -361,12 +363,14 @@
     
     if (title != nil)
     {
-        return 30.0f;
+        //return 30.0f;
+        return 20;
     }
     
-    return 0.01f;
+    return 0;
 }
 
+/*
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     TimerManager *timer = [TimerManager getInstance];
@@ -408,13 +412,12 @@
     
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
-
+*/
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     // This will create a "invisible" footer
     return 0.01f;
 }
 
-/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	TimerManager *timer = [TimerManager getInstance];
 	
@@ -437,7 +440,7 @@
 	
 	return @"";
 }
-*/
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
    	TimerManager *timer = [TimerManager getInstance];

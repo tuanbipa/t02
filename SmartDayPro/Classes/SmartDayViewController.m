@@ -443,6 +443,18 @@ extern BOOL _gtdoTabHintShown;
         [addButtonItem release];
         */
         
+        UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        timerButton.backgroundColor = [UIColor clearColor];
+        [timerButton setImage:[[ImageManager getInstance] getImageWithName:@"bar_timer.png"] forState:UIControlStateNormal];
+        timerButton.frame = CGRectMake(0, 0, 33, 30);
+        [timerButton addTarget:self action:@selector(showTimer:)  forControlEvents:UIControlEventTouchUpInside];
+        
+        UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
+        
+        self.navigationItem.rightBarButtonItem = timerItem;
+        
+        [timerItem release];
+        
         [self.navigationController.navigationBar addSubview:filterIndicator];
     }
 }
@@ -580,14 +592,14 @@ extern BOOL _gtdoTabHintShown;
 }
 */
 
-
+/*
 - (void) jumpToDate:(NSDate *)date
 {
     [super jumpToDate:date];
     
     self.activeViewCtrler.view.userInteractionEnabled = YES;
 }
-
+*/
 
 - (void) scrollToDate:(NSDate *)date
 {
@@ -697,6 +709,23 @@ extern BOOL _gtdoTabHintShown;
             }
         }
     }
+}
+
+- (void) showModuleByIndex:(NSInteger)index
+{
+    //index: 0-Calendar, 1-Task, 2-Note, 3-Project
+    [self tab:tabButtons[index]];
+}
+
+- (void) jumpToDate:(NSDate *)date
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+
+    self.activeViewCtrler.view.userInteractionEnabled = YES;
+    
+    [super jumpToDate: date];
+    
+    [self showModuleByIndex:0];
 }
 
 /*
@@ -1258,7 +1287,7 @@ extern BOOL _gtdoTabHintShown;
 
 - (void)tab:(id)sender
 {
-    NSDate *dt = [[DBManager getInstance] getLastestTaskUpdateTime];
+    //NSDate *dt = [[DBManager getInstance] getLastestTaskUpdateTime];
     
     //printf("Task latest update time: %s\n", [[dt description] UTF8String]);
 
@@ -1266,6 +1295,8 @@ extern BOOL _gtdoTabHintShown;
     
     if (btn != selectedTabButton)
     {
+        [self deselect];
+        
         if (selectedTabButton != nil)
         {
             selectedTabButton.selected = NO;
@@ -1605,6 +1636,11 @@ extern BOOL _gtdoTabHintShown;
 - (void) test:(id)sender
 {
     //printf("test\n");
+}
+
+- (void) showTimer:(id)sender
+{
+    [super showTimer];
 }
 
 #pragma mark Hint

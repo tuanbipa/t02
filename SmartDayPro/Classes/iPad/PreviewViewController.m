@@ -425,12 +425,15 @@ PreviewViewController *_previewCtrler;
     
     Task *asset = (Task *) btn.tag;
     
+    /*
     if ([_iPadViewCtrler.activeViewCtrler isKindOfClass:[PlannerViewController class]]) {
         PlannerViewController *ctrl = (PlannerViewController*)_iPadViewCtrler.activeViewCtrler;
         [ctrl.plannerView goToDate:asset.startTime];
     } else {
         [_abstractViewCtrler jumpToDate:asset.startTime];
-    }
+    }*/
+    
+    [[AbstractActionViewController getInstance] jumpToDate:asset.startTime];
 }
 
 - (void) editAsset:(id)sender

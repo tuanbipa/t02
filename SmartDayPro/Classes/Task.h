@@ -206,6 +206,7 @@
 -(BOOL)isLong;
 -(BOOL)isPartial;
 -(BOOL)isDone;
+- (BOOL)isStar;
 -(BOOL) isMeetingInvited;
 -(BOOL) isShared;
 -(BOOL) isManual;

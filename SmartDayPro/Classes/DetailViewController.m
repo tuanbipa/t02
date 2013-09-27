@@ -172,7 +172,7 @@ DetailViewController *_detailViewCtrler = nil;
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(star:)
-                               normalStateImage:_isiPad?@"menu_star.png":@"menu_star_white.png"
+                               normalStateImage:[self.task isStar]?@"menu_star_yellow.png":(_isiPad?@"menu_star.png":@"menu_star_white.png")
                              selectedStateImage:nil];
     
     UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
@@ -379,12 +379,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     //UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:_closeText style:UIBarButtonItemStyleDone target:self action:@selector(close:)];
     
-    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
-    
-    if (_isiPad)
-    {
-        [self.navigationController.navigationBar setTintColor:nil];
-    }
+    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];    
 }
 
 - (void) viewDidAppear:(BOOL)animated

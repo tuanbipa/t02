@@ -24,6 +24,7 @@
 #import "LinkViewController.h"
 #import "ProjectInputViewController.h"
 #import "DateInputViewController.h"
+#import "TagEditViewController.h"
 
 #import "CommentViewController.h"
 
@@ -204,6 +205,16 @@ NoteDetailViewController *_noteDetailViewCtrler;
     [_iPadViewCtrler closeDetail];
 }
 
+- (void) editTag:(id) sender
+{
+    TagEditViewController *ctrler = [[TagEditViewController alloc] init];
+    
+    ctrler.objectEdit = self.noteCopy;
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    [ctrler release];
+}
+
 #pragma mark Views
 
 - (void) loadView
@@ -275,7 +286,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(convert2Task:)
-                                  normalStateImage:_isiPad?@"menu_converttotask.png":@"menu_converttotask.png"
+                                  normalStateImage:_isiPad?@"menu_converttotask.png":@"menu_converttotask_white.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *taskConvertItem = [[UIBarButtonItem alloc] initWithCustomView:taskConvertButton];
@@ -303,13 +314,13 @@ NoteDetailViewController *_noteDetailViewCtrler;
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, taskConvertItem, fixedItem, airDropItem, nil];
     }
     
-    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
-    
     [airDropItem release];
     [taskConvertItem release];
     [fixedItem release];
     [deleteItem release];
     
+    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -402,9 +413,23 @@ NoteDetailViewController *_noteDetailViewCtrler;
     return ([dict objectForKey:tag] != nil);
 }
 
+- (void) scroll
+{
+    if (!_isiPad)
+    {
+        CGPoint contentOffset = detailTableView.contentOffset;
+        
+        contentOffset.y = 400;
+        
+        detailTableView.contentOffset = contentOffset;
+    }
+}
+
 #pragma mark Edit
 - (void) editDate
 {
+    [self scroll];
+    
     if (![self.note isShared])
     {
         DateInputViewController *ctrler = [[DateInputViewController alloc] initWithNibName:@"DateInputViewController" bundle:nil];
@@ -419,6 +444,8 @@ NoteDetailViewController *_noteDetailViewCtrler;
 
 - (void) editProject
 {
+    [self scroll];
+    
     if (![self.note isShared])
     {
         ProjectInputViewController *ctrler = [[ProjectInputViewController alloc] init];
@@ -586,6 +613,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	tagInputTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
 	tagInputTextField.delegate = self;
+    tagInputTextField.tag = 10000;
 	
 	[cell.contentView addSubview:tagInputTextField];
 	[tagInputTextField release];
@@ -804,5 +832,73 @@ NoteDetailViewController *_noteDetailViewCtrler;
             [self editLink:nil];
     }
 }
+
+#pragma mark TextField delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	if (textField.tag == 10000) //tag
+	{
+		[self scroll];
+	}
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (![text isEqualToString:@""])
+    {
+        if (textField.tag == 10000)
+        {
+            if (![self checkExistingTag:text])
+            {
+                self.noteCopy.tag = [TagDictionary addTagToList:self.noteCopy.tag tag:text];
+            }
+            
+            [self tagInputReset];
+        }
+    }
+    
+    [textField resignFirstResponder];
+    
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+	if (textField.tag == 10000)
+	{
+		NSString *s = [textField.text stringByReplacingCharactersInRange:range withString:string];
+		
+		TagDictionary *dict = [TagDictionary getInstance];
+		
+		NSArray *tags = [dict findTags:s];
+		
+		int j = 0;
+		
+		for (NSString *tag in tags)
+		{
+			[tagButtons[j] setTitle:tag forState:UIControlStateNormal];
+			[tagButtons[j] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [tagButtons[j] setEnabled:YES];
+			j++;
+			
+			if (j == 8)
+			{
+				break;
+			}
+		}
+		
+		for (;j<9;j++)
+		{
+			[tagButtons[j] setTitle:@"" forState:UIControlStateNormal];
+			[tagButtons[j] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [tagButtons[j] setEnabled:NO];
+		}
+	}
+	
+	return YES;
+}
+
 
 @end
