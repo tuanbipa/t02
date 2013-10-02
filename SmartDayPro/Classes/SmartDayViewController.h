@@ -108,6 +108,7 @@
 -(void) editItemDetail:(Task *)item;
 - (void) editProjectDetail:(Project *)project;
 - (void) editNoteContent:(Task *)note;
+- (void) editMapLocation:(Task *)task;
 
 - (void) copyLink;
 - (void) pasteLink;

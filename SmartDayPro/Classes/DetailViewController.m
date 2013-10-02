@@ -47,6 +47,7 @@
 
 #import "AbstractSDViewController.h"
 #import "PlannerViewController.h"
+#import "SmartDayViewController.h"
 
 //#import "NoteDetailTableViewController.h"
 
@@ -54,6 +55,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 
 extern iPadViewController *_iPadViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
 
 DetailViewController *_detailViewCtrler = nil;
 
@@ -614,7 +616,14 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void)editLocation: (id)sender
 {
-    [_iPadViewCtrler editMapLocation:self.taskCopy];
+    if (_isiPad)
+    {
+        [_iPadViewCtrler editMapLocation:self.taskCopy];
+    }
+    else
+    {
+        [_sdViewCtrler editMapLocation:self.taskCopy];
+    }
 }
 
 -(void) editDuration

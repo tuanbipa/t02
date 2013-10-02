@@ -58,6 +58,8 @@
 #import "WeekViewController.h"
 #import "HintModalViewController.h"
 
+#import "MapLocationViewController.h"
+
 #import "SmartCalAppDelegate.h"
 
 extern SmartCalAppDelegate *_appDelegate;
@@ -1148,6 +1150,15 @@ extern BOOL _gtdoTabHintShown;
     NoteContentViewController *ctrler = [[NoteContentViewController alloc] init];
     ctrler.note = note;
 
+    [self.navigationController pushViewController:ctrler animated:YES];
+    [ctrler release];
+}
+
+- (void) editMapLocation:(Task *)task
+{
+    MapLocationViewController *ctrler = [[MapLocationViewController alloc] init];
+    ctrler.task = task;
+    
     [self.navigationController pushViewController:ctrler animated:YES];
     [ctrler release];
 }

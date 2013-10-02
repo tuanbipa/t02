@@ -180,6 +180,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) save
 {
+    NSInteger accChange = -1;
+    
+    if (sdwAccountChange)
+    {
+        accChange = 0;
+    }
+    else if (tdAccountChange)
+    {
+        accChange = 1;
+    }
+    
+    [[AbstractActionViewController getInstance] changeSettings:self.settingCopy syncAccountChange:accChange];
+}
+
+- (void) save_old
+{
 	TaskManager *tm = [TaskManager getInstance];
     DBManager *dbm = [DBManager getInstance];
     ProjectManager *pm = [ProjectManager getInstance];
@@ -1027,7 +1043,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     self.settingCopy.autoSyncEnabled = (segmentedControl.selectedSegmentIndex == 0);
     
-    [settingTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [settingTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationAutomatic]; //bug */
+    [settingTableView reloadData];
     
     if (self.settingCopy.autoSyncEnabled)
     {
@@ -2353,8 +2371,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 				}
 					break;					
 			}
-			break;
 		}
+            break;
 		case 3:
 		{
 			switch (indexPath.row)

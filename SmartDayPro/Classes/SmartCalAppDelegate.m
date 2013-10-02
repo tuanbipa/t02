@@ -139,7 +139,15 @@ BOOL _fromBackground = NO;
             //printf("add busyIndicator\n");
             
             //[self.window addSubview: busyIndicatorView];
-            [_iPadViewCtrler.navigationController.navigationBar addSubview:busyIndicatorView];
+            
+            if (_isiPad)
+            {
+                [_iPadViewCtrler.navigationController.navigationBar addSubview:busyIndicatorView];
+            }
+            else
+            {
+                [_sdViewCtrler.navigationController.navigationBar addSubview:busyIndicatorView];
+            }
 		}
 
         dispatch_async(dispatch_get_main_queue(),^ {

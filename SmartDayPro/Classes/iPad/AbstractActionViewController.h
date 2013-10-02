@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class Settings;
 @class Project;
 @class Task;
 @class MovableView;
@@ -123,6 +124,8 @@
 - (void) multiEdit:(BOOL) check;
 - (void) hideMultiEditBar;
 - (void) confirmMultiDeleteTask;
+
+- (void) changeSettings:(Settings *)settingCopy syncAccountChange:(NSInteger) syncAccountChange;
 
 - (void) backup;
 - (void) sync;

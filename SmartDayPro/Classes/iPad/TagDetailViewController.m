@@ -48,22 +48,38 @@
     frm.size = [Common getScreenSize];
     
     //UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
-    
-    frm.size.width = 2*frm.size.width/3;
+
+    if (_isiPad)
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
     self.view = contentView;
     [contentView release];
     
-    frm = CGRectMake(0, 40, contentView.frame.size.width, 40);
-    currentLocationButton = [Common createButton:_applyCurrentLocationText buttonType:UIButtonTypeCustom frame:frm titleColor:[UIColor blackColor] target:self selector:@selector(setCurrentLocaton:) normalStateImage:nil selectedStateImage:nil];
-    currentLocationButton.backgroundColor = [UIColor whiteColor];
+    frm = CGRectMake(contentView.frame.size.width/2-80, 10, 160, 40);
+    currentLocationButton = [Common createButton:_applyCurrentLocationText buttonType:UIButtonTypeCustom frame:frm titleColor:[Colors blueButton] target:self selector:@selector(setCurrentLocaton:) normalStateImage:nil selectedStateImage:nil];
+    currentLocationButton.backgroundColor = [UIColor clearColor];
+    
+    currentLocationButton.layer.cornerRadius = 4;
+    currentLocationButton.layer.borderWidth = 1;
+    currentLocationButton.layer.borderColor = [[Colors blueButton] CGColor];
     
     [contentView addSubview:currentLocationButton];
     
-    frm.origin.y += frm.size.height + 5;
+    frm = contentView.bounds;
+    frm.origin.y = currentLocationButton.frame.origin.y + currentLocationButton.frame.size.height + 5;
+    frm.origin.x = 10;
+    frm.size.width -= 20;
+    frm.size.height = 40;
     locationText = [[UITextField alloc] initWithFrame:frm];
     locationText.backgroundColor = [UIColor whiteColor];
     locationText.delegate = self;
@@ -77,11 +93,13 @@
     [locationText release];
     
     frm.origin.y += frm.size.height + 5;
-    frm.size.height = 400;
-    listTableView = [[UITableView alloc] initWithFrame:frm];
+    frm.size.height = contentView.bounds.size.height - frm.origin.y - 10;
+    listTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
     listTableView.delegate = self;
     listTableView.dataSource = self;
     listTableView.hidden = YES;
+    listTableView.backgroundColor = [UIColor clearColor];
+    
     [contentView addSubview:listTableView];
     //listTableView.hidden = YES;
     [listTableView release];
@@ -144,6 +162,8 @@
     if (currentLocation == nil) {
         return;
     }
+    
+    listTableView.hidden = YES;
     
     CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
     
@@ -242,6 +262,11 @@
     return [searchPlacemarksCache count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -251,6 +276,8 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
+    
+    cell.backgroundColor = [UIColor clearColor];
     
     {
         // otherwise display the list of results

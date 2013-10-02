@@ -88,6 +88,22 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 
 - (void) save
 {
+    NSInteger accChange = -1;
+    
+    if (sdwAccountChange)
+    {
+        accChange = 0;
+    }
+    else if (tdAccountChange)
+    {
+        accChange = 1;
+    }
+    
+    [[AbstractActionViewController getInstance] changeSettings:self.settingCopy syncAccountChange:accChange];
+}
+
+- (void) save_old
+{
 	TaskManager *tm = [TaskManager getInstance];
     DBManager *dbm = [DBManager getInstance];
     ProjectManager *pm = [ProjectManager getInstance];
@@ -105,12 +121,6 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	BOOL weekStartChange = (settings.weekStart != self.settingCopy.weekStart);
 	
 	BOOL tabBarChanged = (settings.tabBarAutoHide != self.settingCopy.tabBarAutoHide);
-    
-    /*
-	BOOL ekAutoSyncChange = (settings.ekAutoSyncEnabled != self.settingCopy.ekAutoSyncEnabled);
-	BOOL tdAutoSyncChange = (settings.tdAutoSyncEnabled != self.settingCopy.tdAutoSyncEnabled);
-	BOOL sdwAutoSyncChange = (settings.sdwAutoSyncEnabled != self.settingCopy.sdwAutoSyncEnabled);
-    */
     
     BOOL autoSyncChange = settings.autoSyncEnabled != settings.autoSyncEnabled;
     
@@ -138,17 +148,6 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 		tm.lastTaskProjectKey = self.settingCopy.taskDefaultProject;
 	}
 	
-    /*
-    if (self.tdAccountChange)
-	{
-		[settings resetToodledoSync];
-		
-		[dbm resetTaskSyncIds];
-        [pm resetToodledoIds];
-        
-        [[TDSync getInstance] resetSyncSection];
-	}*/
-    
     if (self.tdAccountChange || taskSyncChange)
 	{
         [dbm resetProjectSyncIds];
@@ -273,8 +272,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
         tm.eventDummy.project = settings.taskDefaultProject;
         tm.taskDummy.project = settings.taskDefaultProject;
         
-        [[_abstractViewCtrler getCategoryViewController] loadAndShowList];
-        [[_abstractViewCtrler getSmartListViewController] refreshQuickAddColor];
+        //[[_abstractViewCtrler getCategoryViewController] loadAndShowList];
+        //[[_abstractViewCtrler getSmartListViewController] refreshQuickAddColor];
+        [[[AbstractActionViewController getInstance] getCategoryViewController] loadAndShowList];
+        [[[AbstractActionViewController getInstance] getSmartListViewController] refreshQuickAddColor];
     }
     
     Project *prj = [pm getProjectByKey:settings.taskDefaultProject];

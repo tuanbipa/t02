@@ -26,6 +26,7 @@
 #import "DBManager.h"
 #import "BusyController.h"
 #import "TimerManager.h"
+#import "TagDictionary.h"
 
 #import "TaskView.h"
 #import "PlanView.h"
@@ -2305,6 +2306,197 @@ extern DetailViewController *_detailViewCtrler;
         [focusView reconcileLinks:notification.userInfo];
         
         [focusView setNeedsDisplay];
+    }
+}
+
+#pragma mark Settings Actions
+- (void) changeSettings:(Settings *)settingCopy syncAccountChange:(NSInteger) syncAccountChange
+{
+    //syncAccountChange value: -1 - no change, 0:sdw account change, 1: td account change
+	TaskManager *tm = [TaskManager getInstance];
+    DBManager *dbm = [DBManager getInstance];
+    ProjectManager *pm = [ProjectManager getInstance];
+	
+	Settings *settings = [Settings getInstance];
+    
+    BOOL hideFutureTaskChange = settings.hideFutureTasks != settingCopy.hideFutureTasks;
+	
+    BOOL workTimeChange = [settings checkWorkingTimeChange:settingCopy];
+    
+	BOOL reSchedule = (settings.eventCombination != settingCopy.eventCombination || settings.minimumSplitSize != settingCopy.minimumSplitSize || workTimeChange);
+	
+	BOOL changeSkin = (settings.skinStyle != settingCopy.skinStyle);
+	
+	BOOL weekStartChange = (settings.weekStart != settingCopy.weekStart);
+	
+	BOOL tabBarChanged = (settings.tabBarAutoHide != settingCopy.tabBarAutoHide);
+    
+    BOOL autoSyncChange = settings.autoSyncEnabled != settings.autoSyncEnabled;
+    
+    BOOL taskSyncChange = settings.tdSyncEnabled != settingCopy.tdSyncEnabled || settings.rmdSyncEnabled != settingCopy.rmdSyncEnabled || settings.sdwSyncEnabled != settingCopy.sdwSyncEnabled;
+    
+    BOOL ekSyncChange = settings.ekSyncEnabled != settings.ekSyncEnabled;
+    
+    BOOL mustDoDaysChange = (settings.mustDoDays != settingCopy.mustDoDays);
+    
+    BOOL defaultCatChange = (settings.taskDefaultProject != settingCopy.taskDefaultProject);
+    
+    BOOL ekSyncWindowChange = (settings.syncWindowStart != settingCopy.syncWindowStart) || (settings.syncWindowEnd != settingCopy.syncWindowEnd);
+    
+    BOOL timeZoneSupportChange = settings.timeZoneSupport != settingCopy.timeZoneSupport;
+    
+    BOOL timeZoneChange = settings.timeZoneID != settingCopy.timeZoneID;
+    
+	if (settings.taskDuration != settingCopy.taskDuration)
+	{
+		tm.lastTaskDuration = settingCopy.taskDuration;
+	}
+	
+	if (settings.taskDefaultProject != settingCopy.taskDefaultProject)
+	{
+		tm.lastTaskProjectKey = settingCopy.taskDefaultProject;
+	}
+	
+    if (syncAccountChange == 1 || taskSyncChange)
+	{
+        [dbm resetProjectSyncIds];
+		[dbm resetTaskSyncIds];
+        [pm resetSyncIds];
+        [settings resetToodledoSync];
+        [settings resetReminderSync];
+        
+        if (syncAccountChange == 1)
+        {
+            [[TDSync getInstance] resetSyncSection];
+        }
+	}
+    
+    if (syncAccountChange == 0 || taskSyncChange)
+	{
+		[settings resetSDWSync];
+        [dbm resetSDWIds];
+        [pm resetSDWIds];
+        
+        if (syncAccountChange == 0)
+        {
+            [[SDWSync getInstance] resetSyncSection];
+        }
+	}
+    
+	[settings updateSettings:settingCopy];
+    
+    if (!settings.timeZoneSupport)
+    {
+        settings.timeZoneID = [Settings findTimeZoneID:[NSTimeZone systemTimeZone]];
+    }
+    
+    if (timeZoneSupportChange)
+    {
+        if (!settings.timeZoneSupport)
+        {
+            [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
+        }
+        else
+        {
+            [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
+        }
+    }
+    else if (timeZoneChange)
+    {
+        [NSTimeZone setDefaultTimeZone:[Settings getTimeZoneByID:settings.timeZoneID]];
+    }
+    
+    if (weekStartChange)
+    {
+        [[NSCalendar currentCalendar] setFirstWeekday:settings.weekStart==0?1:2];
+    }
+    
+    if (tabBarChanged)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TabBarModeChangeNotification" object:nil];
+    }
+	
+	if (changeSkin)
+	{
+		for (UIViewController *ctrler in self.navigationController.viewControllers)
+		{
+			if ([ctrler respondsToSelector:@selector(changeSkin)])
+			{
+				[ctrler changeSkin];
+			}
+		}
+	}
+    
+    if (timeZoneSupportChange || timeZoneChange)
+    {
+        [tm initData];
+        
+        [[AbstractActionViewController getInstance] refreshData];
+    }
+	else if (reSchedule && !mustDoDaysChange)
+	{
+		[tm scheduleTasks];
+	}
+	
+	if ((weekStartChange && !mustDoDaysChange) || timeZoneSupportChange || timeZoneChange)
+	{
+        //[_abstractViewCtrler.miniMonthView initCalendar:tm.today];
+        [[[AbstractActionViewController getInstance] getMiniMonth] initCalendar:tm.today];
+	}
+	
+	[[TagDictionary getInstance] saveDict];
+    
+    BOOL toodledoAccountValid = ![settings.tdEmail isEqualToString:@""] && ![settings.tdPassword isEqualToString:@""] && settings.tdVerified;
+    
+    BOOL sdwAccountValid = ![settings.sdwEmail isEqualToString:@""] && ![settings.sdwEmail isEqualToString:@""] && settings.sdwVerified;
+    
+	BOOL ekAutoSyncON = (settings.ekSyncEnabled && settings.autoSyncEnabled) && (autoSyncChange || ekSyncWindowChange || ekSyncChange);
+	BOOL tdAutoSyncON = settings.tdSyncEnabled && settings.autoSyncEnabled && (autoSyncChange || taskSyncChange);
+	BOOL sdwAutoSyncON = settings.sdwSyncEnabled && settings.autoSyncEnabled && (autoSyncChange || taskSyncChange);
+    BOOL rmdAutoSyncON = settings.ekAutoSyncEnabled && settings.autoSyncEnabled && (autoSyncChange || taskSyncChange);
+    
+	if (ekAutoSyncON)
+	{
+		[[EKSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+	}
+    else if (rmdAutoSyncON)
+    {
+        [[EKReminderSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+    }
+    else if (toodledoAccountValid && tdAutoSyncON)
+	{
+		[[TDSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+	}
+    else if (sdwAccountValid && sdwAutoSyncON)
+	{
+		[[SDWSync getInstance] performSelector:@selector(initBackgroundAuto2WaySync) withObject:nil afterDelay:0.5];
+	}
+    
+    if (hideFutureTaskChange || mustDoDaysChange)
+    {
+        [[AbstractActionViewController getInstance] resetAllData];
+    }
+	
+    if (defaultCatChange)
+    {
+        tm.eventDummy.project = settings.taskDefaultProject;
+        tm.taskDummy.project = settings.taskDefaultProject;
+        
+        [[[AbstractActionViewController getInstance] getCategoryViewController] loadAndShowList];
+        [[[AbstractActionViewController getInstance] getSmartListViewController] refreshQuickAddColor];
+    }
+    
+    Project *prj = [pm getProjectByKey:settings.taskDefaultProject];
+    
+    if (prj != nil)
+    {
+        // to refresh visibility in mySD if it was hidden in mySD before
+        [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
+    }
+    
+    if (workTimeChange)
+    {
+        [[[AbstractActionViewController getInstance] getCalendarViewController] refreshCalendarDay];
     }
 }
 

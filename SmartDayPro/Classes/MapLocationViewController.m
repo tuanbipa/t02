@@ -54,22 +54,22 @@ extern iPadViewController *_iPadViewCtrler;
     [contentView release];
     
     // start label
-    UILabel *currentLocation  = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 40)];
+    UILabel *currentLocation  = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 180, 30)];
     currentLocation.text = [_startText stringByAppendingFormat:@": %@", _currentLocationText];
     [contentView addSubview:currentLocation];
     [currentLocation release];
     
     // end lable
-    UILabel *endLabel  = [[UILabel alloc] initWithFrame:CGRectMake(currentLocation.frame.origin.x + currentLocation.frame.size.width + 10, 10, 40, 40)];
-    endLabel.text = _endText;
+    UILabel *endLabel  = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?(currentLocation.frame.origin.x + currentLocation.frame.size.width + 10):10, _isiPad?5:40, 40, 30)];
+    endLabel.text = [NSString stringWithFormat:@"%@:", _endText];
     [contentView addSubview:endLabel];
     [endLabel release];
     
-    locationTextField = [[UITextField alloc] initWithFrame:CGRectMake(endLabel.frame.origin.x + endLabel.frame.size.width, currentLocation.frame.origin.y, 400, 40)];
+    locationTextField = [[UITextField alloc] initWithFrame:CGRectMake(endLabel.frame.origin.x + endLabel.frame.size.width, endLabel.frame.origin.y, _isiPad?400:220, 30)];
     locationTextField.backgroundColor = [UIColor whiteColor];
     locationTextField.textAlignment = NSTextAlignmentLeft;
 	locationTextField.keyboardType = UIKeyboardTypeDefault;
-    //locationTextField.returnKeyType = UIReturnKeyDone;
+    locationTextField.returnKeyType = UIReturnKeyDone;
     locationTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
     locationTextField.delegate = self;
     locationTextField.text = self.task.location;
@@ -78,12 +78,14 @@ extern iPadViewController *_iPadViewCtrler;
 	[locationTextField release];
     
     UIButton *editLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    editLocationButton.frame = CGRectMake(locationTextField.frame.origin.x + locationTextField.frame.size.width, locationTextField.frame.origin.y, 40, 40);
+    editLocationButton.frame = CGRectMake(locationTextField.frame.origin.x + locationTextField.frame.size.width, locationTextField.frame.origin.y-5, 40, 40);
     [editLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
     [contentView addSubview:editLocationButton];
     
     UIColor *textColor = [UIColor colorWithRed:21.0/255 green:125.0/255 blue:251.0/255 alpha:1];
     // route button
+    
+    /*
     UIButton *routeButton = [Common createButton:_routeText
                                       buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(editLocationButton.frame.origin.x + editLocationButton.frame.size.width + 10, editLocationButton.frame.origin.y, 80, 40)
@@ -92,9 +94,32 @@ extern iPadViewController *_iPadViewCtrler;
                                 normalStateImage:nil
                               selectedStateImage:nil];
     [contentView addSubview:routeButton];
+    */
     
+    UIButton *routeButton = [Common createButton:_routeText
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(contentView.bounds.size.width - 70, 5, 60, 30)
+                                      titleColor:textColor target:self
+                                        selector:@selector(routeDirection:)
+                                normalStateImage:nil
+                              selectedStateImage:nil];
+    
+    routeButton.layer.cornerRadius = 4;
+    routeButton.layer.borderWidth = 1;
+    routeButton.layer.borderColor = [[Colors blueButton] CGColor];
+    
+    [contentView addSubview:routeButton];
+   
+/*
     // ETA
     etaLable = [[UILabel alloc] initWithFrame:CGRectMake(currentLocation.frame.origin.x, currentLocation.frame.origin.y +currentLocation.frame.size.height + 5, 300, 40)];
+    etaLable.textColor = [UIColor blackColor];
+    [contentView addSubview:etaLable];
+    [etaLable release];
+*/
+    
+    // ETA
+    etaLable = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?10:endLabel.frame.origin.x, endLabel.frame.origin.y + endLabel.frame.size.height + 5, 300, 25)];
     etaLable.textColor = [UIColor blackColor];
     [contentView addSubview:etaLable];
     [etaLable release];
@@ -173,7 +198,14 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)done: (id)sender
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    if (_isiPad)
+    {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)save: (id)sender
@@ -287,7 +319,7 @@ extern iPadViewController *_iPadViewCtrler;
     NSString *distance = [distanceFormat stringFromDistance:totalDistance];
     [distanceFormat release];
     
-    etaLable.text = [NSString stringWithFormat:@"ETA: %@, %@ to destination", distance, [Common getDurationString:totalTime]];
+    etaLable.text = [NSString stringWithFormat:_isiPad?@"ETA: %@, %@ to destination": @"ETA: %@, %@", distance, [Common getDurationString:totalTime]];
     etaLable.tag = totalTime;
 }
 
@@ -310,6 +342,13 @@ extern iPadViewController *_iPadViewCtrler;
 }
 
 #pragma mark textView delegate
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+	
+	return YES;
+}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
