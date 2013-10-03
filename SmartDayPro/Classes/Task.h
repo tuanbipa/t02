@@ -143,6 +143,7 @@
 @property BOOL isTop;
 @property BOOL isSplitted;
 @property BOOL hasNoDuration;
+@property BOOL isMultiEdit; // use to keep selected status when multi-edit
 
 @property (nonatomic, assign) NSInteger plannerDuration;
 @property (nonatomic, copy) NSDate *plannerStartTime;

@@ -88,6 +88,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 @synthesize isTop;
 @synthesize isSplitted;
 @synthesize hasNoDuration;
+@synthesize isMultiEdit;
 
 @synthesize listSource;
 
@@ -162,6 +163,8 @@ static sqlite3_stmt *task_delete_statement = nil;
 		self.isSplitted = NO;
 		
 		self.hasNoDuration = NO;
+        
+        self.isMultiEdit = NO;
         
         self.listSource = SOURCE_SMARTLIST;
         

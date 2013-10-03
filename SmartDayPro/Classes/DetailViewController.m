@@ -152,7 +152,7 @@ DetailViewController *_detailViewCtrler = nil;
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(delete:)
-                                 normalStateImage:_isiPad?@"menu_trash.png":@"menu_trash_white.png"
+                                 normalStateImage:@"menu_trash_white.png"
                                selectedStateImage:nil];
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
@@ -163,7 +163,7 @@ DetailViewController *_detailViewCtrler = nil;
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(copy:)
-                               normalStateImage:_isiPad?@"menu_duplicate.png":@"menu_duplicate_white.png"
+                               normalStateImage:@"menu_duplicate_white.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
@@ -174,7 +174,7 @@ DetailViewController *_detailViewCtrler = nil;
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(star:)
-                               normalStateImage:[self.task isStar]?@"menu_star_yellow.png":(_isiPad?@"menu_star.png":@"menu_star_white.png")
+                               normalStateImage:[self.task isStar]?@"menu_star_yellow.png":@"menu_star_white.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
@@ -185,7 +185,7 @@ DetailViewController *_detailViewCtrler = nil;
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                         selector:@selector(defer:)
-                                normalStateImage:_isiPad?@"menu_defer.png":@"menu_defer_white.png"
+                                normalStateImage:@"menu_defer_white.png"
                               selectedStateImage:nil];
     
     UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
@@ -196,7 +196,7 @@ DetailViewController *_detailViewCtrler = nil;
                                       titleColor:[UIColor whiteColor]
                                           target:self
                                         selector:@selector(doToday:)
-                                normalStateImage:_isiPad?@"menu_dotoday.png":@"menu_dotoday_white.png"
+                                normalStateImage:@"menu_dotoday_white.png"
                               selectedStateImage:nil];
     
     UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
@@ -207,7 +207,7 @@ DetailViewController *_detailViewCtrler = nil;
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(markDone:)
-                                   normalStateImage:_isiPad?@"menu_done.png":@"menu_done_white.png"
+                                   normalStateImage:@"menu_done_white.png"
                                  selectedStateImage:nil];
     
     UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
@@ -218,7 +218,7 @@ DetailViewController *_detailViewCtrler = nil;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(share2AirDrop:)
-                                  normalStateImage:_isiPad?@"menu_airdrop.png":@"menu_airdrop_white.png"
+                                  normalStateImage:@"menu_airdrop_white.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
@@ -894,6 +894,7 @@ DetailViewController *_detailViewCtrler = nil;
 	contactList.peoplePickerDelegate = self;
     
     contactList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
     [self presentViewController:contactList animated:YES completion:NULL];
     
 	[contactList release];

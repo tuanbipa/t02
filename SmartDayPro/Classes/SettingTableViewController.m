@@ -1287,11 +1287,18 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	UIButton *resetButton = [Common createButton:_resetText 
 										 buttonType:UIButtonTypeCustom 
 											  frame:CGRectMake(210, 5, 80, 30)
-										 titleColor:[UIColor whiteColor]
+										 titleColor:[Colors blueButton]
 											 target:self
 										   selector:@selector(resetHint:) 
-								   normalStateImage:@"hint_button.png" 
-								 selectedStateImage:nil];	
+								   //normalStateImage:@"hint_button.png"
+                                normalStateImage:nil
+								 selectedStateImage:nil];
+    
+    resetButton.layer.cornerRadius = 4;
+    resetButton.layer.borderColor = [[Colors blueButton] CGColor];
+    resetButton.layer.borderWidth = 1;
+    resetButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    
 	resetButton.tag = baseTag;
 	[cell.contentView addSubview:resetButton];
 }

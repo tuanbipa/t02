@@ -275,7 +275,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(share2AirDrop:)
-                                  normalStateImage:_isiPad?@"menu_airdrop.png":@"menu_airdrop_white.png"
+                                  normalStateImage:@"menu_airdrop_white.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
@@ -286,7 +286,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(convert2Task:)
-                                  normalStateImage:_isiPad?@"menu_converttotask.png":@"menu_converttotask_white.png"
+                                  normalStateImage:@"menu_converttotask_white.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *taskConvertItem = [[UIBarButtonItem alloc] initWithCustomView:taskConvertButton];
@@ -300,7 +300,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(delete:)
-                                 normalStateImage:_isiPad?@"menu_trash.png":@"menu_trash_white.png"
+                                 normalStateImage:@"menu_trash_white.png"
                                selectedStateImage:nil];
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];

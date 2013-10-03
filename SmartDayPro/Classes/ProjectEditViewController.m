@@ -410,7 +410,7 @@ extern iPadViewController *_iPadViewCtrler;
                                            titleColor:[UIColor whiteColor]
                                                target:self
                                              selector:@selector(delete:)
-                                     normalStateImage:_isiPad?@"menu_trash.png":@"menu_trash_white.png"
+                                     normalStateImage:@"menu_trash_white.png"
                                    selectedStateImage:nil];
         
         UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
@@ -421,7 +421,7 @@ extern iPadViewController *_iPadViewCtrler;
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(copy:)
-                                   normalStateImage:_isiPad?@"menu_duplicate.png":@"menu_duplicate_white.png"
+                                   normalStateImage:@"menu_duplicate_white.png"
                                  selectedStateImage:nil];
         
         UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
@@ -432,7 +432,7 @@ extern iPadViewController *_iPadViewCtrler;
                                             titleColor:[UIColor whiteColor]
                                                 target:self
                                               selector:@selector(share2AirDrop:)
-                                      normalStateImage:_isiPad?@"menu_airdrop.png":@"menu_airdrop_white.png"
+                                      normalStateImage:@"menu_airdrop_white.png"
                                     selectedStateImage:nil];
         
         UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];

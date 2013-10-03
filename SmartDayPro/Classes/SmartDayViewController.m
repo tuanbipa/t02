@@ -157,9 +157,10 @@ extern BOOL _gtdoTabHintShown;
 
 -(void)changeSkin
 {
+    /*
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]){
         [self.navigationController.navigationBar setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"top_bg.png"] forBarMetrics:UIBarMetricsDefault];
-    }
+    }*/
 }
 
 
@@ -448,7 +449,7 @@ extern BOOL _gtdoTabHintShown;
         UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
         timerButton.backgroundColor = [UIColor clearColor];
         [timerButton setImage:[[ImageManager getInstance] getImageWithName:@"bar_timer.png"] forState:UIControlStateNormal];
-        timerButton.frame = CGRectMake(0, 0, 33, 30);
+        timerButton.frame = CGRectMake(0, 0, 40, 40);
         [timerButton addTarget:self action:@selector(showTimer:)  forControlEvents:UIControlEventTouchUpInside];
         
         UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
@@ -2756,7 +2757,7 @@ extern BOOL _gtdoTabHintShown;
 	[optionView addSubview:noteButton];
     
     UIImageView *anchoredImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 130, 20, 20)];
-	anchoredImageView.image = [[ImageManager getInstance] getImageWithName:@"newTask.png"];
+	anchoredImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_atask.png"];
 	[optionView addSubview:anchoredImageView];
 	[anchoredImageView release];
 	
@@ -2903,7 +2904,7 @@ extern BOOL _gtdoTabHintShown;
 	[optionView addSubview:dueButton];
   
     UIImageView *longImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 165, 20, 20)];
-	longImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+	longImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_long.png"];
 	[optionView addSubview:longImageView];
 	[longImageView release];
 	
@@ -2928,7 +2929,7 @@ extern BOOL _gtdoTabHintShown;
 	[optionView addSubview:longButton];
     
     UIImageView *shortImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 200, 20, 20)];
-	shortImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+	shortImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_short.png"];
 	[optionView addSubview:shortImageView];
 	[shortImageView release];
 	
@@ -3102,7 +3103,7 @@ extern BOOL _gtdoTabHintShown;
 	[optionView addSubview:todayButton];
     
     UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
-	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_today.png"];
+	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_thisweek.png"];
 	[optionView addSubview:weekImageView];
 	[weekImageView release];
 	

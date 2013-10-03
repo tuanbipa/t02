@@ -336,7 +336,7 @@ iPadViewController *_iPadViewCtrler;
     }*/
     
     //[_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
-    [[AbstractActionViewController getInstance] reconcileItem:task reSchedule:NO];
+    [[AbstractActionViewController getInstance] reconcileItem:task reSchedule:YES];
 }
 
 - (void) changeNoteDate:(Task *)task
@@ -466,6 +466,10 @@ iPadViewController *_iPadViewCtrler;
         {
             [self changeNoteDate:task];
         }
+        
+        MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
+        
+        [mmView jumpToDate:calDate];
     }
 
 }
@@ -495,9 +499,9 @@ iPadViewController *_iPadViewCtrler;
     MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
     
     //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
-    NSDate *calDate = [mmView.calView getSelectedDate];
+    //NSDate *calDate = [mmView.calView getSelectedDate];
     
-    NSDate *visitDate = nil;
+    //NSDate *visitDate = nil;
     
     //BOOL needEdit = NO;
 
@@ -592,15 +596,21 @@ iPadViewController *_iPadViewCtrler;
     
     if (moveInMM)
     {
-        MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
+        //MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
         
         //[_abstractViewCtrler.miniMonthView jumpToDate:(visitDate != nil?visitDate:calDate)];
-        [mmView jumpToDate:(visitDate != nil?visitDate:calDate)];
+        //[mmView jumpToDate:(visitDate != nil?visitDate:calDate)];
+        
+        NSDate *calDate = [self getDateInMonthAtDrop];
+        
+        [mmView jumpToDate:calDate];
 
+        /*
         if (visitDate != nil)
         {
             [_sdViewCtrler showCalendarView];    
         }
+        */
         /*
         if (needEdit)
         {

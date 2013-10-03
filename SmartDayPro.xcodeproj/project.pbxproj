@@ -799,6 +799,24 @@
 		67E18E9E16F99BEF00F1E976 /* PlannerMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */; };
 		67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9616F99BEF00F1E976 /* PlannerView.m */; };
 		67E18EA016F99BEF00F1E976 /* PlannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9616F99BEF00F1E976 /* PlannerView.m */; };
+		67E1ACA017FC1E3500271156 /* filter_atask.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9917FC1E3500271156 /* filter_atask.png */; };
+		67E1ACA117FC1E3500271156 /* filter_atask.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9917FC1E3500271156 /* filter_atask.png */; };
+		67E1ACA217FC1E3500271156 /* filter_atask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9A17FC1E3500271156 /* filter_atask@2x.png */; };
+		67E1ACA317FC1E3500271156 /* filter_atask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9A17FC1E3500271156 /* filter_atask@2x.png */; };
+		67E1ACA417FC1E3500271156 /* filter_long.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9B17FC1E3500271156 /* filter_long.png */; };
+		67E1ACA517FC1E3500271156 /* filter_long.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9B17FC1E3500271156 /* filter_long.png */; };
+		67E1ACA617FC1E3500271156 /* filter_long@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9C17FC1E3500271156 /* filter_long@2x.png */; };
+		67E1ACA717FC1E3500271156 /* filter_long@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9C17FC1E3500271156 /* filter_long@2x.png */; };
+		67E1ACA817FC1E3500271156 /* filter_short.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9D17FC1E3500271156 /* filter_short.png */; };
+		67E1ACA917FC1E3500271156 /* filter_short.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9D17FC1E3500271156 /* filter_short.png */; };
+		67E1ACAA17FC1E3500271156 /* filter_short@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9E17FC1E3500271156 /* filter_short@2x.png */; };
+		67E1ACAB17FC1E3500271156 /* filter_short@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9E17FC1E3500271156 /* filter_short@2x.png */; };
+		67E1ACAC17FC1E3500271156 /* SD_60.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9F17FC1E3500271156 /* SD_60.png */; };
+		67E1ACAD17FC1E3500271156 /* SD_60.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1AC9F17FC1E3500271156 /* SD_60.png */; };
+		67E1ACB017FC22F600271156 /* filter_thisweek.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1ACAE17FC22F600271156 /* filter_thisweek.png */; };
+		67E1ACB117FC22F600271156 /* filter_thisweek.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1ACAE17FC22F600271156 /* filter_thisweek.png */; };
+		67E1ACB217FC22F600271156 /* filter_thisweek@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1ACAF17FC22F600271156 /* filter_thisweek@2x.png */; };
+		67E1ACB317FC22F600271156 /* filter_thisweek@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1ACAF17FC22F600271156 /* filter_thisweek@2x.png */; };
 		67E1F4A216E9A03A002D70AF /* bar_tag_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F49E16E9A03A002D70AF /* bar_tag_blue.png */; };
 		67E1F4A316E9A03A002D70AF /* bar_tag_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F49F16E9A03A002D70AF /* bar_tag_blue@2x.png */; };
 		67E1F4A416E9A03A002D70AF /* pattern.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E1F4A016E9A03A002D70AF /* pattern.png */; };
@@ -2604,6 +2622,15 @@
 		67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerMonthView.m; sourceTree = "<group>"; };
 		67E18E9516F99BEF00F1E976 /* PlannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerView.h; sourceTree = "<group>"; };
 		67E18E9616F99BEF00F1E976 /* PlannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerView.m; sourceTree = "<group>"; };
+		67E1AC9917FC1E3500271156 /* filter_atask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_atask.png; sourceTree = "<group>"; };
+		67E1AC9A17FC1E3500271156 /* filter_atask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_atask@2x.png"; sourceTree = "<group>"; };
+		67E1AC9B17FC1E3500271156 /* filter_long.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_long.png; sourceTree = "<group>"; };
+		67E1AC9C17FC1E3500271156 /* filter_long@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_long@2x.png"; sourceTree = "<group>"; };
+		67E1AC9D17FC1E3500271156 /* filter_short.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_short.png; sourceTree = "<group>"; };
+		67E1AC9E17FC1E3500271156 /* filter_short@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_short@2x.png"; sourceTree = "<group>"; };
+		67E1AC9F17FC1E3500271156 /* SD_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_60.png; sourceTree = "<group>"; };
+		67E1ACAE17FC22F600271156 /* filter_thisweek.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_thisweek.png; sourceTree = "<group>"; };
+		67E1ACAF17FC22F600271156 /* filter_thisweek@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_thisweek@2x.png"; sourceTree = "<group>"; };
 		67E1F49E16E9A03A002D70AF /* bar_tag_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_tag_blue.png; sourceTree = "<group>"; };
 		67E1F49F16E9A03A002D70AF /* bar_tag_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_tag_blue@2x.png"; sourceTree = "<group>"; };
 		67E1F4A016E9A03A002D70AF /* pattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pattern.png; sourceTree = "<group>"; };
@@ -3659,6 +3686,8 @@
 				67CF2DE6161951B8001FE1AA /* expand.png */,
 				67E41950162E84AB0026CFDE /* filter_all.png */,
 				67E41951162E84AB0026CFDE /* filter_all@2x.png */,
+				67E1AC9917FC1E3500271156 /* filter_atask.png */,
+				67E1AC9A17FC1E3500271156 /* filter_atask@2x.png */,
 				67EC1B1A17169F0800582703 /* filter_day.png */,
 				67EC1B1B17169F0800582703 /* filter_day@2x.png */,
 				67E41960162EADEA0026CFDE /* filter_done.png */,
@@ -3667,10 +3696,16 @@
 				67E41952162E84AB0026CFDE /* filter_due@2x.png */,
 				67E41953162E84AB0026CFDE /* filter_gtd.png */,
 				67E41954162E84AB0026CFDE /* filter_gtd@2x.png */,
+				67E1AC9B17FC1E3500271156 /* filter_long.png */,
+				67E1AC9C17FC1E3500271156 /* filter_long@2x.png */,
+				67E1AC9D17FC1E3500271156 /* filter_short.png */,
+				67E1AC9E17FC1E3500271156 /* filter_short@2x.png */,
 				677A4D4816BFBB690082330A /* filter_star.png */,
 				67E41955162E84AB0026CFDE /* filter_star@2x.png */,
 				67E41956162E84AB0026CFDE /* filter_start.png */,
 				67E41957162E84AB0026CFDE /* filter_start@2x.png */,
+				67E1ACAE17FC22F600271156 /* filter_thisweek.png */,
+				67E1ACAF17FC22F600271156 /* filter_thisweek@2x.png */,
 				67D16D2316310CEF007C5A03 /* filter_today.png */,
 				67D16D2416310CEF007C5A03 /* filter_today@2x.png */,
 				67EC1B1C17169F0800582703 /* filter_week.png */,
@@ -3935,6 +3970,7 @@
 				67CF2E73161951B8001FE1AA /* SD_512.png */,
 				67CF2E74161951B8001FE1AA /* SD_57.png */,
 				6700B29517F2874400AD8B3F /* SD_58.png */,
+				67E1AC9F17FC1E3500271156 /* SD_60.png */,
 				67CF2E75161951B8001FE1AA /* SD_72.png */,
 				A25C05A81783D96200FA84FE /* settings_backup.png */,
 				A25C05A91783D96200FA84FE /* settings_backup@2x.png */,
@@ -4273,6 +4309,7 @@
 				67CF2EC1161951B8001FE1AA /* projectDetails.png in Resources */,
 				67CF2EC2161951B8001FE1AA /* projectExpand.png in Resources */,
 				67CF2EC3161951B8001FE1AA /* showMenu.png in Resources */,
+				67E1ACB017FC22F600271156 /* filter_thisweek.png in Resources */,
 				6700B2C717F2D82600AD8B3F /* menu_converttotask_white.png in Resources */,
 				67CF2EC4161951B8001FE1AA /* switchMonth.png in Resources */,
 				67CF2EC5161951B8001FE1AA /* task_icon.png in Resources */,
@@ -4291,6 +4328,7 @@
 				67CF2ED1161951B8001FE1AA /* V3_0Hint.htm in Resources */,
 				67CF2ED2161951B8001FE1AA /* V3_1Hint.htm in Resources */,
 				67CF2ED3161951B8001FE1AA /* WeekDayQuickAddHint.htm in Resources */,
+				67E1ACA217FC1E3500271156 /* filter_atask@2x.png in Resources */,
 				67CF2ED4161951B8001FE1AA /* WeekViewHint.htm in Resources */,
 				67CF2ED5161951B8001FE1AA /* WorkBalanceHint.htm in Resources */,
 				67CEE35517E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */,
@@ -4388,6 +4426,7 @@
 				67CF2F2C161951B8001FE1AA /* graybg.png in Resources */,
 				6700B29D17F2874400AD8B3F /* menu_copylink_white.png in Resources */,
 				67CF2F2D161951B8001FE1AA /* handle.png in Resources */,
+				67E1ACB217FC22F600271156 /* filter_thisweek@2x.png in Resources */,
 				67CF2F2E161951B8001FE1AA /* hashmash_0.png in Resources */,
 				67CF2F2F161951B8001FE1AA /* hashmash_1.png in Resources */,
 				67CF2F30161951B8001FE1AA /* hashmash_2.png in Resources */,
@@ -4396,6 +4435,7 @@
 				67CF2F33161951B8001FE1AA /* hint_button.png in Resources */,
 				67149D4717F3DF500005E8E2 /* menu_star_yellow.png in Resources */,
 				67CF2F34161951B8001FE1AA /* history.png in Resources */,
+				67E1ACA817FC1E3500271156 /* filter_short.png in Resources */,
 				67CF2F35161951B8001FE1AA /* history@2x.png in Resources */,
 				6700B2AB17F2874400AD8B3F /* menu_dotoday_white@2x.png in Resources */,
 				67CF2F36161951B8001FE1AA /* LCLlogo_smartapp.png in Resources */,
@@ -4451,6 +4491,7 @@
 				6700B2C117F2874400AD8B3F /* SD_256.png in Resources */,
 				67CF2F67161951B8001FE1AA /* menu_pinned@2x.png in Resources */,
 				67CF2F68161951B8001FE1AA /* menu_recurring.png in Resources */,
+				67E1ACAC17FC1E3500271156 /* SD_60.png in Resources */,
 				67CF2F69161951B8001FE1AA /* menu_reset.png in Resources */,
 				67CF2F6A161951B8001FE1AA /* menu_separator.png in Resources */,
 				67CF2F6B161951B8001FE1AA /* menu_separator@2x.png in Resources */,
@@ -4677,6 +4718,7 @@
 				67D51F851655F1A6007017E3 /* links_white@2x.png in Resources */,
 				67D51F8D1656305F007017E3 /* hints_calendars.png in Resources */,
 				67D51F8E1656305F007017E3 /* hints_notes.png in Resources */,
+				67E1ACAA17FC1E3500271156 /* filter_short@2x.png in Resources */,
 				6700B2B317F2874400AD8B3F /* menu_pastelink_white@2x.png in Resources */,
 				67D51F8F1656305F007017E3 /* hints_projects.png in Resources */,
 				67D51F901656305F007017E3 /* hints_tasks.png in Resources */,
@@ -4685,6 +4727,7 @@
 				67D51F9B16563B7B007017E3 /* hints_note_ip4.png in Resources */,
 				67E9F0DF17D0335A00B4B003 /* bar_comments.png in Resources */,
 				67D51F9C16563B7B007017E3 /* hints_note_ip4@2x.png in Resources */,
+				67E1ACA017FC1E3500271156 /* filter_atask.png in Resources */,
 				67D51F9D16563B7B007017E3 /* hints_project_ip4.png in Resources */,
 				67D51F9E16563B7B007017E3 /* hints_project_ip4@2x.png in Resources */,
 				6700B2A317F2874400AD8B3F /* menu_defer_white@2x.png in Resources */,
@@ -4796,6 +4839,7 @@
 				A2E86A96171C06AF00299C9F /* planner_next@2x.png in Resources */,
 				A2E86A98171C06AF00299C9F /* planner_prev.png in Resources */,
 				67CEE35317E1A7E6003EB87F /* menu_converttotask.png in Resources */,
+				67E1ACA617FC1E3500271156 /* filter_long@2x.png in Resources */,
 				A2E86A9A171C06AF00299C9F /* planner_prev@2x.png in Resources */,
 				A2E86A9C171C06AF00299C9F /* planner_top_bg.png in Resources */,
 				A2E86A9E171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
@@ -4825,6 +4869,7 @@
 				67E2D0AC178FADC700A88A00 /* ProjectInputViewController.xib in Resources */,
 				67E2D0B2178FB04500A88A00 /* LocationInputAccessoryView.xib in Resources */,
 				67E55BAF1796581D002EB9C8 /* noteBG_full.png in Resources */,
+				67E1ACA417FC1E3500271156 /* filter_long.png in Resources */,
 				67E55BB11796581D002EB9C8 /* noteHeaderBG_full.png in Resources */,
 				67D04F4A1797EF57004DF012 /* menu_copylink.png in Resources */,
 				67D04F4C1797EF57004DF012 /* menu_copylink@2x.png in Resources */,
@@ -4928,6 +4973,7 @@
 				67EC0D6016F8081F00929BFD /* projectDetails.png in Resources */,
 				67EC0D6116F8081F00929BFD /* projectExpand.png in Resources */,
 				67EC0D6216F8081F00929BFD /* showMenu.png in Resources */,
+				67E1ACB117FC22F600271156 /* filter_thisweek.png in Resources */,
 				6700B2C817F2D82600AD8B3F /* menu_converttotask_white.png in Resources */,
 				67EC0D6316F8081F00929BFD /* switchMonth.png in Resources */,
 				67EC0D6416F8081F00929BFD /* task_icon.png in Resources */,
@@ -4946,6 +4992,7 @@
 				67EC0D7016F8081F00929BFD /* V3_0Hint.htm in Resources */,
 				67EC0D7116F8081F00929BFD /* V3_1Hint.htm in Resources */,
 				67EC0D7216F8081F00929BFD /* WeekDayQuickAddHint.htm in Resources */,
+				67E1ACA317FC1E3500271156 /* filter_atask@2x.png in Resources */,
 				67EC0D7316F8081F00929BFD /* WeekViewHint.htm in Resources */,
 				67EC0D7416F8081F00929BFD /* WorkBalanceHint.htm in Resources */,
 				67CEE35617E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */,
@@ -5043,6 +5090,7 @@
 				67EC0DCB16F8081F00929BFD /* graybg.png in Resources */,
 				6700B29E17F2874400AD8B3F /* menu_copylink_white.png in Resources */,
 				67EC0DCC16F8081F00929BFD /* handle.png in Resources */,
+				67E1ACB317FC22F600271156 /* filter_thisweek@2x.png in Resources */,
 				67EC0DCD16F8081F00929BFD /* hashmash_0.png in Resources */,
 				67EC0DCE16F8081F00929BFD /* hashmash_1.png in Resources */,
 				67EC0DCF16F8081F00929BFD /* hashmash_2.png in Resources */,
@@ -5051,6 +5099,7 @@
 				67EC0DD216F8081F00929BFD /* hint_button.png in Resources */,
 				67149D4817F3DF500005E8E2 /* menu_star_yellow.png in Resources */,
 				67EC0DD316F8081F00929BFD /* history.png in Resources */,
+				67E1ACA917FC1E3500271156 /* filter_short.png in Resources */,
 				67EC0DD416F8081F00929BFD /* history@2x.png in Resources */,
 				6700B2AC17F2874400AD8B3F /* menu_dotoday_white@2x.png in Resources */,
 				67EC0DD516F8081F00929BFD /* LCLlogo_smartapp.png in Resources */,
@@ -5106,6 +5155,7 @@
 				6700B2C217F2874400AD8B3F /* SD_256.png in Resources */,
 				67EC0E0616F8081F00929BFD /* menu_pinned@2x.png in Resources */,
 				67EC0E0716F8081F00929BFD /* menu_recurring.png in Resources */,
+				67E1ACAD17FC1E3500271156 /* SD_60.png in Resources */,
 				67EC0E0816F8081F00929BFD /* menu_reset.png in Resources */,
 				67EC0E0916F8081F00929BFD /* menu_separator.png in Resources */,
 				67EC0E0A16F8081F00929BFD /* menu_separator@2x.png in Resources */,
@@ -5332,6 +5382,7 @@
 				67EC0ED916F8081F00929BFD /* links_white@2x.png in Resources */,
 				67EC0EDA16F8081F00929BFD /* hints_calendars.png in Resources */,
 				67EC0EDB16F8081F00929BFD /* hints_notes.png in Resources */,
+				67E1ACAB17FC1E3500271156 /* filter_short@2x.png in Resources */,
 				6700B2B417F2874400AD8B3F /* menu_pastelink_white@2x.png in Resources */,
 				67EC0EDC16F8081F00929BFD /* hints_projects.png in Resources */,
 				67EC0EDD16F8081F00929BFD /* hints_tasks.png in Resources */,
@@ -5340,6 +5391,7 @@
 				67EC0EE016F8081F00929BFD /* hints_note_ip4.png in Resources */,
 				67E9F0E017D0335A00B4B003 /* bar_comments.png in Resources */,
 				67EC0EE116F8081F00929BFD /* hints_note_ip4@2x.png in Resources */,
+				67E1ACA117FC1E3500271156 /* filter_atask.png in Resources */,
 				67EC0EE216F8081F00929BFD /* hints_project_ip4.png in Resources */,
 				67EC0EE316F8081F00929BFD /* hints_project_ip4@2x.png in Resources */,
 				6700B2A417F2874400AD8B3F /* menu_defer_white@2x.png in Resources */,
@@ -5451,6 +5503,7 @@
 				A2E86A97171C06AF00299C9F /* planner_next@2x.png in Resources */,
 				A2E86A99171C06AF00299C9F /* planner_prev.png in Resources */,
 				67CEE35417E1A7E6003EB87F /* menu_converttotask.png in Resources */,
+				67E1ACA717FC1E3500271156 /* filter_long@2x.png in Resources */,
 				A2E86A9B171C06AF00299C9F /* planner_prev@2x.png in Resources */,
 				A2E86A9D171C06AF00299C9F /* planner_top_bg.png in Resources */,
 				A2E86A9F171C06AF00299C9F /* planner_top_bg@2x.png in Resources */,
@@ -5480,6 +5533,7 @@
 				67E2D0AD178FADC700A88A00 /* ProjectInputViewController.xib in Resources */,
 				67E2D0B3178FB04500A88A00 /* LocationInputAccessoryView.xib in Resources */,
 				67E55BB01796581D002EB9C8 /* noteBG_full.png in Resources */,
+				67E1ACA517FC1E3500271156 /* filter_long.png in Resources */,
 				67E55BB21796581D002EB9C8 /* noteHeaderBG_full.png in Resources */,
 				67D04F4B1797EF57004DF012 /* menu_copylink.png in Resources */,
 				67D04F4D1797EF57004DF012 /* menu_copylink@2x.png in Resources */,

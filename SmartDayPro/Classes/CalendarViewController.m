@@ -158,7 +158,7 @@ CalendarViewController *_sc2ViewCtrler;
 
 - (void) reconcileItem:(Task *)item
 {
-    if (([item isTask] || [item isEvent]) && [_abstractViewCtrler checkControllerActive:0])
+    if (([item isTask] || [item isEvent]) && [[AbstractActionViewController getInstance] checkControllerActive:0])
     {
         if (item.listSource == SOURCE_CALENDAR)
         {

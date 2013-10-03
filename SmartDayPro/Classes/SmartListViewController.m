@@ -839,6 +839,7 @@ SmartListViewController *_smartListViewCtrler;
 {
     NSMutableArray *list = [NSMutableArray arrayWithCapacity:10];
     
+    /*
     NSInteger sections = smartListView.numberOfSections;
     
     for (int i=0; i<sections; i++)
@@ -855,8 +856,21 @@ SmartListViewController *_smartListViewCtrler;
             {
                 [list addObject:taskView.task];
             }
-            
         }
+    }
+    */
+    
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSMutableArray *tasks = [tm getDisplayList];
+    
+    for (Task *task in tasks)
+    {
+        if (task.isMultiEdit)
+        {
+            [list addObject:task];
+        }
+        
     }
     
     return list;
@@ -887,6 +901,15 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void) cancelMultiEdit
 {
+    TaskManager *tm = [TaskManager getInstance];
+    
+    NSMutableArray *tasks = [tm getDisplayList];
+    
+    for (Task *task in tasks)
+    {
+        task.isMultiEdit = NO;
+    }
+            
     NSInteger sections = smartListView.numberOfSections;
     
     for (int i=0; i<sections; i++)
@@ -899,7 +922,8 @@ SmartListViewController *_smartListViewCtrler;
             
             TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
             
-            [taskView multiSelect:NO];
+            //[taskView multiSelect:NO];
+            [taskView refreshCheckImage];
         }
     }
     

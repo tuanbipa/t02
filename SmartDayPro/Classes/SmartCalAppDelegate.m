@@ -490,6 +490,8 @@ BOOL _fromBackground = NO;
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
 
     [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"top_bg.png"] forBarMetrics:UIBarMetricsDefault];
 
     [[UITableViewHeaderFooterView appearance] setTintColor:[[Colors slateGray] colorWithAlphaComponent:0.2]];
     

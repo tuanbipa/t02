@@ -281,6 +281,11 @@ extern iPadViewController *_iPadViewCtrler;
         
         taskView.movableController = self.movableCtrler;
         
+        if (task.isMultiEdit)
+        {
+            [taskView multiSelect:YES];
+        }
+        
         [cell.contentView addSubview:taskView];
         [taskView release];
     }

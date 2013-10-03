@@ -229,22 +229,13 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) multiSelect:(BOOL)enabled
 {    
-    [super multiSelect:enabled];
-    
-    /*if (enabled)
-    {
-        checkButton.selected = NO;
-    }
-    else 
-    {
-        //Task *task = (Task *)self.tag;
-        
-        checkButton.selected = [task isDone];
-    }*/
+    /*[super multiSelect:enabled];
     
     if (!enabled) {
         checkButton.selected = NO;
-    }
+    }*/
+    
+    checkButton.selected = enabled;
 
     [self refreshCheckImage];
 
@@ -298,6 +289,8 @@ extern SmartDayViewController *_sdViewCtrler;
     
     UIButton *button = (UIButton *) sender;
     button.selected = !button.selected;
+    
+    self.task.isMultiEdit = button.selected;
         
     [self refreshCheckImage];
 

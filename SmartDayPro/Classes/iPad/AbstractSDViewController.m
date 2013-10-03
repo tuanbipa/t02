@@ -364,9 +364,10 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)changeSkin
 {
+    /*
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]){
         [self.navigationController.navigationBar setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"top_bg.png"] forBarMetrics:UIBarMetricsDefault];
-    }
+    }*/
 }
 
 - (void)viewDidLoad

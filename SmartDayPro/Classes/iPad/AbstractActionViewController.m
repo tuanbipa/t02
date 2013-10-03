@@ -2048,7 +2048,7 @@ extern DetailViewController *_detailViewCtrler;
                 break;
             case DO_NEXT_MONTH:
             {
-                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:1];
+                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:2];
                 
                 task.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
                 
@@ -2558,6 +2558,8 @@ extern DetailViewController *_detailViewCtrler;
 {
     NSMutableArray *list = [self getMultiEditList];
     
+    [[self getActiveModule] cancelMultiEdit];
+    
     [self hideMultiEditBar];
     
     [[TaskManager getInstance] deleteTasks:list];
@@ -2569,6 +2571,8 @@ extern DetailViewController *_detailViewCtrler;
 {
     NSMutableArray *list = [self getMultiEditList];
     
+    [[self getActiveModule] cancelMultiEdit];
+    
     [self hideMultiEditBar];
     
     [[TaskManager getInstance] markDoneTasks:list];
@@ -2579,6 +2583,8 @@ extern DetailViewController *_detailViewCtrler;
 - (void)doMultiDefer: (NSInteger) option
 {
     NSMutableArray *list = [self getMultiEditList];
+    
+    [[self getActiveModule] cancelMultiEdit];
     
     [self hideMultiEditBar];
     
@@ -2609,6 +2615,8 @@ extern DetailViewController *_detailViewCtrler;
 - (void) multiDoToday:(id)sender
 {
     NSMutableArray *list = [self getMultiEditList];
+    
+    [[self getActiveModule] cancelMultiEdit];
     
     [self hideMultiEditBar];
     
