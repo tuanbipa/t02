@@ -831,8 +831,14 @@ iPadViewController *_iPadViewCtrler;
 {
     [super viewWillDisappear:animated];
     
-    //[[_iPadSDViewCtrler getCalendarViewController] stopQuickAdd];
-    [[self.activeViewCtrler getCalendarViewController] stopQuickAdd];
+    //[[self.activeViewCtrler getCalendarViewController] stopQuickAdd];
+    CalendarViewController *ctrler = [[AbstractActionViewController getInstance] getCalendarViewController];
+    
+    [ctrler stopQuickAdd];
+    
+    PageAbstractViewController *activeCtrler = [[AbstractActionViewController getInstance] getActiveModule];
+    
+    [activeCtrler cancelMultiEdit];
 }
 
 -(NSUInteger)supportedInterfaceOrientations

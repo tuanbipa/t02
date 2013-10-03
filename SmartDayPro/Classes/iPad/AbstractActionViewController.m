@@ -415,6 +415,10 @@ extern DetailViewController *_detailViewCtrler;
     {
         [focusView setNeedsDisplay];
     }
+    
+    MiniMonthView *mmView = [self getMiniMonth];
+    
+    [mmView.calView refreshADEView];
 }
 
 - (void) refreshView
@@ -919,7 +923,46 @@ extern DetailViewController *_detailViewCtrler;
     }
 }
 */
+
 - (void) editItem:(Task *)item
+{
+    UINavigationController *navCtrler = self.navigationController;
+    
+    if (_isiPad && _iPadViewCtrler.detailNavCtrler != nil)
+    {
+        navCtrler = _iPadViewCtrler.detailNavCtrler;
+    }
+    
+    if ([item isNote])
+    {
+        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+        ctrler.note = item;
+        
+        [navCtrler pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
+    else if ([item isShared])
+    {
+        TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
+        
+        ctrler.task = item;
+        
+        [navCtrler pushViewController:ctrler animated:YES];
+        [ctrler release];
+    }
+    else
+    {
+        DetailViewController *ctrler = [[DetailViewController alloc] init];
+        
+        ctrler.task = item;
+        
+        [navCtrler pushViewController:ctrler animated:YES];
+        [ctrler release];
+        
+    }
+}
+
+- (void) editItem_old:(Task *)item
 {
     if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SDNavigationController class]])
     {

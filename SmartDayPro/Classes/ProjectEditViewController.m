@@ -712,18 +712,24 @@ extern iPadViewController *_iPadViewCtrler;
         }
         else if (transparentChange)
         {
-            CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+            //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+            
+            CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
             
             [ctrler setNeedsDisplay];
             
-            CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
+            //CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
+            
+            CalendarViewController *calCtrler = [[AbstractActionViewController getInstance] getCalendarViewController];
             
             [calCtrler refreshView];
             
         }
         else if (nameChange)
         {
-            CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+            //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+            
+            CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
             
             [ctrler setNeedsDisplay];
         }

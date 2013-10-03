@@ -922,8 +922,8 @@ SmartListViewController *_smartListViewCtrler;
             
             TaskView *taskView = (TaskView *)[cell.contentView viewWithTag:-10000];
             
-            //[taskView multiSelect:NO];
-            [taskView refreshCheckImage];
+            [taskView multiSelect:NO];
+            //[taskView refreshCheckImage];
         }
     }
     

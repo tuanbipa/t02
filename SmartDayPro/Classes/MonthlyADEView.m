@@ -125,7 +125,9 @@ extern TaskManager *taskmanager;
 		//NSInteger days = ([Common timeIntervalNoDST:ade.endTime sinceDate:ade.startTime] + 1)/(24*60*60);
         //NSInteger days = [Common daysBetween:ade.endTime sinceDate:ade.startTime];
         
-        NSInteger days = ([ade.endTime timeIntervalSinceDate:ade.startTime] + 1)/(24*60*60);
+        NSInteger days = [Common daysBetween:ade.endTime sinceDate:ade.startTime] + 1;
+        
+        //NSInteger days = ([ade.endTime timeIntervalSinceDate:ade.startTime] + 1)/(24*60*60);
         
         //printf("ade %s - start: %s - end: %s - days: %d\n",[ade.name UTF8String], [[ade.startTime description] UTF8String], [[ade.endTime description] UTF8String], days);
 		

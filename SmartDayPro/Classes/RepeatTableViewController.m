@@ -932,15 +932,18 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 	
 	UIButton *foreverButton = [Common createButton:_foreverText 
 										  buttonType:UIButtonTypeCustom
-											   //frame:CGRectMake(10, 30, 60, 25) 
                                frame:CGRectMake(20, 25, 120, 30) 
-										  titleColor:[UIColor whiteColor] 
+										  titleColor:[Colors blueButton]
 											  target:self 
 											selector:@selector(repeatForever:) 
-									normalStateImage:@"blue_button.png"//@"gray_button.png"
-								  selectedStateImage:nil];	
+									normalStateImage:nil
+								  selectedStateImage:nil];
+	foreverButton.layer.cornerRadius = 4;
+    foreverButton.layer.borderColor = [[Colors blueButton] CGColor];
+    foreverButton.layer.borderWidth = 1;
+    
 	foreverButton.tag = 11003;
-    foreverButton.tintColor = [UIColor brownColor];
+    //foreverButton.tintColor = [UIColor brownColor];
 		
 	[cell.contentView addSubview:foreverButton];
 	
@@ -957,15 +960,19 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 	
 	UIButton *onDateButton = [Common createButton:_onDateText 
 										   buttonType:UIButtonTypeCustom
-												//frame:CGRectMake(80, 30, 60, 25) 
                               frame:CGRectMake(repeatTableView.bounds.size.width - 120 - 20, 25, 120, 30)
-										   titleColor:[UIColor whiteColor] 
+										   titleColor:[Colors blueButton]
 											   target:self 
 											 selector:@selector(repeatUntil:) 
-									 normalStateImage:@"blue_button.png"//@"gray_button.png"
-								   selectedStateImage:nil];	
+									 normalStateImage:nil
+								   selectedStateImage:nil];
+    
+    onDateButton.layer.cornerRadius = 4;
+    onDateButton.layer.borderColor = [[Colors blueButton] CGColor];
+    onDateButton.layer.borderWidth = 1;
+
 	onDateButton.tag = 11005;
-    onDateButton.tintColor = [UIColor brownColor];
+    //onDateButton.tintColor = [UIColor brownColor];
     
 	[cell.contentView addSubview:onDateButton];
 	

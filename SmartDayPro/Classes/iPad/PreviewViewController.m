@@ -442,10 +442,13 @@ PreviewViewController *_previewCtrler;
     
     Task *asset = (Task *) btn.tag;
     
+    /*
     if (_detailViewCtrler != nil)
     {
         [_detailViewCtrler editAsset:asset];
-    }
+    }*/
+    
+    [[AbstractActionViewController getInstance] editItem:asset];
 }
 
 #pragma mark View
