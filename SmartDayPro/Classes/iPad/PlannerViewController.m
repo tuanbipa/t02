@@ -1412,7 +1412,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) createNoteOptionFilter
 {
-    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _selectedText, nil];
+    //NSArray *itemArray = [NSArray arrayWithObjects: _allText, _selectedText, nil];
+    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _currentText, _thisWeekText, nil];
     
     filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     CGRect frm = moduleHeaderView.bounds;

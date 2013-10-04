@@ -18,6 +18,7 @@
 #import "TaskLinkManager.h"
 #import "DBManager.h"
 #import "BusyController.h"
+#import "CommentManager.h"
 
 #import "Task.h"
 #import "Project.h"
@@ -123,7 +124,14 @@ extern BOOL _gtdoTabHintShown;
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(appNoBusy:)
 													 name:@"AppNoBusyNotification" object:nil];
-
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receiveNewComments:)
+                                                     name:@"NewCommentReceivedNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshUnreadComments:)
+                                                     name:@"CommentUpdateNotification" object:nil];
     }
     
     return self;
@@ -446,6 +454,30 @@ extern BOOL _gtdoTabHintShown;
         [addButtonItem release];
         */
         
+        commentButton = [Common createButton:@""
+                                  buttonType:UIButtonTypeCustom
+                                       //frame:CGRectMake(0, 0, 40, 40)
+                                    frame:CGRectZero
+                                  titleColor:[UIColor whiteColor]
+                                      target:self
+                                    selector:@selector(showUnreadComments:)
+                            normalStateImage:@"bar_comments.png"
+                          selectedStateImage:nil];
+        commentButton.hidden = YES;
+        
+        UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
+        commentBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
+        commentBadgeLabel.textColor = [UIColor whiteColor];
+        commentBadgeLabel.textAlignment = NSTextAlignmentCenter;
+        commentBadgeLabel.tag = 10000;
+        commentBadgeLabel.layer.cornerRadius = 3;
+        commentBadgeLabel.backgroundColor = [Colors redButton];
+        
+        [commentButton addSubview:commentBadgeLabel];
+        [commentBadgeLabel release];
+        
+        UIBarButtonItem *commentItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
+        
         UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
         timerButton.backgroundColor = [UIColor clearColor];
         [timerButton setImage:[[ImageManager getInstance] getImageWithName:@"bar_timer.png"] forState:UIControlStateNormal];
@@ -454,9 +486,11 @@ extern BOOL _gtdoTabHintShown;
         
         UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
-        self.navigationItem.rightBarButtonItem = timerItem;
+        //self.navigationItem.rightBarButtonItem = timerItem;
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, nil];
         
         [timerItem release];
+        [commentItem release];
         
         [self.navigationController.navigationBar addSubview:filterIndicator];
     }
@@ -1653,6 +1687,11 @@ extern BOOL _gtdoTabHintShown;
 - (void) showTimer:(id)sender
 {
     [super showTimer];
+}
+
+- (void) showUnreadComments:(id) sender
+{
+    [[AbstractActionViewController getInstance] showUnreadComments];
 }
 
 #pragma mark Hint
@@ -3507,9 +3546,42 @@ extern BOOL _gtdoTabHintShown;
     }
 }
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)receiveNewComments:(NSNotification *)notification
 {
-    //printf("SD touch\n");
+    NSMutableArray *list = [notification.userInfo objectForKey:@"CommentList"];
+    
+    printf("\n\n New Comment List\n");
+    
+    /*
+     for (Comment *comment in list)
+     {
+     printf("[%s - %s] %s\n", [comment.firstName UTF8String], [comment.lastName UTF8String], [comment.content UTF8String]);
+     }*/
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    if (list.count > 0 && app.applicationState == UIApplicationStateBackground)
+    {
+        CommentManager *cmdM = [CommentManager getInstance];
+        [cmdM notify:list];
+    }
+}
+
+- (void)refreshUnreadComments:(NSNotification *)notification
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSInteger count = [dbm countUnreadComments];
+    
+    //NSLog(@"unread comment count: %d", count);
+    
+    dispatch_async(dispatch_get_main_queue(),^ {
+        //[commentButton setTitle:[NSString stringWithFormat:@"%d", count] forState:UIControlStateNormal];
+        commentButton.hidden = (count == 0);
+        commentButton.frame = (commentButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
+        UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
+        badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+    });
 }
 
 @end

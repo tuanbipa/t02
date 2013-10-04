@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>131003</string>
+	<string>131004</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIPrerenderedIcon</key>
@@ -56,6 +56,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

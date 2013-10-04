@@ -154,7 +154,8 @@ extern iPadViewController *_iPadViewCtrler;
 {
     if (_isiPad)
     {
-        [[AbstractActionViewController getInstance] deleteNote:self.note];
+        //[[AbstractActionViewController getInstance] deleteNote:self.note];
+        [[AbstractActionViewController getInstance] deleteTask];
         
         if (_detailViewCtrler != nil)
         {

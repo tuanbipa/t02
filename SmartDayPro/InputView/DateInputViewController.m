@@ -148,7 +148,7 @@ extern RepeatTableViewController *_repeatViewCtrler;
             }
             else
             {
-                if (task.endTime != nil && [task.endTime compare:date] == NSOrderedAscending)
+                if (task.endTime != nil && [task.endTime compare:date] != NSOrderedDescending)
                 {
                     NSTimeInterval diff = [task.endTime timeIntervalSinceDate:task.startTime];
                     
@@ -161,7 +161,7 @@ extern RepeatTableViewController *_repeatViewCtrler;
             break;
         case TASK_EDIT_END:
         {
-            if (task.startTime != nil && [date compare:task.startTime] == NSOrderedAscending)
+            if (task.startTime != nil && [date compare:task.startTime] != NSOrderedDescending)
             {
                 NSTimeInterval diff = [task.endTime timeIntervalSinceDate:task.startTime];
                 

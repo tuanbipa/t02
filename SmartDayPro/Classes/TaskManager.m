@@ -5550,9 +5550,12 @@ TaskManager *_sctmSingleton = nil;
         case TASK_FILTER_DONE:
             title = _doneText;
             break;
-        /*case TASK_FILTER_PINNED:
-            title = _anchoredText;
-            break;*/
+        case TASK_FILTER_LONG:
+            title = _longText;
+            break;
+        case TASK_FILTER_SHORT:
+            title = _shortText;
+            break;
     }
     
     return title;

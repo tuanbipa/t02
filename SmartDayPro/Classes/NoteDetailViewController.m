@@ -182,7 +182,8 @@ NoteDetailViewController *_noteDetailViewCtrler;
 {
     if (_isiPad)
     {
-        [[AbstractActionViewController getInstance] deleteNote:self.note];
+        //[[AbstractActionViewController getInstance] deleteNote:self.note];
+        [[AbstractActionViewController getInstance] deleteTask];
         
         [_iPadViewCtrler closeDetail];
     }

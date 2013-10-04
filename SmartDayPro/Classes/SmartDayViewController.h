@@ -63,6 +63,8 @@
     
     UIButton *selectedTabButton;
     
+    UIButton *commentButton;
+    
     //PageAbstractViewController *viewCtrlers[TAB_NUM];
     
     UIButton *tabButtons[TAB_NUM];

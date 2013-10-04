@@ -42,8 +42,10 @@
 #import "AbstractMonthCalendarView.h"
 
 #import "TaskDetailTableViewController.h"
-#import "TaskReadonlyDetailViewController.h"
 #import "NoteDetailTableViewController.h"
+
+#import "TaskReadonlyDetailViewController.h"
+#import "NoteDetailViewController.h"
 #import "ProjectEditViewController.h"
 #import "DetailViewController.h"
 #import "iPadTagListViewController.h"
@@ -568,14 +570,21 @@ extern DetailViewController *_detailViewCtrler;
     [self hidePopover];
     
     UnreadCommentViewController *ctrler = [[UnreadCommentViewController alloc] init];
-    
-    self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+ 
+    if (_isiPad)
+    {
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+        
+        CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
+        
+        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+    else
+    {
+        [self.navigationController pushViewController:ctrler animated:YES];
+    }
     
     [ctrler release];
-    
-    CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
-    
-    [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void) showTag
@@ -830,7 +839,8 @@ extern DetailViewController *_detailViewCtrler;
         
         [ctrler release];
         
-        CGRect frm = CGRectMake(600-contentView.frame.origin.x, 0, 20, 10);
+        //CGRect frm = CGRectMake(600-contentView.frame.origin.x, 0, 20, 10);
+        CGRect frm = CGRectMake(contentView.bounds.size.width - 140, 0, 20, 10);
         
         [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
@@ -935,7 +945,7 @@ extern DetailViewController *_detailViewCtrler;
     
     if ([item isNote])
     {
-        NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
+        NoteDetailViewController *ctrler = [[NoteDetailViewController alloc] init];
         ctrler.note = item;
         
         [navCtrler pushViewController:ctrler animated:YES];
@@ -1457,7 +1467,7 @@ extern DetailViewController *_detailViewCtrler;
 
     [tm deleteTask:task];
     
-    [self reconcileItem:task reSchedule:YES];
+    [self reconcileItem:task reSchedule:([task isNote]?NO:YES)];
     
     [self deselect];
     
@@ -2178,6 +2188,7 @@ extern DetailViewController *_detailViewCtrler;
     }
 }
 
+/*
 - (void) deleteNote:(Task *)note
 {
     DBManager *dbm = [DBManager getInstance];
@@ -2186,7 +2197,7 @@ extern DetailViewController *_detailViewCtrler;
     
     [self reconcileItem:note reSchedule:NO];
 }
-
+*/
 #pragma mark Project Actions
 - (void) doDeleteCategory:(BOOL) cleanFromDB
 {

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+//#define SDWSite @"http://107.20.173.27:8087:8087"
 #define SDWSite @"http://mysmartday.com"
 //#define SDWSite @"http://50.19.33.18"
 //#define SDWSite @"http://mysmartday.com:8087"

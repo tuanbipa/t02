@@ -677,6 +677,7 @@ CalendarViewController *_sc2ViewCtrler;
     
     [task retain];
 	
+    //BOOL startMoved = [outlineView checkStartMoved];
 	int segments = [outlineView getResizedSegments];
 	
 	if (segments != 0 && outlineView.handleFlag != 0)
@@ -685,10 +686,32 @@ CalendarViewController *_sc2ViewCtrler;
 		{
 			if (outlineView.handleFlag == 1)
 			{
+                if (task.isSplitted)
+                {
+                    //keep original end time
+                    
+                    Task *tmp = [[Task alloc] initWithPrimaryKey:task.primaryKey database:[[DBManager getInstance] getDatabase]];
+                    
+                    task.endTime = tmp.endTime;
+                    
+                    [tmp release];
+                }
+
 				task.startTime = [Common dateByAddNumSecond:-segments*15*60 toDate:task.startTime];
 			}
 			else if (outlineView.handleFlag == 2)
 			{
+                if (task.isSplitted)
+                {
+                    //keep original start time
+                    
+                    Task *tmp = [[Task alloc] initWithPrimaryKey:task.primaryKey database:[[DBManager getInstance] getDatabase]];
+                    
+                    task.startTime = tmp.startTime;
+    
+                    [tmp release];
+                }
+                
 				task.endTime = [Common dateByAddNumSecond:segments*15*60 toDate:task.endTime];
 			}			
 		}
@@ -705,7 +728,8 @@ CalendarViewController *_sc2ViewCtrler;
 		[[TaskManager getInstance] resizeTask:task];
 	}
     
-    [_abstractViewCtrler reconcileItem:task reSchedule:YES];
+    //[_abstractViewCtrler reconcileItem:task reSchedule:YES];
+    [[AbstractActionViewController getInstance] reconcileItem:task reSchedule:YES];
 
 	[self stopResize];
     
@@ -1878,20 +1902,15 @@ CalendarViewController *_sc2ViewCtrler;
     [todayScheduleView refreshDayManagerView];
 }
 
-/*
-- (void)fastScheduleFinished:(NSNotification *)notification
-{
-    [self refreshLayout];
-}
-*/
-
 - (void)scheduleFinished:(NSNotification *)notification
 {
+    [todayScheduleView refreshTodayLine];
     [self refreshLayout];
 }
 
 - (void)fastScheduleFinished:(NSNotification *)notification
 {
+    [todayScheduleView refreshTodayLine];
     [self refreshLayout];
 }
 

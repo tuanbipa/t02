@@ -109,7 +109,7 @@
 - (void) defer:(NSInteger)option;
 - (Project *) copyCategory;
 - (void) deleteCategory;
-- (void) deleteNote:(Task *)note;
+//- (void) deleteNote:(Task *)note;
 - (void) share2AirDrop;
 
 - (void) showCategory;

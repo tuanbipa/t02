@@ -923,7 +923,8 @@ iPadViewController *_iPadViewCtrler;
 {
     UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
-    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _selectedText, nil];
+    //NSArray *itemArray = [NSArray arrayWithObjects: _allText, _selectedText, nil];
+    NSArray *itemArray = [NSArray arrayWithObjects: _allText, _currentText, _thisWeekText, nil];
     
     filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     CGRect frm = headerView.bounds;
