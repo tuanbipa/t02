@@ -840,6 +840,8 @@ DetailViewController *_detailViewCtrler = nil;
 #pragma mark Input Views
 -(void) showInputView:(UIViewController *)ctrler
 {
+    [titleTextView.textView resignFirstResponder];
+    
     self.inputViewCtrler = ctrler;
     
     ctrler.view.frame = inputView.bounds;
@@ -1967,6 +1969,13 @@ DetailViewController *_detailViewCtrler = nil;
 - (BOOL)growingTextViewShouldReturn:(GrowingTextView *)growingTextView
 {
     return NO;
+}
+
+- (BOOL)growingTextViewShouldBeginEditing:(GrowingTextView *)growingTextView
+{
+    [self closeInputView];
+    
+    return YES;
 }
 
 - (void)growingTextViewDidEndEditing:(GrowingTextView *)growingTextView;

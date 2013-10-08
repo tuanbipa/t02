@@ -3132,7 +3132,7 @@ TaskManager *_sctmSingleton = nil;
         
         reSchedule = YES;
     }
-	else if (tm.taskTypeFilter == TASK_FILTER_TOP || tm.taskTypeFilter == TASK_FILTER_DUE || tm.taskTypeFilter == TASK_FILTER_ACTIVE)
+	else if (tm.taskTypeFilter == TASK_FILTER_TOP || tm.taskTypeFilter == TASK_FILTER_DUE || tm.taskTypeFilter == TASK_FILTER_ACTIVE || tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT)
 	{
         [tm filterTaskList];
 		

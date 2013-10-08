@@ -1368,7 +1368,7 @@ extern BOOL _gtdoTabHintShown;
             if ([self.activeViewCtrler isKindOfClass:[SmartListViewController class]])
             {
                 SmartListViewController *slCtrler = (SmartListViewController *) self.activeViewCtrler;
-                [slCtrler hideQuickAdd];
+                //[slCtrler hideQuickAdd];
             }
         }
         

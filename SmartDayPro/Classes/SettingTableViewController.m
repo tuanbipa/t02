@@ -1203,7 +1203,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _sundayText, _mondayText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(120, 5, 170, 30);
+	segmentedStyleControl.frame = CGRectMake(140, 5, 170, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeWeekStart:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;	
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.weekStart;
@@ -1219,7 +1219,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeTimeZoneSupport:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.timeZoneSupport?0:1;
@@ -1235,7 +1235,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	cell.textLabel.text = _timeZone;
 	
-	UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
+	UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 225, 20)];
 	tzLabel.tag = baseTag;
 	tzLabel.textAlignment=NSTextAlignmentRight;
 	tzLabel.backgroundColor=[UIColor clearColor];
@@ -1256,7 +1256,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(170, 5, 120, 30);
+	segmentedStyleControl.frame = CGRectMake(190, 5, 120, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableLandscapeMode:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;	
 	segmentedStyleControl.selectedSegmentIndex = (self.settingCopy.landscapeModeEnable?0:1);
@@ -1286,7 +1286,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	UIButton *resetButton = [Common createButton:_resetText 
 										 buttonType:UIButtonTypeCustom 
-											  frame:CGRectMake(210, 5, 80, 30)
+											  frame:CGRectMake(230, 5, 80, 30)
 										 titleColor:[Colors blueButton]
 											 target:self
 										   selector:@selector(resetHint:) 
@@ -1309,7 +1309,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	UIButton *deleteButton = [Common createButton:_deleteText 
                                       buttonType:UIButtonTypeCustom 
-                                           frame:CGRectMake(210, 5, 80, 30)
+                                           frame:CGRectMake(230, 5, 80, 30)
                                       titleColor:[Colors redButton]
                                           target:self
                                         selector:@selector(deleteSuspectedDuplication:) 
@@ -1331,7 +1331,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	cell.textLabel.text = _durationText;
 	
-	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
+	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 225, 20)];
 	durationLabel.tag = baseTag;
 	durationLabel.textAlignment=NSTextAlignmentRight;
 	durationLabel.backgroundColor=[UIColor clearColor];
@@ -1351,7 +1351,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	cell.textLabel.text = _snoozeDuration;
 	
-	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 205, 20)];
+	UILabel *durationLabel=[[UILabel alloc] initWithFrame:CGRectMake(60, 10, 225, 20)];
 	durationLabel.tag = baseTag;
 	durationLabel.textAlignment=NSTextAlignmentRight;
 	durationLabel.backgroundColor=[UIColor clearColor];
@@ -1374,7 +1374,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	Project *prj = [[ProjectManager getInstance] getProjectByKey:self.settingCopy.taskDefaultProject];
 	
-	UILabel *projectNameLabel=[[UILabel alloc] initWithFrame:CGRectMake(150, 10, 120, 20)];
+	UILabel *projectNameLabel=[[UILabel alloc] initWithFrame:CGRectMake(170, 10, 120, 20)];
 	projectNameLabel.tag = baseTag;
 	projectNameLabel.textAlignment=NSTextAlignmentRight;
 	projectNameLabel.backgroundColor=[UIColor clearColor];
@@ -1396,7 +1396,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeEventCombination:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;	
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.eventCombination;
@@ -1412,7 +1412,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(hideFutureTasks:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.hideFutureTasks?0:1;
@@ -1487,7 +1487,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     cell.textLabel.text = _mustDoRangeText;
     
-	UILabel *daysLabel=[[UILabel alloc] initWithFrame:CGRectMake(300-70, 10, 40, 20)];
+	UILabel *daysLabel=[[UILabel alloc] initWithFrame:CGRectMake(320-70, 10, 40, 20)];
 	daysLabel.tag = baseTag;
 	daysLabel.textAlignment=NSTextAlignmentRight;
 	daysLabel.backgroundColor=[UIColor clearColor];
@@ -1697,7 +1697,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeDeleteWarning:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;	
 	segmentedStyleControl.selectedSegmentIndex = (self.settingCopy.deleteWarning?0:1);
@@ -1713,7 +1713,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableSound:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.settingCopy.soundEnable?0:1);
@@ -1729,7 +1729,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeTabBarAutoHide:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.settingCopy.tabBarAutoHide?0:1);
@@ -1756,7 +1756,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(changeGeoFencing:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.settingCopy.geoFencingEnable?0:1);
@@ -1819,7 +1819,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableSynchronization:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.syncEnabled?0:1;
@@ -1844,7 +1844,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableAutoSync:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.autoSyncEnabled?0:1;
@@ -1873,7 +1873,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(190, 5, 100, 30);
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
 	[segmentedStyleControl addTarget:self action:@selector(enableAutoPush:) forControlEvents:UIControlEventValueChanged];
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.autoPushEnabled?0:1;
@@ -1943,15 +1943,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _mySmartDayDotCom, _others, nil];
     
 	UISegmentedControl *syncSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	syncSegmentedControl.frame = CGRectMake(10, 5, 280, 30);
+	syncSegmentedControl.frame = CGRectMake(10, 5, 300, 30);
 	[syncSegmentedControl addTarget:self action:@selector(switchSyncSource:) forControlEvents:UIControlEventValueChanged];
 	syncSegmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	syncSegmentedControl.selectedSegmentIndex = (self.settingCopy.sdwSyncEnabled?0:1);
 	syncSegmentedControl.tag = baseTag+1;
     
     [syncSegmentedControl setWidth:180 forSegmentAtIndex:0];
-    [syncSegmentedControl setWidth:100 forSegmentAtIndex:1];
-    
+    [syncSegmentedControl setWidth:120 forSegmentAtIndex:1];
 	
 	[cell.contentView addSubview:syncSegmentedControl];
 	[syncSegmentedControl release];
@@ -1997,7 +1996,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 */
 - (void) createSDWAccountCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-    UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 5, 100, 30)];
+    UILabel *verifiedLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, 5, 100, 30)];
     verifiedLabel.backgroundColor = [UIColor clearColor];
     verifiedLabel.textAlignment = NSTextAlignmentRight;
     //verifiedLabel.textColor = [Colors darkSteelBlue];

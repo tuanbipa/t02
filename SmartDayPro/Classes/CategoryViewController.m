@@ -217,7 +217,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     //listTableView.contentSize = CGSizeMake(listTableView.bounds.size.width, h + listTableView.bounds.size.height/2);
     
-    listView.contentSize = CGSizeMake(listView.bounds.size.width, h + listView.bounds.size.height/2);
+    //listView.contentSize = CGSizeMake(listView.bounds.size.width, h + listView.bounds.size.height/2);
 }
 
 -(void)refreshLayout
