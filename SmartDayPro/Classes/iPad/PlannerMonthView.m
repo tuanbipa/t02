@@ -395,6 +395,43 @@ extern AbstractSDViewController *_abstractViewCtrler;
         trackY[dayIndex] = trackY[dayIndex] + PLANNER_ITEM_HEIGHT;
     }
     
+    // d1. get done tasks
+    NSMutableArray *doneTasks = [tm getDoneTasksFromDate:fromDate toDate:toDate];
+    // d2. draw done tasks
+    for (Task *task in doneTasks) {
+        task.listSource = SOURCE_PLANNER_CALENDAR;
+        
+        NSTimeInterval timeInterval = [task.completionTime timeIntervalSinceDate:fromDate];
+        NSInteger dayIndex = 0;
+        dayIndex = timeInterval/86400;
+        if(dayIndex<0)
+            dayIndex = 0;
+        
+        if (trackY[dayIndex] >= 12*20+originY) {
+            continue;
+        }
+        
+        // calculate width
+        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width);
+        
+        // calculate x
+        CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
+        x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
+        
+        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        item.task = task;
+        item.starEnable = NO;
+        item.listStyle = YES;
+        [item enableMove:NO];
+        [self addSubview:item];
+        
+        [self.plannerItemsList addObject:item];
+        [item release];
+        
+        // increment track y
+        trackY[dayIndex] = trackY[dayIndex] + PLANNER_ITEM_HEIGHT;
+    }
+    
     // get max y
     int maxY = trackY[0];
     for (int i = 1; i < 7; i++) {

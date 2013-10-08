@@ -494,6 +494,17 @@ TaskManager *_sctmSingleton = nil;
     return list;
 }
 
+- (NSMutableArray *) getDoneTasksFromDate:(NSDate*)fromDate toDate:(NSDate*)toDate
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSMutableArray *list = [dbm getDoneTasksFromDate:fromDate toDate:toDate];
+    
+    list = [self filterList:list];
+    
+    return list;
+}
+
 - (NSMutableArray *) getEventListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
 {
 	NSMutableArray *eventList = [[DBManager getInstance] getEventsFromDate:fromDate toDate:toDate];

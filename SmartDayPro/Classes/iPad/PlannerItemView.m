@@ -77,7 +77,7 @@ extern iPadViewController *_iPadViewCtrler;
         [self drawBoxStyle:rect ctx:ctx];
     }
     
-    if ([task isTask]) {
+    if ([task isTask] && [task isDone]) {
         [self refreshCheckImage];
     }
 }
