@@ -243,6 +243,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     int originY = trackY[0];
     
+    NSInteger itemLeaveWidth = 2;
+    
     PlannerMonthCellView *firstCell = [[self subviews] objectAtIndex: week*7];
     PlannerMonthCellView *lastCell = [[self subviews] objectAtIndex: (week*7)+6];
     
@@ -298,7 +300,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             endDayIndex = endDayIndex > 7 ? 7 : endDayIndex;
             width = (endDayIndex - dayIndex + 1) * lastCell.frame.size.width;
         }
-        width = (dayIndex==0 ? width + TIMELINE_TITLE_WIDTH : width);
+        width = (dayIndex==0 ? width + TIMELINE_TITLE_WIDTH : width) - itemLeaveWidth;
         
         // calculate x
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
@@ -338,7 +340,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         
         // calculate width
-        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width);
+        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width) - itemLeaveWidth;
         
         // calculate x
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
@@ -375,7 +377,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         
         // calculate width
-        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width);
+        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width) - itemLeaveWidth;
         
         // calculate x
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
@@ -412,7 +414,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         
         // calculate width
-        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width);
+        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width) - itemLeaveWidth;
         
         // calculate x
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
