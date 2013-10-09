@@ -52,5 +52,6 @@
 -(void)refreshCheckImage;
 //- (id)initWithTask:(Task *)task;
 - (BOOL) isMultiSelected;
+- (void)hideCheckImage;
 
 @end

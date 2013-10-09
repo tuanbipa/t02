@@ -231,6 +231,7 @@ iPadViewController *_iPadViewCtrler;
     Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
     if (alertVw.tag == -11002)
 	{
+        [super endMove:self.activeMovableView];
         if (buttonIndex == 1)
         {
             NSDate *time = [self getDateTimeInPlannerDayCalAtDrop];

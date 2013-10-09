@@ -205,7 +205,7 @@ iPadViewController *_iPadViewCtrler;
             {
                 TaskView *tv = (TaskView *)dummyView;
                 tv.starEnable = NO;
-                //tv.mu
+                [tv hideCheckImage];
             }
                         
             [dummyView setNeedsDisplay];
@@ -467,9 +467,13 @@ iPadViewController *_iPadViewCtrler;
             [self changeNoteDate:task];
         }
         
-        MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
-        
-        [mmView jumpToDate:calDate];
+        if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
+            [[AbstractActionViewController getInstance] jumpToDate:calDate];
+        } else {
+            MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
+            
+            [mmView jumpToDate:calDate];
+        }
     }
 
 }

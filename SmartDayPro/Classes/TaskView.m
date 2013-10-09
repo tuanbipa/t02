@@ -241,6 +241,11 @@ extern SmartDayViewController *_sdViewCtrler;
 
 }
 
+- (void)hideCheckImage
+{
+    checkImageView.hidden = YES;
+}
+
 - (BOOL) isMultiSelected
 {
     //return (self.multiSelectionEnable && checkButton.selected);
