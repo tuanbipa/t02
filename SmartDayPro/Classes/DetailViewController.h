@@ -32,6 +32,8 @@
     UIButton *tagButtons[9];
     UITextField *tagInputTextField;
     
+    UIButton *starButton;
+    
     BOOL showAll;
 }
 

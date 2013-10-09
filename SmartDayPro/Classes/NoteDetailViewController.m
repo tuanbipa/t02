@@ -163,6 +163,8 @@ NoteDetailViewController *_noteDetailViewCtrler;
 #pragma mark Actions
 - (void) done:(id) sender
 {
+    [noteView finishEdit];
+    
     if (![self.noteCopy.name isEqualToString:@""] && ![self.note isShared] && [self.note checkChange:self.noteCopy])
     {
         [[AbstractActionViewController getInstance] updateTask:self.note withTask:self.noteCopy];
@@ -180,11 +182,10 @@ NoteDetailViewController *_noteDetailViewCtrler;
 
 - (void) delete:(id)sender
 {
+    [[AbstractActionViewController getInstance] deleteTask];
+    
     if (_isiPad)
     {
-        //[[AbstractActionViewController getInstance] deleteNote:self.note];
-        [[AbstractActionViewController getInstance] deleteTask];
-        
         [_iPadViewCtrler closeDetail];
     }
     else

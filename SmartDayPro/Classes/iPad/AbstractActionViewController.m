@@ -241,22 +241,14 @@ extern DetailViewController *_detailViewCtrler;
     
     self.activeView = nil;
     
-    /*
-    PageAbstractViewController *ctrlers[4] = {
-        [self getCalendarViewController],
-        [self getSmartListViewController],
-        [self getNoteViewController],
-        [self getCategoryViewController]
-    };
-    
-    for (int i=0; i<4; i++)
-    {
-        PageAbstractViewController *ctrler = ctrlers[i];
-        
-        [ctrler deselect];
-    }*/
-    
     [[self getCalendarViewController] deselect]; //remove outline if event is resized
+}
+
+- (void) clearActiveItems
+{
+    self.actionTask = nil;
+    self.actionTaskCopy = nil;
+    self.actionProject = nil;
 }
 
 - (Task *) getActiveTask
@@ -624,8 +616,6 @@ extern DetailViewController *_detailViewCtrler;
         {
             timer.taskToActivate = task;
         }
-        
-        //[self deselect];
     }
     else
     {
@@ -644,6 +634,8 @@ extern DetailViewController *_detailViewCtrler;
     
     if (_isiPad)
     {
+        [_iPadViewCtrler closeDetail];
+        
         self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
         
         //[ctrler release];
@@ -660,6 +652,8 @@ extern DetailViewController *_detailViewCtrler;
     {
         [_sdViewCtrler.navigationController pushViewController:ctrler animated:YES];
     }
+    
+    [self clearActiveItems];
     
     [ctrler release];
 }
@@ -1302,6 +1296,8 @@ extern DetailViewController *_detailViewCtrler;
         [tm addTask:task];
         
         reSchedule = YES;
+        
+        [self clearActiveItems];
     }
     else
     {
@@ -1338,13 +1334,10 @@ extern DetailViewController *_detailViewCtrler;
         else
         {
             reSchedule = [tm updateTask:task withTask:taskCopy];
+            
+            [self clearActiveItems];
         }
     }
-    // refresh smartlist
-    /*if (isManual) {
-        SmartListViewController *smartlistController = [self getSmartListViewController];
-        [smartlistController refreshData];
-    }*/
     
     [self deselect];
     
@@ -1412,6 +1405,8 @@ extern DetailViewController *_detailViewCtrler;
     
     [task release];
     [rootRE release];
+    
+    [self clearActiveItems];
 }
 
 -(void) deleteRE:(NSInteger)deleteOption
@@ -1472,6 +1467,8 @@ extern DetailViewController *_detailViewCtrler;
     [self deselect];
     
     [task release];
+    
+    [self clearActiveItems];
 }
 
 - (void) deleteTask
@@ -1569,19 +1566,7 @@ extern DetailViewController *_detailViewCtrler;
 
 - (void) markDoneTask:(Task *)task
 {
-    //AbstractMonthCalendarView *calView = [self getMonthCalendarView];
-    //AbstractMonthCalendarView *plannerCalView = [self getPlannerMonthCalendarView];
-    
     TaskManager *tm = [TaskManager getInstance];
-    
-    //NSDate *oldDeadline = [[task.deadline copy] autorelease];
-    //BOOL isRT = [task isRT];
-    
-    //[tm markDoneTask:task];
-    /*NSDate *startTime = nil;
-    if ([task isManual]) {
-        startTime = [[task.startTime copy] autorelease];
-    }*/
     
     if ([task isDone])
     {
@@ -1592,43 +1577,7 @@ extern DetailViewController *_detailViewCtrler;
         [tm markDoneTask:task];
     }
     
-    /*if (startTime != nil) {
-        [calView refreshCellByDate:startTime];
-        // refresh planner day cal
-        PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
-        [plannerDayCal refreshLayout];
-    }*/
-    
-    /*
-    if (oldDeadline != nil)
-    {
-        [calView refreshCellByDate:oldDeadline];
-        [plannerCalView refreshCellByDate:oldDeadline];
-        
-        if ([Common daysBetween:oldDeadline sinceDate:tm.today] <= 0)
-        {
-            [[self getFocusView] refreshData];
-        }
-    }
-    
-    if ([self checkControllerActive:3])
-    {
-        CategoryViewController *ctrler = [self getCategoryViewController];
-        
-        if (ctrler.filterType == TYPE_TASK)
-        {
-            [ctrler loadAndShowList];
-        }
-    }
-    
-    if (isRT)
-    {
-        [calView refreshCellByDate:task.deadline];
-        [plannerCalView refreshCellByDate:task.deadline];
-    }*/
-    
     [self reconcileItem:task reSchedule:YES];
-    
 }
 
 - (void) markDoneTask
@@ -1644,6 +1593,8 @@ extern DetailViewController *_detailViewCtrler;
         [self markDoneTask:task];
         
         [task release];
+        
+        [self clearActiveItems];
     }
 }
 
@@ -1668,11 +1619,6 @@ extern DetailViewController *_detailViewCtrler;
         if (task.listSource == SOURCE_CATEGORY)
         {
             [ctrler setNeedsDisplay];
-            
-            /*if ([self checkControllerActive:1])
-            {
-                [slViewCtrler refreshLayout];
-            }*/
         }
         else if ([self checkControllerActive:3])
         {
@@ -1683,6 +1629,8 @@ extern DetailViewController *_detailViewCtrler;
         }
         
         [task release];
+        
+        [self clearActiveItems];
     }
 }
 
@@ -1749,6 +1697,8 @@ extern DetailViewController *_detailViewCtrler;
                            animated:YES completion:nil];
     }
     
+    [self clearActiveItems];
+    
 }
 
 -(void) createTaskFromNote:(Task *)fromNote
@@ -1801,6 +1751,8 @@ extern DetailViewController *_detailViewCtrler;
         [note release];
         
         [self reconcileItem:task reSchedule:YES];
+        
+        [self clearActiveItems];
     }
 }
 
@@ -2089,6 +2041,7 @@ extern DetailViewController *_detailViewCtrler;
                 break;
             case DO_NEXT_WEEK:
             {
+                /*
                 NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:(settings.weekStart == 1)];
                 
                 task.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
@@ -2096,6 +2049,15 @@ extern DetailViewController *_detailViewCtrler;
                 dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart == 1)];
                 
                 task.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                */
+                
+                NSDate *dt = [Common dateByAddNumDay:7 toDate:[Common dateByWeekday:2]];
+                
+                task.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+                dt = [Common dateByAddNumDay:4 toDate:dt];
+                
+                task.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
                 
             }
                 break;
@@ -2154,6 +2116,8 @@ extern DetailViewController *_detailViewCtrler;
         }
         
         [task release];
+        
+        [self clearActiveItems];
     }
 }
 
@@ -2169,22 +2133,11 @@ extern DetailViewController *_detailViewCtrler;
         
         [[TaskManager getInstance] defer:task deferOption:option];
         
-        /*
-        
-        if ([self checkControllerActive:3])
-        {
-            CategoryViewController *ctrler = [self getCategoryViewController];
-            
-            if (ctrler.filterType == TYPE_TASK)
-            {
-                [ctrler loadAndShowList];
-            }
-        }
-        */
-        
         [self reconcileItem:task reSchedule:YES];
         
         [task release];
+        
+        [self clearActiveItems];
     }
 }
 
@@ -2224,6 +2177,8 @@ extern DetailViewController *_detailViewCtrler;
 	}
     
     [self deselect];
+    
+    [self clearActiveItems];
 }
 
 - (void) deleteCategory

@@ -629,6 +629,19 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return ret; 
 }
 
++ (NSDate *) dateByWeekday:(NSInteger)wkday
+{
+    NSDate *dt = [NSDate date];
+    
+	NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+	
+	NSDateComponents *comps = [gregorian components:NSYearCalendarUnit | NSWeekCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:dt];
+    
+    [comps setWeekday:wkday];
+    
+	return [gregorian dateFromComponents:comps];
+}
+
 + (NSDate *) dateByAddNumYear:(NSInteger)argYear toDate:(NSDate *)argDate
 {
 	NSDateComponents *offset = [[NSDateComponents alloc] init];

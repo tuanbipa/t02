@@ -251,6 +251,8 @@ extern BOOL _gtdoTabHintShown;
     {
         [filterIndicator removeFromSuperview];
     }
+    
+    commentButton = nil;
 
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
@@ -3575,13 +3577,16 @@ extern BOOL _gtdoTabHintShown;
     
     //NSLog(@"unread comment count: %d", count);
     
-    dispatch_async(dispatch_get_main_queue(),^ {
-        //[commentButton setTitle:[NSString stringWithFormat:@"%d", count] forState:UIControlStateNormal];
-        commentButton.hidden = (count == 0);
-        commentButton.frame = (commentButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
-        UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
-        badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
-    });
+    if (commentButton != nil)
+    {
+        dispatch_async(dispatch_get_main_queue(),^ {
+            //[commentButton setTitle:[NSString stringWithFormat:@"%d", count] forState:UIControlStateNormal];
+            commentButton.hidden = (count == 0);
+            commentButton.frame = (commentButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
+            UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
+            badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+        });
+    }
 }
 
 @end
