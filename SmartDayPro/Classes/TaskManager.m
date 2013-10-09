@@ -3132,7 +3132,7 @@ TaskManager *_sctmSingleton = nil;
         
         reSchedule = YES;
     }
-	else if (tm.taskTypeFilter == TASK_FILTER_TOP || tm.taskTypeFilter == TASK_FILTER_DUE || tm.taskTypeFilter == TASK_FILTER_ACTIVE)
+	else if (tm.taskTypeFilter == TASK_FILTER_TOP || tm.taskTypeFilter == TASK_FILTER_DUE || tm.taskTypeFilter == TASK_FILTER_ACTIVE || tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT)
 	{
         [tm filterTaskList];
 		
@@ -4733,12 +4733,16 @@ TaskManager *_sctmSingleton = nil;
     
 	for (Task *task in tasks)
 	{
-		//task.status = TASK_STATUS_DELETED;
-		//[self removeTask:task deleteFromDB:YES];
-        
+        /*
         [tlm deleteAllLinks4Task:task];
         
-        [self removeTask:task status:TASK_STATUS_DELETED];
+        [self removeTask:task status:TASK_STATUS_DELETED];*/
+        
+        Task *slTask = [self getTask2Update:task];
+
+        [tlm deleteAllLinks4Task:slTask];
+        
+        [self removeTask:slTask status:TASK_STATUS_DELETED];
 	}
 
 	if (self.taskTypeFilter == TASK_FILTER_TOP)
@@ -5231,6 +5235,7 @@ TaskManager *_sctmSingleton = nil;
         {
             case 1:
             {
+                /*
                 NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:(settings.weekStart == 1)];
                 
                 dt = [Common getFirstWeekDate:dt mondayAsWeekStart:YES];
@@ -5239,16 +5244,16 @@ TaskManager *_sctmSingleton = nil;
                 
                 dt = [Common dateByAddNumDay:4 toDate:dt];
                 
-                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];*/
                 
-                /*
-                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
-                
-                dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart == 1)];
+                NSDate *dt = [Common dateByAddNumDay:7 toDate:[Common dateByWeekday:2]];
                 
                 slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
-                */
                 
+                dt = [Common dateByAddNumDay:4 toDate:dt];
+                
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
+
             }
                 break;
                 
@@ -5280,25 +5285,35 @@ TaskManager *_sctmSingleton = nil;
     Settings *settings = [Settings getInstance];
     switch (option)
     {
-        case 0:
+        case 1:
         {
-            BOOL mondayAsWeekStart = (settings.weekStart == 1);
-            for (Task *task in tasks) {
+            //BOOL mondayAsWeekStart = (settings.weekStart == 1);
+            for (Task *task in tasks)
+            {
                 Task *slTask = [self getTask2Update:task];
                 
+                /*
                 NSDate *dt = [Common getEndWeekDate:[NSDate date] withWeeks:1 mondayAsWeekStart:mondayAsWeekStart];
                 
                 slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
                 
                 dt = [Common getFirstWeekDate:dt mondayAsWeekStart:(settings.weekStart == 1)];
                 
+                slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];*/
+                
+                NSDate *dt = [Common dateByAddNumDay:7 toDate:[Common dateByWeekday:2]];
+                
                 slTask.startTime = [Common copyTimeFromDate:[settings getWorkingStartTimeForDate:dt] toDate:dt];
+                
+                dt = [Common dateByAddNumDay:4 toDate:dt];
+                
+                slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
                 
                 [slTask updateIntoDB:db];
             }
         }
             break;
-         case 1:
+         case 2:
         {
             for (Task *task in tasks) {
                 Task *slTask = [self getTask2Update:task];

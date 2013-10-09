@@ -102,6 +102,7 @@ extern BOOL _isiPad;
 - (void) singleTouch
 {
     [[AbstractActionViewController getInstance] hideDropDownMenu];
+    [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
 
     if (_isiPad)
     {
@@ -112,6 +113,7 @@ extern BOOL _isiPad;
 - (void) doubleTouch
 {
     [[AbstractActionViewController getInstance] hideDropDownMenu];
+    [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
 	//[super doubleTouch];
 	
     //if (_iPadViewCtrler != nil)

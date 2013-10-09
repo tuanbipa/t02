@@ -168,13 +168,13 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
     
-    UIButton *starButton = [Common createButton:@""
+    starButton = [Common createButton:@""
                                      buttonType:UIButtonTypeCustom
                                           frame:CGRectMake(0, 0, iconSize, iconSize)
                                      titleColor:[UIColor whiteColor]
                                          target:self
                                        selector:@selector(star:)
-                               normalStateImage:[self.task isStar]?@"menu_star_yellow.png":@"menu_star_white.png"
+                               normalStateImage:[self.taskCopy isStar]?@"menu_star_yellow.png":@"menu_star_white.png"
                              selectedStateImage:nil];
     
     UIBarButtonItem *starItem = [[UIBarButtonItem alloc] initWithCustomView:starButton];
@@ -549,10 +549,18 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) star:(id)sender
 {
-    //[_iPadViewCtrler closeDetail];
-    [[AbstractActionViewController getInstance] starTask];
+    if (self.task.primaryKey == -1)
+    {
+        self.taskCopy.status = (self.taskCopy.status == TASK_STATUS_NONE?TASK_STATUS_PINNED:TASK_STATUS_NONE);
+        
+        [starButton setImage:[UIImage imageNamed:(self.taskCopy.status == TASK_STATUS_PINNED?@"menu_star_yellow.png":@"menu_star_white.png")] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [[AbstractActionViewController getInstance] starTask];
     
-    [self close];
+        [self close];
+    }
 }
 
 - (void) defer:(id)sender
@@ -840,6 +848,8 @@ DetailViewController *_detailViewCtrler = nil;
 #pragma mark Input Views
 -(void) showInputView:(UIViewController *)ctrler
 {
+    [titleTextView.textView resignFirstResponder];
+    
     self.inputViewCtrler = ctrler;
     
     ctrler.view.frame = inputView.bounds;
@@ -1967,6 +1977,13 @@ DetailViewController *_detailViewCtrler = nil;
 - (BOOL)growingTextViewShouldReturn:(GrowingTextView *)growingTextView
 {
     return NO;
+}
+
+- (BOOL)growingTextViewShouldBeginEditing:(GrowingTextView *)growingTextView
+{
+    [self closeInputView];
+    
+    return YES;
 }
 
 - (void)growingTextViewDidEndEditing:(GrowingTextView *)growingTextView;

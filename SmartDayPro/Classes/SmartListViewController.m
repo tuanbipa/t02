@@ -571,7 +571,6 @@ SmartListViewController *_smartListViewCtrler;
 		[menuCtrler setMenuVisible:NO animated:YES];
 	}		
 }
-*/
 
 - (void) refreshViewAfterScrolling
 {
@@ -589,6 +588,7 @@ SmartListViewController *_smartListViewCtrler;
 		[self showSuggestedTime];
 	}
 }
+*/
 
 -(void) hideBars
 {
@@ -820,11 +820,13 @@ SmartListViewController *_smartListViewCtrler;
     }
 
 }
-*/
+
 - (void) hideQuickAdd
 {
     [smartListView setContentOffset:CGPointMake(0, 40)];
 }
+ 
+*/
 
 - (void) refreshQuickAddColor
 {
@@ -2988,7 +2990,7 @@ SmartListViewController *_smartListViewCtrler;
     
     Settings *settings = [Settings getInstance];
     
-    CGPoint offset = smartListView.contentOffset;
+    //CGPoint offset = smartListView.contentOffset;
     
     frm = contentView.bounds;
     frm.origin.y = 40;
@@ -3012,7 +3014,7 @@ SmartListViewController *_smartListViewCtrler;
     UIButton *moreButton = (UIButton *) [quickAddPlaceHolder viewWithTag:10000];
     moreButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
     
-    smartListView.contentOffset = offset;
+    //smartListView.contentOffset = offset;
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.

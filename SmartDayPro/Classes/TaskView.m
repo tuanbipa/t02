@@ -2752,6 +2752,7 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void) singleTouch
 {
     [[AbstractActionViewController getInstance] hideDropDownMenu];
+    [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
 
     if (_isiPad)
     {
@@ -2766,6 +2767,7 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void) doubleTouch
 {
     [[AbstractActionViewController getInstance] hideDropDownMenu];
+    [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
     
 	//[super doubleTouch];
 	

@@ -90,6 +90,7 @@
 - (void) hideDropDownMenu;
 - (void) showOptionMenu;
 - (void) deselect;
+- (void) clearActiveItems;
 - (void) setNeedsDisplay;
 - (void) resetAllData;
 - (void) refreshData;

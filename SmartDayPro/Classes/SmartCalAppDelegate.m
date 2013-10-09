@@ -538,7 +538,7 @@ BOOL _fromBackground = NO;
     
     //busyIndicatorView.center = self.window.center;
     
-	[self createCustomMenuItems];
+	//[self createCustomMenuItems];
     
     if (_isiPad)
     {

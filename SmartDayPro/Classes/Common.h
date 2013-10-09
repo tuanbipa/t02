@@ -540,6 +540,7 @@ typedef struct
 + (UIColor *) getHighlightColor;
 + (NSComparisonResult)compareDate:(NSDate*) date1 withDate:(NSDate*) date2;
 + (NSComparisonResult)compareDateNoTime:(NSDate*) date1 withDate:(NSDate*) date2;
++ (NSDate *) dateByWeekday:(NSInteger)wkday;
 + (NSDate *) dateByAddNumYear:(NSInteger)argYear toDate:(NSDate *)argDate;
 + (NSDate *) dateByAddNumMonth:(NSInteger)argMonth toDate:(NSDate *)argDate;
 + (NSDate *) dateByAddNumDay:(NSInteger)argDay toDate:(NSDate *)argDate;
