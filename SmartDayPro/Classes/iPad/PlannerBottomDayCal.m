@@ -342,21 +342,7 @@ extern PlannerViewController *_plannerViewCtrler;
 
 -(void)quickAdd:(NSString *)name startTime:(NSDate *)startTime
 {
-	//////printf("quick add - %s, start: %s\n", [name UTF8String], [[startTime description] UTF8String]);
-	
-	Task *event = [[Task alloc] init];
-	
-	event.name = name;
-	event.startTime = startTime;
-	event.endTime = [Common dateByAddNumSecond:3600 toDate:event.startTime];
-	
-	event.type = TYPE_EVENT;
-	
-	[[TaskManager getInstance] addTask:event];
-	
-	[event release];
-	
-	//[self refreshLayout];
+	[_plannerViewCtrler quickAddEvent:name startTime:startTime];
 }
 
 #pragma mark GrowingTextView Delegate

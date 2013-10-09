@@ -254,16 +254,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [super reconcileItem:item reSchedule:reSchedule];
     
     [plannerView.monthView refreshOpeningWeek:nil];
-//    if ([item isNote]) {
-//        [plannerView.monthView refreshCellByDate:item.startTime];
-//    /*} else if ([item isADE]) {
-//        [plannerView.monthView refreshOpeningWeek:nil];*/
-//    } else if ([item isEvent]) {
-//        [plannerView.monthView refreshOpeningWeek:nil];
-//        //[plannerBottomDayCal refreshLayout];
-//    } else if ([item isTask]) {
-//        [plannerView.monthView refreshCellByDate:item.deadline];
-//    }
 }
 
 - (void) deselect
