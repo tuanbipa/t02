@@ -48,6 +48,17 @@ extern SmartDayViewController *_sdViewCtrler;
 												 selector:@selector(noteChanged:)
 													 name:@"NoteContentChangeNotification" object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillShow:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillBeHidden:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
+
+        
     }
     
     return self;

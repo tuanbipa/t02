@@ -1335,7 +1335,7 @@ extern DetailViewController *_detailViewCtrler;
         {
             reSchedule = [tm updateTask:task withTask:taskCopy];
             
-            [self clearActiveItems];
+            //[self clearActiveItems];
         }
     }
     
