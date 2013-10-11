@@ -391,6 +391,11 @@ SmartListViewController *_smartListViewCtrler;
 	}
     
     [self.layoutController layout];
+    
+    if ([[AbstractActionViewController getInstance] getActiveModule] == self) {
+        // refresh multi edit bar
+        [[AbstractActionViewController getInstance] hideMultiEditBar];
+    }
 }
 
 -(void)showSuggestedTime

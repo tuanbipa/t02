@@ -228,6 +228,11 @@ extern iPadViewController *_iPadViewCtrler;
 	
 	//[layoutController performSelector:@selector(layout) withObject:nil afterDelay:0];
     [layoutController layout];
+    
+    if ([[AbstractActionViewController getInstance] getActiveModule] == self) {
+        // refresh multi edit bar
+        [[AbstractActionViewController getInstance] hideMultiEditBar];
+    }
 }
 
 - (void) refreshView

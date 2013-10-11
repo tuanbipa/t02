@@ -102,6 +102,11 @@ extern SmartDayViewController *_sdViewCtrler;
 	
 	//[noteLayoutCtrler performSelector:@selector(layout) withObject:nil afterDelay:0];
     [noteLayoutCtrler layout];
+    
+    if ([[AbstractActionViewController getInstance] getActiveModule] == self) {
+        // refresh multi edit bar
+        [[AbstractActionViewController getInstance] hideMultiEditBar];
+    }
 }
 
 - (void) loadAndShowList
