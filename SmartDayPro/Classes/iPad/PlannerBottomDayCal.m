@@ -257,11 +257,11 @@ extern PlannerViewController *_plannerViewCtrler;
 -(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender
 {
     // collapse current week
-    if (_plannerViewCtrler != nil) {
+    //if (_plannerViewCtrler != nil) {
         [_plannerViewCtrler.plannerView.monthView collapseCurrentWeek];
         NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
         [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
-    }
+    //}
     
     scrollView.scrollEnabled = NO;
 	scrollView.userInteractionEnabled = NO;
@@ -367,14 +367,13 @@ extern PlannerViewController *_plannerViewCtrler;
 		
 		[self quickAdd:text startTime:startTime];
 	}
-    
-    // expand current week
-    /*if (_plannerViewCtrler != nil) {
+    else
+    {
+        // open current week
         [_plannerViewCtrler.plannerView.monthView expandCurrentWeek];
-    }*/
-    
-    NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
-    [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
+        NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
+        [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
+    }
 }
 
 #pragma mark Links
