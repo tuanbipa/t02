@@ -12,7 +12,7 @@
 #import "PlannerMonthCellView.h"
 #import "TaskManager.h"
 #import "Task.h"
-#import "PlannerItemView.h"
+//#import "PlannerItemView.h"
 #import "TaskView.h"
 #import "PlannerView.h"
 #import "HighlightView.h"
@@ -243,7 +243,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
     int originY = trackY[0];
     
-    NSInteger itemLeaveWidth = 2;
+    NSInteger itemLeaveWidth = 0;
     
     PlannerMonthCellView *firstCell = [[self subviews] objectAtIndex: week*7];
     PlannerMonthCellView *lastCell = [[self subviews] objectAtIndex: (week*7)+6];
@@ -297,7 +297,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             timeInterval = [ade.endTime timeIntervalSinceDate:fromDate];
             endDayIndex = timeInterval/86400;
             //endDayIndex = endDayIndex < 0 ? 0 : endDayIndex;
-            endDayIndex = endDayIndex > 7 ? 7 : endDayIndex;
+            endDayIndex = endDayIndex > 6 ? 6 : endDayIndex;
             width = (endDayIndex - dayIndex + 1) * lastCell.frame.size.width;
         }
         width = (dayIndex==0 ? width + TIMELINE_TITLE_WIDTH : width) - itemLeaveWidth;
@@ -306,11 +306,23 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
         x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        /*PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+         
+         item.task = ade;
+         item.starEnable = NO;
+         [item enableMove:NO];
+         [self addSubview:item];*/
         
+        TaskView *item = [[TaskView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         item.task = ade;
         item.starEnable = NO;
+        item.listStyle = NO;
+        item.focusStyle = YES;
+        item.showSeparator = NO;
+        
         [item enableMove:NO];
+        [item refreshStarImage];
+        [item refreshCheckImage];
         [self addSubview:item];
         
         [self.plannerItemsList addObject:item];
@@ -346,11 +358,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
         x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        /*PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         item.task = task;
         item.starEnable = NO;
         item.listStyle = YES;
+        [item enableMove:NO];*/
+        TaskView *item = [[TaskView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        item.task = task;
+        item.starEnable = NO;
+        item.listStyle = NO;
+        item.focusStyle = YES;
+        item.showSeparator = NO;
+        
         [item enableMove:NO];
+        [item refreshStarImage];
+        [item refreshCheckImage];
         [self addSubview:item];
         
         [self.plannerItemsList addObject:item];
@@ -383,11 +405,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
         x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        /*PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         item.task = note;
         item.starEnable = NO;
         item.listStyle = YES;
+        [item enableMove:NO];*/
+        TaskView *item = [[TaskView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        item.task = note;
+        item.starEnable = NO;
+        item.listStyle = NO;
+        item.focusStyle = YES;
+        item.showSeparator = NO;
+        
         [item enableMove:NO];
+        [item refreshStarImage];
+        [item refreshCheckImage];
         [self addSubview:item];
         
         [self.plannerItemsList addObject:item];
@@ -420,11 +452,21 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
         x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
         
-        PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        /*PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
         item.task = task;
         item.starEnable = NO;
         item.listStyle = YES;
+        [item enableMove:NO];*/
+        TaskView *item = [[TaskView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+        item.task = task;
+        item.starEnable = NO;
+        item.listStyle = NO;
+        item.focusStyle = YES;
+        item.showSeparator = NO;
+        
         [item enableMove:NO];
+        [item refreshStarImage];
+        [item refreshCheckImage];
         [self addSubview:item];
         
         [self.plannerItemsList addObject:item];
@@ -477,7 +519,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     if (self.plannerItemsList.count > 0) {
         // reset array
-        for (PlannerItemView *itemView in self.plannerItemsList) {
+        for (TaskView *itemView in self.plannerItemsList) {
             [itemView removeFromSuperview];
         }
         [self.plannerItemsList removeAllObjects];
@@ -764,7 +806,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     //NSArray *list = calendarLayoutController.objList;
     
-    for (PlannerItemView *plannerItemView in self.plannerItemsList)
+    for (TaskView *plannerItemView in self.plannerItemsList)
     {
         Task *task = plannerItemView.task;
         if (task.original == nil || [task isREException])

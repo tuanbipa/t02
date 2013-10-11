@@ -13,6 +13,8 @@
 @class HighlightView;
 @class PlannerMonthCellView;
 
+#define PLANNER_ITEM_HEIGHT 20
+
 @interface PlannerMonthView : AbstractMonthCalendarView {
     
     NSInteger todayCellIndex;

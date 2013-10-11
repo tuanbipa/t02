@@ -1467,7 +1467,7 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
 	}*/
     
-	if (hasDue)
+	if (hasDue && showDue)
 	{
 		frm.size.width = DUE_SIZE;
 		frm.size.height = DUE_SIZE;

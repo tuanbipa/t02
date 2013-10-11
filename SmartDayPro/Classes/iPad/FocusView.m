@@ -253,6 +253,7 @@ AbstractSDViewController *_abstractViewCtrler;
                 taskView.starEnable = NO;
                 taskView.listStyle = NO;
                 taskView.focusStyle = YES;
+                taskView.showDue = YES;
                 
                 [taskView enableMove:NO];
                 [taskView refreshStarImage];

@@ -369,9 +369,9 @@ extern PlannerViewController *_plannerViewCtrler;
 	}
     
     // expand current week
-    if (_plannerViewCtrler != nil) {
+    /*if (_plannerViewCtrler != nil) {
         [_plannerViewCtrler.plannerView.monthView expandCurrentWeek];
-    }
+    }*/
     
     NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
     [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
