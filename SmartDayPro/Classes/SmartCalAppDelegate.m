@@ -338,9 +338,11 @@ BOOL _fromBackground = NO;
     
     //[self performSelectorInBackground:@selector(check2AutoSync) withObject:nil];
 
-    [_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
+    //[_abstractViewCtrler.miniMonthView performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
 
     //[_abstractViewCtrler.miniMonthView initCalendar:[NSDate date]];
+    
+    [[[AbstractActionViewController getInstance] getMiniMonth] performSelector:@selector(initCalendar:) withObject:[NSDate date] afterDelay:0];
     
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
     
@@ -667,7 +669,9 @@ BOOL _fromBackground = NO;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [_abstractViewCtrler deselect];
+    //[_abstractViewCtrler deselect];
+    [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
+    [[AbstractActionViewController getInstance] deselect];
     
 	[[TagDictionary getInstance] saveDict];
 	

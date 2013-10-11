@@ -76,8 +76,10 @@ extern iPadViewController *_iPadViewCtrler;
             break;
         }
         
-        if (dt != nil && [Common daysBetween:dt sinceDate:task.smartTime] == 0)
+        if (tm.taskTypeFilter == TASK_FILTER_DONE)
         {
+            dt = [Common clearTimeForDate:task.completionTime];
+            
             NSMutableArray *list = [self.taskDict objectForKey:dt];
             
             if (list == nil)
@@ -91,13 +93,29 @@ extern iPadViewController *_iPadViewCtrler;
         }
         else
         {
-            dt = task.smartTime;
-            
-            NSMutableArray *list = [NSMutableArray arrayWithCapacity:10];
-            
-            [list addObject:task];
-            
-            [self.taskDict setObject:list forKey:dt];
+            if (dt != nil && [Common daysBetween:dt sinceDate:task.smartTime] == 0)
+            {
+                NSMutableArray *list = [self.taskDict objectForKey:dt];
+                
+                if (list == nil)
+                {
+                    list = [NSMutableArray arrayWithCapacity:10];
+                    
+                    [self.taskDict setObject:list forKey:dt];
+                }
+                
+                [list addObject:task];
+            }
+            else
+            {
+                dt = [Common clearTimeForDate:task.smartTime];
+                
+                NSMutableArray *list = [NSMutableArray arrayWithCapacity:10];
+                
+                [list addObject:task];
+                
+                [self.taskDict setObject:list forKey:dt];
+            }
         }
         
         c++;

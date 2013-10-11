@@ -51,7 +51,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
         {
             SettingTableViewController *settingCtrler = (SettingTableViewController *) ctrler;
             
-            [settingCtrler save:nil];
+            [settingCtrler save];
         }
         
         [self.navigationController popToRootViewControllerAnimated:YES];        

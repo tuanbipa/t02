@@ -51,6 +51,8 @@ extern DetailViewController *_detailViewCtrler;
 
 - (IBAction)done:(id)sender
 {
+    self.task.duration = picker.countDownDuration;
+    
     if (_detailViewCtrler != nil)
     {
         [_detailViewCtrler refreshDuration];

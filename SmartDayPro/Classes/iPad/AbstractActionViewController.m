@@ -1279,14 +1279,6 @@ extern DetailViewController *_detailViewCtrler;
 {
     TaskManager *tm = [TaskManager getInstance];
     
-    // check Manual task on title
-    //[taskCopy checkHasPinnedCharacterInTitle];
-    //[taskCopy addAnchorInTitle];
-    //BOOL isManual = [task isManual];
-    
-    self.actionTask = task;
-    self.actionTaskCopy = taskCopy;
-    
     BOOL reSchedule = NO;
     
     if (taskCopy.primaryKey == -1)
@@ -1307,6 +1299,9 @@ extern DetailViewController *_detailViewCtrler;
         
         if (convertRE2Task)
         {
+            self.actionTask = task;
+            self.actionTaskCopy = taskCopy;
+            
             NSString *mss = [task isManual] ? _convertATaskIntoTaskConfirmation : _convertREIntoTaskConfirmation;
             NSString *headMss = [task isManual] ? _convertATaskIntoTaskHeader : _warningText;
             
@@ -1321,6 +1316,9 @@ extern DetailViewController *_detailViewCtrler;
         }
         else if (reEdit) //change RE
         {
+            self.actionTask = task;
+            self.actionTaskCopy = taskCopy;
+            
             UIAlertView *changeREAlert= [[UIAlertView alloc] initWithTitle:_changeRETitleText  message:_changeREInstanceText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
             changeREAlert.tag = -13000;
             [changeREAlert addButtonWithTitle:_onlyInstanceText];
@@ -1431,13 +1429,42 @@ extern DetailViewController *_detailViewCtrler;
 	
 	[[TaskManager getInstance] deleteREInstance:task deleteOption:deleteOption];
     
-    //CalendarViewController *calCtrler = [self getCalendarViewController];
-    
-    //[calCtrler refreshView];
-    
     [self reconcileItem:task reSchedule:YES];
     
     [task release];
+    
+    [self clearActiveItems];
+}
+
+-(void) updateRE:(NSInteger)option
+{
+    BOOL isADE = ([self.actionTask isADE] || [self.actionTaskCopy isADE]);
+    
+    if (option == 2) //all series
+    {
+        if ([Common daysBetween:actionTask.startTime sinceDate:actionTaskCopy.startTime] == 0 && [Common daysBetween:actionTask.endTime sinceDate:actionTaskCopy.endTime] == 0 && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change date -> keep root date
+        {
+            actionTaskCopy.startTime = [Common copyTimeFromDate:actionTaskCopy.startTime toDate:actionTask.original.startTime];
+            actionTaskCopy.endTime = [Common copyTimeFromDate:actionTaskCopy.endTime toDate:actionTask.original.endTime];
+        }
+    }
+    
+    [[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:option];
+    
+    [self reconcileItem:actionTask reSchedule:YES];
+    
+    if ([self isKindOfClass:[PlannerViewController class]]) {
+        if (isADE) {
+            PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
+            // reload openning week
+            [plannerMonthView refreshOpeningWeek:nil];
+        } else {
+            PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
+            [plannerDayCal refreshLayout];
+        }
+    }
+    
+    [self clearActiveItems];
 }
 
 - (void) doDeleteTask
@@ -2547,8 +2574,10 @@ extern DetailViewController *_detailViewCtrler;
 {
 	if ([[Settings getInstance] doneWarning])
 	{
-		NSString *title = _taskMarkDoneTitle;
-		NSString *msg = _taskMarkDoneText;
+        TaskManager *tm = [TaskManager getInstance];
+        
+		NSString *title = tm.taskTypeFilter==TASK_FILTER_DONE?_taskUnMarkDoneTitle: _taskMarkDoneTitle;
+		NSString *msg = tm.taskTypeFilter==TASK_FILTER_DONE?_taskUnMarkDoneText: _taskMarkDoneText;
 		
 		UIAlertView *taskDoneAlertView = [[UIAlertView alloc] initWithTitle:title  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
 		taskDoneAlertView.tag = -14001;
@@ -2763,18 +2792,11 @@ extern DetailViewController *_detailViewCtrler;
 	{
 		if (buttonIndex > 0)
 		{
+            /*
             BOOL isADE = ([actionTask isADE] || [actionTaskCopy isADE]);
             
             if (buttonIndex == 2) //all series
             {
-                /*
-                if ([actionTask.startTime compare:actionTaskCopy.startTime] == NSOrderedSame && [actionTask.endTime compare:actionTaskCopy.endTime] == NSOrderedSame && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change time -> keep root time
-                {
-                    actionTaskCopy.startTime = actionTask.original.startTime;
-                    actionTaskCopy.endTime = actionTask.original.endTime;
-                }
-                */
-                
                 if ([Common daysBetween:actionTask.startTime sinceDate:actionTaskCopy.startTime] == 0 && [Common daysBetween:actionTask.endTime sinceDate:actionTaskCopy.endTime] == 0 && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change date -> keep root date
                 {
                     actionTaskCopy.startTime = [Common copyTimeFromDate:actionTaskCopy.startTime toDate:actionTask.original.startTime];
@@ -2795,19 +2817,9 @@ extern DetailViewController *_detailViewCtrler;
                     PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
                     [plannerDayCal refreshLayout];
                 }
-            } /*else {
-                MiniMonthView *mmView = [self getMiniMonth];
-                
-                if (isADE)
-                {
-                    [self refreshADE];
-                }
-                
-                if (mmView != nil)
-                {
-                    [mmView refresh];
-                }
             }*/
+            
+            [self updateRE:buttonIndex];
 		}
         
         [self hidePopover];
