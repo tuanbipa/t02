@@ -53,11 +53,13 @@ ProjectManager *_projectManagerSingleton = nil;
 
 -(void)makeIcon:(Project *)prj
 {
-	ProjectIconView *iconView = [[ProjectIconView alloc] initWithFrame:CGRectMake(0, 0, 14, 14)];
+	//ProjectIconView *iconView = [[ProjectIconView alloc] initWithFrame:CGRectMake(0, 0, 14, 14)];
+    ProjectIconView *iconView = [[ProjectIconView alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
 	iconView.colorId = prj.colorId;
 	iconView.type = ICON_EVENT;
 	
-	UIImage *icon = [Common takeSnapshot:iconView size:CGSizeMake(16, 16)];
+	//UIImage *icon = [Common takeSnapshot:iconView size:CGSizeMake(26, 26)];
+    UIImage *icon = [Common takeSnapshot:iconView size:CGSizeMake(16, 16)];
 	
 	[self.eventIconList setObject:icon forKey:[NSNumber numberWithInt:prj.primaryKey]];
 

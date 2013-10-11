@@ -287,6 +287,8 @@
     cell.textLabel.textColor = [UIColor grayColor];
     cell.backgroundColor = [UIColor clearColor];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
@@ -349,11 +351,19 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    selectedSection = indexPath.section;
-    selectedRow = indexPath.row;
-    
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    if (selectedSection == indexPath.section && selectedRow == indexPath.row)
+    {
+        selectedRow = -1;
+        selectedSection = -1;
+    }
+    else
+    {
+        selectedSection = indexPath.section;
+        selectedRow = indexPath.row;
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
 }
 
 @end

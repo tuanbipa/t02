@@ -1623,12 +1623,32 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (UIImage *) takeSnapshot:(UIView *)view size:(CGSize) size
 {
+    /*
 	UIGraphicsBeginImageContext(size); 
 	[view.layer renderInContext:UIGraphicsGetCurrentContext()]; 
 	
 	UIImage *img = UIGraphicsGetImageFromCurrentImageContext(); 
 	
 	UIGraphicsEndImageContext(); 
+    */
+    
+    // destination size is half of self (self is a UIView)
+
+    CGFloat scaleX = size.width/view.bounds.size.width;
+    CGFloat scaleY = size.height/view.bounds.size.height;
+    
+    // make the destination context
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    
+    // apply the scale to dest context
+    CGContextScaleCTM(UIGraphicsGetCurrentContext(), scaleX, scaleY);
+    
+    // render self into dest context
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    // grab the resulting UIImage
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 	
 	return img;
 }
@@ -1668,8 +1688,8 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSInteger) countLines:(NSString *)text boundWidth:(CGFloat)boundWidth withFont:(UIFont *)withFont
 {
-    //CGSize maximumSize = CGSizeMake(boundWidth-16, 100000);
-    CGSize maximumSize = CGSizeMake(boundWidth-8, 100000);
+    //CGSize maximumSize = CGSizeMake(boundWidth-8, 100000);
+    CGSize maximumSize = CGSizeMake(boundWidth-10, 100000);
     
     CGSize expectedSize = [text sizeWithFont:withFont
                               constrainedToSize:maximumSize

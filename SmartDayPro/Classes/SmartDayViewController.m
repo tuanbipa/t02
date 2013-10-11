@@ -368,8 +368,16 @@ extern BOOL _gtdoTabHintShown;
                     case TASK_FILTER_DUE:
                         title = _dueText;
                         break;
+                    /*
                     case TASK_FILTER_ACTIVE:
                         title = _startText;
+                        break;
+                    */
+                    case TASK_FILTER_LONG:
+                        title = _longText;
+                        break;
+                    case TASK_FILTER_SHORT:
+                        title = _shortText;
                         break;
                     case TASK_FILTER_DONE:
                         title = _doneText;

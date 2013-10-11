@@ -1701,6 +1701,10 @@ DetailViewController *_detailViewCtrler = nil;
     {
         return 120;
     }
+    else if (indexPath.row == 8 && [self.taskCopy isEvent]) // timer history of Event
+    {
+        return 0;
+    }
     else if ((showAll && indexPath.row == ([self.task isShared]?11:10)) || (!showAll && indexPath.row == ([self.task isShared]?7:6))) //asset list
     {
         CGFloat h = [self.previewViewCtrler getHeight];

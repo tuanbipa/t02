@@ -139,6 +139,18 @@ NoteDetailViewController *_noteDetailViewCtrler;
     [detailTableView reloadData];
 }
 
+- (void) close
+{
+    if (_isiPad)
+    {
+        [_iPadViewCtrler closeDetail];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma mark Refresh
 - (void) refreshNote
 {
@@ -170,41 +182,28 @@ NoteDetailViewController *_noteDetailViewCtrler;
         [[AbstractActionViewController getInstance] updateTask:self.note withTask:self.noteCopy];
     }
     
-    if (_isiPad)
-    {
-        [_iPadViewCtrler closeDetail];
-    }
-    else
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self close];
 }
 
 - (void) delete:(id)sender
 {
     [[AbstractActionViewController getInstance] deleteTask];
     
-    if (_isiPad)
-    {
-        [_iPadViewCtrler closeDetail];
-    }
-    else
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self close];
 }
 
 - (void) share2AirDrop:(id) sender
 {
-    [_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] share2AirDrop];
+    
+    [self close];
 }
 
 - (void) convert2Task:(id) sender
 {
     [[AbstractActionViewController getInstance] createTaskFromNote:self.note];
     
-    [_iPadViewCtrler closeDetail];
+    [self close];
 }
 
 - (void) editTag:(id) sender
