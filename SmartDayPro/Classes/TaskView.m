@@ -2784,7 +2784,7 @@ extern SmartDayViewController *_sdViewCtrler;
     //if (_iPadViewCtrler != nil)
     if (_isiPad)
     {
-        if (self.task.listSource != SOURCE_CALENDAR && self.task.listSource != SOURCE_FOCUS)
+        if (self.task.listSource != SOURCE_CALENDAR && self.task.listSource != SOURCE_FOCUS && self.task.listSource != SOURCE_PLANNER_CALENDAR)
         {
             [_iPadViewCtrler slideView:YES];
             
