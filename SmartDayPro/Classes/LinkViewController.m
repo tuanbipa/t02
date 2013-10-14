@@ -267,8 +267,11 @@ extern iPadViewController *_iPadViewCtrler;
             [uam updateURL:linkedId value:text];
             
             [textField removeFromSuperview];
-                        
-            [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:textField.tag inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            /*
+            [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:textField.tag inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+            
+            [Common reloadRowOfTable:linkTableView row:textField.tag section:1];
         }
     }
 }

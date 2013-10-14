@@ -1778,4 +1778,14 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return [docDirectory stringByAppendingPathComponent:path];
 }
 
++ (void) reloadRowOfTable:(UITableView *)tableView row:(NSInteger)row section:(NSInteger)section
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+    
+    if ([tableView.indexPathsForVisibleRows containsObject:indexPath]) {
+        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                               withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 @end

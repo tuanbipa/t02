@@ -2784,11 +2784,14 @@ extern SmartDayViewController *_sdViewCtrler;
     //if (_iPadViewCtrler != nil)
     if (_isiPad)
     {
-        [_iPadViewCtrler slideView:YES];
-        
-        MovableView *activeView = [[AbstractActionViewController getInstance] getActiveView4Item:self.task];
-        
-        [[AbstractActionViewController getInstance] editItem:self.task inView:activeView];
+        if (self.task.listSource != SOURCE_CALENDAR && self.task.listSource != SOURCE_FOCUS)
+        {
+            [_iPadViewCtrler slideView:YES];
+            
+            MovableView *activeView = [[AbstractActionViewController getInstance] getActiveView4Item:self.task];
+            
+            [[AbstractActionViewController getInstance] editItem:self.task inView:activeView];
+        }
     }
     else /*if (_abstractViewCtrler != nil)
     {

@@ -231,14 +231,20 @@ PreviewViewController *_previewCtrler;
     
     if (index != -1 || hasNote)
     {
+        /*
         idxPath = [NSIndexPath indexPathForRow:index inSection:0];
     
-        [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+        
+        [Common reloadRowOfTable:linkTableView row:index section:0];
     }
     
+    /*
     idxPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
     
-    [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:linkTableView row:selectedIndex section:0];
 }
 
 - (void) markNoteChange
@@ -653,27 +659,34 @@ PreviewViewController *_previewCtrler;
 
     if (expanded)
     {
-        UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, 80, 20)];
-        allDayLabel.textColor = color;
-        allDayLabel.backgroundColor = [UIColor clearColor];
-        allDayLabel.textAlignment = NSTextAlignmentLeft;
-        allDayLabel.font = [UIFont systemFontOfSize:14];
-        allDayLabel.text = _allDayText;
+        CGFloat y = [asset isManual]?45:35;
         
-        [cell.contentView addSubview:allDayLabel];
-        [allDayLabel release];
-
-        UILabel *allDayValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 35, w-100, 20)];
-        allDayValueLabel.textColor = color;
-        allDayValueLabel.backgroundColor = [UIColor clearColor];
-        allDayValueLabel.textAlignment = NSTextAlignmentRight;
-        allDayValueLabel.font = [UIFont systemFontOfSize:14];
-        allDayValueLabel.text = [asset isADE]?_yesText:_noText;
+        if (![asset isManual])
+        {
+            UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, y, 80, 20)];
+            allDayLabel.textColor = color;
+            allDayLabel.backgroundColor = [UIColor clearColor];
+            allDayLabel.textAlignment = NSTextAlignmentLeft;
+            allDayLabel.font = [UIFont systemFontOfSize:14];
+            allDayLabel.text = _allDayText;
+            
+            [cell.contentView addSubview:allDayLabel];
+            [allDayLabel release];
+            
+            UILabel *allDayValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, y, w-100, 20)];
+            allDayValueLabel.textColor = color;
+            allDayValueLabel.backgroundColor = [UIColor clearColor];
+            allDayValueLabel.textAlignment = NSTextAlignmentRight;
+            allDayValueLabel.font = [UIFont systemFontOfSize:14];
+            allDayValueLabel.text = [asset isADE]?_yesText:_noText;
+            
+            [cell.contentView addSubview:allDayValueLabel];
+            [allDayValueLabel release];    
+            
+            y += 25;
+        }
         
-        [cell.contentView addSubview:allDayValueLabel];
-        [allDayValueLabel release];    
-
-        UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 80, 20)];
+        UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, y, 80, 20)];
         projectLabel.textColor = color;
         projectLabel.backgroundColor = [UIColor clearColor];
         projectLabel.textAlignment = NSTextAlignmentLeft;
@@ -683,7 +696,7 @@ PreviewViewController *_previewCtrler;
         [cell.contentView addSubview:projectLabel];
         [projectLabel release];
         
-        UILabel *projectValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 60, w-100, 20)];
+        UILabel *projectValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, y, w-100, 20)];
         projectValueLabel.textColor = color;
         projectValueLabel.backgroundColor = [UIColor clearColor];
         projectValueLabel.textAlignment = NSTextAlignmentRight;
@@ -693,7 +706,9 @@ PreviewViewController *_previewCtrler;
         [cell.contentView addSubview:projectValueLabel];
         [projectValueLabel release];
         
-        UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 85, 80, 20)];
+        y += 25;
+        
+        UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, y, 80, 20)];
         startLabel.textColor = color;
         startLabel.backgroundColor = [UIColor clearColor];
         startLabel.textAlignment = NSTextAlignmentLeft;
@@ -703,7 +718,7 @@ PreviewViewController *_previewCtrler;
         [cell.contentView addSubview:startLabel];
         [startLabel release];
         
-        UILabel *startValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 85, w-100, 20)];
+        UILabel *startValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, y, w-100, 20)];
         startValueLabel.textColor = color;
         startValueLabel.backgroundColor = [UIColor clearColor];
         startValueLabel.textAlignment = NSTextAlignmentRight;
@@ -713,7 +728,9 @@ PreviewViewController *_previewCtrler;
         [cell.contentView addSubview:startValueLabel];
         [startValueLabel release];
         
-        UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 80, 20)];
+        y += 25;
+        
+        UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, y, 80, 20)];
         endLabel.textColor = color;
         endLabel.backgroundColor = [UIColor clearColor];
         endLabel.textAlignment = NSTextAlignmentLeft;
@@ -723,7 +740,7 @@ PreviewViewController *_previewCtrler;
         [cell.contentView addSubview:endLabel];
         [endLabel release];
         
-        UILabel *endValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 110, w-100, 20)];
+        UILabel *endValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, y, w-100, 20)];
         endValueLabel.textColor = color;
         endValueLabel.backgroundColor = [UIColor clearColor];
         endValueLabel.textAlignment = NSTextAlignmentRight;
@@ -733,9 +750,11 @@ PreviewViewController *_previewCtrler;
         [cell.contentView addSubview:endValueLabel];
         [endValueLabel release];
         
+        y+= 25;
+        
         UIButton *jumpButton = [Common createButton:_jumpText
                                          buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(10, 135, 60, 30)
+                                              frame:CGRectMake(10, y, 60, 30)
                                          titleColor:[Colors blueButton]
                                              target:self
                                            selector:@selector(jump:)
@@ -753,7 +772,7 @@ PreviewViewController *_previewCtrler;
         
         UIButton *editButton = [Common createButton:_editText
                                          buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(w-70, 135, 60, 30)
+                                              frame:CGRectMake(w-70, y, 60, 30)
                                          titleColor:[Colors blueButton]
                                              target:self
                                            selector:@selector(editAsset:)

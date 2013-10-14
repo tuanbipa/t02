@@ -367,17 +367,6 @@ extern PlannerViewController *_plannerViewCtrler;
 			break;
 	}
     
-    /*
-    if (self.taskCopy.startTime != nil && [self.taskCopy.deadline compare:self.taskCopy.startTime] == NSOrderedAscending)
-    {
-        self.taskCopy.startTime = [settings getWorkingStartTimeForDate:self.taskCopy.deadline];
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
-        
-        [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    */
-	
 	deadlineValueLabel.text = [Common getFullDateString3:self.taskCopy.deadline];
     
     if (diff > 0)
@@ -386,9 +375,12 @@ extern PlannerViewController *_plannerViewCtrler;
         
         self.taskCopy.startTime = [settings getWorkingStartTimeForDate:dt];
         
+        /*
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
         
-        [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+        
+        [Common reloadRowOfTable:taskTableView row:2 section:0];
     }
 }
 
@@ -426,9 +418,12 @@ extern PlannerViewController *_plannerViewCtrler;
     {
         self.taskCopy.deadline = [settings getWorkingEndTimeForDate:self.taskCopy.startTime];
         
+        /*
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
         
-        [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];        
+        [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+        
+        [Common reloadRowOfTable:taskTableView row:3 section:0];
     }
 	
 	startValueLabel.text = [Common getFullDateString3:self.taskCopy.startTime];
@@ -659,7 +654,10 @@ extern PlannerViewController *_plannerViewCtrler;
 
 - (void) refreshWhen
 {
-    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:taskTableView row:1 section:0];
 }
 
 - (void) showTimerHistory
@@ -804,9 +802,12 @@ extern PlannerViewController *_plannerViewCtrler;
         
     }
     
+    /*
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
     
-    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:taskTableView row:3 section:0];
 }
 
 - (void) selectContact:(id) sender
@@ -834,6 +835,7 @@ extern PlannerViewController *_plannerViewCtrler;
         [taskLocation resignFirstResponder];
     }
     
+    /*
     if (_plannerViewCtrler != nil)
     {
         [_plannerViewCtrler updateTask:self.task withTask:self.taskCopy];
@@ -842,6 +844,9 @@ extern PlannerViewController *_plannerViewCtrler;
     {
         [_abstractViewCtrler updateTask:self.task withTask:self.taskCopy];
     }
+    */
+    
+    [[AbstractActionViewController getInstance] updateTask:self.task withTask:self.taskCopy];
         
 	[self.navigationController popViewControllerAnimated:YES];	
 }
@@ -2138,9 +2143,12 @@ extern PlannerViewController *_plannerViewCtrler;
 	// remove the controller
     [self dismissViewControllerAnimated:YES completion:NULL];
     
+    /*
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:taskTableView row:0 section:0];
     
     [self check2EnableSave];
 	
@@ -2161,9 +2169,12 @@ extern PlannerViewController *_plannerViewCtrler;
     
     BOOL isFirstResponder = [titleTextView isFirstResponder];
     
+    /*
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [taskTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:taskTableView row:0 section:0];
     
     if (isFirstResponder)
     {

@@ -4664,6 +4664,23 @@ TaskManager *_sctmSingleton = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
 }
 
+-(void) markUnDoneTasks:(NSMutableArray *)tasks
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+	for (Task *task in tasks)
+	{
+        task.status = TASK_STATUS_NONE;
+        
+        [task updateStatusIntoDB:[dbm getDatabase]];
+	}
+    
+    [self initSmartListData];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+}
+
+
 -(void) deleteTask:(Task *)task
 {
     DBManager *dbm = [DBManager getInstance];

@@ -281,6 +281,8 @@ extern iPadViewController *_iPadViewCtrler;
     
     [[AbstractActionViewController getInstance] deselect];
     
+    [[AbstractActionViewController getInstance] clearActiveItems];
+    
 }
 
 @end

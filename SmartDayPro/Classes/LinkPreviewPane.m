@@ -449,18 +449,26 @@ SmartDayViewController *_sdViewCtrler;
     {
         if (expandedNoteIndex != -1)
         {
+            /*
             NSIndexPath *previousPath = [NSIndexPath indexPathForRow:expandedNoteIndex inSection:0];
             
-            expandedNoteIndex = -1;
+            [listTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
             
-            [listTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [Common reloadRowOfTable:listTableView row:expandedNoteIndex section:0];
+            
+            expandedNoteIndex = -1;
+
         }
         
         expandedNoteIndex = tapRow;
         
+        /*
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:expandedNoteIndex inSection:0];
         
-        [listTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [listTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+        
+        [Common reloadRowOfTable:listTableView row:expandedNoteIndex section:0];
         
     }    
 }
@@ -660,27 +668,6 @@ SmartDayViewController *_sdViewCtrler;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    Task *item = [self.linkList objectAtIndex:indexPath.row];
-    
-    if ([item isNote])
-    {
-        if (expandedNoteIndex != -1)
-        {
-            NSIndexPath *previousPath = [NSIndexPath indexPathForRow:expandedNoteIndex inSection:0];
-            
-            expandedNoteIndex = -1;
-            
-            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        
-        expandedNoteIndex = indexPath.row;
-        
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-    }
-    */
-    
     tapCount++;
     tapRow = indexPath.row;
     

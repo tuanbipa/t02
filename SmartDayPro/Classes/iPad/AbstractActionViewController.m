@@ -1289,7 +1289,7 @@ extern DetailViewController *_detailViewCtrler;
         
         reSchedule = YES;
         
-        [self clearActiveItems];
+        //[self clearActiveItems];
     }
     else
     {
@@ -2613,7 +2613,16 @@ extern DetailViewController *_detailViewCtrler;
     
     [self hideMultiEditBar];
     
-    [[TaskManager getInstance] markDoneTasks:list];
+    TaskManager *tm = [TaskManager getInstance];
+    
+    if (tm.taskTypeFilter == TASK_FILTER_DONE)
+    {
+        [tm markUnDoneTasks:list];
+    }
+    else
+    {
+        [tm markDoneTasks:list];
+    }
     
     [[AbstractActionViewController getInstance] refreshData];
 }

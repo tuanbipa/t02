@@ -614,6 +614,7 @@ typedef struct
 + (BOOL)validateEmail:(NSString *)candidate;
 + (NSString *)md5:(NSString *)str;
 + (NSString *)getFilePath: (NSString *) path;
++ (void) reloadRowOfTable:(UITableView *)tableView row:(NSInteger)row section:(NSInteger)section;
 
 @end
 

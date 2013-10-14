@@ -378,20 +378,12 @@ TimerManager *_timerManagerSingleton;
 		
 		[task updateEndTimeIntoDB:[[DBManager getInstance] getDatabase]];
 		
-		//task.status = TASK_STATUS_DONE;
-		
-		//[task updateStatusIntoDB:[dbm getDatabase]];
+        [task retain];
         
-        //TaskManager *tm = [TaskManager getInstance];
+        [[AbstractActionViewController getInstance] markDoneTask:task];
         
-        //[tm markDoneTask:task]; //mark done task also removes task from Timer list
-        
-        [_abstractViewCtrler markDoneTask:task];
+        [task release];
 	}
-	
-	//[sourceList removeObject:task];
-	
-	//[[MusicManager getInstance] playSound:SOUND_STOP];
 }
 
 - (void) check2CompleteTask:(NSInteger) taskId

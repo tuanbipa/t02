@@ -522,8 +522,10 @@ DetailViewController *_detailViewCtrler = nil;
         //[taskLocation resignFirstResponder];
         [self textFieldDidEndEditing:taskLocation];
     }
+    
+    BOOL checkChange = [self.task checkChange:self.taskCopy];
 
-    if (![self.task isShared] && [self.task checkChange:self.taskCopy])
+    if (![self.task isShared] && checkChange)
     {
         [[AbstractActionViewController getInstance] updateTask:self.task withTask:self.taskCopy];
     }
@@ -795,53 +797,80 @@ DetailViewController *_detailViewCtrler = nil;
 #pragma mark Refresh
 - (void) refreshTitle
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:0 section:0];
 }
 
 - (void) refreshDuration
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:1 section:0];
 }
 
 - (void) refreshProject
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:2 section:0];
 }
 
 - (void) refreshWhen
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:3 section:0];
     
     [self refreshAlert];
 }
 
 - (void) refreshUntil
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:4 section:0];
 }
 
 - (void) refreshAlert
 {
     if (showAll)
     {
-        [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        /*
+        [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+        
+        [Common reloadRowOfTable:detailTableView row:5 section:0];
     }
 }
 
 - (void) refreshDescription
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:6 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:6 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:6 section:0];
 }
 
 - (void) refreshTag
 {
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:7 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:7 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:7 section:0];
 }
 
 - (void) refreshLink
 {
-    //[detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?10:9):([self.task isShared]?6:5) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?11:10):([self.task isShared]?7:6) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    */
+    
+    [Common reloadRowOfTable:detailTableView row:(showAll?([self.task isShared]?11:10):([self.task isShared]?7:6)) section:0];
     
 }
 
@@ -1968,9 +1997,12 @@ DetailViewController *_detailViewCtrler = nil;
     
     BOOL isFirstResponder = [titleTextView.textView isFirstResponder];
     
+    /*
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:0 section:0];
     
     if (isFirstResponder)
     {
@@ -2163,9 +2195,12 @@ DetailViewController *_detailViewCtrler = nil;
 	// remove the controller
     [self dismissViewControllerAnimated:YES completion:NULL];
     
+    /*
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:0 section:0];
 	
     return NO;
 }

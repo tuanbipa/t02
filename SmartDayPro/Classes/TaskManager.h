@@ -173,6 +173,7 @@
 -(void) starTasks:(NSMutableArray *)tasks;
 -(void) markDoneTask:(Task *)task;
 -(void) markDoneTasks:(NSMutableArray *)tasks;
+-(void) markUnDoneTasks:(NSMutableArray *)tasks;
 -(void) deleteTask:(Task *)task;
 -(void) deleteTasks:(NSMutableArray *)tasks;
 - (void) removeEventFromList:(NSMutableArray *)list forKey:(NSInteger)key;

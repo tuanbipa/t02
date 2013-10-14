@@ -153,6 +153,9 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    selectedSection = -1;
+    selectedRow = -1;
+    
     ////printf("search text: %s\n", [searchText UTF8String]);
     NSMutableArray *result = [[DBManager getInstance] searchTitle:searchText];
     

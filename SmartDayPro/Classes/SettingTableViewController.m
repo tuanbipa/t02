@@ -603,7 +603,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) refreshTimeZone
 {
-    [settingTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:3 inSection:3]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [settingTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:3 inSection:3]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:settingTableView row:3 section:3];
 }
 
 - (void) back:(id)sender
@@ -957,7 +960,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 	self.settingCopy.geoFencingEnable = (segmentedStyleControl.selectedSegmentIndex == 0);
     
-    [settingTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:8 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*
+    [settingTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:8 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:settingTableView row:8 section:1];
 }
 
 - (void) doneGeoFencingInterval: (id) sender

@@ -402,7 +402,10 @@ RepeatTableViewController *_repeatViewCtrler = nil;
         
         //untilPicker.date = until;
         
-        [repeatTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        /*
+        [repeatTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+        
+        [Common reloadRowOfTable:repeatTableView row:0 section:1];
 	}
 }
 

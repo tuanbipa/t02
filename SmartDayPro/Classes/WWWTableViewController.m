@@ -821,34 +821,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 #pragma mark GrowingTextView Delegate
-/*
- - (void)growingTextView:(GrowingTextView *)growingTextView willChangeHeight:(float)height
- {
- //self.task.name = growingTextView.text;
- 
- BOOL isFirstResponder = [titleTextView isFirstResponder];
- 
- //[titleTextView retain];
- //[titleTextView removeFromSuperview];
- 
- NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
- 
- [wwwTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
- 
- if (isFirstResponder)
- {
- [titleTextView becomeFirstResponder];
- }
- }
- */
-
 - (void)growingTextView:(GrowingTextView *)growingTextView didChangeHeight:(float)height
 {
     BOOL isFirstResponder = [titleTextView.textView isFirstResponder];
     
+    /*
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    [wwwTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [wwwTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:wwwTableView row:0 section:0];
     
     if (isFirstResponder)
     {
