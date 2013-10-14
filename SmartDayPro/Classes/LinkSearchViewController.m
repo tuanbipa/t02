@@ -21,6 +21,7 @@
 @synthesize taskList;
 @synthesize eventList;
 @synthesize noteList;
+@synthesize anchorList;
 
 @synthesize excludeId;
 
@@ -53,6 +54,7 @@
     self.eventList = nil;
     self.taskList = nil;
     self.noteList = nil;
+    self.anchorList = nil;
     
     [super dealloc];
 }
@@ -129,7 +131,7 @@
         
         if (selectedSection != -1 && selectedRow != -1)
         {
-            NSArray *lists[3] = {self.eventList, self.taskList, self.noteList};
+            NSArray *lists[4] = {self.eventList, self.taskList, self.noteList, self.anchorList};
             
             Task *task = [lists[selectedSection] objectAtIndex:selectedRow];
             
@@ -162,6 +164,7 @@
     self.eventList = [NSMutableArray arrayWithCapacity:10];
     self.taskList = [NSMutableArray arrayWithCapacity:10];
     self.noteList = [NSMutableArray arrayWithCapacity:10];
+    self.anchorList = [NSMutableArray arrayWithCapacity:10];
     
     for (Task *task in result)
     {
@@ -174,13 +177,17 @@
         {
             [self.taskList addObject:task];
         }
-        else if ([task isEvent]) 
+        else if ([task isEvent] && ![task isManual])
         {
             [self.eventList addObject:task];
         }
         else if ([task isNote])
         {
             [self.noteList addObject:task];
+        }
+        else if ([task isManual])
+        {
+            [self.anchorList addObject:task];
         }
     }
     
@@ -198,12 +205,12 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    if (self.eventList.count == 0 && self.taskList.count == 0 && self.noteList.count == 0)
+    if (self.eventList.count == 0 && self.taskList.count == 0 && self.noteList.count == 0 && self.anchorList.count == 0)
     {
         return 0;
     }
     
-    return 3;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -243,7 +250,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *headers[3] = {_eventText, _taskText, _noteText};
+    NSString *headers[4] = {_eventText, _taskText, _noteText, _anchoredText};
     
     return headers[section];
 }
@@ -253,7 +260,7 @@
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
     
-    NSInteger rows[3] = {self.eventList.count, self.taskList.count, self.noteList.count};
+    NSInteger rows[4] = {self.eventList.count, self.taskList.count, self.noteList.count, self.anchorList.count};
     
     return rows[section];
 }
@@ -279,7 +286,7 @@
     
     // Configure the cell...
     
-    NSArray *lists[3] = {self.eventList, self.taskList, self.noteList};
+    NSArray *lists[4] = {self.eventList, self.taskList, self.noteList, self.anchorList};
     
     NSArray *list = lists[indexPath.section];
     
