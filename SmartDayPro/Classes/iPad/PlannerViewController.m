@@ -263,6 +263,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self hideDropDownMenu];
     
     [plannerBottomDayCal stopResize];
+    [plannerBottomDayCal stopQuickAdd];
 }
 
 - (void) resetMovableContentView

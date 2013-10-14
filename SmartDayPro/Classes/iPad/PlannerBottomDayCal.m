@@ -345,6 +345,13 @@ extern PlannerViewController *_plannerViewCtrler;
 	[_plannerViewCtrler quickAddEvent:name startTime:startTime];
 }
 
+- (void)stopQuickAdd
+{
+    quickAddTextView.text = @"";
+    
+    [quickAddTextView resignFirstResponder];
+}
+
 #pragma mark GrowingTextView Delegate
 - (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView
 {

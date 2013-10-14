@@ -19,7 +19,6 @@
 extern CalendarViewController *_sc2ViewCtrler;
 
 extern AbstractSDViewController *_abstractViewCtrler;
-extern PlannerViewController *_plannerViewCtrler;
 
 extern BOOL _is24HourFormat;
 
@@ -263,11 +262,14 @@ extern BOOL _is24HourFormat;
 
 -(void)longPressHandler:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-	if (gestureRecognizer.state != UIGestureRecognizerStateEnded) 
+	if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
 	{
-        if (_plannerViewCtrler != nil)
+        //if (_plannerViewCtrler != nil)
+        if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]])
         {
-            [_plannerViewCtrler.plannerBottomDayCal showQuickAdd:self sender:gestureRecognizer];
+            //[_plannerViewCtrler.plannerBottomDayCal showQuickAdd:self sender:gestureRecognizer];
+            PlannerBottomDayCal *plannerDayCal = [[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+            [plannerDayCal showQuickAdd:self sender:gestureRecognizer];
         }
         else
         {
