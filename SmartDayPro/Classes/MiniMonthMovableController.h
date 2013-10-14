@@ -11,6 +11,8 @@
 
 #import "MovableView.h"
 
+@class Task;
+
 @interface MiniMonthMovableController : DummyMovableController
 {
     //MovableView *dummyView;
@@ -28,5 +30,6 @@
 
 - (void) doTaskMovementInMM;
 - (void) doTaskMovementInFocus;
+- (void)convertTaskToSTask: (Task *) task time: (NSDate *) time;
 
 @end

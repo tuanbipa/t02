@@ -231,12 +231,16 @@ iPadViewController *_iPadViewCtrler;
     Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
     if (alertVw.tag == -11002)
 	{
-        [super endMove:self.activeMovableView];
+        // move task from task-list to day calendar
         if (buttonIndex == 1)
         {
             NSDate *time = [self getDateTimeInPlannerDayCalAtDrop];
             
             [self convertTaskToSTask:task time:time];
+        }
+        else
+        {
+            [super endMove:self.activeMovableView];
         }
         CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
         [ctrler.todayScheduleView unhighlight];
