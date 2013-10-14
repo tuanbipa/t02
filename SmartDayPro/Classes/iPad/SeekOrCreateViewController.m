@@ -31,6 +31,7 @@ extern iPadViewController *_iPadViewCtrler;
 @synthesize taskList;
 @synthesize eventList;
 @synthesize noteList;
+@synthesize anchorList;
 
 @synthesize title;
 
@@ -64,6 +65,7 @@ extern iPadViewController *_iPadViewCtrler;
     self.taskList = nil;
     self.eventList = nil;
     self.noteList = nil;
+    self.anchorList = nil;
     
     self.title = nil;
     
@@ -79,6 +81,7 @@ extern iPadViewController *_iPadViewCtrler;
     self.eventList = [NSMutableArray arrayWithCapacity:10];
     self.taskList = [NSMutableArray arrayWithCapacity:10];
     self.noteList = [NSMutableArray arrayWithCapacity:10];
+    self.anchorList = [NSMutableArray arrayWithCapacity:10];
     
     for (Task *task in result)
     {
@@ -88,13 +91,18 @@ extern iPadViewController *_iPadViewCtrler;
         {
             [self.taskList addObject:task];
         }
-        else if ([task isEvent])
+        else if ([task isEvent] && ![task isManual])
         {
             [self.eventList addObject:task];
         }
         else if ([task isNote])
         {
             [self.noteList addObject:task];
+        }
+        else if ([task isManual])
+        {
+            // anchor task
+            [self.anchorList addObject:task];
         }
     }
     
@@ -123,7 +131,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (tapRow >= 0 && tapSection >= 0)
     {
-        NSMutableArray *lists[3] = {self.taskList, self.eventList, self.noteList};
+        NSMutableArray *lists[4] = {self.taskList, self.eventList, self.noteList, self.anchorList};
         
         Task *task = [lists[tapSection] objectAtIndex:tapRow];
         
@@ -197,13 +205,13 @@ extern iPadViewController *_iPadViewCtrler;
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 3;
+	return 4;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    NSMutableArray *lists[3] = {self.taskList, self.eventList, self.noteList};
+    NSMutableArray *lists[4] = {self.taskList, self.eventList, self.noteList, self.anchorList};
     
     return lists[section].count;
 }
@@ -220,7 +228,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
-    NSString *titles[3] = {_tasksText, _eventsText, _notesText};
+    NSString *titles[4] = {_tasksText, _eventsText, _notesText, _anchoredText};
 
     return titles[section];
 }
@@ -247,13 +255,13 @@ extern iPadViewController *_iPadViewCtrler;
     
     ProjectManager *pm = [ProjectManager getInstance];
     
-    NSMutableArray *lists[3] = {self.taskList, self.eventList, self.noteList};
+    NSMutableArray *lists[4] = {self.taskList, self.eventList, self.noteList, self.anchorList};
     
     Task *task = [lists[indexPath.section] objectAtIndex:indexPath.row];
     
     UIImage *img = nil;
     
-    if ([task isEvent])
+    if ([task isEvent] && ![task isManual])
     {
         img = [pm getEventIcon:task.project];
     }
@@ -264,6 +272,11 @@ extern iPadViewController *_iPadViewCtrler;
     else if ([task isNote])
     {
         img = [pm getNoteIcon:task.project];
+    }
+    else if ([task isManual])
+    {
+        // anchor task
+        img = [pm getAnchoredIcon:task.project];
     }
 	
     cell.imageView.image = img;

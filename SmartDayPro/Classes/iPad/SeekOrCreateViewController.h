@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSMutableArray *taskList;
 @property (nonatomic, retain) NSMutableArray *eventList;
 @property (nonatomic, retain) NSMutableArray *noteList;
+@property (nonatomic, retain) NSMutableArray *anchorList;
 
 @property (nonatomic, copy) NSString *title;
 
