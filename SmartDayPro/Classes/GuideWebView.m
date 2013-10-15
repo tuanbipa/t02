@@ -125,17 +125,18 @@
 	{
 		//[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 		
-		NSString *url = [[request URL] relativeString];
-		
-		if (![url isEqualToString:@"about:blank"])
-		{
-            self.isLoaded = NO;
+        NSString *url = [[request URL] relativeString];
+        
+        if (![url isEqualToString:@"about:blank"])
+        {
+            //self.isLoaded = NO;
             
-			[[UIApplication sharedApplication] openURL:[request URL]];
+            [[UIApplication sharedApplication] openURL:[request URL]];
             
-            return NO;
-		}
+            //return NO;
+        }
 
+        return NO;
 	}
 	
 	return YES;

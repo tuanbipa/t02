@@ -180,8 +180,10 @@ NoteDetailViewController *_noteDetailViewCtrler;
 {
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
-    
-    [Common reloadRowOfTable:detailTableView row:5 section:0];
+    if (self.note.primaryKey != -1 && ![self.note isShared])
+    {
+        [Common reloadRowOfTable:detailTableView row:5 section:0];
+    }
 }
 
 #pragma mark Actions

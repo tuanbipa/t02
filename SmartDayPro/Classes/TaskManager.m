@@ -3879,13 +3879,13 @@ TaskManager *_sctmSingleton = nil;
 - (void)deleteRE:(Task *)rootRE
 {
     DBManager *dbm = [DBManager getInstance];
-    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    //TaskLinkManager *tlm = [TaskLinkManager getInstance];
     
     [rootRE retain];
     
     [self removeRE:rootRE];
     
-    [tlm deleteAllLinks4Task:rootRE];
+    //[tlm deleteAllLinks4Task:rootRE];
     
     [dbm deleteTasksInGroup:rootRE.primaryKey];
     
@@ -4552,47 +4552,6 @@ TaskManager *_sctmSingleton = nil;
 	if ([slTask isRT])
 	{
 		[self doneRT:slTask];	
-        
-        //task.deadline = slTask.deadline;
-	/*} else if ([slTask isManual]) {
-        
-        if ([slTask isRecurring]) {
-            [self doneRepeatManualTask:slTask instance:task];
-        } else {
-            // delete event
-            Task *newTask = [[slTask copy] autorelease];
-            [self deleteTask:slTask];
-            
-            // insert new task
-            newTask.primaryKey = -1;
-            [newTask setManual:NO];
-            newTask.type = TYPE_TASK;
-            newTask.status = TASK_STATUS_DONE;
-            newTask.completionTime = [NSDate date];
-            
-            [newTask insertIntoDB:[[DBManager getInstance] getDatabase]];
-        }
-        
-        if (self.taskTypeFilter == TASK_FILTER_DONE)
-        {
-            // add to done list
-            [self.taskList addObject:task];
-        }
-        else
-        {
-            [self.mustDoTaskList removeObject:slTask];
-            
-            [self.taskList removeObject:slTask];
-        }
-        
-        if (self.taskTypeFilter == TASK_FILTER_TOP)
-        {
-            [self initSmartListData]; //to refresh next GTDo
-        }
-        else
-        {
-            [self scheduleTasks];
-        }*/
     }
 	else if ([slTask isTask])
 	{
@@ -4633,20 +4592,32 @@ TaskManager *_sctmSingleton = nil;
 	
 	for (Task *task in tasks)
 	{
+        /*
 		if ([task isRT])
 		{
 			[self doneRT:task];
 		}
 		else if ([task isTask])
 		{
-			//task.status = TASK_STATUS_DONE;
-			//task.mergedSeqNo = -1;
-			//[self removeTask:task deleteFromDB:NO];
+            [self removeTask:task status:TASK_STATUS_DONE];
+			
+			refresh = YES;
+		}*/
+        
+        Task *slTask = [self getTask2Update:task];
+        
+        if ([slTask isRT])
+        {
+            [self doneRT:slTask];
+        }
+        else if ([slTask isTask])
+        {
+            [[TimerManager getInstance] check2CompleteTask:slTask.primaryKey];
             
             [self removeTask:task status:TASK_STATUS_DONE];
 			
 			refresh = YES;
-		}
+        }
 	}
 	
 	if (refresh)
@@ -4757,9 +4728,15 @@ TaskManager *_sctmSingleton = nil;
         
         Task *slTask = [self getTask2Update:task];
 
-        [tlm deleteAllLinks4Task:slTask];
-        
-        [self removeTask:slTask status:TASK_STATUS_DELETED];
+        if ([slTask isRE])
+        {
+            [self deleteRE:slTask];
+        }
+        else
+        {
+            [tlm deleteAllLinks4Task:slTask];
+            [self removeTask:slTask status:TASK_STATUS_DELETED];
+        }
 	}
 
 	if (self.taskTypeFilter == TASK_FILTER_TOP)
@@ -5020,6 +4997,11 @@ TaskManager *_sctmSingleton = nil;
 		[task updateDurationIntoDB:[dbm getDatabase]];
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+        
+        if (self.taskTypeFilter == TASK_FILTER_LONG || self.taskTypeFilter == TASK_FILTER_SHORT)
+        {
+            [self filterTaskList];
+        }
 	}
 	
 	[self scheduleTasks];

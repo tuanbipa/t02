@@ -21,6 +21,12 @@
 
 //extern BOOL _isiPad;
 
+#import "iPadViewController.h"
+#import "SmartDayViewController.h"
+
+extern iPadViewController *_iPadViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
+
 @implementation TimerHistoryViewController
 
 @synthesize task;
@@ -111,8 +117,10 @@
         {
 			[picker setMessageBody:mailBody isHTML:YES];
 		}
-		
-		[self presentModalViewController:picker animated:NO];
+        
+        UIViewController *ctrler = (_isiPad?_iPadViewCtrler:_sdViewCtrler);
+        
+		[ctrler presentModalViewController:picker animated:NO];
 	}
 }
 
@@ -309,7 +317,7 @@
 #pragma mark Mail
 -(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [controller.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     
 	if(result == MFMailComposeResultSent)
     {

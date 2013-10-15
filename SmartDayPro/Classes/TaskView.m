@@ -1893,6 +1893,16 @@ extern SmartDayViewController *_sdViewCtrler;
         CGContextFillRect(ctx, frm);
     }
     
+    if ([task checkMustDo])
+    {
+        CGRect frm = rect;
+        frm.size.width = 4;
+        
+        [[Colors orangeRed] setFill];
+        
+        CGContextFillRect(ctx, frm);
+    }
+    
     //if (self.multiSelectionEnable)
     if (self.checkEnable)
     {
