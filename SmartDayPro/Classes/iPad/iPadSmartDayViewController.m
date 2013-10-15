@@ -810,113 +810,6 @@ iPadViewController *_iPadViewCtrler;
     
     [headerView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
-    
-    // create edit bar
-    UIView *editBarView = [[UIView alloc] initWithFrame:headerView.bounds];
-    editBarView.tag = TAG_VIEW_EDIT_BAR;
-    editBarView.hidden = YES;
-    [headerView addSubview:editBarView];
-    
-    /*UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
-    countLabel.tag = TAG_VIEW_COUNT_LABEL;
-    countLabel.text = @"0";
-    countLabel.hidden = YES;
-    [editBarView addSubview:countLabel];
-
-    [countLabel release];*/
-    selectedCounter = 0;
-
-    /*UILabel *selectedLable = [[UILabel alloc] initWithFrame:CGRectMake(countLabel.frame.origin.x + countLabel.frame.size.width + SPACE_PAD, 0, 70, editBarView.frame.size.height)];
-    selectedLable.text = _selectedText;
-    [editBarView addSubview:selectedLable];*/
-    
-    CGFloat width = editBarView.frame.size.width/6;
-    CGFloat space = (width - 30) / 2;
-    
-    // 1, done button
-    UIButton *doneButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(space, 5, 30, 30)
-                                     titleColor:[UIColor whiteColor]
-                                         target:self
-                                       selector:@selector(multiMarkDone:)
-                               normalStateImage:@"menu_done.png"
-                             selectedStateImage:nil];
-    [editBarView addSubview:doneButton];
-    
-    // 2, move top button
-    UIButton *moveTopButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(width + space, 5, 30, 30)
-                                     titleColor:[UIColor whiteColor]
-                                         target:self
-                                          selector:@selector(multiMoveTop:)
-                               normalStateImage:@"menu_dotoday.png"
-                             selectedStateImage:nil];
-    [editBarView addSubview:moveTopButton];
-    
-    // 3, defer button
-    UIButton *deferButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(width*2 + space, 5, 30, 30)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(multiDefer:)
-                                  normalStateImage:@"menu_defer.png"
-                                selectedStateImage:nil];
-    [editBarView addSubview:deferButton];
-    
-    // 4, mark star button
-    UIButton *markStarButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(width*3 + space, 5, 30, 30)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(multiMarkStar:)
-                                normalStateImage:@"menu_star.png"
-                              selectedStateImage:nil];
-    [editBarView addSubview:markStarButton];
-    
-    // 5, copy link button
-    UIButton *copyLinkButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(width*4 + space, 5, 30, 30)
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(createLink:)
-                                   normalStateImage:@"menu_copylink.png"
-                                 selectedStateImage:nil];
-    [copyLinkButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"menu_copylink_idle.png"] forState:UIControlStateDisabled];
-    copyLinkButton.tag = TAG_VIEW_COPY_BUTTON;
-    [editBarView addSubview:copyLinkButton];
-    
-    // 6 paste link button
-    /*UIButton *pasteLinkButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(width*5 + space, 5, 30, 30)
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(multiMarkDone:)
-                                   normalStateImage:@"menu_pastelink.png"
-                                 selectedStateImage:nil];
-    [editBarView addSubview:pasteLinkButton];*/
-    
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(width*5 + space, 5, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
-    [editBarView addSubview:deleteButton];
-    
-    [editBarView release];
-    
-    // check show edit bar or filter view
-    //SmartListViewController *ctrler = [self getSmartListViewController];
-    //filterSegmentedControl.hidden = ctrler.isMultiMode;
-    //editBarView.hidden = !ctrler.isMultiMode;
 }
 
 - (void) createNoteOptionFilter
@@ -953,35 +846,6 @@ iPadViewController *_iPadViewCtrler;
     
     [headerView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
-    
-    // create edit bar ========================
-    UIView *editBarView = [[UIView alloc] initWithFrame:headerView.bounds];
-    editBarView.tag = TAG_VIEW_EDIT_BAR;
-    editBarView.hidden = YES;
-    [headerView addSubview:editBarView];
-    
-    // count label
-    /*UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
-    countLabel.tag = TAG_VIEW_COUNT_LABEL;
-    countLabel.text = @"0";
-    countLabel.hidden = YES;
-    [editBarView addSubview:countLabel];
-    
-    [countLabel release];*/
-    selectedCounter = 0;
-    
-    // delete button
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
-    [editBarView addSubview:deleteButton];
-    
-    [editBarView release];
 }
 
 - (void)createProjectOptionFilter
@@ -1034,461 +898,433 @@ iPadViewController *_iPadViewCtrler;
     [headerView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
     
-    // create edit bar ========================
-    UIView *editBarView = [[UIView alloc] initWithFrame:headerView.bounds];
-    editBarView.tag = TAG_VIEW_EDIT_BAR;
-    editBarView.hidden = YES;
-    [headerView addSubview:editBarView];
-    
-    // count label
-    /*UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(SPACE_PAD, 0, 10, editBarView.frame.size.height)];
-    countLabel.tag = TAG_VIEW_COUNT_LABEL;
-    countLabel.text = @"0";
-    countLabel.hidden = YES;
-    [editBarView addSubview:countLabel];
-    
-    [countLabel release];*/
-    selectedCounter = 0;
-    
-    // delete button
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
-    [editBarView addSubview:deleteButton];
-    
-    [editBarView release];
 }
 
--(void) createTaskOptionView
-{
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
-    //optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
-	optionView.hidden = YES;
-	optionView.backgroundColor = [UIColor clearColor];
-	[contentView addSubview:optionView];
-	[optionView release];
-	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
-    //optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
-	optionImageView.alpha = 0.9;
-	[optionView addSubview:optionImageView];
-	[optionImageView release];
-    
-    UIImageView *allImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
-	allImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_all.png"];
-	[optionView addSubview:allImageView];
-	[allImageView release];
-	
-    UILabel *allLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
-	allLabel.text = _allText;
-	allLabel.textColor = [UIColor whiteColor];
-	allLabel.backgroundColor = [UIColor clearColor];
-	allLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:allLabel];
-	[allLabel release];
-	
-	UIButton *allButton=[Common createButton:@""
-                                  buttonType:UIButtonTypeCustom
-                                       frame:CGRectMake(0, 22, 160, 30)
-                                  titleColor:nil
-                                      target:self
-                                    selector:@selector(showTaskWithOption:)
-                            normalStateImage:nil
-                          selectedStateImage:nil];
-	allButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	allButton.tag = TASK_FILTER_ALL;
-	[optionView addSubview:allButton];
-    
-    UIImageView *starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
-	starImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_star.png"];
-	[optionView addSubview:starImageView];
-	[starImageView release];
-	
-    UILabel *starLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
-	starLabel.text = _starText;
-	starLabel.textColor = [UIColor whiteColor];
-	starLabel.backgroundColor = [UIColor clearColor];
-	starLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:starLabel];
-	[starLabel release];
-	
-	UIButton *starButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 57, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showTaskWithOption:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	starButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    starButton.tag = TASK_FILTER_STAR;
-	[optionView addSubview:starButton];
-    
-    UIImageView *gtdImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
-	gtdImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_gtd.png"];
-	[optionView addSubview:gtdImageView];
-	[gtdImageView release];
-	
-	UILabel *gtdLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
-	gtdLabel.text = _gtdoText;
-	gtdLabel.textColor = [UIColor whiteColor];
-	gtdLabel.backgroundColor = [UIColor clearColor];
-	gtdLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:gtdLabel];
-	[gtdLabel release];
-	
-	UIButton *gtdButton=[Common createButton:@""
-                                  buttonType:UIButtonTypeCustom
-                                       frame:CGRectMake(0, 92, 160, 30)
-                                  titleColor:nil
-                                      target:self
-                                    selector:@selector(showTaskWithOption:)
-                            normalStateImage:nil
-                          selectedStateImage:nil];
-	gtdButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    gtdButton.tag = TASK_FILTER_TOP;
-	[optionView addSubview:gtdButton];
-    
-    UIImageView *dueImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 130, 20, 20)];
-	dueImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_due.png"];
-	[optionView addSubview:dueImageView];
-	[dueImageView release];
-	
-	UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
-	dueLabel.text = _dueText;
-	dueLabel.textColor = [UIColor whiteColor];
-	dueLabel.backgroundColor = [UIColor clearColor];
-	dueLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:dueLabel];
-	[dueLabel release];
-	
-	UIButton *dueButton=[Common createButton:@""
-                                  buttonType:UIButtonTypeCustom
-                                       frame:CGRectMake(0, 127, 160, 30)
-                                  titleColor:nil
-                                      target:self
-                                    selector:@selector(showTaskWithOption:)
-                            normalStateImage:nil
-                          selectedStateImage:nil];
-	dueButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    dueButton.tag = TASK_FILTER_DUE;
-	[optionView addSubview:dueButton];
-    
-    UIImageView *startImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 165, 20, 20)];
-	startImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
-	[optionView addSubview:startImageView];
-	[startImageView release];
-	
-	UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 162, 120, 25)];
-	startLabel.text = _startText;
-	startLabel.textColor = [UIColor whiteColor];
-	startLabel.backgroundColor = [UIColor clearColor];
-	startLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:startLabel];
-	[startLabel release];
-	
-	UIButton *startButton=[Common createButton:@""
-                                    buttonType:UIButtonTypeCustom
-                                         frame:CGRectMake(0, 162, 160, 30)
-                                    titleColor:nil
-                                        target:self
-                                      selector:@selector(showTaskWithOption:)
-                              normalStateImage:nil
-                            selectedStateImage:nil];
-	startButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    startButton.tag = TASK_FILTER_ACTIVE;
-	[optionView addSubview:startButton];
-    
-    UIImageView *doneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 200, 20, 20)];
-	doneImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_done.png"];
-	[optionView addSubview:doneImageView];
-	[doneImageView release];
-	
-	UILabel *doneLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 197, 120, 25)];
-	doneLabel.text = _doneText;
-	doneLabel.textColor = [UIColor whiteColor];
-	doneLabel.backgroundColor = [UIColor clearColor];
-	doneLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:doneLabel];
-	[doneLabel release];
-	
-	UIButton *doneButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 197, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showTaskWithOption:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	doneButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    doneButton.tag = TASK_FILTER_DONE;
-	[optionView addSubview:doneButton];
-    
-    // scheduled filert
-    /*UIImageView *scheduledImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 235, 20, 20)];
-	scheduledImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
-	[optionView addSubview:scheduledImageView];
-	[scheduledImageView release];
-	
-	UILabel *scheduledLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 232, 120, 25)];
-	scheduledLabel.text = _anchoredText;
-	scheduledLabel.textColor = [UIColor whiteColor];
-	scheduledLabel.backgroundColor = [UIColor clearColor];
-	scheduledLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:scheduledLabel];
-	[scheduledLabel release];
-	
-	UIButton *scheduledButton=[Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 232, 160, 30)
-                                        titleColor:nil
-                                            target:self
-                                          selector:@selector(showTaskWithOption:)
-                                  normalStateImage:nil
-                                selectedStateImage:nil];
-	scheduledButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    scheduledButton.tag = TASK_FILTER_PINNED;
-	[optionView addSubview:scheduledButton];*/
-    // end scheduled filter
-    
-    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
-    menu.menuPoint = menu.bounds.size.width/2;
-    
-    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
-    
-    [menu release];
-}
-
--(void) createNoteOptionView
-{
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
-	optionView.hidden = YES;
-	optionView.backgroundColor = [UIColor clearColor];
-	[contentView addSubview:optionView];
-	[optionView release];
-	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
-	optionImageView.alpha = 0.9;
-	[optionView addSubview:optionImageView];
-	[optionImageView release];
-    
-    UIImageView *allImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
-	allImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_all.png"];
-	[optionView addSubview:allImageView];
-	[allImageView release];
-	
-    UILabel *allLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
-	allLabel.text = _allText;
-	allLabel.textColor = [UIColor whiteColor];
-	allLabel.backgroundColor = [UIColor clearColor];
-	allLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:allLabel];
-	[allLabel release];
-	
-	UIButton *allButton=[Common createButton:@""
-                                  buttonType:UIButtonTypeCustom
-                                       frame:CGRectMake(0, 22, 160, 30)
-                                  titleColor:nil
-                                      target:self
-                                    selector:@selector(showNoteWithOption:)
-                            normalStateImage:nil
-                          selectedStateImage:nil];
-	allButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	allButton.tag = NOTE_FILTER_ALL;
-	[optionView addSubview:allButton];
-    
-    UIImageView *todayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
-	todayImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_day.png"];
-	[optionView addSubview:todayImageView];
-	[todayImageView release];
-	
-    UILabel *todayLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
-	//todayLabel.text = _todayText;
-    todayLabel.text = _currentText;
-	todayLabel.textColor = [UIColor whiteColor];
-	todayLabel.backgroundColor = [UIColor clearColor];
-	todayLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:todayLabel];
-	[todayLabel release];
-	
-	UIButton *todayButton=[Common createButton:@""
-                                    buttonType:UIButtonTypeCustom
-                                         frame:CGRectMake(0, 57, 160, 30)
-                                    titleColor:nil
-                                        target:self
-                                      selector:@selector(showNoteWithOption:)
-                              normalStateImage:nil
-                            selectedStateImage:nil];
-	todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    todayButton.tag = NOTE_FILTER_CURRENT;
-	[optionView addSubview:todayButton];
-    
-    UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
-	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_week.png"];
-	[optionView addSubview:weekImageView];
-	[weekImageView release];
-	
-    UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
-    weekLabel.text = _thisWeekText;
-	weekLabel.textColor = [UIColor whiteColor];
-	weekLabel.backgroundColor = [UIColor clearColor];
-	weekLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:weekLabel];
-	[weekLabel release];
-	
-	UIButton *weekButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 92, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showNoteWithOption:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	weekButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    weekButton.tag = NOTE_FILTER_WEEK;
-	[optionView addSubview:weekButton];
-    
-    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
-    menu.menuPoint = menu.bounds.size.width/2;
-    
-    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
-    [menu release];
-}
-
--(void) createProjectOptionView
-{
-	//optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 140)];
-    optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 175)];
-	optionView.hidden = YES;
-	optionView.backgroundColor = [UIColor clearColor];
-	[contentView addSubview:optionView];
-	[optionView release];
-	
-	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 140)];
-    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 175)];
-	optionImageView.alpha = 0.9;
-	[optionView addSubview:optionImageView];
-	[optionImageView release];
-    
-	//UIImageView *taskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
-    UIImageView *taskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
-	taskImageView.image = [[ImageManager getInstance] getImageWithName:@"newTask.png"];
-	[optionView addSubview:taskImageView];
-	[taskImageView release];
-	
-	//UILabel *taskLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
-    UILabel *taskLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
-	taskLabel.text = _tasksText;
-	taskLabel.textColor = [UIColor whiteColor];
-	taskLabel.backgroundColor = [UIColor clearColor];
-	taskLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:taskLabel];
-	[taskLabel release];
-	
-	UIButton *taskButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                          //frame:CGRectMake(0, 57, 160, 30)
-                                        frame:CGRectMake(0, 22, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showProjectWithOption:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	taskButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	taskButton.tag = 0;
-	[optionView addSubview:taskButton];
-    
-	//UIImageView *eventImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
-    UIImageView *eventImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
-	eventImageView.image = [[ImageManager getInstance] getImageWithName:@"newEvent.png"];
-	[optionView addSubview:eventImageView];
-	[eventImageView release];
-	
-	//UILabel *eventLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
-    UILabel *eventLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
-	eventLabel.text = _eventsText;
-	eventLabel.textColor = [UIColor whiteColor];
-	eventLabel.backgroundColor = [UIColor clearColor];
-	eventLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:eventLabel];
-	[eventLabel release];
-	
-	UIButton *eventButton=[Common createButton:@""
-                                    buttonType:UIButtonTypeCustom
-                           //frame:CGRectMake(0, 22, 160, 30)
-                                         frame:CGRectMake(0, 57, 160, 30)
-                                    titleColor:nil
-                                        target:self
-                                      selector:@selector(showProjectWithOption:)
-                              normalStateImage:nil
-                            selectedStateImage:nil];
-	eventButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    eventButton.tag = 1;
-	[optionView addSubview:eventButton];
-    
-    UIImageView *noteImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
-	noteImageView.image = [[ImageManager getInstance] getImageWithName:@"newNote.png"];
-	[optionView addSubview:noteImageView];
-	[noteImageView release];
-	
-	UILabel *noteLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
-	noteLabel.text = _notesText;
-	noteLabel.textColor = [UIColor whiteColor];
-	noteLabel.backgroundColor = [UIColor clearColor];
-	noteLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:noteLabel];
-	[noteLabel release];
-	
-	UIButton *noteButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 92, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showProjectWithOption:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	noteButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    noteButton.tag = 2;
-	[optionView addSubview:noteButton];
-    
-    // anchor
-    UIImageView *anchorImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 130, 20, 20)];
-	anchorImageView.image = [[ImageManager getInstance] getImageWithName:@"newTask.png"];
-	[optionView addSubview:anchorImageView];
-	[anchorImageView release];
-	
-	UILabel *anchorLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
-	anchorLabel.text = _anchoredText;
-	anchorLabel.textColor = [UIColor whiteColor];
-	anchorLabel.backgroundColor = [UIColor clearColor];
-	anchorLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:anchorLabel];
-	[anchorLabel release];
-	
-	UIButton *anchorButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 127, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showProjectWithOption:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	anchorButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    anchorButton.tag = 3;
-	[optionView addSubview:anchorButton];
-    // end anchor
-    
-    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
-    menu.menuPoint = menu.bounds.size.width/2;
-    
-    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
-    [menu release];
-}
+//-(void) createTaskOptionView
+//{
+//	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+//    //optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
+//	optionView.hidden = YES;
+//	optionView.backgroundColor = [UIColor clearColor];
+//	[contentView addSubview:optionView];
+//	[optionView release];
+//	
+//	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 240)];
+//    //optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
+//	optionImageView.alpha = 0.9;
+//	[optionView addSubview:optionImageView];
+//	[optionImageView release];
+//    
+//    UIImageView *allImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
+//	allImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_all.png"];
+//	[optionView addSubview:allImageView];
+//	[allImageView release];
+//	
+//    UILabel *allLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
+//	allLabel.text = _allText;
+//	allLabel.textColor = [UIColor whiteColor];
+//	allLabel.backgroundColor = [UIColor clearColor];
+//	allLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:allLabel];
+//	[allLabel release];
+//	
+//	UIButton *allButton=[Common createButton:@""
+//                                  buttonType:UIButtonTypeCustom
+//                                       frame:CGRectMake(0, 22, 160, 30)
+//                                  titleColor:nil
+//                                      target:self
+//                                    selector:@selector(showTaskWithOption:)
+//                            normalStateImage:nil
+//                          selectedStateImage:nil];
+//	allButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//	allButton.tag = TASK_FILTER_ALL;
+//	[optionView addSubview:allButton];
+//    
+//    UIImageView *starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
+//	starImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_star.png"];
+//	[optionView addSubview:starImageView];
+//	[starImageView release];
+//	
+//    UILabel *starLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+//	starLabel.text = _starText;
+//	starLabel.textColor = [UIColor whiteColor];
+//	starLabel.backgroundColor = [UIColor clearColor];
+//	starLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:starLabel];
+//	[starLabel release];
+//	
+//	UIButton *starButton=[Common createButton:@""
+//                                   buttonType:UIButtonTypeCustom
+//                                        frame:CGRectMake(0, 57, 160, 30)
+//                                   titleColor:nil
+//                                       target:self
+//                                     selector:@selector(showTaskWithOption:)
+//                             normalStateImage:nil
+//                           selectedStateImage:nil];
+//	starButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    starButton.tag = TASK_FILTER_STAR;
+//	[optionView addSubview:starButton];
+//    
+//    UIImageView *gtdImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
+//	gtdImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_gtd.png"];
+//	[optionView addSubview:gtdImageView];
+//	[gtdImageView release];
+//	
+//	UILabel *gtdLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
+//	gtdLabel.text = _gtdoText;
+//	gtdLabel.textColor = [UIColor whiteColor];
+//	gtdLabel.backgroundColor = [UIColor clearColor];
+//	gtdLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:gtdLabel];
+//	[gtdLabel release];
+//	
+//	UIButton *gtdButton=[Common createButton:@""
+//                                  buttonType:UIButtonTypeCustom
+//                                       frame:CGRectMake(0, 92, 160, 30)
+//                                  titleColor:nil
+//                                      target:self
+//                                    selector:@selector(showTaskWithOption:)
+//                            normalStateImage:nil
+//                          selectedStateImage:nil];
+//	gtdButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    gtdButton.tag = TASK_FILTER_TOP;
+//	[optionView addSubview:gtdButton];
+//    
+//    UIImageView *dueImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 130, 20, 20)];
+//	dueImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_due.png"];
+//	[optionView addSubview:dueImageView];
+//	[dueImageView release];
+//	
+//	UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
+//	dueLabel.text = _dueText;
+//	dueLabel.textColor = [UIColor whiteColor];
+//	dueLabel.backgroundColor = [UIColor clearColor];
+//	dueLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:dueLabel];
+//	[dueLabel release];
+//	
+//	UIButton *dueButton=[Common createButton:@""
+//                                  buttonType:UIButtonTypeCustom
+//                                       frame:CGRectMake(0, 127, 160, 30)
+//                                  titleColor:nil
+//                                      target:self
+//                                    selector:@selector(showTaskWithOption:)
+//                            normalStateImage:nil
+//                          selectedStateImage:nil];
+//	dueButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    dueButton.tag = TASK_FILTER_DUE;
+//	[optionView addSubview:dueButton];
+//    
+//    UIImageView *startImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 165, 20, 20)];
+//	startImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+//	[optionView addSubview:startImageView];
+//	[startImageView release];
+//	
+//	UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 162, 120, 25)];
+//	startLabel.text = _startText;
+//	startLabel.textColor = [UIColor whiteColor];
+//	startLabel.backgroundColor = [UIColor clearColor];
+//	startLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:startLabel];
+//	[startLabel release];
+//	
+//	UIButton *startButton=[Common createButton:@""
+//                                    buttonType:UIButtonTypeCustom
+//                                         frame:CGRectMake(0, 162, 160, 30)
+//                                    titleColor:nil
+//                                        target:self
+//                                      selector:@selector(showTaskWithOption:)
+//                              normalStateImage:nil
+//                            selectedStateImage:nil];
+//	startButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    startButton.tag = TASK_FILTER_ACTIVE;
+//	[optionView addSubview:startButton];
+//    
+//    UIImageView *doneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 200, 20, 20)];
+//	doneImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_done.png"];
+//	[optionView addSubview:doneImageView];
+//	[doneImageView release];
+//	
+//	UILabel *doneLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 197, 120, 25)];
+//	doneLabel.text = _doneText;
+//	doneLabel.textColor = [UIColor whiteColor];
+//	doneLabel.backgroundColor = [UIColor clearColor];
+//	doneLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:doneLabel];
+//	[doneLabel release];
+//	
+//	UIButton *doneButton=[Common createButton:@""
+//                                   buttonType:UIButtonTypeCustom
+//                                        frame:CGRectMake(0, 197, 160, 30)
+//                                   titleColor:nil
+//                                       target:self
+//                                     selector:@selector(showTaskWithOption:)
+//                             normalStateImage:nil
+//                           selectedStateImage:nil];
+//	doneButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    doneButton.tag = TASK_FILTER_DONE;
+//	[optionView addSubview:doneButton];
+//    
+//    // scheduled filert
+//    /*UIImageView *scheduledImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 235, 20, 20)];
+//	scheduledImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
+//	[optionView addSubview:scheduledImageView];
+//	[scheduledImageView release];
+//	
+//	UILabel *scheduledLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 232, 120, 25)];
+//	scheduledLabel.text = _anchoredText;
+//	scheduledLabel.textColor = [UIColor whiteColor];
+//	scheduledLabel.backgroundColor = [UIColor clearColor];
+//	scheduledLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:scheduledLabel];
+//	[scheduledLabel release];
+//	
+//	UIButton *scheduledButton=[Common createButton:@""
+//                                        buttonType:UIButtonTypeCustom
+//                                             frame:CGRectMake(0, 232, 160, 30)
+//                                        titleColor:nil
+//                                            target:self
+//                                          selector:@selector(showTaskWithOption:)
+//                                  normalStateImage:nil
+//                                selectedStateImage:nil];
+//	scheduledButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    scheduledButton.tag = TASK_FILTER_PINNED;
+//	[optionView addSubview:scheduledButton];*/
+//    // end scheduled filter
+//    
+//    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+//    menu.menuPoint = menu.bounds.size.width/2;
+//    
+//    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+//    
+//    [menu release];
+//}
+//
+//-(void) createNoteOptionView
+//{
+//	optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
+//	optionView.hidden = YES;
+//	optionView.backgroundColor = [UIColor clearColor];
+//	[contentView addSubview:optionView];
+//	[optionView release];
+//	
+//	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
+//	optionImageView.alpha = 0.9;
+//	[optionView addSubview:optionImageView];
+//	[optionImageView release];
+//    
+//    UIImageView *allImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
+//	allImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_all.png"];
+//	[optionView addSubview:allImageView];
+//	[allImageView release];
+//	
+//    UILabel *allLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
+//	allLabel.text = _allText;
+//	allLabel.textColor = [UIColor whiteColor];
+//	allLabel.backgroundColor = [UIColor clearColor];
+//	allLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:allLabel];
+//	[allLabel release];
+//	
+//	UIButton *allButton=[Common createButton:@""
+//                                  buttonType:UIButtonTypeCustom
+//                                       frame:CGRectMake(0, 22, 160, 30)
+//                                  titleColor:nil
+//                                      target:self
+//                                    selector:@selector(showNoteWithOption:)
+//                            normalStateImage:nil
+//                          selectedStateImage:nil];
+//	allButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//	allButton.tag = NOTE_FILTER_ALL;
+//	[optionView addSubview:allButton];
+//    
+//    UIImageView *todayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
+//	todayImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_day.png"];
+//	[optionView addSubview:todayImageView];
+//	[todayImageView release];
+//	
+//    UILabel *todayLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+//	//todayLabel.text = _todayText;
+//    todayLabel.text = _currentText;
+//	todayLabel.textColor = [UIColor whiteColor];
+//	todayLabel.backgroundColor = [UIColor clearColor];
+//	todayLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:todayLabel];
+//	[todayLabel release];
+//	
+//	UIButton *todayButton=[Common createButton:@""
+//                                    buttonType:UIButtonTypeCustom
+//                                         frame:CGRectMake(0, 57, 160, 30)
+//                                    titleColor:nil
+//                                        target:self
+//                                      selector:@selector(showNoteWithOption:)
+//                              normalStateImage:nil
+//                            selectedStateImage:nil];
+//	todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    todayButton.tag = NOTE_FILTER_CURRENT;
+//	[optionView addSubview:todayButton];
+//    
+//    UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
+//	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_week.png"];
+//	[optionView addSubview:weekImageView];
+//	[weekImageView release];
+//	
+//    UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
+//    weekLabel.text = _thisWeekText;
+//	weekLabel.textColor = [UIColor whiteColor];
+//	weekLabel.backgroundColor = [UIColor clearColor];
+//	weekLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:weekLabel];
+//	[weekLabel release];
+//	
+//	UIButton *weekButton=[Common createButton:@""
+//                                   buttonType:UIButtonTypeCustom
+//                                        frame:CGRectMake(0, 92, 160, 30)
+//                                   titleColor:nil
+//                                       target:self
+//                                     selector:@selector(showNoteWithOption:)
+//                             normalStateImage:nil
+//                           selectedStateImage:nil];
+//	weekButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    weekButton.tag = NOTE_FILTER_WEEK;
+//	[optionView addSubview:weekButton];
+//    
+//    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+//    menu.menuPoint = menu.bounds.size.width/2;
+//    
+//    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+//    [menu release];
+//}
+//
+//-(void) createProjectOptionView
+//{
+//	//optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 140)];
+//    optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 175)];
+//	optionView.hidden = YES;
+//	optionView.backgroundColor = [UIColor clearColor];
+//	[contentView addSubview:optionView];
+//	[optionView release];
+//	
+//	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 140)];
+//    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 175)];
+//	optionImageView.alpha = 0.9;
+//	[optionView addSubview:optionImageView];
+//	[optionImageView release];
+//    
+//	//UIImageView *taskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
+//    UIImageView *taskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
+//	taskImageView.image = [[ImageManager getInstance] getImageWithName:@"newTask.png"];
+//	[optionView addSubview:taskImageView];
+//	[taskImageView release];
+//	
+//	//UILabel *taskLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+//    UILabel *taskLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
+//	taskLabel.text = _tasksText;
+//	taskLabel.textColor = [UIColor whiteColor];
+//	taskLabel.backgroundColor = [UIColor clearColor];
+//	taskLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:taskLabel];
+//	[taskLabel release];
+//	
+//	UIButton *taskButton=[Common createButton:@""
+//                                   buttonType:UIButtonTypeCustom
+//                          //frame:CGRectMake(0, 57, 160, 30)
+//                                        frame:CGRectMake(0, 22, 160, 30)
+//                                   titleColor:nil
+//                                       target:self
+//                                     selector:@selector(showProjectWithOption:)
+//                             normalStateImage:nil
+//                           selectedStateImage:nil];
+//	taskButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//	taskButton.tag = 0;
+//	[optionView addSubview:taskButton];
+//    
+//	//UIImageView *eventImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
+//    UIImageView *eventImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
+//	eventImageView.image = [[ImageManager getInstance] getImageWithName:@"newEvent.png"];
+//	[optionView addSubview:eventImageView];
+//	[eventImageView release];
+//	
+//	//UILabel *eventLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
+//    UILabel *eventLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+//	eventLabel.text = _eventsText;
+//	eventLabel.textColor = [UIColor whiteColor];
+//	eventLabel.backgroundColor = [UIColor clearColor];
+//	eventLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:eventLabel];
+//	[eventLabel release];
+//	
+//	UIButton *eventButton=[Common createButton:@""
+//                                    buttonType:UIButtonTypeCustom
+//                           //frame:CGRectMake(0, 22, 160, 30)
+//                                         frame:CGRectMake(0, 57, 160, 30)
+//                                    titleColor:nil
+//                                        target:self
+//                                      selector:@selector(showProjectWithOption:)
+//                              normalStateImage:nil
+//                            selectedStateImage:nil];
+//	eventButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    eventButton.tag = 1;
+//	[optionView addSubview:eventButton];
+//    
+//    UIImageView *noteImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
+//	noteImageView.image = [[ImageManager getInstance] getImageWithName:@"newNote.png"];
+//	[optionView addSubview:noteImageView];
+//	[noteImageView release];
+//	
+//	UILabel *noteLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
+//	noteLabel.text = _notesText;
+//	noteLabel.textColor = [UIColor whiteColor];
+//	noteLabel.backgroundColor = [UIColor clearColor];
+//	noteLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:noteLabel];
+//	[noteLabel release];
+//	
+//	UIButton *noteButton=[Common createButton:@""
+//                                   buttonType:UIButtonTypeCustom
+//                                        frame:CGRectMake(0, 92, 160, 30)
+//                                   titleColor:nil
+//                                       target:self
+//                                     selector:@selector(showProjectWithOption:)
+//                             normalStateImage:nil
+//                           selectedStateImage:nil];
+//	noteButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    noteButton.tag = 2;
+//	[optionView addSubview:noteButton];
+//    
+//    // anchor
+//    UIImageView *anchorImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 130, 20, 20)];
+//	anchorImageView.image = [[ImageManager getInstance] getImageWithName:@"newTask.png"];
+//	[optionView addSubview:anchorImageView];
+//	[anchorImageView release];
+//	
+//	UILabel *anchorLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
+//	anchorLabel.text = _anchoredText;
+//	anchorLabel.textColor = [UIColor whiteColor];
+//	anchorLabel.backgroundColor = [UIColor clearColor];
+//	anchorLabel.font=[UIFont systemFontOfSize:18];
+//	[optionView addSubview:anchorLabel];
+//	[anchorLabel release];
+//	
+//	UIButton *anchorButton=[Common createButton:@""
+//                                   buttonType:UIButtonTypeCustom
+//                                        frame:CGRectMake(0, 127, 160, 30)
+//                                   titleColor:nil
+//                                       target:self
+//                                     selector:@selector(showProjectWithOption:)
+//                             normalStateImage:nil
+//                           selectedStateImage:nil];
+//	anchorButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    anchorButton.tag = 3;
+//	[optionView addSubview:anchorButton];
+//    // end anchor
+//    
+//    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+//    menu.menuPoint = menu.bounds.size.width/2;
+//    
+//    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+//    [menu release];
+//}
 
 #pragma mark View
 

@@ -1233,99 +1233,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [moduleHeaderView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
-    
-    // create edit bar
-    editBarView = [[UIView alloc] initWithFrame:moduleHeaderView.bounds];
-    //editBarView.tag = TAG_VIEW_EDIT_BAR;
-    editBarView.hidden = YES;
-    [moduleHeaderView addSubview:editBarView];
-    
-  
-    
-    CGFloat width = editBarView.frame.size.width/6;
-    CGFloat space = (width - 30) / 2;
-    
-    // 1, done button
-    UIButton *doneButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(space, 5, 30, 30)
-                                     titleColor:[UIColor whiteColor]
-                                         target:self
-                                       selector:@selector(multiMarkDone:)
-                               normalStateImage:@"menu_done.png"
-                             selectedStateImage:nil];
-    [editBarView addSubview:doneButton];
-    
-    // 2, move top button
-    UIButton *moveTopButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(width + space, 5, 30, 30)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(multiMoveTop:)
-                                  normalStateImage:@"menu_dotoday.png"
-                                selectedStateImage:nil];
-    [editBarView addSubview:moveTopButton];
-    
-    // 3, defer button
-    UIButton *deferButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(width*2 + space, 5, 30, 30)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(multiDefer:)
-                                normalStateImage:@"menu_defer.png"
-                              selectedStateImage:nil];
-    [editBarView addSubview:deferButton];
-    
-    // 4, mark star button
-    UIButton *markStarButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(width*3 + space, 5, 30, 30)
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(multiMarkStar:)
-                                   normalStateImage:@"menu_star.png"
-                                 selectedStateImage:nil];
-    [editBarView addSubview:markStarButton];
-    
-    // 5, copy link button
-    //UIButton *copyLinkButton = [Common createButton:@""
-    copyLinkButton = [[Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(width*4 + space, 5, 30, 30)
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(createLink:)
-                                   normalStateImage:@"menu_copylink.png"
-                        selectedStateImage:nil] retain];;
-    [copyLinkButton setBackgroundImage:[[ImageManager getInstance] getImageWithName:@"menu_copylink_idle.png"] forState:UIControlStateDisabled];
-    //copyLinkButton.tag = TAG_VIEW_COPY_BUTTON;
-    [editBarView addSubview:copyLinkButton];
-    //[copyLinkButton release];
-    
-    // 6 paste link button
-    /*UIButton *pasteLinkButton = [Common createButton:@""
-     buttonType:UIButtonTypeCustom
-     frame:CGRectMake(width*5 + space, 5, 30, 30)
-     titleColor:[UIColor whiteColor]
-     target:self
-     selector:@selector(multiMarkDone:)
-     normalStateImage:@"menu_pastelink.png"
-     selectedStateImage:nil];
-     [editBarView addSubview:pasteLinkButton];*/
-    
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(width*5 + space, 5, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
-    [editBarView addSubview:deleteButton];
-    
-    [editBarView release];
 }
 
 - (void)refreshEditBarViewWithCheck: (BOOL) check
@@ -1433,25 +1340,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [moduleHeaderView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
-    
-    // create edit bar ========================
-    editBarView = [[UIView alloc] initWithFrame:moduleHeaderView.bounds];
-    //editBarView.tag = TAG_VIEW_EDIT_BAR;
-    editBarView.hidden = YES;
-    [moduleHeaderView addSubview:editBarView];
-    
-    // delete button
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
-    [editBarView addSubview:deleteButton];
-    
-    [editBarView release];
 }
 
 - (void)createProjectOptionFilter
@@ -1501,25 +1389,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [moduleHeaderView addSubview:filterSegmentedControl];
     [filterSegmentedControl release];
-    
-    // create edit bar ========================
-    editBarView = [[UIView alloc] initWithFrame:moduleHeaderView.bounds];
-    //editBarView.tag = TAG_VIEW_EDIT_BAR;
-    editBarView.hidden = YES;
-    [moduleHeaderView addSubview:editBarView];
-    
-    // delete button
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(editBarView.frame.size.width - 30 - SPACE_PAD, 5, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
-    [editBarView addSubview:deleteButton];
-    
-    [editBarView release];
 }
 
 /*
