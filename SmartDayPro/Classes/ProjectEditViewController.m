@@ -29,6 +29,7 @@
 
 #import "AbstractSDViewController.h"
 #import "iPadViewController.h"
+#import "PlannerBottomDayCal.h"
 
 extern BOOL _transparentHintShown;
 
@@ -712,18 +713,20 @@ extern iPadViewController *_iPadViewCtrler;
         }
         else if (transparentChange)
         {
-            //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+            AbstractActionViewController *actionController = [AbstractActionViewController getInstance];
             
-            CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
+            CategoryViewController *ctrler = [actionController getCategoryViewController];
             
             [ctrler setNeedsDisplay];
             
             //CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
             
-            CalendarViewController *calCtrler = [[AbstractActionViewController getInstance] getCalendarViewController];
+            CalendarViewController *calCtrler = [actionController getCalendarViewController];
             
             [calCtrler refreshView];
             
+            PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[actionController getPlannerDayCalendarView];
+            [plannerDayCal refreshLayout];
         }
         else if (nameChange)
         {

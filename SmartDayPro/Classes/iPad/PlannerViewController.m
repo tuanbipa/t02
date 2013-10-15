@@ -1108,12 +1108,22 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void)setNeedsDisplay
 {
-    //[super setNeedsDisplay];
-    PlannerMonthView *plannerCalView = (PlannerMonthView *)[self getPlannerMonthCalendarView];
+    [super setNeedsDisplay];
+    /*PlannerMonthView *plannerCalView = (PlannerMonthView *)[self getPlannerMonthCalendarView];
 
     [plannerCalView refresh];
     [plannerCalView refreshOpeningWeek:nil];
-    NSLog(@"planner view set need display");
+    NSLog(@"planner view set need display");*/
+    
+    for (UIView *view in plannerView.monthView.subviews)
+	{
+        if ([view isKindOfClass:[TaskView class]])
+        {
+            [view refresh];
+        }
+	}
+    
+    [plannerBottomDayCal setNeedsDisplay];
 }
 
 #pragma mark Modules
