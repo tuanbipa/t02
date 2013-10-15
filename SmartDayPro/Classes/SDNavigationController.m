@@ -15,6 +15,7 @@
 #import "iPadSettingViewController.h"
 #import "NoteContentViewController.h"
 #import "MapLocationViewController.h"
+#import "TimerHistoryViewController.h"
 
 @implementation SDNavigationController
 
@@ -40,7 +41,8 @@
         || [self.topViewController isKindOfClass:[iPadViewController class]]
         || [self.topViewController isKindOfClass:[iPadSettingViewController class]]
         || [self.topViewController isKindOfClass:[NoteContentViewController class]]
-        || [self.topViewController isKindOfClass:[MapLocationViewController class]])
+        || [self.topViewController isKindOfClass:[MapLocationViewController class]]
+        || [self.topViewController isKindOfClass:[TimerHistoryViewController class]])
     {
         return [self.topViewController supportedInterfaceOrientations];
     }
