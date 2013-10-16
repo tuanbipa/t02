@@ -2177,12 +2177,13 @@ TaskManager *_sctmSingleton = nil;
 	
 	self.taskList = [dbm getStartTasks];
 	
-	NSMutableArray *seqNoList = [NSMutableArray arrayWithCapacity:self.taskList.count];
+	/*NSMutableArray *seqNoList = [NSMutableArray arrayWithCapacity:self.taskList.count];
 	
 	for (Task *task in self.taskList)
 	{
 		[seqNoList addObject:[NSNumber numberWithInt:task.sequenceNo]];
 	}
+     */
 	
 	////NSLog(@"sort start 1");
 	
@@ -2190,7 +2191,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	////NSLog(@"sort start 2");
 	
-	sortBGInProgress = (self.taskList.count > 30);
+	/*sortBGInProgress = (self.taskList.count > 30);
 	
 	for (int i=0; i<self.taskList.count; i++)
 	{
@@ -2220,6 +2221,7 @@ TaskManager *_sctmSingleton = nil;
 	}
 	
 	////NSLog(@"end sort start");
+     */
 	
 }
 
