@@ -131,7 +131,8 @@ extern iPadViewController *_iPadViewCtrler;
         
         [ctrler.previewViewCtrler refreshData];
         
-        [ctrler refreshLink];
+        //[ctrler refreshLink];
+        [ctrler performSelector:@selector(refreshLink) withObject:nil afterDelay:0.1];
     }
     else if ([self.navigationController.topViewController isKindOfClass:[NoteDetailViewController class]])
     {
@@ -139,7 +140,9 @@ extern iPadViewController *_iPadViewCtrler;
         
         [ctrler.previewViewCtrler refreshData];
         
-        [ctrler refreshLink];
+        //[ctrler refreshLink];
+        
+        [ctrler performSelector:@selector(refreshLink) withObject:nil afterDelay:0.1];
     }
 }
 
@@ -538,7 +541,26 @@ extern iPadViewController *_iPadViewCtrler;
     if (indexPath.section == 0 && indexPath.row == 0)
     {
         LinkSearchViewController *ctrler = [[LinkSearchViewController alloc] init];
-        ctrler.excludeId = self.task.primaryKey;
+        //ctrler.excludeId = self.task.primaryKey;
+        
+        [ctrler excludeId:self.task.primaryKey];
+        
+        TaskLinkManager *tlm = [TaskLinkManager getInstance];
+        
+        for (NSNumber *linkIdNum in self.task.links)
+        {
+            NSInteger linkedAssetType = [tlm getLinkedAssetType4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+            
+            if (linkedAssetType != ASSET_URL)
+            {
+                NSInteger linkedId = [tlm getLinkedId4Task:self.task.primaryKey linkId:[linkIdNum intValue]];
+                
+                if (linkedId != -1)
+                {
+                    [ctrler excludeId:linkedId];
+                }
+            }
+        }
         
         [self.navigationController pushViewController:ctrler animated:YES];
         [ctrler release];        

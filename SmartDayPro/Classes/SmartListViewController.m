@@ -2166,6 +2166,7 @@ SmartListViewController *_smartListViewCtrler;
 {
     maskView.hidden = NO;
     
+    /*
     if (_plannerViewCtrler != nil)
     {
         [_plannerViewCtrler hideDropDownMenu];
@@ -2173,10 +2174,14 @@ SmartListViewController *_smartListViewCtrler;
     else
     {
         [_abstractViewCtrler hideDropDownMenu];
-    }
+    }*/
+    
+    [[AbstractActionViewController getInstance] hideDropDownMenu];
     
     if (textField == quickAddTextField)
     {
+        [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
+
         NSArray *views = [[NSBundle mainBundle] loadNibNamed:@"QuickAddAccessoryView_iPad"
                                                        owner:self
                                                      options:nil];

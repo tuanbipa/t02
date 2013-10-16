@@ -230,29 +230,33 @@ NSInteger _sdwColor[32] = {
 {
     Settings *settings = [Settings getInstance];
     
-    self.errorDescription = nil;
-    
-    if ([self.sdwSection checkTokenExpired])
+    if (settings.sdwSyncEnabled)
     {
-        NSString *token = [self getToken:settings.sdwEmail password:settings.sdwPassword];
+        self.errorDescription = nil;
         
-        self.sdwSection.token = token;
-        
-        if (self.sdwSection.token != nil)
+        if ([self.sdwSection checkTokenExpired])
         {
-            self.sdwSection.lastTokenAcquireTime = [NSDate date];
+            NSString *token = [self getToken:settings.sdwEmail password:settings.sdwPassword];
             
-            [self.sdwSection refreshKey];
+            self.sdwSection.token = token;
+            
+            if (self.sdwSection.token != nil)
+            {
+                self.sdwSection.lastTokenAcquireTime = [NSDate date];
+                
+                [self.sdwSection refreshKey];
+            }
         }
-    }
-    
-    if (self.errorDescription == nil)
-    {
-        [self syncComments];
-    }
-    else
-    {
-        printf("error: %s\n", [self.errorDescription.description UTF8String]);
+        
+        if (self.errorDescription == nil)
+        {
+            [self syncComments];
+        }
+        else
+        {
+            printf("error: %s\n", [self.errorDescription.description UTF8String]);
+        }
+        
     }
 }
 

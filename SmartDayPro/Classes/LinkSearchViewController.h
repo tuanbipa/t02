@@ -15,6 +15,8 @@
     
     NSInteger selectedSection;
     NSInteger selectedRow;
+    
+    NSMutableDictionary *excludeDict;
 }
 
 @property (nonatomic, retain) NSMutableArray *eventList;
@@ -22,6 +24,8 @@
 @property (nonatomic, retain) NSMutableArray *noteList;
 @property (nonatomic, retain) NSMutableArray *anchorList;
 
-@property NSInteger excludeId;
+//@property NSInteger excludeId;
+
+- (void) excludeId:(NSInteger)excludeId;
 
 @end

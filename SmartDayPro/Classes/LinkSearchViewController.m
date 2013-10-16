@@ -23,7 +23,7 @@
 @synthesize noteList;
 @synthesize anchorList;
 
-@synthesize excludeId;
+//@synthesize excludeId;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,7 +41,8 @@
         selectedSection = -1;
         selectedRow = -1;
         
-        self.excludeId = -1;
+        //self.excludeId = -1;
+        excludeDict = [[NSMutableDictionary alloc] initWithCapacity:10];
         
         self.contentSizeForViewInPopover = CGSizeMake(320,416);
     }
@@ -51,12 +52,19 @@
 
 - (void) dealloc
 {
+    [excludeDict release];
+    
     self.eventList = nil;
     self.taskList = nil;
     self.noteList = nil;
     self.anchorList = nil;
     
     [super dealloc];
+}
+
+- (void) excludeId:(NSInteger)excludeId
+{
+    [excludeDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInteger:excludeId]];
 }
 
 - (void) loadView
@@ -168,7 +176,13 @@
     
     for (Task *task in result)
     {
+        /*
         if (task.primaryKey == self.excludeId)
+        {
+            continue;
+        }*/
+        
+        if ([excludeDict objectForKey:[NSNumber numberWithInteger:task.primaryKey]] != nil)
         {
             continue;
         }

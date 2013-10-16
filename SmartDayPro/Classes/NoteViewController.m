@@ -310,6 +310,8 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) quickAddNote:(id)sender
 {
+    [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
+    
     TaskManager *tm = [TaskManager getInstance];
     
     Task *note = [[Task alloc] init];
