@@ -1721,7 +1721,15 @@ extern DetailViewController *_detailViewCtrler;
         activityController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList];
         
         [self presentViewController:activityController
-                           animated:YES completion:nil];
+                           animated:YES completion:^{
+                               if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+                                   
+                                   // show cancel button in landscape
+                                   CGRect frm = activityController.view.frame;
+                                   frm.size = CGSizeMake(frm.size.width, 700);
+                                   activityController.view.frame = frm;
+                               }
+                           }];
     }
     
     [self clearActiveItems];
