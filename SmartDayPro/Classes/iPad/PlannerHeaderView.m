@@ -13,9 +13,6 @@
 #import "PlannerView.h"
 #import "PlannerViewController.h"
 
-//extern BOOL _isiPad;
-extern PlannerViewController *_plannerViewCtrler;
-
 @implementation PlannerHeaderView
 
 - (id)initWithFrame:(CGRect)frame
@@ -257,7 +254,7 @@ extern PlannerViewController *_plannerViewCtrler;
 - (void) showYearView:(id) sender
 {
     UIButton *monthButton = (UIButton *) [self viewWithTag:20000];
-    [_plannerViewCtrler showYearView:monthButton];
+    [(PlannerViewController*)[AbstractActionViewController getInstance] showYearView:monthButton];
 }
 
 - (NSInteger) getMWMode

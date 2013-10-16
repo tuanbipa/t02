@@ -26,8 +26,6 @@
 
 #import "TaskLinkManager.h"
 
-extern PlannerViewController *_plannerViewCtrler;
-
 @implementation PlannerBottomDayCal
 
 @synthesize movableController;
@@ -146,6 +144,7 @@ extern PlannerViewController *_plannerViewCtrler;
 - (void) refreshLayout
 {
     [calendarLayoutController layout];
+    [self updateFrame];
 }
 
 - (void) refreshTaskView4Key:(NSInteger)taskKey
@@ -257,16 +256,15 @@ extern PlannerViewController *_plannerViewCtrler;
 -(void)showQuickAdd:(TimeSlotView *)timeSlot sender: (UILongPressGestureRecognizer *)sender
 {
     // collapse current week
-    //if (_plannerViewCtrler != nil) {
-        [_plannerViewCtrler.plannerView.monthView collapseCurrentWeek];
-        NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
-        [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
-    //}
+    PlannerViewController *plannerViewCtrler = (PlannerViewController*)[AbstractActionViewController getInstance];
+    [plannerViewCtrler.plannerView.monthView collapseCurrentWeek];
+    NSDate *dt = [plannerViewCtrler.plannerView.monthView getSelectedDate];
+    [plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
     
     scrollView.scrollEnabled = NO;
 	scrollView.userInteractionEnabled = NO;
     
-    _plannerViewCtrler.plannerView.userInteractionEnabled = NO;
+    plannerViewCtrler.plannerView.userInteractionEnabled = NO;
     
     // 1, calculate X
     CGPoint coords = [sender locationInView:sender.view];
@@ -340,11 +338,6 @@ extern PlannerViewController *_plannerViewCtrler;
     scrollView.contentOffset = offset;
 }
 
--(void)quickAdd:(NSString *)name startTime:(NSDate *)startTime
-{
-	[_plannerViewCtrler quickAddEvent:name startTime:startTime];
-}
-
 - (void)stopQuickAdd
 {
     quickAddTextView.text = @"";
@@ -366,20 +359,22 @@ extern PlannerViewController *_plannerViewCtrler;
 	scrollView.scrollEnabled = YES;
 	scrollView.userInteractionEnabled = YES;
     
-	_plannerViewCtrler.plannerView.userInteractionEnabled = YES;
+	//_plannerViewCtrler.plannerView.userInteractionEnabled = YES;
+    PlannerViewController *plannerViewCtrler = (PlannerViewController*)[AbstractActionViewController getInstance];
 	
 	if (![text isEqualToString:@""])
 	{
 		NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:quickAddTextView.tag];
 		
-		[self quickAdd:text startTime:startTime];
+		//[self quickAdd:text startTime:startTime];
+        [plannerViewCtrler quickAddEvent:text startTime:startTime];
 	}
     else
     {
         // open current week
-        [_plannerViewCtrler.plannerView.monthView expandCurrentWeek];
-        NSDate *dt = [_plannerViewCtrler.plannerView.monthView getSelectedDate];
-        [_plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
+        [plannerViewCtrler.plannerView.monthView expandCurrentWeek];
+        NSDate *dt = [plannerViewCtrler.plannerView.monthView getSelectedDate];
+        [plannerViewCtrler.plannerView.monthView highlightCellOnDate:dt];
     }
 }
 

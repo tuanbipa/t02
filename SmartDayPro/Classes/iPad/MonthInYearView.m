@@ -16,8 +16,6 @@
 #import "PlannerViewController.h"
 #import "PlannerView.h"
 
-extern PlannerViewController *_plannerViewCtrler;
-
 @implementation MonthInYearView
 
 @synthesize monthDate;
@@ -244,8 +242,11 @@ extern PlannerViewController *_plannerViewCtrler;
 }
 
 - (void)selectCell: (MonthlyCellView *) cell {
-    [_plannerViewCtrler.popoverCtrler dismissPopoverAnimated:NO];
-    [_plannerViewCtrler.plannerView goToDate:[cell getCellDate]];
+    //[_plannerViewCtrler.popoverCtrler dismissPopoverAnimated:NO];
+    //[_plannerViewCtrler.plannerView goToDate:[cell getCellDate]];
+    PlannerViewController *ctrler = (PlannerViewController*)[AbstractActionViewController getInstance];
+    [ctrler.popoverCtrler dismissPopoverAnimated:NO];
+    [ctrler.plannerView goToDate:[cell getCellDate]];
 }
 
 #pragma mark Properties
