@@ -634,7 +634,7 @@
 Note: If you select a source that is not showing in your iOS Calendar, your calendars will become duplicated.";
 
 "_autoBackup" = "Auto Backup";
-"_autoBackupHint" = "Backups will be created for you automatically, and stored for the most recent five days.";
+"_autoBackupHint" = "Backups are created for you automatically, and stored for the most recent five days.";
 "_backupOn" = "Backup on";
 "_backupList" = "Backup List";
 
