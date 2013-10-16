@@ -1230,6 +1230,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     if (lastLocation != nil) {
         [lastLocation release];
+        lastLocation = nil;
     }
 }
 
