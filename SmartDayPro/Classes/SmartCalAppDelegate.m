@@ -1352,7 +1352,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 [[UIApplication sharedApplication] cancelLocalNotification:geoLocalNotification];
             } else {
                 geoLocalNotification = [[UILocalNotification alloc] init];
-                geoLocalNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+                //geoLocalNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
             }
             geoLocalNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
             
