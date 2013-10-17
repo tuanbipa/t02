@@ -556,7 +556,8 @@ static sqlite3_stmt *task_delete_statement = nil;
 	
 	if (self.startTime != nil)
 	{
-		self.startTime = [self isEvent]?[Common dateByAddNumSecond:-30*60 toDate:today]:
+		self.startTime = [self isADE]?[Common clearTimeForDate:today]:
+        [self isEvent]?[Common dateByAddNumSecond:-30*60 toDate:today]:
         [self isNote]?[Common copyTimeFromDate:self.startTime toDate:[Common dateByAddNumDay:-1 toDate:today]]:[Common dateByAddNumSecond:startDiff toDate:today];
 		
 		if (self.endTime != nil)
