@@ -359,8 +359,8 @@
 	scrollView.scrollEnabled = YES;
 	scrollView.userInteractionEnabled = YES;
     
-	//_plannerViewCtrler.plannerView.userInteractionEnabled = YES;
     PlannerViewController *plannerViewCtrler = (PlannerViewController*)[AbstractActionViewController getInstance];
+    plannerViewCtrler.plannerView.userInteractionEnabled = YES;
 	
 	if (![text isEqualToString:@""])
 	{
