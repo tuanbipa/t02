@@ -848,6 +848,8 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [self.activeViewCtrler dismissViewControllerAnimated:NO completion:nil];
+    
     [self closeDetail];
     
     [_appDelegate dismissAllAlertViews];
