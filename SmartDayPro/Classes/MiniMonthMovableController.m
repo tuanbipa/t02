@@ -291,6 +291,11 @@ iPadViewController *_iPadViewCtrler;
     else 
     {
         deadline = [settings getWorkingEndTimeForDate:calDate];
+        
+        if (task.startTime != nil && [deadline compare:task.startTime] == NSOrderedAscending)
+        {
+            task.startTime = [settings getWorkingStartTimeForDate:deadline];
+        }
     }
     
     task.deadline = deadline;
