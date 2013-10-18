@@ -370,12 +370,11 @@ extern BOOL _tagHintShown;
 			
 			NSString *presetTag = [dict.presetTagDict objectForKey:cell.textLabel.text];
 			
-            /*if (presetTag != nil)
+            if (presetTag != nil)
 			{
-				//cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [[cell imageView] setImage:[UIImage imageNamed:@"checkMark"]];
-			}*/
-            [[cell imageView] setImage:[UIImage imageNamed:@"checkmark.png"]];
+				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+			}
+            /*[[cell imageView] setImage:[UIImage imageNamed:@"checkmark.png"]];
             [cell imageView].hidden = (presetTag == nil);
             
             // tag location
@@ -387,7 +386,7 @@ extern BOOL _tagHintShown;
             
             editTagButton.tag = cell.textLabel.text;//presetTag;
             
-            [cell.contentView addSubview:editTagButton];
+            [cell.contentView addSubview:editTagButton];*/
 		}
 			break;
 	}
