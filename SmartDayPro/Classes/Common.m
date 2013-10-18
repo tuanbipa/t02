@@ -1782,10 +1782,18 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
     
-    if ([tableView.indexPathsForVisibleRows containsObject:indexPath]) {
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                               withRowAnimation:UITableViewRowAnimationAutomatic];
+    //NSInteger rows = [tableView numberOfRowsInSection:section];
+    
+    //printf("scroll to row: %d - rows: %d\n", row, rows);
+    
+    if (![tableView.indexPathsForVisibleRows containsObject:indexPath])
+    {
+        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
+
+    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                     withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
 @end

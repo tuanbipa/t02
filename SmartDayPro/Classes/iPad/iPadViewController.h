@@ -26,6 +26,7 @@
     UIButton *eyeButton;
     UIButton *commentButton;
 
+    BOOL firstTimeLoad;
 }
 
 @property (nonatomic, retain) AbstractActionViewController *activeViewCtrler;
@@ -49,5 +50,7 @@
 - (void) closeDetail;
 - (void) slideView:(BOOL)enabled;
 - (void) slideAndShowDetail;
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation;
 
 @end

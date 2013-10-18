@@ -17,6 +17,8 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
 extern void addRoundedRectToPath(CGContextRef context, CGRect rect,float ovalWidth,float ovalHeight);
 extern void fillRoundedRect (CGContextRef context, CGRect rect, float ovalWidth, float ovalHeight);
 extern void strokeRoundedRect(CGContextRef context, CGRect rect, float ovalWidth,float ovalHeight);
@@ -24,6 +26,9 @@ extern void gradientRoundedRect(CGContextRef context, CGRect rect, float ovalWid
 extern void gradientRect(CGContextRef context, CGRect rect, CGFloat components[], CGFloat locations[], size_t num_locations);
 
 extern BOOL _isiPad;
+extern BOOL _versionUpgrade;
+extern BOOL _dbUpgrade;
+extern BOOL _firstLaunch;
 
 #define ToodledoAppID @"SmartCal"
 #define ToodledoAppToken @"api4ce4d580c343e"

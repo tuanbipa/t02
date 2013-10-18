@@ -980,7 +980,7 @@ PreviewViewController *_previewCtrler;
     
     NSInteger count = self.linkList.count;
     
-    if (!hasNote && ![self.item isNote]) //don't show empty Note for Note
+    if (!hasNote && ![self.item isNote]) //don't show 'quick add note' for Note
     {
         count += 1;
     }

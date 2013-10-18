@@ -119,6 +119,7 @@ extern BOOL _scFreeVersion;
 @synthesize featureHint;
 @synthesize transparentHint;
 @synthesize msdBackupHint;
+@synthesize guruHint;
 
 @synthesize deleteWarning;
 @synthesize doneWarning;
@@ -255,6 +256,7 @@ extern BOOL _scFreeVersion;
 		self.featureHint = YES;
         self.transparentHint = YES;
         self.msdBackupHint = YES;
+        self.guruHint = YES;
 		
 		self.deleteWarning = YES;
 		self.doneWarning = YES;
@@ -295,11 +297,7 @@ extern BOOL _scFreeVersion;
         
         self.updateTime = nil;
         
-        //self.filterPresets = [NSMutableArray arrayWithCapacity:3];
-        
         isExternalUpdate = NO;
-		
-		//self.oldAppVersion = nil;
 		
 		[self loadSettingDict];
 
@@ -311,7 +309,7 @@ extern BOOL _scFreeVersion;
 
 		if (![self.dbVersion isEqualToString:newDBVersion])
         {
-            if (self.dbVersion == nil)
+            if (self.dbVersion != nil)
             {
                 _dbUpgrade = YES;
             }
@@ -325,31 +323,13 @@ extern BOOL _scFreeVersion;
         {
             self.tabBarAutoHide = YES;
         }
-		
-		/*NSString *version = [self.settingDict objectForKey:@"DBVersion"];
-		
-		if (version != nil)
-		{
-			self.dbVersion = version;
-		}		
-		else
-		{
-			[settingDict setValue:self.dbVersion forKey:@"DBVersion"];	
-			
-			[self saveSettingDict];
-		}
-		
-		version = [self.settingDict objectForKey:@"AppVersion"];
-        */
-		
+				
 		NSString *newVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 		
 		_versionUpgrade = NO;
 		
-		//if (![newVersion isEqualToString:version])
         if (![newVersion isEqualToString:self.appVersion])
 		{
-            //if (version == nil)
             if (self.appVersion == nil)
             {
                 _firstLaunch = YES;
@@ -359,10 +339,6 @@ extern BOOL _scFreeVersion;
 				_versionUpgrade = YES;
 			}
 			
-			//[settingDict setValue:newVersion forKey:@"AppVersion"];
-			
-			//[self saveSettingDict];
-            
             self.appVersion = newVersion;
             needSaveSetting = YES;
 		}
@@ -372,37 +348,6 @@ extern BOOL _scFreeVersion;
             //save db version and app version
             [self saveSettingDict];
         }
-		
-        /*
-        if (_versionUpgrade && [newVersion isEqualToString:@"3.1"])
-		{
-			//upgrade to 3.1
-			self.ekAutoSyncEnabled = NO;
-			self.tdAutoSyncEnabled = NO;
-			
-			self.syncWindowStart = 1;
-			self.syncWindowEnd = 2;
-			
-			[self saveSettingDict];
-		}
-        
-        if (_versionUpgrade && [newVersion isEqualToString:@"3.2"])
-        {
-            //disable auto-sync so users can see What's News with no crash
-            self.ekAutoSyncEnabled = NO;
-			self.tdAutoSyncEnabled = NO;
-            
-            [self saveSettingDict];
-        }
-		
-		if (_scFreeVersion)
-		{
-			self.syncWindowStart = 1;
-			self.syncWindowEnd = 1;
-			
-			[self saveSettingDict];			
-		}
-        */
         
         if (_versionUpgrade && [newVersion isEqualToString:@"1.0.1"])
         {
@@ -1211,6 +1156,13 @@ extern BOOL _scFreeVersion;
 			self.msdBackupHint = [msdBackupHintSetting boolValue];
 		}
         
+		NSNumber *guruHintSetting = [self.hintDict objectForKey:@"GuruHint"];
+		
+		if (guruHintSetting != nil)
+		{
+			self.guruHint = [guruHintSetting boolValue];
+		}
+        
 		NSNumber *move2MMConfirmationSetting = [self.hintDict objectForKey:@"Move2MMConfirmation"];
 		
 		if (move2MMConfirmationSetting != nil)
@@ -1557,6 +1509,9 @@ extern BOOL _scFreeVersion;
 		[self.settingDict setValue:updateTimeSetting forKey:@"UpdateTime"];
 	}
     
+    [settingDict setValue:self.dbVersion forKey:@"DBVersion"];
+    [settingDict setValue:self.appVersion forKey:@"AppVersion"];
+    
 	[self.settingDict writeToFile:[Common getFilePath:@"Settings.dat"] atomically:YES];
 }
 
@@ -1644,6 +1599,9 @@ extern BOOL _scFreeVersion;
 	NSNumber *msdBackupHintSetting = [NSNumber numberWithBool:self.msdBackupHint];
 	[self.hintDict setValue:msdBackupHintSetting forKey:@"MSDBackupHint"];
 
+	NSNumber *guruHintSetting = [NSNumber numberWithBool:self.guruHint];
+	[self.hintDict setValue:guruHintSetting forKey:@"GuruHint"];
+    
 	NSNumber *move2MMConfirmationSetting = [NSNumber numberWithBool:self.move2MMConfirmation];
 	[self.hintDict setValue:move2MMConfirmationSetting forKey:@"Move2MMConfirmation"];
     
@@ -2295,8 +2253,6 @@ extern BOOL _scFreeVersion;
     [self saveToodledoSyncDict];
 }
 
-
-
 - (void) saveWorkingTimes
 {
 	[dayManagerDict setValue:self.monStartTime forKey:@"MonStartTime"];	
@@ -2557,6 +2513,13 @@ extern BOOL _scFreeVersion;
 	[self saveHintDict];
 }
 
+-(void)enableGuruHint:(BOOL)enabled
+{
+	self.guruHint = enabled;
+	
+	[self saveHintDict];
+}
+
 -(void)enableHideWarning:(BOOL)enabled
 {
 	self.hideWarning = enabled;
@@ -2592,29 +2555,6 @@ extern BOOL _scFreeVersion;
 
 -(void)enableHints
 {
-    /*
-	[self enableEventMapHint:YES];
-	[self enableSmartListHint:YES];
-    [self enableNoteHint:YES];
-	[self enableWeekViewHint:YES];
-	[self enableWeekDayQuickAddHint:YES];
-	[self enableCalendarHint:YES];
-	[self enableMultiSelectHint:YES];
-	[self enableMonthViewHint:YES];
-	[self enableRTDoneHint:YES];
-	[self enableSyncMatchHint:YES];
-	[self enableProjectHint:YES];
-	[self enableProjectDetailHint:YES];
-	[self enableFirstTimeEventSyncHint:YES];
-	[self enableWorkingTimeHint:YES];
-	[self enableStarTabHint:YES];
-	[self enableGTDoTabHint:YES];
-	[self enableTagHint:YES];
-	[self enableFeatureHint:YES];
-    [self enableTransparentHint:YES];
-    [self enableMSDBackupHint:YES];
-    */
-    
     self.eventMapHint = YES;
     self.smartListHint = YES;
     self.noteHint = YES;
@@ -2635,6 +2575,7 @@ extern BOOL _scFreeVersion;
     self.featureHint = YES;
     self.transparentHint = YES;
 	self.msdBackupHint = YES;
+    self.guruHint = YES;
     self.move2MMConfirmation = YES;
     
     [self saveHintDict];

@@ -487,6 +487,7 @@
 #define _sdwSyncText NSLocalizedString(@"_sdwSyncText", "")
 #define _mySDAccountText NSLocalizedString(@"_mySDAccountText", "")
 #define _signupText NSLocalizedString(@"_signupText", "")
+#define _signinText NSLocalizedString(@"_signinText", "")
 #define _sdwSyncingText NSLocalizedString(@"_sdwSyncingText", "")
 #define _sdwAccountValidText NSLocalizedString(@"_sdwAccountValidText", "")
 #define _sdwAccountInvalidText NSLocalizedString(@"_sdwAccountInvalidText", "")
@@ -731,3 +732,7 @@
 #define _atCurrentLocationYouHave NSLocalizedString(@"_atCurrentLocationYouHave", "")
 #define _alertBasedOnLocationText NSLocalizedString(@"_alertBasedOnLocationText", "")
 #define _itsTimeToDriveForText NSLocalizedString(@"_itsTimeToDriveForText", "")
+
+#define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
+
+

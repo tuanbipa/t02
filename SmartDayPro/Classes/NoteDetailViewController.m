@@ -178,12 +178,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
 
 - (void) refreshLink
 {
-    /*
-    [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
-    if (self.note.primaryKey != -1 && ![self.note isShared])
-    {
-        [Common reloadRowOfTable:detailTableView row:5 section:0];
-    }
+    //[Common reloadRowOfTable:detailTableView row:5 section:0]; //bug: crash when reload link cell -> reload entire table
+    
+    [detailTableView reloadData];
 }
 
 #pragma mark Actions
@@ -666,47 +663,6 @@ NoteDetailViewController *_noteDetailViewCtrler;
 
 - (void) createLinkCell:(UITableViewCell *)cell
 {
-/*
-    cell.accessoryType = UITableViewCellAccessoryNone;
-
-	UILabel *linkLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 30)];
-
-	linkLabel.text = _assetsText;
-	linkLabel.backgroundColor = [UIColor clearColor];
-	linkLabel.font = [UIFont systemFontOfSize:16];
-	linkLabel.textColor = [UIColor grayColor];
-	
-	[cell.contentView addSubview:linkLabel];
-	[linkLabel release];
-    
-    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
-
-    detailImgView.frame = CGRectMake(detailTableView.bounds.size.width - 25, 5, 20, 20);
-    [cell.contentView addSubview:detailImgView];
-    [detailImgView release];
-    
-    UIButton *linkEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    CGRect frm = detailTableView.bounds;
-    frm.size.height = 30;
-    
-    linkEditButton.frame = frm;
-
-    [linkEditButton addTarget:self action:@selector(editLink:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.contentView addSubview:linkEditButton];
-        
-    CGFloat h = [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:0]];
-    
-    frm = self.previewViewCtrler.view.frame;
-    
-    frm.origin.y = 40;
-    frm.size.width = detailTableView.bounds.size.width;
-    frm.size.height = h - 40;
-     
-    [self.previewViewCtrler changeFrame:frm];
-    
-    */
-    
     CGRect frm = self.previewViewCtrler.view.frame;
     frm.origin.x = 10;
     frm.size.width = detailTableView.bounds.size.width-10;
@@ -738,7 +694,11 @@ NoteDetailViewController *_noteDetailViewCtrler;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [self.note isShared]?4:(self.note.primaryKey == -1?4:6);
+    NSInteger count = [self.note isShared]?4:(self.note.primaryKey == -1?4:6);
+    
+    //printf("rows count: %d\n", count);
+    
+	return count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -753,7 +713,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
     }
     else if (indexPath.row == 5)
     {
-        return [self.previewViewCtrler getHeight];
+        CGFloat h = [self.previewViewCtrler getHeight];
+        
+        return h;
     }
     
     return 40;

@@ -4372,7 +4372,7 @@ static sqlite3_stmt *_top_task_statement = nil;
         [settings modifyUpdateTime];
     }
     
-    if (!_versionUpgrade || !_dbUpgrade)
+    if (!_dbUpgrade)
     {
         return;
     }
@@ -4402,14 +4402,14 @@ static sqlite3_stmt *_top_task_statement = nil;
 		[self upgradeDBv4_0];
 	}*/
     
-	if (_dbUpgrade && (!_isiPad && [settings.appVersion isEqualToString:@"1.1"]))
+	if (_dbUpgrade && [settings.dbVersion isEqualToString:@"5.0"])
 	{
-        // upgrade for SD iPhone v1.0.1 to v1.1
+        // upgrade for SD iPhone v1.0.1 to iSD v2.0.0
 		[self upgradeDBv5_0];
 	}
     
-    _versionUpgrade = NO;
-    _dbUpgrade = NO;
+    //_versionUpgrade = NO;
+    //_dbUpgrade = NO;
 }
 
 - (void)upgradeDBv1_0_2
@@ -4753,7 +4753,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_TimeZoneID NUMERIC;", nil, nil, nil);
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_TimeZoneOffset NUMERIC;", nil, nil, nil);
 	sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_ExtraStatus NUMERIC;", nil, nil, nil);
-    sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_OnwerName TEXT;", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_OwnerName TEXT;", nil, nil, nil);
     
     // add 'alert location' field
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_LocationAlert NUMERIC;", nil, nil, nil);

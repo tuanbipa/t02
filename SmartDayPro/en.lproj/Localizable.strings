@@ -485,13 +485,15 @@
 "_showHideCategoryText" = "Show/Hide";
 
 "_restoreDBTitle" = "Restore SmartDay database";
-"_restoreDBText" = "Restoring from your backup will overwrite existing data. You will need to restart SmartDay after restoring.";
+//"_restoreDBText" = "Restoring from your backup will overwrite existing data. You will need to restart SmartDay after restoring.";
+"_restoreDBText" = "Restoring from your backup will overwrite existing data. Do you want to continue?";
 "_restoreDBFinishedTitle" = "Restored successfully!";
 "_restoreDBFinishedText" = "Please restart SmartDay. Thanks!";
 
 "_sdwSyncText" = "mySmartDay Sync";
 "_mySDAccountText" = "mySmartDay Account";
 "_signupText" = "Sign Up";
+"_signinText" = "Sign In";
 "_sdwSyncingText" = "mySmartDay.com Sync'ing ...";
 //"_sdwAccountValidText" = "Verified! Your mySmartDay account is valid.";
 "_sdwAccountValidText" = "Your SmartDay account is valid.  You can now perform two-way sync with mySmartDay.com. You can also perform one-way sync by selecting 'Data Recovery' from the menu on the left.";
@@ -744,4 +746,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_atCurrentLocationText" = "At Current Location";
 "_atCurrentLocationYouHave" = "At current location you have %d item(s) to do";
 "_alertBasedOnLocationText" = "Alert based on location";
-"_itsTimeToDriveForText" = "It's time to drive for '%@'";
+"_itsTimeToDriveForText" = "It's time to drive for";
+
+"_SmartDayOnline" = "SmartDay Online";
+

@@ -126,4 +126,6 @@
 - (void) refreshView;
 - (void) popupHint;
 
+- (void) changeOrientation:(UIInterfaceOrientation) orientation;
+
 @end

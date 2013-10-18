@@ -125,12 +125,12 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	UIButton *signupButton=[Common createButton:_signupText
 									buttonType:UIButtonTypeRoundedRect 
                                           frame:CGRectMake(10, marginY+150, 100, 25)
-									titleColor:[UIColor blueColor] 
+									titleColor:[Colors blueButton]
 										target:self 
 									  selector:@selector(signup:) 
 							  normalStateImage:nil
 							selectedStateImage:nil];
-    checkButton.titleLabel.font=[UIFont boldSystemFontOfSize:16];
+    signupButton.titleLabel.font=[UIFont boldSystemFontOfSize:16];
 
 	[mainView addSubview:signupButton];
 	

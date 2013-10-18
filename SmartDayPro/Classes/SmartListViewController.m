@@ -398,6 +398,7 @@ SmartListViewController *_smartListViewCtrler;
     }
 }
 
+/*
 -(void)showSuggestedTime
 {
 	if (suggestedTimeLabel.hidden == YES)
@@ -506,7 +507,7 @@ SmartListViewController *_smartListViewCtrler;
 	
 	[[barPlaceHolder layer] addAnimation:animation forKey:kInfoViewAnimationKey];	
 }
-
+*/
 -(void) stopQuickAdd
 {
 	[quickAddTextField resignFirstResponder];
@@ -1109,6 +1110,7 @@ SmartListViewController *_smartListViewCtrler;
 	[ctrler release];	
 }
 
+/*
 - (void) addTask:(id) sender
 {
 	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
@@ -1330,7 +1332,7 @@ SmartListViewController *_smartListViewCtrler;
 		quickAddTextField.text = @"";
 	}
 }
-
+*/
 - (void) quickEdit:(id)sender
 {
 	TaskManager *tm = [TaskManager getInstance];
@@ -3137,6 +3139,8 @@ SmartListViewController *_smartListViewCtrler;
 		
 		firstLoad = NO;
 	}
+    
+    [self refreshLayout];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
