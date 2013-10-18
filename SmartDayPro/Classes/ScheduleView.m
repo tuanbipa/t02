@@ -137,6 +137,8 @@ extern iPadViewController *_iPadViewCtrler;
     }
     
     [self refreshDayManagerView];
+    
+    [self refreshTodayLine];
 }
 
 - (void) setTodayLineHidden:(BOOL)hidden
