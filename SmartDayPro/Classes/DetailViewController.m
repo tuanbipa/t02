@@ -891,6 +891,12 @@ DetailViewController *_detailViewCtrler = nil;
     
 }
 
+- (void)refreshHeightForTableCell
+{
+    [detailTableView beginUpdates];
+    [detailTableView endUpdates];
+}
+
 #pragma mark Input Views
 -(void) showInputView:(UIViewController *)ctrler
 {

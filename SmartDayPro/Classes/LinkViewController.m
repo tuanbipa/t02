@@ -425,30 +425,34 @@ extern iPadViewController *_iPadViewCtrler;
             }
             else
             {
-                Task *task = [[Task alloc] initWithPrimaryKey:linkedId database:[[DBManager getInstance] getDatabase]];
+                Task *linkTask = [[Task alloc] initWithPrimaryKey:linkedId database:[[DBManager getInstance] getDatabase]];
                 
                 UIImage *img = nil;
                 
                 ProjectManager *pm = [ProjectManager getInstance];
                 
-                if ([task isEvent])
+                if ([linkTask isEvent] && ![linkTask isManual])
                 {
                     img = [pm getEventIcon:task.project];
                 }
-                else if ([task isTask])
+                else if ([linkTask isTask])
                 {
                     img = [pm getTaskIcon:task.project];
                 }
-                else if ([task isNote])
+                else if ([linkTask isNote])
                 {
                     img = [pm getNoteIcon:task.project];
+                }
+                else if ([linkTask isManual])
+                {
+                    img = [pm getAnchoredIcon:task.project];
                 }
                 
                 cell.imageView.image = img;
                 
                 cell.textLabel.text = task.name;
                 
-                [task release];            
+                [linkTask release];
             }
             
         }

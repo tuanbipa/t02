@@ -36,6 +36,7 @@
 - (void) refreshDate;
 - (void) refreshProject;
 - (void) refreshLink;
+- (void)refreshHeightForTableCell;
 
 - (void) closeInputView;
 

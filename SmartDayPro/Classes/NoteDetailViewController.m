@@ -183,6 +183,12 @@ NoteDetailViewController *_noteDetailViewCtrler;
     [detailTableView reloadData];
 }
 
+- (void)refreshHeightForTableCell
+{
+    [detailTableView beginUpdates];
+    [detailTableView endUpdates];
+}
+
 #pragma mark Actions
 - (void) done:(id) sender
 {

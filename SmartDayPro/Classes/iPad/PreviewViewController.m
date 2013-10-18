@@ -24,7 +24,7 @@
 #import "NoteView.h"
 #import "GuideWebView.h"
 
-#import "NoteDetailTableViewController.h"
+#import "NoteDetailViewController.h"
 #import "TaskDetailTableViewController.h"
 
 #import "iPadSmartDayViewController.h"
@@ -42,6 +42,7 @@
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 extern DetailViewController *_detailViewCtrler;
+extern NoteDetailViewController *_noteDetailViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
 extern SmartDayViewController *_sdViewCtrler;
 
@@ -245,6 +246,13 @@ PreviewViewController *_previewCtrler;
     [linkTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:idxPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
     [Common reloadRowOfTable:linkTableView row:selectedIndex section:0];
+    
+    // need update parent cell
+    if (_detailViewCtrler) {
+        [_detailViewCtrler refreshHeightForTableCell];
+    } else {
+        [_noteDetailViewCtrler refreshHeightForTableCell];
+    }
 }
 
 - (void) markNoteChange
