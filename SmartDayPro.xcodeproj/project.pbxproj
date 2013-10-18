@@ -278,15 +278,12 @@
 		6748B8EE180401820043A80E /* PlannerMonthCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9216F99BEF00F1E976 /* PlannerMonthCellView.m */; };
 		6748B8EF180401820043A80E /* PlannerMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */; };
 		6748B8F0180401820043A80E /* PlannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E18E9616F99BEF00F1E976 /* PlannerView.m */; };
-		6748B8F1180401820043A80E /* PlannerItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */; };
 		6748B8F2180401820043A80E /* SnoozeDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DE2147170006FC000545AC /* SnoozeDurationViewController.m */; };
 		6748B8F3180401820043A80E /* EKReminderSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 67DD563F170BE62E006EA347 /* EKReminderSync.m */; };
 		6748B8F4180401820043A80E /* TaskSyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E57B3917125B1C00491846 /* TaskSyncViewController.m */; };
 		6748B8F5180401820043A80E /* PlannerCalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */; };
 		6748B8F6180401820043A80E /* PlannerScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD7171405CF007AD2DE /* PlannerScheduleView.m */; };
-		6748B8F7180401820043A80E /* PlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FDD171406D6007AD2DE /* PlannerMovableController.m */; };
 		6748B8F8180401820043A80E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348017B33B0600AEA74A /* CommentViewController.m */; };
-		6748B8F9180401820043A80E /* SmartListPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FE1171407B8007AD2DE /* SmartListPlannerMovableController.m */; };
 		6748B8FA180401820043A80E /* AbstractMonthCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E5A9871715388700EF14D9 /* AbstractMonthCalendarView.m */; };
 		6748B8FB180401820043A80E /* AbstractActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E5A98B17153A7C00EF14D9 /* AbstractActionViewController.m */; };
 		6748B8FC180401820043A80E /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
@@ -295,7 +292,6 @@
 		6748B8FF180401820043A80E /* YearViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036BD1724F5890039A2DF /* YearViewController.m */; };
 		6748B900180401820043A80E /* TimeZonePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67D4EFD717433B43002B3483 /* TimeZonePickerViewController.m */; };
 		6748B901180401820043A80E /* TaskReadonlyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67ECF560177BD4200064BE5F /* TaskReadonlyDetailViewController.m */; };
-		6748B902180401820043A80E /* PlannerTaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */; };
 		6748B903180401820043A80E /* TaskLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742701782763A00361E30 /* TaskLayoutController.m */; };
 		6748B904180401820043A80E /* TaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742721782763A00361E30 /* TaskMovableController.m */; };
 		6748B905180401820043A80E /* RestoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742781782768300361E30 /* RestoreViewController.m */; };
@@ -1017,8 +1013,6 @@
 		67B1706C1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
 		67B1706D1717C3B800FBD56A /* timer_item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B170691717C3B800FBD56A /* timer_item@2x.png */; };
 		67B41508166C5A5A00AB3B5C /* iPadSmartDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */; };
-		67C7426D1782761F00361E30 /* PlannerTaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */; };
-		67C7426E1782761F00361E30 /* PlannerTaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */; };
 		67C742731782763A00361E30 /* TaskLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742701782763A00361E30 /* TaskLayoutController.m */; };
 		67C742741782763A00361E30 /* TaskLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742701782763A00361E30 /* TaskLayoutController.m */; };
 		67C742751782763A00361E30 /* TaskMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67C742721782763A00361E30 /* TaskMovableController.m */; };
@@ -1742,10 +1736,6 @@
 		67E30FD9171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */; };
 		67E30FDA171405CF007AD2DE /* PlannerScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD7171405CF007AD2DE /* PlannerScheduleView.m */; };
 		67E30FDB171405CF007AD2DE /* PlannerScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FD7171405CF007AD2DE /* PlannerScheduleView.m */; };
-		67E30FDE171406D6007AD2DE /* PlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FDD171406D6007AD2DE /* PlannerMovableController.m */; };
-		67E30FDF171406D6007AD2DE /* PlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FDD171406D6007AD2DE /* PlannerMovableController.m */; };
-		67E30FE2171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FE1171407B8007AD2DE /* SmartListPlannerMovableController.m */; };
-		67E30FE3171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E30FE1171407B8007AD2DE /* SmartListPlannerMovableController.m */; };
 		67E3485116DF02E600AA19EE /* TimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67E3485016DF02E600AA19EE /* TimerManager.m */; };
 		67E3485716DF2FED00AA19EE /* pause_yellow_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E3485216DF2FED00AA19EE /* pause_yellow_green@2x.png */; };
 		67E3485816DF2FED00AA19EE /* play_green_yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67E3485316DF2FED00AA19EE /* play_green_yellow@2x.png */; };
@@ -2557,8 +2547,6 @@
 		67F2A20E179D1605004617D1 /* tab_tasks.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F2A1F7179D1605004617D1 /* tab_tasks.png */; };
 		67F2A20F179D1605004617D1 /* tab_tasks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F2A1F8179D1605004617D1 /* tab_tasks@2x.png */; };
 		67F2A210179D1605004617D1 /* tab_tasks@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F2A1F8179D1605004617D1 /* tab_tasks@2x.png */; };
-		67F6B8CD16FAB409004EEB69 /* PlannerItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */; };
-		67F6B8CE16FAB409004EEB69 /* PlannerItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */; };
 		67F83B0D173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */; };
 		67F83B0E173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */; };
 		67F95E5116DB1A1600B81A42 /* SeekOrCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */; };
@@ -2749,8 +2737,6 @@
 		67B41506166C5A5A00AB3B5C /* iPadSmartDayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadSmartDayViewController.h; sourceTree = "<group>"; };
 		67B41507166C5A5A00AB3B5C /* iPadSmartDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iPadSmartDayViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		67BCBF4C17A2306800531C33 /* QuickAddAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuickAddAccessoryView.xib; sourceTree = "<group>"; };
-		67C7426B1782761F00361E30 /* PlannerTaskMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerTaskMovableController.h; sourceTree = "<group>"; };
-		67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerTaskMovableController.m; sourceTree = "<group>"; };
 		67C7426F1782763A00361E30 /* TaskLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLayoutController.h; sourceTree = "<group>"; };
 		67C742701782763A00361E30 /* TaskLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskLayoutController.m; sourceTree = "<group>"; };
 		67C742711782763A00361E30 /* TaskMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskMovableController.h; sourceTree = "<group>"; };
@@ -3550,10 +3536,6 @@
 		67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerCalendarLayoutController.m; sourceTree = "<group>"; };
 		67E30FD6171405CF007AD2DE /* PlannerScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerScheduleView.h; sourceTree = "<group>"; };
 		67E30FD7171405CF007AD2DE /* PlannerScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerScheduleView.m; sourceTree = "<group>"; };
-		67E30FDC171406D6007AD2DE /* PlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerMovableController.h; sourceTree = "<group>"; };
-		67E30FDD171406D6007AD2DE /* PlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerMovableController.m; sourceTree = "<group>"; };
-		67E30FE0171407B8007AD2DE /* SmartListPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartListPlannerMovableController.h; sourceTree = "<group>"; };
-		67E30FE1171407B8007AD2DE /* SmartListPlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartListPlannerMovableController.m; sourceTree = "<group>"; };
 		67E3484F16DF02E600AA19EE /* TimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerManager.h; sourceTree = "<group>"; };
 		67E3485016DF02E600AA19EE /* TimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerManager.m; sourceTree = "<group>"; };
 		67E3485216DF2FED00AA19EE /* pause_yellow_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause_yellow_green@2x.png"; sourceTree = "<group>"; };
@@ -3686,8 +3668,6 @@
 		67F2A1F6179D1605004617D1 /* tab_tasks_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_tasks_selected@2x.png"; sourceTree = "<group>"; };
 		67F2A1F7179D1605004617D1 /* tab_tasks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_tasks.png; sourceTree = "<group>"; };
 		67F2A1F8179D1605004617D1 /* tab_tasks@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_tasks@2x.png"; sourceTree = "<group>"; };
-		67F6B8CB16FAB409004EEB69 /* PlannerItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlannerItemView.h; sourceTree = "<group>"; };
-		67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlannerItemView.m; sourceTree = "<group>"; };
 		67F83B0C173B675C000D0C93 /* DescriptionInputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DescriptionInputAccessoryView.xib; sourceTree = "<group>"; };
 		67F95E4F16DB1A1600B81A42 /* SeekOrCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeekOrCreateViewController.h; sourceTree = "<group>"; };
 		67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeekOrCreateViewController.m; sourceTree = "<group>"; };
@@ -3869,18 +3849,12 @@
 				67E30FD5171405CF007AD2DE /* PlannerCalendarLayoutController.m */,
 				67E18E8F16F99BEF00F1E976 /* PlannerHeaderView.h */,
 				67E18E9016F99BEF00F1E976 /* PlannerHeaderView.m */,
-				67F6B8CB16FAB409004EEB69 /* PlannerItemView.h */,
-				67F6B8CC16FAB409004EEB69 /* PlannerItemView.m */,
 				67E18E9116F99BEF00F1E976 /* PlannerMonthCellView.h */,
 				67E18E9216F99BEF00F1E976 /* PlannerMonthCellView.m */,
 				67E18E9316F99BEF00F1E976 /* PlannerMonthView.h */,
 				67E18E9416F99BEF00F1E976 /* PlannerMonthView.m */,
-				67E30FDC171406D6007AD2DE /* PlannerMovableController.h */,
-				67E30FDD171406D6007AD2DE /* PlannerMovableController.m */,
 				67E30FD6171405CF007AD2DE /* PlannerScheduleView.h */,
 				67E30FD7171405CF007AD2DE /* PlannerScheduleView.m */,
-				67C7426B1782761F00361E30 /* PlannerTaskMovableController.h */,
-				67C7426C1782761F00361E30 /* PlannerTaskMovableController.m */,
 				67E18E9516F99BEF00F1E976 /* PlannerView.h */,
 				67E18E9616F99BEF00F1E976 /* PlannerView.m */,
 				67E6BA3216A920AF00F14E12 /* PlannerViewController.h */,
@@ -3891,8 +3865,6 @@
 				67C742781782768300361E30 /* RestoreViewController.m */,
 				67F95E4F16DB1A1600B81A42 /* SeekOrCreateViewController.h */,
 				67F95E5016DB1A1600B81A42 /* SeekOrCreateViewController.m */,
-				67E30FE0171407B8007AD2DE /* SmartListPlannerMovableController.h */,
-				67E30FE1171407B8007AD2DE /* SmartListPlannerMovableController.m */,
 				6728E5D816DC7441001024DD /* TimerViewController.h */,
 				6728E5D916DC7441001024DD /* TimerViewController.m */,
 				A2E036B41724DDFA0039A2DF /* YearView.h */,
@@ -7384,15 +7356,12 @@
 				6748B8EE180401820043A80E /* PlannerMonthCellView.m in Sources */,
 				6748B8EF180401820043A80E /* PlannerMonthView.m in Sources */,
 				6748B8F0180401820043A80E /* PlannerView.m in Sources */,
-				6748B8F1180401820043A80E /* PlannerItemView.m in Sources */,
 				6748B8F2180401820043A80E /* SnoozeDurationViewController.m in Sources */,
 				6748B8F3180401820043A80E /* EKReminderSync.m in Sources */,
 				6748B8F4180401820043A80E /* TaskSyncViewController.m in Sources */,
 				6748B8F5180401820043A80E /* PlannerCalendarLayoutController.m in Sources */,
 				6748B8F6180401820043A80E /* PlannerScheduleView.m in Sources */,
-				6748B8F7180401820043A80E /* PlannerMovableController.m in Sources */,
 				6748B8F8180401820043A80E /* CommentViewController.m in Sources */,
-				6748B8F9180401820043A80E /* SmartListPlannerMovableController.m in Sources */,
 				6748B8FA180401820043A80E /* AbstractMonthCalendarView.m in Sources */,
 				6748B8FB180401820043A80E /* AbstractActionViewController.m in Sources */,
 				6748B8FC180401820043A80E /* CalendarPlannerMovableController.m in Sources */,
@@ -7401,7 +7370,6 @@
 				6748B8FF180401820043A80E /* YearViewController.m in Sources */,
 				6748B900180401820043A80E /* TimeZonePickerViewController.m in Sources */,
 				6748B901180401820043A80E /* TaskReadonlyDetailViewController.m in Sources */,
-				6748B902180401820043A80E /* PlannerTaskMovableController.m in Sources */,
 				6748B903180401820043A80E /* TaskLayoutController.m in Sources */,
 				6748B904180401820043A80E /* TaskMovableController.m in Sources */,
 				6748B905180401820043A80E /* RestoreViewController.m in Sources */,
@@ -7599,15 +7567,12 @@
 				67E18E9B16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
 				67E18E9D16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
 				67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */,
-				67F6B8CD16FAB409004EEB69 /* PlannerItemView.m in Sources */,
 				67DE2148170006FD000545AC /* SnoozeDurationViewController.m in Sources */,
 				67DD5640170BE62E006EA347 /* EKReminderSync.m in Sources */,
 				67E57B3A17125B1C00491846 /* TaskSyncViewController.m in Sources */,
 				67E30FD8171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */,
 				67E30FDA171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
-				67E30FDE171406D6007AD2DE /* PlannerMovableController.m in Sources */,
 				6749348117B33B0600AEA74A /* CommentViewController.m in Sources */,
-				67E30FE2171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
 				67E5A9881715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98C17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 				A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
@@ -7616,7 +7581,6 @@
 				A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD817433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
 				67ECF561177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
-				67C7426D1782761F00361E30 /* PlannerTaskMovableController.m in Sources */,
 				67C742731782763A00361E30 /* TaskLayoutController.m in Sources */,
 				67C742751782763A00361E30 /* TaskMovableController.m in Sources */,
 				67C742791782768300361E30 /* RestoreViewController.m in Sources */,
@@ -7814,15 +7778,12 @@
 				67E18E9C16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
 				67E18E9E16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
 				67E18EA016F99BEF00F1E976 /* PlannerView.m in Sources */,
-				67F6B8CE16FAB409004EEB69 /* PlannerItemView.m in Sources */,
 				67DE2149170006FD000545AC /* SnoozeDurationViewController.m in Sources */,
 				67DD5641170BE62E006EA347 /* EKReminderSync.m in Sources */,
 				67E57B3B17125B1C00491846 /* TaskSyncViewController.m in Sources */,
 				67E30FD9171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */,
 				67E30FDB171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
-				67E30FDF171406D6007AD2DE /* PlannerMovableController.m in Sources */,
 				6749348217B33B0600AEA74A /* CommentViewController.m in Sources */,
-				67E30FE3171407B8007AD2DE /* SmartListPlannerMovableController.m in Sources */,
 				67E5A9891715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98D17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 				A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
@@ -7831,7 +7792,6 @@
 				A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD917433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
 				67ECF562177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
-				67C7426E1782761F00361E30 /* PlannerTaskMovableController.m in Sources */,
 				67C742741782763A00361E30 /* TaskLayoutController.m in Sources */,
 				67C742761782763A00361E30 /* TaskMovableController.m in Sources */,
 				67C7427A1782768300361E30 /* RestoreViewController.m in Sources */,

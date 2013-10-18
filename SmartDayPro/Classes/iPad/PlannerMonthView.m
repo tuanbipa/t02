@@ -806,9 +806,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     //NSArray *list = calendarLayoutController.objList;
     
-    for (TaskView *plannerItemView in self.plannerItemsList)
+    for (TaskView *view in self.plannerItemsList)
     {
-        Task *task = plannerItemView.task;
+        Task *task = view.task;
         if (task.original == nil || [task isREException])
         {
             if (task.primaryKey == sourceId)

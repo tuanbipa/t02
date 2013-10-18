@@ -126,7 +126,7 @@
 - (void) filter:(NSInteger)filterType;
 
 - (void) changeFrame:(CGRect)frm;
-- (void) resetMovableController:(BOOL)forPlanner;
+//- (void) resetMovableController:(BOOL)forPlanner;
 
 - (void) refreshQuickAddColor;
 

@@ -48,7 +48,7 @@
 #import "SmartDayViewController.h"
 #import "CategoryViewController.h"
 
-#import "SmartListPlannerMovableController.h"
+//#import "SmartListPlannerMovableController.h"
 
 #import "iPadViewController.h"
 #import "AbstractSDViewController.h"
@@ -193,38 +193,38 @@ SmartListViewController *_smartListViewCtrler;
 }
 */
 
-- (void) resetMovableController:(BOOL)forPlanner
-{
-    if (movableController != nil)
-    {
-        [movableController release];
-        //smartListLayoutController.movableController = nil;
-        layoutController.movableCtrler = nil;
-    }
-    
-    if (forPlanner)
-    {
-        movableController = [[SmartListPlannerMovableController alloc] init];
-        //smartListLayoutController.movableController = movableController;
-    }
-    else
-    {
-        //movableController = [[SmartListMovableController alloc] init];
-        //smartListLayoutController.movableController = movableController;
-        
-        movableController = [[TaskMovableController alloc] init];
-    }
-    
-    layoutController.movableCtrler = movableController;
-    
-	for (UIView *view in smartListView.subviews)
-	{
-		if ([view isKindOfClass:[TaskView class]])
-		{
-            ((TaskView *)view).movableController = movableController;
-        }
-    }
-}
+//- (void) resetMovableController:(BOOL)forPlanner
+//{
+//    if (movableController != nil)
+//    {
+//        [movableController release];
+//        //smartListLayoutController.movableController = nil;
+//        layoutController.movableCtrler = nil;
+//    }
+//    
+//    if (forPlanner)
+//    {
+//        movableController = [[SmartListPlannerMovableController alloc] init];
+//        //smartListLayoutController.movableController = movableController;
+//    }
+//    else
+//    {
+//        //movableController = [[SmartListMovableController alloc] init];
+//        //smartListLayoutController.movableController = movableController;
+//        
+//        movableController = [[TaskMovableController alloc] init];
+//    }
+//    
+//    layoutController.movableCtrler = movableController;
+//    
+//	for (UIView *view in smartListView.subviews)
+//	{
+//		if ([view isKindOfClass:[TaskView class]])
+//		{
+//            ((TaskView *)view).movableController = movableController;
+//        }
+//    }
+//}
 
 - (void) refreshQuickAddOption
 {
