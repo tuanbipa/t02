@@ -2062,7 +2062,7 @@ extern DetailViewController *_detailViewCtrler;
             case DO_TODAY:
             {
                 task.deadline = [settings getWorkingEndTimeForDate:[NSDate date]];
-                /*AlertData *alertDat = [[AlertData alloc] init];
+                AlertData *alertDat = [[AlertData alloc] init];
                 
                 alertDat.beforeDuration = -15*60;
                 alertDat.absoluteTime = nil;
@@ -2072,7 +2072,6 @@ extern DetailViewController *_detailViewCtrler;
                 [alertDat release];
                 
                 settings.newTaskPlacement = 0; //move Task to top
-                 */
             }
                 break;
             case DO_NEXT_WEEK:
