@@ -22,7 +22,7 @@
 
 extern iPadViewController *_iPadViewCtrler;
 
-//extern BOOL _isiPad;
+extern BOOL _isiPad;
 
 @implementation TimeZonePickerViewController
 
@@ -43,7 +43,8 @@ extern iPadViewController *_iPadViewCtrler;
 {
     if (self = [super init])
     {
-        self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        //self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        self.preferredContentSize = CGSizeMake(_isiPad?384:320,416);
     }
     
     return self;
@@ -206,9 +207,9 @@ extern iPadViewController *_iPadViewCtrler;
     }
     else if ([ctrler isKindOfClass:[DetailViewController class]])
     {
-        frm.size.width = 384;
+        frm.size.width = _isiPad?384:320;
         
-        frm.size.height -= 44;
+        frm.size.height -= _isiPad?44:0;
     }
     else
     {
@@ -231,9 +232,9 @@ extern iPadViewController *_iPadViewCtrler;
     }
     else if ([ctrler isKindOfClass:[DetailViewController class]])
     {
-        frm.size.width = 384;
+        frm.size.width = _isiPad?384:320;
         
-        frm.size.height -= 44;
+        frm.size.height -= _isiPad?44:0;
     }
     else
     {
