@@ -205,6 +205,7 @@
 @property BOOL featureHint;
 @property BOOL transparentHint;
 @property BOOL msdBackupHint;
+@property BOOL guruHint;
 
 @property BOOL deleteWarning;
 @property BOOL doneWarning;
@@ -324,6 +325,7 @@
 -(void)enableTagHint:(BOOL)enabled;
 -(void)enableHideWarning:(BOOL)enabled;
 -(void)enableMSDBackupHint:(BOOL)enabled;
+-(void)enableGuruHint:(BOOL)enabled;
 
 -(void)enableHints;
 

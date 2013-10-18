@@ -14,12 +14,12 @@
 #pragma mark common methods
 +(UIColor *)blueButton
 {
-	return [UIColor colorWithRed:0.0 green:122.0/255 blue:1.0 alpha:1];
+	return [UIColor colorWithRed:0.0 green:122.0/255 blue:1.0 alpha:1]; //007AFF
 }
 
 +(UIColor *)redButton
 {
-	return [UIColor colorWithRed:1.0 green:61.0/255 blue:61.0/255 alpha:1];
+	return [UIColor colorWithRed:1.0 green:61.0/255 blue:61.0/255 alpha:1]; //FF3D3D
 }
 
 #pragma mark whites/pastels

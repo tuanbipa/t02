@@ -533,9 +533,10 @@ iPadViewController *_iPadViewCtrler;
     
     [self showModule:button];
     
+    /*
     PageAbstractViewController *ctrler = [self getModuleAtIndex:index+1];
     
-    [ctrler refreshLayout];
+    [ctrler refreshLayout];*/
 }
 
 - (void) showTaskModule
@@ -570,7 +571,9 @@ iPadViewController *_iPadViewCtrler;
         
         PageAbstractViewController *ctrler = [self getModuleAtIndex:_iPadViewCtrler.selectedModuleIndex + 1];
         
-        [ctrler changeFrame:moduleView.bounds];
+        CGRect frm = moduleView.bounds;
+        
+        [ctrler changeFrame:frm];
         
         [moduleView addSubview:ctrler.view];
         
@@ -1645,13 +1648,17 @@ iPadViewController *_iPadViewCtrler;
 	// Do any additional setup after loading the view.
     
     //[self resizeModules];
+    
+    /*
     UIButton *taskButton = (UIButton *)[contentView viewWithTag:31000];
     
     if (taskButton != nil)
     {
         //[self showModule:taskButton];
         [self performSelector:@selector(showModule:) withObject:taskButton afterDelay:0];
-    }
+    }*/
+    
+    [self showTaskModule];
 }
 
 - (void) viewWillAppear:(BOOL)animated

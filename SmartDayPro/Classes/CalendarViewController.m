@@ -246,8 +246,11 @@ CalendarViewController *_sc2ViewCtrler;
 
 - (void) refreshFrame
 {
-    MiniMonthView *miniMonthView = _abstractViewCtrler.miniMonthView;
-    FocusView *focusView = _abstractViewCtrler.focusView;
+    //MiniMonthView *miniMonthView = _abstractViewCtrler.miniMonthView;
+    //FocusView *focusView = _abstractViewCtrler.focusView;
+    
+    MiniMonthView *miniMonthView = [[AbstractActionViewController getInstance] getMiniMonth];
+    FocusView *focusView = [[AbstractActionViewController getInstance] getFocusView];
     
     BOOL adeVisible = adeView.adeList != nil && adeView.adeList.count > 0 && _isiPad?NO:miniMonthView.hidden;
     

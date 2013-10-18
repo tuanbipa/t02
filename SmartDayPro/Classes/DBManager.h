@@ -159,5 +159,7 @@
 - (void)upgradeDBv1_0_2;
 - (void)upgradeDBv2_0;
 - (void)upgradeDBv3_0;
+- (void)upgradeDBv4_0;
+- (void)upgradeDBv5_0;
 
 @end

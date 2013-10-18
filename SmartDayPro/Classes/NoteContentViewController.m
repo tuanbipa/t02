@@ -185,6 +185,37 @@ extern SmartDayViewController *_sdViewCtrler;
     [noteView release];
 }
 
+- (void) changeFrame:(CGRect) frm
+{
+    contentView.frame = frm;
+    
+    [noteView changeFrame:contentView.bounds];
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 44;
+    
+    [self changeFrame:frm];
+    
+    originalNoteFrame = noteView.frame;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -198,7 +229,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [doneItem release];
     
-    originalNoteFrame = noteView.frame;
+    [self changeOrientation:self.interfaceOrientation];
     
     self.noteCopy = self.note;
     noteView.note = self.noteCopy;
@@ -220,6 +251,20 @@ extern SmartDayViewController *_sdViewCtrler;
 -(NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self changeOrientation:toInterfaceOrientation];
+    
+    if (_iPadViewCtrler != nil)
+    {
+        [_iPadViewCtrler changeOrientation:toInterfaceOrientation];
+    }
+    else if (_sdViewCtrler != nil)
+    {
+        [_sdViewCtrler changeOrientation:toInterfaceOrientation];
+    }
 }
 
 #pragma mark Notification

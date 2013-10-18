@@ -350,10 +350,11 @@ BOOL _fromBackground = NO;
         [self check2AutoSync];
     });
     
+    /*
     if (_sdViewCtrler != nil)
     {
         [_sdViewCtrler performSelector:@selector(popupHint) withObject:nil afterDelay:0];
-    }
+    }*/
 }
 
 - (void) autoSync
@@ -456,19 +457,21 @@ BOOL _fromBackground = NO;
             
             UIAlertView *alertView = (UIAlertView *) subview;
             
-            /*NSObject *obj = alertView.tag;
-            
-            if (obj != nil && [obj isKindOfClass:[UILocalNotification class]])
-            {
-                continue;
-            }
-            else*/
             if (alertView.tag > -50000)
             {
                 [alertView dismissWithClickedButtonIndex:-1 animated:NO];
             }
         }
-    }    
+    }
+    
+    /*
+    for (UIWindow* w in [UIApplication sharedApplication].windows)
+        for (NSObject* o in w.subviews)
+            if ([o isKindOfClass:[UIAlertView class]])
+            {
+                [(UIAlertView*)o dismissWithClickedButtonIndex:[(UIAlertView*)o cancelButtonIndex] animated:YES];
+            }*/
+
 }
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
@@ -530,6 +533,9 @@ BOOL _fromBackground = NO;
     [TimerManager startup];
     
     [TaskManager startup];
+    
+    _versionUpgrade = NO;
+    _dbUpgrade = NO;
     
     //[self testZone];
 	
@@ -897,6 +903,9 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)restoreDB:(NSURL *)url
 {
+    Settings *settings = [Settings getInstance];
+    DBManager *dbm = [DBManager getInstance];
+    
 	NSString *query = [url query];
 	
 	[url release];
@@ -931,6 +940,18 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         
         [importUrlData writeToFile:uniquePath atomically:YES];
         
+        if ([dbVersion isEqualToString:@"4.0"] && [settings.dbVersion isEqualToString:@"5.0"])
+        {
+            _dbUpgrade = YES;
+        }
+        
+        [DBManager startup];
+        
+        _dbUpgrade = NO;
+        
+        [[AbstractActionViewController getInstance] resetAllData];
+        
+        /*
         UIAlertView *finishedAlert=[[UIAlertView alloc] initWithTitle:_restoreDBFinishedTitle 
                                                               message:_restoreDBFinishedText 
                                                              delegate:self
@@ -938,30 +959,10 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                                                     otherButtonTitles:nil];
         finishedAlert.tag = -10000;
         [finishedAlert show];
-        [finishedAlert release];
-    }else {
-        //restoring from old spad user
-        NSData *importUrlData = [GTMBase64 webSafeDecodeString:query];
-        
-		NSString *filename = @"Database.sql";
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-		NSString *documentsDirectory = [paths objectAtIndex:0];
-		NSString *uniquePath = [documentsDirectory stringByAppendingPathComponent: filename];
-		
-        NSError *err=nil;
-		[importUrlData writeToFile:uniquePath options:NSAtomicWrite error:&err];
-        
-        
-		UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:_restoreDBFinishedTitle 
-												 message:_restoreDBFinishedText 
-												delegate:self
-									   cancelButtonTitle:@"OK"
-									   otherButtonTitles:nil];
-        alertView.tag = -10000;
-		[alertView show];
-		[alertView release];
+        [finishedAlert release];*/
     }
 	
+    //exit(0);
 	
 }
 
@@ -1083,9 +1084,12 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if (alertView.tag == -10000 && buttonIndex == 0)
+	if (alertView.tag == -10000)
 	{
-		exit(0);
+        if (buttonIndex == 0)
+        {
+            exit(0);
+        }
 	}
 	else if (alertView.tag == -10001)
 	{
@@ -1100,6 +1104,12 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         
         NSObject *obj = [self.alertDict objectForKey:key];
         
+        if (obj != nil)
+        {
+            [obj retain];
+            
+            [self.alertDict removeObjectForKey:key];
+        }
         //BOOL remove = YES;
         
         if (obj != nil)
@@ -1141,10 +1151,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 }
             }
          
-            //if (remove)
-            {
-                [self.alertDict removeObjectForKey:key];
-            }
+            //[self.alertDict removeObjectForKey:key];
         }
     }
 }
@@ -1410,7 +1417,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
     {
         UILocalNotification *alertLocalNotification = [[UILocalNotification alloc] init];
-        alertLocalNotification.alertBody = [NSString stringWithFormat:_itsTimeToDriveForText, task.name];
+        alertLocalNotification.alertBody = [NSString stringWithFormat:@"%@ '%@'",_itsTimeToDriveForText, task.name];
         alertLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
         
         [[UIApplication sharedApplication] scheduleLocalNotification:alertLocalNotification];
@@ -1421,7 +1428,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     {
         // show alert
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_alertText
-                                                        message:[NSString stringWithFormat:_itsTimeToDriveForText, task.name]
+                                                        message:[NSString stringWithFormat:@"%@ '%@'",_itsTimeToDriveForText, task.name]
                                                        delegate:self cancelButtonTitle:_okText
                                               otherButtonTitles:nil];
         [alert show];

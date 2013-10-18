@@ -507,10 +507,8 @@ DetailViewController *_detailViewCtrler = nil;
     }
 }
 
-#pragma  mark Actions
-- (void) done:(id) sender
+- (void) finishEdit
 {
-    //[titleTextView resignFirstResponder];
     [self growingTextViewDidEndEditing:titleTextView];
     
     UITableViewCell *cell = [detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -524,11 +522,16 @@ DetailViewController *_detailViewCtrler = nil;
     }
     
     BOOL checkChange = [self.task checkChange:self.taskCopy];
-
+    
     if (![self.task isShared] && checkChange)
     {
         [[AbstractActionViewController getInstance] updateTask:self.task withTask:self.taskCopy];
     }
+}
+#pragma  mark Actions
+- (void) done:(id) sender
+{
+    [self finishEdit];
     
     [self close];
 }
@@ -551,6 +554,7 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) star:(id)sender
 {
+    /*
     if (self.task.primaryKey == -1)
     {
         self.taskCopy.status = (self.taskCopy.status == TASK_STATUS_NONE?TASK_STATUS_PINNED:TASK_STATUS_NONE);
@@ -562,6 +566,15 @@ DetailViewController *_detailViewCtrler = nil;
         [[AbstractActionViewController getInstance] starTask];
     
         [self close];
+    }*/
+    
+    self.taskCopy.status = (self.taskCopy.status == TASK_STATUS_NONE?TASK_STATUS_PINNED:TASK_STATUS_NONE);
+    
+    [starButton setImage:[UIImage imageNamed:(self.taskCopy.status == TASK_STATUS_PINNED?@"menu_star_yellow.png":@"menu_star_white.png")] forState:UIControlStateNormal];
+
+    if (self.task.primaryKey != -1)
+    {
+        [self done:nil];
     }
 }
 
@@ -579,7 +592,8 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) doToday:(id) sender
 {
-    //[_iPadViewCtrler closeDetail];
+    [self finishEdit];
+    
     [[AbstractActionViewController getInstance] moveTask2Top];
     
     [self close];
@@ -587,7 +601,8 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) markDone:(id)sender
 {
-    //[_iPadViewCtrler closeDetail];
+    [self finishEdit];
+    
     [[AbstractActionViewController getInstance] markDoneTask];
     
     [self close];
@@ -595,7 +610,8 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) share2AirDrop:(id) sender
 {
-    //[_iPadViewCtrler closeDetail];
+    [self finishEdit];
+    
     [[AbstractActionViewController getInstance] share2AirDrop];
     
     [self close];
@@ -605,7 +621,8 @@ DetailViewController *_detailViewCtrler = nil;
 {
 	if (alertView.tag == -10000 && buttonIndex != 0)
 	{
-        //[_iPadViewCtrler closeDetail];
+        [self finishEdit];
+        
         [[AbstractActionViewController getInstance] defer:buttonIndex];
         
         [self close];
@@ -1552,47 +1569,6 @@ DetailViewController *_detailViewCtrler = nil;
 - (void) createLinkCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     cell.accessoryType = UITableViewCellAccessoryNone;
-/*
-	UILabel *linkLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 30)];
-	linkLabel.tag = baseTag;
-	linkLabel.text = _assetsText;
-	linkLabel.backgroundColor = [UIColor clearColor];
-	linkLabel.font = [UIFont systemFontOfSize:16];
-	linkLabel.textColor = [UIColor grayColor];
-	
-	[cell.contentView addSubview:linkLabel];
-	[linkLabel release];
-    
-    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
-    detailImgView.tag = baseTag + 1;
-    detailImgView.frame = CGRectMake(detailTableView.bounds.size.width - 25, 5, 20, 20);
-    [cell.contentView addSubview:detailImgView];
-    [detailImgView release];
-    
-    UIButton *linkEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    CGRect frm = CGRectZero;
-    frm.size.width = detailTableView.bounds.size.width;
-    frm.size.height = 30;
-    
-    linkEditButton.frame = frm;
-    linkEditButton.tag = baseTag + 2;
-    [linkEditButton addTarget:self action:@selector(editLink:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.contentView addSubview:linkEditButton];
-*/
-    
-    /*
-    CGFloat h = [self tableView:detailTableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?10:9):([self.task isShared]?6:5) inSection:0]];
-    
-    frm = self.previewViewCtrler.view.frame;
-    
-    frm.origin.y = 40;
-    frm.size.width = detailTableView.bounds.size.width;
-    frm.size.height = h - 40;
-    [self.previewViewCtrler changeFrame:frm];
-    */
-    
     CGRect frm = self.previewViewCtrler.view.frame;
     
     frm.origin.x = 10;

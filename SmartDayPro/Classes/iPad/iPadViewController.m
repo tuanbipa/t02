@@ -10,6 +10,7 @@
 #import "iPadViewController.h"
 
 #import "Common.h"
+#import "Settings.h"
 #import "FilterData.h"
 #import "Task.h"
 #import "Project.h"
@@ -43,6 +44,8 @@
 
 #import "SmartCalAppDelegate.h"
 #import "MapLocationViewController.h"
+
+#import "GuruViewController.h"
 
 //extern BOOL _isiPad;
 
@@ -555,6 +558,15 @@ iPadViewController *_iPadViewCtrler;
 
 #pragma mark View
 
+- (void) showGuru
+{
+    GuruViewController *ctrler = [[GuruViewController alloc] init];
+    
+    [self presentViewController:ctrler animated:YES completion:nil];
+    
+    [ctrler release];
+}
+
 - (void) showLandscapeView
 {
     /*
@@ -597,37 +609,15 @@ iPadViewController *_iPadViewCtrler;
     
     [contentView addSubview:self.activeViewCtrler.view];
     
-    /*
-    if (_iPadSDViewCtrler != nil)
-    {
-        [_iPadSDViewCtrler showTaskModule];
-    }
-    */
-    
     [_iPadSDViewCtrler refreshTaskFilterTitle];
+    
+    [[_iPadSDViewCtrler getCalendarViewController] refreshFrame];
     
     [self refreshToolbar:UIInterfaceOrientationPortrait];
 }
 
 - (void) slideAndShowDetail
 {
-    /*
-    PageAbstractViewController *ctrler = nil;
-    
-    if ([self.activeViewCtrler checkControllerActive:1])
-    {
-        ctrler = [self.activeViewCtrler getSmartListViewController];
-    }
-    else if ([self.activeViewCtrler checkControllerActive:2])
-    {
-        ctrler = [self.activeViewCtrler getNoteViewController];
-    }
-    else if ([self.activeViewCtrler checkControllerActive:3])
-    {
-        ctrler = [self.activeViewCtrler getCategoryViewController];
-    }
-    */
-    
     PageAbstractViewController *ctrler = [self.activeViewCtrler getActiveModule];
     
     if (ctrler != nil)
@@ -790,29 +780,12 @@ iPadViewController *_iPadViewCtrler;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+
+    firstTimeLoad = YES;
     
     [self changeSkin];
     
     [self changeOrientation:self.interfaceOrientation];
-    
-    /*
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-    {
-        [_iPadSDViewCtrler loadView];
-        
-        [self showLandscapeView];
-        
-        if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
-        {
-            PlannerViewController *ctrler = (PlannerViewController *) self.activeViewCtrler;
-            
-            [ctrler viewWillAppear:NO];
-        }
-    }
-    else
-    {
-        [self showPortraitView];
-    }*/
     
     [self refreshFilterStatus];
 }
@@ -820,11 +793,22 @@ iPadViewController *_iPadViewCtrler;
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    Settings *settings = [Settings getInstance];
+    
+    if (settings.guruHint && firstTimeLoad)
+    {
+        [self showGuru];
+    }
+    
+    firstTimeLoad = NO;
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    //[self changeOrientation:self.interfaceOrientation];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -844,6 +828,11 @@ iPadViewController *_iPadViewCtrler;
 -(NSUInteger)supportedInterfaceOrientations
 {
      return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL) shouldAutorotate
+{
+    return YES;
 }
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

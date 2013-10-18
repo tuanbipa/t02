@@ -52,7 +52,6 @@ extern iPadViewController *_iPadViewCtrler;
         
         [self addSubview:noteBgScrollView];
         [noteBgScrollView release];
-
         
         CGRect frm = self.bounds;
         frm.origin.x += 20;

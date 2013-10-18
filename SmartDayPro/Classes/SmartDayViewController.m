@@ -60,6 +60,7 @@
 #import "HintModalViewController.h"
 
 #import "MapLocationViewController.h"
+#import "GuruViewController.h"
 
 #import "SmartCalAppDelegate.h"
 
@@ -1394,7 +1395,7 @@ extern BOOL _gtdoTabHintShown;
         
         [self refreshTopBar];
         
-        [self popupHint];
+        //[self popupHint];
     }
     
     if (!miniMonthView.hidden && (selectedTabButton.tag != 0))
@@ -3341,9 +3342,16 @@ extern BOOL _gtdoTabHintShown;
 {
     [super viewDidAppear:animated];
     
-    firstTimeLoad = NO;
-    
     previewPane.frame = CGRectMake(0, contentView.bounds.size.height - 80, contentView.bounds.size.width, 80);
+    
+    Settings *settings = [Settings getInstance];
+    
+    if (settings.guruHint && firstTimeLoad)
+    {
+        [self showGuru];
+    }
+    
+    firstTimeLoad = NO;
 }
 
 - (void)viewDidLoad
@@ -3355,7 +3363,9 @@ extern BOOL _gtdoTabHintShown;
     
     [self resetMovableContentView];
     
-    [self performSelector:@selector(tab:) withObject:tabButtons[0] afterDelay:0];
+    //[self performSelector:@selector(tab:) withObject:tabButtons[0] afterDelay:0];
+    
+    [self changeOrientation:self.interfaceOrientation];
 }
 
 - (void)viewDidUnload
@@ -3377,6 +3387,15 @@ extern BOOL _gtdoTabHintShown;
     return NO;
 }
 
+- (void) showGuru
+{
+    GuruViewController *ctrler = [[GuruViewController alloc] init];
+    
+    [self presentViewController:ctrler animated:YES completion:nil];
+    
+    [ctrler release];
+}
+
 - (void) showLandscapeView
 {
     [self hideMiniMonth];
@@ -3393,14 +3412,14 @@ extern BOOL _gtdoTabHintShown;
         [self.activeViewCtrler.view removeFromSuperview];
     }
     
+    /*
 	CGSize sz = [Common getScreenSize];
     sz.height += 44 + 20;
     sz.width -= 44 + 20;
     
     contentView.frame = CGRectMake(0, 0, sz.height, sz.width);
-    moduleView.frame = contentView.bounds;
+    moduleView.frame = contentView.bounds;*/
     
-    //LandscapeViewController *ctrler = [[LandscapeViewController alloc] init];
     WeekViewController *ctrler = [[WeekViewController alloc] init];
     
     self.activeViewCtrler = ctrler;
@@ -3425,30 +3444,63 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) showPortraitView
 {
-    //selectedTabButton = nil;
-    
+    /*
 	CGSize sz = [Common getScreenSize];
-    //sz.height += 44 + 20;
-    //sz.width -= 20;
     
     CGRect frm = CGRectZero;
     frm.size = sz;
     
     contentView.frame = frm;
-    moduleView.frame = contentView.bounds;
+    moduleView.frame = contentView.bounds;*/
     
-    previewPane.frame = CGRectMake(0, contentView.bounds.size.height - 80, contentView.bounds.size.width, 80);    
-    
-    //[self showCalendarView];
+    //previewPane.frame = CGRectMake(0, contentView.bounds.size.height - 80, contentView.bounds.size.width, 80);
     
     NSInteger index = selectedTabButton.tag;
     
     selectedTabButton = nil;
     
     [self tab:tabButtons[index]];
-    
-    //[self refreshTopBar];
 }
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 44;
+    
+    contentView.frame = frm;
+    moduleView.frame = contentView.bounds;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        Settings *settings = [Settings getInstance];
+        
+        if (settings.landscapeModeEnable)
+        {
+            [self deselect];
+            
+            [self showLandscapeView];
+        }
+    }
+    else
+    {
+        [self showPortraitView];
+    }
+}
+
 
 -(NSUInteger)supportedInterfaceOrientations
 {
@@ -3466,6 +3518,7 @@ extern BOOL _gtdoTabHintShown;
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    /*
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
     {
         Settings *settings = [Settings getInstance];
@@ -3480,7 +3533,11 @@ extern BOOL _gtdoTabHintShown;
     else if ([self.activeViewCtrler isKindOfClass:[WeekViewController class]])
     {
         [self showPortraitView];
-    }
+    }*/
+    
+    [_appDelegate dismissAllAlertViews];
+    
+    [self changeOrientation:toInterfaceOrientation];
 }
 
 

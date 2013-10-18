@@ -3309,6 +3309,8 @@ TaskManager *_sctmSingleton = nil;
         BOOL dueLost = (slTask.deadline != nil && task.deadline == nil && self.taskTypeFilter == TASK_FILTER_DUE) ||
 		(slTask.startTime != nil && task.startTime == nil && self.taskTypeFilter == TASK_FILTER_ACTIVE);
         
+        BOOL starLost = (slTask.status == TASK_STATUS_PINNED && task.status != TASK_STATUS_PINNED && self.taskTypeFilter == TASK_FILTER_STAR);
+        
         BOOL becomeDue = (slTask.deadline == nil && task.deadline != nil && self.taskTypeFilter == TASK_FILTER_DUE) ||
         (slTask.startTime == nil && task.startTime != nil && self.taskTypeFilter == TASK_FILTER_ACTIVE);	
 
@@ -3325,7 +3327,7 @@ TaskManager *_sctmSingleton = nil;
         
         BOOL becomeFuture = settings.hideFutureTasks && ([Common daysBetween:slTask.startTime sinceDate:[NSDate date]] <= 0 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1);
         
-        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || needSort || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture;
+        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || needSort || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture || starLost;
         
         if ([slTask isRE] && [task isNREvent])
         {
@@ -3354,7 +3356,7 @@ TaskManager *_sctmSingleton = nil;
             }
         }
         
-        if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo || becomeFuture))
+        if ([slTask isTask] && (taskChange || projectChange || dueLost || mustDoLost || becomeMustDo || becomeFuture || starLost))
         {
             //[self garbage:slTask];
             

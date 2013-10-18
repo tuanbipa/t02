@@ -131,8 +131,8 @@ extern iPadViewController *_iPadViewCtrler;
         
         [ctrler.previewViewCtrler refreshData];
         
-        //[ctrler refreshLink];
-        [ctrler performSelector:@selector(refreshLink) withObject:nil afterDelay:0.1];
+        [ctrler refreshLink];
+        //[ctrler performSelector:@selector(refreshLink) withObject:nil afterDelay:0.1];
     }
     else if ([self.navigationController.topViewController isKindOfClass:[NoteDetailViewController class]])
     {
@@ -140,9 +140,9 @@ extern iPadViewController *_iPadViewCtrler;
         
         [ctrler.previewViewCtrler refreshData];
         
-        //[ctrler refreshLink];
+        [ctrler refreshLink];
         
-        [ctrler performSelector:@selector(refreshLink) withObject:nil afterDelay:0.1];
+        //[ctrler performSelector:@selector(refreshLink) withObject:nil afterDelay:0.1];
     }
 }
 
