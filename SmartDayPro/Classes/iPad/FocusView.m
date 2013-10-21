@@ -318,7 +318,8 @@ AbstractSDViewController *_abstractViewCtrler;
             // REMOVE all overdue Tasks from TODAY's focus pane (PT ID: 54073565)
             //self.dueList = [tm getOverdueTaskList];
             
-            [self.dueList addObjectsFromArray:[tm getDTaskListOnDate:tm.today]];
+            //[self.dueList addObjectsFromArray:[tm getDTaskListOnDate:tm.today]];
+            self.dueList = [tm getDTaskListOnDate:tm.today];
         }
         else
         {
