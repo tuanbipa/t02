@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class Task;
-@class GuideWebView;
+//@class GuideWebView;
 
 @interface AlertListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
 	UITableView *alertTableView;
-	GuideWebView *hintView;
+	//GuideWebView *hintView;
+    UILabel *hintView;
 	
 	Task *taskEdit;
 	

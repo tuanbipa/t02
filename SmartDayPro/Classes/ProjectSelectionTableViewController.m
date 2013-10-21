@@ -16,7 +16,7 @@
 #import "Settings.h"
 
 //#import "SCTabBarController.h"
-#import "NoteDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 #import "iPadGeneralSettingViewController.h"
 
 //extern SCTabBarController *_tabBarCtrler;
@@ -156,12 +156,13 @@
 {
     [super viewWillDisappear:animated];
     
+    /*
     if ([self.navigationController.topViewController isKindOfClass:[NoteDetailTableViewController class]])
     {
         NoteDetailTableViewController *ctrler = (NoteDetailTableViewController *)self.navigationController.topViewController;
         
         [ctrler refreshProject];
-    }
+    }*/
 }
 
 -(void) setProjectKey:(NSInteger) key

@@ -734,5 +734,6 @@
 #define _itsTimeToDriveForText NSLocalizedString(@"_itsTimeToDriveForText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
+#define _alertHint NSLocalizedString(@"_alertHint", "")
 
 

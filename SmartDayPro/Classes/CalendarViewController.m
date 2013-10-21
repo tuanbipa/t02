@@ -45,7 +45,7 @@
 //#import "CalendarLayoutController.h"
 #import "CalendarScrollPageLayoutController.h"
 
-#import "TaskDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 #import "SettingTableViewController.h"
 #import "CalendarSelectionTableViewController.h"
 
@@ -56,7 +56,7 @@
 #import "BusyController.h"
 
 #import "SmartListViewController.h"
-#import "NoteDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 
 #import "SmartCalAppDelegate.h"
 #import "iPadSmartDayViewController.h"
@@ -369,6 +369,7 @@ CalendarViewController *_sc2ViewCtrler;
     [self stopQuickAdd];
 }
 
+/*
 - (void) showAddMenu: (id) sender
 {
 	[self deselect];
@@ -564,7 +565,7 @@ CalendarViewController *_sc2ViewCtrler;
 		[menuCtrler setMenuVisible:NO animated:YES];
 	}	
 }
-
+*/
 - (void) refreshTodayView
 {
 	[self refreshLayout];
@@ -890,7 +891,7 @@ CalendarViewController *_sc2ViewCtrler;
 }
 
 #pragma mark Actions
-
+/*
 - (void) addNote:(id) sender
 {
     NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
@@ -944,13 +945,6 @@ CalendarViewController *_sc2ViewCtrler;
 {
 	Task *task = [movableController getActiveTask];
 	
-    /*
-	if (task == nil)
-	{
-		task = [adeView getActiveADE];
-	}
-	*/
-    
 	if (task.original != nil && ![task isREException])
 	{
 		task = task.original;
@@ -1007,13 +1001,7 @@ CalendarViewController *_sc2ViewCtrler;
 {
 	Task *task = [movableController getActiveTask];
 	
-    /*
-	if (task == nil)
-	{
-		task = [adeView getActiveADE];
-	}
-	*/
-    
+
 	if (task.original != nil && [task.original isRE]) //change RE
 	{
 		UIAlertView *deleteREAlert= [[UIAlertView alloc] initWithTitle:_deleteRETitleText  message:_deleteREInstanceText delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
@@ -1116,7 +1104,6 @@ CalendarViewController *_sc2ViewCtrler;
     //printf("test\n");
 }
 
-/*
 -(void) swipeDown: (UISwipeGestureRecognizer *) gesture {
     
     if (gesture.state != UIGestureRecognizerStateEnded) {

@@ -39,8 +39,8 @@
 #import "CategoryViewController.h"
 #import "PlannerViewController.h"
 
-#import "NoteDetailTableViewController.h"
-#import "TaskDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 
 #import "SmartListLayoutController.h"
 

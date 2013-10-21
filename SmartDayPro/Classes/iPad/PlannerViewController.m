@@ -31,8 +31,8 @@
 #import "PreviewViewController.h"
 #import "SDNavigationController.h"
 
-#import "TaskDetailTableViewController.h"
-#import "NoteDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 #import "AbstractSDViewController.h"
 
 #import "SmartListLayoutController.h"
@@ -281,6 +281,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 #pragma mark Actions
+/*
 - (void) add:(id)sender
 {
 	TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
@@ -321,7 +322,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
-
+*/
 - (void) filter:(id) sender
 {
     if (!optionView.hidden)

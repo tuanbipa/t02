@@ -17,7 +17,7 @@
 #import "ImageManager.h"
 
 #import "TimeZonePickerViewController.h"
-#import "TaskDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 
 @implementation StartEndPickerViewController
 
@@ -192,12 +192,13 @@
     
     [self save];
     
+    /*
     if ([self.navigationController.topViewController isKindOfClass:[TaskDetailTableViewController class]])
     {
         TaskDetailTableViewController *ctrler = (TaskDetailTableViewController *)self.navigationController.topViewController;
         
         [ctrler refreshWhen];
-    }
+    }*/
 }
 
 #pragma mark Actions

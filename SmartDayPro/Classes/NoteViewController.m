@@ -22,7 +22,7 @@
 #import "TaskView.h"
 #import "FocusView.h"
 
-#import "NoteDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 
 #import "SmartDayViewController.h"
 #import "AbstractSDViewController.h"
@@ -208,6 +208,7 @@ extern SmartDayViewController *_sdViewCtrler;
     //listTableView.separatorColor = [UIColor lightGrayColor];
 }
 
+/*
 - (void) editNote:(Task *)task
 {
     NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
@@ -217,6 +218,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [ctrler release];
 }
+*/
 
 - (void) focus
 {

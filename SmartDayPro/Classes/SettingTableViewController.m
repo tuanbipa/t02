@@ -28,7 +28,7 @@
 
 #import "DurationPickerViewController.h"
 #import "ProjectSelectionTableViewController.h"
-#import "CalendarEditTableViewController.h"
+//#import "CalendarEditTableViewController.h"
 #import "WorkingTime7ViewController.h"
 
 #import "HelpViewController.h"
@@ -492,6 +492,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[ctrler release];	
 }
 
+/*
 -(void) editProjectNames
 {
 	CalendarEditTableViewController *ctrler = [[CalendarEditTableViewController alloc] init];
@@ -500,6 +501,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];	
 }
+*/
 
 -(void) editWorkingTime
 {	
@@ -2098,6 +2100,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 }
 
+/*
 - (void) createTDSyncEnableCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 120, 30)];
@@ -2148,6 +2151,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         [hintLabel release];         
     }
 }
+*/
 
 - (void) createTDAccountCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {

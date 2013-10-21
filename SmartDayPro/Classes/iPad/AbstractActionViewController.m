@@ -41,8 +41,8 @@
 #import "NoteViewController.h"
 #import "AbstractMonthCalendarView.h"
 
-#import "TaskDetailTableViewController.h"
-#import "NoteDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 
 #import "TaskReadonlyDetailViewController.h"
 #import "NoteDetailViewController.h"
@@ -966,84 +966,7 @@ extern DetailViewController *_detailViewCtrler;
     }
 }
 
-- (void) editItem_old:(Task *)item
-{
-    if (self.popoverCtrler != nil && [self.popoverCtrler.contentViewController isKindOfClass:[SDNavigationController class]])
-    {
-        if ([item isNote])
-        {
-            NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-            ctrler.note = item;
-            
-            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
-            [ctrler release];
-        }
-        else if ([item isShared])
-        {
-            TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
-            
-            ctrler.task = item;
-            
-            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
-            [ctrler release];
-        }
-        else
-        {
-            /*
-            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-            
-            ctrler.task = item;
-            
-            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
-            [ctrler release];*/
-            
-            DetailViewController *ctrler = [[DetailViewController alloc] init];
-            ctrler.task = item;
-            
-            [self.popoverCtrler.contentViewController pushViewController:ctrler animated:YES];
-            [ctrler release];
-        }
-    }
-    else
-    {
-        if ([item isNote])
-        {
-            NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
-            ctrler.note = item;
-            
-            [self.navigationController pushViewController:ctrler animated:YES];
-            [ctrler release];
-        }
-        else if ([item isShared])
-        {
-            TaskReadonlyDetailViewController *ctrler = [[TaskReadonlyDetailViewController alloc] init];
-            
-            ctrler.task = item;
-            
-            [self.navigationController pushViewController:ctrler animated:YES];
-            [ctrler release];
-        }
-        else
-        {
-/*            TaskDetailTableViewController *ctrler = [[TaskDetailTableViewController alloc] init];
-            
-            ctrler.task = item;
-            
-            [self.navigationController pushViewController:ctrler animated:YES];
-            [ctrler release];
-*/
-            DetailViewController *ctrler = [[DetailViewController alloc] init];
-            
-            ctrler.task = item;
-            
-            [self.navigationController pushViewController:ctrler animated:YES];
-            [ctrler release];
-            
-        }
-
-    }
-}
-
+/*
 - (void) editItem:(Task *)task inRect:(CGRect)inRect
 {
     if (!_isiPad)
@@ -1099,7 +1022,6 @@ extern DetailViewController *_detailViewCtrler;
     }
 }
 
-/*
 - (void) editItem:(Task *)item inView:(TaskView *)inView
 {
     [self editItem:item];
@@ -2945,6 +2867,11 @@ extern DetailViewController *_detailViewCtrler;
 - (void) sync
 {
     [self deselect];
+    
+    if (_isiPad)
+    {
+        [_iPadViewCtrler closeDetail];
+    }
     
     Settings *settings = [Settings getInstance];
     
