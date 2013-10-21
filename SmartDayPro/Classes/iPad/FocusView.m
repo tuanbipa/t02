@@ -313,15 +313,14 @@ AbstractSDViewController *_abstractViewCtrler;
         
         self.adeList = [tm getADEListOnDate:tm.today];
         
-        if ([Common daysBetween:tm.today sinceDate:[NSDate date]] == 0)
+        /*if ([Common daysBetween:tm.today sinceDate:[NSDate date]] == 0)
         {
             // REMOVE all overdue Tasks from TODAY's focus pane (PT ID: 54073565)
             //self.dueList = [tm getOverdueTaskList];
             
             //[self.dueList addObjectsFromArray:[tm getDTaskListOnDate:tm.today]];
-            self.dueList = [tm getDTaskListOnDate:tm.today];
         }
-        else
+        else*/
         {
             self.dueList = [tm getDTaskListOnDate:tm.today];
         }
