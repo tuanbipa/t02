@@ -34,4 +34,6 @@
 - (BOOL) checkExpanded;
 - (void) reconcileItem:(Task *)item;
 
+- (void) refreshData;
+
 @end

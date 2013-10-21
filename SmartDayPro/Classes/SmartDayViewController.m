@@ -692,6 +692,7 @@ extern BOOL _gtdoTabHintShown;
     }
 }
 
+/*
 - (void) refreshData
 {
     if ([self.activeViewCtrler isKindOfClass:[NoteViewController class]])
@@ -713,7 +714,6 @@ extern BOOL _gtdoTabHintShown;
     [ctrler refreshADEPane];
 }
 
-/*
 - (void) resetAllData
 {
     TaskManager *tm = [TaskManager getInstance];
