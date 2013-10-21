@@ -294,7 +294,7 @@
 
 
 - (void)tableView:(UITableView *)tV commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-	AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-1];
+	AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-2];
 	
 	if (alert.primaryKey > -1)
 	{
