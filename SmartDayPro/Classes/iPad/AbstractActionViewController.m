@@ -1730,6 +1730,7 @@ extern DetailViewController *_detailViewCtrler;
                                    activityController.view.frame = frm;
                                }
                            }];
+        [self deselect];
     }
     
     [self clearActiveItems];
