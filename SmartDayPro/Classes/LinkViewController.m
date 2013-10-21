@@ -433,24 +433,24 @@ extern iPadViewController *_iPadViewCtrler;
                 
                 if ([linkTask isEvent] && ![linkTask isManual])
                 {
-                    img = [pm getEventIcon:task.project];
+                    img = [pm getEventIcon:linkTask.project];
                 }
                 else if ([linkTask isTask])
                 {
-                    img = [pm getTaskIcon:task.project];
+                    img = [pm getTaskIcon:linkTask.project];
                 }
                 else if ([linkTask isNote])
                 {
-                    img = [pm getNoteIcon:task.project];
+                    img = [pm getNoteIcon:linkTask.project];
                 }
                 else if ([linkTask isManual])
                 {
-                    img = [pm getAnchoredIcon:task.project];
+                    img = [pm getAnchoredIcon:linkTask.project];
                 }
                 
                 cell.imageView.image = img;
                 
-                cell.textLabel.text = task.name;
+                cell.textLabel.text = linkTask.name;
                 
                 [linkTask release];
             }
