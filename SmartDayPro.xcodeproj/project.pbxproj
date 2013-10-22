@@ -152,6 +152,24 @@
 		6726C697180FE0DF007E2607 /* slider_5_iphone4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6726C67D180FE0DF007E2607 /* slider_5_iphone4.jpg */; };
 		6726C698180FE0DF007E2607 /* slider_5_iphone4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6726C67D180FE0DF007E2607 /* slider_5_iphone4.jpg */; };
 		6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6728E5D916DC7441001024DD /* TimerViewController.m */; };
+		67296F5F1816267900CD834A /* SD_aboutUS_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5A1816267900CD834A /* SD_aboutUS_1024.html */; };
+		67296F601816267900CD834A /* SD_aboutUS_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5A1816267900CD834A /* SD_aboutUS_1024.html */; };
+		67296F611816267900CD834A /* SD_aboutUS_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5A1816267900CD834A /* SD_aboutUS_1024.html */; };
+		67296F621816267900CD834A /* SD_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5B1816267900CD834A /* SD_bg_1024.jpg */; };
+		67296F631816267900CD834A /* SD_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5B1816267900CD834A /* SD_bg_1024.jpg */; };
+		67296F641816267900CD834A /* SD_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5B1816267900CD834A /* SD_bg_1024.jpg */; };
+		67296F651816267900CD834A /* SD_css_1024.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5C1816267900CD834A /* SD_css_1024.css */; };
+		67296F661816267900CD834A /* SD_css_1024.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5C1816267900CD834A /* SD_css_1024.css */; };
+		67296F671816267900CD834A /* SD_css_1024.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5C1816267900CD834A /* SD_css_1024.css */; };
+		67296F6D181631E900CD834A /* LCL_Products_Page_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F68181631E900CD834A /* LCL_Products_Page_1024.html */; };
+		67296F6E181631E900CD834A /* LCL_Products_Page_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F68181631E900CD834A /* LCL_Products_Page_1024.html */; };
+		67296F6F181631E900CD834A /* LCL_Products_Page_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F68181631E900CD834A /* LCL_Products_Page_1024.html */; };
+		67296F70181631E900CD834A /* SmartApps_1024_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F69181631E900CD834A /* SmartApps_1024_css.css */; };
+		67296F71181631E900CD834A /* SmartApps_1024_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F69181631E900CD834A /* SmartApps_1024_css.css */; };
+		67296F72181631E900CD834A /* SmartApps_1024_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F69181631E900CD834A /* SmartApps_1024_css.css */; };
+		67296F73181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
+		67296F74181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
+		67296F75181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
 		672D8BFC180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
 		672D8BFD180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
 		672D8BFE180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
@@ -2773,6 +2791,12 @@
 		6726C67D180FE0DF007E2607 /* slider_5_iphone4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = slider_5_iphone4.jpg; sourceTree = "<group>"; };
 		6728E5D816DC7441001024DD /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
 		6728E5D916DC7441001024DD /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
+		67296F5A1816267900CD834A /* SD_aboutUS_1024.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SD_aboutUS_1024.html; sourceTree = "<group>"; };
+		67296F5B1816267900CD834A /* SD_bg_1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SD_bg_1024.jpg; sourceTree = "<group>"; };
+		67296F5C1816267900CD834A /* SD_css_1024.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SD_css_1024.css; sourceTree = "<group>"; };
+		67296F68181631E900CD834A /* LCL_Products_Page_1024.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LCL_Products_Page_1024.html; sourceTree = "<group>"; };
+		67296F69181631E900CD834A /* SmartApps_1024_css.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SmartApps_1024_css.css; sourceTree = "<group>"; };
+		67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Smartapps_bg_1024.jpg; sourceTree = "<group>"; };
 		672D8BFA180E72F800624484 /* GuruViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuruViewController.h; sourceTree = "<group>"; };
 		672D8BFB180E72F800624484 /* GuruViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuruViewController.m; sourceTree = "<group>"; };
 		672F54A61622779400480BC4 /* LinkPreviewPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPreviewPane.h; sourceTree = "<group>"; };
@@ -3939,6 +3963,34 @@
 				6726C67D180FE0DF007E2607 /* slider_5_iphone4.jpg */,
 			);
 			path = iP;
+			sourceTree = "<group>";
+		};
+		67296F5D1816267900CD834A /* userGuide */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide;
+			sourceTree = "<group>";
+		};
+		67296F5E1816267900CD834A /* userGuide2.0 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide2.0;
+			sourceTree = "<group>";
+		};
+		67296F6B181631E900CD834A /* userGuide */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide;
+			sourceTree = "<group>";
+		};
+		67296F6C181631E900CD834A /* userGuide2.0 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide2.0;
 			sourceTree = "<group>";
 		};
 		672D8BFF180E7A2200624484 /* Guru */ = {
@@ -5128,6 +5180,16 @@
 		67CF2FE3161951C2001FE1AA /* WEB */ = {
 			isa = PBXGroup;
 			children = (
+				67296F68181631E900CD834A /* LCL_Products_Page_1024.html */,
+				67296F69181631E900CD834A /* SmartApps_1024_css.css */,
+				67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */,
+				67296F6B181631E900CD834A /* userGuide */,
+				67296F6C181631E900CD834A /* userGuide2.0 */,
+				67296F5A1816267900CD834A /* SD_aboutUS_1024.html */,
+				67296F5B1816267900CD834A /* SD_bg_1024.jpg */,
+				67296F5C1816267900CD834A /* SD_css_1024.css */,
+				67296F5D1816267900CD834A /* userGuide */,
+				67296F5E1816267900CD834A /* userGuide2.0 */,
 				67D4EFE117438C2C002B3483 /* SmartApps_768_css.css */,
 				67D4EFE217438C2C002B3483 /* Smartapps_bg_768.jpg */,
 				67E26D811741F0D500638879 /* SD_aboutUS_768.html */,
@@ -5327,6 +5389,7 @@
 				6748B92D180401820043A80E /* EstimatedHoursHint.htm in Resources */,
 				6748B92E180401820043A80E /* EventMapHint.htm in Resources */,
 				6748B92F180401820043A80E /* GoalHint.htm in Resources */,
+				67296F70181631E900CD834A /* SmartApps_1024_css.css in Resources */,
 				6748B930180401820043A80E /* 1_small_graphic.png in Resources */,
 				6748B931180401820043A80E /* 1_task_drawer.png in Resources */,
 				6748B932180401820043A80E /* 2_filter.png in Resources */,
@@ -5395,6 +5458,7 @@
 				6748B96D180401820043A80E /* bg_pattern.png in Resources */,
 				6748B96E180401820043A80E /* black_menu.png in Resources */,
 				6748B96F180401820043A80E /* blue-small.png in Resources */,
+				67296F5F1816267900CD834A /* SD_aboutUS_1024.html in Resources */,
 				6748B970180401820043A80E /* blue_button.png in Resources */,
 				6748B971180401820043A80E /* blue_menu.png in Resources */,
 				6748B972180401820043A80E /* bluebg.png in Resources */,
@@ -5416,6 +5480,7 @@
 				6748B981180401820043A80E /* bottom_focus.png in Resources */,
 				6748B982180401820043A80E /* bottom_focus@2x.png in Resources */,
 				6748B983180401820043A80E /* bottom_note.png in Resources */,
+				67296F73181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */,
 				6748B984180401820043A80E /* bottom_note@2x.png in Resources */,
 				6748B985180401820043A80E /* QuickAddAccessoryView_iPad.xib in Resources */,
 				6748B986180401820043A80E /* bottom_task.png in Resources */,
@@ -5462,6 +5527,7 @@
 				6748B9AE180401820043A80E /* focus_handle.png in Resources */,
 				6748B9AF180401820043A80E /* focus_separator.png in Resources */,
 				6748B9B0180401820043A80E /* focus_separator@2x.png in Resources */,
+				67296F621816267900CD834A /* SD_bg_1024.jpg in Resources */,
 				6748B9B1180401820043A80E /* Go.png in Resources */,
 				6748B9B2180401820043A80E /* gray_button.png in Resources */,
 				6748B9B3180401820043A80E /* graybg.png in Resources */,
@@ -5866,6 +5932,7 @@
 				6748BB33180401820043A80E /* AlarmDrum.wav in Resources */,
 				6748BB34180401820043A80E /* month_cell_bg.png in Resources */,
 				6748BB35180401820043A80E /* month_cell_shadow_bg.png in Resources */,
+				67296F651816267900CD834A /* SD_css_1024.css in Resources */,
 				6748BB36180401820043A80E /* Alarm.wav in Resources */,
 				6748BB37180401820043A80E /* contact_iOS7.png in Resources */,
 				6748BB38180401820043A80E /* month_collapse.png in Resources */,
@@ -5880,6 +5947,7 @@
 				6748BB41180401820043A80E /* filter_day@2x.png in Resources */,
 				6748BB42180401820043A80E /* filter_week.png in Resources */,
 				6748BB43180401820043A80E /* menu_star_white@2x.png in Resources */,
+				67296F6D181631E900CD834A /* LCL_Products_Page_1024.html in Resources */,
 				6726C64D180FDD37007E2607 /* slider_3_iphone5.jpg in Resources */,
 				6748BB44180401820043A80E /* filter_week@2x.png in Resources */,
 				6748BB45180401820043A80E /* done_btn@2x.png in Resources */,
@@ -6019,6 +6087,7 @@
 				67CF2EB0161951B8001FE1AA /* EstimatedHoursHint.htm in Resources */,
 				67CF2EB1161951B8001FE1AA /* EventMapHint.htm in Resources */,
 				67CF2EB2161951B8001FE1AA /* GoalHint.htm in Resources */,
+				67296F71181631E900CD834A /* SmartApps_1024_css.css in Resources */,
 				67CF2EB3161951B8001FE1AA /* 1_small_graphic.png in Resources */,
 				67CF2EB4161951B8001FE1AA /* 1_task_drawer.png in Resources */,
 				67CF2EB5161951B8001FE1AA /* 2_filter.png in Resources */,
@@ -6087,6 +6156,7 @@
 				67CF2EE9161951B8001FE1AA /* bg_pattern.png in Resources */,
 				67CF2EEA161951B8001FE1AA /* black_menu.png in Resources */,
 				67CF2EEB161951B8001FE1AA /* blue-small.png in Resources */,
+				67296F601816267900CD834A /* SD_aboutUS_1024.html in Resources */,
 				67CF2EEC161951B8001FE1AA /* blue_button.png in Resources */,
 				67CF2EED161951B8001FE1AA /* blue_menu.png in Resources */,
 				67CF2EEE161951B8001FE1AA /* bluebg.png in Resources */,
@@ -6108,6 +6178,7 @@
 				67CF2EFC161951B8001FE1AA /* bottom_focus.png in Resources */,
 				67CF2EFD161951B8001FE1AA /* bottom_focus@2x.png in Resources */,
 				67CF2EFE161951B8001FE1AA /* bottom_note.png in Resources */,
+				67296F74181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */,
 				67CF2EFF161951B8001FE1AA /* bottom_note@2x.png in Resources */,
 				6746CEBD17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */,
 				67CF2F00161951B8001FE1AA /* bottom_task.png in Resources */,
@@ -6154,6 +6225,7 @@
 				67CF2F27161951B8001FE1AA /* focus_handle.png in Resources */,
 				67CF2F28161951B8001FE1AA /* focus_separator.png in Resources */,
 				67CF2F29161951B8001FE1AA /* focus_separator@2x.png in Resources */,
+				67296F631816267900CD834A /* SD_bg_1024.jpg in Resources */,
 				67CF2F2A161951B8001FE1AA /* Go.png in Resources */,
 				67CF2F2B161951B8001FE1AA /* gray_button.png in Resources */,
 				67CF2F2C161951B8001FE1AA /* graybg.png in Resources */,
@@ -6558,6 +6630,7 @@
 				670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				67296F661816267900CD834A /* SD_css_1024.css in Resources */,
 				67D75EFB170290A000C2F152 /* Alarm.wav in Resources */,
 				6746CEC317BCB0270042E1EF /* contact_iOS7.png in Resources */,
 				67CCB8AE17097E8400500A76 /* month_collapse.png in Resources */,
@@ -6572,6 +6645,7 @@
 				67EC1B2017169F0900582703 /* filter_day@2x.png in Resources */,
 				67EC1B2217169F0900582703 /* filter_week.png in Resources */,
 				6700B2B717F2874400AD8B3F /* menu_star_white@2x.png in Resources */,
+				67296F6E181631E900CD834A /* LCL_Products_Page_1024.html in Resources */,
 				6726C64E180FDD37007E2607 /* slider_3_iphone5.jpg in Resources */,
 				67EC1B2417169F0900582703 /* filter_week@2x.png in Resources */,
 				67EC1B271716BE6700582703 /* done_btn@2x.png in Resources */,
@@ -6711,6 +6785,7 @@
 				67EC0D4F16F8081F00929BFD /* EstimatedHoursHint.htm in Resources */,
 				67EC0D5016F8081F00929BFD /* EventMapHint.htm in Resources */,
 				67EC0D5116F8081F00929BFD /* GoalHint.htm in Resources */,
+				67296F72181631E900CD834A /* SmartApps_1024_css.css in Resources */,
 				67EC0D5216F8081F00929BFD /* 1_small_graphic.png in Resources */,
 				67EC0D5316F8081F00929BFD /* 1_task_drawer.png in Resources */,
 				67EC0D5416F8081F00929BFD /* 2_filter.png in Resources */,
@@ -6779,6 +6854,7 @@
 				67EC0D8816F8081F00929BFD /* bg_pattern.png in Resources */,
 				67EC0D8916F8081F00929BFD /* black_menu.png in Resources */,
 				67EC0D8A16F8081F00929BFD /* blue-small.png in Resources */,
+				67296F611816267900CD834A /* SD_aboutUS_1024.html in Resources */,
 				67EC0D8B16F8081F00929BFD /* blue_button.png in Resources */,
 				67EC0D8C16F8081F00929BFD /* blue_menu.png in Resources */,
 				67EC0D8D16F8081F00929BFD /* bluebg.png in Resources */,
@@ -6800,6 +6876,7 @@
 				67EC0D9B16F8081F00929BFD /* bottom_focus.png in Resources */,
 				67EC0D9C16F8081F00929BFD /* bottom_focus@2x.png in Resources */,
 				67EC0D9D16F8081F00929BFD /* bottom_note.png in Resources */,
+				67296F75181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */,
 				67EC0D9E16F8081F00929BFD /* bottom_note@2x.png in Resources */,
 				6746CEBE17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */,
 				67EC0D9F16F8081F00929BFD /* bottom_task.png in Resources */,
@@ -6846,6 +6923,7 @@
 				67EC0DC616F8081F00929BFD /* focus_handle.png in Resources */,
 				67EC0DC716F8081F00929BFD /* focus_separator.png in Resources */,
 				67EC0DC816F8081F00929BFD /* focus_separator@2x.png in Resources */,
+				67296F641816267900CD834A /* SD_bg_1024.jpg in Resources */,
 				67EC0DC916F8081F00929BFD /* Go.png in Resources */,
 				67EC0DCA16F8081F00929BFD /* gray_button.png in Resources */,
 				67EC0DCB16F8081F00929BFD /* graybg.png in Resources */,
@@ -7250,6 +7328,7 @@
 				670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				67296F671816267900CD834A /* SD_css_1024.css in Resources */,
 				67D75EFC170290A000C2F152 /* Alarm.wav in Resources */,
 				6746CEC417BCB0270042E1EF /* contact_iOS7.png in Resources */,
 				67CCB8AF17097E8400500A76 /* month_collapse.png in Resources */,
@@ -7264,6 +7343,7 @@
 				67EC1B2117169F0900582703 /* filter_day@2x.png in Resources */,
 				67EC1B2317169F0900582703 /* filter_week.png in Resources */,
 				6700B2B817F2874400AD8B3F /* menu_star_white@2x.png in Resources */,
+				67296F6F181631E900CD834A /* LCL_Products_Page_1024.html in Resources */,
 				6726C64F180FDD37007E2607 /* slider_3_iphone5.jpg in Resources */,
 				67EC1B2517169F0900582703 /* filter_week@2x.png in Resources */,
 				67EC1B281716BE6700582703 /* done_btn@2x.png in Resources */,

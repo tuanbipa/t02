@@ -26,4 +26,6 @@
 
 @property (nonatomic, retain) NSMutableArray *tzIDList;
 
+- (void) changeOrientation:(UIInterfaceOrientation) orientation;
+
 @end

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class GuideWebView;
 
 @interface iPadAboutUsViewController : UIViewController {
 	UISegmentedControl *aboutSegment;
+    GuideWebView *webView;
 }
 
 @end
