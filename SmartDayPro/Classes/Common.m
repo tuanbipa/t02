@@ -875,12 +875,18 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return ([endDate timeIntervalSinceDate:startDate]+1)/24/60/60;
 */
     
-    NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+    /*NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
     
     NSUInteger dayOfYear1 = [gregorian ordinalityOfUnit:NSDayCalendarUnit inUnit:NSYearCalendarUnit forDate:dt1];
     NSUInteger dayOfYear2 = [gregorian ordinalityOfUnit:NSDayCalendarUnit inUnit:NSYearCalendarUnit forDate:dt2];
     
-    return dayOfYear1 - dayOfYear2;
+    return dayOfYear1 - dayOfYear2;*/
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit
+                                                        fromDate:dt2
+                                                          toDate:dt1
+                                                         options:0];
+    return components.day;
 }
 
 + (NSInteger)timeIntervalNoDST:(NSDate *)date sinceDate:(NSDate *)sinceDate
