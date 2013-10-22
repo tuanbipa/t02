@@ -22,6 +22,7 @@ extern iPadViewController *_iPadViewCtrler;
 @implementation MapLocationViewController
 
 @synthesize task;
+@synthesize destination;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -110,13 +111,20 @@ extern iPadViewController *_iPadViewCtrler;
     
     [contentView addSubview:routeButton];
    
-/*
-    // ETA
-    etaLable = [[UILabel alloc] initWithFrame:CGRectMake(currentLocation.frame.origin.x, currentLocation.frame.origin.y +currentLocation.frame.size.height + 5, 300, 40)];
-    etaLable.textColor = [UIColor blackColor];
-    [contentView addSubview:etaLable];
-    [etaLable release];
-*/
+    // open Apple Maps app
+    UIButton *openAppleMaps = [Common createButton:_openAppleMapsText
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(contentView.bounds.size.width - 170, endLabel.frame.origin.y + endLabel.frame.size.height + 5, 160, 30)
+                                      titleColor:textColor target:self
+                                        selector:@selector(openAppleMaps:)
+                                normalStateImage:nil
+                              selectedStateImage:nil];
+    openAppleMaps.tag = -1000;
+    openAppleMaps.layer.cornerRadius = 4;
+    openAppleMaps.layer.borderWidth = 1;
+    openAppleMaps.layer.borderColor = [[Colors blueButton] CGColor];
+    openAppleMaps.hidden = YES;
+    [contentView addSubview:openAppleMaps];
     
     // ETA
     etaLable = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?10:endLabel.frame.origin.x, endLabel.frame.origin.y + endLabel.frame.size.height + 5, 300, 25)];
@@ -180,6 +188,10 @@ extern iPadViewController *_iPadViewCtrler;
     //self.task = nil;
     
     [super dealloc];
+    
+    if (destination != nil) {
+        [destination release];
+    }
 }
 
 #pragma mark Actions
@@ -265,7 +277,8 @@ extern iPadViewController *_iPadViewCtrler;
             MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourceMapPlaceMark];
             
             MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
-            MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+            //MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+            self.destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
             
             MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
             req.source = source;
@@ -278,6 +291,23 @@ extern iPadViewController *_iPadViewCtrler;
                     NSLog(error.description);
                 } else {
                     [self showDirections:response];
+                    
+                    //+++++++++ Annotation
+                    // 1. remove annotations
+                    [mapView removeAnnotations:[mapView annotations]];
+                    
+                    // 2. add annotation
+                    MKPointAnnotation *sourceAnnotation = [[MKPointAnnotation alloc] init];
+                    sourceAnnotation.coordinate = startPlacemark.location.coordinate;
+                    sourceAnnotation.title = _currentLocationText;
+                    [mapView addAnnotation:sourceAnnotation];
+                    [sourceAnnotation release];
+                    
+                    MKPointAnnotation *destinationAnnotation = [[MKPointAnnotation alloc] init];
+                    destinationAnnotation.coordinate = placemark.location.coordinate;
+                    destinationAnnotation.title = locationTextField.text;
+                    [mapView addAnnotation:destinationAnnotation];
+                    [destinationAnnotation release];
                 }
             }];
             
@@ -321,6 +351,9 @@ extern iPadViewController *_iPadViewCtrler;
     
     etaLable.text = [NSString stringWithFormat:_isiPad?@"ETA: %@, %@ to destination": @"ETA: %@, %@", distance, [Common getDurationString:totalTime]];
     etaLable.tag = totalTime;
+    
+    UIView *openAppleMaps = [contentView viewWithTag:-1000];
+    openAppleMaps.hidden = NO;
 }
 
 - (void)showNotFoundLocation: (NSString*) locationStr
@@ -338,6 +371,17 @@ extern iPadViewController *_iPadViewCtrler;
         etaLable.text = _loadingText;
     } else {
         etaLable.text = @"";
+    }
+    UIView *openAppleMaps = [contentView viewWithTag:-1000];
+    openAppleMaps.hidden = YES;
+}
+
+- (void)openAppleMaps: (id)sender
+{
+    
+    if([destination respondsToSelector:@selector(openInMapsWithLaunchOptions:)])
+    {
+        [destination openInMapsWithLaunchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving}];
     }
 }
 

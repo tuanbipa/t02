@@ -20,7 +20,10 @@
     
     UITextField *locationTextField;
     UILabel *etaLable;
+    
+    MKMapItem *destination;
 }
 
 @property (nonatomic, assign) Task *task;
+@property (nonatomic, retain) MKMapItem *destination;
 @end

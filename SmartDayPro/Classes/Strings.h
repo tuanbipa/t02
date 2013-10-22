@@ -732,6 +732,7 @@
 #define _atCurrentLocationYouHave NSLocalizedString(@"_atCurrentLocationYouHave", "")
 #define _alertBasedOnLocationText NSLocalizedString(@"_alertBasedOnLocationText", "")
 #define _itsTimeToDriveForText NSLocalizedString(@"_itsTimeToDriveForText", "")
+#define _openAppleMapsText NSLocalizedString(@"_openAppleMapsText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 
