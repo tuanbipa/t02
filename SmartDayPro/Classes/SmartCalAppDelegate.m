@@ -490,7 +490,8 @@ BOOL _fromBackground = NO;
     _isiPad = [self checkiPad];
 	_is24HourFormat = [self check24HourFormat];
 
-    [[UINavigationBar appearance] setTintColor:(_isiPad?nil:[UIColor whiteColor])];
+    //[[UINavigationBar appearance] setTintColor:(_isiPad?nil:[UIColor whiteColor])];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
 

@@ -37,6 +37,28 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     return self;
 }
 
+- (void) performSync:(NSNumber *)mode
+{
+    NSInteger syncMode = [mode intValue];
+    
+    switch (syncMode)
+    {
+        case SYNC_MANUAL_1WAY_mSD2SD:
+        {
+            [[DBManager getInstance] cleanDB];
+            
+            [[SDWSync getInstance] initBackground1WayGet];
+        }
+            break;
+            
+        case SYNC_MANUAL_1WAY_SD2mSD:
+        {
+            [[SDWSync getInstance] initBackground1WayPush];
+        }
+            break;
+    }
+}
+
 - (void) sync1way2SDW
 {
     if (_iPadSettingViewCtrler != nil)
@@ -57,7 +79,9 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
         [self.navigationController popToRootViewControllerAnimated:YES];        
     }
     
-    [[SDWSync getInstance] initBackground1WayPush];
+    //[[SDWSync getInstance] initBackground1WayPush];
+    
+    [self performSelector:@selector(performSync:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_SD2mSD] afterDelay:0.1]; //wait until Settings is saved after dismiss
 }
 
 - (void) sync1way2SD
@@ -80,9 +104,11 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
     
-    [[DBManager getInstance] cleanDB];
+    //[[DBManager getInstance] cleanDB];
     
-    [[SDWSync getInstance] initBackground1WayGet];
+    //[[SDWSync getInstance] initBackground1WayGet];
+    
+    [self performSelector:@selector(performSync:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_mSD2SD] afterDelay:0.1]; //wait until Settings is saved after dismiss
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex

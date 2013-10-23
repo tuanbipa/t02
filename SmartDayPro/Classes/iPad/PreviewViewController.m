@@ -25,7 +25,7 @@
 #import "GuideWebView.h"
 
 #import "NoteDetailViewController.h"
-#import "TaskDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 
 #import "iPadSmartDayViewController.h"
 
@@ -33,7 +33,7 @@
 #import "PlannerViewController.h"
 
 #import "SDNavigationController.h"
-#import "NoteDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 #import "DetailViewController.h"
 #import "iPadViewController.h"
 #import "SmartDayViewController.h"

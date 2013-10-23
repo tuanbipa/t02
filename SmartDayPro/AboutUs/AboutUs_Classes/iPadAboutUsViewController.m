@@ -29,11 +29,44 @@ extern BOOL _spLiteVersion;
 }
 */
 
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 44;
+    
+    webView.frame = frm;
+    
+    aboutSegment.frame = CGRectMake((frm.size.width-400)/2, 5, 400, 30);
+    
+    [self selectOption:aboutSegment];
+}
+
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView 
 {
-	GuideWebView *webView = [[GuideWebView alloc] initWithFrame:CGRectMake(0, 0, 768, 1024 - 20 - 44)];
+    CGSize sz = [Common getScreenSize];
+    
+    CGRect frm = CGRectZero;
+    frm.size = sz;
+    
+	//GuideWebView *webView = [[GuideWebView alloc] initWithFrame:CGRectMake(0, 0, 768, 1024 - 20 - 44)];
+    webView = [[GuideWebView alloc] initWithFrame:frm];
+    
 	webView.safariEnabled = YES;
 	
 	self.view = webView;
@@ -45,7 +78,7 @@ extern BOOL _spLiteVersion;
 	
 	[aboutSegment addTarget:self action:@selector(selectOption:) forControlEvents:UIControlEventValueChanged];
 	
-	aboutSegment.frame = CGRectMake((768-400)/2, 5, 400, 30);
+	//aboutSegment.frame = CGRectMake((768-400)/2, 5, 400, 30);
 	
 	aboutSegment.selectedSegmentIndex = 2;
     
@@ -69,12 +102,13 @@ extern BOOL _spLiteVersion;
 }
 
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self changeOrientation:self.interfaceOrientation];
 }
-*/
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -97,8 +131,13 @@ extern BOOL _spLiteVersion;
     // e.g. self.myOutlet = nil;
 }
 
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self changeOrientation:toInterfaceOrientation];
+}
 
-- (void)dealloc {
+- (void)dealloc
+{
     [super dealloc];
 }
 
@@ -107,8 +146,10 @@ extern BOOL _spLiteVersion;
 	GuideWebView *webView = self.view;
 	
 	webView.safariEnabled = YES;
+    
+    NSString *file = UIInterfaceOrientationIsLandscape(self.interfaceOrientation)?@"SD_aboutUS_1024":@"SD_aboutUS_768";
 	
-	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"SD_aboutUS_768" ofType:@"html"];  
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:file ofType:@"html"];
 	
 	NSString *html = [NSString stringWithContentsOfFile:filePath]; 
 	
@@ -141,8 +182,10 @@ extern BOOL _spLiteVersion;
 	GuideWebView *webView = self.view;
 	
 	webView.safariEnabled = YES;
+    
+    NSString *file = UIInterfaceOrientationIsLandscape(self.interfaceOrientation)?@"LCL_Products_Page_1024":@"LCL_Products_Page_768";
 		
-	[webView loadHTMLFile:@"LCL_Products_Page_768" extension:@"html"];	
+	[webView loadHTMLFile:file extension:@"html"];
 }
 
 - (void) guide
@@ -188,42 +231,9 @@ extern BOOL _spLiteVersion;
 
 -(NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-/*	if(interfaceOrientation==UIInterfaceOrientationPortrait || interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
-	{
-		self.view.frame=CGRectMake(0, 0, 768, 1024-20-44);
-	}
-	else
-	{
-		self.view.frame=CGRectMake(0, 0, 1024, 768-20-44);
-	}*/
-	
-	return NO;
-}
-/*
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    BOOL portrait = (toInterfaceOrientation==UIInterfaceOrientationPortrait || toInterfaceOrientation==UIInterfaceOrientationPortraitUpsideDown);
-    
-    [Common setDeviceOrientation:toInterfaceOrientation];
-    
-	if(portrait)
-	{
-		self.view.frame=CGRectMake(0, 0, 768, 1024-20-44);
-	}
-	else
-	{
-		self.view.frame=CGRectMake(0, 0, 1024, 768-20-44);
-	}
-    
-    [self selectOption:aboutSegment];
-}
-*/
 #pragma mark OS4 Support 
 -(void) purge
 {
@@ -233,7 +243,7 @@ extern BOOL _spLiteVersion;
 -(void) recover
 {
 	////printf("About Us recover\n");
-	
+	/*
 	GuideWebView *webView = [[GuideWebView alloc] initWithFrame:CGRectMake(0, 0, 768, 1024 - 20 - 44)];
 	webView.safariEnabled = YES;
 	
@@ -241,7 +251,7 @@ extern BOOL _spLiteVersion;
 	
 	[webView release];
 	
-	[self selectOption:aboutSegment];
+	[self selectOption:aboutSegment];*/
 }
 
 @end

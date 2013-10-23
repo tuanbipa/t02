@@ -17,7 +17,7 @@
 #import "MusicManager.h"
 #import "ImageManager.h"
 
-#import "TaskDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 //#import "SmartListMovableController.h"
 //#import "SmartListLayoutController.h"
 #import "TaskLayoutController.h"
@@ -298,6 +298,7 @@ SmartListViewController *_smartListViewCtrler;
 	}
 }
 
+/*
 - (void) editTask:(Task *)task
 {
 	[self backToSingleSelectMode];
@@ -336,7 +337,6 @@ SmartListViewController *_smartListViewCtrler;
     [self deselect];    
 }
 
-/*
 -(void)refreshFadedStatus
 {
 	for (UIView *view in smartListView.subviews)
@@ -1009,26 +1009,9 @@ SmartListViewController *_smartListViewCtrler;
 
 #pragma mark Hint 
 
+/*
 - (void) showHint
 {
-/*	
-	smartListView.scrollEnabled = NO;
-	
-	[self.view bringSubviewToFront:hintView];
-	hintView.hidden = NO;
-	
-	CATransition *animation = [CATransition animation];
-	[animation setDelegate:self];
-	
-	[animation setType:kCATransitionMoveIn];
-	[animation setSubtype:kCATransitionFromTop];
-	
-	// Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
-	[animation setDuration:0.25];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
-	[[contentView layer] addAnimation:animation forKey:@"popUpHint"];	
-*/
 	UIViewController *ctrler = [[UIViewController alloc] init];
 	
 	ctrler.view = hintView;
@@ -1063,10 +1046,6 @@ SmartListViewController *_smartListViewCtrler;
 		
 		_multiSelectHintShown = YES;
 	}
-	/*else 
-	{
-		hintView.hidden = YES;
-	}*/
 
 }
 
@@ -1077,27 +1056,9 @@ SmartListViewController *_smartListViewCtrler;
 		[[Settings getInstance] enableSmartListHint:NO];
 	}
 	
-	/*
-	hintView.hidden = YES;
-	
-	CATransition *animation = [CATransition animation];
-	[animation setDelegate:self];
-	
-	[animation setType:kCATransitionMoveIn];
-	[animation setSubtype:kCATransitionFromBottom];
-	
-	// Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
-	[animation setDuration:0.25];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
-	[[contentView layer] addAnimation:animation forKey:@"popDownHint"];			
-	
-	smartListView.scrollEnabled = YES;
-	*/
-	
-	//[self dismissModalViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
+*/
 
 #pragma mark Actions
 - (void) editSetting: (id) sender
@@ -1332,7 +1293,7 @@ SmartListViewController *_smartListViewCtrler;
 		quickAddTextField.text = @"";
 	}
 }
-*/
+
 - (void) quickEdit:(id)sender
 {
 	TaskManager *tm = [TaskManager getInstance];
@@ -1366,7 +1327,7 @@ SmartListViewController *_smartListViewCtrler;
     
     [_abstractViewCtrler editItem:task inView:nil];
 }
-
+*/
 - (void) sync:(id) sender
 {
 	[self hideDropDownMenu];

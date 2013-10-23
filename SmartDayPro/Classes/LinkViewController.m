@@ -17,8 +17,8 @@
 #import "URLAssetManager.h"
 
 #import "LinkSearchViewController.h"
-#import "NoteDetailTableViewController.h"
-#import "TaskDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 #import "PreviewViewController.h"
 
 #import "SmartListViewController.h"

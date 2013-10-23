@@ -13,7 +13,7 @@
 #import "Settings.h"
 #import "ImageManager.h"
 
-#import "TaskDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 
 @implementation DurationPickerViewController
 

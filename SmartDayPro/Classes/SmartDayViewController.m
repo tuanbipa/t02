@@ -41,8 +41,8 @@
 #import "GuideWebView.h"
 
 #import "SettingTableViewController.h"
-#import "TaskDetailTableViewController.h"
-#import "NoteDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 #import "ProjectEditViewController.h"
 #import "CalendarSelectionTableViewController.h"
 
@@ -692,6 +692,7 @@ extern BOOL _gtdoTabHintShown;
     }
 }
 
+/*
 - (void) refreshData
 {
     if ([self.activeViewCtrler isKindOfClass:[NoteViewController class]])
@@ -713,7 +714,6 @@ extern BOOL _gtdoTabHintShown;
     [ctrler refreshADEPane];
 }
 
-/*
 - (void) resetAllData
 {
     TaskManager *tm = [TaskManager getInstance];
@@ -1210,6 +1210,7 @@ extern BOOL _gtdoTabHintShown;
 }
 
 #pragma mark Actions
+/*
 - (void) addNote:(id) sender
 {
     NoteDetailTableViewController *ctrler = [[NoteDetailTableViewController alloc] init];
@@ -1293,7 +1294,6 @@ extern BOOL _gtdoTabHintShown;
 	[ctrler release];				
 }
 
-/*
 - (void) editCategory:(Project *) project
 {
 	ProjectEditViewController *ctrler = [[ProjectEditViewController alloc] init];
@@ -1303,7 +1303,7 @@ extern BOOL _gtdoTabHintShown;
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];		        
 }
-*/
+
 - (void) addCategory:(id) sender
 {
 	Project *project = [[Project alloc] init];
@@ -1313,7 +1313,6 @@ extern BOOL _gtdoTabHintShown;
     [self editCategory:project];
 }
 
-/*
 - (void) add:(id)sender
 {
     switch (selectedTabButton.tag)

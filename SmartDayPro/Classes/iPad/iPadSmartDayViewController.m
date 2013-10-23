@@ -30,8 +30,8 @@
 #import "NoteViewController.h"
 #import "CategoryViewController.h"
 
-#import "TaskDetailTableViewController.h"
-#import "NoteDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
 #import "ProjectEditViewController.h"
 #import "PreviewViewController.h"
 
@@ -218,6 +218,7 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+/*
 - (void) addTask
 {
     [[self getSmartListViewController] cancelQuickAdd];
@@ -309,6 +310,7 @@ iPadViewController *_iPadViewCtrler;
     
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
+*/
 
 - (void) scrollToDate:(NSDate *)date
 {

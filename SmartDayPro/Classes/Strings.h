@@ -735,5 +735,6 @@
 #define _openAppleMapsText NSLocalizedString(@"_openAppleMapsText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
+#define _alertHint NSLocalizedString(@"_alertHint", "")
 
 

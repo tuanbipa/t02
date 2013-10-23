@@ -404,7 +404,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 	backButton = [Common createButton:_doneText
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(navView.bounds.size.width - 70, 5, 60, 30)
-                                         titleColor:nil
+                                         titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(back:)
                                    //normalStateImage:@"done_btn.png"
@@ -413,8 +413,8 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
     backButton.titleLabel.font = [UIFont systemFontOfSize:16];
 
-    [backButton setTitleColor:[Colors blueButton] forState:UIControlStateNormal];
-    [backButton setTitleColor:[Colors blueButton] forState:UIControlStateSelected];
+    //[backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //[backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     
     [navView addSubview:backButton];
     
@@ -573,7 +573,17 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 {
     [_iPadViewCtrler willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    [self changeOrientation:toInterfaceOrientation];    
+    [self changeOrientation:toInterfaceOrientation];
+    
+    if (navCtrler != nil)
+    {
+        UIViewController *ctrler = navCtrler.topViewController;
+        
+        if ([ctrler isKindOfClass:[TimeZonePickerViewController class]])
+        {
+            [(TimeZonePickerViewController *)ctrler changeOrientation:toInterfaceOrientation];
+        }
+    }
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated

@@ -152,6 +152,24 @@
 		6726C697180FE0DF007E2607 /* slider_5_iphone4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6726C67D180FE0DF007E2607 /* slider_5_iphone4.jpg */; };
 		6726C698180FE0DF007E2607 /* slider_5_iphone4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6726C67D180FE0DF007E2607 /* slider_5_iphone4.jpg */; };
 		6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6728E5D916DC7441001024DD /* TimerViewController.m */; };
+		67296F5F1816267900CD834A /* SD_aboutUS_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5A1816267900CD834A /* SD_aboutUS_1024.html */; };
+		67296F601816267900CD834A /* SD_aboutUS_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5A1816267900CD834A /* SD_aboutUS_1024.html */; };
+		67296F611816267900CD834A /* SD_aboutUS_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5A1816267900CD834A /* SD_aboutUS_1024.html */; };
+		67296F621816267900CD834A /* SD_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5B1816267900CD834A /* SD_bg_1024.jpg */; };
+		67296F631816267900CD834A /* SD_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5B1816267900CD834A /* SD_bg_1024.jpg */; };
+		67296F641816267900CD834A /* SD_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5B1816267900CD834A /* SD_bg_1024.jpg */; };
+		67296F651816267900CD834A /* SD_css_1024.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5C1816267900CD834A /* SD_css_1024.css */; };
+		67296F661816267900CD834A /* SD_css_1024.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5C1816267900CD834A /* SD_css_1024.css */; };
+		67296F671816267900CD834A /* SD_css_1024.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F5C1816267900CD834A /* SD_css_1024.css */; };
+		67296F6D181631E900CD834A /* LCL_Products_Page_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F68181631E900CD834A /* LCL_Products_Page_1024.html */; };
+		67296F6E181631E900CD834A /* LCL_Products_Page_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F68181631E900CD834A /* LCL_Products_Page_1024.html */; };
+		67296F6F181631E900CD834A /* LCL_Products_Page_1024.html in Resources */ = {isa = PBXBuildFile; fileRef = 67296F68181631E900CD834A /* LCL_Products_Page_1024.html */; };
+		67296F70181631E900CD834A /* SmartApps_1024_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F69181631E900CD834A /* SmartApps_1024_css.css */; };
+		67296F71181631E900CD834A /* SmartApps_1024_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F69181631E900CD834A /* SmartApps_1024_css.css */; };
+		67296F72181631E900CD834A /* SmartApps_1024_css.css in Resources */ = {isa = PBXBuildFile; fileRef = 67296F69181631E900CD834A /* SmartApps_1024_css.css */; };
+		67296F73181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
+		67296F74181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
+		67296F75181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
 		672D8BFC180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
 		672D8BFD180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
 		672D8BFE180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
@@ -201,13 +219,11 @@
 		6748B84D180401820043A80E /* GrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6749348817B381EE00AEA74A /* GrowingTextView.m */; };
 		6748B84E180401820043A80E /* CalendarADEView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6816195195001FE1AA /* CalendarADEView.m */; };
 		6748B84F180401820043A80E /* CalendarDayLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */; };
-		6748B850180401820043A80E /* CalendarEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */; };
 		6748B851180401820043A80E /* CalendarMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7016195195001FE1AA /* CalendarMovableController.m */; };
 		6748B852180401820043A80E /* CalendarSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7216195195001FE1AA /* CalendarSelectionTableViewController.m */; };
 		6748B853180401820043A80E /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7416195195001FE1AA /* CalendarViewController.m */; };
 		6748B854180401820043A80E /* CategoryLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7816195195001FE1AA /* CategoryLayoutController.m */; };
 		6748B855180401820043A80E /* CategoryMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7A16195195001FE1AA /* CategoryMovableController.m */; };
-		6748B856180401820043A80E /* CategoryNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7C16195195001FE1AA /* CategoryNoteViewController.m */; };
 		6748B857180401820043A80E /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7E16195195001FE1AA /* CategoryViewController.m */; };
 		6748B858180401820043A80E /* CGRectObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B8016195195001FE1AA /* CGRectObj.m */; };
 		6748B859180401820043A80E /* ColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B8816195195001FE1AA /* ColorPickerViewController.m */; };
@@ -220,7 +236,6 @@
 		6748B860180401820043A80E /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9616195195001FE1AA /* ContentView.m */; };
 		6748B861180401820043A80E /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9816195195001FE1AA /* CustomTextView.m */; };
 		6748B862180401820043A80E /* DateJumpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9A16195195001FE1AA /* DateJumpView.m */; };
-		6748B863180401820043A80E /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9C16195195001FE1AA /* DatePickerViewController.m */; };
 		6748B864180401820043A80E /* DayHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9E16195195001FE1AA /* DayHeaderView.m */; };
 		6748B865180401820043A80E /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BA216195195001FE1AA /* DBManager.m */; };
 		6748B866180401820043A80E /* DefaultDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BA416195195001FE1AA /* DefaultDurationViewController.m */; };
@@ -247,8 +262,6 @@
 		6748B87B180401820043A80E /* MonthlyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BE516195195001FE1AA /* MonthlyCellView.m */; };
 		6748B87C180401820043A80E /* MovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF116195195001FE1AA /* MovableController.m */; };
 		6748B87D180401820043A80E /* MovableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF316195195001FE1AA /* MovableView.m */; };
-		6748B87E180401820043A80E /* NoteDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */; };
-		6748B87F180401820043A80E /* NoteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFB16195195001FE1AA /* NoteInfoViewController.m */; };
 		6748B880180401820043A80E /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFD16195195001FE1AA /* NoteViewController.m */; };
 		6748B881180401820043A80E /* NSDataBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFF16195196001FE1AA /* NSDataBase64.m */; };
 		6748B882180401820043A80E /* NumberInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C0116195196001FE1AA /* NumberInputViewController.m */; };
@@ -284,7 +297,6 @@
 		6748B8A0180401820043A80E /* TagEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4016195196001FE1AA /* TagEditViewController.m */; };
 		6748B8A1180401820043A80E /* TagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4216195196001FE1AA /* TagListViewController.m */; };
 		6748B8A2180401820043A80E /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4416195196001FE1AA /* Task.m */; };
-		6748B8A3180401820043A80E /* TaskDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4616195196001FE1AA /* TaskDetailTableViewController.m */; };
 		6748B8A4180401820043A80E /* TaskLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4A16195196001FE1AA /* TaskLinkManager.m */; };
 		6748B8A5180401820043A80E /* TaskLinkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4C16195196001FE1AA /* TaskLinkView.m */; };
 		6748B8A6180401820043A80E /* TaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4E16195196001FE1AA /* TaskManager.m */; };
@@ -1150,13 +1162,11 @@
 		67CF2CBF16195196001FE1AA /* BusyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6616195195001FE1AA /* BusyController.m */; };
 		67CF2CC016195196001FE1AA /* CalendarADEView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6816195195001FE1AA /* CalendarADEView.m */; };
 		67CF2CC116195196001FE1AA /* CalendarDayLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */; };
-		67CF2CC216195196001FE1AA /* CalendarEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */; };
 		67CF2CC416195196001FE1AA /* CalendarMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7016195195001FE1AA /* CalendarMovableController.m */; };
 		67CF2CC516195196001FE1AA /* CalendarSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7216195195001FE1AA /* CalendarSelectionTableViewController.m */; };
 		67CF2CC616195196001FE1AA /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7416195195001FE1AA /* CalendarViewController.m */; };
 		67CF2CC816195196001FE1AA /* CategoryLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7816195195001FE1AA /* CategoryLayoutController.m */; };
 		67CF2CC916195196001FE1AA /* CategoryMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7A16195195001FE1AA /* CategoryMovableController.m */; };
-		67CF2CCA16195196001FE1AA /* CategoryNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7C16195195001FE1AA /* CategoryNoteViewController.m */; };
 		67CF2CCB16195196001FE1AA /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7E16195195001FE1AA /* CategoryViewController.m */; };
 		67CF2CCC16195196001FE1AA /* CGRectObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B8016195195001FE1AA /* CGRectObj.m */; };
 		67CF2CD016195196001FE1AA /* ColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B8816195195001FE1AA /* ColorPickerViewController.m */; };
@@ -1169,7 +1179,6 @@
 		67CF2CD716195196001FE1AA /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9616195195001FE1AA /* ContentView.m */; };
 		67CF2CD816195196001FE1AA /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9816195195001FE1AA /* CustomTextView.m */; };
 		67CF2CD916195196001FE1AA /* DateJumpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9A16195195001FE1AA /* DateJumpView.m */; };
-		67CF2CDA16195196001FE1AA /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9C16195195001FE1AA /* DatePickerViewController.m */; };
 		67CF2CDB16195196001FE1AA /* DayHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9E16195195001FE1AA /* DayHeaderView.m */; };
 		67CF2CDD16195196001FE1AA /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BA216195195001FE1AA /* DBManager.m */; };
 		67CF2CDE16195196001FE1AA /* DefaultDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BA416195195001FE1AA /* DefaultDurationViewController.m */; };
@@ -1195,8 +1204,6 @@
 		67CF2CFE16195196001FE1AA /* MonthlyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BE516195195001FE1AA /* MonthlyCellView.m */; };
 		67CF2D0416195196001FE1AA /* MovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF116195195001FE1AA /* MovableController.m */; };
 		67CF2D0516195196001FE1AA /* MovableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF316195195001FE1AA /* MovableView.m */; };
-		67CF2D0A16195196001FE1AA /* NoteDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */; };
-		67CF2D0B16195196001FE1AA /* NoteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFB16195195001FE1AA /* NoteInfoViewController.m */; };
 		67CF2D0C16195196001FE1AA /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFD16195195001FE1AA /* NoteViewController.m */; };
 		67CF2D0D16195196001FE1AA /* NSDataBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFF16195196001FE1AA /* NSDataBase64.m */; };
 		67CF2D0E16195196001FE1AA /* NumberInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C0116195196001FE1AA /* NumberInputViewController.m */; };
@@ -1230,7 +1237,6 @@
 		67CF2D2D16195196001FE1AA /* TagEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4016195196001FE1AA /* TagEditViewController.m */; };
 		67CF2D2E16195196001FE1AA /* TagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4216195196001FE1AA /* TagListViewController.m */; };
 		67CF2D2F16195196001FE1AA /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4416195196001FE1AA /* Task.m */; };
-		67CF2D3016195196001FE1AA /* TaskDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4616195196001FE1AA /* TaskDetailTableViewController.m */; };
 		67CF2D3216195196001FE1AA /* TaskLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4A16195196001FE1AA /* TaskLinkManager.m */; };
 		67CF2D3316195196001FE1AA /* TaskLinkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4C16195196001FE1AA /* TaskLinkView.m */; };
 		67CF2D3416195196001FE1AA /* TaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4E16195196001FE1AA /* TaskManager.m */; };
@@ -1920,13 +1926,11 @@
 		67EC0C8B16F8081F00929BFD /* BusyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6616195195001FE1AA /* BusyController.m */; };
 		67EC0C8C16F8081F00929BFD /* CalendarADEView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6816195195001FE1AA /* CalendarADEView.m */; };
 		67EC0C8D16F8081F00929BFD /* CalendarDayLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */; };
-		67EC0C8E16F8081F00929BFD /* CalendarEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */; };
 		67EC0C9016F8081F00929BFD /* CalendarMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7016195195001FE1AA /* CalendarMovableController.m */; };
 		67EC0C9116F8081F00929BFD /* CalendarSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7216195195001FE1AA /* CalendarSelectionTableViewController.m */; };
 		67EC0C9216F8081F00929BFD /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7416195195001FE1AA /* CalendarViewController.m */; };
 		67EC0C9316F8081F00929BFD /* CategoryLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7816195195001FE1AA /* CategoryLayoutController.m */; };
 		67EC0C9416F8081F00929BFD /* CategoryMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7A16195195001FE1AA /* CategoryMovableController.m */; };
-		67EC0C9516F8081F00929BFD /* CategoryNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7C16195195001FE1AA /* CategoryNoteViewController.m */; };
 		67EC0C9616F8081F00929BFD /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B7E16195195001FE1AA /* CategoryViewController.m */; };
 		67EC0C9716F8081F00929BFD /* CGRectObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B8016195195001FE1AA /* CGRectObj.m */; };
 		67EC0C9816F8081F00929BFD /* ColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B8816195195001FE1AA /* ColorPickerViewController.m */; };
@@ -1939,7 +1943,6 @@
 		67EC0C9F16F8081F00929BFD /* ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9616195195001FE1AA /* ContentView.m */; };
 		67EC0CA016F8081F00929BFD /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9816195195001FE1AA /* CustomTextView.m */; };
 		67EC0CA116F8081F00929BFD /* DateJumpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9A16195195001FE1AA /* DateJumpView.m */; };
-		67EC0CA216F8081F00929BFD /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9C16195195001FE1AA /* DatePickerViewController.m */; };
 		67EC0CA316F8081F00929BFD /* DayHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B9E16195195001FE1AA /* DayHeaderView.m */; };
 		67EC0CA416F8081F00929BFD /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BA216195195001FE1AA /* DBManager.m */; };
 		67EC0CA516F8081F00929BFD /* DefaultDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BA416195195001FE1AA /* DefaultDurationViewController.m */; };
@@ -1965,8 +1968,6 @@
 		67EC0CB916F8081F00929BFD /* MonthlyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BE516195195001FE1AA /* MonthlyCellView.m */; };
 		67EC0CBA16F8081F00929BFD /* MovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF116195195001FE1AA /* MovableController.m */; };
 		67EC0CBB16F8081F00929BFD /* MovableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF316195195001FE1AA /* MovableView.m */; };
-		67EC0CBC16F8081F00929BFD /* NoteDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */; };
-		67EC0CBD16F8081F00929BFD /* NoteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFB16195195001FE1AA /* NoteInfoViewController.m */; };
 		67EC0CBE16F8081F00929BFD /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFD16195195001FE1AA /* NoteViewController.m */; };
 		67EC0CBF16F8081F00929BFD /* NSDataBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2BFF16195196001FE1AA /* NSDataBase64.m */; };
 		67EC0CC016F8081F00929BFD /* NumberInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C0116195196001FE1AA /* NumberInputViewController.m */; };
@@ -2000,7 +2001,6 @@
 		67EC0CDC16F8081F00929BFD /* TagEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4016195196001FE1AA /* TagEditViewController.m */; };
 		67EC0CDD16F8081F00929BFD /* TagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4216195196001FE1AA /* TagListViewController.m */; };
 		67EC0CDE16F8081F00929BFD /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4416195196001FE1AA /* Task.m */; };
-		67EC0CDF16F8081F00929BFD /* TaskDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4616195196001FE1AA /* TaskDetailTableViewController.m */; };
 		67EC0CE016F8081F00929BFD /* TaskLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4A16195196001FE1AA /* TaskLinkManager.m */; };
 		67EC0CE116F8081F00929BFD /* TaskLinkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4C16195196001FE1AA /* TaskLinkView.m */; };
 		67EC0CE216F8081F00929BFD /* TaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2C4E16195196001FE1AA /* TaskManager.m */; };
@@ -2791,6 +2791,12 @@
 		6726C67D180FE0DF007E2607 /* slider_5_iphone4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = slider_5_iphone4.jpg; sourceTree = "<group>"; };
 		6728E5D816DC7441001024DD /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
 		6728E5D916DC7441001024DD /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
+		67296F5A1816267900CD834A /* SD_aboutUS_1024.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SD_aboutUS_1024.html; sourceTree = "<group>"; };
+		67296F5B1816267900CD834A /* SD_bg_1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SD_bg_1024.jpg; sourceTree = "<group>"; };
+		67296F5C1816267900CD834A /* SD_css_1024.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SD_css_1024.css; sourceTree = "<group>"; };
+		67296F68181631E900CD834A /* LCL_Products_Page_1024.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LCL_Products_Page_1024.html; sourceTree = "<group>"; };
+		67296F69181631E900CD834A /* SmartApps_1024_css.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SmartApps_1024_css.css; sourceTree = "<group>"; };
+		67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Smartapps_bg_1024.jpg; sourceTree = "<group>"; };
 		672D8BFA180E72F800624484 /* GuruViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuruViewController.h; sourceTree = "<group>"; };
 		672D8BFB180E72F800624484 /* GuruViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuruViewController.m; sourceTree = "<group>"; };
 		672F54A61622779400480BC4 /* LinkPreviewPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPreviewPane.h; sourceTree = "<group>"; };
@@ -2912,8 +2918,6 @@
 		67CF2B6816195195001FE1AA /* CalendarADEView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarADEView.m; sourceTree = "<group>"; };
 		67CF2B6916195195001FE1AA /* CalendarDayLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayLayoutController.h; sourceTree = "<group>"; };
 		67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayLayoutController.m; sourceTree = "<group>"; };
-		67CF2B6B16195195001FE1AA /* CalendarEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarEditTableViewController.h; sourceTree = "<group>"; };
-		67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarEditTableViewController.m; sourceTree = "<group>"; };
 		67CF2B6F16195195001FE1AA /* CalendarMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMovableController.h; sourceTree = "<group>"; };
 		67CF2B7016195195001FE1AA /* CalendarMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMovableController.m; sourceTree = "<group>"; };
 		67CF2B7116195195001FE1AA /* CalendarSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarSelectionTableViewController.h; sourceTree = "<group>"; };
@@ -2924,8 +2928,6 @@
 		67CF2B7816195195001FE1AA /* CategoryLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryLayoutController.m; sourceTree = "<group>"; };
 		67CF2B7916195195001FE1AA /* CategoryMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryMovableController.h; sourceTree = "<group>"; };
 		67CF2B7A16195195001FE1AA /* CategoryMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryMovableController.m; sourceTree = "<group>"; };
-		67CF2B7B16195195001FE1AA /* CategoryNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryNoteViewController.h; sourceTree = "<group>"; };
-		67CF2B7C16195195001FE1AA /* CategoryNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryNoteViewController.m; sourceTree = "<group>"; };
 		67CF2B7D16195195001FE1AA /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
 		67CF2B7E16195195001FE1AA /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		67CF2B7F16195195001FE1AA /* CGRectObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGRectObj.h; sourceTree = "<group>"; };
@@ -2950,8 +2952,6 @@
 		67CF2B9816195195001FE1AA /* CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextView.m; sourceTree = "<group>"; };
 		67CF2B9916195195001FE1AA /* DateJumpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateJumpView.h; sourceTree = "<group>"; };
 		67CF2B9A16195195001FE1AA /* DateJumpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateJumpView.m; sourceTree = "<group>"; };
-		67CF2B9B16195195001FE1AA /* DatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerViewController.h; sourceTree = "<group>"; };
-		67CF2B9C16195195001FE1AA /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerViewController.m; sourceTree = "<group>"; };
 		67CF2B9D16195195001FE1AA /* DayHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayHeaderView.h; sourceTree = "<group>"; };
 		67CF2B9E16195195001FE1AA /* DayHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayHeaderView.m; sourceTree = "<group>"; };
 		67CF2BA116195195001FE1AA /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
@@ -3003,10 +3003,6 @@
 		67CF2BF116195195001FE1AA /* MovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovableController.m; sourceTree = "<group>"; };
 		67CF2BF216195195001FE1AA /* MovableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovableView.h; sourceTree = "<group>"; };
 		67CF2BF316195195001FE1AA /* MovableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovableView.m; sourceTree = "<group>"; };
-		67CF2BF816195195001FE1AA /* NoteDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDetailTableViewController.h; sourceTree = "<group>"; };
-		67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteDetailTableViewController.m; sourceTree = "<group>"; };
-		67CF2BFA16195195001FE1AA /* NoteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteInfoViewController.h; sourceTree = "<group>"; };
-		67CF2BFB16195195001FE1AA /* NoteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteInfoViewController.m; sourceTree = "<group>"; };
 		67CF2BFC16195195001FE1AA /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
 		67CF2BFD16195195001FE1AA /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		67CF2BFE16195196001FE1AA /* NSDataBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataBase64.h; sourceTree = "<group>"; };
@@ -3074,8 +3070,6 @@
 		67CF2C4216195196001FE1AA /* TagListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagListViewController.m; sourceTree = "<group>"; };
 		67CF2C4316195196001FE1AA /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		67CF2C4416195196001FE1AA /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
-		67CF2C4516195196001FE1AA /* TaskDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailTableViewController.h; sourceTree = "<group>"; };
-		67CF2C4616195196001FE1AA /* TaskDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailTableViewController.m; sourceTree = "<group>"; };
 		67CF2C4916195196001FE1AA /* TaskLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLinkManager.h; sourceTree = "<group>"; };
 		67CF2C4A16195196001FE1AA /* TaskLinkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskLinkManager.m; sourceTree = "<group>"; };
 		67CF2C4B16195196001FE1AA /* TaskLinkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLinkView.h; sourceTree = "<group>"; };
@@ -3971,6 +3965,34 @@
 			path = iP;
 			sourceTree = "<group>";
 		};
+		67296F5D1816267900CD834A /* userGuide */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide;
+			sourceTree = "<group>";
+		};
+		67296F5E1816267900CD834A /* userGuide2.0 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide2.0;
+			sourceTree = "<group>";
+		};
+		67296F6B181631E900CD834A /* userGuide */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide;
+			sourceTree = "<group>";
+		};
+		67296F6C181631E900CD834A /* userGuide2.0 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = userGuide2.0;
+			sourceTree = "<group>";
+		};
 		672D8BFF180E7A2200624484 /* Guru */ = {
 			isa = PBXGroup;
 			children = (
@@ -4182,8 +4204,6 @@
 				67CF2B6816195195001FE1AA /* CalendarADEView.m */,
 				67CF2B6916195195001FE1AA /* CalendarDayLayoutController.h */,
 				67CF2B6A16195195001FE1AA /* CalendarDayLayoutController.m */,
-				67CF2B6B16195195001FE1AA /* CalendarEditTableViewController.h */,
-				67CF2B6C16195195001FE1AA /* CalendarEditTableViewController.m */,
 				67CF2B6F16195195001FE1AA /* CalendarMovableController.h */,
 				67CF2B7016195195001FE1AA /* CalendarMovableController.m */,
 				67CE6FE6163F6C66000C641E /* CalendarScrollPageLayoutController.h */,
@@ -4196,8 +4216,6 @@
 				67CF2B7816195195001FE1AA /* CategoryLayoutController.m */,
 				67CF2B7916195195001FE1AA /* CategoryMovableController.h */,
 				67CF2B7A16195195001FE1AA /* CategoryMovableController.m */,
-				67CF2B7B16195195001FE1AA /* CategoryNoteViewController.h */,
-				67CF2B7C16195195001FE1AA /* CategoryNoteViewController.m */,
 				67CF2B7D16195195001FE1AA /* CategoryViewController.h */,
 				67CF2B7E16195195001FE1AA /* CategoryViewController.m */,
 				67CF2B7F16195195001FE1AA /* CGRectObj.h */,
@@ -4230,8 +4248,6 @@
 				67EC603116AF8CCE00A47744 /* DataRecoveryViewController.m */,
 				67CF2B9916195195001FE1AA /* DateJumpView.h */,
 				67CF2B9A16195195001FE1AA /* DateJumpView.m */,
-				67CF2B9B16195195001FE1AA /* DatePickerViewController.h */,
-				67CF2B9C16195195001FE1AA /* DatePickerViewController.m */,
 				67CF2B9D16195195001FE1AA /* DayHeaderView.h */,
 				67CF2B9E16195195001FE1AA /* DayHeaderView.m */,
 				67CF2BA116195195001FE1AA /* DBManager.h */,
@@ -4311,12 +4327,8 @@
 				67CF2BF316195195001FE1AA /* MovableView.m */,
 				67DD5B3A179F871300CC1A72 /* NoteContentViewController.h */,
 				67DD5B3B179F871400CC1A72 /* NoteContentViewController.m */,
-				67CF2BF816195195001FE1AA /* NoteDetailTableViewController.h */,
-				67CF2BF916195195001FE1AA /* NoteDetailTableViewController.m */,
 				67DCE402179E859D0077EACA /* NoteDetailViewController.h */,
 				67DCE403179E859E0077EACA /* NoteDetailViewController.m */,
-				67CF2BFA16195195001FE1AA /* NoteInfoViewController.h */,
-				67CF2BFB16195195001FE1AA /* NoteInfoViewController.m */,
 				67E0D49916F95C7800F66567 /* NoteLayoutController.h */,
 				67E0D49A16F95C7800F66567 /* NoteLayoutController.m */,
 				67E18E8916F98EDE00F1E976 /* NoteMovableController.h */,
@@ -4398,8 +4410,6 @@
 				67CF2C4216195196001FE1AA /* TagListViewController.m */,
 				67CF2C4316195196001FE1AA /* Task.h */,
 				67CF2C4416195196001FE1AA /* Task.m */,
-				67CF2C4516195196001FE1AA /* TaskDetailTableViewController.h */,
-				67CF2C4616195196001FE1AA /* TaskDetailTableViewController.m */,
 				67C7426F1782763A00361E30 /* TaskLayoutController.h */,
 				67C742701782763A00361E30 /* TaskLayoutController.m */,
 				67CF2C4916195196001FE1AA /* TaskLinkManager.h */,
@@ -5170,6 +5180,16 @@
 		67CF2FE3161951C2001FE1AA /* WEB */ = {
 			isa = PBXGroup;
 			children = (
+				67296F68181631E900CD834A /* LCL_Products_Page_1024.html */,
+				67296F69181631E900CD834A /* SmartApps_1024_css.css */,
+				67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */,
+				67296F6B181631E900CD834A /* userGuide */,
+				67296F6C181631E900CD834A /* userGuide2.0 */,
+				67296F5A1816267900CD834A /* SD_aboutUS_1024.html */,
+				67296F5B1816267900CD834A /* SD_bg_1024.jpg */,
+				67296F5C1816267900CD834A /* SD_css_1024.css */,
+				67296F5D1816267900CD834A /* userGuide */,
+				67296F5E1816267900CD834A /* userGuide2.0 */,
 				67D4EFE117438C2C002B3483 /* SmartApps_768_css.css */,
 				67D4EFE217438C2C002B3483 /* Smartapps_bg_768.jpg */,
 				67E26D811741F0D500638879 /* SD_aboutUS_768.html */,
@@ -5369,6 +5389,7 @@
 				6748B92D180401820043A80E /* EstimatedHoursHint.htm in Resources */,
 				6748B92E180401820043A80E /* EventMapHint.htm in Resources */,
 				6748B92F180401820043A80E /* GoalHint.htm in Resources */,
+				67296F70181631E900CD834A /* SmartApps_1024_css.css in Resources */,
 				6748B930180401820043A80E /* 1_small_graphic.png in Resources */,
 				6748B931180401820043A80E /* 1_task_drawer.png in Resources */,
 				6748B932180401820043A80E /* 2_filter.png in Resources */,
@@ -5437,6 +5458,7 @@
 				6748B96D180401820043A80E /* bg_pattern.png in Resources */,
 				6748B96E180401820043A80E /* black_menu.png in Resources */,
 				6748B96F180401820043A80E /* blue-small.png in Resources */,
+				67296F5F1816267900CD834A /* SD_aboutUS_1024.html in Resources */,
 				6748B970180401820043A80E /* blue_button.png in Resources */,
 				6748B971180401820043A80E /* blue_menu.png in Resources */,
 				6748B972180401820043A80E /* bluebg.png in Resources */,
@@ -5458,6 +5480,7 @@
 				6748B981180401820043A80E /* bottom_focus.png in Resources */,
 				6748B982180401820043A80E /* bottom_focus@2x.png in Resources */,
 				6748B983180401820043A80E /* bottom_note.png in Resources */,
+				67296F73181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */,
 				6748B984180401820043A80E /* bottom_note@2x.png in Resources */,
 				6748B985180401820043A80E /* QuickAddAccessoryView_iPad.xib in Resources */,
 				6748B986180401820043A80E /* bottom_task.png in Resources */,
@@ -5504,6 +5527,7 @@
 				6748B9AE180401820043A80E /* focus_handle.png in Resources */,
 				6748B9AF180401820043A80E /* focus_separator.png in Resources */,
 				6748B9B0180401820043A80E /* focus_separator@2x.png in Resources */,
+				67296F621816267900CD834A /* SD_bg_1024.jpg in Resources */,
 				6748B9B1180401820043A80E /* Go.png in Resources */,
 				6748B9B2180401820043A80E /* gray_button.png in Resources */,
 				6748B9B3180401820043A80E /* graybg.png in Resources */,
@@ -5908,6 +5932,7 @@
 				6748BB33180401820043A80E /* AlarmDrum.wav in Resources */,
 				6748BB34180401820043A80E /* month_cell_bg.png in Resources */,
 				6748BB35180401820043A80E /* month_cell_shadow_bg.png in Resources */,
+				67296F651816267900CD834A /* SD_css_1024.css in Resources */,
 				6748BB36180401820043A80E /* Alarm.wav in Resources */,
 				6748BB37180401820043A80E /* contact_iOS7.png in Resources */,
 				6748BB38180401820043A80E /* month_collapse.png in Resources */,
@@ -5922,6 +5947,7 @@
 				6748BB41180401820043A80E /* filter_day@2x.png in Resources */,
 				6748BB42180401820043A80E /* filter_week.png in Resources */,
 				6748BB43180401820043A80E /* menu_star_white@2x.png in Resources */,
+				67296F6D181631E900CD834A /* LCL_Products_Page_1024.html in Resources */,
 				6726C64D180FDD37007E2607 /* slider_3_iphone5.jpg in Resources */,
 				6748BB44180401820043A80E /* filter_week@2x.png in Resources */,
 				6748BB45180401820043A80E /* done_btn@2x.png in Resources */,
@@ -6061,6 +6087,7 @@
 				67CF2EB0161951B8001FE1AA /* EstimatedHoursHint.htm in Resources */,
 				67CF2EB1161951B8001FE1AA /* EventMapHint.htm in Resources */,
 				67CF2EB2161951B8001FE1AA /* GoalHint.htm in Resources */,
+				67296F71181631E900CD834A /* SmartApps_1024_css.css in Resources */,
 				67CF2EB3161951B8001FE1AA /* 1_small_graphic.png in Resources */,
 				67CF2EB4161951B8001FE1AA /* 1_task_drawer.png in Resources */,
 				67CF2EB5161951B8001FE1AA /* 2_filter.png in Resources */,
@@ -6129,6 +6156,7 @@
 				67CF2EE9161951B8001FE1AA /* bg_pattern.png in Resources */,
 				67CF2EEA161951B8001FE1AA /* black_menu.png in Resources */,
 				67CF2EEB161951B8001FE1AA /* blue-small.png in Resources */,
+				67296F601816267900CD834A /* SD_aboutUS_1024.html in Resources */,
 				67CF2EEC161951B8001FE1AA /* blue_button.png in Resources */,
 				67CF2EED161951B8001FE1AA /* blue_menu.png in Resources */,
 				67CF2EEE161951B8001FE1AA /* bluebg.png in Resources */,
@@ -6150,6 +6178,7 @@
 				67CF2EFC161951B8001FE1AA /* bottom_focus.png in Resources */,
 				67CF2EFD161951B8001FE1AA /* bottom_focus@2x.png in Resources */,
 				67CF2EFE161951B8001FE1AA /* bottom_note.png in Resources */,
+				67296F74181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */,
 				67CF2EFF161951B8001FE1AA /* bottom_note@2x.png in Resources */,
 				6746CEBD17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */,
 				67CF2F00161951B8001FE1AA /* bottom_task.png in Resources */,
@@ -6196,6 +6225,7 @@
 				67CF2F27161951B8001FE1AA /* focus_handle.png in Resources */,
 				67CF2F28161951B8001FE1AA /* focus_separator.png in Resources */,
 				67CF2F29161951B8001FE1AA /* focus_separator@2x.png in Resources */,
+				67296F631816267900CD834A /* SD_bg_1024.jpg in Resources */,
 				67CF2F2A161951B8001FE1AA /* Go.png in Resources */,
 				67CF2F2B161951B8001FE1AA /* gray_button.png in Resources */,
 				67CF2F2C161951B8001FE1AA /* graybg.png in Resources */,
@@ -6600,6 +6630,7 @@
 				670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				67296F661816267900CD834A /* SD_css_1024.css in Resources */,
 				67D75EFB170290A000C2F152 /* Alarm.wav in Resources */,
 				6746CEC317BCB0270042E1EF /* contact_iOS7.png in Resources */,
 				67CCB8AE17097E8400500A76 /* month_collapse.png in Resources */,
@@ -6614,6 +6645,7 @@
 				67EC1B2017169F0900582703 /* filter_day@2x.png in Resources */,
 				67EC1B2217169F0900582703 /* filter_week.png in Resources */,
 				6700B2B717F2874400AD8B3F /* menu_star_white@2x.png in Resources */,
+				67296F6E181631E900CD834A /* LCL_Products_Page_1024.html in Resources */,
 				6726C64E180FDD37007E2607 /* slider_3_iphone5.jpg in Resources */,
 				67EC1B2417169F0900582703 /* filter_week@2x.png in Resources */,
 				67EC1B271716BE6700582703 /* done_btn@2x.png in Resources */,
@@ -6753,6 +6785,7 @@
 				67EC0D4F16F8081F00929BFD /* EstimatedHoursHint.htm in Resources */,
 				67EC0D5016F8081F00929BFD /* EventMapHint.htm in Resources */,
 				67EC0D5116F8081F00929BFD /* GoalHint.htm in Resources */,
+				67296F72181631E900CD834A /* SmartApps_1024_css.css in Resources */,
 				67EC0D5216F8081F00929BFD /* 1_small_graphic.png in Resources */,
 				67EC0D5316F8081F00929BFD /* 1_task_drawer.png in Resources */,
 				67EC0D5416F8081F00929BFD /* 2_filter.png in Resources */,
@@ -6821,6 +6854,7 @@
 				67EC0D8816F8081F00929BFD /* bg_pattern.png in Resources */,
 				67EC0D8916F8081F00929BFD /* black_menu.png in Resources */,
 				67EC0D8A16F8081F00929BFD /* blue-small.png in Resources */,
+				67296F611816267900CD834A /* SD_aboutUS_1024.html in Resources */,
 				67EC0D8B16F8081F00929BFD /* blue_button.png in Resources */,
 				67EC0D8C16F8081F00929BFD /* blue_menu.png in Resources */,
 				67EC0D8D16F8081F00929BFD /* bluebg.png in Resources */,
@@ -6842,6 +6876,7 @@
 				67EC0D9B16F8081F00929BFD /* bottom_focus.png in Resources */,
 				67EC0D9C16F8081F00929BFD /* bottom_focus@2x.png in Resources */,
 				67EC0D9D16F8081F00929BFD /* bottom_note.png in Resources */,
+				67296F75181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */,
 				67EC0D9E16F8081F00929BFD /* bottom_note@2x.png in Resources */,
 				6746CEBE17BCADA80042E1EF /* QuickAddAccessoryView_iPad.xib in Resources */,
 				67EC0D9F16F8081F00929BFD /* bottom_task.png in Resources */,
@@ -6888,6 +6923,7 @@
 				67EC0DC616F8081F00929BFD /* focus_handle.png in Resources */,
 				67EC0DC716F8081F00929BFD /* focus_separator.png in Resources */,
 				67EC0DC816F8081F00929BFD /* focus_separator@2x.png in Resources */,
+				67296F641816267900CD834A /* SD_bg_1024.jpg in Resources */,
 				67EC0DC916F8081F00929BFD /* Go.png in Resources */,
 				67EC0DCA16F8081F00929BFD /* gray_button.png in Resources */,
 				67EC0DCB16F8081F00929BFD /* graybg.png in Resources */,
@@ -7292,6 +7328,7 @@
 				670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				67296F671816267900CD834A /* SD_css_1024.css in Resources */,
 				67D75EFC170290A000C2F152 /* Alarm.wav in Resources */,
 				6746CEC417BCB0270042E1EF /* contact_iOS7.png in Resources */,
 				67CCB8AF17097E8400500A76 /* month_collapse.png in Resources */,
@@ -7306,6 +7343,7 @@
 				67EC1B2117169F0900582703 /* filter_day@2x.png in Resources */,
 				67EC1B2317169F0900582703 /* filter_week.png in Resources */,
 				6700B2B817F2874400AD8B3F /* menu_star_white@2x.png in Resources */,
+				67296F6F181631E900CD834A /* LCL_Products_Page_1024.html in Resources */,
 				6726C64F180FDD37007E2607 /* slider_3_iphone5.jpg in Resources */,
 				67EC1B2517169F0900582703 /* filter_week@2x.png in Resources */,
 				67EC1B281716BE6700582703 /* done_btn@2x.png in Resources */,
@@ -7451,13 +7489,11 @@
 				6748B84D180401820043A80E /* GrowingTextView.m in Sources */,
 				6748B84E180401820043A80E /* CalendarADEView.m in Sources */,
 				6748B84F180401820043A80E /* CalendarDayLayoutController.m in Sources */,
-				6748B850180401820043A80E /* CalendarEditTableViewController.m in Sources */,
 				6748B851180401820043A80E /* CalendarMovableController.m in Sources */,
 				6748B852180401820043A80E /* CalendarSelectionTableViewController.m in Sources */,
 				6748B853180401820043A80E /* CalendarViewController.m in Sources */,
 				6748B854180401820043A80E /* CategoryLayoutController.m in Sources */,
 				6748B855180401820043A80E /* CategoryMovableController.m in Sources */,
-				6748B856180401820043A80E /* CategoryNoteViewController.m in Sources */,
 				6748B857180401820043A80E /* CategoryViewController.m in Sources */,
 				6748B858180401820043A80E /* CGRectObj.m in Sources */,
 				6748B859180401820043A80E /* ColorPickerViewController.m in Sources */,
@@ -7470,7 +7506,6 @@
 				6748B860180401820043A80E /* ContentView.m in Sources */,
 				6748B861180401820043A80E /* CustomTextView.m in Sources */,
 				6748B862180401820043A80E /* DateJumpView.m in Sources */,
-				6748B863180401820043A80E /* DatePickerViewController.m in Sources */,
 				6748B864180401820043A80E /* DayHeaderView.m in Sources */,
 				6748B865180401820043A80E /* DBManager.m in Sources */,
 				6748B866180401820043A80E /* DefaultDurationViewController.m in Sources */,
@@ -7497,8 +7532,6 @@
 				6748B87B180401820043A80E /* MonthlyCellView.m in Sources */,
 				6748B87C180401820043A80E /* MovableController.m in Sources */,
 				6748B87D180401820043A80E /* MovableView.m in Sources */,
-				6748B87E180401820043A80E /* NoteDetailTableViewController.m in Sources */,
-				6748B87F180401820043A80E /* NoteInfoViewController.m in Sources */,
 				6748B880180401820043A80E /* NoteViewController.m in Sources */,
 				6748B881180401820043A80E /* NSDataBase64.m in Sources */,
 				6748B882180401820043A80E /* NumberInputViewController.m in Sources */,
@@ -7534,7 +7567,6 @@
 				6748B8A0180401820043A80E /* TagEditViewController.m in Sources */,
 				6748B8A1180401820043A80E /* TagListViewController.m in Sources */,
 				6748B8A2180401820043A80E /* Task.m in Sources */,
-				6748B8A3180401820043A80E /* TaskDetailTableViewController.m in Sources */,
 				6748B8A4180401820043A80E /* TaskLinkManager.m in Sources */,
 				6748B8A5180401820043A80E /* TaskLinkView.m in Sources */,
 				6748B8A6180401820043A80E /* TaskManager.m in Sources */,
@@ -7663,13 +7695,11 @@
 				6749348917B381EE00AEA74A /* GrowingTextView.m in Sources */,
 				67CF2CC016195196001FE1AA /* CalendarADEView.m in Sources */,
 				67CF2CC116195196001FE1AA /* CalendarDayLayoutController.m in Sources */,
-				67CF2CC216195196001FE1AA /* CalendarEditTableViewController.m in Sources */,
 				67CF2CC416195196001FE1AA /* CalendarMovableController.m in Sources */,
 				67CF2CC516195196001FE1AA /* CalendarSelectionTableViewController.m in Sources */,
 				67CF2CC616195196001FE1AA /* CalendarViewController.m in Sources */,
 				67CF2CC816195196001FE1AA /* CategoryLayoutController.m in Sources */,
 				67CF2CC916195196001FE1AA /* CategoryMovableController.m in Sources */,
-				67CF2CCA16195196001FE1AA /* CategoryNoteViewController.m in Sources */,
 				67CF2CCB16195196001FE1AA /* CategoryViewController.m in Sources */,
 				67CF2CCC16195196001FE1AA /* CGRectObj.m in Sources */,
 				67CF2CD016195196001FE1AA /* ColorPickerViewController.m in Sources */,
@@ -7682,7 +7712,6 @@
 				67CF2CD716195196001FE1AA /* ContentView.m in Sources */,
 				67CF2CD816195196001FE1AA /* CustomTextView.m in Sources */,
 				67CF2CD916195196001FE1AA /* DateJumpView.m in Sources */,
-				67CF2CDA16195196001FE1AA /* DatePickerViewController.m in Sources */,
 				67CF2CDB16195196001FE1AA /* DayHeaderView.m in Sources */,
 				67CF2CDD16195196001FE1AA /* DBManager.m in Sources */,
 				67CF2CDE16195196001FE1AA /* DefaultDurationViewController.m in Sources */,
@@ -7709,8 +7738,6 @@
 				67CF2CFE16195196001FE1AA /* MonthlyCellView.m in Sources */,
 				67CF2D0416195196001FE1AA /* MovableController.m in Sources */,
 				67CF2D0516195196001FE1AA /* MovableView.m in Sources */,
-				67CF2D0A16195196001FE1AA /* NoteDetailTableViewController.m in Sources */,
-				67CF2D0B16195196001FE1AA /* NoteInfoViewController.m in Sources */,
 				67CF2D0C16195196001FE1AA /* NoteViewController.m in Sources */,
 				67CF2D0D16195196001FE1AA /* NSDataBase64.m in Sources */,
 				67CF2D0E16195196001FE1AA /* NumberInputViewController.m in Sources */,
@@ -7746,7 +7773,6 @@
 				67CF2D2D16195196001FE1AA /* TagEditViewController.m in Sources */,
 				67CF2D2E16195196001FE1AA /* TagListViewController.m in Sources */,
 				67CF2D2F16195196001FE1AA /* Task.m in Sources */,
-				67CF2D3016195196001FE1AA /* TaskDetailTableViewController.m in Sources */,
 				67CF2D3216195196001FE1AA /* TaskLinkManager.m in Sources */,
 				67CF2D3316195196001FE1AA /* TaskLinkView.m in Sources */,
 				67CF2D3416195196001FE1AA /* TaskManager.m in Sources */,
@@ -7875,13 +7901,11 @@
 				6749348A17B381EE00AEA74A /* GrowingTextView.m in Sources */,
 				67EC0C8C16F8081F00929BFD /* CalendarADEView.m in Sources */,
 				67EC0C8D16F8081F00929BFD /* CalendarDayLayoutController.m in Sources */,
-				67EC0C8E16F8081F00929BFD /* CalendarEditTableViewController.m in Sources */,
 				67EC0C9016F8081F00929BFD /* CalendarMovableController.m in Sources */,
 				67EC0C9116F8081F00929BFD /* CalendarSelectionTableViewController.m in Sources */,
 				67EC0C9216F8081F00929BFD /* CalendarViewController.m in Sources */,
 				67EC0C9316F8081F00929BFD /* CategoryLayoutController.m in Sources */,
 				67EC0C9416F8081F00929BFD /* CategoryMovableController.m in Sources */,
-				67EC0C9516F8081F00929BFD /* CategoryNoteViewController.m in Sources */,
 				67EC0C9616F8081F00929BFD /* CategoryViewController.m in Sources */,
 				67EC0C9716F8081F00929BFD /* CGRectObj.m in Sources */,
 				67EC0C9816F8081F00929BFD /* ColorPickerViewController.m in Sources */,
@@ -7894,7 +7918,6 @@
 				67EC0C9F16F8081F00929BFD /* ContentView.m in Sources */,
 				67EC0CA016F8081F00929BFD /* CustomTextView.m in Sources */,
 				67EC0CA116F8081F00929BFD /* DateJumpView.m in Sources */,
-				67EC0CA216F8081F00929BFD /* DatePickerViewController.m in Sources */,
 				67EC0CA316F8081F00929BFD /* DayHeaderView.m in Sources */,
 				67EC0CA416F8081F00929BFD /* DBManager.m in Sources */,
 				67EC0CA516F8081F00929BFD /* DefaultDurationViewController.m in Sources */,
@@ -7921,8 +7944,6 @@
 				67EC0CB916F8081F00929BFD /* MonthlyCellView.m in Sources */,
 				67EC0CBA16F8081F00929BFD /* MovableController.m in Sources */,
 				67EC0CBB16F8081F00929BFD /* MovableView.m in Sources */,
-				67EC0CBC16F8081F00929BFD /* NoteDetailTableViewController.m in Sources */,
-				67EC0CBD16F8081F00929BFD /* NoteInfoViewController.m in Sources */,
 				67EC0CBE16F8081F00929BFD /* NoteViewController.m in Sources */,
 				67EC0CBF16F8081F00929BFD /* NSDataBase64.m in Sources */,
 				67EC0CC016F8081F00929BFD /* NumberInputViewController.m in Sources */,
@@ -7958,7 +7979,6 @@
 				67EC0CDC16F8081F00929BFD /* TagEditViewController.m in Sources */,
 				67EC0CDD16F8081F00929BFD /* TagListViewController.m in Sources */,
 				67EC0CDE16F8081F00929BFD /* Task.m in Sources */,
-				67EC0CDF16F8081F00929BFD /* TaskDetailTableViewController.m in Sources */,
 				67EC0CE016F8081F00929BFD /* TaskLinkManager.m in Sources */,
 				67EC0CE116F8081F00929BFD /* TaskLinkView.m in Sources */,
 				67EC0CE216F8081F00929BFD /* TaskManager.m in Sources */,

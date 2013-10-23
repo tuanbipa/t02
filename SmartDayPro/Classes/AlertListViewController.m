@@ -97,6 +97,7 @@
 	[contentView addSubview:alertTableView];
 	[alertTableView release];
 	
+    /*
     hintView = [[GuideWebView alloc] initWithFrame:frm];
 	[hintView loadHTMLFile:@"TaskAlertHint" extension:@"htm"];
     hintView.backgroundColor = [UIColor clearColor];
@@ -104,6 +105,21 @@
 	
 	[contentView addSubview:hintView];
 	[hintView release];
+    */
+    
+    frm = CGRectInset(contentView.bounds, 5, 5);
+    frm.size.height = 40;
+    
+    hintView = [[UILabel alloc] initWithFrame:frm];
+    hintView.backgroundColor = [UIColor clearColor];
+    hintView.textColor = [UIColor grayColor];
+    hintView.font = [UIFont systemFontOfSize:(_isiPad?16:14)];
+    hintView.numberOfLines = 0;
+    hintView.text = _alertHint;
+    hintView.hidden = YES;
+    
+    [contentView addSubview:hintView];
+    [hintView release];
 	
 	self.view = contentView;
 	[contentView release];	

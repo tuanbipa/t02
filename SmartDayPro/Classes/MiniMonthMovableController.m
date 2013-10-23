@@ -28,8 +28,8 @@
 #import "SmartDayViewController.h"
 //#import "iPadSmartDayViewController.h"
 
-#import "NoteDetailTableViewController.h"
-#import "TaskDetailTableViewController.h"
+//#import "NoteDetailTableViewController.h"
+//#import "TaskDetailTableViewController.h"
 
 #import "ScheduleView.h"
 #import "CalendarViewController.h"

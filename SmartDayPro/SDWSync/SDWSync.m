@@ -1579,7 +1579,8 @@ NSInteger _sdwColor[32] = {
     
     NSInteger secs = 0;
     
-    if (ret.type == TYPE_EVENT || ret.type == TYPE_ADE)
+    //if (ret.type == TYPE_EVENT || ret.type == TYPE_ADE)
+    if (ret.type == TYPE_EVENT)
     {
         secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:ret.timeZoneId];
     }
@@ -1616,6 +1617,8 @@ NSInteger _sdwColor[32] = {
     if (isEvent)
     {
         ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt+secs]]);
+        
+        printf("Event %s - start: %s - end: %s\n", [ret.name UTF8String], [[ret.startTime description] UTF8String], [[ret.endTime description] UTF8String]);
     }
         
     BOOL star = [[dict objectForKey:@"star"] boolValue];
@@ -1874,7 +1877,8 @@ NSInteger _sdwColor[32] = {
             break;
     }
     
-    if (type == 3)
+    //if (type == 3)
+    if (task.type == TYPE_EVENT)
     {
         NSInteger secs = [Common getSecondsFromTimeZoneID:task.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
         

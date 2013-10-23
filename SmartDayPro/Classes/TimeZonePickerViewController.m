@@ -203,7 +203,7 @@ extern BOOL _isiPad;
     
     if ([ctrler isKindOfClass:[iPadCalendarSettingViewController class]])
     {
-        frm.size.width = 2*frm.size.width/3;
+        frm.size.width = 2*768/3;
     }
     else if ([ctrler isKindOfClass:[DetailViewController class]])
     {
@@ -310,6 +310,11 @@ extern BOOL _isiPad;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self changeOrientation:toInterfaceOrientation];
 }
 
 #pragma mark Table view methods
