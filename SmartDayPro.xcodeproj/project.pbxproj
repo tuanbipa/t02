@@ -170,6 +170,9 @@
 		67296F73181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
 		67296F74181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
 		67296F75181631E900CD834A /* Smartapps_bg_1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */; };
+		67296F7A181665AE00CD834A /* SmartCalDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = 67296F78181665AE00CD834A /* SmartCalDB.sql */; };
+		67296F7B181665AE00CD834A /* SmartCalDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = 67296F78181665AE00CD834A /* SmartCalDB.sql */; };
+		67296F7C181665AE00CD834A /* SmartCalDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = 67296F78181665AE00CD834A /* SmartCalDB.sql */; };
 		672D8BFC180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
 		672D8BFD180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
 		672D8BFE180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
@@ -424,7 +427,6 @@
 		6748B926180401820043A80E /* Start.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9D16195196001FE1AA /* Start.wav */; };
 		6748B927180401820043A80E /* Stop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9E16195196001FE1AA /* Stop.wav */; };
 		6748B928180401820043A80E /* detail_disclosure_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CEC217BCB0270042E1EF /* detail_disclosure_iOS7@2x.png */; };
-		6748B929180401820043A80E /* SmartCalDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D6D161951B7001FE1AA /* SmartCalDB.sql */; };
 		6748B92A180401820043A80E /* CalendarHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D70161951B7001FE1AA /* CalendarHint.htm */; };
 		6748B92B180401820043A80E /* CategoryHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D71161951B7001FE1AA /* CategoryHint.htm */; };
 		6748B92C180401820043A80E /* DeadlineHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D72161951B7001FE1AA /* DeadlineHint.htm */; };
@@ -1273,7 +1275,6 @@
 		67CF2D6716195196001FE1AA /* TDSyncSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2CB516195196001FE1AA /* TDSyncSection.m */; };
 		67CF2D6816195196001FE1AA /* TDTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2CB716195196001FE1AA /* TDTask.m */; };
 		67CF2D6916195196001FE1AA /* TDTaskParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2CB916195196001FE1AA /* TDTaskParser.m */; };
-		67CF2EAB161951B8001FE1AA /* SmartCalDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D6D161951B7001FE1AA /* SmartCalDB.sql */; };
 		67CF2EAD161951B8001FE1AA /* CalendarHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D70161951B7001FE1AA /* CalendarHint.htm */; };
 		67CF2EAE161951B8001FE1AA /* CategoryHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D71161951B7001FE1AA /* CategoryHint.htm */; };
 		67CF2EAF161951B8001FE1AA /* DeadlineHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D72161951B7001FE1AA /* DeadlineHint.htm */; };
@@ -2090,7 +2091,6 @@
 		67EC0D4816F8081F00929BFD /* Pause.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9C16195196001FE1AA /* Pause.wav */; };
 		67EC0D4916F8081F00929BFD /* Start.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9D16195196001FE1AA /* Start.wav */; };
 		67EC0D4A16F8081F00929BFD /* Stop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2C9E16195196001FE1AA /* Stop.wav */; };
-		67EC0D4B16F8081F00929BFD /* SmartCalDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D6D161951B7001FE1AA /* SmartCalDB.sql */; };
 		67EC0D4C16F8081F00929BFD /* CalendarHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D70161951B7001FE1AA /* CalendarHint.htm */; };
 		67EC0D4D16F8081F00929BFD /* CategoryHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D71161951B7001FE1AA /* CategoryHint.htm */; };
 		67EC0D4E16F8081F00929BFD /* DeadlineHint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2D72161951B7001FE1AA /* DeadlineHint.htm */; };
@@ -2797,6 +2797,11 @@
 		67296F68181631E900CD834A /* LCL_Products_Page_1024.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LCL_Products_Page_1024.html; sourceTree = "<group>"; };
 		67296F69181631E900CD834A /* SmartApps_1024_css.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = SmartApps_1024_css.css; sourceTree = "<group>"; };
 		67296F6A181631E900CD834A /* Smartapps_bg_1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Smartapps_bg_1024.jpg; sourceTree = "<group>"; };
+		67296F761816647800CD834A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		67296F771816647F00CD834A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		67296F79181665AE00CD834A /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/SmartCalDB.sql; sourceTree = "<group>"; };
+		67296F7D181665BD00CD834A /* de */ = {isa = PBXFileReference; lastKnownFileType = file; name = de; path = de.lproj/SmartCalDB.sql; sourceTree = "<group>"; };
+		67296F7E181665F700CD834A /* ja */ = {isa = PBXFileReference; lastKnownFileType = file; name = ja; path = ja.lproj/SmartCalDB.sql; sourceTree = "<group>"; };
 		672D8BFA180E72F800624484 /* GuruViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuruViewController.h; sourceTree = "<group>"; };
 		672D8BFB180E72F800624484 /* GuruViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuruViewController.m; sourceTree = "<group>"; };
 		672F54A61622779400480BC4 /* LinkPreviewPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPreviewPane.h; sourceTree = "<group>"; };
@@ -3139,7 +3144,6 @@
 		67CF2CB716195196001FE1AA /* TDTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTask.m; sourceTree = "<group>"; };
 		67CF2CB816195196001FE1AA /* TDTaskParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTaskParser.h; sourceTree = "<group>"; };
 		67CF2CB916195196001FE1AA /* TDTaskParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTaskParser.m; sourceTree = "<group>"; };
-		67CF2D6D161951B7001FE1AA /* SmartCalDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = SmartCalDB.sql; sourceTree = "<group>"; };
 		67CF2D70161951B7001FE1AA /* CalendarHint.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = CalendarHint.htm; sourceTree = "<group>"; };
 		67CF2D71161951B7001FE1AA /* CategoryHint.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = CategoryHint.htm; sourceTree = "<group>"; };
 		67CF2D72161951B7001FE1AA /* DeadlineHint.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = DeadlineHint.htm; sourceTree = "<group>"; };
@@ -4146,6 +4150,7 @@
 		67CF2B2B161950D7001FE1AA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				67296F78181665AE00CD834A /* SmartCalDB.sql */,
 				672D8BFF180E7A2200624484 /* Guru */,
 				6748BBB8180401850043A80E /* SmartDay-Info.plist */,
 				67EC17DB16F8092200929BFD /* SmartDay_iPad-Info.plist */,
@@ -4555,7 +4560,6 @@
 				67E26D7E1741DC1B00638879 /* TimeZone.dat */,
 				67DCDDAC165F790F000DAE8B /* PresetTagDict.dat */,
 				67DCDDAD165F790F000DAE8B /* TagDict.dat */,
-				67CF2D6D161951B7001FE1AA /* SmartCalDB.sql */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -5357,6 +5361,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
+				ja,
 			);
 			mainGroup = 67CF2B15161950D7001FE1AA;
 			productRefGroup = 67CF2B21161950D7001FE1AA /* Products */;
@@ -5382,7 +5388,6 @@
 				6748B926180401820043A80E /* Start.wav in Resources */,
 				6748B927180401820043A80E /* Stop.wav in Resources */,
 				6748B928180401820043A80E /* detail_disclosure_iOS7@2x.png in Resources */,
-				6748B929180401820043A80E /* SmartCalDB.sql in Resources */,
 				6748B92A180401820043A80E /* CalendarHint.htm in Resources */,
 				6748B92B180401820043A80E /* CategoryHint.htm in Resources */,
 				6748B92C180401820043A80E /* DeadlineHint.htm in Resources */,
@@ -6001,6 +6006,7 @@
 				6748BB72180401820043A80E /* noteHeaderBG_full.png in Resources */,
 				6748BB73180401820043A80E /* menu_copylink.png in Resources */,
 				6748BB74180401820043A80E /* menu_copylink@2x.png in Resources */,
+				67296F7A181665AE00CD834A /* SmartCalDB.sql in Resources */,
 				6748BB75180401820043A80E /* menu_defer.png in Resources */,
 				6748BB76180401820043A80E /* menu_defer@2x.png in Resources */,
 				6748BB77180401820043A80E /* menu_done.png in Resources */,
@@ -6080,7 +6086,6 @@
 				67CF2D5C16195196001FE1AA /* Start.wav in Resources */,
 				67CF2D5D16195196001FE1AA /* Stop.wav in Resources */,
 				6746CEC917BCB0270042E1EF /* detail_disclosure_iOS7@2x.png in Resources */,
-				67CF2EAB161951B8001FE1AA /* SmartCalDB.sql in Resources */,
 				67CF2EAD161951B8001FE1AA /* CalendarHint.htm in Resources */,
 				67CF2EAE161951B8001FE1AA /* CategoryHint.htm in Resources */,
 				67CF2EAF161951B8001FE1AA /* DeadlineHint.htm in Resources */,
@@ -6699,6 +6704,7 @@
 				67E55BB11796581D002EB9C8 /* noteHeaderBG_full.png in Resources */,
 				67D04F4A1797EF57004DF012 /* menu_copylink.png in Resources */,
 				67D04F4C1797EF57004DF012 /* menu_copylink@2x.png in Resources */,
+				67296F7B181665AE00CD834A /* SmartCalDB.sql in Resources */,
 				67D04F4E1797EF57004DF012 /* menu_defer.png in Resources */,
 				67D04F501797EF57004DF012 /* menu_defer@2x.png in Resources */,
 				67D04F521797EF57004DF012 /* menu_done.png in Resources */,
@@ -6778,7 +6784,6 @@
 				67EC0D4916F8081F00929BFD /* Start.wav in Resources */,
 				67EC0D4A16F8081F00929BFD /* Stop.wav in Resources */,
 				6746CECA17BCB0270042E1EF /* detail_disclosure_iOS7@2x.png in Resources */,
-				67EC0D4B16F8081F00929BFD /* SmartCalDB.sql in Resources */,
 				67EC0D4C16F8081F00929BFD /* CalendarHint.htm in Resources */,
 				67EC0D4D16F8081F00929BFD /* CategoryHint.htm in Resources */,
 				67EC0D4E16F8081F00929BFD /* DeadlineHint.htm in Resources */,
@@ -7397,6 +7402,7 @@
 				67E55BB21796581D002EB9C8 /* noteHeaderBG_full.png in Resources */,
 				67D04F4B1797EF57004DF012 /* menu_copylink.png in Resources */,
 				67D04F4D1797EF57004DF012 /* menu_copylink@2x.png in Resources */,
+				67296F7C181665AE00CD834A /* SmartCalDB.sql in Resources */,
 				67D04F4F1797EF57004DF012 /* menu_defer.png in Resources */,
 				67D04F511797EF57004DF012 /* menu_defer@2x.png in Resources */,
 				67D04F531797EF57004DF012 /* menu_done.png in Resources */,
@@ -8089,10 +8095,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		67296F78181665AE00CD834A /* SmartCalDB.sql */ = {
+			isa = PBXVariantGroup;
+			children = (
+				67296F79181665AE00CD834A /* en */,
+				67296F7D181665BD00CD834A /* de */,
+				67296F7E181665F700CD834A /* ja */,
+			);
+			name = SmartCalDB.sql;
+			sourceTree = "<group>";
+		};
 		67CF306E161951F2001FE1AA /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				67CF306F161951F2001FE1AA /* en */,
+				67296F761816647800CD834A /* de */,
+				67296F771816647F00CD834A /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

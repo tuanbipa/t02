@@ -68,8 +68,26 @@ static sqlite3_stmt *_top_task_statement = nil;
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success) return;
     // The writable database does not exist, so copy the default to the appropriate location.
-  	NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"SmartCalDB.sql"];
-    success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
+    
+    NSArray *languagesArray = [NSLocale preferredLanguages];
+    NSString *language = [languagesArray objectAtIndex:0];
+    
+   // NSString * rootPath = [[NSBundle mainBundle] resourcePath];
+   // NSString * dbPath = [[NSBundle mainBundle] pathForResource: @"SmartCalDB" ofType: @"sql" inDirectory: rootPath forLocalization: language];
+    
+    NSString *pathComponent = [NSString stringWithFormat:@"%@.lproj/SmartCalDB.sql", language];
+    NSString *dbPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:pathComponent];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath])
+    {
+        dbPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"en.lproj/SmartCalDB.sql"];
+    }
+    
+  	//NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"SmartCalDB.sql"];
+    //success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
+    
+    success = [fileManager copyItemAtPath:dbPath toPath:writableDBPath error:&error];
+    
     if (!success) {
         NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
     }	

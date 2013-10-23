@@ -200,7 +200,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     [tlm deleteLink:self.task linkIndex:index reloadLink:YES];
     
-    [_abstractViewCtrler setNeedsDisplay];
+    [[AbstractActionViewController getInstance] setNeedsDisplay];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; //trigger sync for Link    
 }
@@ -212,12 +212,16 @@ extern iPadViewController *_iPadViewCtrler;
     
     int urlId = [uam createURL:text];
     
+    //printf("URL link - task Id: %d, url Id: %d\n", self.task.primaryKey, urlId);
+    
     NSInteger linkId = [tlm createLink:self.task.primaryKey destId:urlId destType:ASSET_URL];
     
     if (linkId != -1)
     {
         //edit in Category view
         self.task.links = [tlm getLinkIds4Task:task.primaryKey];
+        
+        //printf("create URL link and reload data\n");
         
         [linkTableView reloadData];
         
