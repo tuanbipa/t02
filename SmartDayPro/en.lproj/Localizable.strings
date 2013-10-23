@@ -490,19 +490,18 @@
 "_restoreDBFinishedTitle" = "Restored successfully!";
 "_restoreDBFinishedText" = "Please restart SmartDay. Thanks!";
 
-"_sdwSyncText" = "mySmartDay Sync";
-"_mySDAccountText" = "mySmartDay Account";
+"_sdwSyncText" = "SmartDay Online Sync";
+"_mySDAccountText" = "SmartDay Online Account";
 "_signupText" = "Sign Up";
 "_signinText" = "Sign In";
-"_sdwSyncingText" = "mySmartDay.com Sync'ing ...";
-//"_sdwAccountValidText" = "Verified! Your mySmartDay account is valid.";
-"_sdwAccountValidText" = "Your SmartDay account is valid.  You can now perform two-way sync with mySmartDay.com. You can also perform one-way sync by selecting 'Data Recovery' from the menu on the left.";
-"_sdwAccountInvalidText" = "Your account with mySmartDay.com appears to be invalid. Please check your user name and password. If you cannot remember your password, you can recover it by logging in to mySmartDay.com from any computer browser.";
-//"_sdwSignupSuccessText" = "Your account has been successfully registered to mySmartDay, please check the email to activate the account";
+"_sdwSyncingText" = "SmartDay Online Sync'ing ...";
+
+"_sdwAccountValidText" = "Your SmartDay Online account is valid.  You can now perform two-way sync with SmartDay Online. You can also perform one-way sync by selecting 'Data Recovery' from the menu on the left.";
+"_sdwAccountInvalidText" = "Your account on SmartDay Online appears to be invalid. Please check your user name and password. If you cannot remember your password, you can recover it by logging in to SmartDay Online from any computer browser.";
 "_sdwSignupSuccessText" = "Congratulations!\nPlease check your email to activate your account. If you do not receive an email within 1 hour, please contact support@leftcoastlogic.com.";
 "_sdwSignupFailedText" = "Account registration is failed.";
 "_sdwTokenAcquiryFailedText" = "Token acquiry is failed.";
-"_sdwSyncFailedText" = "mySmartDay.com sync has failed. Please try again later.";
+"_sdwSyncFailedText" = "SmartDay Online sync has failed. Please try again later.";
 "_emailInvalidText" = "Email format is invalid. Please specify another one.";
 "_wifiConnectionOffText" = "Could not connect to server. Please check your WIFI connection.";
 
@@ -542,7 +541,7 @@
 "_noNoteTodayText" = "No notes today";
 "_mustdoText" = "Must do";
 
-"_syncMySmartDayText" = "Sync mySmartDay";
+"_syncMySmartDayText" = "Sync SmartDay Online";
 "_syncToodledoText" = "Sync Toodledo";
 
 "_calendarNameDuplicationText" = "You have duplicated name of the iOS calendars";
@@ -553,8 +552,8 @@
 "_defaultProjectText" = "Default Project";
 "_defaultCategoryText" = "Default Category";
 "_iOSCalSyncText" = "iOS Cal Sync";
-"_mySmartDayToodledoSyncText" = "MySmartDay/Toodledo Sync";
-"_mySmartDayText" = "mySmartDay.com";
+"_mySmartDayToodledoSyncText" = "SmartDay Online/Toodledo Sync";
+"_mySmartDayText" = "SmartDay Online";
 "_toodledoText" = "Toodledo";
 "_descriptionText" = "Description";
 
@@ -574,13 +573,13 @@
 "_unverifiedText" = "Un-verified";
 
 "_replaceDataText" = "Replace Data";
-"_fromSmartDay" = "Replace from this to mySmartDay.com";
-"_toSmartDay" = "Replace from mySmartDay.com to this";
+"_fromSmartDay" = "Replace from this to SmartDay Online";
+"_toSmartDay" = "Replace from SmartDay Online to this";
 
 "_iOSCalText" = "iOS Cal";
 
-"_mySmartDaySyncHint" = "Enable mySmartDay.com sync will disable Toodledo sync and vice versa.";
-"_toodledoSyncHint" = "Enable Toodledo sync will disable mySmartDay.com sync and vice versa.";
+"_mySmartDaySyncHint" = "Enable SmartDay Online sync will disable Toodledo sync and vice versa.";
+"_toodledoSyncHint" = "Enable Toodledo sync will disable SmartDay Online sync and vice versa.";
 
 "_syncOffWarningText" = "Sync is OFF for all sources. Please turn them on in Settings";
 "_deleteSyncDuplicationText" = "Remove Duplicates";
@@ -591,9 +590,9 @@
 //"_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or the Deadline is edited. '0' will disable.  MustDo tasks are marked with a triangle.";
 "_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or the Deadline is edited. '0' will disable.  MustDo tasks are marked with a red strip on the left side.";
 
-"_deleteAllMySDDataConfirmation" = "All data in mySmartDay.com will be deleted and replaced by SmartDay. We recommend you should backup data in mySmartDay.com before doing this action. Are you sure to continue?";
+"_deleteAllMySDDataConfirmation" = "All data in SmartDay Online will be deleted and replaced by SmartDay. We recommend you should backup data in SmartDay Online before doing this action. Are you sure to continue?";
 
-"_deleteAllSDDataConfirmation" = "All data in SmartDay will be deleted and replaced by mySmartDay.com. We recommend you should backup data by email in SmartDay before doing this action. Are you sure to continue?";
+"_deleteAllSDDataConfirmation" = "All data in SmartDay will be deleted and replaced by SmartDay Online. We recommend you should backup data by email in SmartDay before doing this action. Are you sure to continue?";
 
 "_duplicateText" = "Duplicate";
 "_doTodayText" = "Do Today";
@@ -615,9 +614,9 @@
 
 "_syncWizardText" = "Sync Wizard";
 //"_goText" = "Go";
-"_msdSyncFailed" = "mySmartDay sync failed!";
-"_msdBackupFailed" = "You may have some problems with network so data backup request on mySmartDay is failed. Please try to sync later.";
-"_msdBackupHint" = "mySmartDay automatically backed up your data on its server before performing this sync, and will continue to do so  periodically.  Please check to make sure your data is correct.  If not, you can restore your data from the Settings panel in your mySmartDay account.";
+"_msdSyncFailed" = "SmartDay Online sync failed!";
+"_msdBackupFailed" = "You may have some problems with network so data backup request on SmartDay Online is failed. Please try to sync later.";
+"_msdBackupHint" = "SmartDay Online automatically backed up your data on its server before performing this sync, and will continue to do so  periodically.  Please check to make sure your data is correct.  If not, you can restore your data from the Settings panel in your SmartDay Online account.";
 
 "_mySmartDayDotCom" = "mySmartDay.com";
 "_others" = "Others";

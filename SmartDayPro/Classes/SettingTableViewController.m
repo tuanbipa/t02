@@ -1948,7 +1948,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) createSyncSourceSwitchCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-	NSArray *segmentTextContent = [NSArray arrayWithObjects: _mySmartDayDotCom, _others, nil];
+	//NSArray *segmentTextContent = [NSArray arrayWithObjects: _mySmartDayDotCom, _others, nil];
+    NSArray *segmentTextContent = [NSArray arrayWithObjects: _SmartDayOnline, _others, nil];
     
 	UISegmentedControl *syncSegmentedControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
 	syncSegmentedControl.frame = CGRectMake(10, 5, 300, 30);
