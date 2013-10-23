@@ -169,7 +169,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
         self.colorId != project.colorId ||
         self.isTransparent != project.isTransparent ||
         ![self.name isEqualToString:project.name] ||
-    [self.tag isEqualToString:project.tag];
+    ![self.tag isEqualToString:project.tag];
 }
 
 - (id) copyWithZone:(NSZone*) zone{
