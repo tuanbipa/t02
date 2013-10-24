@@ -80,7 +80,8 @@ extern SmartDayViewController *_sdViewCtrler;
 	[contentView addSubview:locationTextField];
 	[locationTextField release];
     
-    UIButton *editLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    UIButton *editLocationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [editLocationButton setImage:[UIImage imageNamed:@"contact_iOS7.png"] forState:UIControlStateNormal];
     editLocationButton.frame = CGRectMake(locationTextField.frame.origin.x + locationTextField.frame.size.width, locationTextField.frame.origin.y-5, 40, 40);
     [editLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
     editLocationButton.tag = -1000;
