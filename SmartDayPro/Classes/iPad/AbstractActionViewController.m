@@ -1956,7 +1956,8 @@ extern DetailViewController *_detailViewCtrler;
     Task *task = [[Task alloc] init];
     task.type = type;
     task.name = name;
-    task.duration = tm.lastTaskDuration;
+    //task.duration = tm.lastTaskDuration;
+    task.duration = settings.taskDuration;
     task.project = tm.lastTaskProjectKey;
     
     task.startTime = type==TYPE_TASK? [settings getWorkingStartTimeForDate:tm.today]:[Common dateByRoundMinute:15 toDate:tm.today];

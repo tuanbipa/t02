@@ -44,7 +44,8 @@ TaskLinkManager *_tlmSingleton = nil;
 {
     NSInteger pk = -1;
     
-    if ((sourceId == destId) || [self checkLinkExist:sourceId destId:destId] || sourceId == -1 || destId == -1)
+    //if ((sourceId == destId) || [self checkLinkExist:sourceId destId:destId] || sourceId == -1 || destId == -1)
+    if ([self checkLinkExist:sourceId destId:destId destType:destType] || sourceId == -1 || destId == -1)
     {
         return -1;
     }
@@ -456,7 +457,8 @@ TaskLinkManager *_tlmSingleton = nil;
     
 }
 
-- (BOOL) checkLinkExist:(NSInteger)srcId destId:(NSInteger)destId
+//- (BOOL) checkLinkExist:(NSInteger)srcId destId:(NSInteger)destId
+- (BOOL) checkLinkExist:(NSInteger)srcId destId:(NSInteger)destId destType:(NSInteger)destType
 {
     BOOL ret = NO;
     
@@ -464,8 +466,9 @@ TaskLinkManager *_tlmSingleton = nil;
     
     sqlite3_stmt *statement;
     
-    const char *sql = "SELECT TaskLink_ID FROM TaskLinkTable WHERE ((Source_ID = ? AND Dest_ID = ?) OR (Source_ID = ? AND Dest_ID = ?)) AND Status <> ?";
-    
+    //const char *sql = "SELECT TaskLink_ID FROM TaskLinkTable WHERE ((Source_ID = ? AND Dest_ID = ?) OR (Source_ID = ? AND Dest_ID = ?)) AND Status <> ?";
+    const char *sql = "SELECT TaskLink_ID FROM TaskLinkTable WHERE Source_ID = ? AND Dest_ID = ? AND Dest_AssetType = ? AND Status <> ?";
+
     if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
     {
         NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -473,9 +476,11 @@ TaskLinkManager *_tlmSingleton = nil;
     
     sqlite3_bind_int(statement, 1, srcId);
     sqlite3_bind_int(statement, 2, destId);
-    sqlite3_bind_int(statement, 3, destId);
-    sqlite3_bind_int(statement, 4, srcId);
-    sqlite3_bind_int(statement, 5, LINK_STATUS_DELETED);
+    //sqlite3_bind_int(statement, 3, destId);
+    //sqlite3_bind_int(statement, 4, srcId);
+    //sqlite3_bind_int(statement, 5, LINK_STATUS_DELETED);
+    sqlite3_bind_int(statement, 3, destType);
+    sqlite3_bind_int(statement, 4, LINK_STATUS_DELETED);
     
     int success = sqlite3_step(statement);
     

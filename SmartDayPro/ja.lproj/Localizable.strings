@@ -746,7 +746,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_atCurrentLocationYouHave" = "At current location you have %d item(s) to do";
 "_alertBasedOnLocationText" = "Alert based on location";
 "_itsTimeToDriveForText" = "It's time to drive for";
-"_openAppleMapsText" = "show in Maps app";
+"_openAppleMapsText" = "Open Apple Maps";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "Please specify Due for Task first to enable Alert definition. Alert time will be relative to Due time.";

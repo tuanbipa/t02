@@ -304,7 +304,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 
 - (void) createSyncSourceSwitchCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-	NSArray *segmentTextContent = [NSArray arrayWithObjects: _mySmartDayDotCom, _others, nil];
+	//NSArray *segmentTextContent = [NSArray arrayWithObjects: _mySmartDayDotCom, _others, nil];
+    NSArray *segmentTextContent = [NSArray arrayWithObjects: _SmartDayOnline, _others, nil];
     
     CGFloat w = settingTableView.bounds.size.width - 20;
     
