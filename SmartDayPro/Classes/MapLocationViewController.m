@@ -11,9 +11,11 @@
 #import "LocationViewController.h"
 #import "DetailViewController.h"
 #import "iPadViewController.h"
+#import "SmartDayViewController.h"
 
 //extern BOOL _isiPad;
 extern iPadViewController *_iPadViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
 
 @interface MapLocationViewController ()
 
@@ -81,23 +83,13 @@ extern iPadViewController *_iPadViewCtrler;
     UIButton *editLocationButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     editLocationButton.frame = CGRectMake(locationTextField.frame.origin.x + locationTextField.frame.size.width, locationTextField.frame.origin.y-5, 40, 40);
     [editLocationButton addTarget:self action:@selector(editLocation:) forControlEvents:UIControlEventTouchUpInside];
+    editLocationButton.tag = -1000;
     [contentView addSubview:editLocationButton];
     
     UIColor *textColor = [UIColor colorWithRed:21.0/255 green:125.0/255 blue:251.0/255 alpha:1];
+    
     // route button
-    
-    /*
-    UIButton *routeButton = [Common createButton:_routeText
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(editLocationButton.frame.origin.x + editLocationButton.frame.size.width + 10, editLocationButton.frame.origin.y, 80, 40)
-                                      titleColor:textColor target:self
-                                        selector:@selector(routeDirection:)
-                                normalStateImage:nil
-                              selectedStateImage:nil];
-    [contentView addSubview:routeButton];
-    */
-    
-    UIButton *routeButton = [Common createButton:_routeText
+    /*UIButton *routeButton = [Common createButton:_routeText
                                       buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(contentView.bounds.size.width - 70, 5, 60, 30)
                                       titleColor:textColor target:self
@@ -109,7 +101,7 @@ extern iPadViewController *_iPadViewCtrler;
     routeButton.layer.borderWidth = 1;
     routeButton.layer.borderColor = [[Colors blueButton] CGColor];
     
-    [contentView addSubview:routeButton];
+    [contentView addSubview:routeButton];*/
    
     // open Apple Maps app
     UIButton *openAppleMaps = [Common createButton:_openAppleMapsText
@@ -119,7 +111,7 @@ extern iPadViewController *_iPadViewCtrler;
                                         selector:@selector(openAppleMaps:)
                                 normalStateImage:nil
                               selectedStateImage:nil];
-    openAppleMaps.tag = -1000;
+    openAppleMaps.tag = -1001;
     openAppleMaps.layer.cornerRadius = 4;
     openAppleMaps.layer.borderWidth = 1;
     openAppleMaps.layer.borderColor = [[Colors blueButton] CGColor];
@@ -138,6 +130,8 @@ extern iPadViewController *_iPadViewCtrler;
     mapView.showsUserLocation = YES;
     [contentView addSubview:mapView];
     [mapView release];
+    
+    [self changeOrientation:self.interfaceOrientation];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -145,6 +139,15 @@ extern iPadViewController *_iPadViewCtrler;
     [super viewWillAppear:animated];
     
     locationTextField.text = self.task.location;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (![locationTextField.text isEqualToString:@""]) {
+        [self routeDirection:nil];
+    }
 }
 
 - (void)viewDidLoad
@@ -308,6 +311,9 @@ extern iPadViewController *_iPadViewCtrler;
                     destinationAnnotation.title = locationTextField.text;
                     [mapView addAnnotation:destinationAnnotation];
                     [destinationAnnotation release];
+                    
+                    //
+                    [self zoomToFitRoutes];
                 }
             }];
             
@@ -352,7 +358,7 @@ extern iPadViewController *_iPadViewCtrler;
     etaLable.text = [NSString stringWithFormat:_isiPad?@"ETA: %@, %@ to destination": @"ETA: %@, %@", distance, [Common getDurationString:totalTime]];
     etaLable.tag = totalTime;
     
-    UIView *openAppleMaps = [contentView viewWithTag:-1000];
+    UIView *openAppleMaps = [contentView viewWithTag:-1001];
     openAppleMaps.hidden = NO;
 }
 
@@ -372,7 +378,7 @@ extern iPadViewController *_iPadViewCtrler;
     } else {
         etaLable.text = @"";
     }
-    UIView *openAppleMaps = [contentView viewWithTag:-1000];
+    UIView *openAppleMaps = [contentView viewWithTag:-1001];
     openAppleMaps.hidden = YES;
 }
 
@@ -383,6 +389,33 @@ extern iPadViewController *_iPadViewCtrler;
     {
         [destination openInMapsWithLaunchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving}];
     }
+}
+
+- (void)zoomToFitRoutes
+{
+    if ( !mapView.overlays || !mapView.overlays.count ) {
+        return;
+    }
+    
+    //Union
+    MKMapRect mapRect = MKMapRectNull;
+    if ( mapView.overlays.count == 1 ) {
+        mapRect = ((id<MKOverlay>)mapView.overlays.lastObject).boundingMapRect;
+    } else {
+        for ( id<MKOverlay> anOverlay in mapView.overlays ) {
+            mapRect = MKMapRectUnion(mapRect, anOverlay.boundingMapRect);
+        }
+    }
+    
+    //Inset
+    /*CGFloat insetProportion = .1;
+    CGFloat insetW = (CGFloat)(mapRect.size.width*insetProportion);
+    CGFloat insetH = (CGFloat)(mapRect.size.height*insetProportion);
+    mapRect = [mapView mapRectThatFits:MKMapRectInset(mapRect, 0.9, 0.9)];*/
+    
+    //Set
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
+    [mapView setRegion:region animated:YES];
 }
 
 #pragma mark textView delegate
@@ -397,6 +430,9 @@ extern iPadViewController *_iPadViewCtrler;
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
 	self.task.location = textField.text;
+    
+    // route
+    [self routeDirection:nil];
 }
 
 #pragma mark Rotation
@@ -404,5 +440,60 @@ extern iPadViewController *_iPadViewCtrler;
 -(NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self changeOrientation:toInterfaceOrientation];
+    
+    if (_iPadViewCtrler != nil)
+    {
+        [_iPadViewCtrler changeOrientation:toInterfaceOrientation];
+    }
+    else if (_sdViewCtrler != nil)
+    {
+        [_sdViewCtrler changeOrientation:toInterfaceOrientation];
+    }
+}
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 20 + 44;
+    
+    CGRect frm = CGRectZero;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        frm.size.height = sz.width;
+        frm.size.width = sz.height;
+    }
+    else
+    {
+        frm.size = sz;
+    }
+    
+    frm.size.height -= 20 + 44;
+    
+    NSInteger seperator = 10;
+    
+    UIView *editLocationButton = [contentView viewWithTag:-1000];
+    
+    CGRect itemFrm = locationTextField.frame;
+    itemFrm.size.width = frm.size.width - itemFrm.origin.x - 2*seperator - editLocationButton.frame.size.width;
+    locationTextField.frame = itemFrm;
+    
+    itemFrm = editLocationButton.frame;
+    itemFrm.origin.x =  locationTextField.frame.origin.x + locationTextField.frame.size.width + seperator;
+    editLocationButton.frame = itemFrm;
+    
+    // open Aplle Maps
+    UIView *openAppleMaps = [contentView viewWithTag:-1001];
+    itemFrm = openAppleMaps.frame;
+    itemFrm.origin.x = frm.size.width - itemFrm.size.width - seperator;
+    openAppleMaps.frame = itemFrm;
+    
+    // map view
+    mapView.frame = CGRectMake(0, etaLable.frame.origin.y + etaLable.frame.size.height + 10, frm.size.width, frm.size.height - etaLable.frame.origin.y + etaLable.frame.size.height + 10);
 }
 @end
