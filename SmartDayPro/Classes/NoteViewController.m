@@ -97,6 +97,8 @@ extern SmartDayViewController *_sdViewCtrler;
 
 -(void)refreshLayout
 {
+    [self cancelMultiEdit];
+    
     [movableController unhighlight];
     [movableController reset];
 	

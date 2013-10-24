@@ -222,6 +222,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 -(void)refreshLayout
 {
+    [self cancelMultiEdit];
+    
     [movableController unhighlight];
 	
     [movableController reset];

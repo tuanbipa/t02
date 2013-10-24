@@ -845,6 +845,8 @@ iPadViewController *_iPadViewCtrler;
     
     [self changeOrientation:toInterfaceOrientation];
     
+    [[[AbstractActionViewController getInstance] getSmartListViewController] refreshLayout];
+    
     [self refreshUnreadComments:nil];
 }
 

@@ -333,6 +333,7 @@ iPadViewController *_iPadViewCtrler;
     }
 }
 
+/*
 - (void) applyFilter
 {
     [super applyFilter];
@@ -341,7 +342,7 @@ iPadViewController *_iPadViewCtrler;
     
     [_iPadViewCtrler refreshFilterStatus];
 }
-
+*/
 #pragma mark Actions
 - (void) expand:(id) sender
 {

@@ -372,6 +372,8 @@ SmartListViewController *_smartListViewCtrler;
 
 -(void)refreshLayout
 {
+    [self cancelMultiEdit];
+    
 	//////NSLog(@"smart list refresh layout\n");
 	//[smartListMovableController unhighlight];
     [movableController unhighlight];
@@ -3101,7 +3103,7 @@ SmartListViewController *_smartListViewCtrler;
 		firstLoad = NO;
 	}
     
-    [self refreshLayout];
+    //[self refreshLayout];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

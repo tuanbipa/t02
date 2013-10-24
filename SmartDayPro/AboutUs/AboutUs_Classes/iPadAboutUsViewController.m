@@ -12,6 +12,10 @@
 
 #import "GuideWebView.h"
 
+#import "iPadViewController.h"
+
+extern iPadViewController *_iPadViewCtrler;
+
 extern BOOL _spLiteVersion;
 
 //extern BOOL _isiPad;
@@ -133,6 +137,8 @@ extern BOOL _spLiteVersion;
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [_iPadViewCtrler willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
     [self changeOrientation:toInterfaceOrientation];
 }
 
