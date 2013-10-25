@@ -62,6 +62,7 @@
 #import "PlannerMonthView.h"
 #import "iPadViewController.h"
 #import "SmartDayViewController.h"
+#import "PlannerView.h"
 
 //extern BOOL _isiPad;
 
@@ -2400,6 +2401,11 @@ extern DetailViewController *_detailViewCtrler;
 	{
         //[_abstractViewCtrler.miniMonthView initCalendar:tm.today];
         [[[AbstractActionViewController getInstance] getMiniMonth] initCalendar:tm.today];
+        
+        if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
+            PlannerViewController *ctrler = (PlannerViewController*)[AbstractActionViewController getInstance];
+            [ctrler.plannerView goToDate:[[tm.today copy] autorelease]];
+        }
 	}
 	
 	[[TagDictionary getInstance] saveDict];
