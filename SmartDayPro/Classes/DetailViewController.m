@@ -302,7 +302,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     CGRect frm = CGRectZero;
     
-    if (UIInterfaceOrientationIsLandscape(orientation))
+    if (UIInterfaceOrientationIsLandscape(orientation) && _isiPad)
     {
         frm.size.height = sz.width;
         frm.size.width = sz.height;
@@ -381,7 +381,10 @@ DetailViewController *_detailViewCtrler = nil;
     
     //UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:_closeText style:UIBarButtonItemStyleDone target:self action:@selector(close:)];
     
-    [self changeOrientation:_iPadViewCtrler.interfaceOrientation];    
+    if (_isiPad)
+    {
+        [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -1001,7 +1004,7 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:titleTextView];
     
     //CGFloat y = [titleTextView getHeight];
-    CGFloat y = titleTextView.bounds.size.height;
+    CGFloat y = titleTextView.bounds.size.height + 10;
     
     UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
     contactButton.frame = CGRectMake(5, y, 25, 25);
@@ -1689,7 +1692,7 @@ DetailViewController *_detailViewCtrler = nil;
         
         //printf("title height: %f\n", h);
         
-        return h + 30;
+        return h + 40;
     }
     else if (indexPath.row == 2 && [self.task isManual])
     {

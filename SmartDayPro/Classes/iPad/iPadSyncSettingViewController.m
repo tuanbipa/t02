@@ -126,6 +126,9 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     else
     {
         self.setting.sdwSyncEnabled = YES;
+        
+        self.setting.autoSyncEnabled = YES;
+        self.setting.autoPushEnabled = YES;
     }
     
     [settingTableView reloadData];

@@ -114,7 +114,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (_isiPad)
     {
-        frm.size.height = 440;
+        frm.size.height = 416;
     }
 	
 	UIView *contentView= [[UIView alloc] initWithFrame:frm];

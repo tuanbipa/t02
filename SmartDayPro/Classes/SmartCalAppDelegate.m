@@ -492,6 +492,7 @@ BOOL _fromBackground = NO;
 
     //[[UINavigationBar appearance] setTintColor:(_isiPad?nil:[UIColor whiteColor])];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UISearchBar appearance] setTintColor:[UIColor blueColor]];
     
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
 
