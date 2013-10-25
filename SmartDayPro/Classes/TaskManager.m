@@ -711,6 +711,73 @@ TaskManager *_sctmSingleton = nil;
 	return list;
 }
 
+- (NSMutableArray *) getDAnchoredTaskListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
+{
+//	NSDate *start = [Common clearTimeForDate:fromDate];
+//	NSDate *end =  [Common getEndDate:toDate];
+//    
+//    NSMutableArray *list = [[DBManager getInstance] getDAnchoredTasksFromDate:start toDate:end];
+//	
+//	list = [self filterList:list];
+//	
+//	[Common sortList:list byKey:@"startTime" ascending:YES];
+//    
+//    [self print:list];
+//	
+//	return list;
+    
+    NSMutableArray *dAnchoredList = [[DBManager getInstance] getDAnchoredTasksFromDate:fromDate toDate:toDate];
+	
+    @synchronized(self)
+    {
+        dAnchoredList = [self filterList:dAnchoredList];
+        
+        ////printf("*** Pure Event List from: %s - to: %s\n", [[fromDate description] UTF8String], [[toDate description] UTF8String]);
+        //[self print:eventList];
+        
+        NSMutableArray *reList = [self filterList:self.REList];
+        
+        //for (Task *re in self.REList)
+        for (Task *re in reList)
+        {
+            if ([re isManual]) {
+                
+                NSTimeInterval reDuration = [re.endTime timeIntervalSinceDate:re.startTime];
+                
+                NSDate *start = [fromDate dateByAddingTimeInterval:-reDuration];
+                
+                //NSMutableArray *reInstanceList = [self expandRE:re fromDate:fromDate toDate:toDate excludeException:YES];
+                NSMutableArray *reInstanceList = [self expandRE:re fromDate:start toDate:toDate excludeException:YES];
+                
+                for (Task *reInstance in reInstanceList)
+                {
+                    if ([reInstance.endTime compare:fromDate] != NSOrderedAscending && [reInstance.endTime compare:toDate] != NSOrderedDescending)
+                    {
+                        [dAnchoredList addObject:reInstance];
+                    }
+                }
+            }
+        }
+    }
+	
+	//if (self.filterData != nil)
+	//{
+	//	eventList = [self filterList:eventList];
+	//}
+	
+	//[self splitEvents:dAnchoredList fromDate:fromDate toDate:toDate];
+	
+	[Common sortList:dAnchoredList byKey:@"startTime" ascending:YES];
+	
+	////printf("*** Event List from: %s - to: %s\n", [[fromDate description] UTF8String], [[toDate description] UTF8String]);
+	
+	//[self print:eventList];
+	
+	////printf("***\n");
+	
+	return dAnchoredList;
+}
+
 - (NSMutableArray *) getATaskListOnDate:(NSDate *)onDate
 {
 	return [self getATaskListFromDate:onDate toDate:onDate];

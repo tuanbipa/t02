@@ -1838,6 +1838,54 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return taskList;
 }
 
+- (NSMutableArray *) getDAnchoredTasksFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
+{
+	NSDate *start = [Common toDBDate:fromDate];
+	NSDate *end = [Common toDBDate:toDate];
+	
+	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:20];
+    
+	sqlite3_stmt *statement = nil;
+    
+    NSInteger defaultOffset = [[NSTimeZone defaultTimeZone] secondsFromGMT];
+    
+	if (statement == nil)
+	{
+		const char *sql = "SELECT Task_ID, CASE WHEN Task_TimeZoneID = 0 THEN Task_StartTime ELSE (Task_StartTime + ? - Task_TimeZoneOffset) END AS StartTime, CASE WHEN Task_TimeZoneID = 0 THEN Task_EndTime ELSE (Task_EndTime + ? - Task_TimeZoneOffset) END AS EndTime FROM TaskTable WHERE ((Task_RepeatData = '' AND Task_GroupID = -1) OR (Task_GroupID <> -1)) AND Task_Type = ?  AND \
+		(EndTime >= ? AND EndTime < ?) AND \
+        Task_Status <> ? AND Task_Status <> ? AND ((Task_ExtraStatus & ?) <> 0)";
+		
+		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK)
+		{
+			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
+    
+	sqlite3_bind_int(statement, 1, defaultOffset);
+	sqlite3_bind_int(statement, 2, defaultOffset);
+	sqlite3_bind_int(statement, 3, TYPE_EVENT);
+	sqlite3_bind_double(statement, 4, [start timeIntervalSince1970]);
+	sqlite3_bind_double(statement, 5, [end timeIntervalSince1970]);
+	//sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
+	//sqlite3_bind_double(statement, 7, [start timeIntervalSince1970]);
+	sqlite3_bind_int(statement, 6, TASK_STATUS_DONE);
+	sqlite3_bind_int(statement, 7, TASK_STATUS_DELETED);
+	sqlite3_bind_int(statement, 8, TASK_EXTRA_STATUS_ANCHORED);
+	
+	while (sqlite3_step(statement) == SQLITE_ROW) {
+		int primaryKey = sqlite3_column_int(statement, 0);
+		Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
+		
+		[taskList addObject:task];
+		[task release];
+	}
+	
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+    
+	return taskList;
+}
+
 - (BOOL) checkDueTasksOnDate:(NSDate *)date
 {
 	BOOL ret = NO;

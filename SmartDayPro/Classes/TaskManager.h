@@ -116,6 +116,7 @@
 - (NSMutableArray *) getSTaskListOnDate:(NSDate *)onDate;
 - (NSMutableArray *) getOverdueTaskList;
 - (NSMutableArray *) getATaskListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
+- (NSMutableArray *) getDAnchoredTaskListFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (NSMutableArray *) getATaskListOnDate:(NSDate *)onDate;
 - (void) initCalendarData:(NSDate *) date;
 - (TaskProgress *) getEventSegment:(Task *)task onDate:(NSDate *)onDate;

@@ -79,7 +79,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         firstOpen = YES;
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(scheduleFinished:)
-													 name:@"ScheduleFinishedNotification" object:nil];
+													 name:@"FastScheduleFinishedNotification" object:nil];
         
         [self initViewControllers];
         moduleSeparatorList = [[NSMutableArray alloc] initWithCapacity:2];
