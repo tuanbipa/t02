@@ -31,7 +31,7 @@
 "_linkMoreText" = "link(s)";
 "_multiSelectHintText" = "You are now in Multi-select mode.  After selecting multiple items, choose an action from the Menu.";
 "_monthViewHintText" = "Busy days are darker than free days.";
-"_rtDoneHintText" = "A new repeating task has been created.";
+"_rtDoneHintText" = "You have created a new repeating task.";
 
 "_aboutText" = "About";
 "_aboutSCText" = "About SmartDay";
@@ -66,22 +66,22 @@
 "_syncCompleteText" = "Sync Complete";
 
 //pragma mark ShoppingListViewController
-"_checkListText" = "Check List";
-"_setAsNeededText" = "Set As Needed";
+//"_checkListText" = "Check List";
+//"_setAsNeededText" = "Set As Needed";
 
 //pragma mark SmartListViewController
 "_tasksText" = "Tasks";
-"_viewAllText" = "View All";
-"_byDueText" = "by Due";
-"_byRecurringText" = "by Recurring";
-"_byActiveText" = "by Active";
-"_byInactiveText" = "by InActive";
+//"_viewAllText" = "View All";
+//"_byDueText" = "by Due";
+//"_byRecurringText" = "by Recurring";
+//"_byActiveText" = "by Active";
+//"_byInactiveText" = "by InActive";
 //"_byPinnedText" = "by Pinned";
 "_byPinnedText" = "by Star";
 "_multiSelectText" = "Multi-Select";
 
-"_unSelectText" = "UnSelect";
-"_singleSelectText" = "Single-Select";
+//"_unSelectText" = "UnSelect";
+//"_singleSelectText" = "Single-Select";
 
 //pragma mark TaskPortraitMovableController
 "_itemDeleteTitle" = "Item Delete";
@@ -103,8 +103,8 @@
 "_durationText" = "Duration";
 "_noteText" = "Note";
 "_tagText" = "Tag";
-"_taskEditTitle" = "Task Edit";
-"_projectChangeText" = "Are you sure to change the project of Task?";
+//"_taskEditTitle" = "Task Edit";
+//"_projectChangeText" = "Are you sure you want to change the project of this Task?";
 "_historyText" = "History";
 "_endText" = "End";
 "_tagGuideText" = "(Tap here to type)";
@@ -193,13 +193,13 @@
 "_taskMarkDoneText" = "Are you sure you want to mark the selected task(s) as Done?";
 
 "_taskUnMarkDoneTitle" = "Un-mark done Task";
-"_taskUnMarkDoneText" = "Are you sure you want to un-mark done the Task?";
+"_taskUnMarkDoneText" = "Are you sure you want to un-mark the Task as 'done'?";
 
 //pragma mark SettingTableViewController
 "_settingTitle" = "Settings";
-"_skinText" = "Skin Style";
-"_appleBlueText" = "Apple Blue";
-"_blackOpaqueText" = "Black Opaque";
+//"_skinText" = "Skin Style";
+//"_appleBlueText" = "Apple Blue";
+//"_blackOpaqueText" = "Black Opaque";
 "_generalText" = "General";
 "_calendarsText" = "Calendars";
 //"_mondayText" = "Monday";
@@ -207,24 +207,24 @@
 "_weekStartText" = "Week Start";
 "_blueText" = "Blue";
 "_blackText" = "Black";
-"_weekdayStartText" = "Weekday Start";
-"_weekdayEndText" = "Weekday End";
-"_weekendStartText" = "Weekend Start";
-"_weekendEndText" = "Weekend End";
+//"_weekdayStartText" = "Weekday Start";
+//"_weekdayEndText" = "Weekday End";
+//"_weekendStartText" = "Weekend Start";
+//"_weekendEndText" = "Weekend End";
 "_workingTimeText" = "Working Times";
-"_weekdayText" = "Weekday";
-"_weekendText" = "Weekend";
+//"_weekdayText" = "Weekday";
+//"_weekendText" = "Weekend";
 "_showInCalendarText" = "Show in Calendar";
 "_moveInCalendarText" = "Move in Calendar";
 "_minSplitSizeText" = "Minimum Split Size";
 "_eventSyncText" = "Event Sync";
 "_autoSyncText" = "Auto Sync";
-"_timeWindowText" = "Time Window";
-"_calendarMappingText" = "Calendar Mapping";
-"_1WText" = "1W";
-"_3WText" = "3W";
-"_3MText" = "3M";
-"_syncDirectionText" = "Sync Direction";
+//"_timeWindowText" = "Time Window";
+//"_calendarMappingText" = "Calendar Mapping";
+//"_1WText" = "1W";
+//"_3WText" = "3W";
+//"_3MText" = "3M";
+//"_syncDirectionText" = "Sync Direction";
 "_syncText" = "Sync";
 
 "_hintsText" = "Hints";
@@ -233,12 +233,12 @@
 "_doneWarningText" = "Done Warning";
 
 //pragma mark CalendarSelectionTableViewController
-"_iPhoneCalendarsText" = "iPhone Calendars";
-"_plsSelectCalToSyncText" = "Please select calendars to sync";
+//"_iPhoneCalendarsText" = "iPhone Calendars";
+//"_plsSelectCalToSyncText" = "Please select calendars to sync";
 
 //pragma mark SyncMappingTableViewController
-"_iCalMappingHeaderText" = "SC Calendar       iPhone Calendar";
-"_mapAllCalendarsText" = "Map All Calendars";
+//"_iCalMappingHeaderText" = "SC Calendar       iPhone Calendar";
+//"_mapAllCalendarsText" = "Map All Calendars";
 
 //pragma mark SyncWindow2SettingViewController
 "_syncWindowText" = "Sync Window";
@@ -315,10 +315,10 @@
 "_aboutUsTitle" = "About Us";
 
 //pragma mark ReportTableViewController
-"_reportTitle" = "Report";
-"_exportToCSVText" = "Export To CSV";
-"_saveSnapshotText" = "Save Snapshot";
-"_mailTitle" = "Mail";
+//"_reportTitle" = "Report";
+//"_exportToCSVText" = "Export To CSV";
+//"_saveSnapshotText" = "Save Snapshot";
+//"_mailTitle" = "Mail";
 
 //pragma mark AlertEditViewController
 "_alertEditText" = "Alert Edit";
@@ -345,8 +345,8 @@
 "_onDateOfEventText" = "On date of Event";
 "_onDueOfTaskText" = "On due of Task";
 
-"_8hoursAfterText" = "8 hours after";
-"_0hoursBeforeText" = "0 hours before (Midnight)";
+//"_8hoursAfterText" = "8 hours after";
+//"_0hoursBeforeText" = "0 hours before (Midnight)";
 "_4hoursBeforeText" = "4 hours before (8:00 pm)";
 "_8hoursBeforeText" = "8 hours before (4:00 pm)";
 "_12hoursBeforeText" = "12 hours before (Noon)";
@@ -368,35 +368,35 @@
 "_accountValidText" = "Toodledo account is valid";
 "_invalidAccountText" = "Invalid Account";
 "_verifiedTitleText" = "Verified!";
-"_accountInvalidText" = "Toodledo acccount is invalid. Please specify another one.";
+"_accountInvalidText" = "Your Toodledo acccount appears to be invalid. Please specify another one.";
 "_errorText" = "Error";
 "_syncErrorText" = "Sync Error";
-"_noInternetConnectionText" = "There is no Internet connection.";
+"_noInternetConnectionText" = "There appears to be no Internet connection.";
 
 
 "_newCalendarText" = "New Calendar";
 "_calendarDeleteTitle" = "Delete Calendar";
 "_calendarDeleteText" = "Are you sure you want to delete the calendar and all associated Tasks and Events?";
-"_eventSyncHintText" = "Only iPhone calendars matching names with SC calendars will be synced. You can go to General > Calendars setting to create/change SC calendar name to match the iPhone calendar you want to sync.";
-"_taskSyncHintText" = "Only Toodledo folders matching names with SC calendars will be synced. You can go to General > Calendars setting to create/change SC calendar name to match the Toodledo folder you want to sync."; 
-"_icalSyncingText" = "iPhone Cal Syncing...";
-"_toodledoSyncingText" = "Toodledo Syncing...";
+//"_eventSyncHintText" = "Only iPhone calendars matching names with SC calendars will be synced. You can go to General > Calendars setting to create/change SC calendar name to match the iPhone calendar you want to sync.";
+//"_taskSyncHintText" = "Only Toodledo folders matching names with SC calendars will be synced. You can go to General > Calendars setting to create/change SC calendar name to match the Toodledo folder you want to sync.";
+//"_icalSyncingText" = "iPhone Cal Syncing...";
+//"_toodledoSyncingText" = "Toodledo Syncing...";
 "_editText" = "Edit";
-"_projectDeleteText" = "Are you sure you want to delete the project and all associated Tasks and Events?";
-"_projectDoneText" = "Are you sure you want to mark done all Tasks in the project?";
+//"_projectDeleteText" = "Are you sure you want to delete the project and all associated Tasks and Events?";
+//"_projectDoneText" = "Are you sure you want to mark done all Tasks in the project?";
 "_projectText" = "Project";
 "_projectsText" = "Projects";
-"_noMatchEventCalendarText" = "There is no SC calendar name matching with iPhone calendars to sync. Please select which iPhone calendars to import to SC.";
-"_noMatchTaskFolderText" = "There is no SC calendar name matching with Toodledo folders to sync. Please select which Toodledo folders to import to SC.";
-"_matchEventCalendarText" = "Sync was performed for the matched iPhone calendar(s)";
-"_matchTaskCalendarText" = "Sync was performed for the matched Toodledo folder(s)";
-"_toMatchEventCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other iPhone calendar to sync more."; 
-"_toMatchTaskCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other Toodledo folder to sync more.";
+//"_noMatchEventCalendarText" = "There is no SC calendar name matching with iPhone calendars to sync. Please select which iPhone calendars to import to SC.";
+//"_noMatchTaskFolderText" = "There is no SC calendar name matching with Toodledo folders to sync. Please select which Toodledo folders to import to SC.";
+//"_matchEventCalendarText" = "Sync was performed for the matched iPhone calendar(s)";
+//"_matchTaskCalendarText" = "Sync was performed for the matched Toodledo folder(s)";
+//"_toMatchEventCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other iPhone calendar to sync more.";
+//"_toMatchTaskCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other Toodledo folder to sync more.";
 "_quickAddNewTask" = "Quick Add New Task ...";
 //"_projectDetailHintText" = "Checked tasks in the Projects list will also be shown in the Task List. The top-most task in each Project is always shown in the Task List.";
-"_projectDetailHintText" = "Tap the icon on the left side of Task to enable/disable showing in the 'Tasks' tab. The top-most active task in each Project (indicated with a Flag) is always shown in the 'Tasks' view.";
+//"_projectDetailHintText" = "Tap the icon on the left side of Task to enable/disable showing in the 'Tasks' tab. The top-most active task in each Project (indicated with a Flag) is always shown in the 'Tasks' view.";
 "_cannotDeleteDefaultProjectText" = "This Project is set as default project for Task in settings. You cannot delete it.";
-"_cannotDeleteExternalProjectText" = "This project is from external source and you cannot delete it in SmartDay for data safety. Please delete it from the external source.";
+"_cannotDeleteExternalProjectText" = "This project is from an external source and you cannot delete it in SmartDay for data safety. Please delete it from the external source.";
 "_closeText" = "Close";
 "_showText" = "Show";
 "_hideText" = "Hide";
@@ -406,12 +406,12 @@
 "_allText" = "All";
 "_newTaskPlaceText" = "New Task Place";
 "_bottomText" = "Bottom";
-"_toodledoFoldersText" = "Toodledo Folders";
-"_itemHideTitle" = "Task Hide";
-"_itemHideText" = "This will hide the selected Task(s) from Tasks View but they will still appear in your Projects View";
+//"_toodledoFoldersText" = "Toodledo Folders";
+//"_itemHideTitle" = "Task Hide";
+//"_itemHideText" = "This will hide the selected Task(s) from Tasks View but they will still appear in your Projects View";
 "_gtdoText" = "GTDo";
-"_deleteAllConfirmationText" = "Are you sure you want to delete all?";
-"_1stTimeEventSyncHintText" = "If you have sync'd your device with iTunes since the last time that you performed an Event sync, please restart your device before performing Event sync again.";
+//"_deleteAllConfirmationText" = "Are you sure you want to delete all?";
+//"_1stTimeEventSyncHintText" = "If you have sync'd your device with iTunes since the last time that you performed an Event sync, please restart your device before performing Event sync again.";
 
 "_startOnText" = "Start On";
 "_dueByText" = "Due By";
@@ -423,7 +423,7 @@
 
 "_changeOrderText" = "Change Order";
 "_convertIntoEventText" = "Convert Event";
-"_moveToPastText" = "Are you sure you want to move this to the past?";
+//"_moveToPastText" = "Are you sure you want to move this to the past?";
 "_warningText" = "Warning";
 "_presetsText" = "Presets";
 "_customText" = "Custom"; 
@@ -440,7 +440,7 @@
 "_categoryText" = "Category";
 "_categoriesText" = "Categories";
 "_readmeText" = "Read Me";
-"_workingTimeHintText" = "Define your working times for each day of the week. SmartDay will then use this to schedule tasks into the free spaces of each day, based upon the sort order in the Tasks view.";
+"_workingTimeHintText" = "Set your working times for each day of the week. SmartDay will then use this to schedule tasks into the free spaces of each day, based upon the sort order in the Tasks view.";
 "_toodledoSignupText" = "Toodledo Signup";
 "_toodledoSignupHintText" = "If you do not already have a Toodledo account, you can register for free here:";
 "_toodledoSignupURLText" = "http://www.toodledo.com/signup.php";
@@ -451,7 +451,7 @@
 "_gtdoTabHintText" = "\"GTDo\" filter automates GTD for you.  The top task from each of your Projects always shows here.  Mark one as \"done\" and the next task from that Project automatically replaces it!";
 "_tagHintText" = "Create tags, then select to show up to 9 as presets.  These can be chosen when you create or edit new Task or Event item.";
 "_loadingText" = "Loading...";
-"_deleteCategoryWarningText" = "Warning!\nThis will delete your Project in all SmartDay apps. It will also delete the corresponding Calendar in your iOS Calendar, and any external calendars such as Exchange and iCloud.  It will also delete your Toodledo Folder of the same name.";
+"_deleteCategoryWarningText" = "Warning!\nThis will delete your Project in all SmartDay apps. It will also delete the corresponding Calendar in your iOS Calendar, and any external calendars such as Exchange and iCloud. It will also delete your Toodledo Folder of the same name.";
 "_keepDataText" = "Keep Data";
 "_yesText" = "Yes";
 "_noText" = "No";
@@ -462,11 +462,11 @@
 "_iconText" = "Icon";
 "_categoryNameExistsText" = "Project name already exists. Please use another one.";
 
-"_v3_1_welcomeTitle" = "Welcome to SmartDay 3.1!";
-"_v3_1_welcomeText" = "We have made major improvements to performance and synchronization. Before using, please tap on the  \"What's New\" button below to read important information.";
+//"_v3_1_welcomeTitle" = "Welcome to SmartDay 3.1!";
+//"_v3_1_welcomeText" = "We have made major improvements to performance and synchronization. Before using, please tap on the  \"What's New\" button below to read important information.";
 
-"_v3_2_welcomeTitle" = "Welcome to SmartDay iOS5";
-"_v3_2_welcomeText" = "New for iOS5: Backup Data, Transparent Calendars, New Colors, and more.";
+//"_v3_2_welcomeTitle" = "Welcome to SmartDay iOS5";
+//"_v3_2_welcomeText" = "New for iOS5: Backup Data, Transparent Calendars, New Colors, and more.";
 
 "_seeDetails" = "See Details";
 "_whatNewText" = "What's New";
@@ -497,12 +497,12 @@
 "_sdwSyncingText" = "SmartDay Online Sync'ing ...";
 
 "_sdwAccountValidText" = "Your SmartDay Online account is valid.  You can now perform two-way sync with SmartDay Online. You can also perform one-way sync by selecting 'Data Recovery' from the menu on the left.";
-"_sdwAccountInvalidText" = "Your account on SmartDay Online appears to be invalid. Please check your user name and password. If you cannot remember your password, you can recover it by logging in to SmartDay Online from any computer browser.";
+"_sdwAccountInvalidText" = "Your account with SmartDay Online appears to be invalid. Please check your user name and password. If you cannot remember your password, you can recover it by logging in to SmartDay Online from any computer browser.";
 "_sdwSignupSuccessText" = "Congratulations!\nPlease check your email to activate your account. If you do not receive an email within 1 hour, please contact support@leftcoastlogic.com.";
 "_sdwSignupFailedText" = "Account registration is failed.";
 "_sdwTokenAcquiryFailedText" = "Token acquiry is failed.";
 "_sdwSyncFailedText" = "SmartDay Online sync has failed. Please try again later.";
-"_emailInvalidText" = "Email format is invalid. Please specify another one.";
+"_emailInvalidText" = "Your Email format appears to be invalid. Please specify another one.";
 "_wifiConnectionOffText" = "Could not connect to server. Please check your WIFI connection.";
 
 "_notePlaceHolderText" = "Type your notes here";
@@ -545,7 +545,7 @@
 "_syncToodledoText" = "Sync Toodledo";
 
 "_calendarNameDuplicationText" = "You have duplicated name of the iOS calendars";
-"_duplicationResolveSuggestionText" = "Tap 'Cancel' to assign unique names before syncing, or 'Proceed' to allow us to rename them for you. If your iPhone calendar(s) are from an external source, you will need to cancel and change the name(s) from that source manually, before proceeding.";
+"_duplicationResolveSuggestionText" = "Tap 'Cancel' to assign unique names before syncing, or 'Proceed' to allow us to rename them for you. If your iOS calendar(s) are from an external source, you will need to cancel and change the name(s) from that source manually, before proceeding.";
 "_proceedText" = "Proceed";
 "_mergeText" = "Merge";
 
@@ -559,7 +559,7 @@
 
 "_convertREIntoTaskConfirmation" = "Do you want to convert this recurring Event into Task?"; 
 "_convertIntoEventConfirmation" = "Do you want to convert this Event into Task?"; 
-"_convertIntoTaskConfirmation" = "Do you want to convert this Task into Event?";
+//"_convertIntoTaskConfirmation" = "Do you want to convert this Task into Event?";
 "_convertIntoPinnedTaskConfirmation" = "If so, this will remove the task from your list and place it in the Calendar. You can return it to the task list for auto scheduling by dragging it from the Calendar back into the task list.";
 "_convertATaskIntoTaskConfirmation" = "This will remove the anchored task from the timeline of your calendar, and place it back into the task list for automatic scheduling.";
 "_convertATaskHeader" = "Anchor your task to a specific time?";
@@ -578,8 +578,8 @@
 
 "_iOSCalText" = "iOS Cal";
 
-"_mySmartDaySyncHint" = "Enable SmartDay Online sync will disable Toodledo sync and vice versa.";
-"_toodledoSyncHint" = "Enable Toodledo sync will disable SmartDay Online sync and vice versa.";
+"_mySmartDaySyncHint" = "Enabling SmartDay Online sync will disable Toodledo sync and vice versa.";
+"_toodledoSyncHint" = "Enabling Toodledo sync will disable SmartDay Online sync and vice versa.";
 
 "_syncOffWarningText" = "Sync is OFF for all sources. Please turn them on in Settings";
 "_deleteSyncDuplicationText" = "Remove Duplicates";
@@ -588,11 +588,11 @@
 "_hintResetCompleteText" = "All hints were reset.";
 
 //"_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or the Deadline is edited. '0' will disable.  MustDo tasks are marked with a triangle.";
-"_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or the Deadline is edited. '0' will disable.  MustDo tasks are marked with a red strip on the left side.";
+"_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or until its Deadline is edited. '0' will disable.  MustDo tasks are marked with a red strip on the left side.";
 
-"_deleteAllMySDDataConfirmation" = "All data in SmartDay Online will be deleted and replaced by SmartDay. We recommend you should backup data in SmartDay Online before doing this action. Are you sure to continue?";
+"_deleteAllMySDDataConfirmation" = "All data in SmartDay Online will be deleted and replaced by SmartDay. We recommend that you backup data in SmartDay Online before performing this action. Are you sure to continue?";
 
-"_deleteAllSDDataConfirmation" = "All data in SmartDay will be deleted and replaced by SmartDay Online. We recommend you should backup data by email in SmartDay before doing this action. Are you sure to continue?";
+"_deleteAllSDDataConfirmation" = "All data in SmartDay will be deleted and replaced by SmartDay Online. We recommend that you backup data by email in SmartDay iOS before performing this action. Are you sure to continue?";
 
 "_duplicateText" = "Duplicate";
 "_doTodayText" = "Do Today";
@@ -610,15 +610,15 @@
 "_synchronizationText" = "Synchronization";
 "_enableText" = "Enable";
 
-"_confirmSyncOnText" = "Before enabling sync, we suggest you visit our online Sync Wizard - particularly if you are using iCloud or iTunes to connect your Calendars on more than one device or computer.\nAlso, we recommend that you do not edit data during sync  (spinning gear).";
+"_confirmSyncOnText" = "Before enabling sync, we suggest you visit our online Sync Wizard - particularly if you are using iCloud or iTunes to connect your Calendars on more than one device or computer.\nAlso, we recommend that you do not edit data during sync (spinning gear).";
 
 "_syncWizardText" = "Sync Wizard";
 //"_goText" = "Go";
 "_msdSyncFailed" = "SmartDay Online sync failed!";
-"_msdBackupFailed" = "You may have some problems with network so data backup request on SmartDay Online is failed. Please try to sync later.";
-"_msdBackupHint" = "SmartDay Online automatically backed up your data on its server before performing this sync, and will continue to do so  periodically.  Please check to make sure your data is correct.  If not, you can restore your data from the Settings panel in your SmartDay Online account.";
+"_msdBackupFailed" = "You may have some problems with your network, so the data backup request on SmartDay Online has failed. Please try to sync later.";
+"_msdBackupHint" = "SmartDay Online automatically backed up your data on its server before performing this sync, and will continue to do so periodically. Please check to make sure your data is correct.  If not, you can restore your data from the Settings panel in your SmartDay Online account.";
 
-"_mySmartDayDotCom" = "mySmartDay.com";
+"_mySmartDayDotCom" = "SmartDay Online";
 "_others" = "Others";
 
 "_syncAtStartUp" = "Sync When Open SmartDay";
@@ -639,7 +639,7 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 "_backupOn" = "Backup on";
 "_backupList" = "Backup List";
 
-"_noSourceFoundText" = "You must have at least one calendar source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure iOS Cal to have that.";
+"_noSourceFoundText" = "You must have at least one calendar source, which can be From My iPhone/iPad/Mac or iCloud. Please check and configure your iOS Calendar accordingly.";
 "_sourceLocalText" = "Local (From My iPhone/iPad)";
 "_sourceiCloudText" = "iCloud";
 "_dontSyncNewCalendars" = "Don't sync new calendars";
@@ -688,7 +688,7 @@ Note: If you select a source that is not showing in your iOS Calendar, your cale
 "_reminderSync" = "Reminder Sync";
 "_reminderText" = "Reminder";
 "_sourceText" = "Source";
-"_reminderNameDuplicationText" = "You have duplicated name of the iOS reminders";
+"_reminderNameDuplicationText" = "You have duplicated name of the iOS Reminders";
 "_reminderDuplicationResolveSuggestionText" = "Tap 'Cancel' to assign unique names before syncing, or 'Proceed' to allow us to rename them for you.";
 "_reminderMultiSourceWarningText" = "SmartDay has detected multiple reminder sources on your iOS calendar. To avoid duplication, you must select only one:\
 1) Go to your Reminders app. \
