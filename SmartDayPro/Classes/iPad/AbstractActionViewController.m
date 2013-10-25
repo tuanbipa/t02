@@ -474,6 +474,8 @@ extern DetailViewController *_detailViewCtrler;
     [plannerCalView refresh];
     [plannerCalView refreshOpeningWeek:nil];
     
+    [_iPadViewCtrler refreshFilterStatus];
+    
     //PlannerBottomDayCal *planerDayCal = [self getPlannerDayCalendarView];
     //[planerDayCal refreshLayout];
 }
@@ -496,8 +498,6 @@ extern DetailViewController *_detailViewCtrler;
     [[self getMiniMonth] initCalendar:[NSDate date]];
     
     [self refreshData];
-    
-    [_iPadViewCtrler refreshFilterStatus];
     
     self.task2Link = nil;
 }
@@ -525,16 +525,6 @@ extern DetailViewController *_detailViewCtrler;
     [tm initSmartListData];
     
     [dt release];
-
-    /*
-    [miniMonthView initCalendar:tm.today];
-    
-    NoteViewController *noteCtrler = [self getNoteViewController];
-    [noteCtrler loadAndShowList];
-    
-    CategoryViewController *catCtrler = [self getCategoryViewController];
-    [catCtrler loadAndShowList];
-    */
     
     [self refreshData];
 }

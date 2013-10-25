@@ -32,6 +32,8 @@
 
 #import "NSData+CommonCrypto.h"
 
+#import "AbstractActionViewController.h"
+
 #define MAX_SYNC_ITEMS 50
 
 typedef enum
@@ -856,6 +858,11 @@ NSInteger _sdwColor[32] = {
     }
 }
 
+- (void) refreshDefaultProjectColor
+{
+    [[[AbstractActionViewController getInstance] getSmartListViewController] refreshQuickAddColor];
+}
+
 - (void) syncSetting
 {
     NSString *url = [NSString stringWithFormat:@"%@/api/settings.json?keyapi=%@",SDWSite,self.sdwSection.key];
@@ -908,9 +915,21 @@ NSInteger _sdwColor[32] = {
             {
                 //printf("update settings SDW->SC\n");
                 
+                BOOL defaultCatChange = settings.taskDefaultProject != sdwSettings.taskDefaultProject;
+                
                 [settings enableExternalUpdate];
                 
                 [settings updateSettings:sdwSettings];
+                
+                if (defaultCatChange)
+                {
+                    TaskManager *tm = [TaskManager getInstance];
+                    
+                    tm.eventDummy.project = settings.taskDefaultProject;
+                    tm.taskDummy.project = settings.taskDefaultProject;
+                    
+                    [self performSelectorOnMainThread:@selector(refreshDefaultProjectColor) withObject:nil waitUntilDone:NO];
+                }
             }
         }
     }
