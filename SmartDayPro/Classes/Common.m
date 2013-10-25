@@ -881,6 +881,10 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     NSUInteger dayOfYear2 = [gregorian ordinalityOfUnit:NSDayCalendarUnit inUnit:NSYearCalendarUnit forDate:dt2];
     
     return dayOfYear1 - dayOfYear2;*/
+    
+    // clear time first
+    dt1 = [self clearTimeForDate:dt1];
+    dt2 = [self clearTimeForDate:dt2];
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit
                                                         fromDate:dt2
