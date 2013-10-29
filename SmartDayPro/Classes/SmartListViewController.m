@@ -3003,8 +3003,7 @@ SmartListViewController *_smartListViewCtrler;
     frm.size.width = _isiPad?364:320;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    //contentView.contentSize = CGSizeMake(frm.size.width, frm.size.height+44);
-    [contentView enableSwipe];
+    //[contentView enableSwipe];
 	
 	self.view = contentView;
 	[contentView release];

@@ -30,9 +30,11 @@
 
 -(BOOL)shouldAutorotate
 {
-    Settings *settings = [Settings getInstance];
+    //Settings *settings = [Settings getInstance];
     
-    return settings.landscapeModeEnable;
+    //return settings.landscapeModeEnable;
+    
+    return YES;
 }
 
 -(NSUInteger)supportedInterfaceOrientations

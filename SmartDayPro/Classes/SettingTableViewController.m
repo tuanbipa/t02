@@ -148,6 +148,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     HintModalViewController *ctrler = [[HintModalViewController alloc] init];
     ctrler.closeEnabled = YES;
     
+    /*
     CGSize sz = [Common getScreenSize];
     
     CGRect frm = CGRectZero;
@@ -159,23 +160,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     ctrler.view = hintView;
     
     [hintView release];
-    
-    /*
-	UIButton *closeButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(sz.width-25, 5, 20, 20)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(closeHint:)
-                                normalStateImage:@"close.png"
-                              selectedStateImage:nil];
-    
-    [hintView addSubview:closeButton];
-    
-    ctrler.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     */
     
     [self presentViewController:ctrler animated:YES completion:NULL];
+    
+    [ctrler loadURL:URL_SYNC];
 }
 
 - (void) save

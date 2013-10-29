@@ -953,6 +953,20 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         
         [[AbstractActionViewController getInstance] resetAllData];
         
+        ProjectManager *pm = [ProjectManager getInstance];
+        
+        Project *firstProject = [pm.projectList objectAtIndex:0];
+        
+        if (firstProject != nil)
+        {
+            Settings *settings = [Settings getInstance];
+            
+            settings.taskDefaultProject = firstProject.primaryKey;
+            settings.updateTime = [NSDate date];
+            
+            [settings saveSettingDict];
+        }
+        
         /*
         UIAlertView *finishedAlert=[[UIAlertView alloc] initWithTitle:_restoreDBFinishedTitle 
                                                               message:_restoreDBFinishedText 

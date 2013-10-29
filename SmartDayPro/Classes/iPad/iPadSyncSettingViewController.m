@@ -56,19 +56,33 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     HintModalViewController *ctrler = [[HintModalViewController alloc] init];
     ctrler.closeEnabled = YES;
     
+    /*
     CGSize sz = [Common getScreenSize];
+    sz.height += 44;
     
     CGRect frm = CGRectZero;
     frm.size = sz;
     
+    UIView *contentView = [[UIView alloc] initWithFrame:frm];
+    contentView.backgroundColor = [Colors darkSlateGray];
+    
+    frm.origin.y = 30;
+    frm.size.height -= 30;
+    
     GuideWebView *hintView = [[GuideWebView alloc] initWithFrame:frm];
     [hintView loadURL:URL_SYNC content:nil];
     
-    ctrler.view = hintView;
+    [contentView addSubview:hintView];
+    
+    ctrler.view = contentView;
     
     [hintView release];
+    [contentView release];
+    */
     
     [self presentViewController:ctrler animated:YES completion:NULL];
+    
+    [ctrler loadURL:URL_SYNC];
 }
 
 -(void) editSDWAccount

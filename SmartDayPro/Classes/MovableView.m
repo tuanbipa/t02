@@ -318,7 +318,7 @@
             switch (tapCount) {
                 case 0:
                 case 1:
-                    [self performSelector:@selector(singleTouch) withObject:nil afterDelay:.4];
+                    [self performSelector:@selector(singleTouch) withObject:nil afterDelay:.3];
                     break;
                 case 2:
                     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTouch) object:nil];

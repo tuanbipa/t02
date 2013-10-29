@@ -2448,14 +2448,14 @@ extern DetailViewController *_detailViewCtrler;
         
         [[[AbstractActionViewController getInstance] getCategoryViewController] loadAndShowList];
         [[[AbstractActionViewController getInstance] getSmartListViewController] refreshQuickAddColor];
-    }
-    
-    Project *prj = [pm getProjectByKey:settings.taskDefaultProject];
-    
-    if (prj != nil)
-    {
-        // to refresh visibility in mySD if it was hidden in mySD before
-        [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
+        
+        Project *prj = [pm getProjectByKey:settings.taskDefaultProject];
+        
+        if (prj != nil)
+        {
+            // to refresh visibility in mySD if it was hidden in mySD before
+            [prj modifyUpdateTimeIntoDB:[dbm getDatabase]];
+        }
     }
     
     if (workTimeChange)
@@ -3129,6 +3129,8 @@ extern DetailViewController *_detailViewCtrler;
 - (void)sdwSyncComplete:(NSNotification *)notification
 {
     [self deselect];
+    
+    [[[AbstractActionViewController getInstance] getSmartListViewController] refreshQuickAddColor];
     
     TaskManager *tm = [TaskManager getInstance];
     

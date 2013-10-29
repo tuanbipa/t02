@@ -470,17 +470,29 @@ extern iPadViewController *_iPadViewCtrler;
 {
 	if (indexPath.section == 1 && editingStyle == UITableViewCellEditingStyleDelete)
 	{
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        for (UIView *view in cell.contentView.subviews)
+        {
+            if ([view isKindOfClass:[UITextField class]])
+            {
+                UITextField *urlTextField = (UITextField *) view;
+                
+                [urlTextField resignFirstResponder];
+            }
+        }
+        
         [self deleteLinkAtIndex:indexPath.row];
         
         [tableView reloadData];
 	}
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-	
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (indexPath.section == 1)
     {
-        return UITableViewCellEditingStyleDelete;	
+        return UITableViewCellEditingStyleDelete;
     }
     
     return UITableViewCellEditingStyleNone;
