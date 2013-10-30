@@ -186,7 +186,7 @@ extern BOOL _scFreeVersion;
         self.snoozeDuration = 15;
 		
 		self.taskDuration = DEFAULT_TASK_DURATION;
-		self.taskDefaultProject = 0;
+		self.taskDefaultProject = 1;
 		self.eventCombination = 0;
 		self.movableAsEvent = 0;
 		//self.newTaskPlacement = 0; //0:on top - 1: at bottom

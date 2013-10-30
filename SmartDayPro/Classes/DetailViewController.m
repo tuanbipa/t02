@@ -2173,10 +2173,13 @@ DetailViewController *_detailViewCtrler = nil;
 	CFRelease(multiEmailValue);
 	self.taskCopy.contactEmail=emailAddress;
 	
-    self.taskCopy.name = [NSString stringWithFormat:@"%@ %@", _meetText, self.taskCopy.contactName];
+    if ([self.taskCopy.name isEqualToString:@""])
+    {
+        self.taskCopy.name = [NSString stringWithFormat:@"%@ %@", _meetText, self.taskCopy.contactName];
     
-    titleTextView.text = self.taskCopy.name;
-	
+        titleTextView.text = self.taskCopy.name;
+	}
+    
 	// remove the controller
     [self dismissViewControllerAnimated:YES completion:NULL];
     

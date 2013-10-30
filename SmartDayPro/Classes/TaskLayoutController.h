@@ -9,6 +9,9 @@
 @class TaskMovableController;
 
 @interface TaskLayoutController : NSObject<UITableViewDelegate, UITableViewDataSource>
+{
+
+}
 
 @property (nonatomic, assign) UITableView *listTableView;
 @property (nonatomic, assign) TaskMovableController *movableCtrler;

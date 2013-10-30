@@ -28,6 +28,7 @@
 #import "CommentManager.h"
 #import "DBManager.h"
 
+#import "SmartListViewController.h"
 #import "CalendarViewController.h"
 #import "iPadSmartDayViewController.h"
 #import "PlannerViewController.h"
@@ -596,6 +597,7 @@ iPadViewController *_iPadViewCtrler;
     [ctrler refreshTaskFilterTitle];
     
     [self refreshToolbar:UIInterfaceOrientationLandscapeLeft];
+
 }
 
 - (void) showPortraitView

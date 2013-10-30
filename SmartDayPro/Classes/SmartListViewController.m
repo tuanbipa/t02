@@ -30,6 +30,7 @@
 #import "ContentView.h"
 #import "ContentScrollView.h"
 #import "ContentTableView.h"
+#import "ContentPullTableView.h"
 #import "FilterView.h"
 #import "GuideWebView.h"
 #import "MiniMonthView.h"
@@ -356,7 +357,7 @@ SmartListViewController *_smartListViewCtrler;
 		}
 	}	
 }
-*/
+
 - (void)clearLayout
 {
     //[self.smartListLayoutController wait4LayoutComplete];
@@ -369,6 +370,7 @@ SmartListViewController *_smartListViewCtrler;
         }
     }
 }
+*/
 
 -(void)refreshLayout
 {
@@ -2078,6 +2080,7 @@ SmartListViewController *_smartListViewCtrler;
 
 #pragma mark UIScrollView Delegate
 
+/*
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView 
 {
 	[self refreshViewAfterScrolling];
@@ -2098,7 +2101,7 @@ SmartListViewController *_smartListViewCtrler;
         [_abstractViewCtrler deselect];
     }
 }
-
+*/
 #pragma mark TextFieldDelegate
 - (IBAction)saveAndMore:(id) sender
 {
@@ -2973,6 +2976,8 @@ SmartListViewController *_smartListViewCtrler;
     
     smartListView.frame = frm;
     
+    //listTableViewCtrler.view.frame = frm;
+    
     CGRect rec = editBarPlaceHolder.frame;
     
     rec.size.width = frm.size.width;
@@ -3013,15 +3018,22 @@ SmartListViewController *_smartListViewCtrler;
     frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
 	
     //smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
-    smartListView = [[ContentTableView alloc] initWithFrame:frm];
+    smartListView = [[ContentPullTableView alloc] initWithFrame:frm];
     //smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
     smartListView.backgroundColor = [UIColor clearColor];
-	smartListView.delegate = self;
-	smartListView.scrollsToTop = NO;	
+	//smartListView.delegate = self;
+	//smartListView.scrollsToTop = NO;
 	smartListView.showsVerticalScrollIndicator = YES;
 	
 	[contentView addSubview:smartListView];
+    //listTableViewCtrler.tableView = smartListView;
 	[smartListView release];
+    
+    //[self enableRefreshControl:YES];
+    
+    //listTableViewCtrler.view.frame = frm;
+    
+    //[contentView addSubview:listTableViewCtrler.view];
     
     maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40)];
     [contentView addSubview:maskView];
@@ -3135,6 +3147,34 @@ SmartListViewController *_smartListViewCtrler;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void) enableRefreshControl:(BOOL)enabled
+{
+    UIRefreshControl *refreshControl = (UIRefreshControl *)[smartListView viewWithTag:-1000];
+    
+    if (refreshControl == nil && enabled)
+    {
+        UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+        refreshControl.tag = -1000;
+        [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+        [smartListView addSubview:refreshControl];
+        [refreshControl release];
+    }
+    else if (refreshControl != nil && !enabled)
+    {
+        [refreshControl removeFromSuperview];
+    }
+
+}
+
+- (void)handleRefresh:(id)sender
+{
+    // do your refresh here...
+    [[AbstractActionViewController getInstance] sync];
+    
+    UIRefreshControl *ctrl = (UIRefreshControl *) sender;
+    [ctrl endRefreshing];
 }
 
 @end
