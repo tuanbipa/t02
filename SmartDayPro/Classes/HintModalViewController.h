@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class GuideWebView;
+
 @interface HintModalViewController : UIViewController
 {
     UIButton *closeButton;
+    
+    UIView *contentView;
+    GuideWebView *hintView;
 }
 
 @property BOOL closeEnabled;
+
+- (void)loadURL:(NSString *)url;
 
 @end

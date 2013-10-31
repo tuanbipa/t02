@@ -14,12 +14,14 @@
 #import "TaskManager.h"
 
 #import "TaskView.h"
+#import "ContentPullTableView.h"
 
 #import "TaskMovableController.h"
 
 //#import "AbstractSDViewController.h"
 #import "SmartListViewController.h"
 #import "iPadViewController.h"
+
 
 //extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
@@ -52,6 +54,11 @@ extern iPadViewController *_iPadViewCtrler;
     self.listKeys = nil;
     
     [super dealloc];
+}
+
+- (void) refresh
+{
+    [listTableView reloadData];
 }
 
 - (void) layout
@@ -310,5 +317,38 @@ extern iPadViewController *_iPadViewCtrler;
     
     return cell;
 }
+
+#pragma mark Scrolling Overrides
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([scrollView isKindOfClass:[ContentPullTableView class]])
+    {
+        ContentPullTableView *pullTableView = (ContentPullTableView *) scrollView;
+        
+        [pullTableView scrollViewWillBeginDragging];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([scrollView isKindOfClass:[ContentPullTableView class]])
+    {
+        ContentPullTableView *pullTableView = (ContentPullTableView *) scrollView;
+        
+        [pullTableView scrollViewDidScroll];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+                  willDecelerate:(BOOL)decelerate
+{
+    if ([scrollView isKindOfClass:[ContentPullTableView class]])
+    {
+        ContentPullTableView *pullTableView = (ContentPullTableView *) scrollView;
+        
+        [pullTableView scrollViewDidEndDragging];
+    }
+}
+
 
 @end

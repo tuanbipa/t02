@@ -9,6 +9,9 @@
 @class TaskMovableController;
 
 @interface TaskLayoutController : NSObject<UITableViewDelegate, UITableViewDataSource>
+{
+
+}
 
 @property (nonatomic, assign) UITableView *listTableView;
 @property (nonatomic, assign) TaskMovableController *movableCtrler;
@@ -18,5 +21,6 @@
 @property NSInteger layoutMode;//0:normal - 1:fast
 
 - (void) layout;
+- (void) refresh;
 
 @end

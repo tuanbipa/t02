@@ -129,5 +129,6 @@
 //- (void) resetMovableController:(BOOL)forPlanner;
 
 - (void) refreshQuickAddColor;
+- (void) enableRefreshControl:(BOOL)enabled;
 
 @end

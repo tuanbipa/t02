@@ -858,10 +858,12 @@ NSInteger _sdwColor[32] = {
     }
 }
 
+/*
 - (void) refreshDefaultProjectColor
 {
     [[[AbstractActionViewController getInstance] getSmartListViewController] refreshQuickAddColor];
 }
+*/
 
 - (void) syncSetting
 {
@@ -928,7 +930,7 @@ NSInteger _sdwColor[32] = {
                     tm.eventDummy.project = settings.taskDefaultProject;
                     tm.taskDummy.project = settings.taskDefaultProject;
                     
-                    [self performSelectorOnMainThread:@selector(refreshDefaultProjectColor) withObject:nil waitUntilDone:NO];
+                    //[self performSelectorOnMainThread:@selector(refreshDefaultProjectColor) withObject:nil waitUntilDone:NO];
                 }
             }
         }
@@ -1637,7 +1639,7 @@ NSInteger _sdwColor[32] = {
     {
         ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt+secs]]);
         
-        printf("Event %s - start: %s - end: %s\n", [ret.name UTF8String], [[ret.startTime description] UTF8String], [[ret.endTime description] UTF8String]);
+        //printf("Event %s - start: %s - end: %s\n", [ret.name UTF8String], [[ret.startTime description] UTF8String], [[ret.endTime description] UTF8String]);
     }
         
     BOOL star = [[dict objectForKey:@"star"] boolValue];
@@ -1653,6 +1655,8 @@ NSInteger _sdwColor[32] = {
         ret.completionTime = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]];
         
         ret.status = TASK_STATUS_DONE;
+        
+        //printf("** task %s is DONE on mSD at:%s\n", [ret.name UTF8String], [[ret.completionTime description] UTF8String]);
     }
     
     //NSString *groupId = ( [dict objectForKey:@"group_id"] != [NSNull null]?[[dict objectForKey:@"group_id"] stringValue]:nil);

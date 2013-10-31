@@ -1021,9 +1021,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [super viewWillAppear:animated];
     
+    /*
     SmartListViewController *ctrler = [self getSmartListViewController];
     
-    [ctrler performSelector:@selector(refreshLayout) withObject:nil afterDelay:0.1];
+    [ctrler performSelector:@selector(refreshLayout) withObject:nil afterDelay:0.1];*/
     
     _plannerViewCtrler = self;
 }
@@ -1032,13 +1033,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     [self deselect];
     [super viewWillDisappear:animated];
-    
-    //[self deselect];
-    
-    //SmartListViewController *ctrler = [self getSmartListViewController];
-    
-    //[ctrler clearLayout];
-    //[ctrler.view removeFromSuperview];
 
     _plannerViewCtrler = nil;
 }

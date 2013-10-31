@@ -62,6 +62,8 @@
     {
         NSTimeZone *tz = [NSTimeZone defaultTimeZone];
         
+        //printf("default TZ name: %s\n", [tz.name UTF8String]);
+        
         self.setting.timeZoneID = [Settings findTimeZoneID:tz];
     }
     

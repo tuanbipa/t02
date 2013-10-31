@@ -55,6 +55,7 @@
     FilterView *filterView;
     DateJumpView *dateJumpView;
     UIImageView *filterIndicator;
+    UIImageView *arrowDownImgView;
     
     LinkPreviewPane *previewPane;
     //MovableView *activeView;

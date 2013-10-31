@@ -383,7 +383,18 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    /*
+    if (_iPadViewCtrler != nil)
+    {
+        [_iPadViewCtrler changeOrientation:_iPadViewCtrler.interfaceOrientation];
+    }
+    else if (_sdViewCtrler != nil)
+    {
+        [_sdViewCtrler changeOrientation:_sdViewCtrler.interfaceOrientation];
+    }*/
 }
+
 
 - (void) viewWillDisappear:(BOOL)animated
 {
@@ -405,9 +416,27 @@ extern SmartDayViewController *_sdViewCtrler;
 
 -(NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
+- (BOOL) shouldAutorotate
+{
+    return YES;
+}
+
+/*
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (_iPadViewCtrler != nil)
+    {
+        [_iPadViewCtrler changeOrientation:toInterfaceOrientation];
+    }
+    else if (_sdViewCtrler != nil)
+    {
+        [_sdViewCtrler changeOrientation:toInterfaceOrientation];
+    }
+}
+*/
 #pragma mark TextField Delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

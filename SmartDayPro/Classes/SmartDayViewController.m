@@ -1705,7 +1705,7 @@ extern BOOL _gtdoTabHintShown;
 }
 
 #pragma mark Hint
-
+/*
 - (void) popupHint
 {
     
@@ -1769,73 +1769,6 @@ extern BOOL _gtdoTabHintShown;
 -(void)popDownHint
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-/*
-- (void) popupHint_
-{
-	Settings *settings = [Settings getInstance];
-    
-	BOOL showHint = (settings.calendarHint && !_calendarHintShown && selectedTabButton.tag == 0) ||
-        (settings.smartListHint && !_smartListHintShown && selectedTabButton.tag == 1) ||
-        (settings.noteHint && !_noteHintShown && selectedTabButton.tag == 2) ||
-        (settings.projectHint && !_projectHintShown && selectedTabButton.tag == 3);
-	
-	if (showHint)
-	{
-        switch (selectedTabButton.tag)
-        {
-            case 0:
-                _calendarHintShown = YES;
-                break;
-            case 1:
-                _smartListHintShown = YES;
-                break;
-            case 2:
-                _noteHintShown = YES;
-                break;
-            case 3:
-                _projectHintShown = YES;
-                break;
-        }
-        
-        GuideWebView *hintLabel = [hintView viewWithTag:10002];
-
-        NSString *hintFileNames[4] = {@"CalendarHint", @"SmartListHint", @"NoteHint", @"ProjectHint"};
-        [hintLabel loadHTMLFile:hintFileNames[selectedTabButton.tag] extension:@"htm"];
-        
-        [contentView bringSubviewToFront:hintView];
-        hintView.hidden = NO;
-        
-        CATransition *animation = [CATransition animation];
-        [animation setDelegate:self];
-        
-        [animation setType:kCATransitionMoveIn];
-        [animation setSubtype:kCATransitionFromTop];
-        
-        // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
-        [animation setDuration:kTransitionDuration];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        
-        [[hintView layer] addAnimation:animation forKey:kTimerViewAnimationKey];
-	}
-}
-
--(void)popDownHint
-{
-	hintView.hidden = YES;
-	
-	CATransition *animation = [CATransition animation];
-	[animation setDelegate:self];
-	
-	[animation setType:kCATransitionReveal];
-	[animation setSubtype:kCATransitionFromBottom];
-	
-	// Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
-	[animation setDuration:kTransitionDuration];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
-	[[hintView layer] addAnimation:animation forKey:kTimerViewAnimationKey];
 }
 */
 
@@ -3305,6 +3238,7 @@ extern BOOL _gtdoTabHintShown;
     [super viewWillAppear:animated];
     
     filterIndicator.hidden = ([[TaskManager getInstance] filterData] == nil);
+    arrowDownImgView.hidden = NO;
     
     //[self changeSkin];
     
@@ -3328,6 +3262,7 @@ extern BOOL _gtdoTabHintShown;
     [super viewWillDisappear:animated];
     
     filterIndicator.hidden = YES;
+    arrowDownImgView.hidden = YES;
     
     if (topButton != nil)
     {
@@ -3365,6 +3300,13 @@ extern BOOL _gtdoTabHintShown;
     //[self performSelector:@selector(tab:) withObject:tabButtons[0] afterDelay:0];
     
     [self changeOrientation:self.interfaceOrientation];
+    
+    arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(155, 30, 10, 10)];
+    
+    arrowDownImgView.image = [UIImage imageNamed:@"arrow_down.png"];
+    
+    [self.navigationController.navigationBar addSubview:arrowDownImgView];
+    [arrowDownImgView release];
 }
 
 - (void)viewDidUnload

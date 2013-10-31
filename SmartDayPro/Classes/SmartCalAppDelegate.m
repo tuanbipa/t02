@@ -492,6 +492,7 @@ BOOL _fromBackground = NO;
 
     //[[UINavigationBar appearance] setTintColor:(_isiPad?nil:[UIColor whiteColor])];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UISearchBar appearance] setTintColor:[UIColor blueColor]];
     
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
 
@@ -951,6 +952,20 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         _dbUpgrade = NO;
         
         [[AbstractActionViewController getInstance] resetAllData];
+        
+        ProjectManager *pm = [ProjectManager getInstance];
+        
+        Project *firstProject = [pm.projectList objectAtIndex:0];
+        
+        if (firstProject != nil)
+        {
+            Settings *settings = [Settings getInstance];
+            
+            settings.taskDefaultProject = firstProject.primaryKey;
+            settings.updateTime = [NSDate date];
+            
+            [settings saveSettingDict];
+        }
         
         /*
         UIAlertView *finishedAlert=[[UIAlertView alloc] initWithTitle:_restoreDBFinishedTitle 

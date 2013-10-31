@@ -628,7 +628,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     //contentView = [[ContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
     contentView = [[ContentView alloc] initWithFrame:frm];
-    [contentView enableSwipe];
+    //[contentView enableSwipe];
     
     self.view = contentView;
     

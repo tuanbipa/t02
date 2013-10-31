@@ -440,7 +440,7 @@ extern iPadViewController *_iPadViewCtrler;
     contentView = [[ContentView alloc] initWithFrame:frm];
 	contentView.backgroundColor = [UIColor clearColor];
     
-    [contentView enableSwipe];
+    //[contentView enableSwipe];
     
     self.view = contentView;
     [contentView release];

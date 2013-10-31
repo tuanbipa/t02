@@ -2092,6 +2092,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	////NSLog(@"sort due 2");
 	
+    /*
 	sortBGInProgress = (self.taskList.count > 30);
 	
 	for (int i=0; i<self.taskList.count; i++)
@@ -2121,7 +2122,7 @@ TaskManager *_sctmSingleton = nil;
             [self updateSortOrderBackground:[[self.taskList retain] autorelease]];
         });
 	}
-	
+	*/
 	////NSLog(@"end sort due");
 	
 }
@@ -2147,6 +2148,7 @@ TaskManager *_sctmSingleton = nil;
 	
 	////NSLog(@"sort start 2");
 	
+    /*
 	sortBGInProgress = (self.taskList.count > 30);
 	
 	for (int i=0; i<self.taskList.count; i++)
@@ -2176,7 +2178,7 @@ TaskManager *_sctmSingleton = nil;
         });
         
 	}
-	
+	*/
 	////NSLog(@"end sort start");
 	
 }
@@ -2201,7 +2203,7 @@ TaskManager *_sctmSingleton = nil;
 	[Common sortList:self.taskList byKey:@"status" ascending:NO];
 	
 	////NSLog(@"sort start 2");
-	
+	/*
 	sortBGInProgress = (self.taskList.count > 30);
 	
 	for (int i=0; i<self.taskList.count; i++)
@@ -2231,7 +2233,7 @@ TaskManager *_sctmSingleton = nil;
         });
         
 	}
-	
+	*/
 	////NSLog(@"end sort start");
 	
 }

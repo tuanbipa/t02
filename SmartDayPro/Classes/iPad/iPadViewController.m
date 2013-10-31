@@ -28,6 +28,7 @@
 #import "CommentManager.h"
 #import "DBManager.h"
 
+#import "SmartListViewController.h"
 #import "CalendarViewController.h"
 #import "iPadSmartDayViewController.h"
 #import "PlannerViewController.h"
@@ -567,24 +568,33 @@ iPadViewController *_iPadViewCtrler;
     [ctrler release];
 }
 
+- (void) removeActiveView
+{
+    BOOL modalVisible = (self.presentedViewController != nil);
+    
+    //printf("modal is show: %s\n", modalVisible?"YES":"NO");
+    
+    if (self.activeViewCtrler != nil && [self.activeViewCtrler.view superview])
+    {
+        [self.activeViewCtrler.view removeFromSuperview];
+        
+        if (modalVisible)
+        {
+            [self.activeViewCtrler viewWillDisappear:NO];
+            [self.activeViewCtrler viewDidDisappear:NO];
+        }
+    }
+}
+
 - (void) showLandscapeView
 {
-    /*
-    if (_iPadSDViewCtrler != nil)
-    {
-        [_iPadSDViewCtrler showTaskModule:NO];
-    }*/
-    
     if (_iPadSDViewCtrler != nil)
     {
         [_iPadSDViewCtrler showModuleOff];
     }
     
-    if (self.activeViewCtrler != nil && [self.activeViewCtrler.view superview])
-    {
-        [self.activeViewCtrler.view removeFromSuperview];
-    }
-        
+    [self removeActiveView];
+    
     PlannerViewController *ctrler = [[PlannerViewController alloc] init];
     
     self.activeViewCtrler = ctrler;
@@ -596,14 +606,12 @@ iPadViewController *_iPadViewCtrler;
     [ctrler refreshTaskFilterTitle];
     
     [self refreshToolbar:UIInterfaceOrientationLandscapeLeft];
+
 }
 
 - (void) showPortraitView
 {
-    if (self.activeViewCtrler != nil && [self.activeViewCtrler.view superview])
-    {
-        [self.activeViewCtrler.view removeFromSuperview];
-    }
+    [self removeActiveView];
 
     self.activeViewCtrler = _iPadSDViewCtrler;
     
@@ -845,7 +853,7 @@ iPadViewController *_iPadViewCtrler;
     
     [self changeOrientation:toInterfaceOrientation];
     
-    [[[AbstractActionViewController getInstance] getSmartListViewController] refreshLayout];
+    //[[[AbstractActionViewController getInstance] getSmartListViewController] refreshLayout];
     
     [self refreshUnreadComments:nil];
 }

@@ -598,6 +598,7 @@ CalendarViewController *_sc2ViewCtrler;
     calendarView.contentOffset = contentOffset;
 }
 
+/*
 - (void) refreshViewAfterScrolling
 {
 	TaskView *activeView = (TaskView *)movableController.activeMovableView;	
@@ -613,6 +614,7 @@ CalendarViewController *_sc2ViewCtrler;
 		[self showSuggestedTime];
 	}
 }
+*/
 
 - (void) showDateJumper:(id)sender
 {
