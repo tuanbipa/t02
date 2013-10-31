@@ -194,12 +194,12 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (AbstractMonthCalendarView *)getPlannerMonthCalendarView
 {
-    return [_plannerViewCtrler getPlannerMonthCalendarView];
+    return _plannerViewCtrler != nil?[_plannerViewCtrler getPlannerMonthCalendarView]:nil;
 }
 
 - (PlannerBottomDayCal *) getPlannerDayCalendarView
 {
-    return [_plannerViewCtrler getPlannerDayCalendarView];
+    return _plannerViewCtrler != nil?[_plannerViewCtrler getPlannerDayCalendarView]:nil;
 }
 
 - (NSString *) showTaskWithOption:(id)sender

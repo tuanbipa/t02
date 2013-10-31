@@ -2994,7 +2994,7 @@ SmartListViewController *_smartListViewCtrler;
     UIButton *moreButton = (UIButton *) [quickAddPlaceHolder viewWithTag:10000];
     moreButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
     
-    //smartListView.contentOffset = offset;
+    [layoutController refresh];
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.

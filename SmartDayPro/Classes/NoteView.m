@@ -81,6 +81,13 @@ extern iPadViewController *_iPadViewCtrler;
     frm.size.width -= 40;
     
     noteTextView.frame = frm;
+    
+    [self removeAllChecks];
+    
+    if (self.note != nil)
+    {
+        [self createCheckButtons:self.note.note];
+    }
 }
 
 - (void) dealloc
@@ -770,7 +777,7 @@ extern iPadViewController *_iPadViewCtrler;
     return YES;
 }
 
-/*
+
 - (void)textViewDidChangeSelection:(UITextView *)textView
 {
     //printf("change selection\n");
@@ -809,6 +816,7 @@ extern iPadViewController *_iPadViewCtrler;
     checkItem.tag = (btn != nil?1:0);
     [checkItem setImage:[UIImage imageNamed:(checkItem.tag == 0?@"CheckOn30.png":@"CheckOn30_blue.png")]];
     
+    /*
     if (cursorRange.length == 0 && (cursorRange.location < noteTextView.text.length))
     {
         unichar c = [noteTextView.text characterAtIndex:cursorRange.location];
@@ -819,7 +827,7 @@ extern iPadViewController *_iPadViewCtrler;
             
             textView.selectedRange = cursorRange;
         }
-    }
+    }*/
 }
-*/
+
 @end

@@ -21,5 +21,6 @@
 @property NSInteger layoutMode;//0:normal - 1:fast
 
 - (void) layout;
+- (void) refresh;
 
 @end

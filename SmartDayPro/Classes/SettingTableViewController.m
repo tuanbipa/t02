@@ -1676,7 +1676,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	cell.textLabel.text = _tasksText;
 	
-	UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(150, 10, 120, 20)];
+	UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(160, 10, 120, 20)];
 	nameLabel.tag = baseTag;
 	nameLabel.textAlignment=NSTextAlignmentRight;
 	nameLabel.backgroundColor=[UIColor clearColor];
@@ -1684,6 +1684,24 @@ extern AbstractSDViewController *_abstractViewCtrler;
     nameLabel.textColor = [UIColor darkGrayColor];
 	nameLabel.text = (!self.settingCopy.tdSyncEnabled && !self.settingCopy.rmdSyncEnabled)?_offText:(self.settingCopy.tdSyncEnabled?_toodledoText:_reminderText);
 
+	[cell.contentView addSubview:nameLabel];
+	[nameLabel release];
+}
+
+- (void) createEventSyncCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];;
+	
+	UILabel *nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(160, 10, 120, 20)];
+	nameLabel.tag = baseTag;
+	nameLabel.textAlignment=NSTextAlignmentRight;
+	nameLabel.backgroundColor=[UIColor clearColor];
+	nameLabel.font=[UIFont boldSystemFontOfSize:16];
+    nameLabel.textColor = [UIColor darkGrayColor];
+	nameLabel.text = self.settingCopy.ekSyncEnabled?_onText:_offText;
+    
 	[cell.contentView addSubview:nameLabel];
 	[nameLabel release];
 }
@@ -2460,8 +2478,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
                     break;
 				case 2:
 				{
-                    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    //cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",_iOSCalSyncText, _eventsText];
+                    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    [self createEventSyncCell:cell baseTag:16020];
                 }
                     break;
             }

@@ -56,6 +56,11 @@ extern iPadViewController *_iPadViewCtrler;
     [super dealloc];
 }
 
+- (void) refresh
+{
+    [listTableView reloadData];
+}
+
 - (void) layout
 {
     TaskManager *tm = [TaskManager getInstance];

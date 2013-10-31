@@ -3238,6 +3238,7 @@ extern BOOL _gtdoTabHintShown;
     [super viewWillAppear:animated];
     
     filterIndicator.hidden = ([[TaskManager getInstance] filterData] == nil);
+    arrowDownImgView.hidden = NO;
     
     //[self changeSkin];
     
@@ -3261,6 +3262,7 @@ extern BOOL _gtdoTabHintShown;
     [super viewWillDisappear:animated];
     
     filterIndicator.hidden = YES;
+    arrowDownImgView.hidden = YES;
     
     if (topButton != nil)
     {
@@ -3298,6 +3300,13 @@ extern BOOL _gtdoTabHintShown;
     //[self performSelector:@selector(tab:) withObject:tabButtons[0] afterDelay:0];
     
     [self changeOrientation:self.interfaceOrientation];
+    
+    arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(155, 30, 10, 10)];
+    
+    arrowDownImgView.image = [UIImage imageNamed:@"arrow_down.png"];
+    
+    [self.navigationController.navigationBar addSubview:arrowDownImgView];
+    [arrowDownImgView release];
 }
 
 - (void)viewDidUnload
