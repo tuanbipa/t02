@@ -49,6 +49,9 @@
 #import "PlannerViewController.h"
 #import "SmartDayViewController.h"
 
+#import "Location.h"
+#import "LocationListViewController.h"
+
 //#import "NoteDetailTableViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
@@ -795,6 +798,15 @@ DetailViewController *_detailViewCtrler = nil;
 	[ctrler release];
 }
 
+- (void)editTaskLocation
+{
+    LocationListViewController *ctrler = [[LocationListViewController alloc] init];
+    ctrler.objectEdit = self.taskCopy;
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    [ctrler release];
+}
+
 - (void) showTimerHistory
 {
 	TimerHistoryViewController *ctrler = [[TimerHistoryViewController alloc] init];
@@ -895,6 +907,14 @@ DetailViewController *_detailViewCtrler = nil;
 {
     [detailTableView beginUpdates];
     [detailTableView endUpdates];
+}
+
+- (void) refreshLocationObject
+{
+    /*
+     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
+    
+    [Common reloadRowOfTable:detailTableView row:1 section:0];
 }
 
 #pragma mark Input Views
@@ -1646,6 +1666,22 @@ DetailViewController *_detailViewCtrler = nil;
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
+- (void) createLocationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+	cell.textLabel.text = _locationText;
+    
+    NSString *detail = _noneText;
+    
+    Location *location = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationID database:[[DBManager getInstance] getDatabase]];
+    if (location.primaryKey > 0) {
+        detail = location.name;
+    }
+    
+    cell.detailTextLabel.text = detail;
+}
+
 #pragma mark TableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -1662,7 +1698,7 @@ DetailViewController *_detailViewCtrler = nil;
         return 0;
     }
     
-    NSInteger count = (showAll?11:7);
+    NSInteger count = (showAll?12:8);
     
     if (self.taskCopy.primaryKey == -1)
     {
@@ -1691,11 +1727,15 @@ DetailViewController *_detailViewCtrler = nil;
         
         return h + 30;
     }
-    else if (indexPath.row == 2 && [self.task isManual])
+    else if (indexPath.row == 1 && ![self.taskCopy isTask])
     {
         return 0;
     }
-    else if (indexPath.row == 3) //start/due
+    else if (indexPath.row == 3 && [self.task isManual])
+    {
+        return 0;
+    }
+    else if (indexPath.row == 4) //start/due
     {
         //return [self.taskCopy isEvent]?120:80;
         
@@ -1708,15 +1748,15 @@ DetailViewController *_detailViewCtrler = nil;
         
         return 80;
     }
-    else if (indexPath.row == 7) //tag
+    else if (indexPath.row == 8) //tag
     {
         return 120;
     }
-    else if (indexPath.row == 8 && [self.taskCopy isEvent]) // timer history of Event
+    else if (indexPath.row == 9 && [self.taskCopy isEvent]) // timer history of Event
     {
         return 0;
     }
-    else if ((showAll && indexPath.row == ([self.task isShared]?11:10)) || (!showAll && indexPath.row == ([self.task isShared]?7:6))) //asset list
+    else if ((showAll && indexPath.row == ([self.task isShared]?12:11)) || (!showAll && indexPath.row == ([self.task isShared]?8:7))) //asset list
     {
         CGFloat h = [self.previewViewCtrler getHeight];
         
@@ -1773,6 +1813,9 @@ DetailViewController *_detailViewCtrler = nil;
             [self createTitleCell:cell baseTag:10000];
             break;
         case 1:
+            [self createLocationCell:cell baseTag:10001];
+            break;
+        case 2:
             if ([self.taskCopy isTask])
             {
                 [self createDurationCell:cell baseTag:10100];
@@ -1782,7 +1825,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self createProjectCell:cell baseTag:10100];
             }
             break;
-        case 2:
+        case 3:
             if ([self.taskCopy isTask])
             {
                 [self createProjectCell:cell baseTag:10200];
@@ -1792,7 +1835,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self createADECell:cell baseTag:10200];
             }
             break;
-        case 3:
+        case 4:
             if ([self.taskCopy isTask])
             {
                 [self createStartDueCell:cell baseTag:10300];
@@ -1802,7 +1845,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self createStartEndCell:cell baseTag:10300];
             }
             break;
-        case 4:
+        case 5:
             if (showAll)
             {
                 [self createRepeatUntilCell:cell baseTag:10400];
@@ -1812,7 +1855,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self createShowMoreCell:cell baseTag:10400];
             }
             break;
-        case 5:
+        case 6:
             if (showAll)
             {
                 [self createAlertCell:cell baseTag:10500];
@@ -1833,7 +1876,7 @@ DetailViewController *_detailViewCtrler = nil;
                 }*/
             }
             break;
-        case 6:
+        case 7:
             if (showAll)
             {
                 [self createDescriptionCell:cell baseTag:10600];
@@ -1854,7 +1897,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self createLinkCell:cell baseTag:10600];
             }*/
             break;
-        case 7:
+        case 8:
             if (showAll)
             {
                 [self createTagCell:cell baseTag:10700];
@@ -1864,10 +1907,10 @@ DetailViewController *_detailViewCtrler = nil;
                 [self createLinkCell:cell baseTag:10700];
             }
             break;
-        case 8:
+        case 9:
             [self createTimerHistoryCell:cell baseTag:10800];
             break;
-        case 9:
+        case 10:
             if ([self.task isShared])
             {
                 [self createCommentCell:cell baseTag:10900];
@@ -1878,7 +1921,7 @@ DetailViewController *_detailViewCtrler = nil;
                 cell.textLabel.text = _assetsText;
             }
             break;
-        case 10:
+        case 11:
             //[self createLinkCell:cell baseTag:11000];
             if ([self.task isShared])
             {
@@ -1889,7 +1932,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self createLinkCell:cell baseTag:11000];
             }
             break;
-        case 11:
+        case 12:
             [self createLinkCell:cell baseTag:11000];
             break;
             
@@ -1903,6 +1946,9 @@ DetailViewController *_detailViewCtrler = nil;
     switch (indexPath.row)
     {
         case 1:
+            [self editTaskLocation];
+            break;
+        case 2:
             if ([self.taskCopy isTask])
             {
                 [self editDuration];
@@ -1912,13 +1958,13 @@ DetailViewController *_detailViewCtrler = nil;
                 [self editProject];
             }
             break;
-        case 2:
+        case 3:
             if ([self.taskCopy isTask])
             {
                 [self editProject];
             }
             break;
-        case 4:
+        case 5:
             if (showAll)
             {
                 [self editRepeat];
@@ -1928,7 +1974,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self showAll];
             }
             break;
-        case 5:
+        case 6:
             if (showAll)
             {
                 [self editAlert];
@@ -1942,7 +1988,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self editLink:nil];
             }
             break;
-        case 6:
+        case 7:
             if (showAll)
             {
                 [self editDescription];
@@ -1952,10 +1998,10 @@ DetailViewController *_detailViewCtrler = nil;
                 [self editLink:nil];
             }
             break;
-        case 8:
+        case 9:
             [self showTimerHistory];
             break;
-        case 9:
+        case 10:
             if ([task isShared])
             {
                 [self editComment];
@@ -1965,7 +2011,7 @@ DetailViewController *_detailViewCtrler = nil;
                 [self editLink:nil];
             }
             break;
-        case 10:
+        case 11:
             [self editLink:nil];
             break;
     }

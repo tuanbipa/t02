@@ -55,6 +55,7 @@
 - (void) refreshTag;
 - (void) refreshLink;
 - (void)refreshHeightForTableCell;
+- (void)refreshLocationObject;
 
 - (void) editAsset:(Task *)asset;
 

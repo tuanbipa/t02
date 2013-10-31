@@ -62,7 +62,10 @@
     NSInteger extraStatus;
     NSInteger source;
 	
-	BOOL isExternalUpdate; //this flag is used to not save update time when syncing	
+	BOOL isExternalUpdate; //this flag is used to not save update time when syncing
+    
+    // location fielf
+    NSInteger locationID;
 }
 
 @property NSInteger primaryKey; 
@@ -112,6 +115,8 @@
 @property NSInteger status;
 @property NSInteger extraStatus;
 @property NSInteger source;
+// location field
+@property NSInteger locationID;
 
 - (NSDictionary *) tojson;
 - (void) fromjson:(NSDictionary *)jsonDict;

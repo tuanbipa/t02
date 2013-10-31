@@ -26,6 +26,8 @@
     UIButton *transparentCheckButton;
     
     UIBarButtonItem *saveButton;
+    
+    UILabel *projectLocationLable;
 }
 
 @property (nonatomic, retain) 	Project *project;
@@ -33,5 +35,5 @@
 @property (nonatomic, assign) 	Settings *settings;
 
 - (void) refreshData;
-
+- (void)loadLocation;
 @end

@@ -74,6 +74,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 @synthesize extraStatus;
 @synthesize source;
 
+@synthesize locationID;
+
 - (id)init
 {
 	if (self = [super init])
@@ -115,6 +117,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 		
 		isExternalUpdate = NO;
 		
+        // location field
+        self.locationID = -1;
 		[self resetPlan];
 	}
 	
@@ -169,7 +173,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
         self.colorId != project.colorId ||
         self.isTransparent != project.isTransparent ||
         ![self.name isEqualToString:project.name] ||
-    ![self.tag isEqualToString:project.tag];
+        ![self.tag isEqualToString:project.tag] ||
+        self.locationID != project.locationID;
 }
 
 - (id) copyWithZone:(NSZone*) zone{
@@ -210,7 +215,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	copy.delayedDuration = delayedDuration;
 	copy.revisedWorkBalance = revisedWorkBalance;
 	copy.revisedDeadline = revisedDeadline;
-	
+	copy.locationID = locationID;
 	return copy;
 }
 
@@ -321,6 +326,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
 	{
 		self.endTime = self.revisedDeadline;
 	}
+    
+    self.locationID = prj.locationID;
 }
 
 - (void) refreshPlan
@@ -529,7 +536,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
             const char *sql = "SELECT Project_ID, Project_Type, Project_ColorID, Project_SeqNo, Project_GoalID, \
 			Project_Name, Project_CreationTime, Project_ActualStartTime, Project_StartTime, Project_EndTime, \
 			Project_Hours, Project_WorkBalance, Project_YMargin, Project_PinnedDeadline, Project_EventMappingName, Project_TaskMappingName, \
-			Project_Tag, Project_SyncID, Project_Status, Project_UpdateTime, Project_SDWID, Project_Source, Project_Transparent, Project_ExtraStatus, Project_OwnerName  FROM ProjectTable WHERE Project_ID = ?";
+			Project_Tag, Project_SyncID, Project_Status, Project_UpdateTime, Project_SDWID, Project_Source, Project_Transparent, Project_ExtraStatus, Project_OwnerName, Project_LocationID FROM ProjectTable WHERE Project_ID = ?";
             if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
@@ -596,6 +603,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 			str = (char *)sqlite3_column_text(statement, 24);
 			self.ownerName = (str == NULL? @"":[NSString stringWithUTF8String:str]);
             
+            self.locationID = sqlite3_column_int(statement, 25);
         } 
 		
         // Reset the statement for future reuse.
@@ -630,7 +638,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
         static char *sql = "INSERT INTO ProjectTable (Project_Type,Project_ColorID,Project_SeqNo,Project_GoalID, \
 		Project_Name,Project_CreationTime,Project_ActualStartTime,Project_StartTime,Project_EndTime, \
 		Project_Hours,Project_WorkBalance,Project_YMargin,Project_PinnedDeadline,Project_EventMappingName,Project_TaskMappingName, \
-		Project_Tag,Project_SyncID,Project_Status,Project_UpdateTime,Project_SDWID,Project_Source,Project_Transparent, Project_ExtraStatus, Project_OwnerName) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		Project_Tag,Project_SyncID,Project_Status,Project_UpdateTime,Project_SDWID,Project_Source,Project_Transparent, Project_ExtraStatus, Project_OwnerName, Project_LocationID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -694,6 +702,8 @@ static sqlite3_stmt *prj_delete_statement = nil;
         
     sqlite3_bind_text(statement, 24, [self.ownerName UTF8String], -1, SQLITE_TRANSIENT);
         
+    sqlite3_bind_int(statement, 25, self.locationID);
+        
     int success = sqlite3_step(statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
     //sqlite3_finalize(statement);
@@ -730,7 +740,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
 		static char *sql = "UPDATE ProjectTable SET Project_Type=?, Project_ColorID=?, Project_SeqNo=?, \
 		Project_GoalID=?, Project_Name=?, Project_CreationTime=?, Project_ActualStartTime=?, Project_StartTime=?, Project_EndTime=?, \
 		Project_Hours=?, Project_WorkBalance=?, Project_PinnedDeadline=?,Project_EventMappingName=?,Project_TaskMappingName=?, \
-		Project_Tag=?, Project_SyncID=?, Project_Status=?, Project_UpdateTime=?, Project_SDWID=?, Project_Source=?, Project_Transparent=?, Project_ExtraStatus=?, Project_OwnerName=? WHERE Project_ID = ?";
+		Project_Tag=?, Project_SyncID=?, Project_Status=?, Project_UpdateTime=?, Project_SDWID=?, Project_Source=?, Project_Transparent=?, Project_ExtraStatus=?, Project_OwnerName=?, Project_LocationID=? WHERE Project_ID = ?";
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -781,8 +791,10 @@ static sqlite3_stmt *prj_delete_statement = nil;
     sqlite3_bind_int(statement, 22, self.extraStatus);
         
     sqlite3_bind_text(statement, 23, [self.ownerName UTF8String], -1, SQLITE_TRANSIENT);
+        
+    sqlite3_bind_int(statement, 24, self.locationID);
 	
-	sqlite3_bind_int(statement, 24, self.primaryKey);
+	sqlite3_bind_int(statement, 25, self.primaryKey);
 	
     int success = sqlite3_step(statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.

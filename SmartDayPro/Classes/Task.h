@@ -82,6 +82,9 @@
     
     // location alert
     NSInteger locationAlert;
+    
+    // location ID, reference to Location's primary
+    NSInteger locationID;
 }
 
 @property NSInteger primaryKey; 
@@ -148,6 +151,7 @@
 @property (nonatomic, assign) NSInteger plannerDuration;
 @property (nonatomic, copy) NSDate *plannerStartTime;
 @property NSInteger locationAlert;
+@property NSInteger locationID;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) initialUpdate;

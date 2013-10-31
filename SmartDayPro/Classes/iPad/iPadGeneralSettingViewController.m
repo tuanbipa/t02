@@ -23,6 +23,7 @@
 
 #import "AbstractSDViewController.h"
 #import "SmartCalAppDelegate.h"
+#import "LocationListViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern SmartCalAppDelegate *_appDelegate;
@@ -57,6 +58,15 @@ extern SmartCalAppDelegate *_appDelegate;
 - (void) editTag
 {
     TagListViewController *ctrler = [[TagListViewController alloc] init];
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    
+    [ctrler release];
+}
+
+- (void) editLocation
+{
+    LocationListViewController *ctrler = [[LocationListViewController alloc] init];
     
     [self.navigationController pushViewController:ctrler animated:YES];
     
@@ -288,6 +298,13 @@ extern SmartCalAppDelegate *_appDelegate;
 	cell.textLabel.text = _tagListText;
 }
 
+- (void) createLocationListCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+{
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	cell.textLabel.text = _locationText;
+}
+
 - (void) createSnoozeDurationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -415,9 +432,9 @@ extern SmartCalAppDelegate *_appDelegate;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.setting.geoFencingEnable) {
-        return 9;
+        return 10;
     }
-    return 8;
+    return 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -479,30 +496,35 @@ extern SmartCalAppDelegate *_appDelegate;
             break;
         case 3:
         {
-            [self createSnoozeDurationCell:cell baseTag:10030];
+            [self createLocationListCell:cell baseTag:10021];
         }
             break;
         case 4:
         {
-            [self createDeleteWarningCell:cell baseTag:10040];
+            [self createSnoozeDurationCell:cell baseTag:10030];
         }
             break;
         case 5:
         {
-            [self createSoundEnabledCell:cell baseTag:10050];
+            [self createDeleteWarningCell:cell baseTag:10040];
         }
             break;
         case 6:
         {
-            [self createDeleteSuspectedDuplicationCell:cell baseTag:10060];
+            [self createSoundEnabledCell:cell baseTag:10050];
         }
             break;
         case 7:
         {
-            [self createGeoFencingCell:cell baseTag:10070];
+            [self createDeleteSuspectedDuplicationCell:cell baseTag:10060];
         }
             break;
         case 8:
+        {
+            [self createGeoFencingCell:cell baseTag:10070];
+        }
+            break;
+        case 9:
         {
             [self createGeoIntervalCell:cell baseTag:10080];
         }
@@ -528,6 +550,12 @@ extern SmartCalAppDelegate *_appDelegate;
         }
             break;
         case 3:
+        {
+            // edit Location
+            [self editLocation];
+        }
+            break;
+        case 4:
         {
             [self editSnoozeDuration];
         }

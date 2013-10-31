@@ -21,6 +21,7 @@
 #import "URLAsset.h"
 #import "Comment.h"
 #import "UnreadComment.h"
+#import "Location.h"
 
 extern BOOL _versionUpgrade;
 extern BOOL _firstLaunch;
@@ -4824,6 +4825,11 @@ static sqlite3_stmt *_top_task_statement = nil;
     // add 'alert location' field
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_LocationAlert NUMERIC;", nil, nil, nil);
     
+    // create LocationTable
+    sqlite3_exec(database, "CREATE TABLE LocationTable (Location_ID INTEGER PRIMARY KEY, Location_Name TEXT, Location_Address TEXT, Location_Latitude NUMERIC, Location_Longitude NUMERIC, Location_Inside NUMERIC, Location_UpdateTime NUMERIC)", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE ProjectTable ADD COLUMN Project_LocationID NUMERIC;", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_LocationID NUMERIC;", nil, nil, nil);
+                 
 	NSString *sql = @"UPDATE ProjectTable SET Project_ExtraStatus = ?, Project_OwnerName = ''";
 	sqlite3_stmt *statement;
 	
@@ -4904,6 +4910,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	[Task finalizeStatements];
 	[Project finalizeStatements];
 	[AlertData finalizeStatements];
+    [Location finalizeStatements];
 	
 	[TaskProgress finalizeStatements];
 	

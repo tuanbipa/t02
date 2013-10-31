@@ -733,6 +733,10 @@
 #define _alertBasedOnLocationText NSLocalizedString(@"_alertBasedOnLocationText", "")
 #define _itsTimeToDriveForText NSLocalizedString(@"_itsTimeToDriveForText", "")
 #define _openAppleMapsText NSLocalizedString(@"_openAppleMapsText", "")
+#define _locationNameText NSLocalizedString(@"_locationNameText", "")
+#define _locationAddressText NSLocalizedString(@"_locationAddressText", "")
+#define _noResultsFoundText NSLocalizedString(@"_noResultsFoundText", "")
+#define _didYouMean NSLocalizedString(@"_didYouMean", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")

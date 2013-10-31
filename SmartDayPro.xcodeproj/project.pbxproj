@@ -2703,6 +2703,18 @@
 		A2C17A7517E2E9F200468CC5 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C17A7217E2E9F200468CC5 /* map.png */; };
 		A2C17A7617E2E9F200468CC5 /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C17A7317E2E9F200468CC5 /* map@2x.png */; };
 		A2C17A7717E2E9F200468CC5 /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C17A7317E2E9F200468CC5 /* map@2x.png */; };
+		A2CE6DB6181E0FAD00FAEF05 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */; };
+		A2CE6DB7181E0FAD00FAEF05 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */; };
+		A2CE6DB8181E0FAD00FAEF05 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */; };
+		A2CE6DBB181E395F00FAEF05 /* LocationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */; };
+		A2CE6DBC181E395F00FAEF05 /* LocationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */; };
+		A2CE6DBD181E395F00FAEF05 /* LocationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */; };
+		A2D34C7D181A603F004EB8F1 /* LocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */; };
+		A2D34C7E181A603F004EB8F1 /* LocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */; };
+		A2D34C7F181A603F004EB8F1 /* LocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */; };
+		A2D34C83181A703E004EB8F1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D34C82181A703E004EB8F1 /* Location.m */; };
+		A2D34C84181A703E004EB8F1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D34C82181A703E004EB8F1 /* Location.m */; };
+		A2D34C85181A703E004EB8F1 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D34C82181A703E004EB8F1 /* Location.m */; };
 		A2E036B61724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
 		A2E036B71724DDFA0039A2DF /* YearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B51724DDFA0039A2DF /* YearView.m */; };
 		A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B91724ECA10039A2DF /* MonthInYearView.m */; };
@@ -3832,6 +3844,14 @@
 		A2C17A6F17E1837700468CC5 /* MapLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLocationViewController.m; sourceTree = "<group>"; };
 		A2C17A7217E2E9F200468CC5 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
 		A2C17A7317E2E9F200468CC5 /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
+		A2CE6DB4181E0FAD00FAEF05 /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		A2CE6DB9181E395F00FAEF05 /* LocationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetailViewController.h; sourceTree = "<group>"; };
+		A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailViewController.m; sourceTree = "<group>"; };
+		A2D34C7B181A603F004EB8F1 /* LocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationListViewController.h; sourceTree = "<group>"; };
+		A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationListViewController.m; sourceTree = "<group>"; };
+		A2D34C81181A703E004EB8F1 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		A2D34C82181A703E004EB8F1 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		A2E036B41724DDFA0039A2DF /* YearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearView.h; sourceTree = "<group>"; };
 		A2E036B51724DDFA0039A2DF /* YearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YearView.m; sourceTree = "<group>"; };
 		A2E036B81724ECA10039A2DF /* MonthInYearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthInYearView.h; sourceTree = "<group>"; };
@@ -4473,6 +4493,14 @@
 				67CF2C7216195196001FE1AA /* WorkingTime7ViewController.m */,
 				67CF2C7316195196001FE1AA /* WWWTableViewController.h */,
 				67CF2C7416195196001FE1AA /* WWWTableViewController.m */,
+				A2D34C7B181A603F004EB8F1 /* LocationListViewController.h */,
+				A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */,
+				A2D34C81181A703E004EB8F1 /* Location.h */,
+				A2D34C82181A703E004EB8F1 /* Location.m */,
+				A2CE6DB4181E0FAD00FAEF05 /* LocationManager.h */,
+				A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */,
+				A2CE6DB9181E395F00FAEF05 /* LocationDetailViewController.h */,
+				A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -7536,6 +7564,7 @@
 				6748B879180401820043A80E /* MonthlyADEView.m in Sources */,
 				6748B87A180401820043A80E /* MonthlyCalendarView.m in Sources */,
 				6748B87B180401820043A80E /* MonthlyCellView.m in Sources */,
+				A2CE6DBB181E395F00FAEF05 /* LocationDetailViewController.m in Sources */,
 				6748B87C180401820043A80E /* MovableController.m in Sources */,
 				6748B87D180401820043A80E /* MovableView.m in Sources */,
 				6748B880180401820043A80E /* NoteViewController.m in Sources */,
@@ -7632,6 +7661,7 @@
 				6748B8DC180401820043A80E /* NSData+CommonCrypto.m in Sources */,
 				6748B8DD180401820043A80E /* iPadTagListViewController.m in Sources */,
 				6748B8DE180401820043A80E /* iPadSettingViewController.m in Sources */,
+				A2D34C83181A703E004EB8F1 /* Location.m in Sources */,
 				6748B8DF180401820043A80E /* iPadGeneralSettingViewController.m in Sources */,
 				6748B8E0180401820043A80E /* iPadCalendarSettingViewController.m in Sources */,
 				6748B8E1180401820043A80E /* iPadTaskSettingViewController.m in Sources */,
@@ -7641,9 +7671,11 @@
 				6748B8E5180401820043A80E /* SeekOrCreateViewController.m in Sources */,
 				6748B8E6180401820043A80E /* TimerViewController.m in Sources */,
 				6748B8E7180401820043A80E /* TimerManager.m in Sources */,
+				A2D34C7D181A603F004EB8F1 /* LocationListViewController.m in Sources */,
 				6748B8E8180401820043A80E /* TimerHistoryViewController.m in Sources */,
 				6748B8E9180401820043A80E /* DummyMovableController.m in Sources */,
 				6748B8EA180401820043A80E /* NoteLayoutController.m in Sources */,
+				A2CE6DB6181E0FAD00FAEF05 /* LocationManager.m in Sources */,
 				6748B8EB180401820043A80E /* NoteMovableController.m in Sources */,
 				6748B8EC180401820043A80E /* PlannerBottomDayCal.m in Sources */,
 				6748B8ED180401820043A80E /* PlannerHeaderView.m in Sources */,
@@ -7742,6 +7774,7 @@
 				67CF2CFC16195196001FE1AA /* MonthlyADEView.m in Sources */,
 				67CF2CFD16195196001FE1AA /* MonthlyCalendarView.m in Sources */,
 				67CF2CFE16195196001FE1AA /* MonthlyCellView.m in Sources */,
+				A2CE6DBC181E395F00FAEF05 /* LocationDetailViewController.m in Sources */,
 				67CF2D0416195196001FE1AA /* MovableController.m in Sources */,
 				67CF2D0516195196001FE1AA /* MovableView.m in Sources */,
 				67CF2D0C16195196001FE1AA /* NoteViewController.m in Sources */,
@@ -7838,6 +7871,7 @@
 				678579EF16B0F6260079A1C2 /* NSData+CommonCrypto.m in Sources */,
 				67EEF94016D21F3800D0A7D0 /* iPadTagListViewController.m in Sources */,
 				67FADC2616D3596A009D835D /* iPadSettingViewController.m in Sources */,
+				A2D34C84181A703E004EB8F1 /* Location.m in Sources */,
 				67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */,
 				67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */,
 				67E98FF516D4BDF5000E0DC6 /* iPadTaskSettingViewController.m in Sources */,
@@ -7847,9 +7881,11 @@
 				67F95E5116DB1A1600B81A42 /* SeekOrCreateViewController.m in Sources */,
 				6728E5DA16DC7442001024DD /* TimerViewController.m in Sources */,
 				67E3485116DF02E600AA19EE /* TimerManager.m in Sources */,
+				A2D34C7E181A603F004EB8F1 /* LocationListViewController.m in Sources */,
 				67EC5BD216E4502B006B22F0 /* TimerHistoryViewController.m in Sources */,
 				6765668916F6F4C1007F23A9 /* DummyMovableController.m in Sources */,
 				67E0D49B16F95C7900F66567 /* NoteLayoutController.m in Sources */,
+				A2CE6DB7181E0FAD00FAEF05 /* LocationManager.m in Sources */,
 				67E18E8B16F98EDE00F1E976 /* NoteMovableController.m in Sources */,
 				67E18E9716F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */,
 				67E18E9916F99BEF00F1E976 /* PlannerHeaderView.m in Sources */,
@@ -7948,6 +7984,7 @@
 				67EC0CB716F8081F00929BFD /* MonthlyADEView.m in Sources */,
 				67EC0CB816F8081F00929BFD /* MonthlyCalendarView.m in Sources */,
 				67EC0CB916F8081F00929BFD /* MonthlyCellView.m in Sources */,
+				A2CE6DBD181E395F00FAEF05 /* LocationDetailViewController.m in Sources */,
 				67EC0CBA16F8081F00929BFD /* MovableController.m in Sources */,
 				67EC0CBB16F8081F00929BFD /* MovableView.m in Sources */,
 				67EC0CBE16F8081F00929BFD /* NoteViewController.m in Sources */,
@@ -8044,6 +8081,7 @@
 				67EC0D2316F8081F00929BFD /* NSData+CommonCrypto.m in Sources */,
 				67EC0D2416F8081F00929BFD /* iPadTagListViewController.m in Sources */,
 				67EC0D2516F8081F00929BFD /* iPadSettingViewController.m in Sources */,
+				A2D34C85181A703E004EB8F1 /* Location.m in Sources */,
 				67EC0D2616F8081F00929BFD /* iPadGeneralSettingViewController.m in Sources */,
 				67EC0D2716F8081F00929BFD /* iPadCalendarSettingViewController.m in Sources */,
 				67EC0D2816F8081F00929BFD /* iPadTaskSettingViewController.m in Sources */,
@@ -8053,9 +8091,11 @@
 				67EC0D2C16F8081F00929BFD /* SeekOrCreateViewController.m in Sources */,
 				67EC0D2D16F8081F00929BFD /* TimerViewController.m in Sources */,
 				67EC0D2E16F8081F00929BFD /* TimerManager.m in Sources */,
+				A2D34C7F181A603F004EB8F1 /* LocationListViewController.m in Sources */,
 				67EC0D2F16F8081F00929BFD /* TimerHistoryViewController.m in Sources */,
 				67EC0D3016F8081F00929BFD /* DummyMovableController.m in Sources */,
 				67E0D49C16F95C7900F66567 /* NoteLayoutController.m in Sources */,
+				A2CE6DB8181E0FAD00FAEF05 /* LocationManager.m in Sources */,
 				67E18E8C16F98EDE00F1E976 /* NoteMovableController.m in Sources */,
 				67E18E9816F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */,
 				67E18E9A16F99BEF00F1E976 /* PlannerHeaderView.m in Sources */,

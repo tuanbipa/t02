@@ -95,6 +95,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 @synthesize plannerDuration;
 @synthesize plannerStartTime;
 @synthesize locationAlert;
+@synthesize locationID;
 
 - (id)init
 {
@@ -174,6 +175,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         
         // location alert
         self.locationAlert = 0;
+        self.locationID = 0;
 	}
 	
 	return self;
@@ -252,7 +254,8 @@ static sqlite3_stmt *task_delete_statement = nil;
         [Common compareDate:taskEndTime withDate:task.endTime] != NSOrderedSame ||
         [Common compareDate:taskOriginal.deadline withDate:task.deadline] != NSOrderedSame ||        ![[taskOriginal getRepeatString] isEqualToString:[task getRepeatString]] ||
     ![[taskOriginal alertsToString] isEqualToString:[task alertsToString]] ||
-    taskOriginal.locationAlert != task.locationAlert;
+    taskOriginal.locationAlert != task.locationAlert ||
+    taskOriginal.locationID != task.locationID;
     
 }
 
@@ -319,6 +322,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     
     // location alert
     self.locationAlert = task.locationAlert;
+    self.locationID = task.locationID;
 }
 
 - (void) updateByRE:(Task*) reOriginal 
@@ -389,6 +393,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     
     // location alert
     copy.locationAlert = locationAlert;
+    copy.locationID = locationID;
     
     ////printf("Task %s copy - link count: %d\n", [copy.name UTF8String], copy.links.count);
 	
@@ -594,7 +599,8 @@ static sqlite3_stmt *task_delete_statement = nil;
             const char *sql = "SELECT Task_ID, Task_GroupID, Task_ProjectID, Task_SeqNo, Task_GoalID, Task_Type, \
 			Task_Status, Task_Name, Task_ContactName, Task_ContactEmail, Task_ContactPhone, Task_Location, \
 			Task_Note, Task_Duration, Task_CreationTime, Task_StartTime, Task_EndTime, Task_Deadline, Task_UpdateTime, \
-			Task_RepeatData, Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime,Task_SDWID,Task_TimerStatus,Task_ExtraStatus,Task_TimeZoneID,Task_LocationAlert FROM TaskTable WHERE Task_ID = ?";
+			Task_RepeatData, Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime,Task_SDWID,Task_TimerStatus,Task_ExtraStatus,Task_TimeZoneID,Task_LocationAlert, Task_LocationID\
+            FROM TaskTable WHERE Task_ID = ?";
 			
 			if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -679,6 +685,7 @@ static sqlite3_stmt *task_delete_statement = nil;
             
             // location alert
             self.locationAlert = sqlite3_column_int(statement, 28);
+            self.locationID = sqlite3_column_int(statement, 29);
             
             if ([self isNormalEvent])
             {
@@ -774,8 +781,8 @@ static sqlite3_stmt *task_delete_statement = nil;
         static char *sql = "INSERT INTO TaskTable (Task_GroupID, Task_ProjectID, Task_SeqNo, Task_GoalID, Task_Type, \
 		Task_Status, Task_Name, Task_ContactName, Task_ContactEmail, Task_ContactPhone, Task_Location, Task_Note, \
 		Task_Duration, Task_CreationTime, Task_StartTime, Task_EndTime, Task_Deadline, Task_UpdateTime, Task_RepeatData, \
-		Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime, Task_SDWID, Task_Link, Task_TimerStatus, Task_ExtraStatus,Task_TimeZoneID,Task_TimeZoneOffset,Task_LocationAlert) \
-		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		Task_Tag, Task_SyncID, Task_MergedSeqNo, Task_CompletionTime, Task_SDWID, Task_Link, Task_TimerStatus, Task_ExtraStatus,Task_TimeZoneID,Task_TimeZoneOffset,Task_LocationAlert, Task_LocationID) \
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -863,6 +870,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     
     // location alert
     sqlite3_bind_int(statement, 30, self.locationAlert);
+    sqlite3_bind_int(statement, 31, self.locationID);
 	
     int success = sqlite3_step(statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
@@ -896,7 +904,7 @@ static sqlite3_stmt *task_delete_statement = nil;
         static char *sql = "UPDATE TaskTable SET Task_GroupID = ?, Task_ProjectID = ?, Task_SeqNo = ?, Task_GoalID = ?, Task_Type = ?, \
 		Task_Status = ?, Task_Name = ?, Task_ContactName = ?, Task_ContactEmail = ?, Task_ContactPhone = ?, Task_Location = ?, \
 		Task_Note = ?, Task_Duration = ?, Task_CreationTime = ?, Task_StartTime = ?, Task_EndTime = ?, Task_Deadline = ?, Task_UpdateTime = ?, \
-		Task_RepeatData = ?, Task_Tag = ?, Task_MergedSeqNo = ?, Task_CompletionTime = ?, Task_Link = ?, Task_TimerStatus = ?, Task_ExtraStatus = ?, Task_TimeZoneID = ?, Task_TimeZoneOffset = ?, Task_LocationAlert = ? WHERE Task_ID = ?";
+		Task_RepeatData = ?, Task_Tag = ?, Task_MergedSeqNo = ?, Task_CompletionTime = ?, Task_Link = ?, Task_TimerStatus = ?, Task_ExtraStatus = ?, Task_TimeZoneID = ?, Task_TimeZoneOffset = ?, Task_LocationAlert = ?, Task_LocationID = ? WHERE Task_ID = ?";
 		
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -981,8 +989,9 @@ static sqlite3_stmt *task_delete_statement = nil;
     sqlite3_bind_int(statement, 27, [self isNormalEvent]?[Common getSecondsFromTimeZoneID:self.timeZoneId]:0);
     
     sqlite3_bind_int(statement, 28, self.locationAlert);
+    sqlite3_bind_int(statement, 29, self.locationID);
 	
-	sqlite3_bind_int(statement, 29, self.primaryKey);
+	sqlite3_bind_int(statement, 30, self.primaryKey);
 	
 	////////printf("Update DB - task %s, key: %d, project: %d, group: %d, seq: %d\n", [self.name UTF8String], self.primaryKey, self.project, self.groupKey, self.sequenceNo);
 	
