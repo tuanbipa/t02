@@ -19,6 +19,9 @@
 	Task *taskEdit;
 	
 	//NSDictionary *alertDict;
+    UIView *alertBasedLocationView;
+    UILabel *alertBasedLocationLable;
+    UISegmentedControl *alertBasedLocationSegmented;
 }
 
 @property (nonatomic, assign) Task *taskEdit;

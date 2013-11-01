@@ -737,6 +737,9 @@
 #define _locationAddressText NSLocalizedString(@"_locationAddressText", "")
 #define _noResultsFoundText NSLocalizedString(@"_noResultsFoundText", "")
 #define _didYouMean NSLocalizedString(@"_didYouMean", "")
+#define _arriveText NSLocalizedString(@"_arriveText", "")
+#define _leaveText NSLocalizedString(@"_leaveText", "")
+#define _alertBasedOnAddressText NSLocalizedString(@"_alertBasedOnAddressText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")

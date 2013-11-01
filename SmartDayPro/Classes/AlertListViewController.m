@@ -124,7 +124,31 @@
 	self.view = contentView;
 	[contentView release];	
 	
-	self.navigationItem.title = _alertListText;	
+	self.navigationItem.title = _alertListText;
+    
+    // alert based location
+    alertBasedLocationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width, 60)];
+    [contentView addSubview:alertBasedLocationView];
+    [alertBasedLocationView release];
+    
+    alertBasedLocationLable = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, contentView.frame.size.width, 30)];
+    alertBasedLocationLable.text = _alertBasedOnLocationText;
+    alertBasedLocationLable.textColor = [UIColor grayColor];
+    [alertBasedLocationView addSubview:alertBasedLocationLable];
+    [alertBasedLocationLable release];
+    
+    NSArray *segmentTextContent = [NSArray arrayWithObjects: _noneText, _arriveText, _leaveText, nil];
+    if (![self.taskEdit isTask]) {
+        segmentTextContent = [NSArray arrayWithObjects: _offText, _onText, nil];
+    }
+	alertBasedLocationSegmented = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	alertBasedLocationSegmented.frame = CGRectMake((contentView.frame.size.width - 200)/2, 30, 200, 30);
+	[alertBasedLocationSegmented addTarget:self action:@selector(editAlertBasedLocation:) forControlEvents:UIControlEventValueChanged];
+    
+    alertBasedLocationSegmented.selectedSegmentIndex = self.taskEdit.locationAlert;
+	
+	[alertBasedLocationView addSubview:alertBasedLocationSegmented];
+	[alertBasedLocationSegmented release];
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -133,12 +157,41 @@
 	{
 		alertTableView.hidden = YES;
 		hintView.hidden = NO;
+        if (self.taskEdit.locationID > 0) {
+            // show alert based location
+            CGRect frm = alertBasedLocationView.frame;
+            frm.origin.y = 5;
+            alertBasedLocationView.frame = frm;
+            
+            frm = hintView.frame;
+            frm.origin.y = alertBasedLocationView.frame.origin.y + alertBasedLocationView.frame.size.height + 5;
+            hintView.frame = frm;
+        } else {
+            alertBasedLocationView.hidden = YES;
+        }
 	}
 	else 
 	{
 		alertTableView.hidden = NO;
 		hintView.hidden = YES;
 		[alertTableView reloadData];
+        
+        if (self.taskEdit.locationID > 0 || [[self.taskEdit.location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0) {
+            // show alert based location
+            CGRect frm = alertBasedLocationView.frame;
+            frm.origin.y = 5;
+            alertBasedLocationView.frame = frm;
+            
+            frm = alertTableView.frame;
+            frm.origin.y = alertBasedLocationView.frame.origin.y + alertBasedLocationView.frame.size.height + 5;
+            alertTableView.frame = frm;
+            
+            if ([self.taskEdit isEvent]) {
+                alertBasedLocationLable.text = _alertBasedOnAddressText;
+            }
+        } else {
+            alertBasedLocationView.hidden = YES;
+        }
 	}
 }
 
@@ -196,7 +249,7 @@
 {
 	AlertSelectionTableViewController *ctrler = [[AlertSelectionTableViewController alloc] init];
 	ctrler.taskEdit = self.taskEdit;
-	ctrler.alertIndex = index-2;
+	ctrler.alertIndex = index-1;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];
@@ -213,10 +266,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (taskEdit.alerts != nil)
 	{
-		return taskEdit.alerts.count + 2;
+		return taskEdit.alerts.count + 1;
 	}
 	
-	return 2;
+	return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -226,7 +279,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Settings *setting = [Settings getInstance];
+    /*Settings *setting = [Settings getInstance];
     if (indexPath.row == 0 &&
         (!setting.geoFencingEnable ||
          ![self.taskEdit isEvent] ||
@@ -235,7 +288,7 @@
     {
         
         return 0.0f;
-    }
+    }*/
     return 44.0f;
 }
 
@@ -261,7 +314,7 @@
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     
-	if (indexPath.row == 0)
+	/*if (indexPath.row == 0)
 	{
         Settings *setting = [Settings getInstance];
         if (!setting.geoFencingEnable ||
@@ -274,13 +327,13 @@
         }
 		[self createAlertLocationCell:cell];
 	}
-    else if (indexPath.row == 1)
+    else */if (indexPath.row == 0)
     {
         cell.textLabel.text = _addText;
     }
 	else
 	{
-		AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-2];
+		AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-1];
 		
 		cell.textLabel.text = _alertText;
 		
@@ -310,7 +363,7 @@
 
 
 - (void)tableView:(UITableView *)tV commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-	AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-2];
+	AlertData *alert = [taskEdit.alerts objectAtIndex:indexPath.row-1];
 	
 	if (alert.primaryKey > -1)
 	{
@@ -325,26 +378,26 @@
 	[alertTableView reloadData];
 }
 
-- (void) createAlertLocationCell:(UITableViewCell *)cell
-{
-	cell.textLabel.text = _alertBasedOnLocationText;
-	
-	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
-	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-	segmentedStyleControl.frame = CGRectMake(alertTableView.bounds.size.width - 110, 5, 100, 30);
-	[segmentedStyleControl addTarget:self action:@selector(editAlertBasedLocation:) forControlEvents:UIControlEventValueChanged];
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    
-    segmentedStyleControl.selectedSegmentIndex = self.taskEdit.locationAlert == 0 ? 1 : 0;
-	
-	[cell.contentView addSubview:segmentedStyleControl];
-	[segmentedStyleControl release];
-}
+//- (void) createAlertLocationCell:(UITableViewCell *)cell
+//{
+//	cell.textLabel.text = _alertBasedOnLocationText;
+//	
+//	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+//	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+//	segmentedStyleControl.frame = CGRectMake(alertTableView.bounds.size.width - 110, 5, 100, 30);
+//	[segmentedStyleControl addTarget:self action:@selector(editAlertBasedLocation:) forControlEvents:UIControlEventValueChanged];
+//    cell.accessoryType = UITableViewCellAccessoryNone;
+//    
+//    segmentedStyleControl.selectedSegmentIndex = self.taskEdit.locationAlert == 0 ? 1 : 0;
+//	
+//	[cell.contentView addSubview:segmentedStyleControl];
+//	[segmentedStyleControl release];
+//}
 
 - (void)editAlertBasedLocation: (id)sender
 {
     UISegmentedControl *segmentedStyleControl = (UISegmentedControl *)sender;
 	
-    self.taskEdit.locationAlert = segmentedStyleControl.selectedSegmentIndex == 0 ? 1 : 0;
+    self.taskEdit.locationAlert = segmentedStyleControl.selectedSegmentIndex;
 }
 @end

@@ -751,6 +751,9 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_locationAddressText" = "Location Address";
 "_noResultsFoundText" = "No Results Found";
 "_didYouMean" = "Did you mean...";
+"_arriveText" = "Arrive";
+"_leaveText" = "Leave";
+"_alertBasedOnAddressText" = "Alert based on address";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "Please specify Due for Task first to enable Alert definition. Alert time will be relative to Due time.";
