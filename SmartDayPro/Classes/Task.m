@@ -404,6 +404,10 @@ static sqlite3_stmt *task_delete_statement = nil;
 {
     NSInteger extra = self.extraStatus & TASK_EXTRA_STATUS_ANCHORED;
     
+    NSString *repeatStr = [self getRepeatString];
+    
+    //printf("repeate str to json: %s\n", [repeatStr UTF8String]);
+    
     NSDictionary *taskDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               self.name, @"name",
                               self.note, @"description",
@@ -421,7 +425,7 @@ static sqlite3_stmt *task_delete_statement = nil;
                               [NSNumber numberWithDouble:(self.endTime == nil?-1:[self.endTime timeIntervalSince1970])], @"end_time",
                               [NSNumber numberWithDouble:(self.deadline == nil?-1:[self.deadline timeIntervalSince1970])], @"deadline",
                               [NSNumber numberWithDouble:(self.completionTime == nil?-1:[self.completionTime timeIntervalSince1970])], @"completion_time",
-                              [self getRepeatString], @"repeat",
+                              repeatStr, @"repeat",
                               [self alertsToString], @"alert",
                               nil
                               ];
@@ -456,7 +460,11 @@ static sqlite3_stmt *task_delete_statement = nil;
     NSInteger completionValue = [[jsonDict objectForKey:@"completion_time"] intValue];
     self.completionTime = (completionValue == -1?nil:[NSDate dateWithTimeIntervalSince1970:completionValue]);
     
-    self.repeatData = [RepeatData parseRepeatData:[jsonDict objectForKey:@"repeat"]];
+    NSString *repeatStr = [jsonDict objectForKey:@"repeat"];
+    
+    //printf("repeat str: %s\n", [repeatStr UTF8String]);
+    
+    self.repeatData = [RepeatData parseRepeatData:repeatStr];
 
     NSString *alerts = [jsonDict objectForKey:@"alert"];
     

@@ -1060,6 +1060,8 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             
             [task release];
         }
+        
+        [[AbstractActionViewController getInstance] resetAllData];
     }
 	else 
 	{

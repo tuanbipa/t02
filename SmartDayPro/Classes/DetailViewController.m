@@ -141,7 +141,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     [doneItem release];
     
-    if (self.task == nil)
+    if (self.task == nil || self.task.primaryKey == -1)
     {
         self.navigationItem.rightBarButtonItems = nil;
         return;

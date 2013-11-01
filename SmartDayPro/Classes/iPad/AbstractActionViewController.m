@@ -1601,6 +1601,11 @@ extern DetailViewController *_detailViewCtrler;
     {
         Task *task = [self getActiveTask];
         
+        if (task.original != nil && ![task isREException])
+        {
+            task = task.original;
+        }
+        
         prj = [pm getProjectByKey:task.project];
         
         if (task != nil)
@@ -1633,15 +1638,17 @@ extern DetailViewController *_detailViewCtrler;
          initWithActivityItems:activityItems applicationActivities:nil];
         activityController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList];
         
-        [self presentViewController:activityController
+        UIViewController *ctrler = (_isiPad?_iPadViewCtrler:_sdViewCtrler);
+        
+        [ctrler presentViewController:activityController
                            animated:YES completion:^{
-                               if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+                               /*if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                                    
                                    // show cancel button in landscape
                                    CGRect frm = activityController.view.frame;
                                    frm.size = CGSizeMake(frm.size.width, 700);
                                    activityController.view.frame = frm;
-                               }
+                               }*/
                            }];
         [self deselect];
     }
