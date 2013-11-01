@@ -840,7 +840,7 @@ DetailViewController *_detailViewCtrler = nil;
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:1 section:0];
+    [Common reloadRowOfTable:detailTableView row:2 section:0];
 }
 
 - (void) refreshProject
@@ -848,7 +848,7 @@ DetailViewController *_detailViewCtrler = nil;
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:2 section:0];
+    [Common reloadRowOfTable:detailTableView row:3 section:0];
 }
 
 - (void) refreshWhen
@@ -856,7 +856,7 @@ DetailViewController *_detailViewCtrler = nil;
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:3 section:0];
+    [Common reloadRowOfTable:detailTableView row:4 section:0];
     
     [self refreshAlert];
 }
@@ -866,7 +866,7 @@ DetailViewController *_detailViewCtrler = nil;
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:4 section:0];
+    [Common reloadRowOfTable:detailTableView row:5 section:0];
 }
 
 - (void) refreshAlert
@@ -876,7 +876,7 @@ DetailViewController *_detailViewCtrler = nil;
         /*
         [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:5 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
         
-        [Common reloadRowOfTable:detailTableView row:5 section:0];
+        [Common reloadRowOfTable:detailTableView row:6 section:0];
     }
 }
 
@@ -885,7 +885,7 @@ DetailViewController *_detailViewCtrler = nil;
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:6 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:6 section:0];
+    [Common reloadRowOfTable:detailTableView row:7 section:0];
 }
 
 - (void) refreshTag
@@ -893,7 +893,7 @@ DetailViewController *_detailViewCtrler = nil;
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:7 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:7 section:0];
+    [Common reloadRowOfTable:detailTableView row:8 section:0];
 }
 
 - (void) refreshLink
@@ -902,7 +902,7 @@ DetailViewController *_detailViewCtrler = nil;
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?11:10):([self.task isShared]?7:6) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     */
     
-    [Common reloadRowOfTable:detailTableView row:(showAll?([self.task isShared]?11:10):([self.task isShared]?7:6)) section:0];
+    [Common reloadRowOfTable:detailTableView row:(showAll?([self.task isShared]?12:11):([self.task isShared]?8:7)) section:0];
     
 }
 
