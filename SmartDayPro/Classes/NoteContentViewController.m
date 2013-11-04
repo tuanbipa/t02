@@ -259,11 +259,13 @@ extern SmartDayViewController *_sdViewCtrler;
     
     if (_iPadViewCtrler != nil)
     {
-        [_iPadViewCtrler changeOrientation:toInterfaceOrientation];
+        //[_iPadViewCtrler changeOrientation:toInterfaceOrientation];
+        [_iPadViewCtrler willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
     else if (_sdViewCtrler != nil)
     {
-        [_sdViewCtrler changeOrientation:toInterfaceOrientation];
+        //[_sdViewCtrler changeOrientation:toInterfaceOrientation];
+        [_sdViewCtrler willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
 }
 

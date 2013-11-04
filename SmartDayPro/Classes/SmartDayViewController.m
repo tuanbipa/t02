@@ -3341,7 +3341,7 @@ extern BOOL _gtdoTabHintShown;
 {
     [self hideMiniMonth];
     
-    [self popDownHint];
+    //[self popDownHint];
     
     if (filterView.userInteractionEnabled == YES)
 	{
