@@ -111,9 +111,9 @@ static sqlite3_stmt *loc_delete_statement = nil;
                 str = (char *)sqlite3_column_text(statement, 2);
                 self.address = (str == NULL? @"":[NSString stringWithUTF8String:str]);
                 
-                self.latitude = sqlite3_column_int(statement, 3);
+                self.latitude = sqlite3_column_double(statement, 3);
                 
-                self.longitude = sqlite3_column_int(statement, 4);
+                self.longitude = sqlite3_column_double(statement, 4);
                 
                 self.inside = sqlite3_column_int(statement, 5);
             }
@@ -143,8 +143,8 @@ static sqlite3_stmt *loc_delete_statement = nil;
     
 	sqlite3_bind_text(statement, 1, [self.name UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(statement, 2, [self.address UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(statement, 3, self.latitude);
-    sqlite3_bind_int(statement, 4, self.longitude);
+    sqlite3_bind_double(statement, 3, self.latitude);
+    sqlite3_bind_double(statement, 4, self.longitude);
     sqlite3_bind_int(statement, 5, self.inside);
     sqlite3_bind_int(statement, 6, [[NSDate date] timeIntervalSince1970]);
     
@@ -179,8 +179,8 @@ static sqlite3_stmt *loc_delete_statement = nil;
     
     sqlite3_bind_text(statement, 1, [self.name UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(statement, 2, [self.address UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(statement, 3, self.latitude);
-    sqlite3_bind_int(statement, 4, self.longitude);
+    sqlite3_bind_double(statement, 3, self.latitude);
+    sqlite3_bind_double(statement, 4, self.longitude);
     sqlite3_bind_int(statement, 5, self.inside);
     sqlite3_bind_int(statement, 6, [[NSDate date] timeIntervalSince1970]);
     sqlite3_bind_int(statement, 7, self.primaryKey);
@@ -215,6 +215,15 @@ static sqlite3_stmt *loc_delete_statement = nil;
     // Handle errors.
     if (success != SQLITE_DONE) {
         NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
+    }
+}
+
+- (void)refreshLatituAndLongitude: (Location*) loc
+{
+    if (![self.address isEqualToString:loc.address]) {
+        // refresk lat and long
+        self.latitude = -1;
+        self.longitude = -1;
     }
 }
 @end

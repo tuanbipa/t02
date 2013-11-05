@@ -64,6 +64,8 @@
 #import "SmartDayViewController.h"
 #import "PlannerView.h"
 
+#import "TaskLocationListViewController.h"
+
 //extern BOOL _isiPad;
 
 BOOL _autoPushPending = NO;
@@ -561,6 +563,28 @@ extern DetailViewController *_detailViewCtrler;
         CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
         
         [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
+    else
+    {
+        [self.navigationController pushViewController:ctrler animated:YES];
+    }
+    
+    [ctrler release];
+}
+
+- (void)showGeoTaskLocation: (CGRect)rect
+{
+    [self hidePopover];
+    
+    TaskLocationListViewController *ctrler = [[TaskLocationListViewController alloc] init];
+    
+    if (_isiPad)
+    {
+        self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
+        
+        //CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
+        
+        [self.popoverCtrler presentPopoverFromRect:rect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
     else
     {

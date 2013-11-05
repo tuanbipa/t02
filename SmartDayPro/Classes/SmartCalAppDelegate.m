@@ -55,6 +55,8 @@
 #import "SDApplication.h"
 
 #import "TestFlight.h"
+#import "Location.h"
+#import "LocationManager.h"
 
 // 1000 * 60 * 5
 //#define GEOCODE_FENCING_TIME 30.0
@@ -758,7 +760,8 @@ BOOL _fromBackground = NO;
     }
     else if (notification.alertBody && [notification.alertBody length] > 0)
     {
-        [self showGeoAlertWithBody:notifyStr];
+        //[self showGeoAlertWithBody:notifyStr];
+        [self refreshTaskLocationBadge];
     }
     else
     {
@@ -772,7 +775,7 @@ BOOL _fromBackground = NO;
         }
     }
     
-    //application.applicationIconBadgeNumber = 0;
+    application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application
@@ -835,12 +838,15 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     [self deactiveLocationManager];
     [self deactiveLocationTimer];
-    if (geoLocalNotification != nil) {
-        [geoLocalNotification release];
+    if (arriveNotification != nil) {
+        [arriveNotification release];
     }
-    if (notifyStr != nil) {
+    if (leaveNotification) {
+        [leaveNotification release];
+    }
+    /*if (notifyStr != nil) {
         [notifyStr release];
-    }
+    }*/
     
     [super dealloc];
 }
@@ -906,7 +912,6 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 - (void)restoreDB:(NSURL *)url
 {
     Settings *settings = [Settings getInstance];
-    DBManager *dbm = [DBManager getInstance];
     
 	NSString *query = [url query];
 	
@@ -1193,13 +1198,18 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    if (locationUpdating || taskLocationNumber > 0) {
+    if (locationUpdating || eventLocationNumber > 0 || taskLocationNumber > 0) {
         return;
     }
     locationUpdating = YES;
     [locationManager stopUpdatingLocation];
     
-    isActiveGeoFencing = NO;
+    // refresh all location
+    if (lastLocation == nil) {
+        [[LocationManager getInstance] resetLocationStatus];
+    }
+    
+    //isActiveGeoFencing = NO;
     BOOL isChangeLocation = NO;
     if (lastLocation != nil) {
         if ([[locations lastObject] distanceFromLocation:lastLocation] >= 400) {
@@ -1213,21 +1223,37 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     }
     
     //locationUpdating = YES;
-    Settings *st = [Settings getInstance];
-    isActiveGeoFencing = (st.geoFencingEnable && isChangeLocation);
+    //Settings *st = [Settings getInstance];
+    //isActiveGeoFencing = (st.geoFencingEnable && isChangeLocation);
     
-    // get all tasks
+    // get all event has alert based location
     DBManager *dbm = [DBManager getInstance];
-    NSMutableArray *tasks = [dbm getAllTasksEventsHaveLocation];
-    taskLocationNumber = [tasks count];
+    NSMutableArray *eventLocationList = [dbm getAllEventsHaveAlertBasedLocation];
+    eventLocationNumber = [eventLocationList count];
     
-    if (taskLocationNumber > 0) {
+    // get data for geo task location
+    NSMutableArray *locationDataList = [NSMutableArray arrayWithCapacity:0];
+    if (isChangeLocation) {
+        
+        locationDataList = [[LocationManager getInstance] getAllLocation];
+        taskLocationNumber = [locationDataList count];
+    }
+    
+    if (eventLocationNumber > 0 || taskLocationNumber > 0) {
         // get placemark
         CLGeocoder *geocoder = [[[CLGeocoder alloc] init] autorelease];
-        [geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
+        [geocoder reverseGeocodeLocation:lastLocation completionHandler:^(NSArray *placemarks, NSError *error) {
             if (placemarks.count > 0) {
-                //[self geocodeAllItems:placemarks[0]];
-                [self geocodeAllItems:tasks with:placemarks[0]];
+                // alert events
+                [self geocodeEventAddress:eventLocationList with:placemarks[0]];
+            } else {
+                eventLocationNumber = 0;
+            }
+            
+            if (isChangeLocation) {
+                [self geocodeTaskLocation:locationDataList withCurrentLocation:[locations lastObject]];
+            } else {
+                taskLocationNumber = 0;
             }
         }];
     }
@@ -1239,6 +1265,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     NSLog(@"Geocoder Error");
     dispatch_semaphore_signal(geocodingLock);
     locationUpdating = NO;
+    eventLocationNumber = 0;
     taskLocationNumber = 0;
     [locationManager stopUpdatingLocation];
 }
@@ -1257,9 +1284,177 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     }
 }
 
--(void) geocodeAllItems: (NSArray*)tasks with: (CLPlacemark*) currentPlacemark
+- (void)geocodeTaskLocation: (NSArray*)locationDataList withCurrentLocation: (CLLocation*) currentLocation
 {
-    [notifyStr setString:@""];
+    CLGeocoder *gc = [[CLGeocoder alloc] init];
+    
+    //geoItemCount = 0;
+    //locationIDList = [NSMutableArray array];
+    
+    for (Location *locationData in locationDataList) {
+        [geocodeQueue addOperationWithBlock:^{
+            [self geocodeTaskLocationItem:locationData withGeocoder:gc AndCurrentLocation:currentLocation];
+        }];
+    }
+    [gc release];
+}
+
+- (void)geocodeTaskLocationItem: (Location*) locationData withGeocoder:(CLGeocoder *)gc AndCurrentLocation: (CLLocation*) currentLocation
+{
+    if (locationData.latitude == -1 || locationData.longitude == -1) {
+        // wait semaphore
+        dispatch_semaphore_wait(geocodingLock, DISPATCH_TIME_FOREVER);
+        
+        // execute geocode
+        [gc geocodeAddressString:locationData.address completionHandler:^(NSArray *placemarks, NSError *error) {
+            
+            // free semaphore
+            dispatch_semaphore_signal(geocodingLock);
+            
+            taskLocationNumber--;
+            
+            if (placemarks.count > 0) {
+                CLPlacemark *aPlacemark = placemarks[0];
+                
+                // save lat and long for next time
+                locationData.latitude = aPlacemark.location.coordinate.latitude;
+                locationData.longitude = aPlacemark.location.coordinate.longitude;
+                
+                [self checkAndUpdateLocationStatus:locationData WithCurrentLocation:currentLocation];
+            }
+            
+            if (taskLocationNumber == 0) {
+                [self finishGeoTaskLocation];
+            }
+        }];
+        
+    } else {
+        taskLocationNumber--;
+        
+        [self checkAndUpdateLocationStatus:locationData WithCurrentLocation:currentLocation];
+        
+        if (taskLocationNumber == 0) {
+            [self finishGeoTaskLocation];
+        }
+    }
+}
+
+- (void)checkAndUpdateLocationStatus:(Location*) locationData WithCurrentLocation:(CLLocation*) currentLocation
+{
+    CLLocation *coorLocationItem = [[CLLocation alloc] initWithLatitude:locationData.latitude longitude:locationData.longitude];
+    
+    //NSLog(@"distance : %f", [currentLocation distanceFromLocation:coorLocationItem]);
+    if ([currentLocation distanceFromLocation:coorLocationItem] <= 200) {
+        
+        if (locationData.inside != LOCATION_ARRIVE) {
+            
+            locationData.inside = LOCATION_ARRIVE;
+            //[locationIDList addObject:[NSNumber numberWithInt:locationData.primaryKey]];
+        }
+    } else if (locationData.inside == LOCATION_ARRIVE){
+        
+        locationData.inside = LOCATION_LEAVE;
+    } else if (locationData.inside != LOCATION_NONE) {
+        
+        locationData.inside = LOCATION_NONE;
+    }
+    // only for test, will be comment in after finish testing
+    /*else {
+        locationData.inside = LOCATION_LEAVE;
+    }*/
+    
+    [locationData updateIntoDB:[[DBManager getInstance] getDatabase]];
+}
+
+- (void)finishGeoTaskLocation
+{
+    
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+    {
+        NSMutableArray *taskLocationList = [[DBManager getInstance] getCurrentTaskLocation];
+        NSMutableArray *arriveTasks = [NSMutableArray array];
+        NSMutableArray *leaveTasks = [NSMutableArray array];
+        
+        for (Task *task in taskLocationList) {
+            if (task.locationAlert == LOCATION_ARRIVE) {
+                [arriveTasks addObject:task.name];
+            } else {
+                [leaveTasks addObject:task.name];
+            }
+        }
+        
+    
+        
+        if (arriveTasks.count > 0) {
+            NSMutableArray *arriveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_ARRIVE];
+            
+            NSString *title = @"";
+            for (Location *loc in arriveLocations) {
+                title = [title stringByAppendingFormat:@"%@, ", loc.name];
+            }
+            title = [title substringToIndex:[title length] - 2];
+            
+            if (arriveNotification != nil) {
+                [[UIApplication sharedApplication] cancelLocalNotification:arriveNotification];
+            } else {
+                arriveNotification = [[UILocalNotification alloc] init];
+            }
+            
+            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
+            
+            arriveNotification.alertAction = title;
+            arriveNotification.alertBody = [@"- " stringByAppendingString:body];
+            arriveNotification.timeZone = [NSTimeZone defaultTimeZone];
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:arriveNotification];
+        }
+        
+        if (leaveTasks.count > 0) {
+            NSMutableArray *leaveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_LEAVE];
+            
+            NSString *title = @"";
+            for (Location *loc in leaveLocations) {
+                title = [title stringByAppendingFormat:@"%@, ", loc.name];
+            }
+            title = [title substringToIndex:[title length] - 2];
+            
+            if (leaveNotification != nil) {
+                [[UIApplication sharedApplication] cancelLocalNotification:leaveNotification];
+            } else {
+                leaveNotification = [[UILocalNotification alloc] init];
+            }
+            
+            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
+            
+            leaveNotification.alertAction = title;
+            leaveNotification.alertBody = [@"- " stringByAppendingString:body];
+            leaveNotification.timeZone = [NSTimeZone defaultTimeZone];
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:leaveNotification];
+        }
+    }
+    else
+    {
+        [self refreshTaskLocationBadge];
+    }
+}
+
+- (void)refreshTaskLocationBadge
+{
+    if (_isiPad)
+    {
+        [_iPadViewCtrler refreshGeoTaskLocation];
+    }
+    else
+    {
+        //[_sdViewCtrler.navigationController.navigationBar addSubview:busyIndicatorView];
+    }
+}
+
+- (void)geocodeEventAddress: (NSArray*)tasks with: (CLPlacemark*) currentPlacemark
+{
+    //[notifyStr setString:@""];
     
     // do geo-fencing
     //CLLocation *location = [locations lastObject];
@@ -1274,18 +1469,18 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
      geocodingLock = dispatch_semaphore_create(1);*/
     geoItemCount = 0;
     
-    taskLocationNumber = [tasks count];
+    eventLocationNumber = [tasks count];
     for (Task *task in tasks) {
         
         [geocodeQueue addOperationWithBlock:^{
             //NSLog(@"-Geocode Item-");
             
-            [self geocodeItem:task withGeocoder:gc withPlacemark:currentPlacemark];
+            [self geocodeEventAddressItem:task withGeocoder:gc withPlacemark:currentPlacemark];
         }];
     }
 }
 
-- (void)geocodeItem:(Task *) task withGeocoder:(CLGeocoder *)gc withPlacemark: (CLPlacemark*) currentPlacemark{
+- (void)geocodeEventAddressItem:(Task *) task withGeocoder:(CLGeocoder *)gc withPlacemark: (CLPlacemark*) currentPlacemark{
     
     // geo each task
     if ([[task.location stringByTrimmingCharactersInSet:
@@ -1295,11 +1490,11 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         
         [gc geocodeAddressString:task.location completionHandler:^(NSArray *placemarks, NSError *error) {
             dispatch_semaphore_signal(geocodingLock);
-            taskLocationNumber--;
+            eventLocationNumber--;
             
             if (placemarks.count > 0) {
                 CLPlacemark *taskPlacemark = placemarks[0];
-                CLLocation *taskLocation = taskPlacemark.location;
+                /*CLLocation *taskLocation = taskPlacemark.location;
                 
                 if (isActiveGeoFencing && [currentPlacemark.location distanceFromLocation:taskLocation] <= 200) {
                     geoItemCount += 1;
@@ -1307,7 +1502,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                     [notifyStr appendString:[NSString stringWithFormat:@"%d. %@\n",geoItemCount, task.name]];
                     
                     //NSLog(@"\n1. task name: %@", task.name);
-                }
+                }*/
                 
                 if ([task isEvent] && (task.locationAlert == 1)) {
                     
@@ -1348,53 +1543,53 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 }
             }
             
-            if (isActiveGeoFencing && taskLocationNumber == 0) {
+            /*if (isActiveGeoFencing && eventLocationNumber == 0) {
                 // push infor
                 [self pushGeoInfor];
-            }
+            }*/
         }];
     } else {
-        taskLocationNumber--;
-        if (isActiveGeoFencing && taskLocationNumber == 0) {
+        eventLocationNumber--;
+        /*if (isActiveGeoFencing && eventLocationNumber == 0) {
             // push infor
             [self pushGeoInfor];
-        }
+        }*/
     }
 }
 
-- (void)pushGeoInfor
-{
-    //locationUpdating = NO;
-    
-    if ([notifyStr length] > 0) {
-        
-        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
-        {
-            // show by local notification
-            if (geoLocalNotification != nil) {
-                [[UIApplication sharedApplication] cancelLocalNotification:geoLocalNotification];
-            } else {
-                geoLocalNotification = [[UILocalNotification alloc] init];
-                //geoLocalNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-            }
-            geoLocalNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
-            
-            NSString *alertBody = [NSString stringWithFormat:_atCurrentLocationYouHave,geoItemCount];
-            geoLocalNotification.alertBody = alertBody;
-            //geoLocalNotification.userInfo = notifyStr;
-            geoLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
-            
-            [[UIApplication sharedApplication] scheduleLocalNotification:geoLocalNotification];
-            
-            //[geoLocalNotification release];
-        }
-        else
-        {
-            [self showGeoAlertWithBody:notifyStr];
-        }
-    }
-}
+//- (void)pushGeoInfor
+//{
+//    //locationUpdating = NO;
+//    
+//    if ([notifyStr length] > 0) {
+//        
+//        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+//        {
+//            // show by local notification
+//            if (geoLocalNotification != nil) {
+//                [[UIApplication sharedApplication] cancelLocalNotification:geoLocalNotification];
+//            } else {
+//                geoLocalNotification = [[UILocalNotification alloc] init];
+//                //geoLocalNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+//            }
+//            geoLocalNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+//            
+//            NSString *alertBody = [NSString stringWithFormat:_atCurrentLocationYouHave,geoItemCount];
+//            geoLocalNotification.alertBody = alertBody;
+//            //geoLocalNotification.userInfo = notifyStr;
+//            geoLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
+//            
+//            [[UIApplication sharedApplication] scheduleLocalNotification:geoLocalNotification];
+//            
+//            //[geoLocalNotification release];
+//        }
+//        else
+//        {
+//            [self showGeoAlertWithBody:notifyStr];
+//        }
+//    }
+//}
 
 - (void)initGeoLocation
 {
@@ -1405,12 +1600,16 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     [self deactiveLocationTimer];
     
     //geocodeDispatchGroup = dispatch_group_create();
+    if (geocodeQueue != nil) {
+        [geocodeQueue release];
+    }
     geocodeQueue = [[NSOperationQueue alloc] init];
     geocodingLock = dispatch_semaphore_create(1);
     
-    notifyStr = [[NSMutableString alloc] init];
+    //notifyStr = [[NSMutableString alloc] init];
     
     locationUpdating = NO;
+    eventLocationNumber = 0;
     taskLocationNumber = 0;
 }
 

@@ -752,7 +752,9 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_noResultsFoundText" = "No Results Found";
 "_didYouMean" = "Did you mean...";
 "_arriveText" = "Arrive";
+"_arriveAtText" = "Arrive at %@";
 "_leaveText" = "Leave";
+"_leaveAtText" = "Leave %@";
 "_alertBasedOnAddressText" = "Alert based on address";
 
 "_SmartDayOnline" = "SmartDay Online";

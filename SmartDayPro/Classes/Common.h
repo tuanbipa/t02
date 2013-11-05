@@ -171,7 +171,8 @@ typedef enum
 	BUSY_EK_SYNC = 128,
 	BUSY_TD_SYNC = 256,
     BUSY_SDW_SYNC = 512,
-    BUSY_REMINDER_SYNC = 1024
+    BUSY_REMINDER_SYNC = 1024,
+    BUSY_SEARCH_LOCATION = 2048
 	
 } BusyCode;
 
@@ -477,6 +478,13 @@ typedef enum
     LIST_BY_CATEGORY
     
 } ListViewOption;
+
+typedef enum
+{
+    LOCATION_NONE = 0,
+    LOCATION_ARRIVE,
+    LOCATION_LEAVE
+} LocationDataStatus;
 
 typedef struct 
 {

@@ -12,6 +12,7 @@
 #import "LocationManager.h"
 #import <AddressBookUI/AddressBookUI.h>
 #import "LocationListViewController.h"
+#import "BusyController.h"
 
 @interface LocationDetailViewController ()
 
@@ -20,10 +21,14 @@
 @implementation LocationDetailViewController
 
 @synthesize location;
+@synthesize locationCopy;
+@synthesize searchPlacemarksCache;
+@synthesize currentLocation;
 
 - (void) dealloc
 {
     self.location = nil;
+    self.locationCopy = nil;
     self.searchPlacemarksCache = nil;
     self.currentLocation = nil;
     
@@ -85,6 +90,8 @@
     currentLocationButton.layer.borderColor = [[Colors blueButton] CGColor];
     
     [contentView addSubview:currentLocationButton];
+    
+    self.locationCopy = self.location;
 }
 
 - (void)viewDidLoad
@@ -112,6 +119,8 @@
         [locationManager stopUpdatingLocation];
         [locationManager release];
     }
+    
+    [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
 }
 
 #pragma mark methods
@@ -125,6 +134,8 @@
     self.location.name = nameTextField.text;
     self.location.address = addressTextField.text;
     
+    [self.location refreshLatituAndLongitude:self.locationCopy];
+    
     [[LocationManager getInstance] saveLocation:location];
 }
 
@@ -133,6 +144,8 @@
     if (self.currentLocation == nil) {
         return;
     }
+    
+    [[BusyController getInstance] setBusy:YES withCode:BUSY_SEARCH_LOCATION];
     
     CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
     
@@ -144,6 +157,8 @@
         addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
         
         addressTextField.text = addressStr;
+        
+        [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
     }];
 }
 
@@ -152,7 +167,12 @@
     // perform geocode
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     
+    [[BusyController getInstance] setBusy:YES withCode:BUSY_SEARCH_LOCATION];
+    
     [geocoder geocodeAddressString:addressTextField.text completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
+        
         // There is no guarantee that the CLGeocodeCompletionHandler will be invoked on the main thread.
         // So we use a dispatch_async(dispatch_get_main_queue(),^{}) call to ensure that UI updates are always
         // performed from the main thread.
@@ -201,7 +221,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    self.currentLocation = [[locations lastObject] retain];
+    self.currentLocation = [locations lastObject];
 }
 
 #pragma mark - UITextFieldDelegate

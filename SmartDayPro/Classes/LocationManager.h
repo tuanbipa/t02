@@ -20,4 +20,6 @@
 
 - (NSMutableArray*)getAllLocation;
 - (void)saveLocation: (Location*) location;
+- (void)resetLocationStatus;
+- (NSMutableArray*)getLocationsByStatus: (NSInteger) status;
 @end

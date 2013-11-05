@@ -32,17 +32,22 @@
     CLLocationManager *locationManager;
     NSTimer *locationTimer;
     NSInteger geoItemCount;
-    NSInteger taskLocationNumber;
+    NSInteger eventLocationNumber;
     
     //dispatch_group_t geocodeDispatchGroup;
     NSOperationQueue * geocodeQueue;
     dispatch_semaphore_t geocodingLock;
     
-    NSMutableString *notifyStr;
+    //NSMutableString *notifyStr;
     BOOL locationUpdating;
-    UILocalNotification *geoLocalNotification;
+    UILocalNotification *arriveNotification;
+    UILocalNotification *leaveNotification;
     CLLocation *lastLocation;
-    BOOL isActiveGeoFencing;
+    //BOOL isActiveGeoFencing;
+    
+    // location data count in
+    //NSMutableArray *locationIDList;
+    NSInteger taskLocationNumber;
 }
 
 @property (strong, nonatomic) UIWindow *window;

@@ -14,16 +14,16 @@
     NSInteger primaryKey;
     NSString *name;
     NSString *address;
-    NSInteger latitude;
-    NSInteger longitude;
+    CGFloat latitude;
+    CGFloat longitude;
     NSInteger inside;
 }
 
 @property NSInteger primaryKey;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *address;
-@property NSInteger latitude;
-@property NSInteger longitude;
+@property CGFloat latitude;
+@property CGFloat longitude;
 @property NSInteger inside;
 
 #pragma mark Methods
@@ -32,4 +32,5 @@
 - (void) insetIntoDB: (sqlite3 *)database;
 - (void) updateIntoDB:(sqlite3 *)database;
 - (void) deleteFromDatabase:(sqlite3 *)database;
+- (void)refreshLatituAndLongitude: (Location*) loc;
 @end

@@ -26,6 +26,7 @@
 }
 
 @property (nonatomic, retain) Location *location;
+@property (nonatomic, copy) Location *locationCopy;
 @property (nonatomic, retain) NSArray *searchPlacemarksCache;
 @property (nonatomic, retain) CLLocation *currentLocation;
 @end

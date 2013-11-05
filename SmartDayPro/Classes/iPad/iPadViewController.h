@@ -27,6 +27,10 @@
     UIButton *commentButton;
 
     BOOL firstTimeLoad;
+    
+    // location data filter
+    UIButton *taskLocationButton;
+    UILabel *taskLocationLable;
 }
 
 @property (nonatomic, retain) AbstractActionViewController *activeViewCtrler;
@@ -53,4 +57,6 @@
 
 - (void) changeOrientation:(UIInterfaceOrientation) orientation;
 
+// task location
+- (void)refreshGeoTaskLocation;
 @end

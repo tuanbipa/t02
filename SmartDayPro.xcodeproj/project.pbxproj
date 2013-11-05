@@ -2656,6 +2656,9 @@
 		67FBA11717A646CD00EB1BD5 /* URLAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */; };
 		67FBA11A17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
 		67FBA11B17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
+		A202CEF518289064001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
+		A202CEF618289065001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
+		A202CEF718289065001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
 		A22A624A1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
 		A22A624B1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
 		A22A624C1778293900AD1634 /* atask_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62491778293900AD1634 /* atask_lines@2x.png */; };
@@ -3823,6 +3826,8 @@
 		67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAssetManager.m; sourceTree = "<group>"; };
 		67FBA11817A665D200EB1BD5 /* URLAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLAsset.h; sourceTree = "<group>"; };
 		67FBA11917A665D400EB1BD5 /* URLAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAsset.m; sourceTree = "<group>"; };
+		A202CEF318289064001840EE /* TaskLocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLocationListViewController.h; sourceTree = "<group>"; };
+		A202CEF418289064001840EE /* TaskLocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskLocationListViewController.m; sourceTree = "<group>"; };
 		A22A62481778293800AD1634 /* atask_lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atask_lines.png; sourceTree = "<group>"; };
 		A22A62491778293900AD1634 /* atask_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atask_lines@2x.png"; sourceTree = "<group>"; };
 		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
@@ -4512,6 +4517,8 @@
 				A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */,
 				A2CE6DB9181E395F00FAEF05 /* LocationDetailViewController.h */,
 				A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */,
+				A202CEF318289064001840EE /* TaskLocationListViewController.h */,
+				A202CEF418289064001840EE /* TaskLocationListViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -7635,6 +7642,7 @@
 				6748B8B2180401820043A80E /* WorkingTime7ViewController.m in Sources */,
 				6748B8B3180401820043A80E /* WWWTableViewController.m in Sources */,
 				6748B8B4180401820043A80E /* Reachability.m in Sources */,
+				A202CEF518289064001840EE /* TaskLocationListViewController.m in Sources */,
 				6748B8B5180401820043A80E /* SDWAccountViewController.m in Sources */,
 				6748B8B6180401820043A80E /* SDWSection.m in Sources */,
 				6748B8B7180401820043A80E /* SDWSetting.m in Sources */,
@@ -7846,6 +7854,7 @@
 				67CF2D4616195196001FE1AA /* WorkingTime7ViewController.m in Sources */,
 				67CF2D4716195196001FE1AA /* WWWTableViewController.m in Sources */,
 				67CF2D5316195196001FE1AA /* Reachability.m in Sources */,
+				A202CEF618289065001840EE /* TaskLocationListViewController.m in Sources */,
 				67CF2D5416195196001FE1AA /* SDWAccountViewController.m in Sources */,
 				67CF2D5516195196001FE1AA /* SDWSection.m in Sources */,
 				67CF2D5616195196001FE1AA /* SDWSetting.m in Sources */,
@@ -8057,6 +8066,7 @@
 				67EC0CEE16F8081F00929BFD /* WorkingTime7ViewController.m in Sources */,
 				67EC0CEF16F8081F00929BFD /* WWWTableViewController.m in Sources */,
 				67EC0CFB16F8081F00929BFD /* Reachability.m in Sources */,
+				A202CEF718289065001840EE /* TaskLocationListViewController.m in Sources */,
 				67EC0CFC16F8081F00929BFD /* SDWAccountViewController.m in Sources */,
 				67EC0CFD16F8081F00929BFD /* SDWSection.m in Sources */,
 				67EC0CFE16F8081F00929BFD /* SDWSetting.m in Sources */,

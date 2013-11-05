@@ -128,6 +128,12 @@ iPadViewController *_iPadViewCtrler;
     [self.activeViewCtrler showUnreadComments];
 }
 
+- (void) showGeoTaskLocation:(id) sender
+{
+    UIButton *bt = (UIButton*)sender;
+    [self.activeViewCtrler showGeoTaskLocation:bt.frame];
+}
+
 - (void) showTag:(id) sender
 {
     //[_iPadSDViewCtrler showTag];
@@ -225,6 +231,41 @@ iPadViewController *_iPadViewCtrler;
         
         UIBarButtonItem *tagButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tagButton];
         
+        // task location =========================
+        taskLocationButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(0, 0, 40, 40)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(showGeoTaskLocation:)
+                                 normalStateImage:@"bar_comments.png"
+                               selectedStateImage:nil];
+        taskLocationButton.hidden = YES;
+        
+        taskLocationLable = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
+        taskLocationLable.font = [UIFont boldSystemFontOfSize:12];
+        taskLocationLable.textColor = [UIColor whiteColor];
+        taskLocationLable.textAlignment = NSTextAlignmentCenter;
+        //taskLocationLable.tag = 10000;
+        taskLocationLable.text = @"0";
+        taskLocationLable.layer.cornerRadius = 3;
+        taskLocationLable.backgroundColor = [Colors redButton];
+        
+        [taskLocationButton addSubview:taskLocationLable];
+        [taskLocationLable release];
+        
+        UIBarButtonItem *taskLocationButtonItem = [[UIBarButtonItem alloc] initWithCustomView:taskLocationButton];
+        // end task location
+        
+        timerButton = [Common createButton:@""
+                                buttonType:UIButtonTypeCustom
+                                     frame:CGRectMake(0, 0, 40, 40)
+                                titleColor:[UIColor whiteColor]
+                                    target:self
+                                  selector:@selector(showTimer:)
+                          normalStateImage:@"bar_timer.png"
+                        selectedStateImage:nil];
+        
         commentButton = [Common createButton:@""
                                 buttonType:UIButtonTypeCustom
                                      frame:CGRectMake(0, 0, 40, 40)
@@ -285,7 +326,8 @@ iPadViewController *_iPadViewCtrler;
         UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
         [searchBar release];
         
-        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixed40Item, commentButtonItem, fixedItem, timerButtonItem, flexItem, searchBarItem,nil];
+        //NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixed40Item, commentButtonItem, fixedItem, timerButtonItem, flexItem, searchBarItem,nil];
+        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixed40Item, taskLocationButtonItem, fixedItem, timerButtonItem, fixed40Item, commentButtonItem, flexItem, searchBarItem,nil];
         //NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, flexItem, searchBarItem,nil];
         
         [flexItem release];
@@ -297,6 +339,7 @@ iPadViewController *_iPadViewCtrler;
         [tagButtonItem release];
         [searchBarItem release];
         [commentButtonItem  release];
+        [taskLocationButtonItem release];
         
         self.navigationItem.leftBarButtonItems = items;
     }
@@ -531,6 +574,17 @@ iPadViewController *_iPadViewCtrler;
         UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
         badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
     });
+}
+
+- (void)refreshGeoTaskLocation
+{
+    DBManager *dbm = [DBManager getInstance];
+    NSInteger count = [dbm countTaskByLocation];
+    
+    NSLog(@"refresh task location %d", count);
+    
+    taskLocationButton.hidden = (count == 0);
+    taskLocationLable.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
 }
 
 - (void)filterChange:(NSNotification *)notification
@@ -856,6 +910,8 @@ iPadViewController *_iPadViewCtrler;
     //[[[AbstractActionViewController getInstance] getSmartListViewController] refreshLayout];
     
     [self refreshUnreadComments:nil];
+    
+    [self refreshGeoTaskLocation];
 }
 
 - (void)didReceiveMemoryWarning

@@ -115,6 +115,7 @@
 
 - (void) showCategory;
 - (void) showUnreadComments;
+- (void)showGeoTaskLocation: (CGRect)rect;
 - (void) showTag;
 - (void) showTimer;
 - (void) showSettingMenu;

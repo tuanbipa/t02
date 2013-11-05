@@ -36,7 +36,6 @@
 - (NSString *) getItemNameByKey:(NSInteger)taskKey;
 - (NSString *) getProjectNameByKey:(NSInteger)prjKey;
 - (NSMutableArray *) getAllTasks;
-- (NSMutableArray *) getAllTasksEventsHaveLocation;
 - (NSMutableArray *) getTasks2Sync;
 - (NSMutableArray *) getModifiedTasks2Sync:(NSDate *)afterDate;
 - (NSMutableArray *) getTasks;
@@ -130,6 +129,12 @@
 -(NSMutableArray *) getInProgressTaskList;
 -(TaskProgress *)getLastProgressForTask:(NSInteger) taskKey;
 - (GoalInfo) getGoalFromDate:(NSDate *)startDate toDate:(NSDate *)endDate;
+
+#pragma mark Geo Task Location
+// location data
+- (NSMutableArray *) getAllEventsHaveAlertBasedLocation;
+- (NSInteger)countTaskByLocation;
+- (NSMutableArray*)getCurrentTaskLocation;
 
 //SDW Sync
 - (NSMutableArray *) getAllComments;
