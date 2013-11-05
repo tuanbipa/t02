@@ -15,6 +15,7 @@
 
 #import "DefaultDurationViewController.h"
 #import "NumberInputViewController.h"
+#import "MustDoEditViewController.h"
 
 @interface iPadTaskSettingViewController ()
 
@@ -44,13 +45,20 @@
 
 - (void) editMustDoDays
 {
+    /*
 	NumberInputViewController *ctrler = [[NumberInputViewController alloc] init];
     
 	ctrler.objectEdit = self.setting;
 	ctrler.keyEdit = SETTING_EDIT_MUSTDO_DAYS;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];	
+	[ctrler release];*/
+	
+	MustDoEditViewController *ctrler = [[MustDoEditViewController alloc] init];
+    ctrler.settings = self.setting;
+	
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
 }
 
 #pragma mark Actions

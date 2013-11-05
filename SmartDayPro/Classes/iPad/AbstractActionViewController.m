@@ -2178,9 +2178,9 @@ extern DetailViewController *_detailViewCtrler;
 		}
 		else
 		{
-            UIActionSheet *deleteActionSheet = [[UIActionSheet alloc] initWithTitle:_deleteCategoryWarningText delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:_deleteText otherButtonTitles: nil];
+            //UIActionSheet *deleteActionSheet = [[UIActionSheet alloc] initWithTitle:_deleteCategoryWarningText delegate:self cancelButtonTitle:_cancelText destructiveButtonTitle:_deleteText otherButtonTitles:_okText, nil];
+            UIActionSheet *deleteActionSheet = [[UIActionSheet alloc] initWithTitle:_deleteCategoryWarningText delegate:self cancelButtonTitle:nil destructiveButtonTitle:_deleteText otherButtonTitles:_cancelText, nil];
             
-            //[deleteActionSheet showInView:contentView];
             [deleteActionSheet showInView:_isiPad?contentView:_sdViewCtrler.navigationController.topViewController.view];
             
             [deleteActionSheet release];
@@ -2761,33 +2761,6 @@ extern DetailViewController *_detailViewCtrler;
 	{
 		if (buttonIndex > 0)
 		{
-            /*
-            BOOL isADE = ([actionTask isADE] || [actionTaskCopy isADE]);
-            
-            if (buttonIndex == 2) //all series
-            {
-                if ([Common daysBetween:actionTask.startTime sinceDate:actionTaskCopy.startTime] == 0 && [Common daysBetween:actionTask.endTime sinceDate:actionTaskCopy.endTime] == 0 && actionTask.timeZoneId == actionTaskCopy.timeZoneId) //user does not change date -> keep root date
-                {
-                    actionTaskCopy.startTime = [Common copyTimeFromDate:actionTaskCopy.startTime toDate:actionTask.original.startTime];
-                    actionTaskCopy.endTime = [Common copyTimeFromDate:actionTaskCopy.endTime toDate:actionTask.original.endTime];
-                }
-            }
-            
-			[[TaskManager getInstance] updateREInstance:actionTask withRE:actionTaskCopy updateOption:buttonIndex];
-            
-            [self reconcileItem:actionTask reSchedule:YES];
-            
-            if ([self isKindOfClass:[PlannerViewController class]]) {
-                if (isADE) {
-                    PlannerMonthView *plannerMonthView = (PlannerMonthView*)[self getPlannerMonthCalendarView];
-                    // reload openning week
-                    [plannerMonthView refreshOpeningWeek:nil];
-                } else {
-                    PlannerBottomDayCal *plannerDayCal = [self getPlannerDayCalendarView];
-                    [plannerDayCal refreshLayout];
-                }
-            }*/
-            
             [self updateRE:buttonIndex];
 		}
         

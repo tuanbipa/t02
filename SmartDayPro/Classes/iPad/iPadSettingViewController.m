@@ -42,6 +42,7 @@
 #import "SnoozeDurationViewController.h"
 #import "TaskSyncViewController.h"
 #import "TimeZonePickerViewController.h"
+#import "MustDoEditViewController.h"
 
 #import "CategoryViewController.h"
 #import "CalendarViewController.h"
@@ -642,6 +643,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     else if ([viewController isKindOfClass:[TimeZonePickerViewController class]])
     {
         navLabel.text = _timeZone;
+    }
+    else if ([viewController isKindOfClass:[MustDoEditViewController class]])
+    {
+        navLabel.text = _mustDoRangeText;
     }
 }
 

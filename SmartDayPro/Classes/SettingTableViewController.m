@@ -54,6 +54,7 @@
 
 #import "CalendarViewController.h"
 #import "NumberInputViewController.h"
+#import "MustDoEditViewController.h"
 
 #import "ToodledoSyncViewController.h"
 #import "TaskSyncViewController.h"
@@ -473,12 +474,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) editMustDoDays
 {
+    /*
 	NumberInputViewController *ctrler = [[NumberInputViewController alloc] init];
 	ctrler.objectEdit = self.settingCopy;
 	ctrler.keyEdit = SETTING_EDIT_MUSTDO_DAYS;
 	
 	[self.navigationController pushViewController:ctrler animated:YES];
-	[ctrler release];	
+	[ctrler release];*/
+    
+	MustDoEditViewController *ctrler = [[MustDoEditViewController alloc] init];
+    ctrler.settings = self.settingCopy;
+	
+	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
+    
 }
 
 /*
