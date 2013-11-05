@@ -65,6 +65,9 @@
 		67073C841828A3DE004D06E4 /* detail_hint.png in Resources */ = {isa = PBXBuildFile; fileRef = 67073C831828A3DE004D06E4 /* detail_hint.png */; };
 		67073C851828A3DE004D06E4 /* detail_hint.png in Resources */ = {isa = PBXBuildFile; fileRef = 67073C831828A3DE004D06E4 /* detail_hint.png */; };
 		67073C861828A3DE004D06E4 /* detail_hint.png in Resources */ = {isa = PBXBuildFile; fileRef = 67073C831828A3DE004D06E4 /* detail_hint.png */; };
+		67073C891828CB2E004D06E4 /* MustDoEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67073C881828CB2E004D06E4 /* MustDoEditViewController.m */; };
+		67073C8A1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67073C881828CB2E004D06E4 /* MustDoEditViewController.m */; };
+		67073C8B1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67073C881828CB2E004D06E4 /* MustDoEditViewController.m */; };
 		67086205178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
 		67086206178D588A0078F4FA /* DateInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67086204178D588A0078F4FA /* DateInputViewController.m */; };
 		6711996B17E97FBF008ECDBC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2587D8F17CF4D450097CA51 /* MapKit.framework */; };
@@ -2780,6 +2783,8 @@
 		67056D121820A2C4009BA3A6 /* pullArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pullArrow.png; sourceTree = "<group>"; };
 		670613DC16FC0E2B0063EAD5 /* AlarmDrum.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AlarmDrum.wav; sourceTree = "<group>"; };
 		67073C831828A3DE004D06E4 /* detail_hint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_hint.png; sourceTree = "<group>"; };
+		67073C871828CB2E004D06E4 /* MustDoEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MustDoEditViewController.h; sourceTree = "<group>"; };
+		67073C881828CB2E004D06E4 /* MustDoEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MustDoEditViewController.m; sourceTree = "<group>"; };
 		67086203178D588A0078F4FA /* DateInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateInputViewController.h; sourceTree = "<group>"; };
 		67086204178D588A0078F4FA /* DateInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateInputViewController.m; sourceTree = "<group>"; };
 		67149D4517F3DF500005E8E2 /* menu_star_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_star_yellow.png; sourceTree = "<group>"; };
@@ -4343,6 +4348,14 @@
 				67CF2BC516195195001FE1AA /* LinkSearchViewController.m */,
 				67CF2BC616195195001FE1AA /* LinkViewController.h */,
 				67CF2BC716195195001FE1AA /* LinkViewController.m */,
+				A2D34C81181A703E004EB8F1 /* Location.h */,
+				A2D34C82181A703E004EB8F1 /* Location.m */,
+				A2CE6DB9181E395F00FAEF05 /* LocationDetailViewController.h */,
+				A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */,
+				A2D34C7B181A603F004EB8F1 /* LocationListViewController.h */,
+				A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */,
+				A2CE6DB4181E0FAD00FAEF05 /* LocationManager.h */,
+				A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */,
 				67CF2BD816195195001FE1AA /* LocationViewController.h */,
 				67CF2BD916195195001FE1AA /* LocationViewController.m */,
 				A2C17A6E17E1837700468CC5 /* MapLocationViewController.h */,
@@ -4369,6 +4382,8 @@
 				67CF2BF116195195001FE1AA /* MovableController.m */,
 				67CF2BF216195195001FE1AA /* MovableView.h */,
 				67CF2BF316195195001FE1AA /* MovableView.m */,
+				67073C871828CB2E004D06E4 /* MustDoEditViewController.h */,
+				67073C881828CB2E004D06E4 /* MustDoEditViewController.m */,
 				67DD5B3A179F871300CC1A72 /* NoteContentViewController.h */,
 				67DD5B3B179F871400CC1A72 /* NoteContentViewController.m */,
 				67DCE402179E859D0077EACA /* NoteDetailViewController.h */,
@@ -4512,14 +4527,6 @@
 				67CF2C7216195196001FE1AA /* WorkingTime7ViewController.m */,
 				67CF2C7316195196001FE1AA /* WWWTableViewController.h */,
 				67CF2C7416195196001FE1AA /* WWWTableViewController.m */,
-				A2D34C7B181A603F004EB8F1 /* LocationListViewController.h */,
-				A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */,
-				A2D34C81181A703E004EB8F1 /* Location.h */,
-				A2D34C82181A703E004EB8F1 /* Location.m */,
-				A2CE6DB4181E0FAD00FAEF05 /* LocationManager.h */,
-				A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */,
-				A2CE6DB9181E395F00FAEF05 /* LocationDetailViewController.h */,
-				A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -7695,6 +7702,7 @@
 				6748B8DE180401820043A80E /* iPadSettingViewController.m in Sources */,
 				A2D34C83181A703E004EB8F1 /* Location.m in Sources */,
 				6748B8DF180401820043A80E /* iPadGeneralSettingViewController.m in Sources */,
+				67073C891828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
 				6748B8E0180401820043A80E /* iPadCalendarSettingViewController.m in Sources */,
 				6748B8E1180401820043A80E /* iPadTaskSettingViewController.m in Sources */,
 				6748B8E2180401820043A80E /* iPadSyncSettingViewController.m in Sources */,
@@ -7906,6 +7914,7 @@
 				67FADC2616D3596A009D835D /* iPadSettingViewController.m in Sources */,
 				A2D34C84181A703E004EB8F1 /* Location.m in Sources */,
 				67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */,
+				67073C8A1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
 				67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */,
 				67E98FF516D4BDF5000E0DC6 /* iPadTaskSettingViewController.m in Sources */,
 				67E839D416D5B2DC00155ADE /* iPadSyncSettingViewController.m in Sources */,
@@ -8117,6 +8126,7 @@
 				67EC0D2516F8081F00929BFD /* iPadSettingViewController.m in Sources */,
 				A2D34C85181A703E004EB8F1 /* Location.m in Sources */,
 				67EC0D2616F8081F00929BFD /* iPadGeneralSettingViewController.m in Sources */,
+				67073C8B1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
 				67EC0D2716F8081F00929BFD /* iPadCalendarSettingViewController.m in Sources */,
 				67EC0D2816F8081F00929BFD /* iPadTaskSettingViewController.m in Sources */,
 				67EC0D2916F8081F00929BFD /* iPadSyncSettingViewController.m in Sources */,
