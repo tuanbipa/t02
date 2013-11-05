@@ -74,6 +74,8 @@ iPadViewController *_iPadViewCtrler;
     if (self = [super init])
     {
         selectedModuleButton = nil;
+        
+        isLoaded = NO;
     }
     
     return self;
@@ -791,13 +793,15 @@ iPadViewController *_iPadViewCtrler;
     // customizing appearance
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
-    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    //filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    filterSegmentedControl.tintColor = [Colors blueButton];
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                           [UIColor grayColor], UITextAttributeTextColor,
                                           //[UIColor blackColor], UITextAttributeTextShadowColor,
                                           //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
                                           nil] forState:UIControlStateNormal];
-    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    //UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    UIColor *selectedColor = [UIColor whiteColor];
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     selectedColor, UITextAttributeTextColor,
                                                     nil] forState:UIControlStateSelected];
@@ -1336,6 +1340,13 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) loadView
 {
+    if (isLoaded)
+    {
+        return;
+    }
+    
+    isLoaded = YES;
+    
     CGRect frm = [Common getFrame];
     
     contentView = [[ContentView alloc] initWithFrame:frm];

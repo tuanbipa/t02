@@ -287,55 +287,63 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     [doneItem release];
     
-    UIButton *airDropButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 0, 30, 30)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(share2AirDrop:)
-                                  normalStateImage:@"menu_airdrop_white.png"
-                                selectedStateImage:nil];
-    
-    UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
-    
-    UIButton *taskConvertButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 0, 30, 30)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(convert2Task:)
-                                  normalStateImage:@"menu_converttotask_white.png"
-                                selectedStateImage:nil];
-    
-    UIBarButtonItem *taskConvertItem = [[UIBarButtonItem alloc] initWithCustomView:taskConvertButton];
-    
-    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedItem.width = 10;
-    
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(0, 0, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(delete:)
-                                 normalStateImage:@"menu_trash_white.png"
-                               selectedStateImage:nil];
-    
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
-    
-    if ([self.note isShared])
+    if (self.note == nil || (self.note.primaryKey == -1 && self.note.original == nil))
     {
-        self.navigationItem.rightBarButtonItem = airDropItem;
+        self.navigationItem.rightBarButtonItems = nil;
     }
     else
     {
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, taskConvertItem, fixedItem, airDropItem, nil];
+        UIButton *airDropButton = [Common createButton:@""
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:CGRectMake(0, 0, 30, 30)
+                                            titleColor:[UIColor whiteColor]
+                                                target:self
+                                              selector:@selector(share2AirDrop:)
+                                      normalStateImage:@"menu_airdrop_white.png"
+                                    selectedStateImage:nil];
+        
+        UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
+        
+        UIButton *taskConvertButton = [Common createButton:@""
+                                                buttonType:UIButtonTypeCustom
+                                                     frame:CGRectMake(0, 0, 30, 30)
+                                                titleColor:[UIColor whiteColor]
+                                                    target:self
+                                                  selector:@selector(convert2Task:)
+                                          normalStateImage:@"menu_converttotask_white.png"
+                                        selectedStateImage:nil];
+        
+        UIBarButtonItem *taskConvertItem = [[UIBarButtonItem alloc] initWithCustomView:taskConvertButton];
+        
+        UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        fixedItem.width = 10;
+        
+        UIButton *deleteButton = [Common createButton:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:CGRectMake(0, 0, 30, 30)
+                                           titleColor:[UIColor whiteColor]
+                                               target:self
+                                             selector:@selector(delete:)
+                                     normalStateImage:@"menu_trash_white.png"
+                                   selectedStateImage:nil];
+        
+        UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+        
+        if ([self.note isShared])
+        {
+            self.navigationItem.rightBarButtonItem = airDropItem;
+        }
+        else
+        {
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:deleteItem, fixedItem, taskConvertItem, fixedItem, airDropItem, nil];
+        }
+        
+        [airDropItem release];
+        [taskConvertItem release];
+        [fixedItem release];
+        [deleteItem release];
     }
     
-    [airDropItem release];
-    [taskConvertItem release];
-    [fixedItem release];
-    [deleteItem release];
     
     [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
 

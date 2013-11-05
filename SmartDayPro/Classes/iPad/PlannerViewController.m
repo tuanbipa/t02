@@ -1040,12 +1040,14 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
+
+    /*
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:self];
     
     CalendarViewController *ctrler = [self getCalendarViewController];
     
     [ctrler refreshLayout];//fix bug: create Event in landscape, rotate to portrait -> events are shown incorrectly in day calendar
+    */
 }
 
 - (void) adjustSubFrame: (NSNotification*) notification {
@@ -1213,13 +1215,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     // customizing appearance
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
-    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    //filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    filterSegmentedControl.tintColor = [Colors blueButton];
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     [UIColor grayColor], UITextAttributeTextColor,
                                                     //[UIColor blackColor], UITextAttributeTextShadowColor,
                                                     //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
                                                     nil] forState:UIControlStateNormal];
-    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    //UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    UIColor *selectedColor = [UIColor whiteColor];
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     selectedColor, UITextAttributeTextColor,
                                                     nil] forState:UIControlStateSelected];

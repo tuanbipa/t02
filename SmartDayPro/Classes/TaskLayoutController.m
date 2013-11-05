@@ -228,7 +228,7 @@ extern iPadViewController *_iPadViewCtrler;
     headerView.backgroundColor = [UIColor grayColor];
     
     UILabel *label = [[[UILabel alloc] init] autorelease];
-    label.frame = CGRectMake(0, 0, tableView.bounds.size.width, 20);
+    label.frame = CGRectMake(5, 0, tableView.bounds.size.width - 10, 20);
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:14];
     label.textColor = [UIColor whiteColor];

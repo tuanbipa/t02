@@ -114,6 +114,11 @@
     [hintView loadURL:url content:nil];
 }
 
+- (void)loadHTMLFile:(NSString *)fileName extension:(NSString *)fileExt
+{
+    [hintView loadHTMLFile:fileName extension:fileExt];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

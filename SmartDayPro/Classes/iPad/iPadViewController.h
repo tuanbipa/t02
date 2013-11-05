@@ -11,6 +11,7 @@
 #import "AbstractSDViewController.h"
 
 @class ContentView;
+@class GuideWebView;
 @class Task;
 @class Project;
 @class AbstractActionViewController;
@@ -19,6 +20,7 @@
 {
     ContentView *contentView;
     UIView *detailView;
+    UIView *hintView;
     
     UISearchBar *searchBar;
     UIButton *timerButton;

@@ -52,6 +52,8 @@
 #import "Location.h"
 #import "LocationListViewController.h"
 
+#import "HintModalViewController.h"
+
 //#import "NoteDetailTableViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
