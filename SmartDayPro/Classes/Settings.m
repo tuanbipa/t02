@@ -36,6 +36,7 @@ BOOL _gtdoTabHintShown = NO;
 BOOL _tagHintShown = NO;
 BOOL _featureHintShown = NO;
 BOOL _transparentHintShown = NO;
+BOOL _detailHintShown = NO;
 
 BOOL _versionUpgrade = NO;
 BOOL _dbUpgrade = NO;
@@ -120,6 +121,7 @@ extern BOOL _scFreeVersion;
 @synthesize transparentHint;
 @synthesize msdBackupHint;
 @synthesize guruHint;
+@synthesize detailHint;
 
 @synthesize deleteWarning;
 @synthesize doneWarning;
@@ -257,6 +259,7 @@ extern BOOL _scFreeVersion;
         self.transparentHint = YES;
         self.msdBackupHint = YES;
         self.guruHint = YES;
+        self.detailHint = YES;
 		
 		self.deleteWarning = YES;
 		self.doneWarning = YES;
@@ -1162,6 +1165,13 @@ extern BOOL _scFreeVersion;
 		{
 			self.guruHint = [guruHintSetting boolValue];
 		}
+
+		NSNumber *detailHintSetting = [self.hintDict objectForKey:@"DetailHint"];
+		
+		if (detailHintSetting != nil)
+		{
+			self.detailHint = [detailHintSetting boolValue];
+		}
         
 		NSNumber *move2MMConfirmationSetting = [self.hintDict objectForKey:@"Move2MMConfirmation"];
 		
@@ -1601,6 +1611,9 @@ extern BOOL _scFreeVersion;
 
 	NSNumber *guruHintSetting = [NSNumber numberWithBool:self.guruHint];
 	[self.hintDict setValue:guruHintSetting forKey:@"GuruHint"];
+
+	NSNumber *detailHintSetting = [NSNumber numberWithBool:self.detailHint];
+	[self.hintDict setValue:detailHintSetting forKey:@"DetailHint"];
     
 	NSNumber *move2MMConfirmationSetting = [NSNumber numberWithBool:self.move2MMConfirmation];
 	[self.hintDict setValue:move2MMConfirmationSetting forKey:@"Move2MMConfirmation"];
@@ -2520,6 +2533,13 @@ extern BOOL _scFreeVersion;
 	[self saveHintDict];
 }
 
+-(void)enableDetailHint:(BOOL)enabled
+{
+	self.detailHint = enabled;
+	
+	[self saveHintDict];
+}
+
 -(void)enableHideWarning:(BOOL)enabled
 {
 	self.hideWarning = enabled;
@@ -2551,6 +2571,7 @@ extern BOOL _scFreeVersion;
 	_tagHintShown = NO;
 	_featureHintShown = NO;
     _transparentHintShown = NO;
+    _detailHintShown = NO;
 }
 
 -(void)enableHints
@@ -2576,6 +2597,7 @@ extern BOOL _scFreeVersion;
     self.transparentHint = YES;
 	self.msdBackupHint = YES;
     self.guruHint = YES;
+    self.detailHint = YES;
     self.move2MMConfirmation = YES;
     
     [self saveHintDict];

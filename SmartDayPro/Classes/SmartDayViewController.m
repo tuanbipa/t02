@@ -71,6 +71,7 @@ extern BOOL _noteHintShown;
 extern BOOL _projectHintShown;
 extern BOOL _starTabHintShown;
 extern BOOL _gtdoTabHintShown;
+extern BOOL _detailHintShown;
 
 @interface SmartDayViewController ()
 
@@ -1178,8 +1179,9 @@ extern BOOL _gtdoTabHintShown;
     {
         [self.navigationController pushViewController:editCtrler animated:YES];
         [editCtrler release];
+        
+        [self performSelector:@selector(popupDetailHint) withObject:nil afterDelay:0.5];
     }
-    
 }
 
 - (void) editProjectDetail:(Project *)project
@@ -1705,7 +1707,154 @@ extern BOOL _gtdoTabHintShown;
 }
 
 #pragma mark Hint
+
+- (void) hint: (id) sender
+{
+    _detailHintShown = YES;
+    
+	Settings *settings = [Settings getInstance];
+    
+    NSInteger tag = [(UIButton *)sender tag];
+	
+	if (tag == 10001) //Don't Show
+	{
+		[settings enableDetailHint:NO];
+	}
+    
+    [self popdownDetailHint];
+    
+}
+
+-(UIView *) createDetailHintView
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 44;
+    
+    CGRect frm = CGRectZero;
+    
+    frm.origin.y = 20;
+    frm.size = sz;
+    
+	UIView *view = [[[UIView alloc] initWithFrame:frm] autorelease];
+	view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+	
+    frm.size.height -= 40;
+    
+	GuideWebView *hintLabel = [[GuideWebView alloc] initWithFrame:frm];
+    hintLabel.backgroundColor = [UIColor clearColor];
+    
+	[hintLabel loadHTMLFile:@"detail_hint" extension:@"htm"];
+	
+	[view addSubview:hintLabel];
+	
+	[hintLabel release];
+	
+	UIButton *hintOKButton = [Common createButton:_okText
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(frm.size.width - 110, frm.size.height + 25, 100, 30)
+                                       titleColor:[Colors blueButton]
+                                           target:self
+                                         selector:@selector(hint:)
+                                 normalStateImage:nil
+                               selectedStateImage:nil];
+	hintOKButton.tag = 10000;
+    
+    hintOKButton.layer.cornerRadius = 4;
+    hintOKButton.layer.borderWidth = 1;
+    hintOKButton.layer.borderColor = [[Colors blueButton] CGColor];
+	
+	UIButton *hintDontShowButton =[Common createButton:_dontShowText
+											buttonType:UIButtonTypeCustom
+                                                 frame:CGRectMake(10, frm.size.height + 25, 100, 30)
+											titleColor:[Colors blueButton]
+												target:self
+											  selector:@selector(hint:)
+									  normalStateImage:nil
+									selectedStateImage:nil];
+	hintDontShowButton.tag = 10001;
+    
+    hintDontShowButton.layer.cornerRadius = 4;
+    hintDontShowButton.layer.borderWidth = 1;
+    hintDontShowButton.layer.borderColor = [[Colors blueButton] CGColor];
+	
+	[view addSubview:hintOKButton];
+	
+	[view addSubview:hintDontShowButton];
+    
+    return view;
+}
+
+- (void) popupDetailHint
+{
+    Settings *settings = [Settings getInstance];
+    
+    if (!_detailHintShown && settings.detailHint)
+    {
+        HintModalViewController *ctrler = [[HintModalViewController alloc] init];
+        ctrler.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        UIView *hintView = [self createDetailHintView];
+        
+        ctrler.view = hintView;
+        
+        [hintView release];
+        
+        [self presentViewController:ctrler animated:YES completion:NULL];
+    }
+}
+
+- (void) popdownDetailHint
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 /*
+-(UIView *) createHintView
+{
+    CGSize sz = [Common getScreenSize];
+    sz.height += 44;
+    
+    CGRect frm = CGRectZero;
+    frm.size = sz;
+    
+    UIView *hintView = [[UIView alloc] initWithFrame:frm];
+    hintView.backgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:40.0/255 alpha:0.9];
+    
+    UIImageView *hintImageView = [[UIImageView alloc] initWithFrame:frm];
+    hintImageView.tag = 10002;
+    
+    [hintView addSubview:hintImageView];
+    [hintImageView release];
+    
+    UIButton *hintOKButton =[Common createButton:_okText
+                                      buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(210, frm.size.height - 40, 100, 30)
+                                      titleColor:nil
+                                          target:self
+                                        selector:@selector(hint:)
+                                normalStateImage:@"blue_button.png"
+                              selectedStateImage:nil];
+    [hintOKButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    hintOKButton.tag = 10000;
+    
+    UIButton *hintDontShowButton =[Common createButton:_dontShowText
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:CGRectMake(10, frm.size.height - 40, 100, 30)
+                                            titleColor:nil
+                                                target:self
+                                              selector:@selector(hint:)
+                                      normalStateImage:@"blue_button.png"
+                                    selectedStateImage:nil];
+    [hintDontShowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    hintDontShowButton.tag = 10001;
+    
+    [hintView addSubview:hintOKButton];
+    
+    [hintView addSubview:hintDontShowButton];
+    
+    return [hintView autorelease];
+}
+
 - (void) popupHint
 {
     
@@ -1770,7 +1919,6 @@ extern BOOL _gtdoTabHintShown;
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
-*/
 
 - (void) hint: (id) sender
 {
@@ -1802,7 +1950,7 @@ extern BOOL _gtdoTabHintShown;
     //[self dismissViewControllerAnimated:YES completion:NULL];
     [self popDownHint];
 }
-
+*/
 #pragma mark Views
 
 - (void)createNavigationView
@@ -3116,68 +3264,6 @@ extern BOOL _gtdoTabHintShown;
     [menu release];
 }
 
--(UIView *) createHintView
-{
-    //CGRect frm = contentView.bounds;
-    
-    CGSize sz = [Common getScreenSize];
-    sz.height += 44;
-    
-    CGRect frm = CGRectZero;
-    frm.size = sz;
-    
-	UIView *hintView = [[UIView alloc] initWithFrame:frm];
-	hintView.backgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:40.0/255 alpha:0.9];
-    
-    //frm.size.height -= 40;
-    
-	/*GuideWebView *hintLabel = [[GuideWebView alloc] initWithFrame:frm];
-    hintLabel.tag = 10002;
-    
-	[hintView addSubview:hintLabel];
-	
-	[hintLabel release];
-    */
-    
-    UIImageView *hintImageView = [[UIImageView alloc] initWithFrame:frm];
-    hintImageView.tag = 10002;
-    
-    [hintView addSubview:hintImageView];
-    [hintImageView release];
-	
-	UIButton *hintOKButton =[Common createButton:_okText
-									  buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(210, frm.size.height - 40, 100, 30)
-									  titleColor:nil
-										  target:self
-										selector:@selector(hint:)
-								normalStateImage:@"blue_button.png"
-							  selectedStateImage:nil];
-	[hintOKButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	hintOKButton.tag = 10000;
-	
-	UIButton *hintDontShowButton =[Common createButton:_dontShowText
-											buttonType:UIButtonTypeCustom
-                                                 frame:CGRectMake(10, frm.size.height - 40, 100, 30)
-											titleColor:nil
-												target:self
-											  selector:@selector(hint:)
-									  normalStateImage:@"blue_button.png"
-									selectedStateImage:nil];
-	[hintDontShowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	hintDontShowButton.tag = 10001;
-	
-	[hintView addSubview:hintOKButton];
-	
-	[hintView addSubview:hintDontShowButton];
-    
-    //[contentView addSubview:hintView];
-    //hintView.hidden = YES;
-    
-    return [hintView autorelease];
-}
-
-
 - (void)loadView
 {
     CGRect frm = CGRectZero;
@@ -3341,7 +3427,7 @@ extern BOOL _gtdoTabHintShown;
 {
     [self hideMiniMonth];
     
-    [self popDownHint];
+    //[self popDownHint];
     
     if (filterView.userInteractionEnabled == YES)
 	{

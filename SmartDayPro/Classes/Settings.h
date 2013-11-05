@@ -206,6 +206,7 @@
 @property BOOL transparentHint;
 @property BOOL msdBackupHint;
 @property BOOL guruHint;
+@property BOOL detailHint;
 
 @property BOOL deleteWarning;
 @property BOOL doneWarning;
@@ -326,6 +327,7 @@
 -(void)enableHideWarning:(BOOL)enabled;
 -(void)enableMSDBackupHint:(BOOL)enabled;
 -(void)enableGuruHint:(BOOL)enabled;
+-(void)enableDetailHint:(BOOL)enabled;
 
 -(void)enableHints;
 

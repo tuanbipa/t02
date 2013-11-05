@@ -1405,8 +1405,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) createHideFutureTasksCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
+    /*
 	cell.textLabel.text = _hideFutureTasks;
-	
+
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
 	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
@@ -1414,6 +1415,28 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.hideFutureTasks?0:1;
 	segmentedStyleControl.tag = baseTag;
+	
+	[cell.contentView addSubview:segmentedStyleControl];
+	[segmentedStyleControl release];*/
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 160, 40)];
+    titleLabel.numberOfLines = 2;
+    titleLabel.font = [UIFont systemFontOfSize:16];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textColor = [UIColor grayColor];
+    titleLabel.tag = baseTag;
+    titleLabel.text = _hideFutureTasks;
+    
+	[cell.contentView addSubview:titleLabel];
+	[titleLabel release];
+    
+	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedStyleControl.frame = CGRectMake(210, 5, 100, 30);
+	[segmentedStyleControl addTarget:self action:@selector(hideFutureTasks:) forControlEvents:UIControlEventValueChanged];
+	segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
+	segmentedStyleControl.selectedSegmentIndex = self.settingCopy.hideFutureTasks?0:1;
+	segmentedStyleControl.tag = baseTag+1;
 	
 	[cell.contentView addSubview:segmentedStyleControl];
 	[segmentedStyleControl release];

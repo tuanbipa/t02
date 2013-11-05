@@ -59,22 +59,40 @@ extern iPadViewController *_iPadViewCtrler;
     [super dealloc];
 }
 
+- (void) close
+{
+    if (_isiPad)
+    {
+        [_iPadViewCtrler closeDetail];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (void) done:(id) sender
 {
     [[AbstractActionViewController getInstance] deselect];
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
+    
+    [self close];
 }
 
 - (void) markDone:(id)sender
 {
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] markDoneTask];
+    
+    [self close];
 }
 
 - (void) share2AirDrop:(id) sender
 {
-    [_iPadViewCtrler closeDetail];
+    //[_iPadViewCtrler closeDetail];
     [[AbstractActionViewController getInstance] share2AirDrop];
+    
+    [self close];
 }
 
 - (void) setTask:(Task *)taskParam
@@ -131,7 +149,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     frm.size.height -= 20 + 2*44;
     
-    frm.size.width = 384;
+    frm.size.width = (_isiPad?384:320);
     
     [self changeFrame:frm];
 }
@@ -195,7 +213,7 @@ extern iPadViewController *_iPadViewCtrler;
         frm.size.height = frm.size.width - 20;
     }
     
-    frm.size.width = 384;
+    frm.size.width = (_isiPad?384:320);
     
 	contentView = [[UIView alloc] initWithFrame:frm];
 	contentView.backgroundColor = [UIColor clearColor];

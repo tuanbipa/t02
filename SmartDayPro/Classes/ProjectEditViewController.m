@@ -800,8 +800,10 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) share2AirDrop:(id) sender
 {
+    //[_abstractViewCtrler share2AirDrop];
+    [[AbstractActionViewController getInstance] share2AirDrop];
+    
     [_iPadViewCtrler closeDetail];
-    [_abstractViewCtrler share2AirDrop];
 }
 
 - (void) showConversations:(id) sender

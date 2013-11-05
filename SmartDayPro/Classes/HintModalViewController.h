@@ -22,4 +22,6 @@
 
 - (void)loadURL:(NSString *)url;
 
+- (void)loadHTMLFile:(NSString *)fileName extension:(NSString *)fileExt;
+
 @end

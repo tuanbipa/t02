@@ -7,7 +7,12 @@
 //
 
 #import "RestoreViewController.h"
+
 #import "Common.h"
+
+#import "DBManager.h"
+#import "AbstractActionViewController.h"
+
 #import "SmartCalAppDelegate.h"
 
 //extern BOOL _isiPad;
@@ -128,7 +133,11 @@
     }
     [fileManager copyItemAtPath:filePath toPath:dBPath error:&error];
     
-    exit(0);
+    //exit(0);
+    
+    [DBManager startup];
+    
+    [[AbstractActionViewController getInstance] resetAllData];
 }
 
 - (NSDate *)getFileMoficationDate: (NSString *) fileName

@@ -26,6 +26,8 @@ typedef enum
     
     //UIButton *taskMultiEditButton;
     NSInteger selectedCounter;
+    
+    BOOL isLoaded;
 }
 
 //@property (nonatomic, retain) UIPopoverController *popoverCtrler;

@@ -20,6 +20,7 @@
 #import "PlanView.h"
 #import "ContentView.h"
 #import "MovableView.h"
+#import "GuideWebView.h"
 
 #import "ImageManager.h"
 #import "TaskManager.h"
@@ -49,6 +50,8 @@
 #import "GuruViewController.h"
 
 //extern BOOL _isiPad;
+
+extern BOOL _detailHintShown;
 
 extern SmartCalAppDelegate *_appDelegate;
 
@@ -150,6 +153,7 @@ iPadViewController *_iPadViewCtrler;
 {
     if (searchBar != nil && [searchBar isFirstResponder])
     {
+        searchBar.text = @"";
         [searchBar resignFirstResponder];
         [self.activeViewCtrler hidePopover];
     }
@@ -507,10 +511,17 @@ iPadViewController *_iPadViewCtrler;
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     
     [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
+    
+    if ([ctrler isKindOfClass:[DetailViewController class]] || [ctrler isKindOfClass:[TaskReadonlyDetailViewController class]] || [ctrler isKindOfClass:[NoteDetailViewController class]])
+    {
+        [self performSelector:@selector(popupDetailHint) withObject:nil afterDelay:0.5];
+    }
 }
 
 - (void) closeDetail
 {
+    [self popdownDetailHint];
+    
     if (self.detailNavCtrler != nil)
     {
         if (inSlidingMode)
@@ -534,6 +545,121 @@ iPadViewController *_iPadViewCtrler;
         [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
         
         self.detailNavCtrler = nil;
+    }
+}
+
+- (void) hint: (id) sender
+{
+    _detailHintShown = YES;
+    
+	Settings *settings = [Settings getInstance];
+    
+    NSInteger tag = [(UIButton *)sender tag];
+	
+	if (tag == 10001) //Don't Show
+	{
+		[settings enableDetailHint:NO];
+	}
+    
+    [self popdownDetailHint];
+
+}
+
+-(UIView *) createDetailHintView
+{
+    CGRect frm = detailView.bounds;
+	UIView *view = [[[UIView alloc] initWithFrame:frm] autorelease];
+	view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+	
+    frm.size.height -= 40;
+    
+	GuideWebView *hintLabel = [[GuideWebView alloc] initWithFrame:frm];
+    hintLabel.backgroundColor = [UIColor clearColor];
+    
+	[hintLabel loadHTMLFile:@"detail_hint" extension:@"htm"];
+	
+	[view addSubview:hintLabel];
+	
+	[hintLabel release];
+	
+	UIButton *hintOKButton = [Common createButton:_okText
+									  buttonType:UIButtonTypeCustom
+                                           frame:CGRectMake(frm.size.width - 110, frm.size.height + 5, 100, 30)
+									  titleColor:[Colors blueButton]
+										  target:self
+										selector:@selector(hint:)
+								normalStateImage:nil
+							  selectedStateImage:nil];
+	hintOKButton.tag = 10000;
+    
+    hintOKButton.layer.cornerRadius = 4;
+    hintOKButton.layer.borderWidth = 1;
+    hintOKButton.layer.borderColor = [[Colors blueButton] CGColor];
+	
+	UIButton *hintDontShowButton =[Common createButton:_dontShowText
+											buttonType:UIButtonTypeCustom
+                                                 frame:CGRectMake(10, frm.size.height + 5, 100, 30)
+											titleColor:[Colors blueButton]
+												target:self
+											  selector:@selector(hint:)
+									  normalStateImage:nil
+									selectedStateImage:nil];
+	hintDontShowButton.tag = 10001;
+    
+    hintDontShowButton.layer.cornerRadius = 4;
+    hintDontShowButton.layer.borderWidth = 1;
+    hintDontShowButton.layer.borderColor = [[Colors blueButton] CGColor];
+	
+	[view addSubview:hintOKButton];
+	
+	[view addSubview:hintDontShowButton];
+    
+    return view;
+}
+
+- (void) popupDetailHint
+{
+    Settings *settings = [Settings getInstance];
+    
+    if (settings.detailHint && !_detailHintShown)
+    {
+        hintView = [self createDetailHintView];
+        
+        [detailView addSubview:hintView];
+        
+        CATransition *animation = [CATransition animation];
+        [animation setDelegate:self];
+        
+        [animation setType:kCATransitionMoveIn];
+        [animation setSubtype:kCATransitionFromTop];
+        
+        // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
+        [animation setDuration:kTransitionDuration];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        
+        [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
+    }
+}
+
+- (void) popdownDetailHint
+{
+    if (hintView != nil && [hintView superview])
+    {
+        [hintView removeFromSuperview];
+        
+        CATransition *animation = [CATransition animation];
+        [animation setDelegate:self];
+        
+        [animation setType:kCATransitionReveal];
+        [animation setSubtype:kCATransitionFromBottom];
+        
+        // Set the duration and timing function of the transtion -- duration is passed in as a parameter, use ease in/ease out as the timing function
+        [animation setDuration:kTransitionDuration];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        
+        [detailView.layer addAnimation:animation forKey:kInfoViewAnimationKey];
+        
+        hintView = nil;
     }
 }
 
@@ -834,6 +960,8 @@ iPadViewController *_iPadViewCtrler;
     detailView.hidden = YES;
     
     [contentView addSubview:detailView];
+    
+    [_iPadSDViewCtrler loadView];
     
     //[self showPortraitView];
 }

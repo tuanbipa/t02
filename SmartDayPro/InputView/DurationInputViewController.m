@@ -41,6 +41,8 @@ extern DetailViewController *_detailViewCtrler;
     self.picker.countDownDuration = self.task.duration;
     
     self.noneItem.tintColor = self.task.duration == 0?[UIColor blueColor]:nil;
+    
+    zeroPick = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +53,10 @@ extern DetailViewController *_detailViewCtrler;
 
 - (IBAction)done:(id)sender
 {
-    self.task.duration = picker.countDownDuration;
+    if (!zeroPick)
+    {
+        self.task.duration = picker.countDownDuration;
+    }
     
     if (_detailViewCtrler != nil)
     {
@@ -63,6 +68,8 @@ extern DetailViewController *_detailViewCtrler;
 
 - (IBAction)durationChanged:(id)sender
 {
+    zeroPick = NO;
+    
     self.task.duration = picker.countDownDuration;
     
     self.noneItem.tintColor = self.task.duration == 0?[UIColor blueColor]:nil;
@@ -70,12 +77,17 @@ extern DetailViewController *_detailViewCtrler;
 
 - (IBAction)assignDuration:(id)sender
 {
+    zeroPick = NO;
+    
     UIBarButtonItem *item = (UIBarButtonItem *)sender;
     
     switch (item.tag)
     {
         case 0:
+        {
             self.task.duration = 0;
+            zeroPick = YES;
+        }
             break;
         case 1:
             self.task.duration = 15*60;
@@ -88,6 +100,7 @@ extern DetailViewController *_detailViewCtrler;
             break;
             
     }
+    
     self.picker.countDownDuration = self.task.duration;
     
     self.noneItem.tintColor = self.task.duration == 0?[UIColor blueColor]:nil;

@@ -11,6 +11,9 @@
 @class Task;
 
 @interface DurationInputViewController : UIViewController
+{
+    BOOL zeroPick;
+}
 
 @property (nonatomic, assign) IBOutlet UIDatePicker *picker;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *noneItem;

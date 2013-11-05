@@ -11,7 +11,9 @@
 #import "AbstractActionViewController.h"
 #import "BusyController.h"
 
-#define PULL_DISTANCE 150
+extern BOOL _isiPad;
+
+#define PULL_DISTANCE (_isiPad?150:100)
 
 @implementation ContentPullTableView
 

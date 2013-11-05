@@ -52,6 +52,8 @@
 #import "Location.h"
 #import "LocationListViewController.h"
 
+#import "HintModalViewController.h"
+
 //#import "NoteDetailTableViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
@@ -141,7 +143,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     [doneItem release];
     
-    if (self.task == nil)
+    if (self.task == nil || (self.task.primaryKey == -1 && self.task.original == nil))
     {
         self.navigationItem.rightBarButtonItems = nil;
         return;
