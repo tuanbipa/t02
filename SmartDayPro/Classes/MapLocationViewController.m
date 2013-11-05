@@ -13,7 +13,7 @@
 #import "iPadViewController.h"
 #import "SmartDayViewController.h"
 
-//extern BOOL _isiPad;
+extern BOOL _isiPad;
 extern iPadViewController *_iPadViewCtrler;
 extern SmartDayViewController *_sdViewCtrler;
 
@@ -87,38 +87,8 @@ extern SmartDayViewController *_sdViewCtrler;
     editLocationButton.tag = -1000;
     [contentView addSubview:editLocationButton];
     
-    UIColor *textColor = [UIColor colorWithRed:21.0/255 green:125.0/255 blue:251.0/255 alpha:1];
-    
-    // route button
-    /*UIButton *routeButton = [Common createButton:_routeText
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(contentView.bounds.size.width - 70, 5, 60, 30)
-                                      titleColor:textColor target:self
-                                        selector:@selector(routeDirection:)
-                                normalStateImage:nil
-                              selectedStateImage:nil];
-    
-    routeButton.layer.cornerRadius = 4;
-    routeButton.layer.borderWidth = 1;
-    routeButton.layer.borderColor = [[Colors blueButton] CGColor];
-    
-    [contentView addSubview:routeButton];*/
+    //UIColor *textColor = [UIColor colorWithRed:21.0/255 green:125.0/255 blue:251.0/255 alpha:1];
    
-    // open Apple Maps app
-    UIButton *openAppleMaps = [Common createButton:_openAppleMapsText
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(contentView.bounds.size.width - 170, endLabel.frame.origin.y + endLabel.frame.size.height + 5, 160, 30)
-                                      titleColor:textColor target:self
-                                        selector:@selector(openAppleMaps:)
-                                normalStateImage:nil
-                              selectedStateImage:nil];
-    openAppleMaps.tag = -1001;
-    openAppleMaps.layer.cornerRadius = 4;
-    openAppleMaps.layer.borderWidth = 1;
-    openAppleMaps.layer.borderColor = [[Colors blueButton] CGColor];
-    openAppleMaps.hidden = YES;
-    [contentView addSubview:openAppleMaps];
-    
     // ETA
     etaLable = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?10:endLabel.frame.origin.x, endLabel.frame.origin.y + endLabel.frame.size.height + 5, 300, 25)];
     etaLable.textColor = [UIColor blackColor];
@@ -131,6 +101,39 @@ extern SmartDayViewController *_sdViewCtrler;
     mapView.showsUserLocation = YES;
     [contentView addSubview:mapView];
     [mapView release];
+    
+    // =========tool bar
+    
+    CGFloat iconSize = _isiPad?30:28;
+    
+    UIButton *openMapsButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            frame:CGRectMake(0, 0, iconSize, iconSize)
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(openAppleMaps:)
+                                 normalStateImage:@"map_iOS7.png"
+                               selectedStateImage:nil];
+    
+    UIBarButtonItem *openMapsButtonItem = [[UIBarButtonItem alloc] initWithCustomView:openMapsButton];
+    
+    UIButton *exportMapButton = [Common createButton:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(0, 0, iconSize, iconSize)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(exportMap:)
+                                   normalStateImage:@"savemap.png"
+                                 selectedStateImage:nil];
+    
+    UIBarButtonItem *exportMapButtonItem = [[UIBarButtonItem alloc] initWithCustomView:exportMapButton];
+    
+    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedItem.width = 10;//(_isiPad?10:0);
+    
+    NSMutableArray *items = [NSMutableArray arrayWithObjects:exportMapButtonItem, fixedItem, openMapsButtonItem, nil];
+    
+    self.navigationItem.rightBarButtonItems = items;
     
     [self changeOrientation:self.interfaceOrientation];
 }
@@ -160,11 +163,6 @@ extern SmartDayViewController *_sdViewCtrler;
     UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
     self.navigationItem.leftBarButtonItem = doneItem;
     [doneItem release];
-    
-    // save button
-    UIBarButtonItem * saveItem = [[UIBarButtonItem alloc] initWithTitle:_exportMapText style:UIBarButtonItemStyleBordered target:self action:@selector(save:)];
-    self.navigationItem.rightBarButtonItem= saveItem;
-    [saveItem release];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -224,7 +222,7 @@ extern SmartDayViewController *_sdViewCtrler;
     }
 }
 
-- (void)save: (id)sender
+- (void)exportMap: (id)sender
 {
     UIGraphicsBeginImageContext(mapView.frame.size);
     [mapView.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -359,8 +357,6 @@ extern SmartDayViewController *_sdViewCtrler;
     etaLable.text = [NSString stringWithFormat:_isiPad?@"ETA: %@, %@ to destination": @"ETA: %@, %@", distance, [Common getDurationString:totalTime]];
     etaLable.tag = totalTime;
     
-    UIView *openAppleMaps = [contentView viewWithTag:-1001];
-    openAppleMaps.hidden = NO;
 }
 
 - (void)showNotFoundLocation: (NSString*) locationStr
@@ -379,8 +375,6 @@ extern SmartDayViewController *_sdViewCtrler;
     } else {
         etaLable.text = @"";
     }
-    UIView *openAppleMaps = [contentView viewWithTag:-1001];
-    openAppleMaps.hidden = YES;
 }
 
 - (void)openAppleMaps: (id)sender
@@ -389,6 +383,12 @@ extern SmartDayViewController *_sdViewCtrler;
     if([destination respondsToSelector:@selector(openInMapsWithLaunchOptions:)])
     {
         [destination openInMapsWithLaunchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving}];
+    } else {
+        MKMapItem *mapItem = [[MKMapItem alloc] init];
+        // Pass the map item to the Maps app
+        [mapItem openInMapsWithLaunchOptions:@{MKLaunchOptionsMapCenterKey:[NSValue valueWithMKCoordinate:[[mapView userLocation] location].coordinate]}];
+        //[[mapView userLocation] location];
+        [mapItem release];
     }
 }
 
@@ -487,12 +487,6 @@ extern SmartDayViewController *_sdViewCtrler;
     itemFrm = editLocationButton.frame;
     itemFrm.origin.x =  locationTextField.frame.origin.x + locationTextField.frame.size.width + seperator;
     editLocationButton.frame = itemFrm;
-    
-    // open Aplle Maps
-    UIView *openAppleMaps = [contentView viewWithTag:-1001];
-    itemFrm = openAppleMaps.frame;
-    itemFrm.origin.x = frm.size.width - itemFrm.size.width - seperator;
-    openAppleMaps.frame = itemFrm;
     
     // map view
     mapView.frame = CGRectMake(0, etaLable.frame.origin.y + etaLable.frame.size.height + 10, frm.size.width, frm.size.height - etaLable.frame.origin.y + etaLable.frame.size.height + 10);

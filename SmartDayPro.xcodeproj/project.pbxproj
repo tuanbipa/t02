@@ -2665,6 +2665,18 @@
 		A202CEF518289064001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
 		A202CEF618289065001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
 		A202CEF718289065001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
+		A202CEFC1828FC0D001840EE /* map_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEF81828FC0D001840EE /* map_iOS7.png */; };
+		A202CEFD1828FC0D001840EE /* map_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEF81828FC0D001840EE /* map_iOS7.png */; };
+		A202CEFE1828FC0D001840EE /* map_iOS7.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEF81828FC0D001840EE /* map_iOS7.png */; };
+		A202CEFF1828FC0D001840EE /* map_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEF91828FC0D001840EE /* map_iOS7@2x.png */; };
+		A202CF001828FC0D001840EE /* map_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEF91828FC0D001840EE /* map_iOS7@2x.png */; };
+		A202CF011828FC0D001840EE /* map_iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEF91828FC0D001840EE /* map_iOS7@2x.png */; };
+		A202CF021828FC0D001840EE /* savemap.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEFA1828FC0D001840EE /* savemap.png */; };
+		A202CF031828FC0D001840EE /* savemap.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEFA1828FC0D001840EE /* savemap.png */; };
+		A202CF041828FC0D001840EE /* savemap.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEFA1828FC0D001840EE /* savemap.png */; };
+		A202CF051828FC0D001840EE /* savemap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEFB1828FC0D001840EE /* savemap@2x.png */; };
+		A202CF061828FC0D001840EE /* savemap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEFB1828FC0D001840EE /* savemap@2x.png */; };
+		A202CF071828FC0D001840EE /* savemap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A202CEFB1828FC0D001840EE /* savemap@2x.png */; };
 		A22A624A1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
 		A22A624B1778293900AD1634 /* atask_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62481778293800AD1634 /* atask_lines.png */; };
 		A22A624C1778293900AD1634 /* atask_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22A62491778293900AD1634 /* atask_lines@2x.png */; };
@@ -3836,6 +3848,10 @@
 		67FBA11917A665D400EB1BD5 /* URLAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAsset.m; sourceTree = "<group>"; };
 		A202CEF318289064001840EE /* TaskLocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLocationListViewController.h; sourceTree = "<group>"; };
 		A202CEF418289064001840EE /* TaskLocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskLocationListViewController.m; sourceTree = "<group>"; };
+		A202CEF81828FC0D001840EE /* map_iOS7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_iOS7.png; sourceTree = "<group>"; };
+		A202CEF91828FC0D001840EE /* map_iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_iOS7@2x.png"; sourceTree = "<group>"; };
+		A202CEFA1828FC0D001840EE /* savemap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = savemap.png; sourceTree = "<group>"; };
+		A202CEFB1828FC0D001840EE /* savemap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "savemap@2x.png"; sourceTree = "<group>"; };
 		A22A62481778293800AD1634 /* atask_lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atask_lines.png; sourceTree = "<group>"; };
 		A22A62491778293900AD1634 /* atask_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atask_lines@2x.png"; sourceTree = "<group>"; };
 		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
@@ -4692,6 +4708,10 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A202CEF81828FC0D001840EE /* map_iOS7.png */,
+				A202CEF91828FC0D001840EE /* map_iOS7@2x.png */,
+				A202CEFA1828FC0D001840EE /* savemap.png */,
+				A202CEFB1828FC0D001840EE /* savemap@2x.png */,
 				67056D121820A2C4009BA3A6 /* pullArrow.png */,
 				6795A3F61806876D00764316 /* filterWKV@2x.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
@@ -5458,6 +5478,7 @@
 				6748B933180401820043A80E /* 2_menu.png in Resources */,
 				6748B934180401820043A80E /* 2_slider.png in Resources */,
 				6748B935180401820043A80E /* 2_tag_context.png in Resources */,
+				A202CF021828FC0D001840EE /* savemap.png in Resources */,
 				6748B936180401820043A80E /* 5_chrevon.png in Resources */,
 				6748B937180401820043A80E /* 6_progress.png in Resources */,
 				6748B938180401820043A80E /* dateJumpMenu.png in Resources */,
@@ -5491,6 +5512,7 @@
 				6748B953180401820043A80E /* WeekDayQuickAddHint.htm in Resources */,
 				6748B954180401820043A80E /* filter_atask@2x.png in Resources */,
 				6748B955180401820043A80E /* WeekViewHint.htm in Resources */,
+				A202CF051828FC0D001840EE /* savemap@2x.png in Resources */,
 				6748B956180401820043A80E /* WorkBalanceHint.htm in Resources */,
 				6748B957180401820043A80E /* menu_converttotask@2x.png in Resources */,
 				6748B958180401820043A80E /* menu_duplicate_white.png in Resources */,
@@ -5521,6 +5543,7 @@
 				6748B96E180401820043A80E /* black_menu.png in Resources */,
 				6748B96F180401820043A80E /* blue-small.png in Resources */,
 				67296F5F1816267900CD834A /* SD_aboutUS_1024.html in Resources */,
+				A202CEFF1828FC0D001840EE /* map_iOS7@2x.png in Resources */,
 				6748B970180401820043A80E /* blue_button.png in Resources */,
 				6748B971180401820043A80E /* blue_menu.png in Resources */,
 				6748B972180401820043A80E /* bluebg.png in Resources */,
@@ -6043,6 +6066,7 @@
 				6748BB5B180401820043A80E /* DescriptionInputAccessoryView.xib in Resources */,
 				6748BB5C180401820043A80E /* TimeZone.dat in Resources */,
 				6748BB5D180401820043A80E /* SD_aboutUS_768.html in Resources */,
+				A202CEFC1828FC0D001840EE /* map_iOS7.png in Resources */,
 				6748BB5E180401820043A80E /* SD_css_768.css in Resources */,
 				6748BB5F180401820043A80E /* SmartDayiPhone_205.png in Resources */,
 				6748BB60180401820043A80E /* SO_bg_768.jpg in Resources */,
@@ -6159,6 +6183,7 @@
 				67CF2EB6161951B8001FE1AA /* 2_menu.png in Resources */,
 				67CF2EB7161951B8001FE1AA /* 2_slider.png in Resources */,
 				67CF2EB8161951B8001FE1AA /* 2_tag_context.png in Resources */,
+				A202CF031828FC0D001840EE /* savemap.png in Resources */,
 				67CF2EB9161951B8001FE1AA /* 5_chrevon.png in Resources */,
 				67CF2EBA161951B8001FE1AA /* 6_progress.png in Resources */,
 				67CF2EBB161951B8001FE1AA /* dateJumpMenu.png in Resources */,
@@ -6192,6 +6217,7 @@
 				67CF2ED3161951B8001FE1AA /* WeekDayQuickAddHint.htm in Resources */,
 				67E1ACA217FC1E3500271156 /* filter_atask@2x.png in Resources */,
 				67CF2ED4161951B8001FE1AA /* WeekViewHint.htm in Resources */,
+				A202CF061828FC0D001840EE /* savemap@2x.png in Resources */,
 				67CF2ED5161951B8001FE1AA /* WorkBalanceHint.htm in Resources */,
 				67CEE35517E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */,
 				6700B2AD17F2874400AD8B3F /* menu_duplicate_white.png in Resources */,
@@ -6222,6 +6248,7 @@
 				67CF2EEA161951B8001FE1AA /* black_menu.png in Resources */,
 				67CF2EEB161951B8001FE1AA /* blue-small.png in Resources */,
 				67296F601816267900CD834A /* SD_aboutUS_1024.html in Resources */,
+				A202CF001828FC0D001840EE /* map_iOS7@2x.png in Resources */,
 				67CF2EEC161951B8001FE1AA /* blue_button.png in Resources */,
 				67CF2EED161951B8001FE1AA /* blue_menu.png in Resources */,
 				67CF2EEE161951B8001FE1AA /* bluebg.png in Resources */,
@@ -6744,6 +6771,7 @@
 				67F83B0D173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
 				67E26D7F1741DC1B00638879 /* TimeZone.dat in Resources */,
 				67E26D871741F0D600638879 /* SD_aboutUS_768.html in Resources */,
+				A202CEFD1828FC0D001840EE /* map_iOS7.png in Resources */,
 				67E26D891741F0D600638879 /* SD_css_768.css in Resources */,
 				67E26D8B1741F0D600638879 /* SmartDayiPhone_205.png in Resources */,
 				67E26D8D1741F0D600638879 /* SO_bg_768.jpg in Resources */,
@@ -6860,6 +6888,7 @@
 				67EC0D5516F8081F00929BFD /* 2_menu.png in Resources */,
 				67EC0D5616F8081F00929BFD /* 2_slider.png in Resources */,
 				67EC0D5716F8081F00929BFD /* 2_tag_context.png in Resources */,
+				A202CF041828FC0D001840EE /* savemap.png in Resources */,
 				67EC0D5816F8081F00929BFD /* 5_chrevon.png in Resources */,
 				67EC0D5916F8081F00929BFD /* 6_progress.png in Resources */,
 				67EC0D5A16F8081F00929BFD /* dateJumpMenu.png in Resources */,
@@ -6893,6 +6922,7 @@
 				67EC0D7216F8081F00929BFD /* WeekDayQuickAddHint.htm in Resources */,
 				67E1ACA317FC1E3500271156 /* filter_atask@2x.png in Resources */,
 				67EC0D7316F8081F00929BFD /* WeekViewHint.htm in Resources */,
+				A202CF071828FC0D001840EE /* savemap@2x.png in Resources */,
 				67EC0D7416F8081F00929BFD /* WorkBalanceHint.htm in Resources */,
 				67CEE35617E1A7E6003EB87F /* menu_converttotask@2x.png in Resources */,
 				6700B2AE17F2874400AD8B3F /* menu_duplicate_white.png in Resources */,
@@ -6923,6 +6953,7 @@
 				67EC0D8916F8081F00929BFD /* black_menu.png in Resources */,
 				67EC0D8A16F8081F00929BFD /* blue-small.png in Resources */,
 				67296F611816267900CD834A /* SD_aboutUS_1024.html in Resources */,
+				A202CF011828FC0D001840EE /* map_iOS7@2x.png in Resources */,
 				67EC0D8B16F8081F00929BFD /* blue_button.png in Resources */,
 				67EC0D8C16F8081F00929BFD /* blue_menu.png in Resources */,
 				67EC0D8D16F8081F00929BFD /* bluebg.png in Resources */,
@@ -7445,6 +7476,7 @@
 				67F83B0E173B675C000D0C93 /* DescriptionInputAccessoryView.xib in Resources */,
 				67E26D801741DC1B00638879 /* TimeZone.dat in Resources */,
 				67E26D881741F0D600638879 /* SD_aboutUS_768.html in Resources */,
+				A202CEFE1828FC0D001840EE /* map_iOS7.png in Resources */,
 				67E26D8A1741F0D600638879 /* SD_css_768.css in Resources */,
 				67E26D8C1741F0D600638879 /* SmartDayiPhone_205.png in Resources */,
 				67E26D8E1741F0D600638879 /* SO_bg_768.jpg in Resources */,

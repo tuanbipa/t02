@@ -583,6 +583,7 @@ extern DetailViewController *_detailViewCtrler;
         self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
         
         //CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
+        rect.origin.y = 0;
         
         [self.popoverCtrler presentPopoverFromRect:rect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
