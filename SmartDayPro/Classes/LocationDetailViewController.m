@@ -13,6 +13,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import "LocationListViewController.h"
 #import "BusyController.h"
+#import "SettingTableViewController.h"
 
 @interface LocationDetailViewController ()
 
@@ -40,24 +41,23 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-//    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
-//    
-//    if ([ctrler isKindOfClass:[iPadGeneralSettingViewController class]])
-//    {
-//        frm.size.width = 2*frm.size.width/3;
-//    }
-//    else
-//    {
-//        frm.size.width = 320;
-//    }
-    frm.size.width = 2*frm.size.width/3;
+    NSInteger count = self.navigationController.viewControllers.count;
+    
+    if (count >= 3 && ![[self.navigationController.viewControllers objectAtIndex:count - 3] isKindOfClass:[SettingTableViewController class]])
+    {
+        frm.size.width = 2*frm.size.width/3;
+    }
+    else
+    {
+        frm.size.width = 320;
+    }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
 	self.view = contentView;
 	[contentView release];
     
-    nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 40, 30)];
+    nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, frm.size.width - 20, 30)];
     nameTextField.backgroundColor = [UIColor whiteColor];
     nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     nameTextField.placeholder = _locationNameText;
@@ -66,7 +66,7 @@
     [contentView addSubview:nameTextField];
     [nameTextField release];
     
-    addressTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 50, frm.size.width - 40, 30)];
+    addressTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 50, frm.size.width - 20, 30)];
     addressTextField.backgroundColor = [UIColor whiteColor];
     addressTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     addressTextField.placeholder = _locationAddressText;
@@ -79,7 +79,7 @@
     
     currentLocationButton = [Common createButton:_applyCurrentLocationText
                                       buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(10, 90, frm.size.width - 40, 40)
+                                           frame:CGRectMake(10, 90, frm.size.width - 20, 40)
                                       titleColor:[Colors blueButton]
                                           target:self selector:@selector(setCurrentLocaton:)
                                 normalStateImage:nil selectedStateImage:nil];

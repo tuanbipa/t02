@@ -64,6 +64,7 @@
 #import "RestoreViewController.h"
 
 #import "AbstractSDViewController.h"
+#import "LocationListViewController.h"
 
 extern BOOL _scFreeVersion;
 
@@ -570,6 +571,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
     DataRecoveryViewController *ctrler = [[DataRecoveryViewController alloc] init];
     
 	[self.navigationController pushViewController:ctrler animated:YES];
+	[ctrler release];
+}
+
+- (void)showLocationList
+{
+    LocationListViewController *ctrler = [[LocationListViewController alloc] init];
+    [self.navigationController pushViewController:ctrler animated:YES];
 	[ctrler release];
 }
 
@@ -2232,7 +2240,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 //    return self.settingCopy.syncEnabled?(self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?7:6):5;
-    return self.settingCopy.syncEnabled?(self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?8:7):6;
+    return self.settingCopy.syncEnabled?(self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?9:8):7;
 }
 
 
@@ -2248,13 +2256,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			return 4;
 		case 3: //Calendar
 			return self.settingCopy.timeZoneSupport?4:3;
-        case 4: //Auto Backup
+        case 4: // locations
             return 1;
-        case 5: //Synchronization
+        case 5: //Auto Backup
+            return 1;
+        case 6: //Synchronization
             return (self.settingCopy.autoSyncEnabled?3:(self.settingCopy.syncEnabled?2:1));
-		case 6: //Sync Setup
+		case 7: //Sync Setup
             return (self.settingCopy.sdwSyncEnabled?2:3);
-        case 7: //Data Recovery
+        case 8: //Data Recovery
             return 1;
 
 	}
@@ -2270,11 +2280,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			return _tasksText;
 		case 3:
 			return _calendarText;
-        case 4:
-            return _autoBackup;
+		case 4: // locations
+            return _locationsText;
         case 5:
+            return _autoBackup;
+        case 6:
             return _synchronizationText;
-		case 6:
+		case 7:
 			return _syncSetupText;
 	}
 	return @"";
@@ -2289,7 +2301,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             return 75;
         }
     }
-    else if (indexPath.section == 5)
+    else if (indexPath.section == 6)
     {
         if (indexPath.row == 3) // SDW sync 1 way
         {
@@ -2456,13 +2468,19 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			}
 		}
 			break;
-        case 4:
+        case 4: // loccations
+        {
+            cell.textLabel.text = _locationListText;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+            break;
+        case 5:
         {
             cell.textLabel.text = _backupList;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             break;
-        case 5:
+        case 6:
         {
 			switch (indexPath.row)
 			{
@@ -2485,7 +2503,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             
             break;
         }
-		case 6:
+		case 7:
 		{
 			switch (indexPath.row)
 			{
@@ -2518,7 +2536,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             }
         }
             break;
-        case 7:
+        case 8:
         {
 			switch (indexPath.row)
 			{
@@ -2619,12 +2637,17 @@ extern AbstractSDViewController *_abstractViewCtrler;
 			}
 		}
 			break;
-        case 4:
+        case 4: // locations
+        {
+            [self showLocationList];
+        }
+            break;
+        case 5:
         {
             [self showDataBackups];
         }
             break;
-		case 6:
+		case 7:
 		{
             if (self.settingCopy.sdwSyncEnabled)
             {
@@ -2657,7 +2680,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 		}
             break;
-        case 7:
+        case 8:
         {
             switch (indexPath.row)
             {
