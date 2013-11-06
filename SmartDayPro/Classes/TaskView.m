@@ -714,7 +714,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	
 	[embossedColor set];
 	
-	[_hoursText drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+	[_hrsText drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
 	
 	[[UIColor whiteColor] set];
 	
@@ -723,7 +723,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		[[UIColor yellowColor] set];
 	}
 	
-	[_hoursText drawInRect:rec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+	[_hrsText drawInRect:rec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
 	
 }
 

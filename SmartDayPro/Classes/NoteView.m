@@ -82,12 +82,13 @@ extern iPadViewController *_iPadViewCtrler;
     
     noteTextView.frame = frm;
     
+    /*
     [self removeAllChecks];
     
     if (self.note != nil)
     {
         [self createCheckButtons:self.note.note];
-    }
+    }*/
 }
 
 - (void) dealloc

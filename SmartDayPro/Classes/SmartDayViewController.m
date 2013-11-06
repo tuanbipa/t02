@@ -2128,13 +2128,38 @@ extern BOOL _detailHintShown;
 
 - (void) createCalendarMenuView
 {
-	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 290)];
+    NSString *texts[7] = {
+        _todayText,
+        _gotoDateText,
+        _filterText,
+        _syncText,
+        _showHideCategoryText,
+        _settingTitle,
+        _backupText
+    };
+    
+    CGFloat maxWidth = 0;
+    
+    for (int i=0; i<7; i++)
+    {
+        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+        
+        if (sz.width > maxWidth)
+        {
+            maxWidth = sz.width;
+        }
+    }
+    
+    maxWidth += 50;
+	//menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 290)];
+    menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 290)];
 	menuView.hidden = YES;
 	menuView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:menuView];
 	[menuView release];	
 	
-	menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 290)];
+	//menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 290)];
+    menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 290)];
 	menuImageView.alpha = 0.9;
 	[menuView addSubview:menuImageView];
 	[menuImageView release];
@@ -2318,13 +2343,37 @@ extern BOOL _detailHintShown;
 
 - (void) createTasksMenuView
 {
-	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+    NSString *texts[5] = {
+        _filterText,
+        _syncText,
+        _showHideCategoryText,
+        _settingTitle,
+        _backupText
+    };
+    
+    CGFloat maxWidth = 0;
+    
+    for (int i=0; i<5; i++)
+    {
+        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+        
+        if (sz.width > maxWidth)
+        {
+            maxWidth = sz.width;
+        }
+    }
+    
+    maxWidth += 50;
+    
+	//menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+    menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 210)];
 	menuView.hidden = YES;
 	menuView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:menuView];
 	[menuView release];	
 	
-	menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+	//menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+    menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 210)];
 	menuImageView.alpha = 0.9;
 	[menuView addSubview:menuImageView];
 	[menuImageView release];
@@ -2454,182 +2503,39 @@ extern BOOL _detailHintShown;
     
 }
 
-- (void) createTasksMenuView_old
-{
-	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 250)];
-	menuView.hidden = YES;
-	menuView.backgroundColor = [UIColor clearColor];
-	[contentView addSubview:menuView];
-	[menuView release];
-	
-	menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 250)];
-	menuImageView.alpha = 0.9;
-	[menuView addSubview:menuImageView];
-	[menuImageView release];
-    
-	UIImageView *multiEditImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 30, 30)];
-	multiEditImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_edit.png"];
-	[menuView addSubview:multiEditImageView];
-	[multiEditImageView release];
-	
-	UILabel *multiEditLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
-	multiEditLabel.text = _editText;
-	multiEditLabel.textColor = [UIColor whiteColor];
-	multiEditLabel.backgroundColor = [UIColor clearColor];
-	multiEditLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:multiEditLabel];
-	[multiEditLabel release];
-	
-	UIButton *multiEditButton = [Common createButton:@""
-                                          buttonType:UIButtonTypeCustom
-                                               frame:CGRectMake(0, 22, menuView.bounds.size.width, 30)
-                                          titleColor:nil
-                                              target:self
-                                            selector:@selector(multiEdit:)
-                                    normalStateImage:nil
-                                  selectedStateImage:nil];
-	multiEditButton.titleLabel.font = [UIFont systemFontOfSize:18];
-	[menuView addSubview:multiEditButton];
-    
-    UIImageView *separatorImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 50, menuView.bounds.size.width-10, 2)];
-	separatorImgView.image = [[ImageManager getInstance] getImageWithName:@"menu_separator.png"];
-	[menuView addSubview:separatorImgView];
-	[separatorImgView release];
-	
-	UIImageView *filterImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 55, 30, 30)];
-	filterImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_filter.png"];
-	[menuView addSubview:filterImageView];
-	[filterImageView release];
-	
-	UILabel *filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 160, 25)];
-	filterLabel.text = _filterText;
-	filterLabel.textColor = [UIColor whiteColor];
-	filterLabel.backgroundColor = [UIColor clearColor];
-	filterLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:filterLabel];
-	[filterLabel release];
-	filterLabel.tag = 10000 + TASK_FILTER_GLOBAL;
-	
-	UIButton *filterButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(0, 57, menuView.bounds.size.width, 30)
-                                       titleColor:nil
-                                           target:self
-                                         selector:@selector(showFilterView:)
-                                 normalStateImage:nil
-                               selectedStateImage:nil];
-	filterButton.titleLabel.font = [UIFont systemFontOfSize:18];
-	[menuView addSubview:filterButton];
-	
-	UIImageView *syncImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 90, 30, 30)];
-	syncImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_sync.png"];
-	[menuView addSubview:syncImageView];
-	[syncImageView release];
-    
-	UILabel *syncLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
-	syncLabel.text = _syncText;
-	syncLabel.textColor = [UIColor whiteColor];
-	syncLabel.backgroundColor = [UIColor clearColor];
-	syncLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:syncLabel];
-	[syncLabel release];
-	
-	UIButton *syncButton=[Common createButton:@""
-								   buttonType:UIButtonTypeCustom
-										frame:CGRectMake(0, 92, menuView.bounds.size.width, 30)
-								   titleColor:nil
-									   target:self
-									 selector:@selector(sync:)
-							 normalStateImage:nil
-						   selectedStateImage:nil];
-	syncButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	
-	[menuView addSubview:syncButton];
-    
-	UIImageView *hideImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 125, 30, 30)];
-	hideImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_showhide.png"];
-	[menuView addSubview:hideImageView];
-	[hideImageView release];
-	
-	UILabel *hideLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 127, 120, 25)];
-	hideLabel.text = _showHideCategoryText;
-	hideLabel.textColor = [UIColor whiteColor];
-	hideLabel.backgroundColor = [UIColor clearColor];
-	hideLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:hideLabel];
-	[hideLabel release];
-	
-	UIButton *hideButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 127, menuView.bounds.size.width, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showHideCategory:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	hideButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:hideButton];
-    
-    
-	UIImageView *settingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 160, 30, 30)];
-	settingImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_setting.png"];
-	[menuView addSubview:settingImageView];
-	[settingImageView release];
-	
-	UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 162, 120, 25)];
-	settingLabel.text = _settingTitle;
-	settingLabel.textColor = [UIColor whiteColor];
-	settingLabel.backgroundColor = [UIColor clearColor];
-	settingLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:settingLabel];
-	[settingLabel release];
-	
-	UIButton *settingButton=[Common createButton:@""
-									  buttonType:UIButtonTypeCustom
-										   frame:CGRectMake(0, 162, menuView.bounds.size.width, 30)
-									  titleColor:nil
-										  target:self
-										selector:@selector(editSetting:)
-								normalStateImage:nil
-							  selectedStateImage:nil];
-	settingButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:settingButton];
-    
-	UIImageView *backupImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 195, 30, 30)];
-	backupImageView.image = [[ImageManager getInstance] getImageWithName:@"menu_backup.png"];
-	[menuView addSubview:backupImageView];
-	[backupImageView release];
-	
-	UILabel *backupLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 197, 120, 25)];
-	backupLabel.text = _backupText;
-	backupLabel.textColor = [UIColor whiteColor];
-	backupLabel.backgroundColor = [UIColor clearColor];
-	backupLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:backupLabel];
-	[backupLabel release];
-	
-	UIButton *backupButton=[Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(0, 197, menuView.bounds.size.width, 30)
-                                     titleColor:nil
-                                         target:self
-                                       selector:@selector(backup:)
-                               normalStateImage:nil
-                             selectedStateImage:nil];
-	backupButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	[menuView addSubview:backupButton];
-    
-}
-
 - (void) createCommonMenuView
 {
-	menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+    NSString *texts[5] = {
+        _filterText,
+        _syncText,
+        _showHideCategoryText,
+        _settingTitle,
+        _backupText
+    };
+    
+    CGFloat maxWidth = 0;
+    
+    for (int i=0; i<5; i++)
+    {
+        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+        
+        if (sz.width > maxWidth)
+        {
+            maxWidth = sz.width;
+        }
+    }
+    
+    maxWidth += 50;
+    
+	//menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+    menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 210)];
 	menuView.hidden = YES;
 	menuView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:menuView];
 	[menuView release];	
 	
-	menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+	//menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 210)];
+    menuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 210)];
 	menuImageView.alpha = 0.9;
 	[menuView addSubview:menuImageView];
 	[menuImageView release];
@@ -2794,13 +2700,36 @@ extern BOOL _detailHintShown;
 
 -(void) createProjectOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 140, 180)];
+    NSString *texts[4] = {
+        _tasksText,
+        _eventsText,
+        _notesText,
+        _anchoredText
+    };
+    
+    CGFloat maxWidth = 0;
+    
+    for (int i=0; i<4; i++)
+    {
+        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+        
+        if (sz.width > maxWidth)
+        {
+            maxWidth = sz.width;
+        }
+    }
+    
+    maxWidth += 50;
+    
+	//optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 140, 180)];
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, maxWidth, 180)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 180)];
+	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 180)];
+    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 180)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -2922,13 +2851,39 @@ extern BOOL _detailHintShown;
 
 -(void) createTaskOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 280)];
+    NSString *texts[7] = {
+        _allText,
+        _starText,
+        _gtdoText,
+        _dueText,
+        _longText,
+        _shortText,
+        _doneText
+    };
+    
+    CGFloat maxWidth = 0;
+    
+    for (int i=0; i<7; i++)
+    {
+        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+        
+        if (sz.width > maxWidth)
+        {
+            maxWidth = sz.width;
+        }
+    }
+    
+    maxWidth += 50;
+    
+	//optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 120, 280)];
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, maxWidth, 280)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
+	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
+    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 280)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
@@ -3170,13 +3125,35 @@ extern BOOL _detailHintShown;
 
 -(void) createNoteOptionView
 {
-	optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 140, 140)];
+    NSString *texts[7] = {
+        _allText,
+        _currentText,
+        _thisWeekText
+    };
+    
+    CGFloat maxWidth = 0;
+    
+    for (int i=0; i<7; i++)
+    {
+        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+        
+        if (sz.width > maxWidth)
+        {
+            maxWidth = sz.width;
+        }
+    }
+    
+    maxWidth += 50;
+    
+	//optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 140, 140)];
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, maxWidth, 140)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
+	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
+    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 140)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];

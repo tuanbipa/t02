@@ -585,7 +585,8 @@
             break;
         case 2:
         {
-            NSString *wkStrings[7] = {@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"};
+            //NSString *wkStrings[7] = {@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"};
+            NSString *wkStrings[7] = {_sundayText, _mondayText, _tuesdayText, _wednesdayText, _thursdayText, _fridayText, _saturdayText};
             
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.textLabel.text = wkStrings[indexPath.row];

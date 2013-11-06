@@ -302,7 +302,7 @@
 "_repeatFromDueHintText" = "完了日を先に選択して下さい。";
 
 //pragma mark TaskView
-"_hoursText" = "時間";
+"_hrsText" = "時間";
 
 //pragma mark ByLCLViewController
 "_byLCLTitle" = "LCLにより";
@@ -657,7 +657,7 @@
 "_inProgressTasksText" = "...タスクに対してタイマーが一時中止になります。";
 "_activeTasksText" = "...タスクに対してタイマーがオンになります。";
 "_timerTaskMarkDoneText" = "このタスクを完了としてマークしますか。タイマーを一時停止に設定し、あとで再始動することでアクティブな状態で保持することが可能です。";
-"_holdAllAndStartText" = "すべてを一時停止し、開始します。 ";
+"_holdAllAndStartText" = "すべてを一時停止し、開始します。";
 "_propertiesEditText" = "あとでプロパティを編集することが可能です。";
 
 "_timerRecoverTitle" = "タイマー回復";
@@ -709,7 +709,7 @@
 "_floatingText" = "2.フローティング";
 
 "_soundEnabledText" = "音が活性にされました。";
-"_repeatUntilText" = "繰り返し|まで";ｓ
+"_repeatUntilText" = "繰り返し|まで";
 
 // new layout
 "_selectedText" = "選択済み";
@@ -744,10 +744,14 @@
 "_cannotLocateThe" = "を見つけません";
 "_atCurrentLocationText" = "現在の位置で";
 "_atCurrentLocationYouHave" = "現在の位置で作業すべきの作業が%d件です。";
-"_alertBasedOnLocationText" = "アドレスによるアラート";";
+"_alertBasedOnLocationText" = "アドレスによるアラート";
 "_itsTimeToDriveForText" = "に行くところです。";
 "_openAppleMapsText" = "Mapsアプリに表示します。";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "アラートを定義できるためにタスクの完了予定日を先に指定して下さい。アラート定義を活性にするには、タスクの完了予定日を先に指定してください。アラート時刻が完了日と関連します。";
 
+"_minText" = "分";//short unit of minute
+"_minsText" = "分";//short unit of minutes
+"_hourText" = "時間";//short unit of hour
+"_hoursText" = "時間";//short unit of hours

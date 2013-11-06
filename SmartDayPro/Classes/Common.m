@@ -205,48 +205,20 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	NSInteger hours=value/3600;
 	NSInteger mins=(value-hours*3600)/60;
     
-    /*
-	if(value<3600){
-		ret = [NSString stringWithFormat:@"%d min",value/60];
-	}else {
-		if(mins>0){
-			if(hours>1){
-				if(mins<2){
-					ret= [NSString stringWithFormat:@"%d hours, %d min",hours,mins];
-				}else {
-					ret= [NSString stringWithFormat:@"%d hours, %d mins",hours,mins];
-				}
-				
-			}else {
-				if(mins<2){
-					ret= [NSString stringWithFormat:@"%d hour, %d min",hours,mins];
-				}else {
-					ret= [NSString stringWithFormat:@"%d hour, %d mins",hours,mins];
-				}
-				
-			}
-			
-		}else {
-			if(hours>1){
-				ret= [NSString stringWithFormat:@"%d hours",hours];
-			}else {
-				ret= [NSString stringWithFormat:@"%d hour",hours];
-			}
-		}
-	}
-	*/
-    
     if (hours == 0)
     {
-		ret = [NSString stringWithFormat:@"%d %@",mins,mins==1?@"min":@"mins"];
+		//ret = [NSString stringWithFormat:@"%d %@",mins,mins==1?@"min":@"mins"];
+        ret = [NSString stringWithFormat:@"%d %@",mins,mins==1?_minText:_minsText];
 	}
     else if (mins == 0)
     {
-        ret = [NSString stringWithFormat:@"%d %@",hours,hours==1?@"hour":@"hours"];
+        //ret = [NSString stringWithFormat:@"%d %@",hours,hours==1?@"hour":@"hours"];
+        ret = [NSString stringWithFormat:@"%d %@",hours,hours==1?_hourText:_hoursText];
     }
     else
     {
-        ret= [NSString stringWithFormat:@"%d %@, %d %@",hours,hours==1?@"hour":@"hours",mins,mins==1?@"min":@"mins"];
+        //ret= [NSString stringWithFormat:@"%d %@, %d %@",hours,hours==1?@"hour":@"hours",mins,mins==1?@"min":@"mins"];
+        ret= [NSString stringWithFormat:@"%d %@, %d %@",hours,hours==1?_hourText:_hoursText,mins,mins==1?_minText:_minsText];
     }
 
     
