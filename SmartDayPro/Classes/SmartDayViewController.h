@@ -65,6 +65,8 @@
     UIButton *selectedTabButton;
     
     UIButton *commentButton;
+    UIButton *taskLocationButton;
+    UILabel *taskLocationLable;
     
     //PageAbstractViewController *viewCtrlers[TAB_NUM];
     

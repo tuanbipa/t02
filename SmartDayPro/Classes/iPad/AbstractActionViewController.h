@@ -114,8 +114,8 @@
 - (void) share2AirDrop;
 
 - (void) showCategory;
-- (void) showUnreadComments;
-- (void)showGeoTaskLocation: (CGRect)rect;
+- (void) showUnreadCommentsWithCGRect: (CGRect)rect;
+- (void)showGeoTaskLocationWithCGRect: (CGRect)rect;
 - (void) showTag;
 - (void) showTimer;
 - (void) showSettingMenu;

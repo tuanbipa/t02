@@ -1313,8 +1313,6 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             // free semaphore
             dispatch_semaphore_signal(geocodingLock);
             
-            taskLocationNumber--;
-            
             if (placemarks.count > 0) {
                 CLPlacemark *aPlacemark = placemarks[0];
                 
@@ -1325,16 +1323,17 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 [self checkAndUpdateLocationStatus:locationData WithCurrentLocation:currentLocation];
             }
             
+            taskLocationNumber--;
             if (taskLocationNumber == 0) {
                 [self finishGeoTaskLocation];
             }
         }];
         
     } else {
-        taskLocationNumber--;
         
         [self checkAndUpdateLocationStatus:locationData WithCurrentLocation:currentLocation];
         
+        taskLocationNumber--;
         if (taskLocationNumber == 0) {
             [self finishGeoTaskLocation];
         }
@@ -1345,7 +1344,6 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 {
     CLLocation *coorLocationItem = [[CLLocation alloc] initWithLatitude:locationData.latitude longitude:locationData.longitude];
     
-    //NSLog(@"distance : %f", [currentLocation distanceFromLocation:coorLocationItem]);
     if ([currentLocation distanceFromLocation:coorLocationItem] <= 200) {
         
         if (locationData.inside != LOCATION_ARRIVE) {
@@ -1444,14 +1442,16 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)refreshTaskLocationBadge
 {
-    if (_isiPad)
+    /*if (_isiPad)
     {
         [_iPadViewCtrler refreshGeoTaskLocation];
     }
     else
     {
-        //[_sdViewCtrler.navigationController.navigationBar addSubview:busyIndicatorView];
-    }
+        [_sdViewCtrler refreshGeoTaskLocation];
+    }*/
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GeoLocationUpdateNotification" object:nil];
 }
 
 - (void)geocodeEventAddress: (NSArray*)tasks with: (CLPlacemark*) currentPlacemark

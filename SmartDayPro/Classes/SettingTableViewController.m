@@ -69,6 +69,7 @@
 extern BOOL _scFreeVersion;
 
 extern AbstractSDViewController *_abstractViewCtrler;
+extern SmartCalAppDelegate *_appDelegate;
 
 @implementation SettingTableViewController
 
@@ -972,6 +973,12 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [settingTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:8 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
     [Common reloadRowOfTable:settingTableView row:8 section:1];
+    
+    if (!self.settingCopy.geoFencingEnable) {
+        [_appDelegate disableGeoFencing];
+    } else {
+        [_appDelegate startGeoFencing:self.settingCopy.geoFencingInterval];
+    }
 }
 
 - (void) doneGeoFencingInterval: (id) sender
@@ -2761,6 +2768,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     else if (textField.tag == 11080 + 3) //Geo-Fencing Interval
     {
         self.settingCopy.geoFencingInterval = [textField.text integerValue]*60;
+        [_appDelegate startGeoFencing:self.settingCopy.geoFencingInterval];
     }
 }
 

@@ -105,6 +105,10 @@ iPadViewController *_iPadViewCtrler;
                                                  selector:@selector(filterChange:)
                                                      name:@"FilterChangeNotification" object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshGeoTaskLocation:)
+                                                     name:@"GeoLocationUpdateNotification" object:nil];
+        
     }
     
     return self;
@@ -128,13 +132,13 @@ iPadViewController *_iPadViewCtrler;
 
 - (void) showUnreadComments:(id) sender
 {
-    [self.activeViewCtrler showUnreadComments];
+    [self.activeViewCtrler showUnreadCommentsWithCGRect:((UIButton*)sender).frame];
 }
 
 - (void) showGeoTaskLocation:(id) sender
 {
     UIButton *bt = (UIButton*)sender;
-    [self.activeViewCtrler showGeoTaskLocation:bt.frame];
+    [self.activeViewCtrler showGeoTaskLocationWithCGRect:bt.frame];
 }
 
 - (void) showTag:(id) sender
@@ -702,7 +706,7 @@ iPadViewController *_iPadViewCtrler;
     });
 }
 
-- (void)refreshGeoTaskLocation
+- (void)refreshGeoTaskLocation:(NSNotification *)notification
 {
     DBManager *dbm = [DBManager getInstance];
     NSInteger count = [dbm countTaskByLocation];
@@ -1040,7 +1044,7 @@ iPadViewController *_iPadViewCtrler;
     
     [self refreshUnreadComments:nil];
     
-    [self refreshGeoTaskLocation];
+    [self refreshGeoTaskLocation:nil];
 }
 
 - (void)didReceiveMemoryWarning

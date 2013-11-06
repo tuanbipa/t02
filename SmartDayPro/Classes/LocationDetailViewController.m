@@ -43,13 +43,13 @@
     
     NSInteger count = self.navigationController.viewControllers.count;
     
-    if (count >= 3 && ![[self.navigationController.viewControllers objectAtIndex:count - 3] isKindOfClass:[SettingTableViewController class]])
+    if (count >= 3 && [[self.navigationController.viewControllers objectAtIndex:count - 3] isKindOfClass:[SettingTableViewController class]])
     {
-        frm.size.width = 2*frm.size.width/3;
+        frm.size.width = 320;
     }
     else
     {
-        frm.size.width = 320;
+        frm.size.width = 2*frm.size.width/3;
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
@@ -150,13 +150,24 @@
     CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
     
     [gc reverseGeocodeLocation:self.currentLocation completionHandler:^(NSArray *placemark, NSError *error) {
-        CLPlacemark *pm = [placemark objectAtIndex:0];
-        NSDictionary *addressDict = pm.addressDictionary;
-        // do something with the address, see keys in the remark below
-        NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
-        addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
         
-        addressTextField.text = addressStr;
+        if (error) {
+            
+            //NSLog(@"========\n%@\n------\n%@", error.localizedDescription, error.debugDescription);
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_noResultsFoundText message:error.localizedDescription delegate:nil cancelButtonTitle:_okText otherButtonTitles:nil];
+            [alertView show];
+            [alertView release];
+        } else {
+            
+            CLPlacemark *pm = [placemark objectAtIndex:0];
+            NSDictionary *addressDict = pm.addressDictionary;
+            // do something with the address, see keys in the remark below
+            NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
+            addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
+            
+            addressTextField.text = addressStr;
+        }
         
         [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
     }];

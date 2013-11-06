@@ -132,8 +132,8 @@ extern BOOL _detailHintShown;
                                                      name:@"NewCommentReceivedNotification" object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refreshUnreadComments:)
-                                                     name:@"CommentUpdateNotification" object:nil];
+                                                 selector:@selector(refreshGeoTaskLocation:)
+                                                     name:@"GeoLocationUpdateNotification" object:nil];
     }
     
     return self;
@@ -255,6 +255,7 @@ extern BOOL _detailHintShown;
     }
     
     commentButton = nil;
+    taskLocationButton = nil;
 
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
@@ -490,6 +491,33 @@ extern BOOL _detailHintShown;
         
         UIBarButtonItem *commentItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
         
+        // task location =========================
+        taskLocationButton = [Common createButton:@""
+                                       buttonType:UIButtonTypeCustom
+                                            //frame:CGRectMake(0, 0, 40, 40)
+                                            frame:CGRectZero
+                                       titleColor:[UIColor whiteColor]
+                                           target:self
+                                         selector:@selector(showGeoTaskLocation:)
+                                 normalStateImage:@"bar_location.png"
+                               selectedStateImage:nil];
+        taskLocationButton.hidden = YES;
+        
+        taskLocationLable = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
+        taskLocationLable.font = [UIFont boldSystemFontOfSize:12];
+        taskLocationLable.textColor = [UIColor whiteColor];
+        taskLocationLable.textAlignment = NSTextAlignmentCenter;
+        //taskLocationLable.tag = 10000;
+        taskLocationLable.text = @"0";
+        taskLocationLable.layer.cornerRadius = 3;
+        taskLocationLable.backgroundColor = [Colors redButton];
+        
+        [taskLocationButton addSubview:taskLocationLable];
+        [taskLocationLable release];
+        
+        UIBarButtonItem *taskLocationButtonItem = [[UIBarButtonItem alloc] initWithCustomView:taskLocationButton];
+        // end task location
+        
         UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
         timerButton.backgroundColor = [UIColor clearColor];
         [timerButton setImage:[[ImageManager getInstance] getImageWithName:@"bar_timer.png"] forState:UIControlStateNormal];
@@ -499,10 +527,11 @@ extern BOOL _detailHintShown;
         UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
         //self.navigationItem.rightBarButtonItem = timerItem;
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, taskLocationButtonItem, nil];
         
         [timerItem release];
         [commentItem release];
+        [taskLocationButtonItem release];
         
         [self.navigationController.navigationBar addSubview:filterIndicator];
     }
@@ -1703,7 +1732,12 @@ extern BOOL _detailHintShown;
 
 - (void) showUnreadComments:(id) sender
 {
-    [[AbstractActionViewController getInstance] showUnreadComments];
+    [[AbstractActionViewController getInstance] showUnreadCommentsWithCGRect:((UIButton*)sender).frame];
+}
+
+- (void)showGeoTaskLocation:(id)sender
+{
+    [[AbstractActionViewController getInstance] showGeoTaskLocationWithCGRect:((UIButton*)sender).frame];
 }
 
 #pragma mark Hint
@@ -3654,6 +3688,22 @@ extern BOOL _detailHintShown;
             commentButton.frame = (commentButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
             UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
             badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+        });
+    }
+}
+
+- (void)refreshGeoTaskLocation:(NSNotification *)notification
+{
+    DBManager *dbm = [DBManager getInstance];
+    NSInteger count = [dbm countTaskByLocation];
+    if (taskLocationButton != nil) {
+        
+        dispatch_async(dispatch_get_main_queue(),^ {
+            NSLog(@"refresh task location %d", count);
+            
+            taskLocationButton.hidden = (count == 0);
+            taskLocationButton.frame = (taskLocationButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
+            taskLocationLable.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
         });
     }
 }

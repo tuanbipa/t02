@@ -59,6 +59,4 @@
 
 - (void) changeOrientation:(UIInterfaceOrientation) orientation;
 
-// task location
-- (void)refreshGeoTaskLocation;
 @end

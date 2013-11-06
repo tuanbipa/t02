@@ -550,7 +550,7 @@ extern DetailViewController *_detailViewCtrler;
     [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
-- (void) showUnreadComments
+- (void) showUnreadCommentsWithCGRect:(CGRect)rect
 {
     [self hidePopover];
     
@@ -560,9 +560,10 @@ extern DetailViewController *_detailViewCtrler;
     {
         self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
         
-        CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
+        //CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
+        rect.origin.y = -40;
         
-        [self.popoverCtrler presentPopoverFromRect:frm inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        [self.popoverCtrler presentPopoverFromRect:rect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
     else
     {
@@ -572,7 +573,7 @@ extern DetailViewController *_detailViewCtrler;
     [ctrler release];
 }
 
-- (void)showGeoTaskLocation: (CGRect)rect
+- (void)showGeoTaskLocationWithCGRect: (CGRect)rect
 {
     [self hidePopover];
     
@@ -583,7 +584,7 @@ extern DetailViewController *_detailViewCtrler;
         self.popoverCtrler = [[[UIPopoverController alloc] initWithContentViewController:ctrler] autorelease];
         
         //CGRect frm = CGRectMake(260-contentView.frame.origin.x, 0, 20, 10);
-        rect.origin.y = 0;
+        rect.origin.y = -40;
         
         [self.popoverCtrler presentPopoverFromRect:rect inView:contentView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
