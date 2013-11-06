@@ -851,6 +851,16 @@ DetailViewController *_detailViewCtrler = nil;
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
     [Common reloadRowOfTable:detailTableView row:3 section:0];
+    
+    // refresh location
+    if ([self.taskCopy isTask]) {
+        
+        ProjectManager *pm = [ProjectManager getInstance];
+        Project *prj = [pm getProjectByKey:self.taskCopy.project];
+        
+        self.taskCopy.locationID = prj.locationID;
+        [self refreshLocationObject];
+    }
 }
 
 - (void) refreshWhen
