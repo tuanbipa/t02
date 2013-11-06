@@ -103,7 +103,6 @@ extern SmartDayViewController *_sdViewCtrler;
     [mapView release];
     
     // =========tool bar
-    
     CGFloat iconSize = _isiPad?30:28;
     
     UIButton *openMapsButton = [Common createButton:@""
@@ -117,7 +116,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     UIBarButtonItem *openMapsButtonItem = [[UIBarButtonItem alloc] initWithCustomView:openMapsButton];
     
-    UIButton *exportMapButton = [Common createButton:@""
+    /*UIButton *exportMapButton = [Common createButton:@""
                                          buttonType:UIButtonTypeCustom
                                               frame:CGRectMake(0, 0, iconSize, iconSize)
                                          titleColor:[UIColor whiteColor]
@@ -128,10 +127,33 @@ extern SmartDayViewController *_sdViewCtrler;
     
     UIBarButtonItem *exportMapButtonItem = [[UIBarButtonItem alloc] initWithCustomView:exportMapButton];
     
+    // share to airdrop
+    UIButton *share2Airdrop = [Common createButton:@""
+                                        buttonType:UIButtonTypeSystem
+                                             frame:CGRectMake(0, 0, iconSize, iconSize)
+                                        titleColor:[UIColor whiteColor]
+                                            target:self
+                                          selector:@selector(share2Airdrop:)
+                                  normalStateImage:nil
+                                selectedStateImage:nil];
+    
+    UIBarButtonItem *share2AirdropItem = [[UIBarButtonItem alloc] initWithCustomView:share2Airdrop];*/
+    
+    UIBarButtonItem *actionButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                           target:self
+                                                                           action:@selector(share2Airdrop:)];
+    
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedItem.width = 10;//(_isiPad?10:0);
     
-    NSMutableArray *items = [NSMutableArray arrayWithObjects:exportMapButtonItem, fixedItem, openMapsButtonItem, nil];
+    NSMutableArray *items = [NSMutableArray arrayWithObjects:actionButtonItem, fixedItem, openMapsButtonItem, nil];
+    
+    [openMapsButtonItem release];
+    //[exportMapButtonItem release];
+    //[share2AirdropItem release];
+    [actionButtonItem release];
+    [fixedItem release];
+    // ==== end
     
     self.navigationItem.rightBarButtonItems = items;
     
@@ -222,14 +244,30 @@ extern SmartDayViewController *_sdViewCtrler;
     }
 }
 
-- (void)exportMap: (id)sender
+//- (void)exportMap: (id)sender
+//{
+//    UIGraphicsBeginImageContext(mapView.frame.size);
+//    [mapView.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
+//    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+//}
+
+- (void)share2Airdrop: (id)sender
 {
     UIGraphicsBeginImageContext(mapView.frame.size);
     [mapView.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[viewImage] applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeAddToReadingList];
+    
+    activityViewController.completionHandler = ^(NSString* activityType, BOOL completed) {
+        // do whatever you want to do after the activity view controller is finished
+    };
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 #pragma mark Map Delegate
