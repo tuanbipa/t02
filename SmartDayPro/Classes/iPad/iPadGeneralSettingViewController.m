@@ -23,7 +23,6 @@
 
 #import "AbstractSDViewController.h"
 #import "SmartCalAppDelegate.h"
-#import "LocationListViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern SmartCalAppDelegate *_appDelegate;
@@ -64,15 +63,6 @@ extern SmartCalAppDelegate *_appDelegate;
     [ctrler release];
 }
 
-- (void) editLocation
-{
-    LocationListViewController *ctrler = [[LocationListViewController alloc] init];
-    
-    [self.navigationController pushViewController:ctrler animated:YES];
-    
-    [ctrler release];
-}
-
 - (void) editSnoozeDuration
 {
     SnoozeDurationViewController *ctrler = [[SnoozeDurationViewController alloc] init];
@@ -83,15 +73,15 @@ extern SmartCalAppDelegate *_appDelegate;
     [ctrler release];
 }
 
-- (void)editGeoInterVal
-{
-    SnoozeDurationViewController *ctrler = [[SnoozeDurationViewController alloc] init];
-    ctrler.settings = self.setting;
-    
-    [self.navigationController pushViewController:ctrler animated:YES];
-    
-    [ctrler release];
-}
+//- (void)editGeoInterVal
+//{
+//    SnoozeDurationViewController *ctrler = [[SnoozeDurationViewController alloc] init];
+//    ctrler.settings = self.setting;
+//    
+//    [self.navigationController pushViewController:ctrler animated:YES];
+//    
+//    [ctrler release];
+//}
 
 - (void) loadView
 {
@@ -138,16 +128,16 @@ extern SmartCalAppDelegate *_appDelegate;
 }
 
 /*
--(NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    printf("rotate\n");
-}
-*/
+ -(NSUInteger)supportedInterfaceOrientations
+ {
+ return UIInterfaceOrientationMaskAll;
+ }
+ 
+ - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+ {
+ printf("rotate\n");
+ }
+ */
 
 #pragma mark Actions
 - (void) resetHint: (id) sender
@@ -298,13 +288,6 @@ extern SmartCalAppDelegate *_appDelegate;
 	cell.textLabel.text = _tagListText;
 }
 
-- (void) createLocationListCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	
-	cell.textLabel.text = _locationText;
-}
-
 - (void) createSnoozeDurationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -318,7 +301,7 @@ extern SmartCalAppDelegate *_appDelegate;
 	durationLabel.font=[UIFont boldSystemFontOfSize:16];
     durationLabel.textColor=[UIColor darkGrayColor];
     durationLabel.text = [Common getDurationString:self.setting.snoozeDuration*60];
-		
+    
 	[cell.contentView addSubview:durationLabel];
 	[durationLabel release];
 }
@@ -432,9 +415,9 @@ extern SmartCalAppDelegate *_appDelegate;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.setting.geoFencingEnable) {
-        return 10;
+        return 9;
     }
-    return 9;
+    return 8;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -496,41 +479,36 @@ extern SmartCalAppDelegate *_appDelegate;
             break;
         case 3:
         {
-            [self createLocationListCell:cell baseTag:10021];
+            [self createSnoozeDurationCell:cell baseTag:10030];
         }
             break;
         case 4:
         {
-            [self createSnoozeDurationCell:cell baseTag:10030];
+            [self createDeleteWarningCell:cell baseTag:10040];
         }
             break;
         case 5:
         {
-            [self createDeleteWarningCell:cell baseTag:10040];
+            [self createSoundEnabledCell:cell baseTag:10050];
         }
             break;
         case 6:
         {
-            [self createSoundEnabledCell:cell baseTag:10050];
+            [self createDeleteSuspectedDuplicationCell:cell baseTag:10060];
         }
             break;
         case 7:
         {
-            [self createDeleteSuspectedDuplicationCell:cell baseTag:10060];
-        }
-            break;
-        case 8:
-        {
             [self createGeoFencingCell:cell baseTag:10070];
         }
             break;
-        case 9:
+        case 8:
         {
             [self createGeoIntervalCell:cell baseTag:10080];
         }
             break;
     }
-
+    
 	
     return cell;
 }
@@ -551,20 +529,14 @@ extern SmartCalAppDelegate *_appDelegate;
             break;
         case 3:
         {
-            // edit Location
-            [self editLocation];
-        }
-            break;
-        case 4:
-        {
             [self editSnoozeDuration];
         }
             break;
-        /*case 8:
-        {
-            [self editGeoInterVal];
-        }
-            break;*/
+            /*case 8:
+             {
+             [self editGeoInterVal];
+             }
+             break;*/
     }
 }
 
