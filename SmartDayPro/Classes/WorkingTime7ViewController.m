@@ -476,8 +476,9 @@ extern BOOL _workingTimeHintShown;
 	
     // Set up the cell...
 	
-	NSString *wkStrings[7] = {@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"}; 
-	
+	//NSString *wkStrings[7] = {@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"};
+	NSString *wkStrings[7] = {_sundayText, _mondayText, _tuesdayText, _wednesdayText, _thursdayText, _fridayText, _saturdayText};
+    
     cell.backgroundColor = [UIColor clearColor];
 	cell.textLabel.text = wkStrings[indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:16];

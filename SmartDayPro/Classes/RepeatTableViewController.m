@@ -705,7 +705,9 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 	[cell.contentView addSubview:unitLabel];
 	[unitLabel release];
 	
-	NSString *weekDays[7] = {@"Sun", @"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat"};
+	//NSString *weekDays[7] = {@"Sun", @"Mon", @"Tue", @"Wed", @"Thu", @"Fri", @"Sat"};
+    NSString *weekDays[7] = {_sunText, _monText, _tueText, _wedText, _thuText, _friText, _satText};
+    
 	NSInteger mask[7] = {ON_SUNDAY, ON_MONDAY,ON_TUESDAY, ON_WEDNESDAY, ON_THURSDAY, ON_FRIDAY, ON_SATURDAY};
     
     int w = (repeatTableView.bounds.size.width - 30)/4;
@@ -734,7 +736,7 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 		[cell.contentView addSubview:wkDayButton];
 		
 //        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(10 + mod*w + 20, 35 + div*30, 40, 20)];
-        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(30 + mod*w + 20, 35 + div*30, 40, 20)];
+        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(30 + mod*w + 20 + 5, 35 + div*30, 40, 20)];
 		unitLabel.tag = 10212 + i;
 		unitLabel.text=weekDays[i];
 		unitLabel.backgroundColor=[UIColor clearColor];

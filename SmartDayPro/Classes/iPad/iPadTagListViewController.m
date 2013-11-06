@@ -189,9 +189,12 @@ extern iPadViewController *_iPadViewCtrler;
     
     [contentView addSubview:tagTextField];
     [tagTextField release];
-    
-    frm = CGRectMake(40, contentView.bounds.size.height-35, 100, 30);
+
+    sz = [_noFilterText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}];
 	
+    //frm = CGRectMake(40, contentView.bounds.size.height-35, 100, 30);
+    frm = CGRectMake(10, contentView.bounds.size.height-35, sz.width + 20, 30);
+    
 	UIButton *noFilterButton = [Common createButton:_noFilterText
 										buttonType:UIButtonTypeCustom
                                              frame:frm
@@ -208,7 +211,10 @@ extern iPadViewController *_iPadViewCtrler;
 	
 	[contentView addSubview:noFilterButton];
     
-    frm = CGRectMake(180, contentView.bounds.size.height-35, 100, 30);
+    sz = [_applyText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}];
+    
+    //frm = CGRectMake(180, contentView.bounds.size.height-35, 100, 30);
+    frm = CGRectMake(contentView.bounds.size.width - sz.width - 30, contentView.bounds.size.height-35, sz.width + 20, 30);
     
 	UIButton *applyButton = [Common createButton:_applyText
 										buttonType:UIButtonTypeCustom

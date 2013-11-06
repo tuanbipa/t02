@@ -605,7 +605,7 @@
 		
 		UIButton *startButton = [Common createButton:_startText
                                         buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(40, 30, 60, 30)
+                                             frame:CGRectMake(10, 30, 60, 30)
                                         titleColor:[Colors blueButton]
                                             target:self
                                           selector:@selector(startTaskActivation:)
@@ -620,10 +620,17 @@
 		startButton.tag = 10005;
 		
 		[cell.contentView addSubview:startButton];
+        
+        CGSize sz = [_holdAllAndStartText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}];
+        
+        if (sz.width > tableView.bounds.size.width - 80 - 30)
+        {
+            sz.width = tableView.bounds.size.width - 80 - 30;
+        }
 		
 		UIButton *holdButton = [Common createButton:_holdAllAndStartText
                                        buttonType:UIButtonTypeCustom
-											frame:CGRectMake(140, 30, 140, 30)
+											frame:CGRectMake(tableView.bounds.size.width - sz.width - 30, 30, sz.width + 20, 30)
 									   titleColor:[Colors blueButton]
 										   target:self 
 										 selector:@selector(holdAllActiveTasksAndStart:) 

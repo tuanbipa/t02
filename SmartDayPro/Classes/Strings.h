@@ -305,7 +305,7 @@
 #define _repeatFromDueHintText NSLocalizedString(@"_repeatFromDueHintText" , @"Please select a Due Date first.")
 
 #pragma mark TaskView
-#define _hoursText NSLocalizedString(@"_hoursText" , @"hr(s)")
+#define _hrsText NSLocalizedString(@"_hrsText" , @"hr(s)")
 
 #pragma mark ByLCLViewController
 #define _byLCLTitle NSLocalizedString(@"_byLCLTitle" , @"By LCL")
@@ -700,6 +700,7 @@
 #define _overDueText NSLocalizedString(@"_overDueText", "")
 #define _dueInTex NSLocalizedString(@"_dueInTex", "")
 #define _daysText NSLocalizedString(@"_daysText", "")
+
 #define _longText NSLocalizedString(@"_longText", "")
 #define _shortText NSLocalizedString(@"_shortText", "")
 
@@ -746,4 +747,7 @@
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")
 
-
+#define _minText NSLocalizedString(@"_minText", "")
+#define _minsText NSLocalizedString(@"_minsText", "")
+#define _hourText NSLocalizedString(@"_hourText", "")
+#define _hoursText NSLocalizedString(@"_hoursText", "")
