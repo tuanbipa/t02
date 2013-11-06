@@ -13,6 +13,7 @@
 
 @interface LocationListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
+    UILabel *hintLable;
 	UITableView *locationsTableView;
     NSMutableArray *locationList;
     

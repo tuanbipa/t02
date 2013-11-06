@@ -19,6 +19,7 @@
 #import "DetailViewController.h"
 
 extern iPadViewController *_iPadViewCtrler;
+extern BOOL _isiPad;
 
 @implementation LocationListViewController
 
@@ -64,7 +65,28 @@ extern iPadViewController *_iPadViewCtrler;
 	self.view = contentView;
 	[contentView release];
     
-    locationsTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
+    frm = contentView.bounds;
+    frm.origin.x = 10;
+    frm.origin.y = 10;
+    frm.size.width -= 20;
+    frm.size.height = _isiPad?60:100;
+    
+    hintLable = [[UILabel alloc] initWithFrame:frm];
+    hintLable.backgroundColor = [UIColor clearColor];
+    hintLable.numberOfLines = 0;
+    hintLable.text = _locationHintText;
+    hintLable.textAlignment = NSTextAlignmentLeft;
+    hintLable.font = [UIFont systemFontOfSize:16];
+    hintLable.textColor = [Colors darkSteelBlue];
+    
+    [contentView addSubview:hintLable];
+    [hintLable release];
+    
+    frm = contentView.bounds;
+    frm.origin.y = hintLable.bounds.size.height+10;
+    frm.size.height -= frm.origin.y;
+    
+    locationsTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	locationsTableView.delegate = self;
 	locationsTableView.dataSource = self;
 	locationsTableView.allowsSelectionDuringEditing=YES;
@@ -76,14 +98,32 @@ extern iPadViewController *_iPadViewCtrler;
 	self.navigationItem.title = _locationText;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
     // get location list;
     self.locationList = [[LocationManager getInstance] getAllLocation];
     [locationsTableView reloadData];
+    
+    // update UI
+    if (objectEdit != nil) {
+        
+        // hide hint lable
+        hintLable.hidden = YES;
+        
+        locationsTableView.frame = self.view.bounds;
+    }
 }
+
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    
+//    // get location list;
+//    self.locationList = [[LocationManager getInstance] getAllLocation];
+//    [locationsTableView reloadData];
+//}
 
 - (void)viewWillDisappear:(BOOL)animated
 {

@@ -750,7 +750,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 						break;
                     case 3:
 					{
-						cell.imageView.image=[UIImage imageNamed:@"settings_tasks.png"];
+						cell.imageView.image=[UIImage imageNamed:@"settings_location.png"];
 						cell.textLabel.text = _locationsText;
 					}
 						break;

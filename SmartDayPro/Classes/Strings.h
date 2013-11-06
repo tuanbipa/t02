@@ -744,6 +744,7 @@
 #define _alertBasedOnAddressText NSLocalizedString(@"_alertBasedOnAddressText", "")
 #define _addressText NSLocalizedString(@"_addressText", "")
 #define _locationsText NSLocalizedString(@"_locationsText", "")
+#define _locationHintText NSLocalizedString(@"_locationHintText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")

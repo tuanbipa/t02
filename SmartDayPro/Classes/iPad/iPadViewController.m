@@ -706,11 +706,12 @@ iPadViewController *_iPadViewCtrler;
 {
     DBManager *dbm = [DBManager getInstance];
     NSInteger count = [dbm countTaskByLocation];
-    
-    NSLog(@"refresh task location %d", count);
-    
-    taskLocationButton.hidden = (count == 0);
-    taskLocationLable.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+    dispatch_async(dispatch_get_main_queue(),^ {
+        NSLog(@"refresh task location %d", count);
+
+        taskLocationButton.hidden = (count == 0);
+        taskLocationLable.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+    });
 }
 
 - (void)filterChange:(NSNotification *)notification
