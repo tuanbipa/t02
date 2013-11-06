@@ -45,18 +45,18 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)loadView
 {
+    CGSize sz = [Common getScreenSize];
+    
     CGRect frm = CGRectZero;
-    frm.size = [Common getScreenSize];
+    frm.origin.y = 20;
+    frm.size = sz;
     
-    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
-    
-    if ([ctrler isKindOfClass:[iPadGeneralSettingViewController class]])
-    {
+    if (self.navigationController.viewControllers.count <= 1) {
         frm.size.width = 2*frm.size.width/3;
-    }
-    else
-    {
-        frm.size.width = 320;
+    } else {
+        
+        UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+        frm.size.width = ctrler.view.frame.size.width;
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];

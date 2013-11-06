@@ -742,6 +742,8 @@
 #define _leaveText NSLocalizedString(@"_leaveText", "")
 #define _leaveAtText NSLocalizedString(@"_leaveAtText", "")
 #define _alertBasedOnAddressText NSLocalizedString(@"_alertBasedOnAddressText", "")
+#define _addressText NSLocalizedString(@"_addressText", "")
+#define _locationsText NSLocalizedString(@"_locationsText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")

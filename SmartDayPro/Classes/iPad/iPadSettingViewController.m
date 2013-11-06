@@ -53,6 +53,7 @@
 #import "iPadViewController.h"
 
 #import "RestoreViewController.h"
+#import "LocationListViewController.h"
 
 extern iPadViewController *_iPadViewCtrler;
 extern AbstractSDViewController *_abstractViewCtrler;
@@ -476,6 +477,14 @@ iPadSettingViewController *_iPadSettingViewCtrler;
             break;
         case 3:
         {
+            // locations
+            LocationListViewController *ctrler = [[[LocationListViewController alloc] init] autorelease];
+            
+            detailCtrler = ctrler;
+        }
+            break;
+        case 4:
+        {
             iPadSyncSettingViewController *ctrler = [[[iPadSyncSettingViewController alloc] init] autorelease];
             
             ctrler.setting = self.settingCopy;
@@ -483,14 +492,14 @@ iPadSettingViewController *_iPadSettingViewCtrler;
             detailCtrler = ctrler;
         }
             break;
-        case 4:
+        case 5:
         {
             RestoreViewController *ctrler = [[[RestoreViewController alloc] init] autorelease];
             
             detailCtrler = ctrler;
         }
             break;
-        case 5:
+        case 6:
         {
             DataRecoveryViewController *ctrler = [[[DataRecoveryViewController alloc] init] autorelease];
             
@@ -664,7 +673,7 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:masterTableView])
     {
-        return self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?6:5;
+        return self.settingCopy.sdwVerified && self.settingCopy.sdwSyncEnabled?7:6;
     }
     
     return 0;
@@ -739,19 +748,25 @@ iPadSettingViewController *_iPadSettingViewCtrler;
 						cell.textLabel.text = _tasksText;
 					}
 						break;
-					case 3:
+                    case 3:
+					{
+						cell.imageView.image=[UIImage imageNamed:@"settings_tasks.png"];
+						cell.textLabel.text = _locationsText;
+					}
+						break;
+					case 4:
 					{
 						cell.imageView.image = [UIImage imageNamed:@"settings_sync.png"];
 						cell.textLabel.text = _synchronizationText;
 					}
 						break;
-                    case 4:
+                    case 5:
 					{
 						cell.imageView.image = [UIImage imageNamed:@"settings_backup.png"];
 						cell.textLabel.text = _autoBackup;
 					}
 						break;
-					case 5:
+					case 6:
 					{
 						cell.imageView.image = [UIImage imageNamed:@"settings_recovery.png"];
 						cell.textLabel.text = _dataRecovery;

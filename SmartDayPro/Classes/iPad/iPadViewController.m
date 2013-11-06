@@ -242,7 +242,7 @@ iPadViewController *_iPadViewCtrler;
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(showGeoTaskLocation:)
-                                 normalStateImage:@"bar_comments.png"
+                                 normalStateImage:@"bar_location.png"
                                selectedStateImage:nil];
         taskLocationButton.hidden = YES;
         
