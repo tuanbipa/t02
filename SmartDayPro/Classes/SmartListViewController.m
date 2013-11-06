@@ -229,9 +229,12 @@ SmartListViewController *_smartListViewCtrler;
 
 - (void) refreshQuickAddOption
 {
+    NSString *texts[5] = {_todayText, _nextWeekText, _nextMonthText, _anytimeText, _saveAndMoreText};
+    
     for (UIBarButtonItem *item in self.quickAddOptionToolbar.items)
     {
         item.tintColor = (item.tag == self.quickAddOption?[UIColor blueColor]:nil);
+        item.title = texts[item.tag];
     }
 }
 

@@ -362,7 +362,18 @@ extern SmartCalAppDelegate *_appDelegate;
 
 - (void) createGeoFencingCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
-	cell.textLabel.text = _geoFencingText;
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, settingTableView.bounds.size.width - 120, 40)];
+    titleLabel.numberOfLines = 2;
+    titleLabel.font = [UIFont systemFontOfSize:16];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textColor = [UIColor grayColor];
+    titleLabel.tag = baseTag;
+    titleLabel.text = _geoFencingText;
+    
+	[cell.contentView addSubview:titleLabel];
+	[titleLabel release];
+    
+	//cell.textLabel.text = _geoFencingText;
 	
 	NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
 	UISegmentedControl *segmentedStyleControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
@@ -370,7 +381,7 @@ extern SmartCalAppDelegate *_appDelegate;
 	[segmentedStyleControl addTarget:self action:@selector(changeGeoFencing:) forControlEvents:UIControlEventValueChanged];
 	//segmentedStyleControl.segmentedControlStyle = UISegmentedControlStylePlain;
 	segmentedStyleControl.selectedSegmentIndex = (self.setting.geoFencingEnable?0:1);
-	segmentedStyleControl.tag = baseTag;
+	segmentedStyleControl.tag = baseTag+1;
 	
 	[cell.contentView addSubview:segmentedStyleControl];
 	[segmentedStyleControl release];

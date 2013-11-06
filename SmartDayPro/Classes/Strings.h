@@ -755,3 +755,15 @@
 #define _minsText NSLocalizedString(@"_minsText", "")
 #define _hourText NSLocalizedString(@"_hourText", "")
 #define _hoursText NSLocalizedString(@"_hoursText", "")
+
+//backup email
+#define _backupEmailHeader NSLocalizedString(@"_backupEmailHeader", "")
+#define _backupEmailBody NSLocalizedString(@"_backupEmailBody", "")
+#define _backupEmailFooter NSLocalizedString(@"_backupEmailFooter", "")
+#define _backupEmailSubject NSLocalizedString(@"_backupEmailSubject", "")
+
+//timer history email
+#define _reportEmailHeader NSLocalizedString(@"_reportEmailHeader", "")
+#define _reportEmailSubject NSLocalizedString(@"_reportEmailSubject", "")
+
+#define _anytimeText NSLocalizedString(@"_anytimeText", "")

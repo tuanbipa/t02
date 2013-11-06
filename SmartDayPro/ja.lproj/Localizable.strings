@@ -97,9 +97,9 @@
 "_startText" = "開始";
 "_deadlineText" = "期限";
 "_locationGuideText" = "位置";
-"_15minText" = "  15分";
-"_1hourText" = "   1時間";
-"_3hourText" = "     3時間";
+"_15minText" = "15分";
+"_1hourText" = "1時間";
+"_3hourText" = "3時間";
 "_durationText" = "期間";
 "_noteText" = "ノート";
 "_tagText" = "タグ";
@@ -755,3 +755,15 @@
 "_minsText" = "分";//short unit of minutes
 "_hourText" = "時間";//short unit of hour
 "_hoursText" = "時間";//short unit of hours
+
+//backup email
+"_backupEmailHeader" = "Hi,\n Your SmartDay database has been backed up into this mail successfully!";
+"_backupEmailBody" = ">Tap here to restore the backed up database.";
+"_backupEmailFooter" = "Thanks for using SmartDay!";
+"_backupEmailSubject" = "SmartDay - Data Backup";
+
+//timer history email
+"_reportEmailHeader" = "Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.";
+"_reportEmailSubject" =  "SmartDay Report";
+
+"_anytimeText" = "Anytime";
