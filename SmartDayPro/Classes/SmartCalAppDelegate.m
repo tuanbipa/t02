@@ -881,14 +881,20 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 		NSString *versionString = [[Settings getInstance] dbVersion];
 		NSString *encodedString = [GTMBase64 stringByWebSafeEncodingData:fileData padded:YES];
 		
-		NSString *appLinkStr= [[NSString stringWithFormat: @"Hi,\n Your SmartDay database has been backed up into this mail successfully!<br/><br/> <a href=\"SmartDay://localhost/importDatabase?version=%@;data=%@\"",versionString,encodedString] 
+        /*
+		NSString *appLinkStr= [[NSString stringWithFormat: @"Hi,\n Your SmartDay database has been backed up into this mail successfully!<br/><br/> <a href=\"SmartDay://localhost/importDatabase?version=%@;data=%@\"",versionString,encodedString]
 							   stringByAppendingString:[[NSString stringWithFormat: @">Tap here to restore the backed up database."]
-														stringByAppendingString:@"</a><br/><br/>Thanks for using SmartDay!"]];
-		
+														stringByAppendingString:@"</a><br/><br/>Thanks for using SmartDay!"]];*/
+        
+
+		NSString *appLinkStr = [NSString stringWithFormat: @"%@<br/><br/> <a href=\"SmartDay://localhost/importDatabase?version=%@;data=%@\"%@</a><br/><br/>%@",_backupEmailHeader,versionString,encodedString,_backupEmailBody,_backupEmailFooter];
+        
 		////printf("link :%s\n", [appLinkStr UTF8String]);
 		
-		NSString *bodyStr = [[NSString stringWithFormat:@"mailto:?subject=SmartDay - Data backup: "] stringByAppendingString:[NSString stringWithFormat:@"%@&body=%@",[Common getDateTimeString:[NSDate date]],appLinkStr]];
-		
+		//NSString *bodyStr = [[NSString stringWithFormat:@"mailto:?subject=SmartDay - Data backup: "] stringByAppendingString:[NSString stringWithFormat:@"%@&body=%@",[Common getDateTimeString:[NSDate date]],appLinkStr]];
+        
+        NSString *bodyStr = [NSString stringWithFormat:@"mailto:?subject=%@ [%@]&body=%@", _backupEmailSubject,[Common getDateTimeString:[NSDate date]],appLinkStr];
+                             
 		NSString *encoded =[bodyStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		
 		//		//printf("\n\n\n after endcoding: %s",[encoded UTF8String]);

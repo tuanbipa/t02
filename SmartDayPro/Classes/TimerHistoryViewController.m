@@ -62,8 +62,10 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     ProjectManager *pm = [ProjectManager getInstance];
     
-    NSString *mailBody = [NSString stringWithFormat:@"Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.", self.task.name];
+    //NSString *mailBody = [NSString stringWithFormat:@"Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.", self.task.name];
     
+    NSString *mailBody = [NSString stringWithFormat:_reportEmailHeader, self.task.name];
+
     NSString *csvContent = @"Project, Task Name, Duration, Start Date, Due Date, Completed Date, Timer Duration, Segment No, From Time, To Time, Sub Total \n";
     
     TaskProgress *progress = [self.progressList objectAtIndex:0];
@@ -100,7 +102,8 @@ extern SmartDayViewController *_sdViewCtrler;
 	MFMailComposeViewController *picker = [[[MFMailComposeViewController alloc] init] autorelease];
 	if (picker) {
 		picker.mailComposeDelegate=self;
-		[picker setSubject:@"SmartDay Report"];
+		//[picker setSubject:@"SmartDay Report"];
+        [picker setSubject:_reportEmailSubject];
 		
 		[picker setToRecipients:nil];
 		[picker setCcRecipients:nil];

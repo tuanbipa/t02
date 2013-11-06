@@ -97,9 +97,9 @@
 "_startText" = "Start";
 "_deadlineText" = "Deadline";
 "_locationGuideText" = "Location";
-"_15minText" = "  15'";
-"_1hourText" = "   1 hr";
-"_3hourText" = "     3 hrs";
+"_15minText" = "15'";
+"_1hourText" = "1 hr";
+"_3hourText" = "3 hrs";
 "_durationText" = "Duration";
 "_noteText" = "Note";
 "_tagText" = "Tag";
@@ -767,3 +767,15 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_minsText" = "mins";//short unit of minutes
 "_hourText" = "hour";//short unit of hour
 "_hoursText" = "hours";//short unit of hours
+
+//backup email
+"_backupEmailHeader" = "Hi,\n Your SmartDay database has been backed up into this mail successfully!";
+"_backupEmailBody" = ">Tap here to restore the backed up database.";
+"_backupEmailFooter" = "Thanks for using SmartDay!";
+"_backupEmailSubject" = "SmartDay - Data Backup";
+
+//timer history email
+"_reportEmailHeader" = "Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.";
+"_reportEmailSubject" =  "SmartDay Report";
+
+"_anytimeText" = "Anytime";

@@ -18,6 +18,8 @@
 @property (nonatomic, assign) IBOutlet UIDatePicker *picker;
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *noneItem;
 
+@property (nonatomic, assign) IBOutlet UIToolbar *toolbar;
+
 @property (nonatomic, assign) Task *task;
 
 - (IBAction)done:(id)sender;

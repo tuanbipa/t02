@@ -8,6 +8,7 @@
 
 #import "DurationInputViewController.h"
 
+#import "Common.h"
 #import "Task.h"
 
 #import "DetailViewController.h"
@@ -18,6 +19,8 @@ extern DetailViewController *_detailViewCtrler;
 
 @synthesize picker;
 @synthesize noneItem;
+
+@synthesize toolbar;
 
 @synthesize task;
 
@@ -43,6 +46,16 @@ extern DetailViewController *_detailViewCtrler;
     self.noneItem.tintColor = self.task.duration == 0?[UIColor blueColor]:nil;
     
     zeroPick = NO;
+    
+    NSString *texts[4] = {_15minText, _1hourText, _3hourText, _doneText};
+    
+    for (UIBarButtonItem *item in self.toolbar.items)
+    {
+        if (item.tag > 0)
+        {
+            item.title = texts[item.tag-1];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -103,6 +103,13 @@ extern RepeatTableViewController *_repeatViewCtrler;
         }
             break;
     }
+    
+    NSString *texts[5] = {_noneText, _todayText, _tomorrowText, _1WeekText, _doneText};
+    
+    for (UIBarButtonItem *item in self.toolbar.items)
+    {
+        item.title = texts[item.tag];
+    }
 }
 
 - (void)didReceiveMemoryWarning
