@@ -318,7 +318,7 @@ extern BOOL _syncMatchHintShown;
 	scEvent.alerts = alerts;
     */
     
-	if (scEvent.primaryKey > -1)
+	//if (scEvent.primaryKey > -1)
 	{
 		[scEvent externalUpdate];
 	}

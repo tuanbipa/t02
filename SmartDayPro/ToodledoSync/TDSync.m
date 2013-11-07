@@ -210,7 +210,7 @@ TDSync *_tdSyncSingleton;
 
 	scTask.repeatData = [tdTask getRepeatData];
 	
-	if (scTask.primaryKey > -1)
+	//if (scTask.primaryKey > -1)
 	{
 		[scTask externalUpdate];		
 	}
