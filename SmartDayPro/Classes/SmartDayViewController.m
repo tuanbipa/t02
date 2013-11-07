@@ -1796,10 +1796,13 @@ extern BOOL _detailHintShown;
     hintOKButton.layer.cornerRadius = 4;
     hintOKButton.layer.borderWidth = 1;
     hintOKButton.layer.borderColor = [[Colors blueButton] CGColor];
+    
+    sz = [_dontShowText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}];
 	
 	UIButton *hintDontShowButton =[Common createButton:_dontShowText
 											buttonType:UIButtonTypeCustom
-                                                 frame:CGRectMake(10, frm.size.height + 25, 100, 30)
+                                                 //frame:CGRectMake(10, frm.size.height + 25, 100, 30)
+                                                 frame:CGRectMake(10, frm.size.height + 25, sz.width + 20, 30)
 											titleColor:[Colors blueButton]
 												target:self
 											  selector:@selector(hint:)

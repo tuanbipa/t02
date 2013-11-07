@@ -599,11 +599,13 @@ iPadViewController *_iPadViewCtrler;
     hintOKButton.layer.cornerRadius = 4;
     hintOKButton.layer.borderWidth = 1;
     hintOKButton.layer.borderColor = [[Colors blueButton] CGColor];
+    
+    CGSize sz = [_dontShowText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}];
 	
 	UIButton *hintDontShowButton =[Common createButton:_dontShowText
 											buttonType:UIButtonTypeCustom
-                                                 frame:CGRectMake(10, frm.size.height + 5, 100, 30)
-											titleColor:[Colors blueButton]
+                                                 //frame:CGRectMake(10, frm.size.height + 5, 100, 30)
+                                                 frame:CGRectMake(10, frm.size.height + 5, sz.width + 20, 30)											titleColor:[Colors blueButton]
 												target:self
 											  selector:@selector(hint:)
 									  normalStateImage:nil

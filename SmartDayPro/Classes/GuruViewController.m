@@ -424,54 +424,31 @@ extern SmartDayViewController *_sdViewCtrler;
     return YES;
 }
 
-/*
-- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if (_iPadViewCtrler != nil)
-    {
-        [_iPadViewCtrler changeOrientation:toInterfaceOrientation];
-    }
-    else if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler changeOrientation:toInterfaceOrientation];
-    }
-}
-*/
 #pragma mark TextField Delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	/*if (![emailTextField.text isEqualToString:@""] && ![pwdTextField.text isEqualToString:@""])
-	{
-        [emailTextField resignFirstResponder];
-        [pwdTextField resignFirstResponder];
-	}
-	else if([textField isEqual:emailTextField])
-	{
-		[emailTextField resignFirstResponder];
-		[pwdTextField becomeFirstResponder];
-	}
-	else if([textField isEqual:pwdTextField])
-	{
-		[pwdTextField resignFirstResponder];
-		[emailTextField becomeFirstResponder];
-	}*/
-    
     [emailTextField resignFirstResponder];
     [pwdTextField resignFirstResponder];
     
-    if (!_isiPad && !IS_IPHONE_5)
+    /*if (!_isiPad && !IS_IPHONE_5)
     {
         UIScrollView *superView = (UIScrollView *)textField.superview;
         
         superView.contentOffset = CGPointMake(0, 0);
-    }
+    }*/
     
 	return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    if (!_isiPad && !IS_IPHONE_5 && ![emailTextField isFirstResponder] && ![pwdTextField isFirstResponder])
+    {
+        UIScrollView *superView = (UIScrollView *)textField.superview;
+        
+        superView.contentOffset = CGPointMake(0, 0);
+    }
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
