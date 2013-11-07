@@ -1692,7 +1692,12 @@ DetailViewController *_detailViewCtrler = nil;
     Location *location = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationID database:[[DBManager getInstance] getDatabase]];
     if (location.primaryKey > 0) {
         detail = location.name;
+    } else if (location.primaryKey != self.taskCopy.locationID) {
+        
+        self.taskCopy.locationID = 0;
+        self.task.locationID = 0;
     }
+    [location release];
     
     cell.detailTextLabel.text = detail;
 }

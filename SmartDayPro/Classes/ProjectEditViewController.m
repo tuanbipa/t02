@@ -634,7 +634,12 @@ extern iPadViewController *_iPadViewCtrler;
     Location *location = [[Location alloc] initWithPrimaryKey:self.projectCopy.locationID database:[[DBManager getInstance] getDatabase]];
     if (location.primaryKey > 0) {
             projectLocationLable.text = location.name;
+    }  else if (location.primaryKey != self.projectCopy.locationID) {
+        
+        self.projectCopy.locationID = 0;
+        self.project.locationID = 0;
     }
+    [location release];
 }
 
 #pragma mark Actions

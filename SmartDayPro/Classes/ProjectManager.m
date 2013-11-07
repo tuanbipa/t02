@@ -968,5 +968,14 @@ ProjectManager *_projectManagerSingleton = nil;
 	}
 }
 
+#pragma mark Locations Support
 
+- (void)resetLocationID:(NSInteger)locationID
+{
+    for (Project *project in self.projectList) {
+        if (project.locationID == locationID) {
+            project.locationID = 0;
+        }
+    }
+}
 @end

@@ -22,4 +22,5 @@
 - (void)saveLocation: (Location*) location;
 - (void)resetLocationStatus;
 - (NSMutableArray*)getLocationsByStatus: (NSInteger) status;
+- (void)deleteLocation:(Location*)loc;
 @end

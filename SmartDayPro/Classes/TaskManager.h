@@ -218,4 +218,7 @@
 - (void) wait4SortComplete;
 //- (void) cleanupGarbage;
 
+#pragma mark Locations Support
+
+- (void)resetLocationID:(NSInteger)locationID;
 @end

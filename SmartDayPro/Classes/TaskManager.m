@@ -5929,6 +5929,14 @@ TaskManager *_sctmSingleton = nil;
 	([task.startTime compare:startTime] == NSOrderedAscending && [task.endTime compare:startTime] == NSOrderedDescending);
 }
 
+#pragma mark Locations Support
 
-
+- (void)resetLocationID:(NSInteger)locationID
+{
+    for (Task *task in self.taskList) {
+        if (task.locationID == locationID) {
+            task.locationID = 0;
+        }
+    }
+}
 @end

@@ -130,12 +130,6 @@
 -(TaskProgress *)getLastProgressForTask:(NSInteger) taskKey;
 - (GoalInfo) getGoalFromDate:(NSDate *)startDate toDate:(NSDate *)endDate;
 
-#pragma mark Geo Task Location
-// location data
-- (NSMutableArray *) getAllEventsHaveAlertBasedLocation;
-- (NSInteger)countTaskByLocation;
-- (NSMutableArray*)getCurrentTaskLocation;
-
 //SDW Sync
 - (NSMutableArray *) getAllComments;
 - (NSInteger) countCommentsForItem:(NSInteger) itemId;
@@ -168,4 +162,9 @@
 - (void)upgradeDBv4_0;
 - (void)upgradeDBv5_0;
 
+#pragma mark Geo Task Location
+// location data
+- (NSMutableArray *) getAllEventsHaveAlertBasedLocation;
+- (NSInteger)countTaskByLocation;
+- (NSMutableArray*)getCurrentTaskLocation;
 @end

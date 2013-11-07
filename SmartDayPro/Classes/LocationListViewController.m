@@ -8,15 +8,15 @@
 
 #import "LocationListViewController.h"
 #import "Common.h"
-#import "iPadGeneralSettingViewController.h"
 #import "Location.h"
 #import "LocationManager.h"
 #import "LocationDetailViewController.h"
 #import "DBManager.h"
-#import "Project.h"
-#import "ProjectEditViewController.h"
 #import "iPadViewController.h"
 #import "DetailViewController.h"
+
+#import "AbstractActionViewController.h"
+#import "CategoryViewController.h"
 
 extern iPadViewController *_iPadViewCtrler;
 extern BOOL _isiPad;
@@ -98,14 +98,8 @@ extern BOOL _isiPad;
 	self.navigationItem.title = _locationText;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-    [super viewWillAppear:animated];
-    
-    // get location list;
-    self.locationList = [[LocationManager getInstance] getAllLocation];
-    [locationsTableView reloadData];
-    
     // update UI
     if (objectEdit != nil) {
         
@@ -119,6 +113,24 @@ extern BOOL _isiPad;
         frm.size.height -= frm.origin.y;
         locationsTableView.frame = frm;
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // get location list;
+    self.locationList = [[LocationManager getInstance] getAllLocation];
+    
+    if (self.objectEdit != nil) {
+        Location *location = [[Location alloc] initWithPrimaryKey:[self getLocationID] database:[[DBManager getInstance] getDatabase]];
+        if (location.primaryKey == 0) {
+            [self selectLocation:0];
+        }
+        [location release];
+    }
+    
+    [locationsTableView reloadData];
 }
 
 //- (void)viewDidAppear:(BOOL)animated
@@ -247,13 +259,7 @@ extern BOOL _isiPad;
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Location *location = [self.locationList objectAtIndex: indexPath.row - 1];
-    
-    [location deleteFromDatabase:[[DBManager getInstance] getDatabase]];
-    
-    [self.locationList removeObject:location];
-    
-    [locationsTableView reloadData];
+    [self removeLocation:indexPath.row - 1];
 }
 
 #pragma mark methods
@@ -285,7 +291,7 @@ extern BOOL _isiPad;
         [objectEdit setLocationID:location.primaryKey];
     } else {
         //[[self objectLocation] setLocation:-1];
-        [objectEdit setLocationID:-1];
+        [objectEdit setLocationID:0];
     }
     
     [locationsTableView reloadData];
@@ -294,5 +300,26 @@ extern BOOL _isiPad;
 - (NSInteger)getLocationID
 {
     return [objectEdit locationID];
+}
+
+- (void)removeLocation:(NSInteger)index
+{
+    Location *location = [self.locationList objectAtIndex: index];
+    
+    //[location deleteFromDatabase:[[DBManager getInstance] getDatabase]];
+    [[LocationManager getInstance] deleteLocation:location];
+    
+    [self.locationList removeObject:location];
+    
+    [locationsTableView reloadData];
+    
+    // reload active module
+    UIViewController *ctrler = [[AbstractActionViewController getInstance] getActiveModule];
+    
+    if ([ctrler isKindOfClass:[CategoryViewController class]]) {
+        [((CategoryViewController*)ctrler) loadAndShowList];
+    }
+    
+    // refres
 }
 @end

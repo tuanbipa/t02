@@ -102,4 +102,6 @@
 - (BOOL) checkExistingProjectName:(NSString *)name excludeProject:(NSInteger)excludeProject;
 - (Project *) findProjectByName:(NSString *)name;
 
+#pragma mark Locations Support
+- (void)resetLocationID:(NSInteger)locationID;
 @end
