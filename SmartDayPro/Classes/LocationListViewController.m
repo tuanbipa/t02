@@ -109,10 +109,15 @@ extern BOOL _isiPad;
     // update UI
     if (objectEdit != nil) {
         
-        // hide hint lable
-        hintLable.hidden = YES;
+        hintLable.text = _selectLocationHintText;
+        CGRect frm = hintLable.frame;
+        frm.size.height += _isiPad?40:60;
+        hintLable.frame = frm;
         
-        locationsTableView.frame = self.view.bounds;
+        frm = self.view.bounds;
+        frm.origin.y = hintLable.bounds.size.height + hintLable.frame.origin.y;
+        frm.size.height -= frm.origin.y;
+        locationsTableView.frame = frm;
     }
 }
 
