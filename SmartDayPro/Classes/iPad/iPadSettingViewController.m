@@ -603,7 +603,8 @@ iPadSettingViewController *_iPadSettingViewCtrler;
                         [viewController isKindOfClass:[iPadTaskSettingViewController class]] ||
                         [viewController isKindOfClass:[iPadSyncSettingViewController class]] ||
                         [viewController isKindOfClass:[DataRecoveryViewController class]] ||
-                        [viewController isKindOfClass:[RestoreViewController class]];
+                        [viewController isKindOfClass:[RestoreViewController class]] ||
+                        [viewController isKindOfClass:[LocationListViewController class]];
     
     if ([viewController isKindOfClass:[ProjectSelectionTableViewController class]])
     {
