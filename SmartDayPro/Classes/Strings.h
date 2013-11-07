@@ -767,4 +767,8 @@
 #define _reportEmailHeader NSLocalizedString(@"_reportEmailHeader", "")
 #define _reportEmailSubject NSLocalizedString(@"_reportEmailSubject", "")
 
+//week overview email
+#define _reportWeekEmailBody NSLocalizedString(@"_reportWeekEmailBody", "")
+#define _reportWeekEmailSubject NSLocalizedString(@"_reportWeekEmailSubject", "")
+
 #define _anytimeText NSLocalizedString(@"_anytimeText", "")

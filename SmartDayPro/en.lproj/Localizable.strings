@@ -780,4 +780,8 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_reportEmailHeader" = "Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.";
 "_reportEmailSubject" =  "SmartDay Report";
 
+//week overview email
+"_reportWeekEmailBody" = "The attachment is week overview exported from SmartDay.";
+"_reportWeekEmailSubject" = "SmartDay - Overview";
+
 "_anytimeText" = "Anytime";
