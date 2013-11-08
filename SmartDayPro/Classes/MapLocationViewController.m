@@ -158,6 +158,8 @@ extern SmartDayViewController *_sdViewCtrler;
     self.navigationItem.rightBarButtonItems = items;
     
     [self changeOrientation:self.interfaceOrientation];
+    
+    isDone = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -234,6 +236,10 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)done: (id)sender
 {
+    if([locationTextField isFirstResponder]){
+        isDone = YES;
+    }
+    
     if (_isiPad)
     {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -243,16 +249,6 @@ extern SmartDayViewController *_sdViewCtrler;
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
-
-//- (void)exportMap: (id)sender
-//{
-//    UIGraphicsBeginImageContext(mapView.frame.size);
-//    [mapView.layer renderInContext:UIGraphicsGetCurrentContext()];
-//    UIImage * viewImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
-//    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-//}
 
 - (void)share2Airdrop: (id)sender
 {
@@ -469,6 +465,10 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
 	self.task.location = textField.text;
+    
+    if (isDone) {
+        return;
+    }
     
     // route
     [self routeDirection:nil];

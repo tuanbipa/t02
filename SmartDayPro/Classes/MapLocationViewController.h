@@ -22,6 +22,8 @@
     UILabel *etaLable;
     
     MKMapItem *destination;
+    
+    BOOL isDone;
 }
 
 @property (nonatomic, assign) Task *task;

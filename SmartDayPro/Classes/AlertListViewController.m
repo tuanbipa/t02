@@ -152,7 +152,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated 
-{	
+{
+    [super viewWillAppear:animated];
+    
 	if (self.taskEdit.deadline == nil && [self.taskEdit isTask])
 	{
 		alertTableView.hidden = YES;
