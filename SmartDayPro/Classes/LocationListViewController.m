@@ -259,7 +259,7 @@ extern BOOL _isiPad;
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self removeLocation:indexPath.row - 1];
+    [self removeLocation:indexPath];
 }
 
 #pragma mark methods
@@ -302,16 +302,17 @@ extern BOOL _isiPad;
     return [objectEdit locationID];
 }
 
-- (void)removeLocation:(NSInteger)index
+- (void)removeLocation:(NSIndexPath*)index
 {
-    Location *location = [self.locationList objectAtIndex: index];
+    Location *location = [self.locationList objectAtIndex: index.row - 1];
     
     //[location deleteFromDatabase:[[DBManager getInstance] getDatabase]];
     [[LocationManager getInstance] deleteLocation:location];
     
     [self.locationList removeObject:location];
     
-    [locationsTableView reloadData];
+    //[locationsTableView reloadData];
+    [locationsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationFade];
     
     // reload active module
     UIViewController *ctrler = [[AbstractActionViewController getInstance] getActiveModule];
@@ -319,7 +320,5 @@ extern BOOL _isiPad;
     if ([ctrler isKindOfClass:[CategoryViewController class]]) {
         [((CategoryViewController*)ctrler) loadAndShowList];
     }
-    
-    // refres
 }
 @end
