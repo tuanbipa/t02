@@ -28,4 +28,7 @@
 
 @property (nonatomic, assign) Task *task;
 @property (nonatomic, retain) MKMapItem *destination;
+
+- (void) changeOrientation:(UIInterfaceOrientation) orientation;
+
 @end

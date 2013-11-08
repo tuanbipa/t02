@@ -895,6 +895,7 @@ iPadViewController *_iPadViewCtrler;
     frm.size.width = 384;
     
     frm.origin.x = contentView.bounds.size.width - frm.size.width;
+    frm.origin.y = 0;
     
     detailView.frame = frm;
 }
@@ -916,14 +917,13 @@ iPadViewController *_iPadViewCtrler;
         frm.size = sz;
     }
     
+    //frm.origin.y = 20;
     frm.size.height -= 20 + 44;
     
     [self changeFrame:frm];
     
     if (UIInterfaceOrientationIsLandscape(orientation))
     {
-        //[_iPadSDViewCtrler loadView];
-        
         [self showLandscapeView];
         
         if ([self.activeViewCtrler isKindOfClass:[PlannerViewController class]])
