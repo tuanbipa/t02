@@ -766,4 +766,8 @@
 "_reportEmailHeader" = "Hi,\n This is a report of task '%@' from SmartDay. You can view it in any spreadsheet.";
 "_reportEmailSubject" =  "SmartDay Report";
 
+//week overview email
+"_reportWeekEmailBody" = "The attachment is week overview exported from SmartDay.";
+"_reportWeekEmailSubject" = "SmartDay - Overview";
+
 "_anytimeText" = "Anytime";

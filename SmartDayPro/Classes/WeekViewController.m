@@ -132,7 +132,8 @@ extern SmartDayViewController *_sdViewCtrler;
 	{
 		picker.mailComposeDelegate = self;
 		
-		[picker setSubject:@"SmartDay - Overview"];
+		//[picker setSubject:@"SmartDay - Overview"];
+        [picker setSubject:_reportWeekEmailSubject];
 		
 		
 		// Set up recipients
@@ -154,7 +155,8 @@ extern SmartDayViewController *_sdViewCtrler;
 		//[picker addAttachmentData:myData mimeType:@"text/csv" fileName:[NSString stringWithFormat:@"%@.csv", self.plan.name]];
 		
 		// Fill out the email body text
-		NSString *emailBody = [NSString stringWithFormat:@"The attachment is week overview exported from SmartDay."];
+//		NSString *emailBody = [NSString stringWithFormat:@"The attachment is week overview exported from SmartDay."];
+		NSString *emailBody = _reportWeekEmailBody;
 		[picker setMessageBody:emailBody isHTML:NO];
 		
 		//[self presentModalViewController:picker animated:YES];

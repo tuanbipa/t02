@@ -75,6 +75,9 @@
 		67149D4817F3DF500005E8E2 /* menu_star_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 67149D4517F3DF500005E8E2 /* menu_star_yellow.png */; };
 		67149D4917F3DF500005E8E2 /* menu_star_yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67149D4617F3DF500005E8E2 /* menu_star_yellow@2x.png */; };
 		67149D4A17F3DF500005E8E2 /* menu_star_yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67149D4617F3DF500005E8E2 /* menu_star_yellow@2x.png */; };
+		67210119182B5620004F1DBC /* UIActivityViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67210118182B5620004F1DBC /* UIActivityViewController+Rotate.m */; };
+		6721011A182B5620004F1DBC /* UIActivityViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67210118182B5620004F1DBC /* UIActivityViewController+Rotate.m */; };
+		6721011B182B5620004F1DBC /* UIActivityViewController+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67210118182B5620004F1DBC /* UIActivityViewController+Rotate.m */; };
 		672111C017CF250100054FC6 /* UnreadComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111BF17CF250100054FC6 /* UnreadComment.m */; };
 		672111C117CF250100054FC6 /* UnreadComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111BF17CF250100054FC6 /* UnreadComment.m */; };
 		672111C417CF453000054FC6 /* UnreadCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672111C317CF453000054FC6 /* UnreadCommentViewController.m */; };
@@ -2816,6 +2819,8 @@
 		67086204178D588A0078F4FA /* DateInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateInputViewController.m; sourceTree = "<group>"; };
 		67149D4517F3DF500005E8E2 /* menu_star_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_star_yellow.png; sourceTree = "<group>"; };
 		67149D4617F3DF500005E8E2 /* menu_star_yellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_star_yellow@2x.png"; sourceTree = "<group>"; };
+		67210117182B561F004F1DBC /* UIActivityViewController+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityViewController+Rotate.h"; sourceTree = "<group>"; };
+		67210118182B5620004F1DBC /* UIActivityViewController+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActivityViewController+Rotate.m"; sourceTree = "<group>"; };
 		672111BE17CF250100054FC6 /* UnreadComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadComment.h; sourceTree = "<group>"; };
 		672111BF17CF250100054FC6 /* UnreadComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadComment.m; sourceTree = "<group>"; };
 		672111C217CF453000054FC6 /* UnreadCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadCommentViewController.h; sourceTree = "<group>"; };
@@ -4512,6 +4517,8 @@
 				67CF2C4A16195196001FE1AA /* TaskLinkManager.m */,
 				67CF2C4B16195196001FE1AA /* TaskLinkView.h */,
 				67CF2C4C16195196001FE1AA /* TaskLinkView.m */,
+				A202CEF318289064001840EE /* TaskLocationListViewController.h */,
+				A202CEF418289064001840EE /* TaskLocationListViewController.m */,
 				67CF2C4D16195196001FE1AA /* TaskManager.h */,
 				67CF2C4E16195196001FE1AA /* TaskManager.m */,
 				67C742711782763A00361E30 /* TaskMovableController.h */,
@@ -4548,6 +4555,8 @@
 				67EE9BB616AD1E8400B8BF6A /* ToodledoSyncViewController.m */,
 				67CF2C6116195196001FE1AA /* TransparentToolbar.h */,
 				67CF2C6216195196001FE1AA /* TransparentToolbar.m */,
+				67210117182B561F004F1DBC /* UIActivityViewController+Rotate.h */,
+				67210118182B5620004F1DBC /* UIActivityViewController+Rotate.m */,
 				67CF2C6316195196001FE1AA /* UIViewController+Transitions.h */,
 				67CF2C6416195196001FE1AA /* UIViewController+Transitions.m */,
 				672111BE17CF250100054FC6 /* UnreadComment.h */,
@@ -4572,8 +4581,6 @@
 				A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */,
 				A2CE6DB9181E395F00FAEF05 /* LocationDetailViewController.h */,
 				A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */,
-				A202CEF318289064001840EE /* TaskLocationListViewController.h */,
-				A202CEF418289064001840EE /* TaskLocationListViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -7759,6 +7766,7 @@
 				6748B8C7180401820043A80E /* LinkPreviewPane.m in Sources */,
 				6748B8C8180401820043A80E /* NoteView.m in Sources */,
 				6748B8C9180401820043A80E /* LinkInfo2Sort.m in Sources */,
+				67210119182B5620004F1DBC /* UIActivityViewController+Rotate.m in Sources */,
 				6748B8CA180401820043A80E /* SimpleCoreTextView.m in Sources */,
 				6748B8CB180401820043A80E /* WeekViewController.m in Sources */,
 				6748B8CC180401820043A80E /* HPGrowingTextView.m in Sources */,
@@ -7972,6 +7980,7 @@
 				672F54A81622779400480BC4 /* LinkPreviewPane.m in Sources */,
 				672F54AF16227E3400480BC4 /* NoteView.m in Sources */,
 				67D6EEEE16251A6D00251ECC /* LinkInfo2Sort.m in Sources */,
+				6721011A182B5620004F1DBC /* UIActivityViewController+Rotate.m in Sources */,
 				67DE7352162D09B3004CC26E /* SimpleCoreTextView.m in Sources */,
 				67E513C21634F04C00621DA1 /* WeekViewController.m in Sources */,
 				67C8F0E51638EA5A0098CFEB /* HPGrowingTextView.m in Sources */,
@@ -8185,6 +8194,7 @@
 				67EC0D0D16F8081F00929BFD /* LinkPreviewPane.m in Sources */,
 				67EC0D0E16F8081F00929BFD /* NoteView.m in Sources */,
 				67EC0D0F16F8081F00929BFD /* LinkInfo2Sort.m in Sources */,
+				6721011B182B5620004F1DBC /* UIActivityViewController+Rotate.m in Sources */,
 				67EC0D1016F8081F00929BFD /* SimpleCoreTextView.m in Sources */,
 				67EC0D1116F8081F00929BFD /* WeekViewController.m in Sources */,
 				67EC0D1216F8081F00929BFD /* HPGrowingTextView.m in Sources */,

@@ -853,7 +853,7 @@ EKReminderSync *_ekReminderSyncSingleton;
 		}
 	}
     
-	if (task.primaryKey > -1)
+	//if (task.primaryKey > -1)
 	{
 		[task externalUpdate];
 	}

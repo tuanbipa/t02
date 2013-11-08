@@ -2089,7 +2089,7 @@ NSInteger _sdwColor[32] = {
 		}		
 	}    
     
-	if (task.primaryKey > -1)
+	//if (task.primaryKey > -1)
 	{
 		[task enableExternalUpdate];		
 	}    
@@ -2521,7 +2521,7 @@ NSInteger _sdwColor[32] = {
             {                
                 NSComparisonResult compRes = [Common compareDate:task.updateTime withDate:sdwTask.updateTime];
                 
-                //printf("task: %s - sc time: %s, sdw time: %s\n",[task.name UTF8String], [[task.updateTime description] UTF8String], [[sdwTask.updateTime description] UTF8String]);
+                printf("*** task: %s - sc time: %s, sdw time: %s\n",[task.name UTF8String], [[task.updateTime description] UTF8String], [[sdwTask.updateTime description] UTF8String]);
                 
                 if (compRes == NSOrderedAscending) //update SDW->SC
                 {
