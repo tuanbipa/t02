@@ -287,7 +287,7 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     [self routing:YES];
     
-    CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
+    /*CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
     // start location
     __block CLLocation *starLocation;
     starLocation = [[mapView userLocation] location];
@@ -297,10 +297,72 @@ extern SmartDayViewController *_sdViewCtrler;
             CLPlacemark *sPlacemark = placemarks[0];
             [self geoEndLocation:gc startPlacemark:sPlacemark];
         }
+    }];*/
+    
+    [self geoEndLocationAndCalculeDirection];
+}
+
+- (void)geoEndLocationAndCalculeDirection
+{
+    CLGeocoder *gc = [[CLGeocoder alloc] init];
+    
+    [gc geocodeAddressString:locationTextField.text completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (placemarks.count > 0) {
+            
+            CLPlacemark *placemark = placemarks[0];
+            
+            MKMapItem *currentItem = [MKMapItem mapItemForCurrentLocation];
+            
+            MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
+            //MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+            self.destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+            
+            MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
+            req.source = currentItem;
+            req.destination = destination;
+            
+            MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
+            [direction calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+                if (error) {
+                    NSLog(error.description);
+                } else {
+                    [self showDirections:response];
+                    
+                    //+++++++++ Annotation
+                    // 1. remove annotations
+                    [mapView removeAnnotations:[mapView annotations]];
+                    
+                    // 2. add annotation
+                    MKPointAnnotation *sourceAnnotation = [[MKPointAnnotation alloc] init];
+                    sourceAnnotation.coordinate = currentItem.placemark.location.coordinate;
+                    sourceAnnotation.title = _currentLocationText;
+                    [mapView addAnnotation:sourceAnnotation];
+                    [sourceAnnotation release];
+                    
+                    MKPointAnnotation *destinationAnnotation = [[MKPointAnnotation alloc] init];
+                    destinationAnnotation.coordinate = placemark.location.coordinate;
+                    destinationAnnotation.title = locationTextField.text;
+                    [mapView addAnnotation:destinationAnnotation];
+                    [destinationAnnotation release];
+                    
+                    //
+                    [self zoomToFitRoutes];
+                }
+            }];
+            
+            // release
+            [desMapPlaceMark release];
+            [destination release];
+            
+            [req release];
+            [direction release];
+        } else {
+            [self showNotFoundLocation:_endText];
+        }
     }];
 }
 
-- (void)geoEndLocation: (CLGeocoder *) gc startPlacemark: (CLPlacemark*) startPlacemark
+/*- (void)geoEndLocation: (CLGeocoder *) gc startPlacemark: (CLPlacemark*) startPlacemark
 {
     // get end location
     [gc geocodeAddressString:locationTextField.text completionHandler:^(NSArray *placemarks, NSError *error) {
@@ -362,7 +424,7 @@ extern SmartDayViewController *_sdViewCtrler;
             [self showNotFoundLocation:_endText];
         }
     }];
-}
+}*/
 
 - (void)showDirections: (MKDirectionsResponse*)response
 {
