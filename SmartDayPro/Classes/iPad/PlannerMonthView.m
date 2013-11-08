@@ -44,7 +44,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         self.skinStyle = 0;
 		
 		//CGFloat width = frame.size.width;
-        CGFloat width = frame.size.width - TIMELINE_TITLE_WIDTH;
+        CGFloat width = frame.size.width - TIMELINE_TITLE_WIDTH - 1;
         
         CGFloat dayWidth = (width)/7;
 		CGFloat cellHeight = PLANNER_DAY_CELL_COLLAPSE_HEIGHT;//floor((frame.size.height)/6);

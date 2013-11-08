@@ -1512,7 +1512,8 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                     //NSLog(@"\n1. task name: %@", task.name);
                 }*/
                 
-                if ([task isEvent] && (task.locationAlert == 1)) {
+                //if ([task isEvent] && (task.locationAlert == LOCATION_ARRIVE)) {
+                {
                     
                     // alert based on location
                     MKPlacemark *sourceMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:currentPlacemark];

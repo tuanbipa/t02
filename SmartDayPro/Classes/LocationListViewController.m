@@ -18,7 +18,7 @@
 #import "AbstractActionViewController.h"
 #import "CategoryViewController.h"
 
-extern iPadViewController *_iPadViewCtrler;
+//extern iPadViewController *_iPadViewCtrler;
 extern BOOL _isiPad;
 
 @implementation LocationListViewController
@@ -146,9 +146,9 @@ extern BOOL _isiPad;
 {
     [super viewWillDisappear:animated];
     
-    if ([_iPadViewCtrler.detailNavCtrler.topViewController isKindOfClass:[DetailViewController class]])
+    if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
     {
-        DetailViewController *ctrler = (DetailViewController *)_iPadViewCtrler.detailNavCtrler.topViewController;
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
         
         [ctrler refreshLocationObject];
     }
