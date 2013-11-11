@@ -1667,15 +1667,7 @@ extern DetailViewController *_detailViewCtrler;
         UIViewController *ctrler = (_isiPad?_iPadViewCtrler:_sdViewCtrler);
         
         [ctrler presentViewController:activityController
-                           animated:YES completion:^{
-                               /*if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-                                   
-                                   // show cancel button in landscape
-                                   CGRect frm = activityController.view.frame;
-                                   frm.size = CGSizeMake(frm.size.width, 700);
-                                   activityController.view.frame = frm;
-                               }*/
-                           }];
+                           animated:YES completion:nil];
         [self deselect];
     }
     

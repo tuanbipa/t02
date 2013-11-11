@@ -10,6 +10,8 @@
 
 #import "iPadViewController.h"
 #import "SmartDayViewController.h"
+#import "MapLocationViewController.h"
+#import "SDNavigationController.h"
 
 extern BOOL _isiPad;
 extern iPadViewController *_iPadViewCtrler;
@@ -17,15 +19,59 @@ extern SmartDayViewController *_sdViewCtrler;
 
 @implementation UIActivityViewController (Rotate)
 
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+/*
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    UIViewController *ctrler = nil;
+    
+    if ([self.presentingViewController isKindOfClass:[SDNavigationController class]])
+    {
+        SDNavigationController *navCtrler = (SDNavigationController *) self.presentingViewController;
+        
+        if ([navCtrler.topViewController isKindOfClass:[iPadViewController class]]
+            || [navCtrler.topViewController isKindOfClass:[SmartDayViewController class]]
+            || [navCtrler.topViewController isKindOfClass:[MapLocationViewController class]] )
+        {
+            ctrler = navCtrler.topViewController;
+            
+        }
+        
+    }
+    
+    if (ctrler != nil)
+    {
+        [ctrler willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+    }
+}
+*/
+
+
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if (_iPadViewCtrler != nil)
+    UIViewController *ctrler = nil;
+    
+    if ([self.presentingViewController isKindOfClass:[SDNavigationController class]])
     {
-        [_iPadViewCtrler changeOrientation:toInterfaceOrientation];
+        SDNavigationController *navCtrler = (SDNavigationController *) self.presentingViewController;
+        
+        if ([navCtrler.topViewController isKindOfClass:[iPadViewController class]]
+            || [navCtrler.topViewController isKindOfClass:[SmartDayViewController class]]
+            || [navCtrler.topViewController isKindOfClass:[MapLocationViewController class]] )
+        {
+            ctrler = navCtrler.topViewController;
+            
+        }
+
     }
-    else if (_sdViewCtrler != nil)
+    
+    if (ctrler != nil)
     {
-        [_sdViewCtrler changeOrientation:toInterfaceOrientation];
+         [ctrler willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
     }
 }
 
