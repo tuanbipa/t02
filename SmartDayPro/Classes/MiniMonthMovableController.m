@@ -39,6 +39,11 @@
 #import "PlannerMonthView.h"
 #import "PlannerBottomDayCal.h"
 
+// moving into Day calendar
+#import "PlannerScheduleView.h"
+#import "PlannerCalendarLayoutController.h"
+#import "TimeSlotView.h"
+
 extern SmartDayViewController *_sdViewCtrler;
 //extern AbstractSDViewController *_abstractViewCtrler;
 //extern iPadSmartDayViewController *_iPadSDViewCtrler;
@@ -488,11 +493,50 @@ iPadViewController *_iPadViewCtrler;
     // convert to STask
     [task setManual:YES];
     
-    Task *copyTask = [[task copy] autorelease];
-    copyTask.original = task;
+    if (task.original == nil) {
+        TaskManager *tm = [TaskManager getInstance];
+        Task *copyTask = [tm getTask2Update:task];
+        task.original = copyTask;
+        [[AbstractActionViewController getInstance] changeTime:task time:time];
+    } else {
     
-    //[_abstractViewCtrler changeTime:copyTask time:time];
-    [[AbstractActionViewController getInstance] changeTime:copyTask time:time];
+        [[AbstractActionViewController getInstance] changeTime:task time:time];
+    }
+}
+
+#pragma mark Moving Task into Day Calendar (include Planner Day Calendar)
+
+- (void)doMoveTaskInDayCalendar {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_convertATaskHeader  message:_convertIntoPinnedTaskConfirmation delegate:self cancelButtonTitle:_cancelText otherButtonTitles:_okText, nil];
+    
+    //alertView.tag = -11001;
+    alertView.tag = moveInPlannerDayCalendar ? -11002: -11001;
+    
+    [alertView show];
+    [alertView release];
+}
+
+- (NSDate*)getDateTimeInPlannerDayCalAtDrop
+{
+    // calculate date
+    CGPoint touchPoint = [self.activeMovableView getTouchPoint];
+
+    PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+    touchPoint = [self.activeMovableView.superview convertPoint:touchPoint toView:plannerDayCal.plannerScheduleView];
+
+    NSDate *startDate = [[plannerDayCal.calendarLayoutController.startDate copy] autorelease];
+
+    CGFloat dayWidth = (plannerDayCal.bounds.size.width - TIMELINE_TITLE_WIDTH)/7;
+    NSInteger dayNumber = (touchPoint.x-TIMELINE_TITLE_WIDTH)/dayWidth;
+
+    TimeSlotView *timeSlot = [plannerDayCal.plannerScheduleView getTimeSlot];
+
+    startDate = [Common copyTimeFromDate:[timeSlot getTime] toDate:startDate];
+    NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
+
+    [plannerDayCal.plannerScheduleView unhighlight];
+
+    return toDate;
 }
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -503,7 +547,10 @@ iPadViewController *_iPadViewCtrler;
     
     Task *task = [[((TaskView *) self.activeMovableView).task retain] autorelease];
     
-    [super endMove:self.activeMovableView];
+    if (!moveInPlannerDayCalendar) {
+        
+        [super endMove:self.activeMovableView];
+    }
     
     MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
     
@@ -600,6 +647,22 @@ iPadViewController *_iPadViewCtrler;
             
             [self convertTaskToSTask:task time:time];
         }
+        [ctrler.todayScheduleView unhighlight];
+    }
+    else if (alertVw.tag == -11002)
+	{
+        // move task from task-list to day calendar
+        if (buttonIndex == 1)
+        {
+            NSDate *time = [self getDateTimeInPlannerDayCalAtDrop];
+            
+            [self convertTaskToSTask:task time:time];
+        }
+        else
+        {
+            [super endMove:self.activeMovableView];
+        }
+        CalendarViewController *ctrler = [[AbstractActionViewController getInstance] getCalendarViewController];
         [ctrler.todayScheduleView unhighlight];
     }
     

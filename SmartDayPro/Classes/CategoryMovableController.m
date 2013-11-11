@@ -24,6 +24,11 @@
 
 #import "AbstractSDViewController.h"
 #import "iPadSmartDayViewController.h"
+#import "PlannerViewController.h"
+#import "PlannerBottomDayCal.h"
+#import "PlannerScheduleView.h"
+#import "CalendarViewController.h"
+#import "ScheduleView.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadSmartDayViewController *_iPadSDViewCtrler;
@@ -156,6 +161,34 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     [self separate:rightView fromLeft:leftView];
 }
 
+-(void)move:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+    [super move:touches withEvent:event];
+    
+    if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
+        PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+        CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:plannerDayCal.plannerScheduleView];
+        if (moveInPlannerDayCalendar) {
+            [plannerDayCal.plannerScheduleView highlight:rect];
+        } else {
+            [plannerDayCal.plannerScheduleView unhighlight];
+        }
+        
+    } else {
+        
+        
+        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+        if (moveInDayCalendar) {
+            
+            CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:ctrler.todayScheduleView];
+            [ctrler.todayScheduleView highlight:rect];
+        } else {
+            [ctrler.todayScheduleView unhighlight];
+        }
+    }
+}
+
 -(void) endMove:(MovableView *)view
 {
     //TaskManager *tm = [TaskManager getInstance];
@@ -172,7 +205,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     BOOL refresh = NO;
     
-    if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar && !moveInPlannerMM)
+    if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar && !moveInPlannerMM && !moveInDayCalendar)
     {
         CGRect frm = dummyView.frame;
         
@@ -237,8 +270,14 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             }
         }
     }
-
-    [super endMove:view];
+    else if (moveInDayCalendar || moveInPlannerDayCalendar)
+    {
+        [self doMoveTaskInDayCalendar];
+    }
+    else
+    {
+        [super endMove:view];
+    }
     
     if (refresh)
     {

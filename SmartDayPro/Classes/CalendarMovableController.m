@@ -90,20 +90,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
-#pragma mark action methods
-
-- (void)convertTaskToSTask: (Task *) task time: (NSDate *) time {
-    
-    // convert to STask
-    [task setManual:YES];
-    
-    //Task *copyTask = [[task copy] autorelease];
-    //copyTask.original = task;
-    
-    //[_abstractViewCtrler changeTime:copyTask time:time];
-    [_abstractViewCtrler changeTime:task time:time];
-}
-
 #pragma mark MovableController Interface Customization
 - (BOOL)canSeparate
 {
