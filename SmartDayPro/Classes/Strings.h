@@ -698,7 +698,7 @@
 
 #define _selectedText NSLocalizedString(@"_selectedText", "")
 #define _overDueText NSLocalizedString(@"_overDueText", "")
-#define _dueInTex NSLocalizedString(@"_dueInTex", "")
+//#define _dueInTex NSLocalizedString(@"_dueInTex", "")
 #define _daysText NSLocalizedString(@"_daysText", "")
 
 #define _longText NSLocalizedString(@"_longText", "")
@@ -728,7 +728,7 @@
 #define _routeText NSLocalizedString(@"_routeText", "")
 #define _exportMapText NSLocalizedString(@"_exportMapText", "")
 #define _directionsNotAvailable NSLocalizedString(@"_directionsNotAvailable", "")
-#define _cannotLocateThe NSLocalizedString(@"_cannotLocateThe", "")
+//#define _cannotLocateThe NSLocalizedString(@"_cannotLocateThe", "")
 #define _atCurrentLocationText NSLocalizedString(@"_atCurrentLocationText", "")
 #define _atCurrentLocationYouHave NSLocalizedString(@"_atCurrentLocationYouHave", "")
 #define _alertBasedOnLocationText NSLocalizedString(@"_alertBasedOnLocationText", "")
@@ -748,6 +748,9 @@
 #define _locationHintText NSLocalizedString(@"_locationHintText", "")
 #define _locationListText NSLocalizedString(@"_locationListText", "")
 #define _selectLocationHintText NSLocalizedString(@"_selectLocationHintText", "")
+#define _cannotLocateTheEndLocationText NSLocalizedString(@"_cannotLocateTheEndLocationText", "")
+#define _weCouldNotDetectDroppedPinText NSLocalizedString(@"_weCouldNotDetectDroppedPinText", "")
+#define _dueInDaysTex NSLocalizedString(@"_dueInDaysTex", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")

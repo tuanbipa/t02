@@ -2417,7 +2417,7 @@ static sqlite3_stmt *task_delete_statement = nil;
             NSTimeInterval diff = [self.deadline timeIntervalSinceDate:[Common clearTimeForDate:today]];
             NSInteger dueDays = floor(diff/24/3600);
             
-            dueString = [NSString stringWithFormat:@"%@ %d %@", _dueInTex, dueDays, _daysText];
+            dueString = [NSString stringWithFormat:_dueInDaysTex, dueDays];
         }
     }
     return dueString;

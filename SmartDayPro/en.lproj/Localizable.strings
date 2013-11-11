@@ -714,7 +714,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 // new layout
 "_selectedText" = "Selected";
 "_overDueText" = "Overdue";
-"_dueInTex" = "Due in";
+//"_dueInTex" = "Due in";
 "_daysText" = "day(s)";
 "_longText" = "Long";
 "_shortText" = "Short";
@@ -741,7 +741,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_routeText" = "Route";
 "_exportMapText" = "Export Map";
 "_directionsNotAvailable" = "Directions Not Available";
-"_cannotLocateThe" = "Cannot locate the";
+//"_cannotLocateThe" = "Cannot locate the";
 "_atCurrentLocationText" = "At Current Location";
 "_atCurrentLocationYouHave" = "At current location you have %d item(s) to do";
 "_alertBasedOnLocationText" = "Alert based on location";
@@ -761,6 +761,9 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_locationHintText" = "Add locations here, then apply them to geo-fence for Task alerts (\"Call home after I leave the office\") and to generate a localized To-do list (\"Here’s what you need to get at the shopping center\").";
 "_locationListText" = "Location List";
 "_selectLocationHintText" = "Select a location to show this Task in a localized To-do list when you arrive at the location. To set an alert that is triggered when you enter or leave a location, go back and set a geo-fenced Alert for this task.";
+"_cannotLocateTheEndLocationText" = "Cannot locate the End Location";
+"_weCouldNotDetectDroppedPinText" = "We could not detect the location at dropped pin";
+"_dueInDaysTex" = "Due in %d day(s)";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "Please specify Due for Task first to enable Alert definition. Alert time will be relative to Due time.";

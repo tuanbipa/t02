@@ -940,7 +940,7 @@ extern SmartDayViewController *_sdViewCtrler;
         //NSComparisonResult result = [today compare:self.task.deadline];
         NSComparisonResult result = [Common compareDateNoTime:self.task.deadline withDate:today];
         
-        NSString *dueString = @"";
+        /*NSString *dueString = @"";
         if (result == NSOrderedAscending) {
             dueString = _overDueText;
         } else if (result == NSOrderedSame) {
@@ -951,7 +951,8 @@ extern SmartDayViewController *_sdViewCtrler;
             NSInteger dueDays = floor(diff/24/3600);
             
             dueString = [NSString stringWithFormat:@"%@ %d %@", _dueInTex, dueDays, _daysText];
-        }
+        }*/
+        NSString *dueString = [self.task getDueString];
     
         UIFont *infoFont = [UIFont fontWithName:@"Helvetica" size:12];
         

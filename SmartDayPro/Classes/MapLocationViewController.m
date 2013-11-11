@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Left Coast Logic. All rights reserved.
 //
 
+#import <AddressBookUI/AddressBookUI.h>
 #import "MapLocationViewController.h"
 #import "Common.h"
 #import "LocationViewController.h"
@@ -160,6 +161,10 @@ extern SmartDayViewController *_sdViewCtrler;
     [self changeOrientation:self.interfaceOrientation];
     
     isDone = NO;
+    
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 0.5; //user needs to press for half a second.
+    [mapView addGestureRecognizer:lpgr];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -175,6 +180,9 @@ extern SmartDayViewController *_sdViewCtrler;
     
     if (![locationTextField.text isEqualToString:@""]) {
         [self routeDirection:nil];
+    } else {
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mapView userLocation].coordinate, 800, 800);
+        [mapView setRegion:[mapView regionThatFits:region] animated:YES];
     }
 }
 
@@ -222,6 +230,19 @@ extern SmartDayViewController *_sdViewCtrler;
 
 #pragma mark Actions
 
+- (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state != UIGestureRecognizerStateBegan) {
+        return;
+    }
+    CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
+    CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
+    
+    // revert location
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:touchMapCoordinate.latitude longitude:touchMapCoordinate.longitude];
+    [self revertLocation:location];
+    [location release];
+}
+
 - (void)editLocation:(id) sender
 {
 	LocationViewController *locationViewController=[[LocationViewController alloc] init];
@@ -268,11 +289,11 @@ extern SmartDayViewController *_sdViewCtrler;
 
 #pragma mark Map Delegate
 
-- (void)mapView:(MKMapView *)map didUpdateUserLocation:(MKUserLocation *)userLocation
-{
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 800, 800);
-    [mapView setRegion:[mapView regionThatFits:region] animated:YES];
-}
+//- (void)mapView:(MKMapView *)map didUpdateUserLocation:(MKUserLocation *)userLocation
+//{
+//    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 800, 800);
+//    [mapView setRegion:[mapView regionThatFits:region] animated:YES];
+//}
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
@@ -287,22 +308,59 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     [self routing:YES];
     
-    /*CLGeocoder *gc = [[[CLGeocoder alloc] init] autorelease];
-    // start location
-    __block CLLocation *starLocation;
-    starLocation = [[mapView userLocation] location];
-    
-    [gc reverseGeocodeLocation:starLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (placemarks.count > 0) {
-            CLPlacemark *sPlacemark = placemarks[0];
-            [self geoEndLocation:gc startPlacemark:sPlacemark];
-        }
-    }];*/
-    
-    [self geoEndLocationAndCalculeDirection];
+    [self geoEndLocation];
 }
 
-- (void)geoEndLocationAndCalculeDirection
+- (void)calculateDirectionToDestination:(CLPlacemark *) placemark
+{
+    MKMapItem *currentItem = [MKMapItem mapItemForCurrentLocation];
+    
+    MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
+    //MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+    self.destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+    
+    MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
+    req.source = currentItem;
+    req.destination = destination;
+    
+    MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
+    [direction calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        if (error) {
+            NSLog(error.description);
+        } else {
+            [self showDirections:response];
+            
+            //+++++++++ Annotation
+            // 1. remove annotations
+            [mapView removeAnnotations:[mapView annotations]];
+            
+            // 2. add annotation
+            /*MKPointAnnotation *sourceAnnotation = [[MKPointAnnotation alloc] init];
+             sourceAnnotation.coordinate = currentItem.placemark.location.coordinate;
+             sourceAnnotation.title = _currentLocationText;
+             [mapView addAnnotation:sourceAnnotation];
+             [sourceAnnotation release];*/
+            
+            MKPointAnnotation *destinationAnnotation = [[MKPointAnnotation alloc] init];
+            destinationAnnotation.coordinate = placemark.location.coordinate;
+            destinationAnnotation.title = locationTextField.text;
+            [mapView addAnnotation:destinationAnnotation];
+            [destinationAnnotation release];
+            
+            //
+            [self zoomToFitRoutes];
+        }
+    }];
+    
+    // release
+    [desMapPlaceMark release];
+    [destination release];
+    
+    [req release];
+    [direction release];
+}
+
+- (void)geoEndLocation
 {
     CLGeocoder *gc = [[CLGeocoder alloc] init];
     
@@ -311,120 +369,40 @@ extern SmartDayViewController *_sdViewCtrler;
             
             CLPlacemark *placemark = placemarks[0];
             
-            MKMapItem *currentItem = [MKMapItem mapItemForCurrentLocation];
-            
-            MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
-            //MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
-            self.destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
-            
-            MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
-            req.source = currentItem;
-            req.destination = destination;
-            
-            MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
-            [direction calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-                if (error) {
-                    NSLog(error.description);
-                } else {
-                    [self showDirections:response];
-                    
-                    //+++++++++ Annotation
-                    // 1. remove annotations
-                    [mapView removeAnnotations:[mapView annotations]];
-                    
-                    // 2. add annotation
-                    MKPointAnnotation *sourceAnnotation = [[MKPointAnnotation alloc] init];
-                    sourceAnnotation.coordinate = currentItem.placemark.location.coordinate;
-                    sourceAnnotation.title = _currentLocationText;
-                    [mapView addAnnotation:sourceAnnotation];
-                    [sourceAnnotation release];
-                    
-                    MKPointAnnotation *destinationAnnotation = [[MKPointAnnotation alloc] init];
-                    destinationAnnotation.coordinate = placemark.location.coordinate;
-                    destinationAnnotation.title = locationTextField.text;
-                    [mapView addAnnotation:destinationAnnotation];
-                    [destinationAnnotation release];
-                    
-                    //
-                    [self zoomToFitRoutes];
-                }
-            }];
-            
-            // release
-            [desMapPlaceMark release];
-            [destination release];
-            
-            [req release];
-            [direction release];
+            [self calculateDirectionToDestination:placemark];
         } else {
-            [self showNotFoundLocation:_endText];
+            [self showNotFoundLocation:locationTextField.text];
         }
     }];
 }
 
-/*- (void)geoEndLocation: (CLGeocoder *) gc startPlacemark: (CLPlacemark*) startPlacemark
+- (void)revertLocation:(CLLocation*)location
 {
-    // get end location
-    [gc geocodeAddressString:locationTextField.text completionHandler:^(NSArray *placemarks, NSError *error) {
+    CLGeocoder *gc = [[CLGeocoder alloc] init];
+    [gc reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
         if (placemarks.count > 0) {
             
             CLPlacemark *placemark = placemarks[0];
             
-            // check api
-            MKPlacemark *sourceMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:startPlacemark];
-            MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourceMapPlaceMark];
+            NSString *addressStr = ABCreateStringWithAddressDictionary(placemark.addressDictionary, NO);
+            addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
             
-            MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
-            //MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
-            self.destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+            locationTextField.text = addressStr;
             
-            MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
-            req.source = source;
-            req.destination = destination;
-            
-            MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
-            [direction calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-                if (error) {
-                    //[self handleError:error];
-                    NSLog(error.description);
-                } else {
-                    [self showDirections:response];
-                    
-                    //+++++++++ Annotation
-                    // 1. remove annotations
-                    [mapView removeAnnotations:[mapView annotations]];
-                    
-                    // 2. add annotation
-                    MKPointAnnotation *sourceAnnotation = [[MKPointAnnotation alloc] init];
-                    sourceAnnotation.coordinate = startPlacemark.location.coordinate;
-                    sourceAnnotation.title = _currentLocationText;
-                    [mapView addAnnotation:sourceAnnotation];
-                    [sourceAnnotation release];
-                    
-                    MKPointAnnotation *destinationAnnotation = [[MKPointAnnotation alloc] init];
-                    destinationAnnotation.coordinate = placemark.location.coordinate;
-                    destinationAnnotation.title = locationTextField.text;
-                    [mapView addAnnotation:destinationAnnotation];
-                    [destinationAnnotation release];
-                    
-                    //
-                    [self zoomToFitRoutes];
-                }
-            }];
-            
-            // release
-            [sourceMapPlaceMark release];
-            [source release];
-            [desMapPlaceMark release];
-            [destination release];
-            
-            [req release];
-            [direction release];
+            [self calculateDirectionToDestination:placemark];
         } else {
-            [self showNotFoundLocation:_endText];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable
+                                                                message:_weCouldNotDetectDroppedPinText
+                                                               delegate:nil
+                                                      cancelButtonTitle:_okText
+                                                      otherButtonTitles:nil];
+            [alertView show];
+            [alertView release];
         }
     }];
-}*/
+    
+    [gc release];
+}
 
 - (void)showDirections: (MKDirectionsResponse*)response
 {
@@ -457,8 +435,12 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)showNotFoundLocation: (NSString*) locationStr
 {
-    NSString *mess = [NSString stringWithFormat:@"%@ %@ %@", _cannotLocateThe, locationStr, _locationText];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable  message:mess delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+    //NSString *mess = [NSString stringWithFormat:@"%@ %@ %@", _cannotLocateThe, locationStr, _locationText];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable
+                                                        message:_cannotLocateTheEndLocationText
+                                                       delegate:self
+                                              cancelButtonTitle:_okText
+                                              otherButtonTitles:nil];
     
     [alertView show];
     [self routing:NO];
