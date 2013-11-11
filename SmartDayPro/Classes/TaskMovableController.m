@@ -170,6 +170,8 @@ iPadViewController *_iPadViewCtrler;
     
     startDate = [Common copyTimeFromDate:[timeSlot getTime] toDate:startDate];
     NSDate *toDate = [Common dateByAddNumDay:dayNumber toDate:startDate];
+
+    [plannerDayCal.plannerScheduleView unhighlight];
     
     return toDate;
 }
