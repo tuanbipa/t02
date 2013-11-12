@@ -19,6 +19,8 @@
 
 @property (nonatomic, assign) IBOutlet UITableView *listTableView;
 
+@property (nonatomic, assign) IBOutlet UIBarButtonItem *doneItem;
+
 @property (nonatomic, assign) Task *task;
 
 - (IBAction)done:(id)sender;

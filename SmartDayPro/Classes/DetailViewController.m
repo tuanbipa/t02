@@ -88,7 +88,7 @@ DetailViewController *_detailViewCtrler = nil;
         self.inputViewCtrler = nil;
         self.previewViewCtrler = nil;
         
-        showAll = NO;
+        showAll = _isiPad?YES:NO;
 	}
 	
 	return self;
