@@ -55,6 +55,8 @@ TimerManager *_timerManagerSingleton;
 	self.activeTaskList = [dbm getActiveTaskList];
 	
 	self.inProgressTaskList = [dbm getInProgressTaskList];
+    
+    //printf("active count: %d, pause count: %d\n", self.activeTaskList.count, self.inProgressTaskList.count);
 	
 	if (needRefreshDuration)
 	{

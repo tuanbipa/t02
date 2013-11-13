@@ -129,6 +129,7 @@
 -(NSMutableArray *) getInProgressTaskList;
 -(TaskProgress *)getLastProgressForTask:(NSInteger) taskKey;
 - (GoalInfo) getGoalFromDate:(NSDate *)startDate toDate:(NSDate *)endDate;
+- (NSInteger) getTimerStatusForTask:(NSInteger)taskId;
 
 //SDW Sync
 - (NSMutableArray *) getAllComments;

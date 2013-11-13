@@ -2853,6 +2853,35 @@ static sqlite3_stmt *_top_task_statement = nil;
 	return count;
 }
 
+- (NSInteger) getTimerStatusForTask:(NSInteger)taskId
+{
+	int ret = TASK_TIMER_STATUS_NONE;
+	
+	const char *sql = "SELECT Task_TimerStatus FROM TaskTable WHERE Task_Type = ? AND Task_ID = ?";
+	sqlite3_stmt *statement;
+	// Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
+	// The third parameter is either the length of the SQL string or -1 to read up to the first null terminator.
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+		sqlite3_bind_int(statement, 1, TYPE_TASK);
+        sqlite3_bind_int(statement, 2, taskId);
+		// We "step" through the results - once for each row.
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			// The second parameter indicates the column index into the result set.
+			ret = sqlite3_column_int(statement, 0);
+			// We avoid the alloc-init-autorelease pattern here because we are in a tight loop and
+			// autorelease is slightly more expensive than release. This design choice has nothing to do with
+			// actual memory management - at the end of this block of code, all the book objects allocated
+			// here will be in memory regardless of whether we use autorelease or release, because they are
+			// retained by the books array.
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	return ret;
+}
+
+
 #pragma mark SmartPlans Support
 - (NSInteger) countTasksForProject:(NSInteger) prjKey
 {
