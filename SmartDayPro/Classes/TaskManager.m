@@ -3325,6 +3325,10 @@ TaskManager *_sctmSingleton = nil;
         }
     }
     
+    DBManager *dbm = [DBManager getInstance];
+    
+    slTask.timerStatus = [dbm getTimerStatusForTask:slTask.primaryKey];
+    
     return slTask;
 }
 

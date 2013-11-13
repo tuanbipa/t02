@@ -12,30 +12,30 @@
 "_cancelText" = "キャンセル";
 "_dontShowText" = "表示しない";
 "_saveText" = "保存";
-"_titleGuideText" = "タイトル                 タップ又はタイプ";
+"_titleGuideText" = "タイトル                 タップまたはタイプ";
 "_doneText" = "完了";
 "_anchoredText" = "固定";
-"_gotoDateText" = "Goto Date";
+"_gotoDateText" = "指定の日付に移動";
 "_filterText" = "フィルター";
 "_noFilterText" = "フィルターしません。"; 
 "_needText" = "必須"; 
 "_resetText" = "リセット"; 
 "_unDoneText" = "未完了";
-"_pinText" = "ピン留";
-//"_unPinText" = "固定解除";
+"_pinText" = "ピン留め";
+//"_unPinText" = "ピン留め解除";
 "_unPinText" = "星なし";
 //"_unPinAllText" = "UnPin All";
-"_unPinAllText" = "すべての星を外します。";
-"_deleteAllText" = "全削除";
-"_moreText" = "より多くの";
+"_unPinAllText" = "すべての☆を解除";
+"_deleteAllText" = "すべて削除";
+"_moreText" = "もっと見る";
 "_linkMoreText" = "リンク";
-"_multiSelectHintText" = "マルチモードが選択されています。複数項目を選択後にメニューよりアクションを1つ選んで下さい。";
-"_monthViewHintText" = "忙しい日の背景色が暇な日の背景色より濃いです。";
+"_multiSelectHintText" = "マルチモードが選択されています。複数のアイテムを選択し、任意のアクションをメニューから選択して下さい。";
+"_monthViewHintText" = "タスク量に応じて背景色が濃くなります。";
 "_rtDoneHintText" = "繰り返しタスクが作成されました。";
 
 "_aboutText" = "会社概要";
 "_aboutSCText" = "SmartDayについて";
-"_scGuideText" = "SmartDayの案内";
+"_scGuideText" = "SmartDayガイド";
 "_smartAppsText" = "SmartApps";
 
 "_hintText" = "ヒント";
@@ -67,25 +67,25 @@
 
 //pragma mark ShoppingListViewController
 //"_checkListText" = "チェックリスト";
-//"_setAsNeededText" = "必須として設定します。";
+//"_setAsNeededText" = "必須アイテムです。";
 
 //pragma mark SmartListViewController
 "_tasksText" = "タスク";
-//"_viewAllText" = "全表示";
-//"_byDueText" = "by Due";
-//"_byRecurringText" = "by Recurring";
-//"_byActiveText" = "by Active";
-//"_byInactiveText" = "by InActive";
-//"_byPinnedText" = "by Pinned";
-"_byPinnedText" = "by Star";
+//"_viewAllText" = "すべて表示";
+//"_byDueText" = "締切";
+//"_byRecurringText" = "繰り返しタスク";
+//"_byActiveText" = "忙しい日";
+//"_byInactiveText" = "暇な日";
+//"_byPinnedText" = "ピン留め";
+"_byPinnedText" = "☆付き";
 "_multiSelectText" = "複数選択";
 
 //"_unSelectText" = "未選択";
-//"_singleSelectText" = "単一選択";
+//"_singleSelectText" = "1件を選択";
 
 //pragma mark TaskPortraitMovableController
-"_itemDeleteTitle" = "項目削除";
-"_itemDeleteText" = "選択された項目を削除したいですか。";
+"_itemDeleteTitle" = "アイテムを削除";
+"_itemDeleteText" = "選択したアイテムを削除しますか。";
 
 //pragma mark LandscapeView
 "_weekText" = "週";
@@ -96,23 +96,23 @@
 //pragma mark TaskDetailTableViewController
 "_startText" = "開始";
 "_deadlineText" = "期限";
-"_locationGuideText" = "位置";
+"_locationGuideText" = "場所";
 "_15minText" = "15分";
 "_1hourText" = "1時間";
 "_3hourText" = "3時間";
 "_durationText" = "期間";
-"_noteText" = "ノート";
+"_noteText" = "メモ";
 "_tagText" = "タグ";
-//"_taskEditTitle" = "Task Edit";
-//"_projectChangeText" = "このタスクのプロジェクトを変更したいですか。";
+//"_taskEditTitle" = "タスクを編集";
+//"_projectChangeText" = "このタスクのプロジェクトを変更しますか。";
 "_historyText" = "履歴";
 "_endText" = "終了";
 "_tagGuideText" = "(対応するためにここをタップして下さい。)";
 
-"_dueText" = "完了予定日";
+"_dueText" = "締切";
 "_tomorrowText" = "明日";
 "_nextWeekText" = "来週";
-"_oneWeekText" = "一週間";
+"_oneWeekText" = "1週間";
 "_noneText" = "なし";
 
 "_eventText" = "イベント";
@@ -123,31 +123,31 @@
 "_offText" = "オフ";
 "_allDayText" = "終日";
 
-"_changeRETitleText" = "定期的な項目を変更します。";
-"_changeREInstanceText" = "この項目のみ又はシリーズ内の全項目を変更しますか。又はこの項目とシリーズ内の将来の全項目を変更しますか。";
+"_changeRETitleText" = "繰り返しアイテムを変更します。";
+"_changeREInstanceText" = "このアイテムのみ、又はシリーズの全アイテム、又はこのアイテムと将来のアイテムを変更しますか？";
 
-"_deleteRETitleText" = "定期的な項目を削除します。";
-"_deleteREInstanceText" = "この項目のみ又はシリーズ内の全項目を削除しますか。又はこの項目とシリーズ内の将来の全項目を削除しますか。";
-"_deleteAllInSeriesText" = "シリーズ内の全項目を削除しますか。";
+"_deleteRETitleText" = "繰り返しアイテムを削除します。";
+"_deleteREInstanceText" = "このアイテムのみ、又はシリーズの全アイテム、又はこのアイテムと将来のアイテムを削除しますか？";
+"_deleteAllInSeriesText" = "シリーズ内の全アイテムを削除します。よろしいですか？";
 
 "_onlyInstanceText" = "このインスタンスのみ";
-"_allEventsText" = "このシリーズ内の全項目";
-"_allFollowingText" = "以下のすべて";
+"_allEventsText" = "このシリーズの全アイテム";
+"_allFollowingText" = "以下の全アイテム";
 "_alertsText" = "アラート";
 
-"_repeatInstanceDueText" = "Repeat Instance Due";
+"_repeatInstanceDueText" = "締切の繰り返しインスタンス";
 
 //pragma mark WWWTableViewController
-"_titleLocationText" = "タイトル/位置";
-"_titleGuideWWWText" = "ショートカットをタップする、又はタイプするだけ";
-"_whatText" = "何";
-"_whoText" = "誰";
-"_whereText" = "どこ";
-"_gotoText" = "に行って";
+"_titleLocationText" = "タイトル/場所";
+"_titleGuideWWWText" = "ショートカットにタップ又はタイプのみ";
+"_whatText" = "何を";
+"_whoText" = "誰が";
+"_whereText" = "どこで";
+"_gotoText" = "に行く";
 "_contactText" = "連絡先";
-"_getText" = "取得します。 ";
-"_writeToText" = "に書き込みます。";
-"_meetText" = "に会います。" ;
+"_getText" = "取得する";
+"_writeToText" = "に書き込みむ";
+"_meetText" = "に会う" ;
 "_deleteText" = "削除";
 "_cleanText" = "クリア";
 
@@ -184,23 +184,24 @@
 "_nonameText" = "名前なし";
 
 //pragma mark LocationViewController
-"_locationText" = "位置";
-"_sortedByAddressText" = "アドレスでソートします。";
-"_sortedByContactText" = "コンタクトでソートします。";
+"_locationText" = "場所";
+"_sortedByAddressText" = "アドレス順でソート";
+"_sortedByContactText" = "コンタクト順でソート";
 
 //pragma mark TaskPortraitViewController
-"_taskMarkDoneTitle" = "タスク完了マーク";
-"_taskMarkDoneText" = "選択された各タスクに完了としてマークを付けたいですか。";
+"_taskMarkDoneTitle" = "完了タスクをマーク";
+"_taskMarkDoneText" = "選択したタスクに完了マークを付けますか？";
 
-"_taskUnMarkDoneTitle" = "タスク完了マークを解除したいですか。";
-"_taskUnMarkDoneText" = "完了したタスクからチェックマークを解除したいですか。";
+"_taskUnMarkDoneTitle" = "完了タスクのマーク解除";
+"_taskUnMarkDoneText" = "完了タスクのマークを解除しますか？";
+
 
 //pragma mark SettingTableViewController
 "_settingTitle" = "設定";
-//"_skinText" = "スキンスタイル";
-//"_appleBlueText" = "Apple Blue";
-//"_blackOpaqueText" = "Black Opaque";
-"_generalText" = "一般的";
+//"_skinText" = "スキンの設定";
+//"_appleBlueText" = "アップル×ブルー";
+//"_blackOpaqueText" = "ブラック×オペ―ク";
+"_generalText" = "一般";
 "_calendarsText" = "カレンダー";
 //"_mondayText" = "月曜日";
 //"_sundayText" = "日曜日";
@@ -208,9 +209,9 @@
 "_blueText" = "青";
 "_blackText" = "黒";
 //"_weekdayStartText" = "週の開始日";
-//"_weekdayEndText" = "週の終了日";
-//"_weekendStartText" = "Weekend Start";
-//"_weekendEndText" = "Weekend End";
+//"_weekdayEndText" = "週の最終日";
+//"_weekendStartText" = "週末の開始日";
+//"_weekendEndText" = "週末の最終日";
 "_workingTimeText" = "勤務時間";
 //"_weekdayText" = "平日";
 //"_weekendText" = "週末";
@@ -218,18 +219,18 @@
 "_moveInCalendarText" = "カレンダーに移動します。";
 "_minSplitSizeText" = "最小分割サイズ";
 "_eventSyncText" = "イベント同期";
-"_autoSyncText" = "自動同期";
-//"_timeWindowText" = "Time Window";
-//"_calendarMappingText" = "Calendar Mapping";
-//"_1WText" = "1W";
-//"_3WText" = "3W";
-//"_3MText" = "3M";
-//"_syncDirectionText" = "Sync Direction";
+"_autoSyncText" = "自動的に同期";
+//"_timeWindowText" = "タイムウィンドウ";
+//"_calendarMappingText" = "カレンダーに表示";
+//"_1WText" = "1週間";
+//"_3WText" = "3週間";
+//"_3MText" = "3ヶ月";
+//"_syncDirectionText" = "同期の方向";
 "_syncText" = "同期";
 
 "_hintsText" = "ヒント";
 "_confirmText" = "確認";
-"_deleteWarningText" = "警告を削除します。";
+"_deleteWarningText" = "削除警告";
 "_doneWarningText" = "完了警告";
 
 //pragma mark CalendarSelectionTableViewController
@@ -242,25 +243,25 @@
 
 //pragma mark SyncWindow2SettingViewController
 "_syncWindowText" = "同期期間";
-"_syncFromToText" = "から同期します。                      に同期します。";
-"_syncFromTo4iPadText" = "から同期します。                                              に同期します。";
-"_syncFromText" = "から同期します。";
-"_syncToText" = "に同期します。";
+"_syncFromToText" = "から同期する                     に同期する";
+"_syncFromTo4iPadText" = "から同期する                                             に同期する";
+"_syncFromText" = "から同期する";
+"_syncToText" = "に同期する";
 
 "_thisWeekText" = "今週";
 "_lastWeekText" = "先週";
 "_lastMonthText" = "先月";
-"_last3MonthText" = "3ヶ月前";
-"_lastYearText" = "去年";
-"_allPreviousText" = "All Previous";
+"_last3MonthText" = "前の3ヶ月";
+"_lastYearText" = "昨年";
+"_allPreviousText" = "過去の全スケジュール";
 
 "_nextMonthText" = "来月";
-"_next3MonthText" = "次の3ヵ月";
+"_next3MonthText" = "次の3ヶ月";
 "_nextYearText" = "来年";
-"_allForwardText" = "All Forward";
+"_allForwardText" = "将来の全スケジュール";
 
-"_syncStartText" = "同期開始";
-"_syncEndText" = "同期終了";
+"_syncStartText" = "同期を開始";
+"_syncEndText" = "同期を終了";
 
 //pragma mark SyncDirectionTableViewController
 "_2wayText" = "双方向";
@@ -268,23 +269,23 @@
 "_exportText" = "エクスポート";
 
 //pragma mark DateJumpView
-"_goText" = "遷移";
-"_todayText" = "本日";
+"_goText" = "移動";
+"_todayText" = "今日";
 
 //pragma mark ProgressEditViewController
-"_tap2SelectText" = "(「開始」又は「終了」をタップして下さい。)";
-"_progressEditTitle" = "プロセス編集Progress Edit";
+"_tap2SelectText" = "(開始又は終了を選択して下さい)";
+"_progressEditTitle" = "進捗の編集";
 
 //pragma mark StartEndPickerViewController
 "_timeEditTitle" = "時間編集";
 
 //pragma mark RepeatTableViewController
-"_dailyText" = "日次";
-"_weeklyText" = "週次";
-"_monthlyText" = "月次";
-"_yearlyText" = "年次";
+"_dailyText" = "毎日";
+"_weeklyText" = "毎週";
+"_monthlyText" = "毎月";
+"_yearlyText" = "毎年";
 
-"_everyText" = "ごとに";
+"_everyText" = "頻度";
 "_dayUnitText" = "日(s)";
 "_weekUnitText" = "週(s)";
 "_monthUnitText" = "月(s)";
@@ -292,24 +293,24 @@
 "_dayOfMonthText" = "月の日";
 "_dayOfWeekText" = "曜日";
 
-"_foreverText" = "永遠";
+"_foreverText" = "無期限";
 "_onDateText" = "日付";
 "_afterText" = "後";
 "_AfterText" = "後";
 "_timesText" = "回数";
-"_repeatFromDueText" = "完了予定日から繰り返します。";
-"_repeatFromCompletionText" = "完了日により繰り返します。";
-"_repeatFromDueHintText" = "完了日を先に選択して下さい。";
+"_repeatFromDueText" = "締切日から繰り返す";
+"_repeatFromCompletionText" = "完了日から繰り返す";
+"_repeatFromDueHintText" = "締切を先に選択する";
 
 //pragma mark TaskView
 "_hrsText" = "時間";
 
 //pragma mark ByLCLViewController
-"_byLCLTitle" = "LCLにより";
+"_byLCLTitle" = "LCL";
 
 //pragma mark HelpViewController
 "_helpTitle" = "ヘルプ";
-"_userGuideText" = "ユーザーマニュアル";
+"_userGuideText" = "ユーザーガイド";
 
 //pragma mark AboutUsViewController
 "_aboutUsTitle" = "会社概要";
@@ -317,13 +318,13 @@
 //pragma mark ReportTableViewController
 //"_reportTitle" = "レポート";
 //"_exportToCSVText" = "CSVにエクスポートします。";
-//"_saveSnapshotText" = "スナップショット保存";
+//"_saveSnapshotText" = "スナップショットを保存";
 //"_mailTitle" = "メール";
 
 //pragma mark AlertEditViewController
-"_alertEditText" = "アラート編集";
+"_alertEditText" = "アラートを編集";
 "_atTimeText" = "時刻";
-"_beforeDueText" = "完了日前";
+"_beforeDueText" = "締切前";
 "_beforeStartText" = "開始前";
 
 //pragma mark AlertListViewController
@@ -331,7 +332,7 @@
 "_addText" = "追加";
 "_alertText" = "アラート";
 "_beforeText" = "前";
-"_taskAlertHintText" = "アラートを定義できるために完了時刻を先に選択して下さい。アラート時刻が完了時刻に関連します。ＳＳＳ";
+"_taskAlertHintText" = "アラートを設定するために締切を先に選択して下さい。アラートと締切は連携しています";
 
 //pragma mark AlertSelectionTableViewController
 "_15minBeforeText" = "15分前";
@@ -343,14 +344,14 @@
 "_1dayBeforeText" = "1日前";
 "_2dayBeforeText" = "2日前";
 "_onDateOfEventText" = "イベントの日付";
-"_onDueOfTaskText" = "タスクの完了時刻に";
+"_onDueOfTaskText" = "タスクの締切";
 
-//"_8hoursAfterText" = "8 hours after";
-//"_0hoursBeforeText" = "0 hours before (Midnight)";
-"_4hoursBeforeText" = "4時間前(8:00 pm)";
-"_8hoursBeforeText" = "8時間前(4:00 pm)";
-"_12hoursBeforeText" = "12時間前(正午)";
-"_16hoursBeforeText" = "16時間前(8:00 am)";
+//"_8hoursAfterText" = "8時間後";
+//"_0hoursBeforeText" = "0時間前(深夜0時)";
+"_4hoursBeforeText" = "4時間前(午後8:00)";
+"_8hoursBeforeText" = "8時間前(午後4:00)";
+"_12hoursBeforeText" = "12時間前(正午0時)";
+"_16hoursBeforeText" = "16時間前(午前8:00)";
 "_1dot5daysBeforeText" = "1.5日前";
 "_2dot5daysBeforeText" = "2.5日前";
 
@@ -361,22 +362,22 @@
 
 //pragma Toodledo Sync
 "_toodledoSyncText" = "Toodledoの同期";
-"_toodledoAccountText" = "Toodledoアカウント";
+"_toodledoAccountText" = "Toodledoのアカウント";
 "_emailText" = "Eメール";
 "_passwordText" = "パスワード";
 "_checkValidityText" = "認証";
-"_accountValidText" = "Toodledoアカウントが有効です。";
+"_accountValidText" = "Toodledoのアカウントが有効です。";
 "_invalidAccountText" = "アカウントが正しくありません。";
 "_verifiedTitleText" = "アカウントが認証されました。";
-"_accountInvalidText" = "あなたのToodledoアカウントが正しくありません。正しいアカウントを入力して下さい。";
+"_accountInvalidText" = "Toodledoのアカウントが正しくありません。正しいアカウントを入力して下さい。";
 "_errorText" = "エラー";
 "_syncErrorText" = "同期エラー";
 "_noInternetConnectionText" = "インターネットに接続できません。";
 
 
-"_newCalendarText" = "新しいカレンダー";
-"_calendarDeleteTitle" = "カレンダー削除";
-"_calendarDeleteText" = "カレンダーとそれのタスク及びイベントをすべて削除しますか。";
+"_newCalendarText" = "カレンダーを新規作成";
+"_calendarDeleteTitle" = "カレンダーを削除";
+"_calendarDeleteText" = "カレンダーと関連タスク、イベントをすべて削除しますか。";
 //"_eventSyncHintText" = "Only iPhone calendars matching names with SC calendars will be synced. You can go to General > Calendars setting to create/change SC calendar name to match the iPhone calendar you want to sync.";
 //"_taskSyncHintText" = "Only Toodledo folders matching names with SC calendars will be synced. You can go to General > Calendars setting to create/change SC calendar name to match the Toodledo folder you want to sync.";
 //"_icalSyncingText" = "iPhone Cal Syncing...";
@@ -392,7 +393,7 @@
 //"_matchTaskCalendarText" = "Sync was performed for the matched Toodledo folder(s)";
 //"_toMatchEventCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other iPhone calendar to sync more.";
 //"_toMatchTaskCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other Toodledo folder to sync more.";
-"_quickAddNewTask" = "新しいタスクをクイック追加します。 ...";
+"_quickAddNewTask" = "新規タスクをクイック追加する...";
 //"_projectDetailHintText" = "Checked tasks in the Projects list will also be shown in the Task List. The top-most task in each Project is always shown in the Task List.";
 //"_projectDetailHintText" = "Tap the icon on the left side of Task to enable/disable showing in the 'Tasks' tab. The top-most active task in each Project (indicated with a Flag) is always shown in the 'Tasks' view.";
 "_cannotDeleteDefaultProjectText" = "このプロジェクトが設定画面でデフォルトプロジェクトとして設定されているため、削除できません。";
@@ -400,14 +401,14 @@
 "_closeText" = "閉じる";
 "_showText" = "表示";
 "_hideText" = "非表示";
-"_activeText" = "活性";
+"_activeText" = "アクティブ";
 "_topText" = "トップ";
-"_starText" = "星";
+"_starText" = "☆";
 "_allText" = "すべて";
-"_newTaskPlaceText" = "新しいタスクの位置";
-"_bottomText" = "下部";
-//"_toodledoFoldersText" = "Toodledo Folders";
-//"_itemHideTitle" = "Task Hide";
+"_newTaskPlaceText" = "新規タスクの場所";
+"_bottomText" = "画面下";
+//"_toodledoFoldersText" = "Toodledoフォルダ";
+//"_itemHideTitle" = "タスクを非表示";Folders";
 //"_itemHideText" = "This will hide the selected Task(s) from Tasks View but they will still appear in your Projects View";
 "_gtdoText" = "GTDo";
 //"_deleteAllConfirmationText" = "Are you sure you want to delete all?";
@@ -417,42 +418,41 @@
 "_dueByText" = "Due By";
 "_doOnText" = "Do On";
 
-"_dueTasksText" = "Due Tasks";
+"_dueTasksText" = "タスクの締切";
 "_startTasksText" = "タスク開始";
 "_allDayText" = "終日";
 
-"_changeOrderText" = "順序変更";
-"_convertIntoEventText" = "イベント変換";
+"_changeOrderText" = "並び順を変更";
+"_convertIntoEventText" = "イベントを変換";
 //"_moveToPastText" = "Are you sure you want to move this to the past?";
 "_warningText" = "警告";
-"_presetsText" = "Presets";
-"_customText" = "カスタム"; 
+"_presetsText" = "プリセット";
+"_customText" = "カスタム";
 
 "_tagListText" = "タグリスト"; 
-"_tapToAddTagText" = "タグを新規追加するためにタップして下さい。";
-"_normalText" = "普通";
+"_tapToAddTagText" = "タップしてタグを新規追加";
+"_normalText" = "通常";
 "_listText" = "リスト";
 "_titleText" = "タイトル";
-"_showAllText" = "全表示";
-"_hideAllText" = "全て隠す";
+"_showAllText" = "すべて表示";
+"_hideAllText" = "すべて非表示";
 "_showProjectsText" = "表示/非表示";
-"_clearAllText" = "全てクリア";
+"_clearAllText" = "すべてクリア";
 "_categoryText" = "カテゴリー";
 "_categoriesText" = "カテゴリー";
-"_readmeText" = "リードミー";
-"_workingTimeHintText" = "週の各曜日に勤務時間を設定してください。SmartDayがタスクビューのソート順をベースに各曜日のフリースペースにタスクを割り当てます。";
+"_readmeText" = "Read Me";
+"_workingTimeHintText" = "勤務時間を曜日ごとに設定してください。SmartDayがタスクビューのソート順を元に各曜日の空き時間にタスクを割り当てます。";
 "_toodledoSignupText" = "Toodledoにサインアップ";
-"_toodledoSignupHintText" = "Toodledoのアカウントがない場合、ここで無料で登録できます。";
-"_toodledoSignupURLText" = "http://www.toodledo.com/signup.php";
+"_toodledoSignupHintText" = "Toodledoのアカウントがない場合、ここで無料登録できます。";"_toodledoSignupURLText" = "http://www.toodledo.com/signup.php";
 "_landscapeModeEnableText" = "ランドスケープモード";
 
 //"_starTabHintText" = "Pick tasks to focus on by tapping on their Star in any view. Only those will show up here.";
 "_starTabHintText" = "Pick your focus tasks by tapping on the Star button next to it. Only 'Starred' tasks are shown in this Filter view.";
-"_gtdoTabHintText" = "'GTDo' は、自動的に GTDフィルターを行います。各プロジェクトの一番上にあるタスクが常にここに表示されています。あるタスクに完了チェックを付けた時にそのプロジェクト内の次のタスクで自動置換されます";
-"_tagHintText" = "新しいタグを作って既存リストに入れます。リスト内のタグ数が最大9個までです。これらの既存タグがタスク又はイベントを作成・修正する際に表示されます。";
+"_gtdoTabHintText" = "\"GTDo\"は、自動的にGTDで絞り込みます。プロジェクトの一番上にあるタスクは常にここに表示されます。\"完了\"マークを付けると、そのプロジェクトの次のタスクに自動的に置換されます。";
+"_tagHintText" = "タグを新規作成してリストに入れます。リストには最大9個まで表示されます。これらのタグは、タスクやイベントを作成・修正時に表示されます。";
 "_loadingText" = "取り込み中...";
-"_deleteCategoryWarningText" = "警告！\nこの動作によりあなたのプロジェクトがSmartDayシステム全体で削除されます。それに従って、iOS Calendar、Exchange、iCLoud、Toodledo Folderの各アプリにおける該当カレンダーも一緒に削除されます。";
-"_keepDataText" = "データを維持して下さい。";
+"_deleteCategoryWarningText" = "警告！\nこの操作によりプロジェクトがSmartDayアプリから完全に削除されます。これにより、iOS Calendarや、Exchange、iCLoud、Toodledo Folder等の外部カレンダーからも削除されます。さらに同一名のToodledo Folderも削除されます。";
+"_keepDataText" = "データを保持する";
 "_yesText" = "はい";
 "_noText" = "いいえ";
 
@@ -460,7 +460,7 @@
 "_navigationText" = "ナビゲーション";
 "_textText" = "テキスト";
 "_iconText" = "アイコン";
-"_categoryNameExistsText" = "プロジェクトの名称が既に存在しています。他の名称を使用して下さい。";
+"_categoryNameExistsText" = "プロジェクト名が既に存在しています。他の名前を使用して下さい。";
 
 //"_v3_1_welcomeTitle" = "Welcome to SmartDay 3.1!";
 //"_v3_1_welcomeText" = "We have made major improvements to performance and synchronization. Before using, please tap on the  \"What's New\" button below to read important information.";
@@ -468,111 +468,111 @@
 //"_v3_2_welcomeTitle" = "Welcome to SmartDay iOS5";
 //"_v3_2_welcomeText" = "New for iOS5: Backup Data, Transparent Calendars, New Colors, and more.";
 
-"_seeDetails" = "詳細を参照";
+"_seeDetails" = "詳細を表示";
 "_whatNewText" = "新着情報";
-"_paidUpgradeText" = "Please upgrade to paid version for this feature";
+"_paidUpgradeText" = "この機能を使うためには有料版へのアップグレードが必要です。";
 
 "_upgradeText" = "アップグレード";
 "_laterText" = "後で";
-"_getNowText" = "すぐアップグレード";
-"_scPaidOfferText" = "以下の各機能を使用するには、SmartDayをアップグレードして下さい。\n- タスクをToodledoとの同期\n- イベント同期 > 1週間\n- 広告なし"; 
+"_getNowText" = "すぐにアップグレード";
+"_scPaidOfferText" = "SmartDayを今すぐアップグレードして以下の機能を使用して下さい。\n- タスクをToodledoと同期\n- 1週間以上のイベント同期\n- 広告なし";
 "_backupText" = "バックアップ";
 "_databaseText" = "データベース";
-"_transparentText" = "トランスペアレント";
-"_transparentHintText" = "タスクが透明カレンダーに属する各イベントの上に重なって表示されることが可能です。本機能が共用カレンダーに使用されます。";
-"_syncNowTitle" = "すぐ自動同期を行いますか。";
-"_syncNowText" = "Smartdayがデータに変更があった時に自動的に同期を行います。";
+"_transparentText" = "透過";
+"_transparentHintText" = "タスクを透過カレンダーに重ねて表示できます。これは共用カレンダーに使います。";
+"_syncNowTitle" = "今すぐ自動同期しますか？";
+"_syncNowText" = "変更があるとSmartdayが自動的に同期します。";
 "_showHideCategoryText" = "表示/非表示";
 
-"_restoreDBTitle" = "SmartDayのデータベースを回復します。";
+"_restoreDBTitle" = "SmartDayのデータベースを復旧";
 //"_restoreDBText" = "Restoring from your backup will overwrite existing data. You will need to restart SmartDay after restoring.";
 "_restoreDBText" = "Restoring from your backup will overwrite existing data. Do you want to continue?";
-"_restoreDBFinishedTitle" = "回復に成功しました。";
+"_restoreDBFinishedTitle" = "正常に復旧しました。";
 "_restoreDBFinishedText" = "SmartDayを再起動して下さい。";
 
 "_sdwSyncText" = "SmartDay Online Sync";
 "_mySDAccountText" = "SmartDay Onlineのアカウント";
 "_signupText" = "サインアップ";
 "_signinText" = "サインイン";
-"_sdwSyncingText" = "SmartDay Online同期中 ...";
+"_sdwSyncingText" = "SmartDay Onlineを同期中 ...";
 
-"_sdwAccountValidText" = "あなたのSmartDay Onlineアカウントが正しいです。今すぐSmartDay Onlineとの双方向同期を実施することが可能です。左側のメニューより「データ復旧」を選択することで一方向同期も可能です。";
-"_sdwAccountInvalidText" = "あなたのSmartDay Onlineアカウントが正しくありません。ユーザー名とパスワードを確認して下さい。パスワードを忘れた場合、任意のコンピューターブラウザーからSmartDay Onlineにログインすることで回復可能です。";
-"_sdwSignupSuccessText" = "おめでとうございます。\nメールをチェックしてアカウントを活性化させて下さい。時間内にメールが届いていない場合、support@leftcoastlogic.comへご連絡下さい。";
+"_sdwAccountValidText" = "SmartDay Onlineアカウントが有効です。今すぐSmartDay Onlineと双方向同期できます。左側のメニューで[データ復旧]を選択することで一方向同期も可能です。";
+"_sdwAccountInvalidText" = "SmartDay Onlineアカウントが正しくありません。ユーザー名とパスワードを確認して下さい。パスワードを忘れた場合、任意のコンピューターブラウザからSmartDay Onlineにログインすると復旧できます。";
+"_sdwSignupSuccessText" = "正常に処理が終了しました。\nメールをチェックしてアカウントをアクティブにして下さい。1時間以内にメールが届かない場合はsupport@leftcoastlogic.comにお問い合わせ下さい。";
 "_sdwSignupFailedText" = "アカウント登録に失敗しました。";
-"_sdwTokenAcquiryFailedText" = "トークン取得に失敗しました。";
-"_sdwSyncFailedText" = "SmartDay Online同期に失敗しました。 後でもう一度やり直してください。";
-"_emailInvalidText" = "あなたのEメールのフォーマットが正しくありません。正しいものを設定して下さい。";
-"_wifiConnectionOffText" = "サーバへアクセスできません。WIFI接続を確認して下さい。";
+"_sdwTokenAcquiryFailedText" = "トークンの取得に失敗しました。";
+"_sdwSyncFailedText" = "SmartDay Onlineの同期に失敗しました。 後でもう一度やり直してください。";
+"_emailInvalidText" = "Eメールのフォーマットが正しくありません。他のフォーマットを設定して下さい。";
+"_wifiConnectionOffText" = "サーバへアクセスできません。WIFIへの接続を確認して下さい。";
 
-"_notePlaceHolderText" = "ここにノートをタイプして下さい。";
+"_notePlaceHolderText" = "メモを入力して下さい。";
 "_linksText" = "リンク";
-"_addNewLinkText" = "リンクの新規作成...";
+"_addNewLinkText" = "新規リンクを追加...";
 
 "_focusText" = "フォーカス";
-"_listByDateText" = "日付によるリスト";
-"_listByTypeText" = "タイプによるリスト";
-"_listByCategoryText" = "プロジェクトによるリスト";
+"_listByDateText" = "日付リスト";
+"_listByTypeText" = "タイプリスト";
+"_listByCategoryText" = "プロジェクトリスト";
 
-"_copyLinkText" = "リンクコピー";
-"_pasteLinkText" = "リンク貼り付";
-"_editLinksText" = "リンク編集";
+"_copyLinkText" = "リンクのコピー";
+"_pasteLinkText" = "リンクの貼り付け";
+"_editLinksText" = "リンクの編集";
 
-"_newDeadlineCreatedText" = "新しい期限が作成されました。";
-"_newDateIsText" = "New Date is";
+"_newDeadlineCreatedText" = "締切を新規作成";
+"_newDateIsText" = "新規の締切";
 "_noteAssociatedText" = "This Note is now associated with";
 "_visitText" = "訪問";
-"_newDeadlineText" = "新しい期限";
-"_newDateText" = "新しい日付";
+"_newDeadlineText" = "新規の締切";
+"_newDateText" = "新規の日付";
 
-"_newPresetText" = "新しいプリセット";
+"_newPresetText" = "新規のプリセット";
 "_presetText" = "プリセット";
-"_mustDoRangeText" = "'なすべきこと'範囲";
+"_mustDoRangeText" = "'MustDo'範囲";
 
 "_dateText" = "日付";
 "_backText" = "戻る";
 
 "_eventsText" = "イベント";
-"_notesText" = "ノート";
+"_notesText" = "メモ";
 
 "_smartTasksText" = "スマートタスク";
 
-"_noADETodayText" = "今日の終日の繰り返しイベントがありません。";
-"_noNoteTodayText" = "今日ノートがありません。";
-"_mustdoText" = "なすべきこと";
+"_noADETodayText" = "今日は終日イベントがありません。";
+"_noNoteTodayText" = "今日はメモがありません。";
+"_mustdoText" = "MustDo";
 
-"_syncMySmartDayText" = "SmartDay Online同期";
-"_syncToodledoText" = "Toodledo同期";
+"_syncMySmartDayText" = "SmartDay Onlineの同期";
+"_syncToodledoText" = "Toodledoの同期";
 
-"_calendarNameDuplicationText" = "iOSカレンダーの名前が重複されています。";
-"_duplicationResolveSuggestionText" = "同期前にユニークな名前を選択するために「キャンセル」を、データ名の改名を許可するために「実行」を押下して下さい。もしあなたのiOS Calendarが外部ソースのものであれば、実行前にキャンセルして手動で名前を改名することが必要となります。";
+"_calendarNameDuplicationText" = "同一名のiOSカレンダーがあります。";
+"_duplicationResolveSuggestionText" = "同期する前に[キャンセル]にタップして一意の名前を付けてください。名前を変更する場合は[実行]にタップして下さい。お使いのiOS Calendarが外部ソースのものであれば、実行前にキャンセルして手動で名前を変更する必要があります。";
 "_proceedText" = "実行";
 "_mergeText" = "マージ";
 
-"_defaultProjectText" = "デフォルトプロジェクト";
-"_defaultCategoryText" = "デフォルトカテゴリー";
-"_iOSCalSyncText" = "iOS Calとの同期";
+"_defaultProjectText" = "デフォルトのプロジェクト";
+"_defaultCategoryText" = "デフォルトのカテゴリー";
+"_iOSCalSyncText" = "iOS Calの同期";
 "_mySmartDayToodledoSyncText" = "SmartDay Online/Toodledoの同期";
 "_mySmartDayText" = "SmartDay Online";
 "_toodledoText" = "Toodledo";
-"_descriptionText" = "ディスクリプション";
+"_descriptionText" = "説明";
 
-"_convertREIntoTaskConfirmation" = "この定期的なイベントをタスクに変換しますか。"; 
-"_convertIntoEventConfirmation" = "このイベントをタスクに変換しますか。";
-//"_convertIntoTaskConfirmation" = "Do you want to convert this Task into Event?";
-"_convertIntoPinnedTaskConfirmation" = "そうならば、この動作によりタスクがリストから除外されてカレンダーに入れられます。カレンダーからドラッグしてタスク一覧に移動することでこのタスクを自動スケジュールタスク一覧に差し戻すことが可能です。";
-"_convertATaskIntoTaskConfirmation" = "この動作により固定タスクがあなたのカレンダーのタイムラインから除外され、自動スケジュールタスク一覧に差し戻されます。";
-"_convertATaskHeader" = "あなたのタスクを特定な時間に固定しますか。";
-"_convertATaskIntoTaskHeader" = "固定タスクを自動スケジュールタスクに変換しますか。";
+"_convertREIntoTaskConfirmation" = "この繰り返しイベントをタスクに変換しますか？";
+"_convertIntoEventConfirmation" = "このイベントをタスクに変換しますか？";
+//"_convertIntoTaskConfirmation" = "このタスクをイベントに変換しますか？";
+"_convertIntoPinnedTaskConfirmation" = "実行すると、タスクがリストから削除されてカレンダーに入ります。カレンダーからタスクをドラッグしてタスクリストに移動することで、オートスケジューリングのタスクリストに戻すことも出来ます。";
+"_convertATaskIntoTaskConfirmation" = "実行すると、固定タスクがカレンダーのタイムラインから削除されて、オートスケジューリングのタスクリストに戻ります。";
+"_convertATaskHeader" = "タスクの時間を固定しますか。";
+"_convertATaskIntoTaskHeader" = "固定タスクをオートスケジューリングのタスクに変換しますか。";
 
-"_linkSearchHintText" = "任意のアセットへのリンクのために検索します。";
+"_linkSearchHintText" = "任意のアセットへのリンクを検索";
 
-"_syncSetupText" = "同期設定";
+"_syncSetupText" = "同期の設定";
 "_accountText" = "アカウント";
-"_verifiedText" = "認証済";
+"_verifiedText" = "認証済み";
 "_unverifiedText" = "未認証";
 
-"_replaceDataText" = "データ置換";
+"_replaceDataText" = "データの置換";
 "_fromSmartDay" = "Replace from this to SmartDay Online";
 "_toSmartDay" = "Replace from SmartDay Online to this";
 
@@ -581,26 +581,27 @@
 "_mySmartDaySyncHint" = "Enabling SmartDay Online sync will disable Toodledo sync and vice versa.";
 "_toodledoSyncHint" = "Enabling Toodledo sync will disable SmartDay Online sync and vice versa.";
 
-"_syncOffWarningText" = "全ソースにて同期機能がオフに設定されています。設定画面でオンに設定して下さい。";
-"_deleteSyncDuplicationText" = "重複項目を除外します。";
-"_deleteSuspectedDuplicationCompleteText" = "容疑重複タスクの削除が完了しました。";
+"_syncOffWarningText" = "すべてのソースで同期機能がオフに設定されています。設定画面でオンに変更して下さい。";
+"_deleteSyncDuplicationText" = "同一のアイテムを削除します。";
+"_deleteSuspectedDuplicationCompleteText" = "重複の可能性があるタスクを削除しました。";
 "_syncAgainText" = "もう一度同期しますか。";
 "_hintResetCompleteText" = "ヒントがすべてリセットされます。";
 
 //"_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or the Deadline is edited. '0' will disable.  MustDo tasks are marked with a triangle.";
-"_mustDoHint" = "MustDoの範囲は1日～7日の期間以内です。期限がMustDoの範囲に入るタスクがタスクリストの一番上に移動されて、タスクに完了チェックが付けられる又は期限が変更されるまでそこに固定されたままです。値が0の場合、MustDo機能が非活性にされているとのことです。 MustDoのタスクの左側に赤い縞模様でマークされます。";
+"_mustDoHint" = "MustDoの範囲は0日～7日です。締切がMustDoの範囲内にあるタスクは、タスクリストの一番上に移動し、タスクに完了チェック又は締切が変更されるまで同じ位置に表示されます。0は無効となります。やるべきことは画面の左側に赤線で表示されます。";
 
-"_deleteAllMySDDataConfirmation" = "SmartDay Online内の全データが削除され、SmartDayのデータで置換されるため、削除する前にSmartDay Onlineのデータをバックアップすることが勧告されます。引き続き削除しますか。";
+"_deleteAllMySDDataConfirmation" = "SmartDay Onlineのすべてのデータが削除されてSmartDayのデータに置き換えられます。削除する前にSmartDay Onlineのデータをバックアップすることをお薦めします。続行しますか？";
 
-"_deleteAllSDDataConfirmation" = "SmartDayの全データが削除され、SmartDay Onlineのデータで置換されるため、削除前にSmartDay iOSにおけるメール経由データバックアップ機能でデータバックアップを実施することをお勧めします。引き続き削除しますか。";
+"_deleteAllSDDataConfirmation" = "SmartDayのすべてのデータが削除されてSmartDay Onlineのデータに置き換えられます。削除する前にSmartDay iOSのデータをメール経由でバックアップすることをお薦めします。続行しますか？";
+
 
 "_duplicateText" = "重複";
 "_doTodayText" = "今日やる";
 
-"_tabBarAutoHideText" = "タブバー自動隠蔽設定";
+"_tabBarAutoHideText" = "タブバーを自動的に非表示にする";
 "_defaultDurationText" = "デフォルト期間";
 
-"_saveAndMoreText" = "保存し、処理を続けます。";
+"_saveAndMoreText" = "保存し、処理を続ける";
 
 "_1DayText" = "1日";
 "_monthText" = "月";
@@ -608,73 +609,73 @@
 
 "_overviewText" = "概要";
 "_synchronizationText" = "同期";
-"_enableText" = "活性";
+"_enableText" = "有効";
 
-"_confirmSyncOnText" = "同期機能を起動する前に Sync Wizarサイト（オンライン同期についての案内サイト）を訪問して下さい。iCould又はiTunes経由で複数のデバイス又はパソコンのカレンダーへ繋がる場合にはSync Wizarサイトの訪問がより役に立ちます。同期途中に絶対にデータを修正しないことです。";
+"_confirmSyncOnText" = "特に、iCouldやiTunes経由で複数のデバイス、PCからカレンダーにアクセスしている場合は、同期機能を起動する前にオンラインの同期ウィザードにアクセスすることをお薦めします。\n同期処理を実行中はデータを編集しないで下さい。";
 
-"_syncWizardText" = "Sync Wizard";
+"_syncWizardText" = "同期ウィザード";
 //"_goText" = "Go";
 "_msdSyncFailed" = "SmartDay Onlineの同期に失敗しました。";
-"_msdBackupFailed" = "ネットワークの問題によりSmartDay Onlineのデータのバックアップリクエストにエラーが発生しています。あとでもう一度やり直してください。";
-"_msdBackupHint" = "同期の前にサーバのデータがSmartDay Onlineによりバックアップされます。従ってバックアップ動作は定期的に行われるため、データが正しくバックアップされていることを確認して下さい。正しくない場合、SMartDay Onlineの設定画面でデータを復旧することが可能です。";
+"_msdBackupFailed" = "ネットワークに問題があるため、SmartDay Onlineのデータのバックアップが失敗しました。後でもう一度やり直してください。";
+"_msdBackupHint" = "同期する前に、SmartDay Onlineがサーバのデータを定期的に自動バックアップします。データが正しくバックアップされていることを確認して下さい。正しくない場合、SMartDay Onlineアカウントの設定パネルでデータを復旧できます。";
 
 "_mySmartDayDotCom" = "SmartDay Online";
 "_others" = "その他";
 
-"_syncAtStartUp" = "SmartDayを起動する時に同期を行います。";
-"_syncAtStartUpHint" = "この機能がSmartDay及び同期ソースの両方で更新されます。本機能を使用するには、メインメニューにおける「同期」ボタンの押下でこの機能を実行できます。";
-"_pushChanges" = "最新データを自動的にプッシュ";
-"_dataRecovery" = "データ復旧";
-"_dataRecoveryHint" = "標準的には、あるソースのデータを他のソースに置き換えることが2つの目的により実施されます。\n-新しいSmartDayアプリのインストール\n- ソースのデータの誤り";
-"_multiSourceWarningText" = "あなたのiOS Calnedarで複数のカレンダーソースがSmartDayにより検出されています。カレンダーが複写されることを予防するには、1つのソースのみ選択して下さい。\
-1) あなたのiOSカレンダーに行きます。\
-2) カレンダー一覧を開くために、「カレンダー」ボタンにタップして下さい。\
-3) どのカレンダーソースが可視になっているか確認して下さい。\
-4) SmartDayに戻って、本メッセージを見るために「同期」をもう一度押下して下さい。\
-5) 以下に表示されているボタンのいずれかを選択することでSmartDay上のiOSカレンダーのソースを確認します。\
-注意：iOSカレンダーに表示されていないソースを選択すると、あなたのカレンダーが複写されます。";
+"_syncAtStartUp" = "SmartDayを起動時に同期する";
+"_syncAtStartUpHint" = "この機能がSmartDay及び同期ソースの双方で更新されます。メインメニューの[同期]ボタンからでもこの機能を実行できます。";
+"_pushChanges" = "プッシュ通知";
+"_dataRecovery" = "データの復旧";
+"_dataRecoveryHint" = "通常は以下の場合に、データを別のソースに置き換えます。\n-SmartDayアプリの新規インストール\n- いずれかのソースのデータが不正";
+"_multiSourceWarningText" = "iOSカレンダーで複数のカレンダーソースがSmartDayにより検出されています。カレンダーの複製防止のために、1つのソースのみを選択して下さい。\
+1) iOSカレンダーに移動する\
+2) [カレンダー]ボタンにタップしてカレンダーリストを開く\
+3) 表示されるカレンダーソースを確認する\
+4) SmartDayに戻り、[同期]を再度タップしてこのメッセージを確認する\
+5) 画面下に表示されるボタンのいずれかを選択し、SmartDay上のiOSカレンダーのソースを確認する\
+備考：iOSカレンダーに表示されないソースを選択すると、カレンダーが複製される";
 
 "_autoBackup" = "自動バックアップ";
-"_autoBackupHint" = "バックアップが自動的に行われて、5日間で保存されます。";
+"_autoBackupHint" = "バックアップを自動的に実行し、直近の5日間を保存";
 "_backupOn" = "バックアップ日時";
 "_backupList" = "バックアップリスト";
 
-"_noSourceFoundText" = "少なくともFrom my iPhone、iPad、Mac、iCloudの中でどれでもいいので1つのReminderソースを選んで下さい。iOS Calendarの設定を確認して下さい。";
-"_sourceLocalText" = "ローカル(私のiPhone/iPadから)";
+"_noSourceFoundText" = "iPhone、iPad、Mac、iCloudの中からいずれか1つ以上のCalenderソースを選択して下さい。iOS Calendarの設定を確認して下さい。";
+"_sourceLocalText" = "ローカル(自分のiPhone/iPad)";
 "_sourceiCloudText" = "iCloud";
-"_dontSyncNewCalendars" = "新しいカレンダーを同期しません。";
-"_ekFatalError" = "EventKitが空白のカレンダーリストを返します。それがiOSカレンダーからの致命的なエラーである可能性があります。iCalアプリを回復するためにあなたのデバイスを復旧する必要があります。";
+"_dontSyncNewCalendars" = "新規のカレンダーを同期しない";
+"_ekFatalError" = "EventKitが空白のカレンダーリストを返します。これはiOSカレンダーの致命的なエラーとなる可能性があります。iCalアプリを復旧するためにデバイスを復旧する必要があります。";
 "_contactLCLHelp" = "ヘルプページ";
-"_chooseSyncSourceText" = "同期するソースをiOSにします。";
+"_chooseSyncSourceText" = "iOSでソースを同期する";
 
-"_hideFutureTasks" = "将来のタスクを非表示にします。";
+"_hideFutureTasks" = "将来のタスクを非表示にする";
 "_infoText" = "情報";
 
-"_seekOrCreate" = "捜索又は作成";
+"_seekOrCreate" = "シーク又は作成";
 "_createNew" = "新規作成";
-"_searchResult" = "結果検索:";
+"_searchResult" = "結果を検索:";
 
-"_inProgressTasksText" = "...タスクに対してタイマーが一時中止になります。";
-"_activeTasksText" = "...タスクに対してタイマーがオンになります。";
-"_timerTaskMarkDoneText" = "このタスクを完了としてマークしますか。タイマーを一時停止に設定し、あとで再始動することでアクティブな状態で保持することが可能です。";
-"_holdAllAndStartText" = "すべてを一時停止し、開始します。";
-"_propertiesEditText" = "あとでプロパティを編集することが可能です。";
+"_inProgressTasksText" = "...に対してタイマーが一時停止します。";
+"_activeTasksText" = "...に対してタイマーがオンになります。";
+"_timerTaskMarkDoneText" = "このタスクに完了マークを付けますか？タイマーを一時停止に設定し、後でレジュームすることでアクティブな状態を保持できます。";
+"_holdAllAndStartText" = "すべてを保持して起動します。 ";
+"_propertiesEditText" = "後でプロパティを編集できます。";
 
-"_timerRecoverTitle" = "タイマー回復";
-"_timerRecoverText" = "タイミングの間にSmartDayがシャットダウンします。以下を選択して下さい。 \n1.シャットダウンのポイントから一時停止。（再始動のためにタイマーを使用）\n2.SmartDayがシャットダウンしない場合、タイミングを連続して実施";
+"_timerRecoverTitle" = "タイマーの復旧";
+"_timerRecoverText" = "タイミングの間にSmartDayがシャットダウンします。以下を選択して下さい。 \n1.シャットダウ発生時から一時停止。（レジューム用にタイマーを使用）\n2.SmartDayがシャットダウンしない場合、タイミングを続行";
 "_timerResumeText" = "一時停止";
-"_timerContinueText" = "継続";
+"_timerContinueText" = "続ける";
 "_tbdTaskText" = "のためのTBDタスク";
-"_newPlanText" = "新しいプロジェクト";
-"_newItemText" = "新しい項目";
+"_newPlanText" = "新規プロジェクト";
+"_newItemText" = "新規アイテム";
 "_timerText" = "タイマー";
 
 "_timerHistoryText" = "タイマー履歴";
 "_totalDurationText" = "合計時間";
 
 "_reportSuccess" = "レポートが送信されました。";
-"_reportFailure" = "レポートを送信することに失敗しました。後でもう一度やり直して下さい。";
-"_createTask" = "タスク作成";
+"_reportFailure" = "レポートの送信に失敗しました。後でもう一度やり直して下さい。";
+"_createTask" = "タスクの作成";
 
 "_currentText" = "現在";
 "_snoozeDuration" = "スヌーズ期間";
@@ -685,35 +686,35 @@
 "_1WeekText" = "1週間";
 "_1MonthText" = "1ヶ月";
 
-"_reminderSync" = "Reminder同期";
+"_reminderSync" = "リマインダー同期";
 "_reminderText" = "リマインダー";
 "_sourceText" = "ソース";
-"_reminderNameDuplicationText" = "iOSリマインダーの名前が重複されています。";
-"_reminderDuplicationResolveSuggestionText" = "同期前にユニークな名前を選択するために「キャンセル」を、データ名の改名を許可するために「実行」を押下して下さい。";
-"_reminderMultiSourceWarningText" = "あなたのiOS Calnedarで複数のリマインダーソースがSmartDayにより検出されています。リマインダーが複写されることを予防するには、1つのソースのみ選択して下さい。\
-1) あなたのリマインダーアプリに行く。\
-2) リマインダーリストを開くために「リスト」ボタンにタップします。\
-3) どのリマインダーソースが可視状態になっているか確認して下さい。\
-4) SmartDayに戻って、本メッセージを見るために「同期」をもう一度押下して下さい。\
-5) 以下に表示されているボタンのいずれかを選択することでSmartDay におけるiOS Reminderのソースを確認します。\
-注意：あなたのiOS Reminderに表示されていないソースを選択する場合、あなたのリマインダーが複写されます。";
+"_reminderNameDuplicationText" = "同一名のiOSリマインダーが存在します。";
+"_reminderDuplicationResolveSuggestionText" = "同期の前に[キャンセル]にタップして一意の名前を付ける、[実行]にタップして名前の変更を許可して下さい。";
+"_reminderMultiSourceWarningText" = "iOSカレンダーで複数のリマインダーソースがSmartDayにより検出されています。リマインダーの複製を防止するために、1つのソースのみを選択して下さい。\
+1) リマインダーアプリに移動して下さい。\
+2) [リスト]ボタンにタップしてリマインダーリストを開きます。\
+3) どのリマインダーソースが表示されているか確認して下さい。\
+4) SmartDayに戻り、[同期]に再度タップして、この本メッセージを確認して下さい。\
+5) 画面下に表示されるボタンのいずれかを選択することでSmartDay上のiOSリマインダーのソースを確認します。\
+備考：iOSリマインダーに表示されないソースを選択する場合、リマインダーが複製されます。";
 
-"_noReminderSourceFoundText" = "少なくともFrom my iPhone、iPad、Mac、iCloudの中でどれでもいいので1つのReminderソースを選んで下さい。iOS Reminderの設定を確認して下さい。";
-"_reminderFatalError" = "Event Kitが空リストを返します。これはiOSリマインダー上の不良です。リマインダーアプリを回復するためにあなたのデバイスを修復して下さい。";
-"_reminderAccessHint" = "Reminderアプリへアクセスするには、iOS設定画面のプライバシーでSmartDayを活性に設定して下さい。";
+"_noReminderSourceFoundText" = "iPhone、iPad、Mac、iCloudの中からいずれか1つ以上のReminderソースを選択して、iOSリマインダーの設定を確認して下さい。";
+"_reminderFatalError" = "Event Kitが空のリマインダーリストを返します。これはiOSリマインダーの不具合です。リマインダーアプリを復旧するためにデバイスを復旧して下さい。";
+"_reminderAccessHint" = "リマインダーアプリへアクセスするには、iOS設定のプライバシーでSmartDayを有効に設定して下さい。";
 
-"_taskSyncText" = "タスク同期";
+"_taskSyncText" = "タスクの同期";
 
 "_timeZoneSupport" = "タイムゾーンサポート";
 "_timeZone" = "タイムゾーン";
-"_floatingText" = "2.フローティング";
+"_floatingText" = "フローティング";
 
-"_soundEnabledText" = "音が活性にされました。";
+"_soundEnabledText" = "サウンドが有効";
 "_repeatUntilText" = "繰り返し|まで";
 
 // new layout
 "_selectedText" = "選択済み";
-"_overDueText" = "期限経過";
+"_overDueText" = "締切を超過";
 "_dueInTex" = "残り時間";
 "_daysText" = "日";
 "_longText" = "長い";
@@ -721,35 +722,36 @@
 
 "_assetsText" = "Assets";
 "_jumpText" = "ジャンプ";
-"_deferText" = "引き延ばす";
+"_deferText" = "保留";
 
-"_quickAddNewProject" = "新しいプロジェクトをクイック追加します。...";
-"_tapToAddNote" = "新しいノートを追加します。";
+"_quickAddNewProject" = "新規のプロジェクトをクイック追加...";
+"_tapToAddNote" = "新規のメモを追加";
 
-"_addNewURLText" = "新しいURLを追加します。";
+"_addNewURLText" = "新規のURLを追加";
 "_conversationsText" = "会話";
 
 // mapkit and goe fencing
-"_applyCurrentLocationText" = "現在の位置を使用します。";
+"_applyCurrentLocationText" = "現在の位置を使用する";
 "_currentLocationText" = "現在の位置";
-"_geoFencingText" = "位置をベースに座標をスキャンし、アラートをあげます。";
+"_geoFencingText" = "位置から場所を特定して警告します。";
 //"_geoIntervalText" = "Geo Fencing and Alert Based Location Interval";
 "_geoIntervalText" = "間隔";
 "_hideAllProjects" = "全プロジェクトを非表示にします。";
 "_showAllProjects" = "全プロジェクトを表示します。";
-"_addAlertText" = "アラートを追加します。";
+"_addAlertText" = "警告を追加します。";
 "_routeText" = "ルート";
-"_exportMapText" = "地図出力";
-"_directionsNotAvailable" = "パスが表示できません。";
-"_cannotLocateThe" = "を見つけません";
+"_exportMapText" = "地図をエクスポート";
+"_directionsNotAvailable" = "無効なルートです。";
+"_cannotLocateThe" = "が見つかりません";
 "_atCurrentLocationText" = "現在の位置で";
-"_atCurrentLocationYouHave" = "現在の位置で作業すべきの作業が%d件です。";
-"_alertBasedOnLocationText" = "アドレスによるアラート";
-"_itsTimeToDriveForText" = "に行くところです。";
-"_openAppleMapsText" = "Mapsアプリに表示します。";
+"_atCurrentLocationYouHave" = "現在の位置で実行すべきのタスクは%d件です。";
+"_alertBasedOnLocationText" = "場所に基づいて警告";
+"_itsTimeToDriveForText" = "に行く時間です。";
+"_openAppleMapsText" = "地図アプリに表示します。";
 
 "_SmartDayOnline" = "SmartDay Online";
-"_alertHint" = "アラートを定義できるためにタスクの完了予定日を先に指定して下さい。アラート定義を活性にするには、タスクの完了予定日を先に指定してください。アラート時刻が完了日と関連します。";
+"_alertHint" = "警告を設定するためにタスクの締切日を先に指定して下さい。警告の通知時刻は締切日が完了日に紐付きます。";
+
 
 "_minText" = "分";//short unit of minute
 "_minsText" = "分";//short unit of minutes
@@ -770,4 +772,5 @@
 "_reportWeekEmailBody" = "The attachment is week overview exported from SmartDay.";
 "_reportWeekEmailSubject" = "SmartDay - Overview";
 
-"_anytimeText" = "Anytime";
+"_anytimeText" = "常時";
+

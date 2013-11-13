@@ -24,6 +24,7 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
 
 @synthesize projectList;
 @synthesize listTableView;
+@synthesize doneItem;
 @synthesize task;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -49,6 +50,8 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
     
     //self.view.backgroundColor = [UIColor colorWithRed:209.0/255 green:212.0/255 blue:217.0/255 alpha:1];
     self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    
+    self.doneItem.title = _doneText;
     
     self.projectList = [[ProjectManager getInstance] getVisibleProjectList];
     

@@ -720,7 +720,7 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 		UIButton *wkDayButton = [Common createButton:nil 
 										  buttonType:UIButtonTypeCustom
                                                //frame:CGRectMake(10 + mod*w, 35 + div*30, 20, 20)
-                                               frame:CGRectMake(30 + mod*w, 35 + div*30, 20, 20)
+                                               frame:CGRectMake(10 + mod*w, 35 + div*30, 20, 20)
 										  titleColor:[UIColor whiteColor]
 											  target:self 
 											selector:@selector(changeWeekOption:) 
@@ -736,7 +736,7 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 		[cell.contentView addSubview:wkDayButton];
 		
 //        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(10 + mod*w + 20, 35 + div*30, 40, 20)];
-        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(30 + mod*w + 20 + 5, 35 + div*30, 40, 20)];
+        UILabel *unitLabel=[[UILabel alloc] initWithFrame:CGRectMake(10 + mod*w + 20 + 5, 35 + div*30, 40, 20)];
 		unitLabel.tag = 10212 + i;
 		unitLabel.text=weekDays[i];
 		unitLabel.backgroundColor=[UIColor clearColor];

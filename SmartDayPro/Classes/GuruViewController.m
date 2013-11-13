@@ -171,21 +171,6 @@ extern SmartDayViewController *_sdViewCtrler;
     CGFloat width = _isiPad?400:240;
     CGFloat pad = _isiPad?70:50;
     
-    /*
-    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(marginX, marginY+10, width, 100)];
-    
-    hintLabel.backgroundColor = [UIColor clearColor];
-    hintLabel.text =_SmartDayOnlineRegistration;
-    hintLabel.numberOfLines = 0;
-    hintLabel.font = [UIFont systemFontOfSize:_isiPad?16:13];
-    hintLabel.textColor = [UIColor grayColor];
-    
-    [pageView addSubview:hintLabel];
-    [hintLabel release];
-    */
-	
-    //CGFloat y = marginY+ (_isiPad || IS_IPHONE_5?120:100);
-    
     CGFloat y = marginY + (_isiPad || IS_IPHONE_5?60:50);
 	
 	emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(marginX, y, width, 35)];
@@ -218,26 +203,14 @@ extern SmartDayViewController *_sdViewCtrler;
 	[pageView addSubview:pwdTextField];
 	[pwdTextField release];
 	
-    /*
-	UIButton *checkButton=[Common createButton:_checkValidityText
-                                    buttonType:UIButtonTypeRoundedRect
-                                         frame:CGRectMake(marginX, marginY+150, 160, 25)
-                                    titleColor:nil
-                                        target:self
-                                      selector:@selector(checkValidity:)
-                              normalStateImage:nil
-                            selectedStateImage:nil];
-	[checkButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    checkButton.titleLabel.font=[UIFont boldSystemFontOfSize:16];
-	
-	[pageView addSubview:checkButton];*/
-    
     y += pad;
+    
+    CGSize sz = [_signupText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}];
     
 	UIButton *signupButton=[Common createButton:_signupText
                                      buttonType:UIButtonTypeRoundedRect
                                           //frame:CGRectMake(marginX + (width - 100)/2, y, 100, 25)
-                                        frame:CGRectMake(marginX, y, 60, 25)
+                                        frame:CGRectMake(marginX, y, sz.width + 20, 25)
                                      titleColor:[Colors blueButton]
                                          target:self 
                                        selector:@selector(signup:) 
@@ -248,9 +221,11 @@ extern SmartDayViewController *_sdViewCtrler;
     
 	[pageView addSubview:signupButton];
     
+    sz = [_signinText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}];
+    
 	UIButton *signinButton=[Common createButton:_signinText
                                      buttonType:UIButtonTypeRoundedRect
-                                          frame:CGRectMake(marginX + width - 60, y, 60, 25)
+                                          frame:CGRectMake(marginX + width - sz.width - 20, y, sz.width + 20, 25)
                                      titleColor:[Colors blueButton]
                                          target:self
                                        selector:@selector(signin:)
@@ -273,7 +248,12 @@ extern SmartDayViewController *_sdViewCtrler;
         _isiPad?@"slider_2_768":(IS_IPHONE_5?@"slider_2_iphone5":@"slider_2_iphone4"),
         _isiPad?@"slider_3_768":(IS_IPHONE_5?@"slider_3_iphone5":@"slider_3_iphone4"),
         _isiPad?@"slider_4_768":(IS_IPHONE_5?@"slider_4_iphone5":@"slider_4_iphone4")};
+
+    NSArray* availableLocalizations = [[NSBundle mainBundle] localizations];
+    NSArray* userPrefered = [NSBundle preferredLocalizationsFromArray:availableLocalizations forPreferences:[NSLocale preferredLanguages]];
     
+    NSString *localization = [userPrefered objectAtIndex:0];
+
     for (int i=0; i<PAGE_NUM; i++)
     {
         CGRect frm = contentView.bounds;
@@ -293,7 +273,9 @@ extern SmartDayViewController *_sdViewCtrler;
             pageView.backgroundColor = [UIColor clearColor];
             pageView.userInteractionEnabled = NO;
             
-            NSString *page = pages[i];
+            NSString *page = [NSString stringWithFormat:@"%@_%@", pages[i], localization];
+            
+            //printf("page: %s\n", [page UTF8String]);
             
             [pageView loadHTMLFile:page extension:@"html"];
             

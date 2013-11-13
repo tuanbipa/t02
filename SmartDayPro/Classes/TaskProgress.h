@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSDate *endTime;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
+- (void) insertIntoDB:(sqlite3 *)database;
 - (void) updateIntoDB:(sqlite3 *)database;
 
 + (void)finalizeStatements;
