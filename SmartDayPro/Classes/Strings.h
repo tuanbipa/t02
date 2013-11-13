@@ -72,7 +72,7 @@
 #pragma mark SmartListViewController
 #define _tasksText NSLocalizedString(@"_tasksText" , @"Tasks")
 #define _viewAllText NSLocalizedString(@"_viewAllText" , @"View All")
-#define _byDueText NSLocalizedString(@"_byDueText" , @"by Due")
+//#define _byDueText NSLocalizedString(@"_byDueText" , @"by Due")
 #define _byRecurringText NSLocalizedString(@"_byRecurringText" , @"by Recurring")
 #define _byActiveText NSLocalizedString(@"_byActiveText" , @"by Active")
 #define _byInactiveText NSLocalizedString(@"_byInactiveText" , @"by InActive")
@@ -751,6 +751,13 @@
 #define _cannotLocateTheEndLocationText NSLocalizedString(@"_cannotLocateTheEndLocationText", "")
 #define _weCouldNotDetectDroppedPinText NSLocalizedString(@"_weCouldNotDetectDroppedPinText", "")
 #define _dueInDaysTex NSLocalizedString(@"_dueInDaysTex", "")
+#define _addLocationFromText NSLocalizedString(@"_addLocationFromText", "")
+#define _byLocationText NSLocalizedString(@"_byLocationText", "")
+#define _byDueText NSLocalizedString(@"_byDueText", "")
+#define _alertWhenText NSLocalizedString(@"_alertWhenText", "")
+#define _alertLocationHintText NSLocalizedString(@"_alertLocationHintText", "")
+#define _whenArriveText NSLocalizedString(@"_whenArriveText", "")
+#define _whenLeaveText NSLocalizedString(@"_whenLeaveText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")

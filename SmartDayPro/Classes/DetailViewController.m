@@ -50,6 +50,8 @@
 #import "SmartDayViewController.h"
 
 #import "HintModalViewController.h"
+#import "LocationListViewController.h"
+#import "Location.h"
 
 //#import "NoteDetailTableViewController.h"
 
@@ -658,6 +660,15 @@ DetailViewController *_detailViewCtrler = nil;
     }
 }
 
+- (void)selectLocation: (id)sender
+{
+    LocationListViewController *ctrler = [[LocationListViewController alloc] init];
+    ctrler.objectEdit = self.taskCopy;
+    
+    [self.navigationController pushViewController:ctrler animated:YES];
+    [ctrler release];
+}
+
 -(void) editDuration
 {
     if (![self.task isShared])
@@ -1008,21 +1019,24 @@ DetailViewController *_detailViewCtrler = nil;
     //CGFloat y = [titleTextView getHeight];
     CGFloat y = titleTextView.bounds.size.height + 10;
     
-    UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    /*UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
     contactButton.frame = CGRectMake(5, y, 25, 25);
     [contactButton setBackgroundImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"contact.png":@"contact_iOS7.png"] forState:UIControlStateNormal];
     [contactButton addTarget:self action:@selector(selectContact:) forControlEvents:UIControlEventTouchUpInside];
-    contactButton.tag = baseTag + 1;
+    contactButton.tag = baseTag + 1;*/
+    UILabel *atLable = [[UILabel alloc] initWithFrame:CGRectMake(5, y, 25, 25)];
+    atLable.text = @"@";
     
-    [cell.contentView addSubview:contactButton];
+    [cell.contentView addSubview:atLable];
+    [atLable release];
     
 	//task Location
-	UITextField *taskLocation=[[UITextField alloc] initWithFrame:CGRectMake(35, y, detailTableView.bounds.size.width-75, 26)];
+	UITextField *taskLocation=[[UITextField alloc] initWithFrame:CGRectMake(35, y, detailTableView.bounds.size.width-140, 26)];
 	taskLocation.font=[UIFont systemFontOfSize:16];
 	taskLocation.textColor=[UIColor grayColor];
 	taskLocation.keyboardType=UIKeyboardTypeDefault;
 	taskLocation.returnKeyType = UIReturnKeyDone;
-	taskLocation.placeholder=_locationGuideText;//@"Location";
+	taskLocation.placeholder=_addLocationFromText;
 	taskLocation.textAlignment=NSTextAlignmentLeft;
 	taskLocation.backgroundColor=[UIColor clearColor];
 	taskLocation.clearButtonMode=UITextFieldViewModeWhileEditing;
@@ -1043,6 +1057,25 @@ DetailViewController *_detailViewCtrler = nil;
 	
 	[cell.contentView addSubview:editTitleButton];
     
+    // location list button
+    UIButton *locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    locationButton.frame = CGRectMake(detailTableView.bounds.size.width-35-30-30-10-10, taskLocation.frame.origin.y, 30, 30);
+    [locationButton setBackgroundImage:[UIImage imageNamed:@"settings_location.png"] forState:UIControlStateNormal];
+    [locationButton addTarget:self action:@selector(selectLocation:) forControlEvents:UIControlEventTouchUpInside];
+    locationButton.tag = baseTag + 4;
+    
+    [cell.contentView addSubview:locationButton];
+    
+    // contact button
+    UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
+     contactButton.frame = CGRectMake(detailTableView.bounds.size.width-35-30-10, taskLocation.frame.origin.y, 30, 30);
+     //[contactButton setBackgroundImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"contact.png":@"contact_iOS7.png"] forState:UIControlStateNormal];
+    [contactButton setBackgroundImage:[UIImage imageNamed:@"contact_iOS7.png"] forState:UIControlStateNormal];
+     [contactButton addTarget:self action:@selector(selectContact:) forControlEvents:UIControlEventTouchUpInside];
+     contactButton.tag = baseTag + 1;
+    
+    [cell.contentView addSubview:contactButton];
+    
     // edit location button
     UIButton *editLocationButton = [Common createButton:nil
                                              buttonType:UIButtonTypeCustom
@@ -1053,9 +1086,19 @@ DetailViewController *_detailViewCtrler = nil;
                                        normalStateImage:@"map.png"
                                      selectedStateImage:nil];
 	
-	editLocationButton.tag = baseTag + 4;
+	editLocationButton.tag = baseTag + 5;
 	
 	[cell.contentView addSubview:editLocationButton];
+    
+    Location *location = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationID database:[[DBManager getInstance] getDatabase]];
+    if (location.primaryKey > 0) {
+        taskLocation.text = location.address;
+    } else if (location.primaryKey != self.taskCopy.locationID) {
+        
+        self.taskCopy.locationID = 0;
+        self.task.locationID = 0;
+    }
+    [location release];
 }
 
 - (void) createDurationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1474,6 +1517,20 @@ DetailViewController *_detailViewCtrler = nil;
     cell.detailTextLabel.text = alert == nil?_noneText:[alert getAbsoluteTimeString:self.taskCopy];
     //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    
+    if ([self.taskCopy isTask] && self.taskCopy.locationAlert > 0 && self.taskCopy.locationAlertID > 0) {
+        NSString *alertStr = @"";
+        if (self.taskCopy.locationAlert == LOCATION_ARRIVE) {
+            alertStr = _whenArriveText;
+        } else {
+            alertStr = _whenLeaveText;
+        }
+        
+        Location *loc = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationAlertID database:[[DBManager getInstance] getDatabase]];
+        
+        alertStr = [NSString stringWithFormat:alertStr, loc.name];
+        cell.detailTextLabel.text = alertStr;
+    }
 }
 
 - (void) createDescriptionCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -2222,6 +2279,10 @@ DetailViewController *_detailViewCtrler = nil;
     {
 		NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
+        if (![text isEqualToString:self.taskCopy.location]) {
+            // reset locationID if change location text
+            self.taskCopy.locationID = 0;
+        }
         self.taskCopy.location = text;
     }
     else if (textField.tag == 10700 + 1) //edit tag

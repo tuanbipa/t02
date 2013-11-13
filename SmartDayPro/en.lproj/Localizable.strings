@@ -764,6 +764,13 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_cannotLocateTheEndLocationText" = "Cannot locate the End Location";
 "_weCouldNotDetectDroppedPinText" = "We could not detect the location at dropped pin";
 "_dueInDaysTex" = "Due in %d day(s)";
+"_addLocationFromText" = "Add location from ...";
+"_byLocationText" = "by Location";
+"_byDueText" = "by Due";
+"_alertWhenText" = "Alert When";
+"_alertLocationHintText" = "Please specific Location in Settings first to enable Alert by Location definition.";
+"_whenArriveText" = "When arrive %@";
+"_whenLeaveText" = "When leave at %@";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "Please specify Due for Task first to enable Alert definition. Alert time will be relative to Due time.";

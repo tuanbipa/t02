@@ -14,16 +14,15 @@
 @interface AlertListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
 	UITableView *alertTableView;
 	//GuideWebView *hintView;
-    UILabel *hintView;
+    //UILabel *hintView;
 	
 	Task *taskEdit;
 	
-	//NSDictionary *alertDict;
-    UIView *alertBasedLocationView;
-    UILabel *alertBasedLocationLable;
-    UISegmentedControl *alertBasedLocationSegmented;
+    UISegmentedControl *alertTypeSegmented;
+    UISegmentedControl *locationTypeSegmented;
 }
 
 @property (nonatomic, assign) Task *taskEdit;
+@property (nonatomic, retain) NSMutableArray *locationList;
 
 @end

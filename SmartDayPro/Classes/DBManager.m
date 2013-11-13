@@ -4798,6 +4798,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     
     // add 'alert location' field
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_LocationAlert NUMERIC;", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_LocationAlertID NUMERIC;", nil, nil, nil);
     
     // create LocationTable
     sqlite3_exec(database, "CREATE TABLE LocationTable (Location_ID INTEGER PRIMARY KEY, Location_Name TEXT, Location_Address TEXT, Location_Latitude NUMERIC, Location_Longitude NUMERIC, Location_Inside NUMERIC, Location_UpdateTime NUMERIC)", nil, nil, nil);

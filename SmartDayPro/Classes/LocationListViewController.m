@@ -38,7 +38,7 @@ extern BOOL _isiPad;
 
 - (void)dealloc
 {
-    locationList = nil;
+    self.locationList = nil;
     [super dealloc];
 }
 
@@ -150,7 +150,8 @@ extern BOOL _isiPad;
     {
         DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
         
-        [ctrler refreshLocationObject];
+        //[ctrler refreshLocationObject];
+        [ctrler refreshTitle];
     }
 }
 
