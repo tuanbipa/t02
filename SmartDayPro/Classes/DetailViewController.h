@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 @class ContentView;
 @class Task;
@@ -16,7 +17,7 @@
 @class NoteView;
 @class PreviewViewController;
 
-@interface DetailViewController : UIViewController<UITextFieldDelegate>
+@interface DetailViewController : UIViewController<UITextFieldDelegate, ABPeoplePickerNavigationControllerDelegate>
 {
     ContentView *contentView;
     
@@ -55,10 +56,10 @@
 - (void) refreshTag;
 - (void) refreshLink;
 - (void)refreshHeightForTableCell;
-- (void)refreshLocationObject;
+//- (void)refreshLocationObject;
 
 - (void) editAsset:(Task *)asset;
 
 - (void) createLinkedNote:(Task *)note;
-
++ (ABPeoplePickerNavigationController *)sharedPeoplePicker;
 @end

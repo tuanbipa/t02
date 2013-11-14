@@ -965,17 +965,25 @@ DetailViewController *_detailViewCtrler = nil;
 }
 
 #pragma mark Actions
-
++ (ABPeoplePickerNavigationController *)sharedPeoplePicker {
+    static ABPeoplePickerNavigationController *_sharedPicker = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedPicker = [[ABPeoplePickerNavigationController alloc] init];
+    });
+    
+    return _sharedPicker;
+}
 - (void) selectContact:(id) sender
 {
-	ABPeoplePickerNavigationController *contactList = [[ABPeoplePickerNavigationController alloc] init];
+	ABPeoplePickerNavigationController *contactList = [DetailViewController sharedPeoplePicker];
 	contactList.peoplePickerDelegate = self;
     
     contactList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
-    [self presentViewController:contactList animated:YES completion:NULL];
+    [_isiPad?_iPadViewCtrler:_sdViewCtrler presentViewController:contactList animated:YES completion:NULL];
     
-	[contactList release];
+	//[contactList release];
 }
 
 - (void) changeADE:(id)sender
@@ -2079,7 +2087,8 @@ DetailViewController *_detailViewCtrler = nil;
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
 {
 	//[peoplePicker dismissModalViewControllerAnimated:YES];
-    [peoplePicker dismissViewControllerAnimated:YES completion:NULL];
+    [peoplePicker.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    peoplePicker.peoplePickerDelegate = nil;
 }
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController*)peoplePicker
@@ -2242,14 +2251,18 @@ DetailViewController *_detailViewCtrler = nil;
 	}
     
 	// remove the controller
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    //[self dismissViewControllerAnimated:YES completion:NULL];
+    UIViewController *ctrler = peoplePicker.presentingViewController;
+    [ctrler dismissViewControllerAnimated:YES completion:^{
+        [self refreshTitle];
+    }];
     
     /*
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:0 section:0];
+    //[Common reloadRowOfTable:detailTableView row:0 section:0];
 	
     return NO;
 }
