@@ -208,6 +208,10 @@ extern SmartDayViewController *_sdViewCtrler;
         DetailViewController *ctrler = (DetailViewController *)_iPadViewCtrler.detailNavCtrler.topViewController;
         
         [ctrler refreshTitle];
+    } else {
+        DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
+        
+        [ctrler refreshTitle];
     }
 }
 

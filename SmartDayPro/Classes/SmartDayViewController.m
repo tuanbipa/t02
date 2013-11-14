@@ -3436,7 +3436,7 @@ extern BOOL _detailHintShown;
     locationButton.tag = 1;
 	[optionView addSubview:locationButton];
     
-    count = [dbm countTaskByLocation];
+    count = [dbm countTasksAtCurrentLocation];
     
     if (count > 0)
     {

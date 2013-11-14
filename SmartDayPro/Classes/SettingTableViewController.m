@@ -2258,7 +2258,7 @@ extern SmartCalAppDelegate *_appDelegate;
 		case 0: //About
 			return 1;
 		case 1: //General
-			return 10;
+			return 9;
 		case 2: //Task
 			return 4;
 		case 3: //Calendar
@@ -2406,12 +2406,12 @@ extern SmartCalAppDelegate *_appDelegate;
                     [self createTabBarAutoHideCell:cell baseTag:11070];
 				}
 					break;
-				case 8:
+				/*case 8:
 				{
                     [self createGeoFencingCell:cell baseTag:11080];
 				}
-					break;
-				case 9:
+					break;*/
+				case 8:
 				{
                     [self createDeleteSuspectedDuplicationCell:cell baseTag:11090];
 				}

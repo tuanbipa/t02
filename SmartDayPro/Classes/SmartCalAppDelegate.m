@@ -643,7 +643,9 @@ BOOL _fromBackground = NO;
         
         [self startGeoFencing:setting.geoFencingInterval];
     }*/
-    [self startGeoFencing:3*60];
+    [self startGeoFencing:1*60];
+    
+    [self postGeoFencingUpdate];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
