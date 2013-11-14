@@ -323,7 +323,7 @@
 
 //pragma mark AlertEditViewController
 "_alertEditText" = "アラートを編集";
-"_atTimeText" = "時刻";
+"_atTimeText" = "この時点で";
 "_beforeDueText" = "締切前";
 "_beforeStartText" = "開始前";
 
@@ -393,7 +393,7 @@
 //"_matchTaskCalendarText" = "Sync was performed for the matched Toodledo folder(s)";
 //"_toMatchEventCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other iPhone calendar to sync more.";
 //"_toMatchTaskCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other Toodledo folder to sync more.";
-"_quickAddNewTask" = "新規タスクをクイック追加する...";
+"_quickAddNewTask" = "新規のタスクをクイック追加する...";
 //"_projectDetailHintText" = "Checked tasks in the Projects list will also be shown in the Task List. The top-most task in each Project is always shown in the Task List.";
 //"_projectDetailHintText" = "Tap the icon on the left side of Task to enable/disable showing in the 'Tasks' tab. The top-most active task in each Project (indicated with a Flag) is always shown in the 'Tasks' view.";
 "_cannotDeleteDefaultProjectText" = "このプロジェクトが設定画面でデフォルトプロジェクトとして設定されているため、削除できません。";
@@ -653,12 +653,12 @@
 
 "_seekOrCreate" = "シーク又は作成";
 "_createNew" = "新規作成";
-"_searchResult" = "結果を検索:";
+"_searchResult" = "検索結果";
 
 "_inProgressTasksText" = "...に対してタイマーが一時停止します。";
 "_activeTasksText" = "...に対してタイマーがオンになります。";
 "_timerTaskMarkDoneText" = "このタスクに完了マークを付けますか？タイマーを一時停止に設定し、後でレジュームすることでアクティブな状態を保持できます。";
-"_holdAllAndStartText" = "すべてを保持して起動します。 ";
+"_holdAllAndStartText" = "すべてを停止して、スタート";
 "_propertiesEditText" = "後でプロパティを編集できます。";
 
 "_timerRecoverTitle" = "タイマーの復旧";
@@ -705,8 +705,8 @@
 
 "_taskSyncText" = "タスクの同期";
 
-"_timeZoneSupport" = "タイムゾーンサポート";
-"_timeZone" = "タイムゾーン";
+"_timeZoneSupport" = "時間帯のサポート";
+"_timeZone" = "時間帯";
 "_floatingText" = "フローティング";
 
 "_soundEnabledText" = "サウンドが有効";
@@ -720,7 +720,7 @@
 "_longText" = "長い";
 "_shortText" = "短い";
 
-"_assetsText" = "Assets";
+"_assetsText" = "リンクリスト";
 "_jumpText" = "ジャンプ";
 "_deferText" = "保留";
 
