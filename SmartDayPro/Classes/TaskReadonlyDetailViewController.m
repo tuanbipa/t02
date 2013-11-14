@@ -442,7 +442,7 @@ extern iPadViewController *_iPadViewCtrler;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.text = _conversationsText;
             
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.task.primaryKey]];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [dbm countCommentsForItem:self.taskCopy.primaryKey]];
             
         }
     }
@@ -479,7 +479,7 @@ extern iPadViewController *_iPadViewCtrler;
         case 7:
         {
             CommentViewController *ctrler = [[CommentViewController alloc] init];
-            ctrler.itemId = self.task.primaryKey;
+            ctrler.itemId = self.taskCopy.primaryKey;
             
             [self.navigationController pushViewController:ctrler animated:YES];
             [ctrler release];

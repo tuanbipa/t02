@@ -132,6 +132,10 @@ extern BOOL _detailHintShown;
                                                      name:@"NewCommentReceivedNotification" object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshUnreadComments:)
+                                                     name:@"CommentUpdateNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(refreshGeoTaskLocation:)
                                                      name:@"GeoLocationUpdateNotification" object:nil];
     }
@@ -334,7 +338,7 @@ extern BOOL _detailHintShown;
         
         topButton = [Common createButton:@""
                               buttonType:UIButtonTypeCustom
-                                   frame:CGRectMake(50, 0, 210, 40)
+                                   frame:CGRectMake(50, 0, 180, 40)
                               titleColor:[UIColor whiteColor]
                                   target:self
                                 selector:selectedTabButton.tag==0?@selector(showMiniMonth:):@selector(showOptionMenu:)
@@ -342,6 +346,8 @@ extern BOOL _detailHintShown;
                       selectedStateImage:nil];
         
         topButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+        
+        topButton.tag = selectedTabButton.tag;
         
         [self.navigationController.navigationBar addSubview:topButton];
         
@@ -389,7 +395,7 @@ extern BOOL _detailHintShown;
                 
                 self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_smartTasksText,title];
                 
-                [self createTaskOptionView];
+                //[self createTaskOptionView];
             }
                 break;
             case 2:
@@ -413,7 +419,7 @@ extern BOOL _detailHintShown;
                 
                 self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
                 
-                [self createNoteOptionView];
+                //[self createNoteOptionView];
             }
                 
                 break;
@@ -440,33 +446,25 @@ extern BOOL _detailHintShown;
                 }
                 self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
                 
-                [self createProjectOptionView];
+                //[self createProjectOptionView];
             }
                 break;
         }
         
-        /*
-        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addButton.backgroundColor = [UIColor clearColor];
-        [addButton setImage:[[ImageManager getInstance] getImageWithName:@"menu_addnew.png"] forState:UIControlStateNormal];
-        addButton.frame = CGRectMake(0.0, 0.0, 33, 30);
-        [addButton addTarget:self action:@selector(add:)  forControlEvents:UIControlEventTouchUpInside];
+        notifButton = [Common createButton:@""
+                                buttonType:UIButtonTypeCustom
+                       //frame:CGRectMake(0, 0, 40, 40)
+                                     frame:CGRectZero
+                                titleColor:[UIColor whiteColor]
+                                    target:self
+                                  selector:@selector(showNotifMenu:)
+                          normalStateImage:@"bar_notification_red.png"
+                        selectedStateImage:nil];
+        notifButton.hidden = YES;
         
-        UILongPressGestureRecognizer *longpressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandler:)];
-        longpressGesture.minimumPressDuration = 0.3;
-        [addButton addGestureRecognizer:longpressGesture];
-        [longpressGesture release];
+        UIBarButtonItem *notifItem = [[UIBarButtonItem alloc] initWithCustomView:notifButton];
         
-        UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addButton];
-        addButtonItem.enabled = ![[BusyController getInstance] checkBusy];
-        
-        addButtonItem.tintColor = [UIColor colorWithRed:55.0/255 green:67.0/255 blue:98.0/255 alpha:1];
-        
-        self.navigationItem.rightBarButtonItem = addButtonItem;
-        
-        [addButtonItem release];
-        */
-        
+/*
         commentButton = [Common createButton:@""
                                   buttonType:UIButtonTypeCustom
                                        //frame:CGRectMake(0, 0, 40, 40)
@@ -517,6 +515,8 @@ extern BOOL _detailHintShown;
         
         UIBarButtonItem *taskLocationButtonItem = [[UIBarButtonItem alloc] initWithCustomView:taskLocationButton];
         // end task location
+ 
+ */
         
         UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
         timerButton.backgroundColor = [UIColor clearColor];
@@ -527,11 +527,13 @@ extern BOOL _detailHintShown;
         UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
         //self.navigationItem.rightBarButtonItem = timerItem;
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, taskLocationButtonItem, nil];
+        //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, taskLocationButtonItem, nil];
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, notifItem, nil];
         
         [timerItem release];
-        [commentItem release];
-        [taskLocationButtonItem release];
+        //[commentItem release];
+        //[taskLocationButtonItem release];
+        [notifItem release];
         
         [self.navigationController.navigationBar addSubview:filterIndicator];
     }
@@ -1493,22 +1495,46 @@ extern BOOL _detailHintShown;
 
 - (void) showOptionMenu: (id) sender
 {
-    BOOL menuVisible = !optionView.hidden;
+    UIButton *btn = (UIButton *) sender;
+    
+    BOOL menuVisible = (optionView != nil && !optionView.hidden);
     
     [self deselect];
     
 	//if (optionView.hidden)
     if (!menuVisible)
 	{
+        if (btn != nil)
+        {
+            switch (btn.tag)
+            {
+                case 1:
+                {
+                    [self createTaskOptionView];
+                }
+                    break;
+                case 2:
+                {
+                    [self createNoteOptionView];
+                }
+                    break;
+                case 3:
+                {
+                    [self createProjectOptionView];
+                }
+                    break;
+            }
+        }
+        else
+        {
+            [self createNotifOptionView];
+        }
+        
 		optionView.hidden = NO;
 		[contentView  bringSubviewToFront:optionView];
 		
 		[Common animateGrowViewFromPoint:CGPointMake(160,0) toPoint:CGPointMake(160, optionView.bounds.size.height/2) forView:optionView];
 	}
-	/*else
-	{
-		[Common animateShrinkView:optionView toPosition:CGPointMake(160,0) target:self shrinkEnd:@selector(shrinkEnd)];
-	}*/
 }
 
 - (void) filter: (id)sender
@@ -1738,6 +1764,27 @@ extern BOOL _detailHintShown;
 - (void)showGeoTaskLocation:(id)sender
 {
     [[AbstractActionViewController getInstance] showGeoTaskLocationWithCGRect:((UIButton*)sender).frame];
+}
+
+- (void) showNotifMenu:(id) sender
+{
+    [self showOptionMenu:nil];
+}
+
+- (void) showNotifWithOptions:(id) sender
+{
+    UIButton *btn = (UIButton *) sender;
+    
+    switch (btn.tag)
+    {
+        case 0:
+            [self showUnreadComments:btn];
+            break;
+            
+        case 1:
+            [self showGeoTaskLocation:btn];
+            break;
+    }
 }
 
 #pragma mark Hint
@@ -3278,6 +3325,134 @@ extern BOOL _detailHintShown;
     [menu release];
 }
 
+-(void) createNotifOptionView
+{
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSString *texts[2] = {
+        _conversationsText,
+        _locationsText
+    };
+    
+    CGFloat maxWidth = 0;
+    
+    for (int i=0; i<2; i++)
+    {
+        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+        
+        if (sz.width > maxWidth)
+        {
+            maxWidth = sz.width;
+        }
+    }
+    
+    maxWidth += 90;
+    
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+	optionView.hidden = YES;
+	optionView.backgroundColor = [UIColor clearColor];
+	[contentView addSubview:optionView];
+	[optionView release];
+	
+	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
+    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+	optionImageView.alpha = 0.9;
+	[optionView addSubview:optionImageView];
+	[optionImageView release];
+    
+    UIImageView *commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
+	commentImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_comments.png"];
+	[optionView addSubview:commentImageView];
+	[commentImageView release];
+	
+    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
+	commentLabel.text = _conversationsText;
+	commentLabel.textColor = [UIColor whiteColor];
+	commentLabel.backgroundColor = [UIColor clearColor];
+	commentLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:commentLabel];
+	[commentLabel release];
+	
+	UIButton *commentButton=[Common createButton:@""
+                                  buttonType:UIButtonTypeCustom
+                                       frame:CGRectMake(0, 22, 160, 30)
+                                  titleColor:nil
+                                      target:self
+                                    selector:@selector(showNotifWithOptions:)
+                            normalStateImage:nil
+                          selectedStateImage:nil];
+
+	commentButton.tag = 0;
+	[optionView addSubview:commentButton];
+    
+    NSInteger count = [dbm countUnreadComments];
+    
+    if (count > 0)
+    {
+        UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 25, 30, 20)];
+        commentBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
+        commentBadgeLabel.textColor = [UIColor whiteColor];
+        commentBadgeLabel.textAlignment = NSTextAlignmentCenter;
+        commentBadgeLabel.tag = 10000;
+        commentBadgeLabel.layer.cornerRadius = 3;
+        commentBadgeLabel.backgroundColor = [Colors redButton];
+        
+        commentBadgeLabel.text = [NSString stringWithFormat:@"%d", count];
+        
+        [optionView addSubview:commentBadgeLabel];
+        [commentBadgeLabel release];
+    }
+    
+    
+    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
+	locationImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_location.png"];
+	[optionView addSubview:locationImageView];
+	[locationImageView release];
+	
+    UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+	locationLabel.text = _locationsText;
+	locationLabel.textColor = [UIColor whiteColor];
+	locationLabel.backgroundColor = [UIColor clearColor];
+	locationLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:locationLabel];
+	[locationLabel release];
+	
+	UIButton *locationButton=[Common createButton:@""
+                                   buttonType:UIButtonTypeCustom
+                                        frame:CGRectMake(0, 57, 160, 30)
+                                   titleColor:nil
+                                       target:self
+                                     selector:@selector(showNotifWithOptions:)
+                             normalStateImage:nil
+                           selectedStateImage:nil];
+    locationButton.tag = 1;
+	[optionView addSubview:locationButton];
+    
+    count = [dbm countTaskByLocation];
+    
+    if (count > 0)
+    {
+        UILabel *locationBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 60, 30, 20)];
+        locationBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
+        locationBadgeLabel.textColor = [UIColor whiteColor];
+        locationBadgeLabel.textAlignment = NSTextAlignmentCenter;
+        locationBadgeLabel.tag = 10000;
+        locationBadgeLabel.layer.cornerRadius = 3;
+        locationBadgeLabel.backgroundColor = [Colors redButton];
+        
+        locationBadgeLabel.text = [NSString stringWithFormat:@"%d", count];
+        
+        [optionView addSubview:locationBadgeLabel];
+        [locationBadgeLabel release];
+    }
+    
+    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+    menu.menuPoint = menu.bounds.size.width/2 + 80;
+    
+    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+    [menu release];
+}
+
 - (void)loadView
 {
     CGRect frm = CGRectZero;
@@ -3682,23 +3857,35 @@ extern BOOL _detailHintShown;
     NSInteger count = [dbm countUnreadComments];
     
     //NSLog(@"unread comment count: %d", count);
-    
+/*
     if (commentButton != nil)
     {
         dispatch_async(dispatch_get_main_queue(),^ {
-            //[commentButton setTitle:[NSString stringWithFormat:@"%d", count] forState:UIControlStateNormal];
             commentButton.hidden = (count == 0);
             commentButton.frame = (commentButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
             UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
             badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
         });
     }
+*/
+    
+    if (notifButton != nil)
+    {
+        dispatch_async(dispatch_get_main_queue(),^ {
+            notifButton.hidden = (count == 0);
+            notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
+            //UILabel *badgeLabel = (UILabel *)[notifButton viewWithTag:10000];
+            //badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+        });
+    }
+    
 }
 
 - (void)refreshGeoTaskLocation:(NSNotification *)notification
 {
     DBManager *dbm = [DBManager getInstance];
     NSInteger count = [dbm countTaskByLocation];
+    /*
     if (taskLocationButton != nil) {
         
         dispatch_async(dispatch_get_main_queue(),^ {
@@ -3707,6 +3894,16 @@ extern BOOL _detailHintShown;
             taskLocationButton.hidden = (count == 0);
             taskLocationButton.frame = (taskLocationButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
             taskLocationLable.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+        });
+    }*/
+    
+    if (notifButton != nil)
+    {
+        dispatch_async(dispatch_get_main_queue(),^ {
+            notifButton.hidden = (count == 0);
+            notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
+            //UILabel *badgeLabel = (UILabel *)[notifButton viewWithTag:10000];
+            //badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
         });
     }
 }
