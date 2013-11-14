@@ -96,30 +96,13 @@
         [listView addSubview:commentView];
         [commentView release];
         
-        UIFont *font = [UIFont boldSystemFontOfSize:16];
+        UIFont *font = [UIFont systemFontOfSize:14];
+        //NSString *time = [Common getFullDateTimeString:comment.createTime];
+        NSString *time = [Common getDateTimeString:comment.createTime];
         
-        NSString *name = [NSString stringWithFormat:@"%@ %@", comment.firstName, comment.lastName];
+        CGSize sz = [time sizeWithFont:font];
         
-        CGSize sz = [name sizeWithFont:font];
-        
-        //CGSize sz = [name sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:@"font"]];
-        
-        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, sz.width, 25)];
-        nameLabel.font = font;
-        nameLabel.text = name;
-        nameLabel.backgroundColor = [UIColor clearColor];
-        nameLabel.textColor = [UIColor grayColor];
-        
-        [commentView addSubview:nameLabel];
-        [nameLabel release];
-        
-        font = [UIFont systemFontOfSize:14];
-        NSString *time = [Common getFullDateTimeString:comment.createTime];
-        
-        sz = [time sizeWithFont:font];
-        //sz = [time sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:@"font"]];
-        
-        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.bounds.size.width + 10, 0, sz.width, 25)];
+        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(commentView.bounds.size.width - sz.width - 10, 0, sz.width + 10, 25)];
         timeLabel.font = font;
         timeLabel.text = time;
         timeLabel.backgroundColor = [UIColor clearColor];
@@ -128,11 +111,29 @@
         [commentView addSubview:timeLabel];
         [timeLabel release];
         
+        font = [UIFont boldSystemFontOfSize:16];
+        
+        NSString *name = [NSString stringWithFormat:@"%@ %@", comment.firstName, comment.lastName];
+        
+        //sz = [name sizeWithFont:font];
+        
+        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, commentView.bounds.size.width - timeLabel.bounds.size.width - 10, 25)];
+        nameLabel.font = font;
+        nameLabel.text = name;
+        nameLabel.backgroundColor = [UIColor clearColor];
+        nameLabel.textColor = [UIColor grayColor];
+        
+        [commentView addSubview:nameLabel];
+        [nameLabel release];
+        
+
         [commentView addSubview:growTextView];
         [growTextView release];
         
         y += h + 10;
     }
+    
+    listView.contentSize = CGSizeMake(contentView.bounds.size.width, y);
 
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0ul);
     
