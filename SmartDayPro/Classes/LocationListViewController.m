@@ -17,6 +17,7 @@
 
 #import "AbstractActionViewController.h"
 #import "CategoryViewController.h"
+#import "Task.h"
 
 //extern iPadViewController *_iPadViewCtrler;
 extern BOOL _isiPad;
@@ -24,7 +25,7 @@ extern BOOL _isiPad;
 @implementation LocationListViewController
 
 @synthesize locationList;
-@synthesize objectEdit;
+@synthesize taskEdit;
 
 - (id)init
 {
@@ -101,7 +102,7 @@ extern BOOL _isiPad;
 - (void)viewDidLoad
 {
     // update UI
-    if (objectEdit != nil) {
+    if (taskEdit != nil) {
         
         hintLable.text = _selectLocationHintText;
         CGRect frm = hintLable.frame;
@@ -122,7 +123,7 @@ extern BOOL _isiPad;
     // get location list;
     self.locationList = [[LocationManager getInstance] getAllLocation];
     
-    if (self.objectEdit != nil) {
+    if (self.taskEdit != nil) {
         Location *location = [[Location alloc] initWithPrimaryKey:[self getLocationID] database:[[DBManager getInstance] getDatabase]];
         if (location.primaryKey == 0) {
             [self selectLocation:0];
@@ -202,7 +203,7 @@ extern BOOL _isiPad;
     cell.textLabel.font = [UIFont systemFontOfSize:16];
     cell.textLabel.textColor = [UIColor grayColor];
 	
-	cell.accessoryType = objectEdit == nil ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
+	cell.accessoryType = taskEdit == nil ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
 	//cell.selectionStyle = UITableViewCellAccessoryDisclosureIndicator;
     
     cell.backgroundColor = [UIColor clearColor];
@@ -210,8 +211,8 @@ extern BOOL _isiPad;
     switch (indexPath.row) {
         case 0:
         {
-            cell.textLabel.text = (objectEdit == nil ? _addText : _noneText);
-            if (objectEdit != nil && [self getLocationID] <= 0) {
+            cell.textLabel.text = (taskEdit == nil ? _addText : _noneText);
+            if (taskEdit != nil && [self getLocationID] <= 0) {
                 cell.accessoryType =  UITableViewCellAccessoryCheckmark;
             }
         }
@@ -243,14 +244,14 @@ extern BOOL _isiPad;
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (objectEdit == nil);
+    return (taskEdit == nil);
 }
 
 #pragma mark UITableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (objectEdit == nil) {
+    if (taskEdit == nil) {
         [self editLocationDetail:indexPath.row];
     } else {
         // select location
@@ -289,10 +290,14 @@ extern BOOL _isiPad;
     
         Location *location = [self.locationList objectAtIndex:index - 1];
         //[[self objectLocation] setLocation:location.primaryKey];
-        [objectEdit setLocationID:location.primaryKey];
+        //[taskEdit setLocationID:location.primaryKey];
+        self.taskEdit.locationID = location.primaryKey;
+        self.taskEdit.location = location.address;
     } else {
         //[[self objectLocation] setLocation:-1];
-        [objectEdit setLocationID:0];
+        //[taskEdit setLocationID:0];
+        self.taskEdit.locationID = 0;
+        self.taskEdit.location = @"";
     }
     
     [locationsTableView reloadData];
@@ -300,7 +305,8 @@ extern BOOL _isiPad;
 
 - (NSInteger)getLocationID
 {
-    return [objectEdit locationID];
+    //return [taskEdit locationID];
+    return self.taskEdit.locationID;
 }
 
 - (void)removeLocation:(NSIndexPath*)index

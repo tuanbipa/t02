@@ -19,7 +19,7 @@
 
 //@property (nonatomic, retain) NSMutableArray *taskLocationList;
 @property (nonatomic, retain) NSMutableArray *taskLocationArriveList;
-@property (nonatomic, retain) NSMutableArray *taskLocationLeaveList;
+//@property (nonatomic, retain) NSMutableArray *taskLocationLeaveList;
 @property (nonatomic, retain) NSString *arriveTitle;
 @property (nonatomic, retain) NSString *leaveTitle;
 @end

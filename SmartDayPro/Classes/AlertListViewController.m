@@ -181,12 +181,15 @@
         basedAddressSegmented.frame = CGRectMake(frm.size.width/2, 50, frm.size.width/2, 30);
         basedAddressSegmented.selectedSegmentIndex = self.taskEdit.locationAlert == 0 ? 1 : 0;
         frm = basedAddressSegmented.frame;
+        frm.origin.y += frm.size.height;
         
         [contentView addSubview:basedAddressSegmented];
         [basedAddressSegmented release];
+    } else {
+        frm = CGRectZero;
     }
     
-    alertTableView.frame = CGRectMake(0, frm.origin.y + 30 + 10, contentView.bounds.size.width, contentView.bounds.size.height - (frm.origin.y + 30 + 10));
+    alertTableView.frame = CGRectMake(0, frm.origin.y + 10, contentView.bounds.size.width, contentView.bounds.size.height - (frm.origin.y + 10));
     
 }
 

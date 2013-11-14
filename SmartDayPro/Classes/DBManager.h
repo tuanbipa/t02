@@ -166,6 +166,7 @@
 #pragma mark Geo Task Location
 // location data
 - (NSMutableArray *) getAllEventsHaveAlertBasedLocation;
-- (NSInteger)countTaskByLocation;
-- (NSMutableArray*)getCurrentTaskLocation;
+- (NSInteger)countTasksAtCurrentLocation;
+- (NSMutableArray*)getTasksAtCurrentLocation;
+- (NSMutableArray*)getArriveAndLeaveTasksAtCurrentLocation;
 @end

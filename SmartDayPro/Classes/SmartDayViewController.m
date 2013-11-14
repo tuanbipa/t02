@@ -134,6 +134,14 @@ extern BOOL _detailHintShown;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(refreshGeoTaskLocation:)
                                                      name:@"GeoLocationUpdateNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshGeoTaskLocation:)
+                                                     name:@"TaskCreatedNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshGeoTaskLocation:)
+                                                     name:@"TaskChangeNotification" object:nil];
     }
     
     return self;
@@ -3698,7 +3706,7 @@ extern BOOL _detailHintShown;
 - (void)refreshGeoTaskLocation:(NSNotification *)notification
 {
     DBManager *dbm = [DBManager getInstance];
-    NSInteger count = [dbm countTaskByLocation];
+    NSInteger count = [dbm countTasksAtCurrentLocation];
     if (taskLocationButton != nil) {
         
         dispatch_async(dispatch_get_main_queue(),^ {

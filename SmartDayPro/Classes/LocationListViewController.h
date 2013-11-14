@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class Project;
 @class Task;
 
 @interface LocationListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
@@ -17,12 +16,12 @@
 	UITableView *locationsTableView;
     NSMutableArray *locationList;
     
-    NSObject *objectEdit;
+    //Task *taskEdit;
 }
 
 @property (nonatomic, retain) NSMutableArray *locationList;
 //@property (nonatomic, assign) Project *project;
 //@property (nonatomic, assign) Task *task;
-@property (nonatomic, assign) NSObject *objectEdit;
+@property (nonatomic, assign) Task *taskEdit;
 
 @end

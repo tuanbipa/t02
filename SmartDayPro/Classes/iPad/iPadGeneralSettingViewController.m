@@ -425,10 +425,13 @@ extern SmartCalAppDelegate *_appDelegate;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.setting.geoFencingEnable) {
+    // remove geo fencing setting
+    /*if (self.setting.geoFencingEnable) {
         return 9;
     }
-    return 8;
+    return 8;*/
+    
+    return 7;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

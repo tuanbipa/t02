@@ -742,11 +742,11 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_exportMapText" = "Export Map";
 "_directionsNotAvailable" = "Directions Not Available";
 //"_cannotLocateThe" = "Cannot locate the";
-"_atCurrentLocationText" = "At Current Location";
-"_atCurrentLocationYouHave" = "At current location you have %d item(s) to do";
+//"_atCurrentLocationText" = "At Current Location";
+//"_atCurrentLocationYouHave" = "At current location you have %d item(s) to do";
 "_alertBasedOnLocationText" = "Alert based on location";
-"_itsTimeToDriveForText" = "It's time to drive for";
-"_openAppleMapsText" = "show in Maps app";
+"_itsTimeToDriveForText" = "It's time to drive for %";
+//"_openAppleMapsText" = "show in Maps app";
 "_locationNameText" = "Location Name";
 "_locationAddressText" = "Location Address";
 "_noResultsFoundText" = "No Results Found";
@@ -771,6 +771,9 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_alertLocationHintText" = "Please specific Location in Settings first to enable Alert by Location definition.";
 "_whenArriveText" = "When arrive %@";
 "_whenLeaveText" = "When leave at %@";
+"_atLocaitonYouHaveTasksTodo" = "At %@, you have %d task(s) to do:";
+"_youLeftLocaitonYouHaveTasksTodo" = "You left %@, you have %d task(s) to do:";
+"_youArriveLocaitonYouHaveTasksTodo" = "You arrived %@, you have %d task(s) to do:";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "Please specify Due for Task first to enable Alert definition. Alert time will be relative to Due time.";

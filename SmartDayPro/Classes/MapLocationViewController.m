@@ -219,13 +219,11 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)dealloc
 {
-    //self.task = nil;
-    
-    [super dealloc];
-    
     if (destination != nil) {
         [destination release];
     }
+    
+    [super dealloc];
 }
 
 #pragma mark Actions
@@ -245,6 +243,10 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)editLocation:(id) sender
 {
+    if ([locationTextField isFirstResponder]) {
+        isDone = YES;
+    }
+    
 	LocationViewController *locationViewController=[[LocationViewController alloc] init];
 	
 	locationViewController.oldSelectedIndex=nil;
@@ -257,6 +259,8 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)done: (id)sender
 {
+    self.task.location = locationTextField.text;
+    
     if([locationTextField isFirstResponder]){
         isDone = YES;
     }
@@ -508,9 +512,10 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	self.task.location = textField.text;
+	//self.task.location = textField.text;
     
     if (isDone) {
+        isDone = NO;
         return;
     }
     

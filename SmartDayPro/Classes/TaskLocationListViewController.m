@@ -21,9 +21,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 @implementation TaskLocationListViewController
 
-//@synthesize taskLocationList;
 @synthesize taskLocationArriveList;
-@synthesize taskLocationLeaveList;
+//@synthesize taskLocationLeaveList;
 @synthesize arriveTitle;
 @synthesize leaveTitle;
 
@@ -45,7 +44,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
 //    self.taskLocationList = nil;
     self.taskLocationArriveList = nil;
-    self.taskLocationLeaveList = nil;
+    //self.taskLocationLeaveList = nil;
     self.arriveTitle = nil;
     self.leaveTitle = nil;
     
@@ -56,7 +55,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     DBManager *dbm = [DBManager getInstance];
     
-    NSMutableArray *taskLocations = [dbm getCurrentTaskLocation];
+    /*NSMutableArray *taskLocations = [dbm getTasksAtCurrentLocation];
     self.taskLocationArriveList = [NSMutableArray array];
     self.taskLocationLeaveList = [NSMutableArray array];
     
@@ -66,7 +65,8 @@ extern iPadViewController *_iPadViewCtrler;
         } else {
             [self.taskLocationLeaveList addObject:task];
         }
-    }
+    }*/
+    self.taskLocationArriveList = [dbm getTasksAtCurrentLocation];
     
     [listTableView reloadData];
     
@@ -137,7 +137,7 @@ extern iPadViewController *_iPadViewCtrler;
 #pragma mark Table Datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -148,11 +148,12 @@ extern iPadViewController *_iPadViewCtrler;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-    if (section == 0) {
+    /*if (section == 0) {
         return self.taskLocationArriveList.count;
     } else {
         return self.taskLocationLeaveList.count;
-    }
+    }*/
+    return self.taskLocationArriveList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -162,11 +163,11 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0 && self.taskLocationArriveList.count == 0) {
+    /*if (section == 0 && self.taskLocationArriveList.count == 0) {
         return 0.0;
     } else if (section == 1 && self.taskLocationLeaveList.count == 0) {
         return 0.0;
-    }
+    }*/
     return 40;
 }
 
@@ -215,14 +216,14 @@ extern iPadViewController *_iPadViewCtrler;
         UIColor *textColor = [[ProjectManager getInstance] getProjectColor0:task.project];
         cell.textLabel.textColor = textColor;
         
-    } else if (indexPath.section == 1) {
+    }/* else if (indexPath.section == 1) {
         
         Task *task = [self.taskLocationLeaveList objectAtIndex:indexPath.row];
         
         cell.textLabel.text = task.name;
         UIColor *textColor = [[ProjectManager getInstance] getProjectColor0:task.project];
         cell.textLabel.textColor = textColor;
-    }
+    }*/
     
     return cell;
 }
@@ -267,11 +268,11 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (tapRow >= 0 && tapSection >= 0)
     {
-        NSMutableArray *lists[2] = {self.taskLocationArriveList, self.taskLocationLeaveList};
+        /*NSMutableArray *lists[2] = {self.taskLocationArriveList, self.taskLocationLeaveList};
         
-        Task *task = [lists[tapSection] objectAtIndex:tapRow];
+        Task *task = [lists[tapSection] objectAtIndex:tapRow];*/
         
-        //[_iPadSDViewCtrler editItem:task inRect:CGRectMake(600, 0, 20, 10)];
+        Task *task = [self.taskLocationArriveList objectAtIndex:tapRow];
         [_iPadViewCtrler deactivateSearchBar];
         [[AbstractActionViewController getInstance] hidePopover];
         [[AbstractActionViewController getInstance] editItem:task inView:nil];

@@ -663,7 +663,7 @@ DetailViewController *_detailViewCtrler = nil;
 - (void)selectLocation: (id)sender
 {
     LocationListViewController *ctrler = [[LocationListViewController alloc] init];
-    ctrler.objectEdit = self.taskCopy;
+    ctrler.taskEdit = self.taskCopy;
     
     [self.navigationController pushViewController:ctrler animated:YES];
     [ctrler release];
@@ -973,7 +973,8 @@ DetailViewController *_detailViewCtrler = nil;
     
     contactList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
-    [self presentViewController:contactList animated:YES completion:NULL];
+    [_isiPad?_iPadViewCtrler:_sdViewCtrler presentViewController:contactList animated:YES completion:NULL];
+    //[self present
     
 	[contactList release];
 }
@@ -1026,6 +1027,7 @@ DetailViewController *_detailViewCtrler = nil;
     contactButton.tag = baseTag + 1;*/
     UILabel *atLable = [[UILabel alloc] initWithFrame:CGRectMake(5, y, 25, 25)];
     atLable.text = @"@";
+    atLable.textColor = [UIColor grayColor];
     
     [cell.contentView addSubview:atLable];
     [atLable release];
@@ -1091,8 +1093,9 @@ DetailViewController *_detailViewCtrler = nil;
 	[cell.contentView addSubview:editLocationButton];
     
     Location *location = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationID database:[[DBManager getInstance] getDatabase]];
-    if (location.primaryKey > 0) {
+    if (location.primaryKey > 0 && self.taskCopy.location == location.address) {
         taskLocation.text = location.address;
+        self.taskCopy.location = location.address;
     } else if (location.primaryKey != self.taskCopy.locationID) {
         
         self.taskCopy.locationID = 0;

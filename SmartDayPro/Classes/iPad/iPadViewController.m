@@ -109,6 +109,13 @@ iPadViewController *_iPadViewCtrler;
                                                  selector:@selector(refreshGeoTaskLocation:)
                                                      name:@"GeoLocationUpdateNotification" object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshGeoTaskLocation:)
+                                                     name:@"TaskCreatedNotification" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshGeoTaskLocation:)
+                                                     name:@"TaskChangeNotification" object:nil];
     }
     
     return self;
@@ -711,7 +718,7 @@ iPadViewController *_iPadViewCtrler;
 - (void)refreshGeoTaskLocation:(NSNotification *)notification
 {
     DBManager *dbm = [DBManager getInstance];
-    NSInteger count = [dbm countTaskByLocation];
+    NSInteger count = [dbm countTasksAtCurrentLocation];
     dispatch_async(dispatch_get_main_queue(),^ {
         NSLog(@"refresh task location %d", count);
 

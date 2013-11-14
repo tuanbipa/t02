@@ -638,11 +638,12 @@ BOOL _fromBackground = NO;
 	//////NSLog(@"did become active");
 	
     // geo-fencing
-    Settings *setting = [Settings getInstance];
+    /*Settings *setting = [Settings getInstance];
     if (setting.geoFencingEnable) {
         
         [self startGeoFencing:setting.geoFencingInterval];
-    }
+    }*/
+    [self startGeoFencing:3*60];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -761,7 +762,7 @@ BOOL _fromBackground = NO;
     else if (notification.alertBody && [notification.alertBody length] > 0)
     {
         //[self showGeoAlertWithBody:notifyStr];
-        [self refreshTaskLocationBadge];
+        [self postGeoFencingUpdate];
     }
     else
     {
@@ -1292,6 +1293,8 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     }
 }
 
+#pragma mark Geo Fencing Support
+
 - (void)geocodeTaskLocation: (NSArray*)locationDataList withCurrentLocation: (CLLocation*) currentLocation
 {
     CLGeocoder *gc = [[CLGeocoder alloc] init];
@@ -1378,7 +1381,9 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
     {
-        NSMutableArray *taskLocationList = [[DBManager getInstance] getCurrentTaskLocation];
+        DBManager *dbm = [DBManager getInstance];
+        
+        NSMutableArray *taskLocationList = [dbm getArriveAndLeaveTasksAtCurrentLocation];
         NSMutableArray *arriveTasks = [NSMutableArray array];
         NSMutableArray *leaveTasks = [NSMutableArray array];
         
@@ -1400,6 +1405,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 title = [title stringByAppendingFormat:@"%@, ", loc.name];
             }
             title = [title substringToIndex:[title length] - 2];
+            title = [NSString stringWithFormat:_youArriveLocaitonYouHaveTasksTodo, title, arriveTasks.count];
             
             if (arriveNotification != nil) {
                 [[UIApplication sharedApplication] cancelLocalNotification:arriveNotification];
@@ -1424,6 +1430,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 title = [title stringByAppendingFormat:@"%@, ", loc.name];
             }
             title = [title substringToIndex:[title length] - 2];
+            title = [NSString stringWithFormat:_youLeftLocaitonYouHaveTasksTodo, title, leaveLocations.count];
             
             if (leaveNotification != nil) {
                 [[UIApplication sharedApplication] cancelLocalNotification:leaveNotification];
@@ -1439,14 +1446,113 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             
             [[UIApplication sharedApplication] scheduleLocalNotification:leaveNotification];
         }
+        
+        // =========== push filter at location
+        NSMutableArray *taskAtCurrentLocation = [dbm getTasksAtCurrentLocation];
+        
+        if (taskAtCurrentLocation.count > 0) {
+            NSMutableArray *arriveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_ARRIVE];
+            
+            NSString *title = @"";
+            for (Location *loc in arriveLocations) {
+                title = [title stringByAppendingFormat:@"%@, ", loc.name];
+            }
+            title = [title substringToIndex:[title length] - 2];
+            title = [NSString stringWithFormat:_atLocaitonYouHaveTasksTodo, title, taskAtCurrentLocation.count];
+            
+            UILocalNotification *filterAtNotification = [[UILocalNotification alloc] init];
+            
+            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
+            
+            filterAtNotification.alertAction = title;
+            filterAtNotification.alertBody = [@"- " stringByAppendingString:body];
+            filterAtNotification.timeZone = [NSTimeZone defaultTimeZone];
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:filterAtNotification];
+            
+            [filterAtNotification release];
+        }
     }
     else
     {
-        [self refreshTaskLocationBadge];
+        [self postGeoFencingUpdate];
+        
+        // alert//////
+        DBManager *dbm = [DBManager getInstance];
+        
+        NSMutableArray *taskLocationList = [dbm getArriveAndLeaveTasksAtCurrentLocation];
+        NSMutableArray *arriveTasks = [NSMutableArray array];
+        NSMutableArray *leaveTasks = [NSMutableArray array];
+        
+        for (Task *task in taskLocationList) {
+            if (task.locationAlert == LOCATION_ARRIVE) {
+                [arriveTasks addObject:task.name];
+            } else {
+                [leaveTasks addObject:task.name];
+            }
+        }
+        
+        
+        
+        if (arriveTasks.count > 0) {
+            NSMutableArray *arriveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_ARRIVE];
+            
+            NSString *title = @"";
+            for (Location *loc in arriveLocations) {
+                title = [title stringByAppendingFormat:@"%@, ", loc.name];
+            }
+            title = [title substringToIndex:[title length] - 2];
+            title = [NSString stringWithFormat:_youArriveLocaitonYouHaveTasksTodo, title, arriveTasks.count];
+            
+            if (arriveNotification != nil) {
+                [[UIApplication sharedApplication] cancelLocalNotification:arriveNotification];
+            } else {
+                arriveNotification = [[UILocalNotification alloc] init];
+            }
+            
+            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                                message:body
+                                                               delegate:nil
+                                                      cancelButtonTitle:_okText
+                                                      otherButtonTitles:nil];
+            //[alertView show];
+            [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+            [alertView release];
+        }
+        
+        if (leaveTasks.count > 0) {
+            NSMutableArray *leaveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_LEAVE];
+            
+            NSString *title = @"";
+            for (Location *loc in leaveLocations) {
+                title = [title stringByAppendingFormat:@"%@, ", loc.name];
+            }
+            title = [title substringToIndex:[title length] - 2];
+            title = [NSString stringWithFormat:_youLeftLocaitonYouHaveTasksTodo, title, leaveLocations.count];
+            
+            if (leaveNotification != nil) {
+                [[UIApplication sharedApplication] cancelLocalNotification:leaveNotification];
+            } else {
+                leaveNotification = [[UILocalNotification alloc] init];
+            }
+            
+            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                                message:body
+                                                               delegate:nil
+                                                      cancelButtonTitle:_okText
+                                                      otherButtonTitles:nil];
+            //[alertView show];
+            [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+            [alertView release];
+        }
     }
 }
 
-- (void)refreshTaskLocationBadge
+- (void)postGeoFencingUpdate
 {
     /*if (_isiPad)
     {
@@ -1544,7 +1650,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                                 DBManager *dbm = [DBManager getInstance];
                                 task.locationAlert = 0;
                                 [task updateLocationAlertIntoDB:[dbm getDatabase]];
-                                [self showLocationAlert:task];
+                                [self showDrivingTimeAlert:task];
                             }
                         }
                     }];
@@ -1600,6 +1706,47 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 //    }
 //}
 
+//- (void)showGeoAlertWithBody: (NSString*) alertBody
+//{
+//    // dismis old alert view
+//    [self dismissAllAlertViews];
+//    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_atCurrentLocationText
+//                                                    message:alertBody
+//                                                   delegate:self cancelButtonTitle:_okText
+//                                          otherButtonTitles:nil];
+//    [alert show];
+//    [alert release];
+//}
+
+- (void)showDrivingTimeAlert: (Task*)task
+{
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+    {
+        UILocalNotification *alertLocalNotification = [[UILocalNotification alloc] init];
+        alertLocalNotification.alertBody = [NSString stringWithFormat:_itsTimeToDriveForText, task.name];
+        alertLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
+        
+        [[UIApplication sharedApplication] scheduleLocalNotification:alertLocalNotification];
+        
+        [alertLocalNotification release];
+    }
+    else
+    {
+        // show alert
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_alertText
+                                                        message:[NSString stringWithFormat:@"%@ '%@'",_itsTimeToDriveForText, task.name]
+                                                       delegate:self cancelButtonTitle:_okText
+                                              otherButtonTitles:nil];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+        [alert release];
+    }
+}
+
+#pragma mark Location timer
+
 - (void)initGeoLocation
 {
     [self deactiveLocationManager];
@@ -1621,46 +1768,6 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     eventLocationNumber = 0;
     taskLocationNumber = 0;
 }
-
-- (void)showGeoAlertWithBody: (NSString*) alertBody
-{
-    // dismis old alert view
-    [self dismissAllAlertViews];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_atCurrentLocationText
-                                                    message:alertBody
-                                                   delegate:self cancelButtonTitle:_okText
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-}
-
-- (void)showLocationAlert: (Task*)task
-{
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
-    {
-        UILocalNotification *alertLocalNotification = [[UILocalNotification alloc] init];
-        alertLocalNotification.alertBody = [NSString stringWithFormat:@"%@ '%@'",_itsTimeToDriveForText, task.name];
-        alertLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
-        
-        [[UIApplication sharedApplication] scheduleLocalNotification:alertLocalNotification];
-        
-        [alertLocalNotification release];
-    }
-    else
-    {
-        // show alert
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_alertText
-                                                        message:[NSString stringWithFormat:@"%@ '%@'",_itsTimeToDriveForText, task.name]
-                                                       delegate:self cancelButtonTitle:_okText
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-    }
-}
-
-#pragma mark Location timer
 
 - (void)deactiveLocationTimer
 {
