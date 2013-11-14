@@ -31,8 +31,8 @@
 #import "iPadViewController.h"
 #import "PlannerBottomDayCal.h"
 
-#import "LocationListViewController.h"
-#import "Location.h"
+//#import "LocationListViewController.h"
+//#import "Location.h"
 
 extern BOOL _transparentHintShown;
 
@@ -165,7 +165,7 @@ extern iPadViewController *_iPadViewCtrler;
 	[projectNameTextField release];
 	
     // location field =========================
-    UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, frm.size.width - 20, 25)];
+    /*UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, frm.size.width - 20, 25)];
 	locationLabel.backgroundColor = [UIColor clearColor];
 	locationLabel.text = _locationText;
     locationLabel.font = [UIFont systemFontOfSize:16];
@@ -187,10 +187,10 @@ extern iPadViewController *_iPadViewCtrler;
     UIButton *locationDetailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 	locationDetailButton.frame = CGRectMake((projectLocationLable.frame.origin.x + projectLocationLable.frame.size.width + 5), 125, 25, 25);
 	[locationDetailButton addTarget:self action:@selector(editProjectLocation:) forControlEvents:UIControlEventTouchUpInside];
-    [mainView addSubview:locationDetailButton];
+    [mainView addSubview:locationDetailButton];*/
     // end location field =====================
 	
-    UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, frm.size.width - 20, 25)];
+    UILabel *projectColorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, frm.size.width - 20, 25)];
 	projectColorLabel.backgroundColor = [UIColor clearColor];
 	projectColorLabel.text = _colorText;
     projectColorLabel.font = [UIFont systemFontOfSize:16];
@@ -199,7 +199,7 @@ extern iPadViewController *_iPadViewCtrler;
 	[mainView addSubview:projectColorLabel];
 	[projectColorLabel release];
 	
-    colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(10, 175, frm.size.width-20, _isiPad?170:150)];
+    colorPaletteView = [[ProjectColorPaletteView alloc] initWithFrame:CGRectMake(10, 125, frm.size.width-20, _isiPad?170:150)];
     
     //colorPaletteView.projectEdit = self.projectCopy;
     //colorPaletteView.colorId = self.projectCopy.colorId;
@@ -400,7 +400,7 @@ extern iPadViewController *_iPadViewCtrler;
         [projectNameTextField becomeFirstResponder];
     }
     
-    [self loadLocation];
+    //[self loadLocation];
 }
 
 /*
@@ -570,14 +570,14 @@ extern iPadViewController *_iPadViewCtrler;
 	
 }
 
-- (void)editProjectLocation: (id)sender
-{
-    LocationListViewController *ctrler = [[LocationListViewController alloc] init];
-    ctrler.objectEdit = self.projectCopy;
-    
-    [self.navigationController pushViewController:ctrler animated:YES];
-    [ctrler release];
-}
+//- (void)editProjectLocation: (id)sender
+//{
+//    LocationListViewController *ctrler = [[LocationListViewController alloc] init];
+//    ctrler.objectEdit = self.projectCopy;
+//    
+//    [self.navigationController pushViewController:ctrler animated:YES];
+//    [ctrler release];
+//}
 
 - (void) changeProjectType:(id) sender
 {
@@ -629,18 +629,18 @@ extern iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void)loadLocation
-{
-    Location *location = [[Location alloc] initWithPrimaryKey:self.projectCopy.locationID database:[[DBManager getInstance] getDatabase]];
-    if (location.primaryKey > 0) {
-            projectLocationLable.text = location.name;
-    }  else if (location.primaryKey != self.projectCopy.locationID) {
-        
-        self.projectCopy.locationID = 0;
-        self.project.locationID = 0;
-    }
-    [location release];
-}
+//- (void)loadLocation
+//{
+//    Location *location = [[Location alloc] initWithPrimaryKey:self.projectCopy.locationID database:[[DBManager getInstance] getDatabase]];
+//    if (location.primaryKey > 0) {
+//            projectLocationLable.text = location.name;
+//    }  else if (location.primaryKey != self.projectCopy.locationID) {
+//        
+//        self.projectCopy.locationID = 0;
+//        self.project.locationID = 0;
+//    }
+//    [location release];
+//}
 
 #pragma mark Actions
 
