@@ -3893,6 +3893,7 @@ extern BOOL _detailHintShown;
 {
     DBManager *dbm = [DBManager getInstance];
     NSInteger count = [dbm countTasksAtCurrentLocation];
+    /*
     if (taskLocationButton != nil) {
         
         dispatch_async(dispatch_get_main_queue(),^ {

@@ -973,8 +973,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     contactList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
-    [_isiPad?_iPadViewCtrler:_sdViewCtrler presentViewController:contactList animated:YES completion:NULL];
-    //[self present
+    [self presentViewController:contactList animated:YES completion:NULL];
     
 	[contactList release];
 }
