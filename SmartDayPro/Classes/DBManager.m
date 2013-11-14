@@ -4951,7 +4951,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:200];
 	
-	const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_LocationAlert > 0 AND Task_Type = ? AND Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND (Task_Location IS NOT NULL AND Task_Location NOT LIKE '') ORDER BY Task_SeqNo ASC";
+	const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_LocationAlert > 0 AND Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND (Task_Location IS NOT NULL AND Task_Location NOT LIKE '') ORDER BY Task_SeqNo ASC";
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {

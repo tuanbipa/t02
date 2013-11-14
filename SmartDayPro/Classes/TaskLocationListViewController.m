@@ -177,7 +177,7 @@ extern iPadViewController *_iPadViewCtrler;
         
         // get location arrive
         
-        return [NSString stringWithFormat:_arriveAtText, self.arriveTitle];
+        return [NSString stringWithFormat:_atLocationText, self.arriveTitle];
     } else {
         return [NSString stringWithFormat:_leaveAtText, self.leaveTitle];
     }
