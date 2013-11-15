@@ -180,6 +180,8 @@
         UISegmentedControl *basedAddressSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:_onText, _offText, nil]];
         basedAddressSegmented.frame = CGRectMake(frm.size.width/2, 50, frm.size.width/2, 30);
         basedAddressSegmented.selectedSegmentIndex = self.taskEdit.locationAlert == 0 ? 1 : 0;
+        [basedAddressSegmented addTarget:self action:@selector(changeLocationType:) forControlEvents:UIControlEventValueChanged];
+        
         frm = basedAddressSegmented.frame;
         frm.origin.y += frm.size.height;
         
@@ -307,10 +309,12 @@
 {
     UISegmentedControl *seg = (UISegmentedControl*)sender;
     
-    if (seg.selectedSegmentIndex == 0) {
-        self.taskEdit.locationAlert = LOCATION_ARRIVE;
+    if ([self.taskEdit isEvent]) {
+        
+        self.taskEdit.locationAlert = seg.selectedSegmentIndex == 0 ? LOCATION_ARRIVE : LOCATION_NONE;
     } else {
-        self.taskEdit.locationAlert = LOCATION_LEAVE;
+        
+        self.taskEdit.locationAlert = seg.selectedSegmentIndex + 1;
     }
 }
 
@@ -339,7 +343,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.taskEdit.locationAlert > 0) {
+    if ([self.taskEdit isTask] && self.taskEdit.locationAlert > 0) {
         return 2 + self.locationList.count;
     } else {
         if (taskEdit.alerts != nil)
@@ -401,7 +405,7 @@
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     
-    if (self.taskEdit.locationAlert > 0) { // alert based on location
+    if ([self.taskEdit isTask] && self.taskEdit.locationAlert > 0) { // alert based on location
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.detailTextLabel.text = @"";
         switch (indexPath.row) {
@@ -465,7 +469,7 @@
 	// [anotherViewController release];
 	//[self editAlert:indexPath.row];
     
-    if (self.taskEdit.locationAlert > 0) {
+    if ([self.taskEdit isTask] && self.taskEdit.locationAlert > 0) {
         // select location
         [self selectLocation:indexPath.row];
     } else {

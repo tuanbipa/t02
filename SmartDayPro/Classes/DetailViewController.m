@@ -1100,10 +1100,10 @@ DetailViewController *_detailViewCtrler = nil;
 	[cell.contentView addSubview:editLocationButton];
     
     Location *location = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationID database:[[DBManager getInstance] getDatabase]];
-    if (location.primaryKey > 0 && self.taskCopy.location == location.address) {
+    if (location.primaryKey > 0 && [self.taskCopy.location isEqualToString:location.address]) {
         taskLocation.text = location.address;
         self.taskCopy.location = location.address;
-    } else if (location.primaryKey != self.taskCopy.locationID) {
+    } else {
         
         self.taskCopy.locationID = 0;
         self.task.locationID = 0;
