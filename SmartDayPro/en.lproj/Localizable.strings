@@ -756,7 +756,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_atLocationText" = "At %@:";
 "_leaveText" = "Leave";
 "_leaveAtText" = "Leave %@";
-"_alertBasedOnAddressText" = "Alert based on address";
+"_alertBasedOnAddressText" = "Alert based on driving time";
 "_addressText" = "Address";
 "_locationsText" = "Locations";
 "_locationHintText" = "Add locations here, then apply them to geo-fence for Task alerts (\"Call home after I leave the office\") and to generate a localized To-do list (\"Here’s what you need to get at the shopping center\").";
