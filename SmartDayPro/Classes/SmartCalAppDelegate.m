@@ -1441,7 +1441,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 arriveNotification = [[UILocalNotification alloc] init];
             }
             
-            arriveNotification.alertAction = arriveTitle;
+            //arriveNotification.alertAction = arriveTitle;
             arriveNotification.alertBody = arriveBody;
             arriveNotification.timeZone = [NSTimeZone defaultTimeZone];
             
@@ -1457,7 +1457,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 leaveNotification = [[UILocalNotification alloc] init];
             }
             
-            leaveNotification.alertAction = leaveTitle;
+            //leaveNotification.alertAction = leaveTitle;
             leaveNotification.alertBody = leaveBody;
             leaveNotification.timeZone = [NSTimeZone defaultTimeZone];
             

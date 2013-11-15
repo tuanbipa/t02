@@ -256,7 +256,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex != [alertView cancelButtonIndex]) {
+    if (buttonIndex != self.searchPlacemarksCache.count - 1) {
         CLPlacemark *placemark = [self.searchPlacemarksCache objectAtIndex:buttonIndex];
         
         NSString *addressStr = ABCreateStringWithAddressDictionary(placemark.addressDictionary, NO);
