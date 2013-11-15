@@ -1762,19 +1762,30 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (void) reloadRowOfTable:(UITableView *)tableView row:(NSInteger)row section:(NSInteger)section
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+    NSInteger sections = tableView.numberOfSections;
     
-    //NSInteger rows = [tableView numberOfRowsInSection:section];
-    
-    //printf("scroll to row: %d - rows: %d\n", row, rows);
-    
-    if (![tableView.indexPathsForVisibleRows containsObject:indexPath])
+    if (sections != 0)
     {
-        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        NSInteger rows = [tableView numberOfRowsInSection:section];
+        
+        if (row < rows)
+        {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+            
+            //NSInteger rows = [tableView numberOfRowsInSection:section];
+            
+            //printf("scroll to row: %d - rows: %d\n", row, rows);
+            
+            if (![tableView.indexPathsForVisibleRows containsObject:indexPath])
+            {
+                [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            }
+            
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+        }
     }
-
-    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                     withRowAnimation:UITableViewRowAnimationAutomatic];
     
 }
 

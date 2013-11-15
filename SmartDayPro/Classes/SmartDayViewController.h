@@ -65,7 +65,7 @@
     UIButton *selectedTabButton;
     
     
-    UIButton *notifButton;
+    //UIButton *notifButton;
     
     UIButton *commentButton;
     UIButton *taskLocationButton;

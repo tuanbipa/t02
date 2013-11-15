@@ -266,8 +266,9 @@ extern BOOL _detailHintShown;
         [filterIndicator removeFromSuperview];
     }
     
-    commentButton = nil;
-    taskLocationButton = nil;
+    //commentButton = nil;
+    //taskLocationButton = nil;
+    //notifButton = nil;
 
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
@@ -459,10 +460,11 @@ extern BOOL _detailHintShown;
                 break;
         }
         
+        /*
         notifButton = [Common createButton:@""
                                 buttonType:UIButtonTypeCustom
                        //frame:CGRectMake(0, 0, 40, 40)
-                                     frame:CGRectZero
+                                     frame:CGRectMake(0, 0, 40, 40)
                                 titleColor:[UIColor whiteColor]
                                     target:self
                                   selector:@selector(showNotifMenu:)
@@ -471,6 +473,7 @@ extern BOOL _detailHintShown;
         notifButton.hidden = YES;
         
         UIBarButtonItem *notifItem = [[UIBarButtonItem alloc] initWithCustomView:notifButton];
+        */
         
 /*
         commentButton = [Common createButton:@""
@@ -534,17 +537,47 @@ extern BOOL _detailHintShown;
         
         UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
-        //self.navigationItem.rightBarButtonItem = timerItem;
+        self.navigationItem.rightBarButtonItem = timerItem;
         //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, taskLocationButtonItem, nil];
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, notifItem, nil];
+        //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, notifItem, nil];
         
         [timerItem release];
         //[commentItem release];
         //[taskLocationButtonItem release];
-        [notifItem release];
+        //[notifItem release];
         
         [self.navigationController.navigationBar addSubview:filterIndicator];
     }
+}
+
+- (void) showNotifBadge
+{
+    UIButton *notifButton = [Common createButton:@""
+                            buttonType:UIButtonTypeCustom
+                   //frame:CGRectMake(0, 0, 40, 40)
+                                 frame:CGRectMake(0, 0, 40, 40)
+                            titleColor:[UIColor whiteColor]
+                                target:self
+                              selector:@selector(showNotifMenu:)
+                      normalStateImage:@"bar_notification_red.png"
+                    selectedStateImage:nil];
+    //notifButton.hidden = YES;
+    
+    UIBarButtonItem *notifItem = [[UIBarButtonItem alloc] initWithCustomView:notifButton];
+    
+    UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    timerButton.backgroundColor = [UIColor clearColor];
+    [timerButton setImage:[[ImageManager getInstance] getImageWithName:@"bar_timer.png"] forState:UIControlStateNormal];
+    timerButton.frame = CGRectMake(0, 0, 40, 40);
+    [timerButton addTarget:self action:@selector(showTimer:)  forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
+    
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, notifItem, nil];
+    
+    [notifItem release];
+    [timerItem release];
+    
 }
 
 - (void) enableMiniMonth:(BOOL)enabled
@@ -3877,13 +3910,16 @@ extern BOOL _detailHintShown;
     }
 */
     
-    if (notifButton != nil)
+    //if (notifButton != nil)
+    if (count > 0)
     {
         dispatch_async(dispatch_get_main_queue(),^ {
-            notifButton.hidden = (count == 0);
-            notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
+            //notifButton.hidden = (count == 0);
+            //notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
             //UILabel *badgeLabel = (UILabel *)[notifButton viewWithTag:10000];
             //badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+            
+            [self showNotifBadge];
         });
     }
     
@@ -3905,13 +3941,15 @@ extern BOOL _detailHintShown;
         });
     }*/
     
-    if (notifButton != nil)
+    //if (notifButton != nil)
+    if (count > 0)
     {
         dispatch_async(dispatch_get_main_queue(),^ {
-            notifButton.hidden = (count == 0);
-            notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
+            //notifButton.hidden = (count == 0);
+            //notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
             //UILabel *badgeLabel = (UILabel *)[notifButton viewWithTag:10000];
             //badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
+            [self showNotifBadge];
         });
     }
 }
