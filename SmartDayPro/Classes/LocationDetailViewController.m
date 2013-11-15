@@ -167,6 +167,11 @@
             addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
             
             addressTextField.text = addressStr;
+            
+            // kep lat/long
+            self.location.latitude = self.locationCopy.latitude =  self.currentLocation.coordinate.latitude;
+            self.location.longitude = self.locationCopy.longitude = self.currentLocation.coordinate.longitude;
+            self.location.address = self.locationCopy.address = addressStr;
         }
         
         [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];

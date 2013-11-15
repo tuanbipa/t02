@@ -4951,14 +4951,15 @@ static sqlite3_stmt *_top_task_statement = nil;
 {
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:200];
 	
-	const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_LocationAlert > 0 AND Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND (Task_Location IS NOT NULL AND Task_Location NOT LIKE '') ORDER BY Task_SeqNo ASC";
+	const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_LocationAlert = ? AND Task_Type = ? AND Task_Status <> ? AND Task_Status <> ? AND (Task_Location IS NOT NULL AND Task_Location NOT LIKE '') ORDER BY Task_SeqNo ASC";
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		//sqlite3_bind_int(statement, 1, TYPE_TASK);
-		sqlite3_bind_int(statement, 1, TYPE_EVENT);
-		sqlite3_bind_int(statement, 2, TASK_STATUS_DELETED);
-        sqlite3_bind_int(statement, 3, TASK_STATUS_DONE);
+        sqlite3_bind_int(statement, 1, LOCATION_ARRIVE);
+		sqlite3_bind_int(statement, 2, TYPE_EVENT);
+		sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
+        sqlite3_bind_int(statement, 4, TASK_STATUS_DONE);
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
 			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
@@ -4984,13 +4985,14 @@ static sqlite3_stmt *_top_task_statement = nil;
     const char *sql = "SELECT Task_ID FROM TaskTable, LocationTable \
     WHERE Task_LocationID = Location_ID \
     AND Task_Status <> ? AND Task_Status <> ? AND Task_Type = ? \
-    AND Location_Inside = 1";
+    AND Location_Inside = ?";
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, TASK_STATUS_DELETED);
 		sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 		sqlite3_bind_int(statement, 3, TYPE_TASK);
+        sqlite3_bind_int(statement, 4, LOCATION_ARRIVE);
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
 			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
@@ -5018,7 +5020,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     NSString *query = [NSString stringWithFormat:@"SELECT COUNT(Task_ID) FROM TaskTable, LocationTable \
                        WHERE Task_LocationID = Location_ID \
                        AND Task_Status <> %d AND Task_Status <> %d AND Task_Type = %d \
-                       AND Location_Inside = 1", TASK_STATUS_DELETED, TASK_STATUS_DONE, TYPE_TASK];
+                       AND Location_Inside = %d", TASK_STATUS_DELETED, TASK_STATUS_DONE, TYPE_TASK, LOCATION_ARRIVE];
     
 	const char *sql = [query cStringUsingEncoding:NSASCIIStringEncoding];
     
@@ -5048,13 +5050,15 @@ static sqlite3_stmt *_top_task_statement = nil;
     const char *sql = "SELECT Task_ID FROM TaskTable, LocationTable \
     WHERE Task_LocationAlertID = Location_ID AND Task_LocationAlert = Location_Inside \
     AND Task_Status <> ? AND Task_Status <> ? AND Task_Type = ? \
-    AND Location_Inside IN (1,2)";
+    AND Location_Inside IN (?,?)";
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, TASK_STATUS_DELETED);
 		sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 		sqlite3_bind_int(statement, 3, TYPE_TASK);
+        sqlite3_bind_int(statement, 4, LOCATION_ARRIVE);
+        sqlite3_bind_int(statement, 5, LOCATION_LEAVE);
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
 			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];

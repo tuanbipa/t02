@@ -761,11 +761,10 @@ BOOL _fromBackground = NO;
         [dat release];
         [task release];
     }
-    else if (notification.alertBody && [notification.alertBody length] > 0)
+    /*else if (notification.alertBody && [notification.alertBody length] > 0)
     {
-        //[self showGeoAlertWithBody:notifyStr];
         [self postGeoFencingUpdate];
-    }
+    }*/
     else
     {
         NSString *test = [notification.userInfo objectForKey:@"CommentListKey"];
@@ -1354,7 +1353,9 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 - (void)checkAndUpdateLocationStatus:(Location*) locationData WithCurrentLocation:(CLLocation*) currentLocation
 {
     CLLocation *coorLocationItem = [[CLLocation alloc] initWithLatitude:locationData.latitude longitude:locationData.longitude];
-    
+    /*if ([locationData.name isEqualToString:@"Cong hoa"]) {
+        locationData.inside = LOCATION_ARRIVE;
+    }*/
     if ([currentLocation distanceFromLocation:coorLocationItem] <= 200) {
         
         if (locationData.inside != LOCATION_ARRIVE) {
@@ -1379,35 +1380,60 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)finishGeoTaskLocation
 {
+    DBManager *dbm = [DBManager getInstance];
+    
+    NSMutableArray *taskLocationList = [dbm getArriveAndLeaveTasksAtCurrentLocation];
+    NSMutableArray *arriveTasks = [NSMutableArray array];
+    NSMutableArray *leaveTasks = [NSMutableArray array];
+    
+    for (Task *task in taskLocationList) {
+        if (task.locationAlert == LOCATION_ARRIVE) {
+            [arriveTasks addObject:task.name];
+        } else {
+            [leaveTasks addObject:task.name];
+        }
+    }
+    
+    // create message
+    NSString *arriveTitle = @"";
+    NSString *arriveBody = @"";
+    
+    if (arriveTasks.count > 0) {
+        NSMutableArray *arriveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_ARRIVE];
+        
+        for (Location *loc in arriveLocations) {
+            arriveTitle = [arriveTitle stringByAppendingFormat:@"%@, ", loc.name];
+        }
+        arriveTitle = [arriveTitle substringToIndex:[arriveTitle length] - 2];
+        arriveTitle = [NSString stringWithFormat:_youArriveLocaitonYouHaveTasksTodo, arriveTitle, arriveTasks.count];
+        
+        arriveBody = [arriveTasks componentsJoinedByString:@"\n- "];
+        arriveBody = [NSString stringWithFormat:@"- %@", arriveBody];
+    }
+    
+    NSString *leaveTitle = @"";
+    NSString *leaveBody = @"";
+    
+    if (leaveTasks.count > 0) {
+        NSMutableArray *leaveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_LEAVE];
+        
+        for (Location *loc in leaveLocations) {
+            leaveTitle = [leaveTitle stringByAppendingFormat:@"%@, ", loc.name];
+        }
+        leaveTitle = [leaveTitle substringToIndex:[leaveTitle length] - 2];
+        leaveTitle = [NSString stringWithFormat:_youLeftLocaitonYouHaveTasksTodo, leaveTitle, leaveTasks.count];
+        
+        leaveBody = [leaveTasks componentsJoinedByString:@"\n- "];
+        leaveBody = [NSString stringWithFormat:@"- %@", leaveBody];
+    }
+    // end create message
     
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
     if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
     {
-        DBManager *dbm = [DBManager getInstance];
-        
-        NSMutableArray *taskLocationList = [dbm getArriveAndLeaveTasksAtCurrentLocation];
-        NSMutableArray *arriveTasks = [NSMutableArray array];
-        NSMutableArray *leaveTasks = [NSMutableArray array];
-        
-        for (Task *task in taskLocationList) {
-            if (task.locationAlert == LOCATION_ARRIVE) {
-                [arriveTasks addObject:task.name];
-            } else {
-                [leaveTasks addObject:task.name];
-            }
-        }
-        
-    
-        
+
         if (arriveTasks.count > 0) {
-            NSMutableArray *arriveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_ARRIVE];
-            
-            NSString *title = @"";
-            for (Location *loc in arriveLocations) {
-                title = [title stringByAppendingFormat:@"%@, ", loc.name];
-            }
-            title = [title substringToIndex:[title length] - 2];
-            title = [NSString stringWithFormat:_youArriveLocaitonYouHaveTasksTodo, title, arriveTasks.count];
+            arriveBody = [NSString stringWithFormat:@"%@\n%@", arriveTitle, arriveBody];
             
             if (arriveNotification != nil) {
                 [[UIApplication sharedApplication] cancelLocalNotification:arriveNotification];
@@ -1415,24 +1441,15 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 arriveNotification = [[UILocalNotification alloc] init];
             }
             
-            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
-            
-            arriveNotification.alertAction = title;
-            arriveNotification.alertBody = [@"- " stringByAppendingString:body];
+            arriveNotification.alertAction = arriveTitle;
+            arriveNotification.alertBody = arriveBody;
             arriveNotification.timeZone = [NSTimeZone defaultTimeZone];
             
             [[UIApplication sharedApplication] scheduleLocalNotification:arriveNotification];
         }
         
         if (leaveTasks.count > 0) {
-            NSMutableArray *leaveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_LEAVE];
-            
-            NSString *title = @"";
-            for (Location *loc in leaveLocations) {
-                title = [title stringByAppendingFormat:@"%@, ", loc.name];
-            }
-            title = [title substringToIndex:[title length] - 2];
-            title = [NSString stringWithFormat:_youLeftLocaitonYouHaveTasksTodo, title, leaveLocations.count];
+            leaveBody = [NSString stringWithFormat:@"%@\n%@", leaveTitle, leaveBody];
             
             if (leaveNotification != nil) {
                 [[UIApplication sharedApplication] cancelLocalNotification:leaveNotification];
@@ -1440,17 +1457,15 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 leaveNotification = [[UILocalNotification alloc] init];
             }
             
-            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
-            
-            leaveNotification.alertAction = title;
-            leaveNotification.alertBody = [@"- " stringByAppendingString:body];
+            leaveNotification.alertAction = leaveTitle;
+            leaveNotification.alertBody = leaveBody;
             leaveNotification.timeZone = [NSTimeZone defaultTimeZone];
             
             [[UIApplication sharedApplication] scheduleLocalNotification:leaveNotification];
         }
         
         // =========== push filter at location
-        NSMutableArray *taskAtCurrentLocation = [dbm getTasksAtCurrentLocation];
+        /*NSMutableArray *taskAtCurrentLocation = [dbm getTasksAtCurrentLocation];
         
         if (taskAtCurrentLocation.count > 0) {
             NSMutableArray *arriveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_ARRIVE];
@@ -1473,49 +1488,17 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             [[UIApplication sharedApplication] scheduleLocalNotification:filterAtNotification];
             
             [filterAtNotification release];
-        }
+        }*/
     }
     else
     {
         [self postGeoFencingUpdate];
         
-        // alert//////
-        DBManager *dbm = [DBManager getInstance];
-        
-        NSMutableArray *taskLocationList = [dbm getArriveAndLeaveTasksAtCurrentLocation];
-        NSMutableArray *arriveTasks = [NSMutableArray array];
-        NSMutableArray *leaveTasks = [NSMutableArray array];
-        
-        for (Task *task in taskLocationList) {
-            if (task.locationAlert == LOCATION_ARRIVE) {
-                [arriveTasks addObject:task.name];
-            } else {
-                [leaveTasks addObject:task.name];
-            }
-        }
-        
-        
-        
+        // arrive =================
         if (arriveTasks.count > 0) {
-            NSMutableArray *arriveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_ARRIVE];
             
-            NSString *title = @"";
-            for (Location *loc in arriveLocations) {
-                title = [title stringByAppendingFormat:@"%@, ", loc.name];
-            }
-            title = [title substringToIndex:[title length] - 2];
-            title = [NSString stringWithFormat:_youArriveLocaitonYouHaveTasksTodo, title, arriveTasks.count];
-            
-            if (arriveNotification != nil) {
-                [[UIApplication sharedApplication] cancelLocalNotification:arriveNotification];
-            } else {
-                arriveNotification = [[UILocalNotification alloc] init];
-            }
-            
-            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                                message:body
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:arriveTitle
+                                                                message:arriveBody
                                                                delegate:nil
                                                       cancelButtonTitle:_okText
                                                       otherButtonTitles:nil];
@@ -1524,26 +1507,11 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             [alertView release];
         }
         
+        // leave ==================
         if (leaveTasks.count > 0) {
-            NSMutableArray *leaveLocations = [[LocationManager getInstance] getLocationsByStatus:LOCATION_LEAVE];
             
-            NSString *title = @"";
-            for (Location *loc in leaveLocations) {
-                title = [title stringByAppendingFormat:@"%@, ", loc.name];
-            }
-            title = [title substringToIndex:[title length] - 2];
-            title = [NSString stringWithFormat:_youLeftLocaitonYouHaveTasksTodo, title, leaveLocations.count];
-            
-            if (leaveNotification != nil) {
-                [[UIApplication sharedApplication] cancelLocalNotification:leaveNotification];
-            } else {
-                leaveNotification = [[UILocalNotification alloc] init];
-            }
-            
-            NSString *body = [arriveTasks componentsJoinedByString:@"\n- "];
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                                message:body
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:leaveTitle
+                                                                message:leaveBody
                                                                delegate:nil
                                                       cancelButtonTitle:_okText
                                                       otherButtonTitles:nil];
@@ -1738,7 +1706,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     {
         // show alert
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_alertText
-                                                        message:[NSString stringWithFormat:@"%@ '%@'",_itsTimeToDriveForText, task.name]
+                                                        message:[NSString stringWithFormat:_itsTimeToDriveForText, task.name]
                                                        delegate:self cancelButtonTitle:_okText
                                               otherButtonTitles:nil];
         //[alert show];
