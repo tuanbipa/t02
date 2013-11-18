@@ -1567,8 +1567,8 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     /*geocodeDispatchGroup = dispatch_group_create();
      geocodeQueue = [[NSOperationQueue alloc] init];
-     geocodingLock = dispatch_semaphore_create(1);*/
-    geoItemCount = 0;
+     geocodingLock = dispatch_semaphore_create(1);
+    geoItemCount = 0;*/
     
     eventLocationNumber = [tasks count];
     for (Task *task in tasks) {

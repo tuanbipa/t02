@@ -31,7 +31,7 @@
     // location check
     CLLocationManager *locationManager;
     NSTimer *locationTimer;
-    NSInteger geoItemCount;
+    //NSInteger geoItemCount;
     NSInteger eventLocationNumber;
     
     //dispatch_group_t geocodeDispatchGroup;
