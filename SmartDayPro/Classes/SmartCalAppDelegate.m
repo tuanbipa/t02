@@ -643,7 +643,11 @@ BOOL _fromBackground = NO;
         
         [self startGeoFencing:setting.geoFencingInterval];
     }*/
-    [self startGeoFencing:1*60];
+    if([CLLocationManager locationServicesEnabled] &&
+       [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied)
+    {
+        [self startGeoFencing:1*60];
+    }
     
     [self postGeoFencingUpdate];
 }
@@ -1249,7 +1253,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         taskLocationNumber = [locationDataList count];
     }
     
-    if (eventLocationNumber > 0 || taskLocationNumber > 0) {
+    /*if (eventLocationNumber > 0 || taskLocationNumber > 0) {
         // get placemark
         CLGeocoder *geocoder = [[[CLGeocoder alloc] init] autorelease];
         [geocoder reverseGeocodeLocation:lastLocation completionHandler:^(NSArray *placemarks, NSError *error) {
@@ -1266,6 +1270,17 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 taskLocationNumber = 0;
             }
         }];
+    }*/
+    
+    if (isChangeLocation &&  taskLocationNumber > 0) {
+        [self geocodeTaskLocation:locationDataList withCurrentLocation:[locations lastObject]];
+    } else {
+        taskLocationNumber = 0;
+    }
+    
+    if (eventLocationNumber > 0) {
+        // alert events
+        [self geocodeEventAddress:eventLocationList with:nil];
     }
     locationUpdating = NO;
 }
@@ -1559,12 +1574,13 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         [geocodeQueue addOperationWithBlock:^{
             //NSLog(@"-Geocode Item-");
             
-            [self geocodeEventAddressItem:task withGeocoder:gc withPlacemark:currentPlacemark];
+            [self geocodeEventAddressItem:task withGeocoder:gc withPlacemark:nil];
         }];
     }
 }
 
-- (void)geocodeEventAddressItem:(Task *) task withGeocoder:(CLGeocoder *)gc withPlacemark: (CLPlacemark*) currentPlacemark{
+- (void)geocodeEventAddressItem:(Task *) task withGeocoder:(CLGeocoder *)gc withPlacemark: (CLPlacemark*) currentPlacemark
+{
     
     // geo each task
     if ([[task.location stringByTrimmingCharactersInSet:
@@ -1592,9 +1608,10 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                 {
                     
                     // alert based on location
-                    MKPlacemark *sourceMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:currentPlacemark];
+                    /*MKPlacemark *sourceMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:currentPlacemark];
                     MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourceMapPlaceMark];
-                    [sourceMapPlaceMark release];
+                    [sourceMapPlaceMark release];*/
+                    MKMapItem *source = [MKMapItem mapItemForCurrentLocation];
                     
                     MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:taskPlacemark];
                     MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
@@ -1603,7 +1620,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
                     MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
                     req.source = source;
                     req.destination = destination;
-                    [source release];
+                    //[source release];
                     [destination release];
                     
                     MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
