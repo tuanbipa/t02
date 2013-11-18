@@ -113,6 +113,13 @@
     [locationManager startUpdatingLocation];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    isDone = NO;
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -127,6 +134,8 @@
         [locationManager stopUpdatingLocation];
         [locationManager release];
     }
+    
+    isDone = YES;
     
     [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
 }
@@ -213,6 +222,10 @@
     
     [geocoder geocodeAddressString:addressTextField.text completionHandler:^(NSArray *placemarks, NSError *error) {
         
+        if (isDone) {
+            return;
+        }
+        
         [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
         
         // There is no guarantee that the CLGeocodeCompletionHandler will be invoked on the main thread.
@@ -282,7 +295,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex != self.searchPlacemarksCache.count - 1) {
+    if (buttonIndex <= self.searchPlacemarksCache.count - 1) {
         CLPlacemark *placemark = [self.searchPlacemarksCache objectAtIndex:buttonIndex];
         
         /*NSString *addressStr = ABCreateStringWithAddressDictionary(placemark.addressDictionary, NO);

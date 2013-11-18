@@ -21,8 +21,7 @@
     
     CLLocationManager *locationManager;
     
-    //CLLocation *currentLocation;
-    //NSArray *searchPlacemarksCache;
+    BOOL isDone;
 }
 
 @property (nonatomic, retain) Location *location;
