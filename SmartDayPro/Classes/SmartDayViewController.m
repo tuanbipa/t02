@@ -3389,68 +3389,27 @@ extern BOOL _detailHintShown;
     
     maxWidth += 90;
     
-    optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+    //optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 60)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 280)];
-    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+    //optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 60)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
     
-    UIImageView *commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
-	commentImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_comments.png"];
-	[optionView addSubview:commentImageView];
-	[commentImageView release];
-	
-    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
-	commentLabel.text = _conversationsText;
-	commentLabel.textColor = [UIColor whiteColor];
-	commentLabel.backgroundColor = [UIColor clearColor];
-	commentLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:commentLabel];
-	[commentLabel release];
-	
-	UIButton *commentButton=[Common createButton:@""
-                                  buttonType:UIButtonTypeCustom
-                                       frame:CGRectMake(0, 22, 160, 30)
-                                  titleColor:nil
-                                      target:self
-                                    selector:@selector(showNotifWithOptions:)
-                            normalStateImage:nil
-                          selectedStateImage:nil];
-
-	commentButton.tag = 0;
-	[optionView addSubview:commentButton];
-    
-    NSInteger count = [dbm countUnreadComments];
-    
-    if (count > 0)
-    {
-        UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 25, 30, 20)];
-        commentBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
-        commentBadgeLabel.textColor = [UIColor whiteColor];
-        commentBadgeLabel.textAlignment = NSTextAlignmentCenter;
-        commentBadgeLabel.tag = 10000;
-        commentBadgeLabel.layer.cornerRadius = 3;
-        commentBadgeLabel.backgroundColor = [Colors redButton];
-        
-        commentBadgeLabel.text = [NSString stringWithFormat:@"%d", count];
-        
-        [optionView addSubview:commentBadgeLabel];
-        [commentBadgeLabel release];
-    }
-    
-    
-    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
+    //UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
+    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
 	locationImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_location.png"];
 	[optionView addSubview:locationImageView];
 	[locationImageView release];
 	
-    UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+    //UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+    UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
 	locationLabel.text = _locationsText;
 	locationLabel.textColor = [UIColor whiteColor];
 	locationLabel.backgroundColor = [UIColor clearColor];
@@ -3459,21 +3418,23 @@ extern BOOL _detailHintShown;
 	[locationLabel release];
 	
 	UIButton *locationButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 57, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showNotifWithOptions:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
+                                       buttonType:UIButtonTypeCustom
+                                            //frame:CGRectMake(0, 57, 160, 30)
+                              frame:CGRectMake(0, 22, 160, 30)
+                                       titleColor:nil
+                                           target:self
+                                         selector:@selector(showNotifWithOptions:)
+                                 normalStateImage:nil
+                               selectedStateImage:nil];
     locationButton.tag = 1;
 	[optionView addSubview:locationButton];
     
-    count = [dbm countTasksAtCurrentLocation];
+    NSInteger count = [dbm countTasksAtCurrentLocation];
     
     if (count > 0)
     {
-        UILabel *locationBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 60, 30, 20)];
+        //UILabel *locationBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 60, 30, 20)];
+        UILabel *locationBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 25, 30, 20)];
         locationBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
         locationBadgeLabel.textColor = [UIColor whiteColor];
         locationBadgeLabel.textAlignment = NSTextAlignmentCenter;
@@ -3486,6 +3447,55 @@ extern BOOL _detailHintShown;
         [optionView addSubview:locationBadgeLabel];
         [locationBadgeLabel release];
     }
+    
+/*
+    //UIImageView *commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
+    UIImageView *commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
+	commentImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_comments.png"];
+	[optionView addSubview:commentImageView];
+	[commentImageView release];
+	
+    //UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
+    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
+	commentLabel.text = _conversationsText;
+	commentLabel.textColor = [UIColor whiteColor];
+	commentLabel.backgroundColor = [UIColor clearColor];
+	commentLabel.font=[UIFont systemFontOfSize:18];
+	[optionView addSubview:commentLabel];
+	[commentLabel release];
+	
+	UIButton *commentButton=[Common createButton:@""
+                                  buttonType:UIButtonTypeCustom
+                                       //frame:CGRectMake(0, 22, 160, 30)
+                             frame:CGRectMake(0, 57, 160, 30)
+                                  titleColor:nil
+                                      target:self
+                                    selector:@selector(showNotifWithOptions:)
+                            normalStateImage:nil
+                          selectedStateImage:nil];
+
+	commentButton.tag = 0;
+	[optionView addSubview:commentButton];
+    
+    count = [dbm countUnreadComments];
+    
+    if (count > 0)
+    {
+        //UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 25, 30, 20)];
+        UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(maxWidth - 40, 60, 30, 20)];
+        commentBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
+        commentBadgeLabel.textColor = [UIColor whiteColor];
+        commentBadgeLabel.textAlignment = NSTextAlignmentCenter;
+        commentBadgeLabel.tag = 10000;
+        commentBadgeLabel.layer.cornerRadius = 3;
+        commentBadgeLabel.backgroundColor = [Colors redButton];
+        
+        commentBadgeLabel.text = [NSString stringWithFormat:@"%d", count];
+        
+        [optionView addSubview:commentBadgeLabel];
+        [commentBadgeLabel release];
+    }
+*/
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2 + 80;
