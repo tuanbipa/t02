@@ -834,6 +834,7 @@ DetailViewController *_detailViewCtrler = nil;
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
     [Common reloadRowOfTable:detailTableView row:0 section:0];
+    [self refreshAlert];
 }
 
 - (void) refreshDuration
@@ -1524,7 +1525,7 @@ DetailViewController *_detailViewCtrler = nil;
     //cell.textLabel.textColor = [UIColor grayColor];
     //cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
-    cell.detailTextLabel.text = alert == nil?_noneText:[alert getAbsoluteTimeString:self.taskCopy];
+    /*cell.detailTextLabel.text = alert == nil?_noneText:[alert getAbsoluteTimeString:self.taskCopy];
     //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
     
@@ -1540,6 +1541,41 @@ DetailViewController *_detailViewCtrler = nil;
         
         alertStr = [NSString stringWithFormat:alertStr, loc.name];
         cell.detailTextLabel.text = alertStr;
+    }*/
+    
+    BOOL hasLocationAlert = ([self.taskCopy isTask] && self.taskCopy.locationAlert != LOCATION_NONE && self.taskCopy.locationAlertID > 0) ||
+        ([self.taskCopy isEvent] && self.taskCopy.locationAlert != LOCATION_NONE && [[self.taskCopy.location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0);
+    
+    if (alert != nil || hasLocationAlert) {
+        
+        CGRect frm = CGRectZero;
+        frm.size = CGSizeMake(30, 30);
+        frm.origin = CGPointMake(detailTableView.frame.size.width - 40, (cell.frame.size.height - 30)/2);
+        
+        if (alert != nil) {
+            
+            // show bell icon
+            UIImageView *bellIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bell.png"]];
+            frm.origin.x -= frm.size.width;
+            bellIcon.frame = frm;
+            
+            [cell.contentView addSubview:bellIcon];
+            [bellIcon release];
+        }
+        
+        if (hasLocationAlert) {
+            
+            // show location icon
+            UIImageView *locationIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"settings_location.png"]];
+            frm.origin.x -= frm.size.width;
+            locationIcon.frame = frm;
+            
+            [cell.contentView addSubview:locationIcon];
+            [locationIcon release];
+        }
+    } else {
+        
+        cell.detailTextLabel.text = _noneText;
     }
 }
 
@@ -2298,6 +2334,14 @@ DetailViewController *_detailViewCtrler = nil;
             // reset locationID if change location text
             self.taskCopy.locationID = 0;
         }
+        
+        if ([self.taskCopy isEvent] && [[text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] <= 0) {
+            
+            self.taskCopy.locationAlert = LOCATION_NONE;
+            // reload alert cell
+            [self refreshAlert];
+        }
+        
         self.taskCopy.location = text;
     }
     else if (textField.tag == 10700 + 1) //edit tag

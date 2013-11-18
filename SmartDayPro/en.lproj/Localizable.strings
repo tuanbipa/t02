@@ -775,6 +775,8 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_atLocaitonYouHaveTasksTodo" = "At %@, you have %d task(s) to do:";
 "_youLeftLocaitonYouHaveTasksTodo" = "You left %@, you have %d task(s) to do:";
 "_youArriveLocaitonYouHaveTasksTodo" = "You arrived %@, you have %d task(s) to do:";
+"_alertBasedOnDueText" = "Alert based on Due";
+"_alertBasedOnStartTimeText" = "Alert based on Start time";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "Please specify Due for Task first to enable Alert definition. Alert time will be relative to Due time.";

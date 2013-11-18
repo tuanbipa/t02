@@ -18,7 +18,7 @@
 	
 	Task *taskEdit;
 	
-    UISegmentedControl *alertTypeSegmented;
+    //UISegmentedControl *alertTypeSegmented;
     UISegmentedControl *locationTypeSegmented;
 }
 
