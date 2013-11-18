@@ -476,6 +476,7 @@ BOOL _fromBackground = NO;
 
 }
 
+/*
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
 {
     //NSLog(@"########### Received Background Fetch ###########");
@@ -484,6 +485,7 @@ BOOL _fromBackground = NO;
     
     completionHandler(UIBackgroundFetchResultNewData);
 }
+*/
 
 //- (void)applicationDidFinishLaunching:(UIApplication *)application
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
