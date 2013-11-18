@@ -41,7 +41,7 @@
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    NSInteger count = self.navigationController.viewControllers.count;
+    /*NSInteger count = self.navigationController.viewControllers.count;
     
     if (count >= 3 && [[self.navigationController.viewControllers objectAtIndex:count - 3] isKindOfClass:[SettingTableViewController class]])
     {
@@ -50,6 +50,14 @@
     else
     {
         frm.size.width = 2*frm.size.width/3;
+    }*/
+    
+    if (self.navigationController.viewControllers.count <= 1) {
+        frm.size.width = 2*frm.size.width/3;
+    } else {
+        
+        UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+        frm.size.width = ctrler.view.frame.size.width;
     }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];

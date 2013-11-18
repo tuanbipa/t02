@@ -187,7 +187,7 @@ extern BOOL _isiPad;
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-	else
+	/*else
 	{
 		for(UIView *view in cell.contentView.subviews)
 		{
@@ -196,7 +196,7 @@ extern BOOL _isiPad;
 				[view removeFromSuperview];
 			}
 		}
-	}
+	}*/
     
     cell.imageView.image = nil;
     cell.textLabel.text = @"";
@@ -211,10 +211,12 @@ extern BOOL _isiPad;
     switch (indexPath.row) {
         case 0:
         {
-            cell.textLabel.text = (taskEdit == nil ? _addText : _noneText);
+            /*cell.textLabel.text = (taskEdit == nil ? _addText : _noneText);
             if (taskEdit != nil && [self getLocationID] <= 0) {
                 cell.accessoryType =  UITableViewCellAccessoryCheckmark;
-            }
+            }*/
+            cell.textLabel.text = _addText;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
             break;
             
@@ -251,7 +253,7 @@ extern BOOL _isiPad;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (taskEdit == nil) {
+    if (taskEdit == nil || indexPath.row == 0) {
         [self editLocationDetail:indexPath.row];
     } else {
         // select location
