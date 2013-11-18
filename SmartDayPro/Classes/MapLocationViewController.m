@@ -160,8 +160,6 @@ extern SmartDayViewController *_sdViewCtrler;
     
     [self changeOrientation:self.interfaceOrientation];
     
-    isDone = NO;
-    
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.minimumPressDuration = 0.5; //user needs to press for half a second.
     [mapView addGestureRecognizer:lpgr];
@@ -172,6 +170,8 @@ extern SmartDayViewController *_sdViewCtrler;
     [super viewWillAppear:animated];
     
     locationTextField.text = self.task.location;
+    
+    isDone = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -247,9 +247,9 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)editLocation:(id) sender
 {
-    if ([locationTextField isFirstResponder]) {
+    //if ([locationTextField isFirstResponder]) {
         isDone = YES;
-    }
+    //}
     
 	LocationViewController *locationViewController=[[LocationViewController alloc] init];
 	
@@ -265,9 +265,9 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     self.task.location = locationTextField.text;
     
-    if([locationTextField isFirstResponder]){
+    //if([locationTextField isFirstResponder]){
         isDone = YES;
-    }
+    //}
     
     if (_isiPad)
     {
@@ -333,6 +333,11 @@ extern SmartDayViewController *_sdViewCtrler;
     
     MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
     [direction calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        
+        if (isDone) {
+            return;
+        }
+
         if (error) {
             NSLog(error.description);
         } else {
@@ -373,6 +378,11 @@ extern SmartDayViewController *_sdViewCtrler;
     CLGeocoder *gc = [[CLGeocoder alloc] init];
     
     [gc geocodeAddressString:locationTextField.text completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        if (isDone) {
+            return;
+        }
+        
         if (placemarks.count > 0) {
             
             CLPlacemark *placemark = placemarks[0];
@@ -388,6 +398,11 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     CLGeocoder *gc = [[CLGeocoder alloc] init];
     [gc reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        if (isDone) {
+            return;
+        }
+
         if (placemarks.count > 0) {
             
             CLPlacemark *placemark = placemarks[0];
@@ -404,7 +419,8 @@ extern SmartDayViewController *_sdViewCtrler;
                                                                delegate:nil
                                                       cancelButtonTitle:_okText
                                                       otherButtonTitles:nil];
-            [alertView show];
+            //[alertView show];
+            [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
             [alertView release];
         }
     }];
@@ -436,7 +452,7 @@ extern SmartDayViewController *_sdViewCtrler;
     NSString *distance = [distanceFormat stringFromDistance:totalDistance];
     [distanceFormat release];
     
-    etaLable.text = [NSString stringWithFormat:_isiPad?@"ETA: %@, %@ to destination": @"ETA: %@, %@", distance, [Common getDurationString:totalTime]];
+    etaLable.text = [NSString stringWithFormat:_isiPad?_etaToDestinationLongText: _etaToDestinationShortText, distance, [Common getDurationString:totalTime]];
     etaLable.tag = totalTime;
     
 }
@@ -450,7 +466,8 @@ extern SmartDayViewController *_sdViewCtrler;
                                               cancelButtonTitle:_okText
                                               otherButtonTitles:nil];
     
-    [alertView show];
+    //[alertView show];
+    [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
     [self routing:NO];
 }
 

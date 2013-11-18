@@ -763,6 +763,8 @@
 #define _youArriveLocaitonYouHaveTasksTodo NSLocalizedString(@"_youArriveLocaitonYouHaveTasksTodo", "")
 #define _alertBasedOnDueText NSLocalizedString(@"_alertBasedOnDueText", "")
 #define _alertBasedOnStartTimeText NSLocalizedString(@"_alertBasedOnStartTimeText", "")
+#define _etaToDestinationLongText NSLocalizedString(@"_etaToDestinationLongText", "")
+#define _etaToDestinationShortText NSLocalizedString(@"_etaToDestinationShortText", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")
