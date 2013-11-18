@@ -168,7 +168,7 @@
             [alertView release];
         } else {
             
-            CLPlacemark *pm = [placemark objectAtIndex:0];
+            /*CLPlacemark *pm = [placemark objectAtIndex:0];
             NSDictionary *addressDict = pm.addressDictionary;
             // do something with the address, see keys in the remark below
             NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
@@ -179,11 +179,29 @@
             // kep lat/long
             self.location.latitude = self.locationCopy.latitude =  self.currentLocation.coordinate.latitude;
             self.location.longitude = self.locationCopy.longitude = self.currentLocation.coordinate.longitude;
-            self.location.address = self.locationCopy.address = addressStr;
+            self.location.address = self.locationCopy.address = addressStr;*/
+            
+            [self saveAdressAndLatLong:[placemark firstObject]];
         }
         
         [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
     }];
+}
+
+- (void)saveAdressAndLatLong:(CLPlacemark *)placemark
+{
+    
+    NSDictionary *addressDict = placemark.addressDictionary;
+    // do something with the address, see keys in the remark below
+    NSString *addressStr = ABCreateStringWithAddressDictionary(addressDict, NO);
+    addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
+    
+    addressTextField.text = addressStr;
+    
+    // kep lat/long
+    self.location.latitude = self.locationCopy.latitude =  placemark.location.coordinate.latitude;
+    self.location.longitude = self.locationCopy.longitude = placemark.location.coordinate.longitude;
+    self.location.address = self.locationCopy.address = addressStr;
 }
 
 - (void)performPlacemarksSearch
@@ -267,10 +285,11 @@
     if (buttonIndex != self.searchPlacemarksCache.count - 1) {
         CLPlacemark *placemark = [self.searchPlacemarksCache objectAtIndex:buttonIndex];
         
-        NSString *addressStr = ABCreateStringWithAddressDictionary(placemark.addressDictionary, NO);
+        /*NSString *addressStr = ABCreateStringWithAddressDictionary(placemark.addressDictionary, NO);
         addressStr = [addressStr stringByReplacingOccurrencesOfString:@"\n" withString:@", "];
         
-        addressTextField.text = addressStr;
+        addressTextField.text = addressStr;*/
+        [self saveAdressAndLatLong:placemark];
     }
 }
 @end
