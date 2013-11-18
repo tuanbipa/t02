@@ -22,4 +22,7 @@
 //@property (nonatomic, retain) NSMutableArray *taskLocationLeaveList;
 @property (nonatomic, retain) NSString *arriveTitle;
 @property (nonatomic, retain) NSString *leaveTitle;
+
+- (void) refreshData;
+
 @end

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1053FED41839C7DC00022788 /* SmartDay-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1053FED31839C7DC00022788 /* SmartDay-Info.plist */; };
+		1053FED51839C7DC00022788 /* SmartDay-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1053FED31839C7DC00022788 /* SmartDay-Info.plist */; };
+		1053FED61839C7DC00022788 /* SmartDay-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1053FED31839C7DC00022788 /* SmartDay-Info.plist */; };
 		6700B29917F2874400AD8B3F /* menu_airdrop_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 6700B28317F2874400AD8B3F /* menu_airdrop_white.png */; };
 		6700B29A17F2874400AD8B3F /* menu_airdrop_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 6700B28317F2874400AD8B3F /* menu_airdrop_white.png */; };
 		6700B29B17F2874400AD8B3F /* menu_airdrop_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6700B28417F2874400AD8B3F /* menu_airdrop_white@2x.png */; };
@@ -2827,6 +2830,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1053FED31839C7DC00022788 /* SmartDay-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SmartDay-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6700B28317F2874400AD8B3F /* menu_airdrop_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_airdrop_white.png; sourceTree = "<group>"; };
 		6700B28417F2874400AD8B3F /* menu_airdrop_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_airdrop_white@2x.png"; sourceTree = "<group>"; };
 		6700B28517F2874400AD8B3F /* menu_copylink_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_copylink_white.png; sourceTree = "<group>"; };
@@ -2911,7 +2915,6 @@
 		6746CECD17BCBC9D0042E1EF /* menu_airdrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_airdrop.png; sourceTree = "<group>"; };
 		6746CECE17BCBC9D0042E1EF /* menu_airdrop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_airdrop@2x.png"; sourceTree = "<group>"; };
 		6748BBB7180401830043A80E /* SmartDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6748BBB8180401850043A80E /* SmartDay-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SmartDay-Info.plist"; path = "/Users/LCL/Documents/Working/iSmartDay/SmartDay-Info.plist"; sourceTree = "<absolute>"; };
 		6749347F17B33B0600AEA74A /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		6749348017B33B0600AEA74A /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		6749348717B381EE00AEA74A /* GrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowingTextView.h; sourceTree = "<group>"; };
@@ -4302,9 +4305,9 @@
 		67CF2B2B161950D7001FE1AA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1053FED31839C7DC00022788 /* SmartDay-Info.plist */,
 				6784CF181830B01C0095DDF9 /* Guru */,
 				67296F78181665AE00CD834A /* SmartCalDB.sql */,
-				6748BBB8180401850043A80E /* SmartDay-Info.plist */,
 				67EC17DB16F8092200929BFD /* SmartDay_iPad-Info.plist */,
 				67CF306E161951F2001FE1AA /* Localizable.strings */,
 				67CF2FE3161951C2001FE1AA /* WEB */,
@@ -6151,6 +6154,7 @@
 				6748BB33180401820043A80E /* AlarmDrum.wav in Resources */,
 				6748BB34180401820043A80E /* month_cell_bg.png in Resources */,
 				6748BB35180401820043A80E /* month_cell_shadow_bg.png in Resources */,
+				1053FED41839C7DC00022788 /* SmartDay-Info.plist in Resources */,
 				67296F651816267900CD834A /* SD_css_1024.css in Resources */,
 				6748BB36180401820043A80E /* Alarm.wav in Resources */,
 				6748BB37180401820043A80E /* contact_iOS7.png in Resources */,
@@ -6874,6 +6878,7 @@
 				670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				1053FED51839C7DC00022788 /* SmartDay-Info.plist in Resources */,
 				67296F661816267900CD834A /* SD_css_1024.css in Resources */,
 				67D75EFB170290A000C2F152 /* Alarm.wav in Resources */,
 				6746CEC317BCB0270042E1EF /* contact_iOS7.png in Resources */,
@@ -7597,6 +7602,7 @@
 				670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */,
 				67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */,
+				1053FED61839C7DC00022788 /* SmartDay-Info.plist in Resources */,
 				67296F671816267900CD834A /* SD_css_1024.css in Resources */,
 				67D75EFC170290A000C2F152 /* Alarm.wav in Resources */,
 				6746CEC417BCB0270042E1EF /* contact_iOS7.png in Resources */,

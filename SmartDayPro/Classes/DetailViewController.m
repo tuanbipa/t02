@@ -52,6 +52,7 @@
 #import "HintModalViewController.h"
 #import "LocationListViewController.h"
 #import "Location.h"
+#import "TaskLocationListViewController.h"
 
 //#import "NoteDetailTableViewController.h"
 
@@ -483,23 +484,26 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) createLinkedNote:(Task *)note
 {
-    TaskLinkManager *tlm = [TaskLinkManager getInstance];
+    if (self.taskCopy != nil)
+    {
+        TaskLinkManager *tlm = [TaskLinkManager getInstance];
         
-    NSInteger itemId = self.taskCopy.primaryKey;
-    
-    if (self.taskCopy.original != nil && ![self.taskCopy isREException])
-    {
-        itemId = self.taskCopy.original.primaryKey;
+        NSInteger itemId = self.taskCopy.primaryKey;
+        
+        if (self.taskCopy.original != nil && ![self.taskCopy isREException])
+        {
+            itemId = self.taskCopy.original.primaryKey;
+        }
+        
+        NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey destType:ASSET_ITEM];
+        
+        if (linkId != -1)
+        {
+            [self.taskCopy.links insertObject:[NSNumber numberWithInt:linkId] atIndex:0];
+        }
+        
+        [self.previewViewCtrler refreshData];
     }
-    
-    NSInteger linkId = [tlm createLink:itemId destId:note.primaryKey destType:ASSET_ITEM];
-    
-    if (linkId != -1)
-    {
-        [self.taskCopy.links insertObject:[NSNumber numberWithInt:linkId] atIndex:0];
-    }
-    
-    [self.previewViewCtrler refreshData];
 }
 
 - (void) close
@@ -533,6 +537,16 @@ DetailViewController *_detailViewCtrler = nil;
     if (![self.task isShared] && checkChange)
     {
         [[AbstractActionViewController getInstance] updateTask:self.task withTask:self.taskCopy];
+        
+        if (!_isiPad && self.navigationController.viewControllers.count - 2 > 0)
+        {
+            UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+            
+            if ([ctrler isKindOfClass:[TaskLocationListViewController class]])
+            {
+                [(TaskLocationListViewController *)ctrler refreshData];
+            }
+        }
     }
 }
 #pragma  mark Actions
