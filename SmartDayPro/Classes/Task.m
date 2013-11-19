@@ -2307,6 +2307,11 @@ static sqlite3_stmt *task_delete_statement = nil;
     if (enabled)
     {
         self.extraStatus |= TASK_EXTRA_STATUS_ANCHORED;
+        
+        // reset alert based location
+        self.locationAlert = LOCATION_NONE;
+        self.locationAlertID = 0;
+        self.locationID = 0;
     }
     else
     {
