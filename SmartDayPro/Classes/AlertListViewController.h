@@ -13,13 +13,13 @@
 
 @interface AlertListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
 	UITableView *alertTableView;
-	//GuideWebView *hintView;
-    //UILabel *hintView;
 	
 	Task *taskEdit;
 	
-    //UISegmentedControl *alertTypeSegmented;
     UISegmentedControl *locationTypeSegmented;
+    UILabel *etaLabel;
+    
+    BOOL isDone;
 }
 
 @property (nonatomic, assign) Task *taskEdit;

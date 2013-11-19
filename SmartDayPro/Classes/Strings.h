@@ -765,6 +765,7 @@
 #define _alertBasedOnStartTimeText NSLocalizedString(@"_alertBasedOnStartTimeText", "")
 #define _etaToDestinationLongText NSLocalizedString(@"_etaToDestinationLongText", "")
 #define _etaToDestinationShortText NSLocalizedString(@"_etaToDestinationShortText", "")
+#define _couldNotCalculateETA NSLocalizedString(@"_couldNotCalculateETA", "")
 
 #define _SmartDayOnline NSLocalizedString(@"_SmartDayOnline", "")
 #define _alertHint NSLocalizedString(@"_alertHint", "")

@@ -779,6 +779,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_alertBasedOnStartTimeText" = "Alert based on Start time";
 "_etaToDestinationLongText" = "ETA: %@, %@ to destination";
 "_etaToDestinationShortText" = "ETA: %@, %@";
+"_couldNotCalculateETA" = "Could not calculate ETA";
 
 "_SmartDayOnline" = "SmartDay Online";
 "_alertHint" = "Please specify Due for Task first to enable Alert definition. Alert time will be relative to Due time.";

@@ -7,6 +7,7 @@
 //
 
 #import "AlertListViewController.h"
+#import <MapKit/MapKit.h>
 
 #import "Common.h"
 #import "Task.h"
@@ -23,7 +24,7 @@
 #import "Location.h"
 #import "LocationManager.h"
 
-//extern BOOL _isiPad;
+#import "BusyController.h"
 
 @implementation AlertListViewController
 
@@ -88,6 +89,8 @@
 //    }
     
     [contentView release];
+    
+    etaLabel = [[UILabel alloc] init];
 }
 
 //- (void)createAlertType4Task:(UIView*)contentView;
@@ -197,11 +200,27 @@
     [super viewWillAppear:animated];
     
     [alertTableView reloadData];
+    
+    isDone = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.taskEdit.locationAlert > 0 &&
+        [[self.taskEdit.location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0) {
+        
+        [self geoLocation];
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    isDone = YES;
+    [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
     
     if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
     {
@@ -244,6 +263,8 @@
 - (void)dealloc {
 	//[alertDict release];
     self.locationList = nil;
+    
+    [etaLabel release];
 	
     [super dealloc];
 }
@@ -314,7 +335,19 @@
     
     if ([self.taskEdit isEvent]) {
         
-        self.taskEdit.locationAlert = seg.selectedSegmentIndex == 0 ? LOCATION_ARRIVE : LOCATION_NONE;
+        //self.taskEdit.locationAlert = seg.selectedSegmentIndex == 0 ? LOCATION_ARRIVE : LOCATION_NONE;
+        
+        if (seg.selectedSegmentIndex == 0) {
+            
+            self.taskEdit.locationAlert = LOCATION_ARRIVE;
+            // get driving time
+            [self geoLocation];
+        } else {
+            
+            self.taskEdit.locationAlert = LOCATION_NONE;
+            
+            etaLabel.text = @"";
+        }
     } else {
         
         if (self.taskEdit.locationAlertID > 0) {
@@ -324,6 +357,86 @@
     }
 }
 
+- (void)geoLocation
+{
+    if ([[self.taskEdit.location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0) {
+        
+        [[BusyController getInstance] setBusy:YES withCode:BUSY_SEARCH_LOCATION];
+        
+        CLGeocoder *gc = [[CLGeocoder alloc] init];
+        
+        [gc geocodeAddressString:self.taskEdit.location completionHandler:^(NSArray *placemarks, NSError *error) {
+            
+            if (isDone) {
+                return;
+            }
+            
+            if (placemarks.count > 0) {
+                
+                CLPlacemark *placemark = placemarks[0];
+                
+                [self calculateETATime:placemark];
+            } else {
+                
+                 etaLabel.text = _couldNotCalculateETA;
+                
+                [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
+            }
+        }];
+    }
+}
+
+- (void)calculateETATime:(CLPlacemark*)placemark
+{
+    MKMapItem *currentItem = [MKMapItem mapItemForCurrentLocation];
+    
+    MKPlacemark *desMapPlaceMark = [[MKPlacemark alloc] initWithPlacemark:placemark];
+    //MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+    MKMapItem *destinationItem = [[MKMapItem alloc] initWithPlacemark:desMapPlaceMark];
+    
+    MKDirectionsRequest *req = [[MKDirectionsRequest alloc] init];
+    req.source = currentItem;
+    req.destination = destinationItem;
+    
+    MKDirections *direction = [[MKDirections alloc] initWithRequest:req];
+    
+    [direction calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+        
+        if (isDone) {
+            return;
+        }
+        
+        [[BusyController getInstance] setBusy:NO withCode:BUSY_SEARCH_LOCATION];
+        
+        if (error) {
+            
+            etaLabel.text = _couldNotCalculateETA;
+        } else {
+            
+            NSDate *alertDate = [self.taskEdit.startTime dateByAddingTimeInterval:  -(response.expectedTravelTime + 0.25*response.expectedTravelTime)];
+            
+            etaLabel.text = [Common getFullDateTimeString:alertDate];
+        }
+    }];
+    
+    [destinationItem release];
+    [req release];
+    [direction release];
+}
+
+//- (void)showNotFoundLocation
+//{
+//    //NSString *mess = [NSString stringWithFormat:@"%@ %@ %@", _cannotLocateThe, locationStr, _locationText];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable
+//                                                        message:_cannotLocateTheEndLocationText
+//                                                       delegate:self
+//                                              cancelButtonTitle:_okText
+//                                              otherButtonTitles:nil];
+//    
+//    //[alertView show];
+//    [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+//}
+//
 //- (void)deleteAllAlertBasedDue
 //{
 //    for (AlertData *alert in self.taskEdit.alerts) {
@@ -423,7 +536,8 @@
         
         // remove subviews
         for (UIView *view in cell.contentView.subviews) {
-            if ([view isKindOfClass:[UISegmentedControl class]]) {
+            if ([view isKindOfClass:[UISegmentedControl class]] ||
+                [view isKindOfClass:[UILabel class]]) {
                 [view removeFromSuperview];
             }
         }
@@ -482,6 +596,13 @@
             
             [cell.contentView addSubview:basedAddressSegmented];
             [basedAddressSegmented release];
+            
+            // eta label
+            frm.origin.y += frm.size.height + 5;
+            etaLabel.frame = frm;
+            etaLabel.textAlignment = NSTextAlignmentRight;
+            
+            [cell.contentView addSubview:etaLabel];
         } else { // is task
             
             switch (indexPath.row) {
