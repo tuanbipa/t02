@@ -158,7 +158,9 @@
 
 - (void)setCurrentLocaton: (id)sender
 {
-    if (self.currentLocation == nil) {
+    if([CLLocationManager locationServicesEnabled] &&
+       [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied)
+    {
         return;
     }
     

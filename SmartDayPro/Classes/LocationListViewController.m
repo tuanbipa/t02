@@ -104,10 +104,18 @@ extern BOOL _isiPad;
     // update UI
     if (taskEdit != nil) {
         
-        hintLable.text = _selectLocationHintText;
-        CGRect frm = hintLable.frame;
-        frm.size.height += _isiPad?40:60;
-        hintLable.frame = frm;
+        CGRect frm = CGRectZero;
+        if ([taskEdit isTask]) {
+            
+            hintLable.text = _selectLocationHintText;
+            //CGRect frm = hintLable.frame;
+            frm = hintLable.frame;
+            frm.size.height += _isiPad?40:60;
+            hintLable.frame = frm;
+        } else {
+            hintLable.frame = CGRectZero;
+            hintLable.hidden = YES;
+        }
         
         frm = self.view.bounds;
         frm.origin.y = hintLable.bounds.size.height + hintLable.frame.origin.y;
