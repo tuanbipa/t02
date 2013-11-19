@@ -52,7 +52,7 @@
     [super viewDidLoad];
 	
 	//[(GuideWebView *)self.view loadURL:URL_HELP fileName:@"SC_Local_guide_320" extension:@"html"];	
-	[(GuideWebView *)self.view loadURL:URL_HELP content:nil];	
+	[(GuideWebView *)self.view loadURL:(_isiPad?URL_HELP_iPad:URL_HELP_iPhone) content:nil];
 }
 
 /*

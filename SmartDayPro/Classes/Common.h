@@ -145,7 +145,9 @@ extern BOOL _firstLaunch;
 
 #define ANCHOR_CHARACTER @"\U00002693"
 
-#define URL_HELP            @"http://www.leftcoastlogic.com/smartday/for-iphone/guide/"
+//#define URL_HELP            @"http://www.leftcoastlogic.com/smartday/for-iphone/guide/"
+#define URL_HELP_iPhone     @"http://www.leftcoastlogic.com/smartday/for-ios/iphone-guide/"
+#define URL_HELP_iPad       @"http://www.leftcoastlogic.com/smartday/for-ios/ipad-guide/"
 #define URL_ABOUTUS			@"http://www.leftcoastlogic.com/sp/aboutus"
 #define URL_ALSOLCL			@"http://www.leftcoastlogic.com/lclproducts/"
 #define URL_SYNC            @"http://www.leftcoastlogic.com/smartday/synchronizing/"

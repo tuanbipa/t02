@@ -204,7 +204,7 @@ extern BOOL _spLiteVersion;
 
 	//[webView loadHTMLFile:@"ipad_index" extension:@"html"];
     
-    [webView loadURL:URL_HELP content:nil];
+    [webView loadURL:(_isiPad?URL_HELP_iPad:URL_HELP_iPhone) content:nil];
 }
 
 - (void) selectOption: (id) sender
