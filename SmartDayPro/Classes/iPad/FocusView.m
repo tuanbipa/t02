@@ -30,7 +30,7 @@ AbstractSDViewController *_abstractViewCtrler;
 @synthesize noteList;
 
 @synthesize doneList;
-@synthesize anchoredList;
+//@synthesize anchoredList;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -111,7 +111,7 @@ AbstractSDViewController *_abstractViewCtrler;
     self.noteList = nil;
     
     self.doneList = nil;
-    self.anchoredList = nil;
+    //self.anchoredList = nil;
     
     [super dealloc];
 }
@@ -234,9 +234,9 @@ AbstractSDViewController *_abstractViewCtrler;
         }
         */
         
-        NSArray *lists[5] = {self.doneList, self.adeList, self.anchoredList, self.dueList, self.noteList};
+        NSArray *lists[4] = {self.doneList, self.adeList, self.dueList, self.noteList};
         
-        for (int i=0; i<5; i++)
+        for (int i=0; i<4; i++)
         {
             NSArray *list = lists[i];
             
@@ -327,7 +327,7 @@ AbstractSDViewController *_abstractViewCtrler;
         
         self.noteList = [tm getNoteListOnDate:tm.today];
         
-        self.anchoredList = [tm getATaskListOnDate:tm.today];
+        //self.anchoredList = [tm getATaskListOnDate:tm.today];
     }
     
     [self refreshView];

@@ -335,52 +335,52 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
     }
     
-    // b1. get due Anchored task ===============================
-    NSMutableArray *dAnchoredTasks = [tm getDAnchoredTaskListFromDate:fromDate toDate:toDate];
-    // b2. draw due Anchored tasks
-    for (Task *task in dAnchoredTasks) {
-        task.listSource = SOURCE_PLANNER_CALENDAR;
-        //NSLog(@"end time a task %@", [Common getDateTimeString:task.endTime]);
-        NSTimeInterval timeInterval = [task.endTime timeIntervalSinceDate:fromDate];
-        NSInteger dayIndex = 0;
-        dayIndex = timeInterval/86400;
-        if(dayIndex<0)
-            dayIndex = 0;
-        
-        if (trackY[dayIndex] >= 12*20+originY) {
-            continue;
-        }
-        
-        // calculate width
-        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width) - itemLeaveWidth;
-        
-        // calculate x
-        CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
-        x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
-        
-        /*PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
-         item.task = task;
-         item.starEnable = NO;
-         item.listStyle = YES;
-         [item enableMove:NO];*/
-        TaskView *item = [[TaskView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
-        item.task = task;
-        item.starEnable = NO;
-        item.listStyle = NO;
-        item.focusStyle = YES;
-        item.showSeparator = NO;
-        
-        [item enableMove:NO];
-        [item refreshStarImage];
-        [item refreshCheckImage];
-        [self addSubview:item];
-        
-        [self.plannerItemsList addObject:item];
-        [item release];
-        
-        // increment track y
-        trackY[dayIndex] = trackY[dayIndex] + PLANNER_ITEM_HEIGHT;
-    }
+//    // b1. get due Anchored task ===============================
+//    NSMutableArray *dAnchoredTasks = [tm getDAnchoredTaskListFromDate:fromDate toDate:toDate];
+//    // b2. draw due Anchored tasks
+//    for (Task *task in dAnchoredTasks) {
+//        task.listSource = SOURCE_PLANNER_CALENDAR;
+//        //NSLog(@"end time a task %@", [Common getDateTimeString:task.endTime]);
+//        NSTimeInterval timeInterval = [task.endTime timeIntervalSinceDate:fromDate];
+//        NSInteger dayIndex = 0;
+//        dayIndex = timeInterval/86400;
+//        if(dayIndex<0)
+//            dayIndex = 0;
+//        
+//        if (trackY[dayIndex] >= 12*20+originY) {
+//            continue;
+//        }
+//        
+//        // calculate width
+//        CGFloat width = (dayIndex == 0 ? firstCell.frame.size.width : lastCell.frame.size.width) - itemLeaveWidth;
+//        
+//        // calculate x
+//        CGFloat x = firstCell.frame.origin.x + dayIndex * lastCell.frame.size.width;
+//        x += (dayIndex==0 ? 0 : TIMELINE_TITLE_WIDTH);
+//        
+//        /*PlannerItemView *item = [[PlannerItemView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+//         item.task = task;
+//         item.starEnable = NO;
+//         item.listStyle = YES;
+//         [item enableMove:NO];*/
+//        TaskView *item = [[TaskView alloc] initWithFrame:CGRectMake(x, trackY[dayIndex], width, PLANNER_ITEM_HEIGHT)];
+//        item.task = task;
+//        item.starEnable = NO;
+//        item.listStyle = NO;
+//        item.focusStyle = YES;
+//        item.showSeparator = NO;
+//        
+//        [item enableMove:NO];
+//        [item refreshStarImage];
+//        [item refreshCheckImage];
+//        [self addSubview:item];
+//        
+//        [self.plannerItemsList addObject:item];
+//        [item release];
+//        
+//        // increment track y
+//        trackY[dayIndex] = trackY[dayIndex] + PLANNER_ITEM_HEIGHT;
+//    }
     
     // b1. get due tasks
     NSMutableArray *dTasks = [tm getDTaskListFromDate:fromDate toDate:toDate];
