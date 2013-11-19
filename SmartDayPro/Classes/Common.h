@@ -145,10 +145,10 @@ extern BOOL _firstLaunch;
 
 #define ANCHOR_CHARACTER @"\U00002693"
 
-#define URL_HELP            @"http://www.leftcoastlogic.com/blog/smartday-for-iphone/guide/"
-#define URL_ABOUTUS			@"http://leftcoastlogic.com/sp/aboutus"
-#define URL_ALSOLCL			@"http://leftcoastlogic.com/lclproducts/"
-#define URL_SYNC            @"http://www.leftcoastlogic.com/blog/smartday/synchronizing/"
+#define URL_HELP            @"http://www.leftcoastlogic.com/smartday/for-iphone/guide/"
+#define URL_ABOUTUS			@"http://www.leftcoastlogic.com/sp/aboutus"
+#define URL_ALSOLCL			@"http://www.leftcoastlogic.com/lclproducts/"
+#define URL_SYNC            @"http://www.leftcoastlogic.com/smartday/synchronizing/"
 
 typedef enum
 {
