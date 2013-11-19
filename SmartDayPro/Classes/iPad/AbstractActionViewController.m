@@ -1219,7 +1219,7 @@ extern DetailViewController *_detailViewCtrler;
     TaskManager *tm = [TaskManager getInstance];
     
     BOOL reSchedule = NO;
-    
+
     if (taskCopy.primaryKey == -1)
     {
         [task updateByTask:taskCopy];
@@ -1270,23 +1270,21 @@ extern DetailViewController *_detailViewCtrler;
         }
         else
         {
-            if ([task isEvent])
+            
+            reSchedule = [tm updateTask:task withTask:taskCopy];
+            
+            if ([taskCopy isEvent])
             {
                 //to fix bug: change Event's title in Project module does not update Calendar
-                
-                CalendarViewController *ctrler = [self getCalendarViewController];
-                
-                Task *event = [ctrler.calendarLayoutController findEventByKey:task.primaryKey];
+                CalendarViewController *calCtrler = [self getCalendarViewController];
+
+                Task *event = [calCtrler.calendarLayoutController findEventByKey:taskCopy.primaryKey];
                 
                 if (event != nil)
                 {
                     [event updateByTask:taskCopy];
                 }
             }
-            
-            reSchedule = [tm updateTask:task withTask:taskCopy];
-            
-            //[self clearActiveItems];
         }
     }
     

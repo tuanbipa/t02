@@ -3397,8 +3397,10 @@ TaskManager *_sctmSingleton = nil;
         
         BOOL becomeFuture = settings.hideFutureTasks && ([Common daysBetween:slTask.startTime sinceDate:[NSDate date]] <= 0 && task.startTime != nil && [Common daysBetween:task.startTime sinceDate:[NSDate date]] >= 1);
         
+        BOOL timezoneChange = [slTask isEvent] && slTask.timeZoneId != task.timeZoneId;
+        
 //        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || needSort || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture || starLost;
-        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture || starLost;
+        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture || starLost || timezoneChange;
       
         if ([slTask isRE] && [task isNREvent])
         {
