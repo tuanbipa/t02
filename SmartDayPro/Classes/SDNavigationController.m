@@ -17,6 +17,8 @@
 #import "MapLocationViewController.h"
 #import "TimerHistoryViewController.h"
 
+extern BOOL _isiPad;
+
 @implementation SDNavigationController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -43,7 +45,7 @@
         || [self.topViewController isKindOfClass:[iPadViewController class]]
         || [self.topViewController isKindOfClass:[iPadSettingViewController class]]
         || [self.topViewController isKindOfClass:[NoteContentViewController class]]
-        || [self.topViewController isKindOfClass:[MapLocationViewController class]]
+        || ([self.topViewController isKindOfClass:[MapLocationViewController class]] && _isiPad)
         || [self.topViewController isKindOfClass:[TimerHistoryViewController class]])
     {
         return [self.topViewController supportedInterfaceOrientations];
