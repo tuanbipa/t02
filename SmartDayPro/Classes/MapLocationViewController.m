@@ -340,6 +340,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
         if (error) {
             NSLog(error.description);
+            [self showNotFoundLocation:_cannotLocateTheEndLocationText];
         } else {
             [self showDirections:response];
             
@@ -389,7 +390,7 @@ extern SmartDayViewController *_sdViewCtrler;
             
             [self calculateDirectionToDestination:placemark];
         } else {
-            [self showNotFoundLocation:locationTextField.text];
+            [self showNotFoundLocation:_cannotLocateTheEndLocationText];
         }
     }];
 }
@@ -414,14 +415,7 @@ extern SmartDayViewController *_sdViewCtrler;
             
             [self calculateDirectionToDestination:placemark];
         } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable
-                                                                message:_weCouldNotDetectDroppedPinText
-                                                               delegate:nil
-                                                      cancelButtonTitle:_okText
-                                                      otherButtonTitles:nil];
-            //[alertView show];
-            [alertView performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
-            [alertView release];
+            [self showNotFoundLocation:_weCouldNotDetectDroppedPinText];
         }
     }];
     
@@ -457,11 +451,12 @@ extern SmartDayViewController *_sdViewCtrler;
     
 }
 
-- (void)showNotFoundLocation: (NSString*) locationStr
+- (void)showNotFoundLocation: (NSString*) message
 {
     //NSString *mess = [NSString stringWithFormat:@"%@ %@ %@", _cannotLocateThe, locationStr, _locationText];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_directionsNotAvailable
-                                                        message:_cannotLocateTheEndLocationText
+                                                        //message:_cannotLocateTheEndLocationText
+                                                        message:message
                                                        delegate:self
                                               cancelButtonTitle:_okText
                                               otherButtonTitles:nil];
