@@ -869,7 +869,7 @@ NSInteger _sdwColor[32] = {
 {
     NSString *url = [NSString stringWithFormat:@"%@/api/settings.json?keyapi=%@",SDWSite,self.sdwSection.key];
     
-    printf("getSettings: %s\n", [url UTF8String]);
+    //printf("getSettings: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -893,7 +893,7 @@ NSInteger _sdwColor[32] = {
         //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
         //printf("settings:\n%s\n", [str UTF8String]);
-        printf("get settings returns OK\n");
+        //printf("get settings returns OK\n");
         
         NSDictionary *result = [self getDictionaryResult:urlData];
         
@@ -1327,7 +1327,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/categories.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
 	
-    printf("getCategories: %s\n", [url UTF8String]);
+    //printf("getCategories: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -1351,7 +1351,7 @@ NSInteger _sdwColor[32] = {
         //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
         //printf("get categories returns:\n%s\n", [str UTF8String]);
-        printf("get categories returns OK\n");
+        //printf("get categories returns OK\n");
 
         NSMutableArray *prjList = [NSMutableArray arrayWithArray: pm.projectList];
         
@@ -2110,7 +2110,7 @@ NSInteger _sdwColor[32] = {
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@",SDWSite,self.sdwSection.key];
     
-    printf("add task url:%s\n", [urlString UTF8String]);
+    //printf("add task url:%s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
 	[request setURL:[NSURL URLWithString:urlString]]; 
@@ -2147,7 +2147,7 @@ NSInteger _sdwColor[32] = {
     {
         self.errorDescription = error.localizedDescription;
         
-        printf("*** add tasks error: %s", [self.errorDescription UTF8String]);
+        //printf("*** add tasks error: %s", [self.errorDescription UTF8String]);
         
         return;
     }
@@ -2157,7 +2157,7 @@ NSInteger _sdwColor[32] = {
         //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
         //printf("add tasks return:\n%s\n", [str UTF8String]);
-        printf("add tasks return OK\n");
+        //printf("add tasks return OK\n");
         
         NSArray *result = [self getArrayResult:urlData];
         
@@ -2201,7 +2201,7 @@ NSInteger _sdwColor[32] = {
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/tasks/updates.json?keyapi=%@",SDWSite,self.sdwSection.key];
     
-    printf("update URL:\n%s\n", [urlString UTF8String]);
+    //printf("update URL:\n%s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
 	[request setURL:[NSURL URLWithString:urlString]]; 
@@ -2246,7 +2246,7 @@ NSInteger _sdwColor[32] = {
         
         //printf("update results:\n%s\n", [str UTF8String]);
         
-        printf("update tasks returns OK\n");
+        //printf("update tasks returns OK\n");
         
         NSArray *result = [self getArrayResult:urlData];
         
@@ -2422,7 +2422,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
 	
-    printf("getTasks: %s\n", [url UTF8String]);
+    //printf("getTasks: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -2446,7 +2446,7 @@ NSInteger _sdwColor[32] = {
         //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
         //printf("SDW get tasks return:\n%s\n", [str UTF8String]);
-        printf("SDW get tasks return OK\n");
+        //printf("SDW get tasks return OK\n");
         
         NSMutableArray *taskList = [dbm getItems2Sync];
         
@@ -2521,7 +2521,7 @@ NSInteger _sdwColor[32] = {
             {                
                 NSComparisonResult compRes = [Common compareDate:task.updateTime withDate:sdwTask.updateTime];
                 
-                printf("*** task: %s - sc time: %s, sdw time: %s\n",[task.name UTF8String], [[task.updateTime description] UTF8String], [[sdwTask.updateTime description] UTF8String]);
+                //printf("*** task: %s - sc time: %s, sdw time: %s\n",[task.name UTF8String], [[task.updateTime description] UTF8String], [[sdwTask.updateTime description] UTF8String]);
                 
                 if (compRes == NSOrderedAscending) //update SDW->SC
                 {
@@ -2653,7 +2653,7 @@ NSInteger _sdwColor[32] = {
                         
                         if (duplicated)
                         {
-                            printf("SDW task %s is duplication suspected\n", [task.name UTF8String]);
+                            //printf("SDW task %s is duplication suspected\n", [task.name UTF8String]);
                             
                             task.sdwId = sdwTask.sdwId;
                             [task updateSDWIDIntoDB:[dbm getDatabase]];
@@ -2810,7 +2810,7 @@ NSInteger _sdwColor[32] = {
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/tasks/updates.json?keyapi=%@&fields=id,order_number,last_update",SDWSite,self.sdwSection.key];
     
-    printf("update task order: %s\n", [urlString UTF8String]);
+    //printf("update task order: %s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
 	[request setURL:[NSURL URLWithString:urlString]]; 
@@ -2853,7 +2853,7 @@ NSInteger _sdwColor[32] = {
     {
         NSArray *result = [self getArrayResult:urlData];
         
-        printf("update task order OK\n");
+        //printf("update task order OK\n");
         
         if (result == nil)
         {
@@ -2893,7 +2893,7 @@ NSInteger _sdwColor[32] = {
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/categories/updates.json?keyapi=%@&fields=id,order_number,last_update",SDWSite,self.sdwSection.key];
     
-    printf("update project order: %s\n", [urlString UTF8String]);
+    //printf("update project order: %s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:urlString]];
@@ -2933,7 +2933,7 @@ NSInteger _sdwColor[32] = {
     
     if (urlData)
     {
-        printf("update project order OK\n");
+        //printf("update project order OK\n");
         
         NSArray *result = [self getArrayResult:urlData];
         
@@ -2983,7 +2983,7 @@ NSInteger _sdwColor[32] = {
     {
         NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&fields=id,order_number,last_update&type=2&get_share=1",SDWSite,self.sdwSection.key];
         
-        printf("get task order: %s\n", [url UTF8String]);
+        //printf("get task order: %s\n", [url UTF8String]);
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:url]]; 
@@ -3011,7 +3011,7 @@ NSInteger _sdwColor[32] = {
                 return;
             }
             
-            printf("get task order OK\n");
+            //printf("get task order OK\n");
             
             for (NSDictionary *dict in result)
             {
@@ -3137,7 +3137,7 @@ NSInteger _sdwColor[32] = {
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/hyperlinks.json?keyapi=%@",SDWSite,self.sdwSection.key];
     
-    printf("add link url:%s\n", [urlString UTF8String]);
+    //printf("add link url:%s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
 	[request setURL:[NSURL URLWithString:urlString]]; 
@@ -3186,7 +3186,7 @@ NSInteger _sdwColor[32] = {
         
         //printf("add links return:\n%s\n", [str UTF8String]);
         
-        printf("add links returns OK\n");
+        //printf("add links returns OK\n");
         
         NSArray *result = [self getArrayResult:urlData];
         
@@ -3227,7 +3227,7 @@ NSInteger _sdwColor[32] = {
     
 	NSString *urlString=[NSString stringWithFormat:@"%@/api/hyperlinks/update.json?keyapi=%@",SDWSite,self.sdwSection.key];
     
-    printf("update link url:%s\n", [urlString UTF8String]);
+    //printf("update link url:%s\n", [urlString UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
 	[request setURL:[NSURL URLWithString:urlString]]; 
@@ -3265,7 +3265,7 @@ NSInteger _sdwColor[32] = {
     {
         NSArray *result = [self getArrayResult:urlData];
         
-        printf("update links returns OK\n");
+        //printf("update links returns OK\n");
         
         if (result == nil)
         {
@@ -3388,7 +3388,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/hyperlinks.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
-    printf("getLinks: %s\n", [url UTF8String]);
+    //printf("getLinks: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -3414,7 +3414,7 @@ NSInteger _sdwColor[32] = {
         
         //printf("get links return:\n%s\n", [str UTF8String]);
         
-        printf("get links returns OK\n");
+        //printf("get links returns OK\n");
         
         NSMutableArray *linkList = [dbm getAllLinks];
         
@@ -3866,7 +3866,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/url_objects.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
-    printf("getURLs: %s\n", [url UTF8String]);
+    //printf("getURLs: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]];
@@ -3891,7 +3891,7 @@ NSInteger _sdwColor[32] = {
         //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         
         //printf("get URLs return:\n%s\n", [str UTF8String]);
-        printf("get URLs returns OK\n");
+        //printf("get URLs returns OK\n");
         
         NSMutableArray *list = [dbm getAllURLAssets];
         
@@ -4436,7 +4436,7 @@ NSInteger _sdwColor[32] = {
     
     NSString *url = [NSString stringWithFormat:@"%@/api/conversations.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
-    printf("get comments: %s\n", [url UTF8String]);
+    //printf("get comments: %s\n", [url UTF8String]);
     
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]];
@@ -4462,7 +4462,7 @@ NSInteger _sdwColor[32] = {
         
         //printf("comment URLs return:\n%s\n", [str UTF8String]);
         
-        printf("get comments returns OK\n");
+        //printf("get comments returns OK\n");
         
         NSMutableArray *list = [dbm getAllComments];
         
@@ -5172,7 +5172,7 @@ NSInteger _sdwColor[32] = {
     NSString *sig = [Common md5:[NSString stringWithFormat:@"%@%@%@",[email lowercaseString],pass,SDWAppRegId]];
     NSString *url = [NSString stringWithFormat:@"%@/api/token.json?username=%@&appreg=%@&sig=%@",SDWSite,email,SDWAppRegId,sig];
     
-    printf("getToken: %s\n", [url UTF8String]);
+    //printf("getToken: %s\n", [url UTF8String]);
 	
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:[NSURL URLWithString:url]]; 
@@ -5186,7 +5186,7 @@ NSInteger _sdwColor[32] = {
 
     if (error != nil)
     {
-        printf("get Token error code %d - %s\n", error.code, [[error description] UTF8String]);
+        //printf("get Token error code %d - %s\n", error.code, [[error description] UTF8String]);
         
         /*if (error.code == -1004)
         {
@@ -5200,7 +5200,7 @@ NSInteger _sdwColor[32] = {
     if (urlData)
     {
         NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
-        printf("getToken return:\n%s\n", [str UTF8String]);
+        //printf("getToken return:\n%s\n", [str UTF8String]);
         
         NSDictionary *result = [self getDictionaryResult:urlData];
         
@@ -5227,7 +5227,7 @@ NSInteger _sdwColor[32] = {
                 
                 //self.errorDescription = [dic valueForKey:@"error_description"];
                 
-                printf("get token failed: %s - %d!\n", [self.errorDescription UTF8String], errorId);
+                //printf("get token failed: %s - %d!\n", [self.errorDescription UTF8String], errorId);
                 return nil;
             }
         }

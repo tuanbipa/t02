@@ -428,4 +428,20 @@ extern AbstractSDViewController *_abstractViewCtrler;
     }
 }
 
+- (Task *) findEventByKey:(NSInteger) key
+{
+    for (int i=0; i<3; i++)
+    {
+        for (Task *task in objectLists[i])
+        {
+            if (task.primaryKey == key)
+            {
+                return task;
+            }
+        }
+    }
+    
+    return nil;
+}
+
 @end

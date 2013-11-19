@@ -253,6 +253,11 @@ extern SmartDayViewController *_sdViewCtrler;
     NSArray* userPrefered = [NSBundle preferredLocalizationsFromArray:availableLocalizations forPreferences:[NSLocale preferredLanguages]];
     
     NSString *localization = [userPrefered objectAtIndex:0];
+    
+    if (![localization isEqualToString:@"ja"])
+    {
+        localization = @"en";
+    }
 
     for (int i=0; i<PAGE_NUM; i++)
     {

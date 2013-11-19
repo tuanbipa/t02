@@ -8,6 +8,8 @@
 
 #import "ScrollPageLayoutController.h"
 
+@class Task;
+
 @interface CalendarScrollPageLayoutController : ScrollPageLayoutController
 {
     //NSMutableArray *slotObjects[48];
@@ -20,5 +22,7 @@
 - (NSMutableArray *) getObjectList;
 
 - (void) refreshSyncID4AllItems;
+
+- (Task *) findEventByKey:(NSInteger) key;
 
 @end
