@@ -38,7 +38,7 @@
 		//alertDict = [[AlertData getAlertTextDictionary] retain];
         self.contentSizeForViewInPopover = CGSizeMake(320,416);
         
-        self.locationList = [[LocationManager getInstance] getAllLocation];
+        //self.locationList = [[LocationManager getInstance] getAllLocation];
 	}
 	
 	return self;	
@@ -198,6 +198,8 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
+    
+    self.locationList = [[LocationManager getInstance] getAllLocation];
     
     [alertTableView reloadData];
     
@@ -499,7 +501,9 @@
             
             return taskEdit.alerts.count + 1;
         } else {
-            
+            if (self.locationList.count == 0) {
+                return 1;
+            }
             return 2 + self.locationList.count;
         }
     } else {
@@ -526,6 +530,8 @@
         return 88.0f;
     } else if (indexPath.section == 1 && [self.taskEdit isEvent]) {
         return 88.0f;
+    } else if (indexPath.section == 1 && [self.taskEdit isTask] && self.locationList.count == 0) {
+        return 60.0f;
     }
     return 44.0f;
 }
@@ -614,25 +620,36 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    cell.textLabel.text = _alertWhenText;
-                    
-                    CGRect frm = alertTableView.frame;
-                    CGFloat width = frm.size.width/5 * 3;
-                    locationTypeSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:_arriveText, _leaveText, nil]];
-                    locationTypeSegmented.frame = CGRectMake(frm.size.width - width, (cell.frame.size.height - 30)/2, width, 30);
-                    [locationTypeSegmented addTarget:self action:@selector(changeLocationType:) forControlEvents:UIControlEventValueChanged];
-                    locationTypeSegmented.selectedSegmentIndex = self.taskEdit.locationAlert - 1;
-                    
-                    [cell.contentView addSubview:locationTypeSegmented];
-                    [locationTypeSegmented release];
+                    if (self.locationList.count > 0) {
+                        
+                        cell.textLabel.text = _alertWhenText;
+                        
+                        CGRect frm = alertTableView.frame;
+                        CGFloat width = frm.size.width/5 * 3;
+                        locationTypeSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:_arriveText, _leaveText, nil]];
+                        locationTypeSegmented.frame = CGRectMake(frm.size.width - width, (cell.frame.size.height - 30)/2, width, 30);
+                        [locationTypeSegmented addTarget:self action:@selector(changeLocationType:) forControlEvents:UIControlEventValueChanged];
+                        locationTypeSegmented.selectedSegmentIndex = self.taskEdit.locationAlert - 1;
+                        
+                        [cell.contentView addSubview:locationTypeSegmented];
+                        [locationTypeSegmented release];
+                    } else {
+                        cell.textLabel.text = _alertLocationHintText;
+                        cell.textLabel.numberOfLines = 0;
+                        cell.textLabel.textColor = [UIColor grayColor];
+                    }
                 }
                     break;
                 case 1:
                 {
                     cell.textLabel.text = _noneText;
-                    if (self.taskEdit.locationAlertID <= 0) {
+                    Location *loc = [[Location alloc] initWithPrimaryKey:self.taskEdit.locationAlertID database:[[DBManager getInstance] getDatabase]];
+                    if (loc.primaryKey <= 0) {
+                        self.taskEdit.locationAlertID = 0;
                         cell.accessoryType = UITableViewCellAccessoryCheckmark;
                     }
+                    
+                    [loc release];
                 }
                     break;
                     
