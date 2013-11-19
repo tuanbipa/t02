@@ -339,8 +339,11 @@ extern SmartDayViewController *_sdViewCtrler;
         }
 
         if (error) {
-            NSLog(error.description);
-            [self showNotFoundLocation:_cannotLocateTheEndLocationText];
+            /*NSLog(@"1. %@", error.localizedDescription);
+            NSLog(@"2. %@", error.localizedRecoveryOptions);
+            NSLog(@"3. %@", error.localizedRecoverySuggestion);
+            NSLog(@"4. %@", error.localizedFailureReason);*/
+            [self showNotFoundLocation:error.localizedRecoverySuggestion];
         } else {
             [self showDirections:response];
             
