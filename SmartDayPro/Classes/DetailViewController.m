@@ -1569,7 +1569,7 @@ DetailViewController *_detailViewCtrler = nil;
         if (alert != nil) {
             
             // show bell icon
-            UIImageView *bellIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bell.png"]];
+            UIImageView *bellIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bell_yellow.png"]];
             frm.origin.x -= frm.size.width;
             bellIcon.frame = frm;
             
