@@ -224,6 +224,12 @@
     
     if ([self.navigationController.topViewController isKindOfClass:[DetailViewController class]])
     {
+        // check and reset location alert whether its info is incorrect
+        if (self.taskEdit.locationAlert == LOCATION_NONE || self.taskEdit.locationAlertID == 0) {
+            self.taskEdit.locationAlert = LOCATION_NONE;
+            self.taskEdit.locationAlertID = 0;
+        }
+        
         DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
         
         [ctrler refreshAlert];

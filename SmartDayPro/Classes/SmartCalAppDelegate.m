@@ -648,7 +648,7 @@ BOOL _fromBackground = NO;
     if([CLLocationManager locationServicesEnabled] &&
        [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied)
     {
-        [self startGeoFencing:1*60];
+        [self startGeoFencing:3*60];
     }
     
     [self postGeoFencingUpdate];
