@@ -166,25 +166,30 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     [super move:touches withEvent:event];
     
-    if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
-        PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
-        CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:plannerDayCal.plannerScheduleView];
-        if (moveInPlannerDayCalendar) {
-            [plannerDayCal.plannerScheduleView highlight:rect];
-        } else {
-            [plannerDayCal.plannerScheduleView unhighlight];
-        }
-        
-    } else {
-        
-        
-        CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-        if (moveInDayCalendar) {
+    Task *item = ((TaskView *) self.activeMovableView).task;
+    
+    if ([item isTask]) {
+    
+        if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
+            PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+            CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:plannerDayCal.plannerScheduleView];
+            if (moveInPlannerDayCalendar) {
+                [plannerDayCal.plannerScheduleView highlight:rect];
+            } else {
+                [plannerDayCal.plannerScheduleView unhighlight];
+            }
             
-            CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:ctrler.todayScheduleView];
-            [ctrler.todayScheduleView highlight:rect];
         } else {
-            [ctrler.todayScheduleView unhighlight];
+            
+            
+            CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+            if (moveInDayCalendar) {
+                
+                CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:ctrler.todayScheduleView];
+                [ctrler.todayScheduleView highlight:rect];
+            } else {
+                [ctrler.todayScheduleView unhighlight];
+            }
         }
     }
 }
@@ -204,6 +209,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     dummyView.hidden = YES;
     
     BOOL refresh = NO;
+    
+    Task *item = ((TaskView *) self.activeMovableView).task;
     
     if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar && !moveInPlannerMM && !moveInDayCalendar)
     {
@@ -270,7 +277,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             }
         }
     }
-    else if (moveInDayCalendar || moveInPlannerDayCalendar)
+    else if ([item isTask] && (moveInDayCalendar || moveInPlannerDayCalendar))
     {
         [self doMoveTaskInDayCalendar];
     }
