@@ -581,6 +581,10 @@ static sqlite3_stmt *task_delete_statement = nil;
 		if (self.endTime != nil)
 		{
 			self.endTime = [Common dateByAddNumSecond:endDiff toDate:self.startTime];
+            
+            if ([self isADE]) {
+                self.endTime = [Common getEndDate:self.endTime];
+            }
 		}
 	}
 	
