@@ -1289,12 +1289,13 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"Geocoder Error");
+    /*NSLog(@"Geocoder Error");
     dispatch_semaphore_signal(geocodingLock);
     locationUpdating = NO;
     eventLocationNumber = 0;
     taskLocationNumber = 0;
-    [locationManager stopUpdatingLocation];
+    [locationManager stopUpdatingLocation];*/
+    [self disableGeoFencing];
 }
 
 - (void)deactiveLocationManager
@@ -1775,23 +1776,33 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 {
     [self deactiveLocationTimer];
     [self deactiveLocationManager];
+    
+    if (geocodeQueue != nil) {
+        [geocodeQueue release];
+        geocodeQueue = nil;
+    }
+    
+    dispatch_semaphore_signal(geocodingLock);
 }
 
 - (void)startGeoFencing: (NSInteger)interval
 {
-    [self initGeoLocation];
-    
-    UIApplication *app = [UIApplication sharedApplication];
-    
-    bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
-        [app endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    locationTimer = [NSTimer scheduledTimerWithTimeInterval:interval
-                                                     target:locationManager
-                                                   selector:@selector(startUpdatingLocation)
-                                                   userInfo:nil
-                                                    repeats:YES];
+    if (locationManager == nil || locationTimer == nil || ![locationTimer isValid]) {
+        NSLog(@"geo: init...");
+        [self initGeoLocation];
+        
+        UIApplication *app = [UIApplication sharedApplication];
+        
+        bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+            [app endBackgroundTask:bgTask];
+            bgTask = UIBackgroundTaskInvalid;
+        }];
+        
+        locationTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                         target:locationManager
+                                                       selector:@selector(startUpdatingLocation)
+                                                       userInfo:nil
+                                                        repeats:YES];
+    }
 }
 @end
