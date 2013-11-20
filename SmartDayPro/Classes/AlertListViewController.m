@@ -210,7 +210,8 @@
 {
     [super viewDidAppear:animated];
     
-    if (self.taskEdit.locationAlert > 0 &&
+    if ([self.taskEdit isEvent] &&
+        self.taskEdit.locationAlert > 0 &&
         [[self.taskEdit.location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0) {
         
         [self geoLocation];
