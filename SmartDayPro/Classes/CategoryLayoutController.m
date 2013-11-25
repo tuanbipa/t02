@@ -89,7 +89,7 @@ extern iPadViewController *_iPadViewCtrler;
         taskView.task = obj;
         taskView.listStyle = YES;
         taskView.starEnable = ([task isTask] && task.status != TASK_STATUS_DONE && ![task isShared]);
-        taskView.checkEnable = !_iPadViewCtrler.inSlidingMode;
+        taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
         
         [taskView refreshStarImage];
         [taskView refreshCheckImage];
