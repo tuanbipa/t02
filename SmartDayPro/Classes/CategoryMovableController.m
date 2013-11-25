@@ -166,29 +166,35 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     [super move:touches withEvent:event];
     
-    Task *item = ((TaskView *) self.activeMovableView).task;
+    //Task *item = ((TaskView *) self.activeMovableView).task;
+    UIView *activeView = self.activeMovableView;
     
-    if ([item isTask]) {
-    
-        if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
-            PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
-            CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:plannerDayCal.plannerScheduleView];
-            if (moveInPlannerDayCalendar) {
-                [plannerDayCal.plannerScheduleView highlight:rect];
-            } else {
-                [plannerDayCal.plannerScheduleView unhighlight];
-            }
-            
-        } else {
-            
-            
-            CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
-            if (moveInDayCalendar) {
+    if ([activeView isKindOfClass:[TaskView class]]) {
+        
+        Task *item = ((TaskView *) self.activeMovableView).task;
+        
+        if ([item isTask]) {
+           
+            if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
+                PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[[AbstractActionViewController getInstance] getPlannerDayCalendarView];
+                CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:plannerDayCal.plannerScheduleView];
+                if (moveInPlannerDayCalendar) {
+                    [plannerDayCal.plannerScheduleView highlight:rect];
+                } else {
+                    [plannerDayCal.plannerScheduleView unhighlight];
+                }
                 
-                CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:ctrler.todayScheduleView];
-                [ctrler.todayScheduleView highlight:rect];
             } else {
-                [ctrler.todayScheduleView unhighlight];
+                
+                
+                CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
+                if (moveInDayCalendar) {
+                    
+                    CGRect rect = [self.activeMovableView.superview convertRect:self.activeMovableView.frame toView:ctrler.todayScheduleView];
+                    [ctrler.todayScheduleView highlight:rect];
+                } else {
+                    [ctrler.todayScheduleView unhighlight];
+                }
             }
         }
     }
@@ -210,7 +216,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     BOOL refresh = NO;
     
-    Task *item = ((TaskView *) self.activeMovableView).task;
+    //Task *item = ((TaskView *) self.activeMovableView).task;
     
     if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar && !moveInPlannerMM && !moveInDayCalendar)
     {
@@ -274,16 +280,28 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
                     
                     refresh = YES;
                 }
+                else
+                {
+                    [super endMove:view];
+                }
             }
         }
     }
-    else if ([item isTask] && (moveInDayCalendar || moveInPlannerDayCalendar))
-    {
-        [self doMoveTaskInDayCalendar];
-    }
     else
     {
-        [super endMove:view];
+        BOOL convertATask = NO;
+        if ([activeMovableView isKindOfClass:[TaskView class]]) {
+            Task *item = ((TaskView *) self.activeMovableView).task;
+            
+            if ([item isTask] && (moveInDayCalendar || moveInPlannerDayCalendar)) {
+                [self doMoveTaskInDayCalendar];
+                convertATask = YES;
+            }
+        }
+        
+        if (!convertATask) {
+            [super endMove:view];
+        }
     }
     
     if (refresh)
