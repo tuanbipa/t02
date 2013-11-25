@@ -3300,7 +3300,14 @@ TaskManager *_sctmSingleton = nil;
 
 	if (reSchedule)
 	{
-		[self scheduleTasks];
+        if (self.taskTypeFilter == TASK_FILTER_TOP)
+        {
+            [self initSmartListData]; //to refresh next GTDo
+        }
+        else
+        {
+            [self scheduleTasks];
+        }
 	}
     
 	return filterIn;
