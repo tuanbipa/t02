@@ -268,6 +268,10 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
                     
                     refresh = YES;
                 }
+                else
+                {
+                    [super endMove:view];
+                }
             }
             else if ([self.activeMovableView isKindOfClass:[PlanView class]])
             {
