@@ -720,7 +720,6 @@ iPadViewController *_iPadViewCtrler;
     DBManager *dbm = [DBManager getInstance];
     NSInteger count = [dbm countTasksAtCurrentLocation];
     dispatch_async(dispatch_get_main_queue(),^ {
-        NSLog(@"refresh task location %d", count);
 
         taskLocationButton.hidden = (count == 0);
         taskLocationLable.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];

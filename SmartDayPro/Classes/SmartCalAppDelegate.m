@@ -1788,7 +1788,6 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 - (void)startGeoFencing: (NSInteger)interval
 {
     if (locationManager == nil || locationTimer == nil || ![locationTimer isValid]) {
-        NSLog(@"geo: init...");
         [self initGeoLocation];
         
         UIApplication *app = [UIApplication sharedApplication];
