@@ -254,7 +254,15 @@ extern SmartDayViewController *_sdViewCtrler;
     
     NSString *localization = [userPrefered objectAtIndex:0];
     
-    if (![localization isEqualToString:@"ja"])
+    if ([localization isEqualToString:@"ja"])
+    {
+        localization = @"ja";
+    }
+    else if ([localization isEqualToString:@"de"])
+    {
+        localization = @"de";
+    }
+    else
     {
         localization = @"en";
     }

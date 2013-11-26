@@ -587,7 +587,23 @@ iPadViewController *_iPadViewCtrler;
 	GuideWebView *hintLabel = [[GuideWebView alloc] initWithFrame:frm];
     hintLabel.backgroundColor = [UIColor clearColor];
     
-	[hintLabel loadHTMLFile:@"detail_hint" extension:@"htm"];
+    NSArray* availableLocalizations = [[NSBundle mainBundle] localizations];
+    NSArray* userPrefered = [NSBundle preferredLocalizationsFromArray:availableLocalizations forPreferences:[NSLocale preferredLanguages]];
+    
+    NSString *localization = [userPrefered objectAtIndex:0];
+    
+    NSString *hintFile = @"detail_hint_";
+    
+    if ([localization isEqualToString:@"ja"] || [localization isEqualToString:@"de"])
+    {
+        hintFile = [hintFile stringByAppendingString:localization];
+    }
+    else // else is EN
+    {
+        hintFile = [hintFile stringByAppendingString:@"en"];
+    }
+    
+	[hintLabel loadHTMLFile:hintFile extension:@"htm"];
 	
 	[view addSubview:hintLabel];
 	

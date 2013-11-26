@@ -130,9 +130,9 @@
 		672D8BFE180E72F800624484 /* GuruViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 672D8BFB180E72F800624484 /* GuruViewController.m */; };
 		672F54A81622779400480BC4 /* LinkPreviewPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54A71622779400480BC4 /* LinkPreviewPane.m */; };
 		672F54AF16227E3400480BC4 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 672F54AE16227E3300480BC4 /* NoteView.m */; };
-		67419EB718279F1F00F9ABED /* detail_hint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67419EB618279F1F00F9ABED /* detail_hint.htm */; };
-		67419EB818279F1F00F9ABED /* detail_hint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67419EB618279F1F00F9ABED /* detail_hint.htm */; };
-		67419EB918279F1F00F9ABED /* detail_hint.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67419EB618279F1F00F9ABED /* detail_hint.htm */; };
+		67419EB718279F1F00F9ABED /* detail_hint_en.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67419EB618279F1F00F9ABED /* detail_hint_en.htm */; };
+		67419EB818279F1F00F9ABED /* detail_hint_en.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67419EB618279F1F00F9ABED /* detail_hint_en.htm */; };
+		67419EB918279F1F00F9ABED /* detail_hint_en.htm in Resources */ = {isa = PBXBuildFile; fileRef = 67419EB618279F1F00F9ABED /* detail_hint_en.htm */; };
 		6742B10F16E048E60053EB5F /* timer_done.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10916E048E60053EB5F /* timer_done.png */; };
 		6742B11016E048E60053EB5F /* timer_done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10A16E048E60053EB5F /* timer_done@2x.png */; };
 		6742B11116E048E60053EB5F /* timer_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 6742B10B16E048E60053EB5F /* timer_pause.png */; };
@@ -2821,6 +2821,20 @@
 		A2E036BB1724ECA10039A2DF /* MonthInYearView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036B91724ECA10039A2DF /* MonthInYearView.m */; };
 		A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036BD1724F5890039A2DF /* YearViewController.m */; };
 		A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E036BD1724F5890039A2DF /* YearViewController.m */; };
+		A2E2A55B18447A77003EDEF3 /* slider_1_768_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A55A18447A77003EDEF3 /* slider_1_768_de.html */; };
+		A2E2A55D18447AE7003EDEF3 /* slider_2_768_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A55C18447AE7003EDEF3 /* slider_2_768_de.html */; };
+		A2E2A55F18447CAD003EDEF3 /* slider_3_768_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A55E18447CAD003EDEF3 /* slider_3_768_de.html */; };
+		A2E2A56118447D2B003EDEF3 /* slider_4_768_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56018447D2B003EDEF3 /* slider_4_768_de.html */; };
+		A2E2A56318447DFF003EDEF3 /* slider_1_iphone4_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56218447DFF003EDEF3 /* slider_1_iphone4_de.html */; };
+		A2E2A56518447ECA003EDEF3 /* slider_2_iphone4_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56418447ECA003EDEF3 /* slider_2_iphone4_de.html */; };
+		A2E2A56718447F5A003EDEF3 /* slider_3_iphone4_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56618447F5A003EDEF3 /* slider_3_iphone4_de.html */; };
+		A2E2A56918447FA2003EDEF3 /* slider_4_iphone4_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56818447FA2003EDEF3 /* slider_4_iphone4_de.html */; };
+		A2E2A56B1844826F003EDEF3 /* slider_1_iphone5_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56A1844826F003EDEF3 /* slider_1_iphone5_de.html */; };
+		A2E2A56D1844827F003EDEF3 /* slider_2_iphone5_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56C1844827F003EDEF3 /* slider_2_iphone5_de.html */; };
+		A2E2A56F1844828D003EDEF3 /* slider_3_iphone5_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A56E1844828D003EDEF3 /* slider_3_iphone5_de.html */; };
+		A2E2A5711844829A003EDEF3 /* slider_4_iphone5_de.html in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A5701844829A003EDEF3 /* slider_4_iphone5_de.html */; };
+		A2E2A57318448971003EDEF3 /* detail_hint_de.htm in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A57218448971003EDEF3 /* detail_hint_de.htm */; };
+		A2E2A5751844899F003EDEF3 /* detail_hint_ja.htm in Resources */ = {isa = PBXBuildFile; fileRef = A2E2A5741844899F003EDEF3 /* detail_hint_ja.htm */; };
 		A2E86A90171C06AF00299C9F /* planner_currenttime.png in Resources */ = {isa = PBXBuildFile; fileRef = A2E86A88171C06AE00299C9F /* planner_currenttime.png */; };
 		A2E86A91171C06AF00299C9F /* planner_currenttime.png in Resources */ = {isa = PBXBuildFile; fileRef = A2E86A88171C06AE00299C9F /* planner_currenttime.png */; };
 		A2E86A92171C06AF00299C9F /* planner_currenttime@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2E86A89171C06AE00299C9F /* planner_currenttime@2x.png */; };
@@ -2909,7 +2923,7 @@
 		672F54A71622779400480BC4 /* LinkPreviewPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkPreviewPane.m; sourceTree = "<group>"; };
 		672F54AD16227E3200480BC4 /* NoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteView.h; sourceTree = "<group>"; };
 		672F54AE16227E3300480BC4 /* NoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteView.m; sourceTree = "<group>"; };
-		67419EB618279F1F00F9ABED /* detail_hint.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = detail_hint.htm; sourceTree = "<group>"; };
+		67419EB618279F1F00F9ABED /* detail_hint_en.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = detail_hint_en.htm; sourceTree = "<group>"; };
 		6742B10916E048E60053EB5F /* timer_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_done.png; sourceTree = "<group>"; };
 		6742B10A16E048E60053EB5F /* timer_done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timer_done@2x.png"; sourceTree = "<group>"; };
 		6742B10B16E048E60053EB5F /* timer_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_pause.png; sourceTree = "<group>"; };
@@ -3997,6 +4011,20 @@
 		A2E036B91724ECA10039A2DF /* MonthInYearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthInYearView.m; sourceTree = "<group>"; };
 		A2E036BC1724F5880039A2DF /* YearViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YearViewController.h; sourceTree = "<group>"; };
 		A2E036BD1724F5890039A2DF /* YearViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YearViewController.m; sourceTree = "<group>"; };
+		A2E2A55A18447A77003EDEF3 /* slider_1_768_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_1_768_de.html; sourceTree = "<group>"; };
+		A2E2A55C18447AE7003EDEF3 /* slider_2_768_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_2_768_de.html; sourceTree = "<group>"; };
+		A2E2A55E18447CAD003EDEF3 /* slider_3_768_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_3_768_de.html; sourceTree = "<group>"; };
+		A2E2A56018447D2B003EDEF3 /* slider_4_768_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_4_768_de.html; sourceTree = "<group>"; };
+		A2E2A56218447DFF003EDEF3 /* slider_1_iphone4_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_1_iphone4_de.html; sourceTree = "<group>"; };
+		A2E2A56418447ECA003EDEF3 /* slider_2_iphone4_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_2_iphone4_de.html; sourceTree = "<group>"; };
+		A2E2A56618447F5A003EDEF3 /* slider_3_iphone4_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_3_iphone4_de.html; sourceTree = "<group>"; };
+		A2E2A56818447FA2003EDEF3 /* slider_4_iphone4_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_4_iphone4_de.html; sourceTree = "<group>"; };
+		A2E2A56A1844826F003EDEF3 /* slider_1_iphone5_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_1_iphone5_de.html; sourceTree = "<group>"; };
+		A2E2A56C1844827F003EDEF3 /* slider_2_iphone5_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_2_iphone5_de.html; sourceTree = "<group>"; };
+		A2E2A56E1844828D003EDEF3 /* slider_3_iphone5_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_3_iphone5_de.html; sourceTree = "<group>"; };
+		A2E2A5701844829A003EDEF3 /* slider_4_iphone5_de.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_4_iphone5_de.html; sourceTree = "<group>"; };
+		A2E2A57218448971003EDEF3 /* detail_hint_de.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = detail_hint_de.htm; sourceTree = "<group>"; };
+		A2E2A5741844899F003EDEF3 /* detail_hint_ja.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = detail_hint_ja.htm; sourceTree = "<group>"; };
 		A2E86A88171C06AE00299C9F /* planner_currenttime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner_currenttime.png; sourceTree = "<group>"; };
 		A2E86A89171C06AE00299C9F /* planner_currenttime@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "planner_currenttime@2x.png"; sourceTree = "<group>"; };
 		A2E86A8A171C06AF00299C9F /* planner_next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = planner_next.png; sourceTree = "<group>"; };
@@ -4134,6 +4162,10 @@
 				6784CF201830B01C0095DDF9 /* slider_4_iphone4_en.html */,
 				6784CF211830B01C0095DDF9 /* slider_4_iphone4.jpg */,
 				6784CF221830B01C0095DDF9 /* slider_5_iphone4.jpg */,
+				A2E2A56218447DFF003EDEF3 /* slider_1_iphone4_de.html */,
+				A2E2A56418447ECA003EDEF3 /* slider_2_iphone4_de.html */,
+				A2E2A56618447F5A003EDEF3 /* slider_3_iphone4_de.html */,
+				A2E2A56818447FA2003EDEF3 /* slider_4_iphone4_de.html */,
 			);
 			path = iP;
 			sourceTree = "<group>";
@@ -4154,6 +4186,10 @@
 				6784CF2A1830B01C0095DDF9 /* slider_4_iphone5_en.html */,
 				6784CF2B1830B01C0095DDF9 /* slider_4_iphone5.jpg */,
 				6784CF2C1830B01C0095DDF9 /* slider_5_iphone5.jpg */,
+				A2E2A56A1844826F003EDEF3 /* slider_1_iphone5_de.html */,
+				A2E2A56C1844827F003EDEF3 /* slider_2_iphone5_de.html */,
+				A2E2A56E1844828D003EDEF3 /* slider_3_iphone5_de.html */,
+				A2E2A5701844829A003EDEF3 /* slider_4_iphone5_de.html */,
 			);
 			path = iP5;
 			sourceTree = "<group>";
@@ -4174,6 +4210,10 @@
 				6784CF341830B01C0095DDF9 /* slider_4.jpg */,
 				6784CF351830B01C0095DDF9 /* slider_4_768_en.html */,
 				6784CF361830B01C0095DDF9 /* slider_5.jpg */,
+				A2E2A55A18447A77003EDEF3 /* slider_1_768_de.html */,
+				A2E2A55C18447AE7003EDEF3 /* slider_2_768_de.html */,
+				A2E2A55E18447CAD003EDEF3 /* slider_3_768_de.html */,
+				A2E2A56018447D2B003EDEF3 /* slider_4_768_de.html */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -4762,7 +4802,9 @@
 		67CF2D6F161951B7001FE1AA /* Guides */ = {
 			isa = PBXGroup;
 			children = (
-				67419EB618279F1F00F9ABED /* detail_hint.htm */,
+				67419EB618279F1F00F9ABED /* detail_hint_en.htm */,
+				A2E2A5741844899F003EDEF3 /* detail_hint_ja.htm */,
+				A2E2A57218448971003EDEF3 /* detail_hint_de.htm */,
 				67E5E1FB1652057200B41134 /* NoteHint.htm */,
 				67CF2D70161951B7001FE1AA /* CalendarHint.htm */,
 				67CF2D71161951B7001FE1AA /* CategoryHint.htm */,
@@ -5614,6 +5656,7 @@
 				67296F70181631E900CD834A /* SmartApps_1024_css.css in Resources */,
 				6748B930180401820043A80E /* 1_small_graphic.png in Resources */,
 				6748B931180401820043A80E /* 1_task_drawer.png in Resources */,
+				A2E2A55F18447CAD003EDEF3 /* slider_3_768_de.html in Resources */,
 				6748B932180401820043A80E /* 2_filter.png in Resources */,
 				6748B933180401820043A80E /* 2_menu.png in Resources */,
 				6784CF551830B01C0095DDF9 /* slider_1_iphone5.jpg in Resources */,
@@ -5621,6 +5664,7 @@
 				6748B935180401820043A80E /* 2_tag_context.png in Resources */,
 				A202CF021828FC0D001840EE /* savemap.png in Resources */,
 				6748B936180401820043A80E /* 5_chrevon.png in Resources */,
+				A2E2A56118447D2B003EDEF3 /* slider_4_768_de.html in Resources */,
 				6748B937180401820043A80E /* 6_progress.png in Resources */,
 				6748B938180401820043A80E /* dateJumpMenu.png in Resources */,
 				6748B939180401820043A80E /* event_icon.png in Resources */,
@@ -5648,6 +5692,7 @@
 				6748B94D180401820043A80E /* TimerRecoverDisableHint.htm in Resources */,
 				6748B94E180401820043A80E /* TimerRecoverEnableHint.htm in Resources */,
 				6748B94F180401820043A80E /* ToodledoSyncHint.htm in Resources */,
+				A2E2A56318447DFF003EDEF3 /* slider_1_iphone4_de.html in Resources */,
 				6748B950180401820043A80E /* UnPinHint.htm in Resources */,
 				6748B951180401820043A80E /* V3_0Hint.htm in Resources */,
 				6748B952180401820043A80E /* V3_1Hint.htm in Resources */,
@@ -5685,6 +5730,7 @@
 				6748B96F180401820043A80E /* blue-small.png in Resources */,
 				67296F5F1816267900CD834A /* SD_aboutUS_1024.html in Resources */,
 				A202CEFF1828FC0D001840EE /* map_iOS7@2x.png in Resources */,
+				A2E2A55B18447A77003EDEF3 /* slider_1_768_de.html in Resources */,
 				6748B970180401820043A80E /* blue_button.png in Resources */,
 				6748B971180401820043A80E /* blue_menu.png in Resources */,
 				6748B972180401820043A80E /* bluebg.png in Resources */,
@@ -5732,7 +5778,7 @@
 				6748B999180401820043A80E /* currenttime@2x.png in Resources */,
 				6748B99A180401820043A80E /* default_cate.png in Resources */,
 				6748B99B180401820043A80E /* default_cate@2x.png in Resources */,
-				67419EB718279F1F00F9ABED /* detail_hint.htm in Resources */,
+				67419EB718279F1F00F9ABED /* detail_hint_en.htm in Resources */,
 				6748B99C180401820043A80E /* delete_btn.png in Resources */,
 				6748B99D180401820043A80E /* delete_button.png in Resources */,
 				6748B99E180401820043A80E /* detail.png in Resources */,
@@ -5776,6 +5822,7 @@
 				6748B9BA180401820043A80E /* hashmash_3.png in Resources */,
 				6748B9BB180401820043A80E /* hide_btn.png in Resources */,
 				6748B9BC180401820043A80E /* hint_button.png in Resources */,
+				A2E2A56D1844827F003EDEF3 /* slider_2_iphone5_de.html in Resources */,
 				6748B9BD180401820043A80E /* menu_star_yellow.png in Resources */,
 				6748B9BE180401820043A80E /* history.png in Resources */,
 				6748B9BF180401820043A80E /* filter_short.png in Resources */,
@@ -5839,6 +5886,7 @@
 				6784CF401830B01C0095DDF9 /* slider_2_iphone4.jpg in Resources */,
 				6748B9F4180401820043A80E /* SD_256.png in Resources */,
 				6748B9F5180401820043A80E /* menu_pinned@2x.png in Resources */,
+				A2E2A56518447ECA003EDEF3 /* slider_2_iphone4_de.html in Resources */,
 				6748B9F6180401820043A80E /* menu_recurring.png in Resources */,
 				6748B9F7180401820043A80E /* SD_60.png in Resources */,
 				6748B9F8180401820043A80E /* menu_reset.png in Resources */,
@@ -5979,6 +6027,7 @@
 				6748BA72180401820043A80E /* week_prev.png in Resources */,
 				6748BA73180401820043A80E /* week_prev@2x.png in Resources */,
 				6784CF5E1830B01C0095DDF9 /* slider_3_iphone5_en.html in Resources */,
+				A2E2A56B1844826F003EDEF3 /* slider_1_iphone5_de.html in Resources */,
 				6748BA74180401820043A80E /* white_left_round.png in Resources */,
 				6748BA75180401820043A80E /* white_right_round.png in Resources */,
 				6748BA76180401820043A80E /* Work.png in Resources */,
@@ -5994,6 +6043,7 @@
 				6748BA80180401820043A80E /* LCL_Products_Page_640.html in Resources */,
 				6748BA81180401820043A80E /* S2Q_205.png in Resources */,
 				6748BA82180401820043A80E /* S2Q_80.png in Resources */,
+				A2E2A56718447F5A003EDEF3 /* slider_3_iphone4_de.html in Resources */,
 				6748BA83180401820043A80E /* SC_205.png in Resources */,
 				6748BA84180401820043A80E /* SC_aboutUS_320.html in Resources */,
 				6748BA85180401820043A80E /* SC_aboutUS_640.html in Resources */,
@@ -6089,6 +6139,7 @@
 				6748BADD180401820043A80E /* hints_tasks.png in Resources */,
 				6748BADE180401820043A80E /* hints_calendar_ip4.png in Resources */,
 				6748BADF180401820043A80E /* hints_calendar_ip4@2x.png in Resources */,
+				A2E2A56918447FA2003EDEF3 /* slider_4_iphone4_de.html in Resources */,
 				6748BAE0180401820043A80E /* hints_note_ip4.png in Resources */,
 				6748BAE1180401820043A80E /* bar_comments.png in Resources */,
 				6748BAE2180401820043A80E /* hints_note_ip4@2x.png in Resources */,
@@ -6100,6 +6151,7 @@
 				6748BAE8180401820043A80E /* hints_task_ip4@2x.png in Resources */,
 				6748BAE9180401820043A80E /* handle@2x.png in Resources */,
 				6748BAEA180401820043A80E /* SC_aboutUS_320_ip5.html in Resources */,
+				A2E2A5751844899F003EDEF3 /* detail_hint_ja.htm in Resources */,
 				6748BAEB180401820043A80E /* SC_bg_320_ip5.jpg in Resources */,
 				6748BAEC180401820043A80E /* SC_css_ip5.css in Resources */,
 				6748BAED180401820043A80E /* PresetTagDict.dat in Resources */,
@@ -6175,6 +6227,7 @@
 				6748BB2D180401820043A80E /* pattern_dark.png in Resources */,
 				6748BB2E180401820043A80E /* pattern_dark@2x.png in Resources */,
 				6748BB2F180401820043A80E /* close.wav in Resources */,
+				A2E2A56F1844828D003EDEF3 /* slider_3_iphone5_de.html in Resources */,
 				6748BB30180401820043A80E /* Harp.wav in Resources */,
 				6748BB31180401820043A80E /* open.wav in Resources */,
 				6748BB32180401820043A80E /* SmartDay_iPad-Info.plist in Resources */,
@@ -6247,6 +6300,7 @@
 				6748BB6D180401820043A80E /* DurationInputViewController.xib in Resources */,
 				6748BB6E180401820043A80E /* ProjectInputViewController.xib in Resources */,
 				6748BB6F180401820043A80E /* LocationInputAccessoryView.xib in Resources */,
+				A2E2A57318448971003EDEF3 /* detail_hint_de.htm in Resources */,
 				6748BB70180401820043A80E /* noteBG_full.png in Resources */,
 				6748BB71180401820043A80E /* filter_long.png in Resources */,
 				6748BB72180401820043A80E /* noteHeaderBG_full.png in Resources */,
@@ -6306,6 +6360,7 @@
 				6748BBA6180401820043A80E /* tab_tasks_landscape@2x.png in Resources */,
 				6748BBA7180401820043A80E /* tab_notes_left_selected.png in Resources */,
 				6748BBA8180401820043A80E /* tab_notes_left_selected@2x.png in Resources */,
+				A2E2A5711844829A003EDEF3 /* slider_4_iphone5_de.html in Resources */,
 				6748BBA9180401820043A80E /* tab_notes_left.png in Resources */,
 				6748BBAA180401820043A80E /* tab_notes_left@2x.png in Resources */,
 				6748BBAB180401820043A80E /* tab_projects_left_selected.png in Resources */,
@@ -6318,6 +6373,7 @@
 				6748BBB0180401820043A80E /* tab_tasks_left_selected@2x.png in Resources */,
 				6748BBB1180401820043A80E /* tab_tasks_left.png in Resources */,
 				6748BBB2180401820043A80E /* tab_tasks_left@2x.png in Resources */,
+				A2E2A55D18447AE7003EDEF3 /* slider_2_768_de.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6461,7 +6517,7 @@
 				67CF2F13161951B8001FE1AA /* currenttime@2x.png in Resources */,
 				67CF2F14161951B8001FE1AA /* default_cate.png in Resources */,
 				67CF2F15161951B8001FE1AA /* default_cate@2x.png in Resources */,
-				67419EB818279F1F00F9ABED /* detail_hint.htm in Resources */,
+				67419EB818279F1F00F9ABED /* detail_hint_en.htm in Resources */,
 				67CF2F16161951B8001FE1AA /* delete_btn.png in Resources */,
 				67CF2F17161951B8001FE1AA /* delete_button.png in Resources */,
 				67CF2F18161951B8001FE1AA /* detail.png in Resources */,
@@ -7187,7 +7243,7 @@
 				67EC0DB216F8081F00929BFD /* currenttime@2x.png in Resources */,
 				67EC0DB316F8081F00929BFD /* default_cate.png in Resources */,
 				67EC0DB416F8081F00929BFD /* default_cate@2x.png in Resources */,
-				67419EB918279F1F00F9ABED /* detail_hint.htm in Resources */,
+				67419EB918279F1F00F9ABED /* detail_hint_en.htm in Resources */,
 				67EC0DB516F8081F00929BFD /* delete_btn.png in Resources */,
 				67EC0DB616F8081F00929BFD /* delete_button.png in Resources */,
 				67EC0DB716F8081F00929BFD /* detail.png in Resources */,
