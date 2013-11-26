@@ -1930,6 +1930,19 @@ extern DetailViewController *_detailViewCtrler;
     
     task.project = prjKey;
     
+    if ([task isEvent])
+    {
+        //to fix bug: change event's project
+        CalendarViewController *calCtrler = [self getCalendarViewController];
+        
+        Task *event = [calCtrler.calendarLayoutController findEventByKey:task.primaryKey];
+        
+        if (event != nil)
+        {
+            [event updateByTask:task];
+        }
+    }
+    
     [self reconcileItem:task reSchedule:NO];
 }
 

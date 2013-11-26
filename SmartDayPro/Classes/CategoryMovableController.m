@@ -216,7 +216,8 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
     
     BOOL refresh = NO;
     
-    //Task *item = ((TaskView *) self.activeMovableView).task;
+    BOOL reCallEndMove = YES;
+    
     
     if (!moveInMM && !moveInFocus && !moveInPlannerDayCalendar && !moveInPlannerMM && !moveInDayCalendar)
     {
@@ -234,7 +235,16 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
             {
                 if (onMovableView != nil && [onMovableView isKindOfClass:[PlanView class]])
                 {
-                    [_iPadSDViewCtrler changeTask:((TaskView *)self.activeMovableView).task toProject:((PlanView *)onMovableView).project.primaryKey];
+                    //[_iPadSDViewCtrler changeTask:((TaskView *)self.activeMovableView).task toProject:((PlanView *)onMovableView).project.primaryKey];
+                    reCallEndMove = NO;
+                    
+                    NSInteger projectKey = ((PlanView *)onMovableView).project.primaryKey;
+                    Task *task = [((TaskView *)self.activeMovableView).task copy];
+                    
+                    [super endMove:view];
+                    
+                    [_iPadSDViewCtrler changeTask:task toProject:projectKey];
+                    [task release];
                     
                     refresh = YES;
                 }
@@ -268,10 +278,6 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
                     
                     refresh = YES;
                 }
-                else
-                {
-                    [super endMove:view];
-                }
             }
             else if ([self.activeMovableView isKindOfClass:[PlanView class]])
             {
@@ -284,28 +290,21 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
                     
                     refresh = YES;
                 }
-                else
-                {
-                    [super endMove:view];
-                }
             }
         }
     }
-    else
+    else if ((moveInDayCalendar || moveInPlannerDayCalendar) && [activeMovableView isKindOfClass:[TaskView class]])
     {
-        BOOL convertATask = NO;
-        if ([activeMovableView isKindOfClass:[TaskView class]]) {
-            Task *item = ((TaskView *) self.activeMovableView).task;
-            
-            if ([item isTask] && (moveInDayCalendar || moveInPlannerDayCalendar)) {
-                [self doMoveTaskInDayCalendar];
-                convertATask = YES;
-            }
-        }
+        Task *item = ((TaskView *) self.activeMovableView).task;
         
-        if (!convertATask) {
-            [super endMove:view];
+        if ([item isTask]) {
+            reCallEndMove = NO;
+            [self doMoveTaskInDayCalendar];
         }
+    }
+    
+    if (reCallEndMove) {
+        [super endMove:view];
     }
     
     if (refresh)
