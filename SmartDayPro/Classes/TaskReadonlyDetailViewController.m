@@ -174,7 +174,7 @@ extern iPadViewController *_iPadViewCtrler;
                                          titleColor:[UIColor whiteColor]
                                              target:self
                                            selector:@selector(markDone:)
-                                   normalStateImage:@"menu_done.png"
+                                   normalStateImage:@"menu_done_white.png"
                                  selectedStateImage:nil];
     
     UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
@@ -185,7 +185,7 @@ extern iPadViewController *_iPadViewCtrler;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(share2AirDrop:)
-                                  normalStateImage:@"menu_airdrop.png"
+                                  normalStateImage:@"menu_airdrop_white.png"
                                 selectedStateImage:nil];
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
