@@ -36,7 +36,7 @@
 	if (self = [super init]) 
 	{
 		//alertDict = [[AlertData getAlertTextDictionary] retain];
-        self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        self.preferredContentSize = CGSizeMake(320,416);
         
         //self.locationList = [[LocationManager getInstance] getAllLocation];
 	}

@@ -38,7 +38,7 @@
 {
     if (self =[super init])
     {
-        self.contentSizeForViewInPopover = CGSizeMake(320,440);
+        self.preferredContentSize = CGSizeMake(320,440);
         
         activeTimer = nil;
     }

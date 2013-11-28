@@ -43,7 +43,7 @@ extern BOOL _isiPad;
 {
     if (self = [super init])
     {
-        //self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        //self.preferredContentSize = CGSizeMake(320,416);
         self.preferredContentSize = CGSizeMake(_isiPad?384:320,416);
     }
     

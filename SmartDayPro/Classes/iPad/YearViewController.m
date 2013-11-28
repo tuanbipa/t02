@@ -30,7 +30,7 @@
     if (self = [super init])
     {
         /*CGSize scrSize = [Common getScreenSize];
-        self.contentSizeForViewInPopover = CGSizeMake(scrSize.height - 0, scrSize.width - 100);
+        self.preferredContentSize = CGSizeMake(scrSize.height - 0, scrSize.width - 100);
         
         CGRect frm = CGRectMake(0, 0, scrSize.height, scrSize.width - 100);*/
         
@@ -39,7 +39,7 @@
         self.preferredContentSize = frm.size;
         
         contentView = [[YearView alloc] initWithFrame:frm];
-        //self.contentSizeForViewInPopover = scrSize;
+        //self.preferredContentSize = scrSize;
         //self.preferredContentSize = scrSize;
         
         self.view = contentView;

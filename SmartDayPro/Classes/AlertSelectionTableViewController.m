@@ -42,7 +42,7 @@
 	{
 		selectedIndex = -1;
         
-        self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        self.preferredContentSize = CGSizeMake(320,416);
 	}
 	
 	return self;	

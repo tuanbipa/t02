@@ -38,7 +38,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
     if (self = [super init])
     {
-        self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        self.preferredContentSize = CGSizeMake(320,416);
     }
     
     return self;

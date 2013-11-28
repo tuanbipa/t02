@@ -26,7 +26,7 @@
 - (id)init
 {
     if (self) {
-        self.contentSizeForViewInPopover = CGSizeMake(320,416);
+        self.preferredContentSize = CGSizeMake(320,416);
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];

@@ -39,7 +39,7 @@
 {
 	if (self = [super init])
 	{
-		self.contentSizeForViewInPopover = CGSizeMake(320,418);
+		self.preferredContentSize = CGSizeMake(320,418);
 	}
 	
 	return self;

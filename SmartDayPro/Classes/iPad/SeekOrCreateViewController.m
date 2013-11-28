@@ -54,7 +54,7 @@ extern iPadViewController *_iPadViewCtrler;
         tapRow = -1;
         tapSection = -1;
         
-        self.contentSizeForViewInPopover = CGSizeMake(320,440);
+        self.preferredContentSize = CGSizeMake(320,440);
     }
     
     return self;
