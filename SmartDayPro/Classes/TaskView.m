@@ -453,7 +453,7 @@ extern SmartDayViewController *_sdViewCtrler;
         CGFloat nameHeight = lineNumber * oneCharSize.height;
         if (nameHeight > textRec.size.height) {
             nameHeight = textRec.size.height;
-            nameHeight = nameHeight - fmod(nameHeight, oneCharSize.height);
+            //nameHeight = nameHeight - fmod(nameHeight, oneCharSize.height);
         }
         
         if (![infoStr isEqualToString:@""] && lineNumber > 2 && nameHeight >= 3*oneCharSize.height) {
