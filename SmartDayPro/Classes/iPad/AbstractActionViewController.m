@@ -1943,7 +1943,8 @@ extern DetailViewController *_detailViewCtrler;
         }
     }
     
-    [self reconcileItem:task reSchedule:NO];
+    //[self reconcileItem:task reSchedule:NO];
+    [[AbstractActionViewController getInstance] reconcileItem:task reSchedule:NO];
 }
 
 -(void)quickAddEvent:(NSString *)name startTime:(NSDate *)startTime
