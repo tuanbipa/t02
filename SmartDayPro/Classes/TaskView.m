@@ -30,6 +30,8 @@
 #import "iPadViewController.h"
 #import "SmartDayViewController.h"
 
+#import "Project.h"
+
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
 
@@ -332,14 +334,11 @@ extern SmartDayViewController *_sdViewCtrler;
     //UIColor *textColor = (isList?[UIColor blackColor]:[UIColor whiteColor]);
     UIColor *textColor = [[ProjectManager getInstance] getProjectColor0:task.project];
     
-    NSString *infoStr = [task.location stringByTrimmingCharactersInSet:
-    [NSCharacterSet whitespaceCharacterSet]];
-    
     if ([task isNote])
     {
         //NSString *name = [task.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
-        infoStr = [task.note stringByReplacingOccurrencesOfString:task.name withString:@""];
+        NSString *infoStr = [task.note stringByReplacingOccurrencesOfString:task.name withString:@""];
         
         ////printf("text after replace: %s, note:%s, name:%s\n", [infoStr UTF8String], [task.note UTF8String], [task.name UTF8String]);
         
@@ -414,7 +413,7 @@ extern SmartDayViewController *_sdViewCtrler;
     else
     {
         
-        NSString *repeat = [task getRepeatTypeString];
+        /*NSString *repeat = [task getRepeatTypeString];
         if (![repeat isEqualToString:_noneText]) {
             if (![infoStr isEqualToString:@""]) {
                 infoStr = [infoStr stringByAppendingString:@", "];
@@ -438,7 +437,40 @@ extern SmartDayViewController *_sdViewCtrler;
             
             NSString *due = [self.task getDueString];
             infoStr = [infoStr stringByAppendingString: due];
+        }*/
+        
+        NSMutableArray *infoList = [NSMutableArray array];
+        if ([task isShared]) {
+            // get project
+            Project *project = [[Project alloc] initWithPrimaryKey:task.project database:[[DBManager getInstance] getDatabase]];
+            [infoList addObject:[NSString stringWithFormat:_assignedByText, project.ownerName]];
         }
+        
+        NSString *locationStr = [task.location stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if ([locationStr length] > 0) {
+            
+            [infoList addObject:locationStr];
+        }
+        
+        NSString *repeat = [task getRepeatTypeString];
+        if (![repeat isEqualToString:_noneText]) {
+            
+            [infoList addObject:[NSString stringWithFormat:@"%@ %@", _repeatText, repeat]];
+        }
+        
+        if ([task isTask]) {
+            
+            NSString *duration = [Common getDurationString:self.task.duration];
+            [infoList addObject:duration];
+        }
+        
+        if ([task isDTask]) {
+            
+            NSString *due = [self.task getDueString];
+            [infoList addObject:due];
+        }
+        
+        NSString *infoStr = [infoList componentsJoinedByString:@", "];
         
         CGRect textRec = rect;
         
@@ -1232,7 +1264,7 @@ extern SmartDayViewController *_sdViewCtrler;
     //BOOL hasHashMark = NO;
     BOOL hasTime = NO;
     //BOOL hasLink = (self.task.original != nil && ![self.task isREException]? self.task.original.links.count > 0: self.task.links.count > 0);
-    BOOL hasHand = [self.task isShared];
+    //BOOL hasHand = [self.task isShared];
     
     //printf("task %s link count: %d\n", [task.name UTF8String], task.links.count);
     
@@ -1480,7 +1512,7 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
 	}*/
     
-	if (hasHand)
+	/*if (hasHand)
 	{
 		frm.size.width = HAND_SIZE;
 		frm.size.height = HAND_SIZE;
@@ -1492,7 +1524,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		
         rect.origin.x += HAND_SIZE + SPACE_PAD/2;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
-	}
+	}*/
     
     [self drawText:rect context:ctx];
 }
@@ -1805,7 +1837,7 @@ extern SmartDayViewController *_sdViewCtrler;
     BOOL hasHashMark = NO;
     BOOL hasTime = YES;
     BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
-    BOOL hasHand = [task isShared];
+    //BOOL hasHand = [task isShared];
     
     //printf("task %s link count: %d\n", [task.name UTF8String], task.links.count);
     
@@ -2097,7 +2129,7 @@ extern SmartDayViewController *_sdViewCtrler;
 //        rect.size.width -= DUE_SIZE + SPACE_PAD/2;
 	}*/
     
-	if (hasHand)
+	/*if (hasHand)
 	{
 		frm.size.width = HAND_SIZE;
 		frm.size.height = HAND_SIZE;
@@ -2109,7 +2141,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		
         rect.origin.x += HAND_SIZE + SPACE_PAD/2;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
-	}
+	}*/
     
     [self drawText:rect context:ctx];
 }
@@ -2381,7 +2413,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	//BOOL hasDue = [task isDTask];
 	//BOOL hasFlag = [task isTask] && (task.isTop || (task.original != nil && task.original.isTop));
     //BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
-    BOOL hasHand = [task isShared];
+    //BOOL hasHand = [task isShared];
     
     ////printf("task view: %s - has Link: %s\n", [task.name UTF8String], (hasLink?"Yes":"No"));
     
@@ -2637,7 +2669,7 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
 	}*/
     
-	if (hasHand)
+	/*if (hasHand)
 	{
 		frm.size.width = HAND_SIZE;
 		frm.size.height = HAND_SIZE;
@@ -2649,7 +2681,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		
         rect.origin.x += HAND_SIZE + SPACE_PAD/2;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
-	}
+	}*/
     
     rect.origin.x += SPACE_PAD;
     rect.size.width -= SPACE_PAD;

@@ -790,3 +790,6 @@
 #define _reportWeekEmailSubject NSLocalizedString(@"_reportWeekEmailSubject", "")
 
 #define _anytimeText NSLocalizedString(@"_anytimeText", "")
+
+// Smart Share
+#define _assignedByText NSLocalizedString(@"_assignedByText", "")
