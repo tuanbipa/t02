@@ -42,12 +42,12 @@ body{
 #both{
 	left: 484px;
 	position:absolute;
-	top: 580px;
+	top: 540px;
 }
 #both2{
 	left: 483px;
 	position:absolute;
-	top: 830px;
+	top: 800px;
 }
 #both3{
 	left: 500px;
@@ -59,7 +59,7 @@ body{
 	/*background-image: url(SCal_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 510px;
+	top: 470px;
 	position: absolute;
 	left: 25px;
 	background-repeat:no-repeat;
@@ -67,13 +67,13 @@ body{
 #SO_text {
 	left: 130px;
 	position:absolute;
-	top:510px;
+	top:470px;
 	width: 220px;
 }
 #SO_long_text{
 	left: 20px;
 	position:absolute;
-	top:588px;
+	top:558px;
 	width: 340px;
 }
 
@@ -130,7 +130,7 @@ body{
 	/*background-image: url(SN_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 510px;
+	top: 470px;
 	position: absolute;
 	left: 390px;
 	background-repeat:no-repeat;
@@ -138,12 +138,12 @@ body{
 #SNotes_text {
 	left: 500px;
 	position:absolute;
-	top:510px;
+	top:470px;
 }
 #SNotes_long_text{
 	left: 390px;
 	position:absolute;
-	top:587px;
+	top:557px;
 	width: 340px;
 }
 
@@ -152,7 +152,7 @@ body{
 	/*background-image: url(SP_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 760px;
+	top: 730px;
 	position: absolute;
 	left: 25px;
 	background-repeat:no-repeat;
@@ -160,12 +160,12 @@ body{
 #SPlans_text {
 	left: 130px;
 	position:absolute;
-	top:760px;
+	top:730px;
 }
 #SPlans_long_text{
 	left: 20px;
 	position:absolute;
-	top:840px;
+	top:820px;
 	width: 340px;
 	height: 110px;
 }
@@ -175,7 +175,7 @@ body{
 	/*background-image: url(STu_80.png);*/
 	width: 80px;
 	height: 80px;
-	top: 760px;
+	top: 730px;
 	position: absolute;
 	left: 390px;
 	background-repeat:no-repeat;
@@ -183,13 +183,13 @@ body{
 #STunes_text {
 	left: 500px;
 	position:absolute;
-	top:760px;
+	top:730px;
 	width: 231px;
 }
 #STunes_long_text{
 	left: 390px;
 	position:absolute;
-	top:840px;
+	top:820px;
 	width: 340px;
 	height: 130px;
 }
