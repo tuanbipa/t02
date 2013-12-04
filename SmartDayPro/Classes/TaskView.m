@@ -445,6 +445,13 @@ extern SmartDayViewController *_sdViewCtrler;
             Project *project = [[Project alloc] initWithPrimaryKey:task.project database:[[DBManager getInstance] getDatabase]];
             [infoList addObject:[NSString stringWithFormat:_assignedByText, project.ownerName]];
         }
+        else if ([task isAccepted])
+        {
+            NSArray *assigneeArray = [task.assigneeEmail componentsSeparatedByString:@"@"];
+            if (assigneeArray.count > 0) {
+                [infoList addObject:[NSString stringWithFormat:_acceptedByText, assigneeArray[0]]];
+            }
+        }
         
         NSString *locationStr = [task.location stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if ([locationStr length] > 0) {

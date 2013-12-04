@@ -793,3 +793,4 @@
 
 // Smart Share
 #define _assignedByText NSLocalizedString(@"_assignedByText", "")
+#define _acceptedByText NSLocalizedString(@"_acceptedByText", "")
