@@ -1572,6 +1572,12 @@ NSInteger _sdwColor[32] = {
     
     [ret setMeetingInvited:[[dict objectForKey:@"meeting_invite_flag"] intValue]];
     
+    if (![ret isShared]) {
+        [ret setAcceptedStatus:([[dict objectForKey:@"delegate_status"] intValue] == 1)]; // 1 mean accepted
+    }
+    
+    ret.assigneeEmail = [self getStringValue:@"assignee_email" dict:dict];
+    
     // sync Manual Task
     [ret setExtraManual:[[dict objectForKey:@"stask"] intValue]];
     ret.timeZoneId = [[dict objectForKey:@"timezone_key"] intValue];
@@ -2092,7 +2098,9 @@ NSInteger _sdwColor[32] = {
 	//if (task.primaryKey > -1)
 	{
 		[task enableExternalUpdate];		
-	}    
+	}
+    
+    task.assigneeEmail = sdwTask.assigneeEmail;
 }
 
 - (BOOL) checkTaskCompletedInRange:(Task *)task

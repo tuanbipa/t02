@@ -347,7 +347,7 @@ extern BOOL _isiPad;
     rect.origin.x += PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     rect.size.width -= PLAN_EXPAND_WIDTH + PLAN_PAD_WIDTH;
     
-    if ([plan isShared])
+    /*if ([plan isShared])
     {
         //[[[Colors darkSlateGray] colorWithAlphaComponent:0.5] setFill];
         
@@ -363,7 +363,7 @@ extern BOOL _isiPad;
         
         rect.origin.x += HAND_SIZE + SPACE_PAD/2;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
-    }
+    }*/
     
     CGRect textRect = [self drawText:rect context:ctx];
     

@@ -3412,14 +3412,14 @@ extern BOOL _detailHintShown;
 	[contentView addSubview:optionView];
 	[optionView release];
 	
-    //optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
-    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 60)];
+    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+    //optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 60)];
 	optionImageView.alpha = 0.9;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
     
-    //UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
-    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
+    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
+    //UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
 	locationImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_location.png"];
 	[optionView addSubview:locationImageView];
 	[locationImageView release];
@@ -3464,7 +3464,6 @@ extern BOOL _detailHintShown;
         [locationBadgeLabel release];
     }
     
-/*
     //UIImageView *commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
     UIImageView *commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
 	commentImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_comments.png"];
@@ -3511,7 +3510,6 @@ extern BOOL _detailHintShown;
         [optionView addSubview:commentBadgeLabel];
         [commentBadgeLabel release];
     }
-*/
     
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2 + 80;

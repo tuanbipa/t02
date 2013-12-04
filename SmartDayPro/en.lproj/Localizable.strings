@@ -804,3 +804,7 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_reportWeekEmailSubject" = "SmartDay - Overview";
 
 "_anytimeText" = "Anytime";
+
+// # Smart Share
+"_assignedByText" = "Assigned by %@";
+"_acceptedByText" = "Accepted by %@";

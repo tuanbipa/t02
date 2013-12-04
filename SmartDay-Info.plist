@@ -16,7 +16,7 @@
 		<string>SD_57.png</string>
 		<string>SD_76.png</string>
 		<string>SD_120.png</string>
-        <string>SD_152.png</string>
+		<string>SD_152.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.leftcoastlogic.sdiphone</string>
@@ -50,6 +50,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
+		<string>fetch</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

@@ -86,6 +86,9 @@
     
     // location ID, reference to Location's primary
     NSInteger locationID;
+    
+    // smart share
+    NSString *assigneeEmail;
 }
 
 @property NSInteger primaryKey; 
@@ -155,6 +158,9 @@
 @property NSInteger locationAlertID;
 @property NSInteger locationID;
 
+// smart share
+@property (nonatomic, copy) NSString *assigneeEmail;
+
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) initialUpdate;
 - (void) insertIntoDB:(sqlite3 *)database;
@@ -216,12 +222,14 @@
 - (BOOL)isStar;
 -(BOOL) isMeetingInvited;
 -(BOOL) isShared;
+-(BOOL) isAccepted;
 -(BOOL) isManual;
 
 - (void) setExtraManual:(NSInteger)intValue;
 - (void) setManual:(BOOL)enabled;
 - (void) setMeetingInvited:(BOOL)enabled;
 - (void) setShared:(BOOL)enabled;
+- (void) setAcceptedStatus:(BOOL)enabled;
 
 -(BOOL)checkMustDo;
 
