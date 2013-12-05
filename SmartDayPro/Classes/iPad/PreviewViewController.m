@@ -546,6 +546,9 @@ PreviewViewController *_previewCtrler;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteChangeNotification" object:nil]; //to auto-sync mSD
     }
+    
+    noteChange = NO;
+    noteLinkCreated = NO;
 
     _previewCtrler = nil;
 }
