@@ -296,7 +296,7 @@ extern iPadViewController *_iPadViewCtrler;
         task.listSource = SOURCE_SMARTLIST;
         taskView.task = task;
         taskView.starEnable = (task.status != TASK_STATUS_DONE && ![task isShared]);
-        taskView.checkEnable = !_iPadViewCtrler.inSlidingMode;
+        taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
         taskView.showDue = (tm.taskTypeFilter == TASK_FILTER_DUE);
         taskView.showFlag = (tm.taskTypeFilter == TASK_FILTER_TOP);
         taskView.showDuration = (tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT);
