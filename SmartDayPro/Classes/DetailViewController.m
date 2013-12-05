@@ -918,7 +918,7 @@ DetailViewController *_detailViewCtrler = nil;
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:showAll?([self.task isShared]?11:10):([self.task isShared]?7:6) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     */
     
-    [Common reloadRowOfTable:detailTableView row:(showAll?([self.task isShared]?11:10):([self.task isShared]?7:6)) section:0];
+    [Common reloadRowOfTable:detailTableView row:(showAll?([self.task isAccepted]?11:10):([self.task isAccepted]?7:6)) section:0];
     
 }
 
@@ -1838,7 +1838,7 @@ DetailViewController *_detailViewCtrler = nil;
     {
         return 0;
     }
-    else if ((showAll && indexPath.row == ([self.task isShared]?11:10)) || (!showAll && indexPath.row == ([self.task isShared]?7:6))) //asset list
+    else if ((showAll && indexPath.row == ([self.task isAccepted]?11:10)) || (!showAll && indexPath.row == ([self.task isAccepted]?7:6))) //asset list
     {
         CGFloat h = [self.previewViewCtrler getHeight];
         
@@ -1941,7 +1941,7 @@ DetailViewController *_detailViewCtrler = nil;
             }
             else
             {
-                if ([self.task isShared])
+                if ([self.task isAccepted])
                 {
                     [self createCommentCell:cell baseTag:10500];
                 }
@@ -1962,7 +1962,7 @@ DetailViewController *_detailViewCtrler = nil;
             }
             else
             {
-                if ([self.task isShared])
+                if ([self.task isAccepted])
                 {
                     cell.textLabel.text = _assetsText;
                 }
@@ -1990,7 +1990,7 @@ DetailViewController *_detailViewCtrler = nil;
             [self createTimerHistoryCell:cell baseTag:10800];
             break;
         case 9:
-            if ([self.task isShared])
+            if ([self.task isAccepted])
             {
                 [self createCommentCell:cell baseTag:10900];
             }
@@ -2002,7 +2002,7 @@ DetailViewController *_detailViewCtrler = nil;
             break;
         case 10:
             //[self createLinkCell:cell baseTag:11000];
-            if ([self.task isShared])
+            if ([self.task isAccepted])
             {
                 cell.textLabel.text = _assetsText;
             }
@@ -2055,7 +2055,7 @@ DetailViewController *_detailViewCtrler = nil;
             {
                 [self editAlert];
             }
-            else if ([task isShared])
+            else if ([task isAccepted])
             {
                 [self editComment];
             }
@@ -2078,7 +2078,7 @@ DetailViewController *_detailViewCtrler = nil;
             [self showTimerHistory];
             break;
         case 9:
-            if ([task isShared])
+            if ([task isAccepted])
             {
                 [self editComment];
             }
