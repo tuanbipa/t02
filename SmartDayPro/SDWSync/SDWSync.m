@@ -271,6 +271,7 @@ NSInteger _sdwColor[32] = {
     else if (self.syncMode == SYNC_MANUAL_1WAY_mSD2SD)
     {
         [self get1way];
+        [self syncTaskOrder:YES];
     }
     else
     {
@@ -2779,9 +2780,11 @@ NSInteger _sdwColor[32] = {
 
 - (NSDictionary *) toSDWTaskDict4Order:(Task *)task
 {
+    NSString *fieldName = [task isShared] ? @"assignee_order" : @"order_number";
+    
     NSDictionary *taskDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               task.sdwId,@"id",
-                              [NSNumber numberWithInt:task.sequenceNo],@"order_number",
+                              [NSNumber numberWithInt:task.sequenceNo],fieldName,
                               nil];
     
     return taskDict;
@@ -2805,7 +2808,11 @@ NSInteger _sdwColor[32] = {
     Task *ret = [[[Task alloc] init] autorelease];
     
     ret.sdwId = [[dict objectForKey:@"id"] stringValue];
-    ret.sequenceNo = [[dict objectForKey:@"order_number"] intValue];
+    //ret.sequenceNo = [[dict objectForKey:@"order_number"] intValue];
+    
+    NSInteger shared = [[dict objectForKey:@"shared"] intValue];
+    ret.sequenceNo = shared == 0 ? [[dict objectForKey:@"order_number"] intValue] : [[dict objectForKey:@"assignee_order"] intValue];
+    
     ret.updateTime = [NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"last_update"] intValue]];
     
     return ret;
@@ -2816,7 +2823,7 @@ NSInteger _sdwColor[32] = {
 {
     DBManager *dbm = [DBManager getInstance];
     
-	NSString *urlString=[NSString stringWithFormat:@"%@/api/tasks/updates.json?keyapi=%@&fields=id,order_number,last_update",SDWSite,self.sdwSection.key];
+	NSString *urlString=[NSString stringWithFormat:@"%@/api/tasks/updates.json?keyapi=%@&fields=id,order_number,assignee_order,last_update",SDWSite,self.sdwSection.key];
     
     //printf("update task order: %s\n", [urlString UTF8String]);
 	
@@ -2989,7 +2996,7 @@ NSInteger _sdwColor[32] = {
     
     if (fromSDW)
     {
-        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&fields=id,order_number,last_update&type=2&get_share=1",SDWSite,self.sdwSection.key];
+        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&fields=id,order_number,assignee_order,shared,last_update&type=2&get_share=1",SDWSite,self.sdwSection.key];
         
         //printf("get task order: %s\n", [url UTF8String]);
         
