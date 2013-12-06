@@ -3405,8 +3405,8 @@ extern BOOL _detailHintShown;
     
     maxWidth += 90;
     
-    //optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
-    optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 60)];
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 100)];
+    //optionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 60)];
 	optionView.hidden = YES;
 	optionView.backgroundColor = [UIColor clearColor];
 	[contentView addSubview:optionView];
@@ -3418,8 +3418,8 @@ extern BOOL _detailHintShown;
 	[optionView addSubview:optionImageView];
 	[optionImageView release];
     
-    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
-    //UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
+    //UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 53, 40, 40)];
+    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 18, 40, 40)];
 	locationImageView.image = [[ImageManager getInstance] getImageWithName:@"bar_location.png"];
 	[optionView addSubview:locationImageView];
 	[locationImageView release];

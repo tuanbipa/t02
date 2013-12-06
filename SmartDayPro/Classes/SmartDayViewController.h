@@ -67,9 +67,9 @@
     
     //UIButton *notifButton;
     
-    UIButton *commentButton;
-    UIButton *taskLocationButton;
-    UILabel *taskLocationLable;
+    //UIButton *commentButton;
+    //UIButton *taskLocationButton;
+    //UILabel *taskLocationLable;
     
     //PageAbstractViewController *viewCtrlers[TAB_NUM];
     
