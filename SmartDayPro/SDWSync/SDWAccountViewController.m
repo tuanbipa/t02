@@ -281,6 +281,11 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    if ([emailTextField.text isEqualToString:@""] || [pwdTextField.text isEqualToString:@""] || ![emailTextField.text isEqualToString:self.setting.sdwEmail] || ![pwdTextField.text isEqualToString:self.setting.sdwPassword]) {
+        self.setting.sdwVerified = NO;
+    }
+    
 	if([textField isEqual:emailTextField])
 	{
 		//self.email = emailTextField.text;
