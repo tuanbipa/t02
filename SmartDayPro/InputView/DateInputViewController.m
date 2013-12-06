@@ -146,9 +146,10 @@ extern RepeatTableViewController *_repeatViewCtrler;
         {
             if ([task isTask])
             {
-                task.startTime = [settings getWorkingStartTimeForDate: date];
+                //task.startTime = [settings getWorkingStartTimeForDate: date];
+                task.startTime = date == nil?nil:[settings getWorkingStartTimeForDate:date];
                 
-                if (task.deadline != nil && [task.deadline compare:task.startTime] == NSOrderedAscending)
+                if (date != nil && task.deadline != nil && [task.deadline compare:task.startTime] == NSOrderedAscending)
                 {
                     task.deadline = [settings getWorkingEndTimeForDate:task.startTime];
                 }
