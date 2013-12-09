@@ -509,6 +509,23 @@ static sqlite3_stmt *prj_delete_statement = nil;
     return self.extraStatus == PROJECT_EXTRA_STATUS_SHARED;
 }
 
+- (void) setIsOwner: (BOOL)enabled
+{
+    if (enabled)
+    {
+        self.extraStatus |= PROJECT_EXTRA_STATUS_OWNER;
+    }
+    else
+    {
+        self.extraStatus &= ~PROJECT_EXTRA_STATUS_OWNER;
+    }
+}
+    
+- (BOOL) isOwner
+{
+    return self.extraStatus == PROJECT_EXTRA_STATUS_OWNER;
+}
+
 -(void) saveSnapshot
 {
 	self.workBalance = self.revisedWorkBalance;

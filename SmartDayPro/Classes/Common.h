@@ -295,7 +295,8 @@ typedef enum
 typedef enum
 {
 	PROJECT_EXTRA_STATUS_NONE,
-    PROJECT_EXTRA_STATUS_SHARED
+    PROJECT_EXTRA_STATUS_SHARED,
+    PROJECT_EXTRA_STATUS_OWNER,
 } ProjectExtraStatus;
 
 typedef enum

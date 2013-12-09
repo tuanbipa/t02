@@ -271,7 +271,7 @@ extern iPadViewController *_iPadViewCtrler;
 		tagButtons[i] = tagButton;
 	}
     
-    if ([self.project isShared])
+    if ([self.project isShared] || [self.project isOwner])
     {
 //        UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(10, 450, frm.size.width - 20, 25)];
         UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(10, y, frm.size.width - 20, 25)];
@@ -663,133 +663,137 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) save:(id)sender
 {
-    DBManager *dbm = [DBManager getInstance];
-    ProjectManager *pm = [ProjectManager getInstance];
-    TaskManager *tm = [TaskManager getInstance];
-    
-    [projectNameTextField resignFirstResponder];
-    
-    if ([[ProjectManager getInstance] checkExistingProjectName:self.projectCopy.name excludeProject:self.projectCopy.primaryKey])
+    if (![self.project isShared])
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_categoryNameExistsText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
-        
-        return;
-    }    
     
-    if (self.project.primaryKey == -1)
-    {
-        [self.project updateByProject:self.projectCopy];
+        DBManager *dbm = [DBManager getInstance];
+        ProjectManager *pm = [ProjectManager getInstance];
+        TaskManager *tm = [TaskManager getInstance];
         
-        [pm addProject:self.project];
+        [projectNameTextField resignFirstResponder];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; 
-        
-        CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
-        
-        [ctrler loadAndShowList];
-    }
-    else if ([self.project checkChange:self.projectCopy])
-    {
-        BOOL nameChange = ![self.project.name isEqualToString:self.projectCopy.name];
-        BOOL typeChange = (self.project.type != self.projectCopy.type);
-        BOOL tagChange = ![self.project.tag isEqualToString:self.projectCopy.tag];
-        
-        if (typeChange)
+        if ([[ProjectManager getInstance] checkExistingProjectName:self.projectCopy.name excludeProject:self.projectCopy.primaryKey])
         {
-            [pm changeProjectType:self.project type:self.projectCopy.type];
-        }
-                
-        BOOL becomeVisible = (self.project.status == PROJECT_STATUS_INVISIBLE && self.projectCopy.status != PROJECT_STATUS_INVISIBLE); 
-        
-        BOOL visibilityChange = becomeVisible || (self.project.status != PROJECT_STATUS_INVISIBLE && self.projectCopy.status == PROJECT_STATUS_INVISIBLE);
-        
-        BOOL transparentChange = (self.project.isTransparent != self.projectCopy.isTransparent);
-        
-        BOOL colorChange = self.project.colorId != self.projectCopy.colorId;
-        
-        [self.project updateByProject:self.projectCopy];
-        
-        [self.project updateIntoDB:[dbm getDatabase]];
-        
-        //BOOL needRefresh = NO;
-        
-        if (colorChange)
-        {
-            [pm makeIcon:self.project];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_warningText  message:_categoryNameExistsText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+            [alertView show];
+            [alertView release];
             
-            //needRefresh = YES;
-        }
+            return;
+        }    
         
-        if (self.project.primaryKey == tm.lastTaskProjectKey && self.project.status == PROJECT_STATUS_INVISIBLE)
+        if (self.project.primaryKey == -1)
         {
-            tm.lastTaskProjectKey = [[Settings getInstance] taskDefaultProject];
-        }
-        
-        if (becomeVisible)
-        {
-            [[Settings getInstance] resetToodledoSync];
-        }
-        
-        if (nameChange || tagChange || colorChange || transparentChange)
-        {
+            [self.project updateByProject:self.projectCopy];
+            
+            [pm addProject:self.project];
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];            
-        }
-        
-		if (visibilityChange)
-		{
-			NSDate *dt = [tm.today copy];
-			
-			[tm initCalendarData:dt];
-            
-			[tm initSmartListData];
-			
-            [[AbstractActionViewController getInstance] refreshData];
-			
-			[dt release];
-		}
-        else if (transparentChange)
-        {
-            [tm scheduleTasks];
-        }
-        
-        if (tagChange && tm.filterData != nil)
-        {
-            [[AbstractActionViewController getInstance] resetAllData];
-        }
-        else if (colorChange)
-        {
-            [[AbstractActionViewController getInstance] setNeedsDisplay];
-        }
-        else if (transparentChange)
-        {
-            AbstractActionViewController *actionController = [AbstractActionViewController getInstance];
-            
-            CategoryViewController *ctrler = [actionController getCategoryViewController];
-            
-            [ctrler setNeedsDisplay];
-            
-            //CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
-            
-            CalendarViewController *calCtrler = [actionController getCalendarViewController];
-            
-            [calCtrler refreshView];
-            
-            PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[actionController getPlannerDayCalendarView];
-            [plannerDayCal refreshLayout];
-        }
-        else if (nameChange)
-        {
-            //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil]; 
             
             CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
             
-            [ctrler setNeedsDisplay];
+            [ctrler loadAndShowList];
         }
+        else if ([self.project checkChange:self.projectCopy])
+        {
+            BOOL nameChange = ![self.project.name isEqualToString:self.projectCopy.name];
+            BOOL typeChange = (self.project.type != self.projectCopy.type);
+            BOOL tagChange = ![self.project.tag isEqualToString:self.projectCopy.tag];
+            
+            if (typeChange)
+            {
+                [pm changeProjectType:self.project type:self.projectCopy.type];
+            }
+                    
+            BOOL becomeVisible = (self.project.status == PROJECT_STATUS_INVISIBLE && self.projectCopy.status != PROJECT_STATUS_INVISIBLE); 
+            
+            BOOL visibilityChange = becomeVisible || (self.project.status != PROJECT_STATUS_INVISIBLE && self.projectCopy.status == PROJECT_STATUS_INVISIBLE);
+            
+            BOOL transparentChange = (self.project.isTransparent != self.projectCopy.isTransparent);
+            
+            BOOL colorChange = self.project.colorId != self.projectCopy.colorId;
+            
+            [self.project updateByProject:self.projectCopy];
+            
+            [self.project updateIntoDB:[dbm getDatabase]];
+            
+            //BOOL needRefresh = NO;
+            
+            if (colorChange)
+            {
+                [pm makeIcon:self.project];
+                
+                //needRefresh = YES;
+            }
+            
+            if (self.project.primaryKey == tm.lastTaskProjectKey && self.project.status == PROJECT_STATUS_INVISIBLE)
+            {
+                tm.lastTaskProjectKey = [[Settings getInstance] taskDefaultProject];
+            }
+            
+            if (becomeVisible)
+            {
+                [[Settings getInstance] resetToodledoSync];
+            }
+            
+            if (nameChange || tagChange || colorChange || transparentChange)
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];            
+            }
+            
+            if (visibilityChange)
+            {
+                NSDate *dt = [tm.today copy];
+                
+                [tm initCalendarData:dt];
+                
+                [tm initSmartListData];
+                
+                [[AbstractActionViewController getInstance] refreshData];
+                
+                [dt release];
+            }
+            else if (transparentChange)
+            {
+                [tm scheduleTasks];
+            }
+            
+            if (tagChange && tm.filterData != nil)
+            {
+                [[AbstractActionViewController getInstance] resetAllData];
+            }
+            else if (colorChange)
+            {
+                [[AbstractActionViewController getInstance] setNeedsDisplay];
+            }
+            else if (transparentChange)
+            {
+                AbstractActionViewController *actionController = [AbstractActionViewController getInstance];
+                
+                CategoryViewController *ctrler = [actionController getCategoryViewController];
+                
+                [ctrler setNeedsDisplay];
+                
+                //CalendarViewController *calCtrler = [_abstractViewCtrler getCalendarViewController];
+                
+                CalendarViewController *calCtrler = [actionController getCalendarViewController];
+                
+                [calCtrler refreshView];
+                
+                PlannerBottomDayCal *plannerDayCal = (PlannerBottomDayCal*)[actionController getPlannerDayCalendarView];
+                [plannerDayCal refreshLayout];
+            }
+            else if (nameChange)
+            {
+                //CategoryViewController *ctrler = [_abstractViewCtrler getCategoryViewController];
+                
+                CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
+                
+                [ctrler setNeedsDisplay];
+            }
 
+        }
     }
     
     if (_isiPad)

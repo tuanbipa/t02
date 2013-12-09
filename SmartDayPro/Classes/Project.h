@@ -140,6 +140,8 @@
 - (BOOL) checkDefault;
 - (BOOL) checkCleanable;
 - (BOOL) isShared;
+- (void) setIsOwner: (BOOL)enabled;
+- (BOOL) isOwner;
 - (void) saveSnapshot;
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) insertIntoDB:(sqlite3 *)database;

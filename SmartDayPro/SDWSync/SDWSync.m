@@ -1032,6 +1032,10 @@ NSInteger _sdwColor[32] = {
             //printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
         }
     }
+    else
+    {
+        [ret setIsOwner:[[dict objectForKey:@"has_shared"] intValue]];
+    }
     
     NSInteger source = [[dict objectForKey:@"source"] intValue];
     
