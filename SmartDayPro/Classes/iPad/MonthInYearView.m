@@ -7,7 +7,6 @@
 //
 
 #import "MonthInYearView.h"
-#import "Strings.h"
 #import "Settings.h"
 #import "MonthlyCellView.h"
 #import "TaskManager.h"
