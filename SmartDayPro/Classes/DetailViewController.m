@@ -1375,7 +1375,10 @@ DetailViewController *_detailViewCtrler = nil;
         
         [cell.contentView addSubview:tzEditButton];
         
-        NSInteger secs = [Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        //NSInteger secs = [Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        
+        // sub DST offset
+        NSInteger secs = 2*[Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT] - [[Settings getTimeZoneByID:self.taskCopy.timeZoneId] secondsFromGMT];
         
         startTime = [startTime dateByAddingTimeInterval:secs];
         endTime = [endTime dateByAddingTimeInterval:secs];
