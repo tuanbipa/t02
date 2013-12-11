@@ -1378,7 +1378,7 @@ DetailViewController *_detailViewCtrler = nil;
         //NSInteger secs = [Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
         // sub DST offset
-        NSInteger secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [[Settings getTimeZoneByID:self.taskCopy.timeZoneId] secondsFromGMT];
+        NSInteger secs = [[Settings getTimeZoneByID:self.taskCopy.timeZoneId] secondsFromGMT] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
         startTime = [startTime dateByAddingTimeInterval:secs];
         endTime = [endTime dateByAddingTimeInterval:secs];

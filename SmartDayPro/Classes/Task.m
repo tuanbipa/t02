@@ -2166,7 +2166,9 @@ static sqlite3_stmt *task_delete_statement = nil;
     
     if ([self isNormalEvent] && self.timeZoneId != 0 && [[Settings getInstance] timeZoneSupport])
     {
-        NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        //NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        // sub DST offset
+        NSInteger secs = [[Settings getTimeZoneByID:self.timeZoneId] secondsFromGMT] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
         dt = [dt dateByAddingTimeInterval:secs];
     }
@@ -2180,7 +2182,9 @@ static sqlite3_stmt *task_delete_statement = nil;
     
     if ([self isNormalEvent] && self.timeZoneId != 0 && [[Settings getInstance] timeZoneSupport])
     {
-        NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        //NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        // sub DST offset
+        NSInteger secs = [[Settings getTimeZoneByID:self.timeZoneId] secondsFromGMT] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
         dt = [dt dateByAddingTimeInterval:secs];        
     }
