@@ -152,7 +152,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 - (void) animateRelations
 {
-    if (moveInFocus || moveInDayCalendar || moveInMM || moveInPlannerMM || moveInPlannerDayCalendar)
+    if ((moveInFocus || moveInDayCalendar || moveInMM || moveInPlannerMM || moveInPlannerDayCalendar) || ![self checkSeparate:self.activeMovableView])
     {
         [self unseparate];
         

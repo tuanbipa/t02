@@ -303,7 +303,7 @@ extern iPadViewController *_iPadViewCtrler;
         [taskView refreshStarImage];
         [taskView refreshCheckImage];
         //[taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
-        [taskView enableMove:![task isShared]];
+        [taskView enableMove:YES];
         
         taskView.movableController = self.movableCtrler;
         
