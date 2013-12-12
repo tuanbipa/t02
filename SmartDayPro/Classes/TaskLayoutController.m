@@ -302,7 +302,8 @@ extern iPadViewController *_iPadViewCtrler;
         taskView.showDuration = (tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT);
         [taskView refreshStarImage];
         [taskView refreshCheckImage];
-        [taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
+        //[taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
+        [taskView enableMove:![task isShared]];
         
         taskView.movableController = self.movableCtrler;
         
