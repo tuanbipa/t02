@@ -97,7 +97,7 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
         
         if (CGRectIntersectsRect(frm, rect))
         {
-            if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]] && ![((TaskView *)checkView).task isShared]) ||
+            if (([self.activeMovableView isKindOfClass:[TaskView class]] && [checkView isKindOfClass:[TaskView class]] && !([((TaskView *)checkView).task isShared] || ![self checkSeparate:self.activeMovableView])) ||
                 ([self.activeMovableView isKindOfClass:[PlanView class]] && [checkView isKindOfClass:[PlanView class]]))
             {
                 leftView = nil;
