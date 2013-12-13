@@ -5105,6 +5105,7 @@ TaskManager *_sctmSingleton = nil;
 	NSMutableArray *list = [dbm getVisibleTasks];
  
 	sortBGInProgress = (list.count > 30);
+    NSMutableArray *updateList = [NSMutableArray array];
     
     BOOL seqNoIncrease = NO;
 
@@ -5125,6 +5126,7 @@ TaskManager *_sctmSingleton = nil;
             {
                 tmp.sequenceNo = task.sequenceNo;
             }
+            [updateList addObject:task];
         }
         else if (task.primaryKey == destTask.primaryKey)
         {
@@ -5142,13 +5144,18 @@ TaskManager *_sctmSingleton = nil;
             if (tmp != nil)
             {
                 tmp.sequenceNo = task.sequenceNo;
-            }           
+            }
+            [updateList addObject:task];
         }
     }
     
     if (!sortBGInProgress)
     {
         [srcTask updateSeqNoIntoDB:[dbm getDatabase]];
+    }
+    else
+    {
+        [updateList addObject:srcTask];
     }
     
     Task *tmp = [taskDict objectForKey:[NSNumber numberWithInt:srcTask.primaryKey]];
@@ -5169,7 +5176,7 @@ TaskManager *_sctmSingleton = nil;
         dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
         
         dispatch_async(backgroundQueue, ^{
-            [self updateSortOrderBackground:list];
+            [self updateSortOrderBackground:updateList];
         });
         
         
