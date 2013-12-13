@@ -86,9 +86,10 @@ extern iPadViewController *_iPadViewCtrler;
         
         TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
         //taskView.tag = obj;
-        taskView.task = obj;
+        taskView.task = task;
         taskView.listStyle = YES;
-        taskView.starEnable = ([task isTask] && task.status != TASK_STATUS_DONE && ![task isShared]);
+        taskView.starEnable = ([task isTask] && task.status != TASK_STATUS_DONE);
+        taskView.starCheck = ![task isShared];
         taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
         [taskView enableMove:![task isShared]];
         

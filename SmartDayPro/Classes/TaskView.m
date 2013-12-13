@@ -45,6 +45,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
 @synthesize checkEnable;
 @synthesize starEnable;
+@synthesize starCheck;
 @synthesize transparent;
 @synthesize listStyle;
 @synthesize focusStyle;
@@ -182,7 +183,7 @@ extern SmartDayViewController *_sdViewCtrler;
 		starImageView.image = [[ImageManager getInstance] getImageWithName:(task.status == TASK_STATUS_PINNED? @"star.png":@"unstar.png")];
 	}
     
-    starView.userInteractionEnabled = self.starEnable;
+    starView.userInteractionEnabled = self.starCheck;
 }
 
 //-(void)refreshCheckImage_old

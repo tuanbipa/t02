@@ -22,6 +22,7 @@
 	
 	BOOL checkEnable;
 	BOOL starEnable;
+    BOOL starCheck;
     
     BOOL transparent;
     
@@ -33,6 +34,7 @@
 
 @property BOOL checkEnable;
 @property BOOL starEnable;
+@property BOOL starCheck;
 @property BOOL transparent;
 
 @property BOOL showDue;
