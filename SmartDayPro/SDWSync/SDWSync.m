@@ -1437,7 +1437,9 @@ NSInteger _sdwColor[32] = {
             {
                 prj = [projectNameDict objectForKey:[sdwCat.name uppercaseString]];
                 
-                if (prj != nil) // matching Project Name
+                // support duplicate name between owner and assignee
+                //if (prj != nil)
+                if (prj != nil && ![sdwCat isShared] && ![prj isShared]) // matching Project Name
                 {
                     //printf("category %s matches name in SD -> suspect duplication\n", [prj.name UTF8String]);
                     

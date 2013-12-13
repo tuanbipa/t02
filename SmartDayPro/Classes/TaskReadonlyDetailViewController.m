@@ -378,7 +378,7 @@ extern iPadViewController *_iPadViewCtrler;
             Project *prj = [[ProjectManager getInstance] getProjectByKey:self.taskCopy.project];
             
             cell.textLabel.text = _projectText;
-            cell.detailTextLabel.text = prj.name;
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"[%@] %@", prj.ownerName, prj.name];
             cell.detailTextLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
         }
             break;
