@@ -271,7 +271,6 @@ NSInteger _sdwColor[32] = {
     else if (self.syncMode == SYNC_MANUAL_1WAY_mSD2SD)
     {
         [self get1way];
-        [self syncTaskOrder:YES];
     }
     else
     {
@@ -4927,7 +4926,7 @@ NSInteger _sdwColor[32] = {
         
         [self get1wayTags];
         
-        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&get_share=1",SDWSite,self.sdwSection.key];
+        NSString *url = [NSString stringWithFormat:@"%@/api/tasks.json?keyapi=%@&get_share=1&order_by=order_number",SDWSite,self.sdwSection.key];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:url]];
