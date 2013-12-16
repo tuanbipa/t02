@@ -2244,53 +2244,17 @@ TaskManager *_sctmSingleton = nil;
 	
 	DBManager *dbm = [DBManager getInstance];
 	
-	self.taskList = [dbm getStartTasks];
-	
-	/*NSMutableArray *seqNoList = [NSMutableArray arrayWithCapacity:self.taskList.count];
-	
-	for (Task *task in self.taskList)
-	{
-		[seqNoList addObject:[NSNumber numberWithInt:task.sequenceNo]];
-	}
-     */
-	
-	////NSLog(@"sort start 1");
+	self.taskList = [dbm getVisibleTasks];
 	
 	[Common sortList:self.taskList byKey:@"duration" ascending:asc];
-	
-	////NSLog(@"sort start 2");
-	
-	/*sortBGInProgress = (self.taskList.count > 30);
-	
-	for (int i=0; i<self.taskList.count; i++)
+    
+    // using mergedSeqNo
+    for (int i=0; i<self.taskList.count; i++)
 	{
 		Task *task = [self.taskList objectAtIndex:i];
 		
-		task.sequenceNo = [[seqNoList objectAtIndex:i] intValue];
-		
-		if (!sortBGInProgress)
-		{
-			[task updateSeqNoIntoDB:[dbm getDatabase]];
-		}
+		task.mergedSeqNo = i;
 	}
-	
-	////NSLog(@"sort start 3");
-	
-	if (sortBGInProgress)
-	{
-		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
-		
-        //[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:self.taskList];
-        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
-        
-        dispatch_async(backgroundQueue, ^{
-            [self updateSortOrderBackground:[[self.taskList retain] autorelease]];
-        });
-        
-	}
-	
-	////NSLog(@"end sort start");
-     */
 	
 }
 
@@ -5119,6 +5083,10 @@ TaskManager *_sctmSingleton = nil;
             {
                 [task updateSeqNoIntoDB:[dbm getDatabase]];
             }
+            else
+            {
+                [updateList addObject:task];
+            }
             
             Task *tmp = [taskDict objectForKey:[NSNumber numberWithInt:task.primaryKey]];
             
@@ -5126,7 +5094,6 @@ TaskManager *_sctmSingleton = nil;
             {
                 tmp.sequenceNo = task.sequenceNo;
             }
-            [updateList addObject:task];
         }
         else if (task.primaryKey == destTask.primaryKey)
         {
@@ -5138,6 +5105,10 @@ TaskManager *_sctmSingleton = nil;
             {
                 [task updateSeqNoIntoDB:[dbm getDatabase]];
             }
+            else
+            {
+                [updateList addObject:task];
+            }
             
             Task *tmp = [taskDict objectForKey:[NSNumber numberWithInt:task.primaryKey]];
             
@@ -5145,7 +5116,6 @@ TaskManager *_sctmSingleton = nil;
             {
                 tmp.sequenceNo = task.sequenceNo;
             }
-            [updateList addObject:task];
         }
     }
     
@@ -5156,6 +5126,20 @@ TaskManager *_sctmSingleton = nil;
     else
     {
         [updateList addObject:srcTask];
+        
+        // update in background
+        [[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
+		
+        //[self performSelectorInBackground:@selector(updateSortOrderBackground:) withObject:list];
+        
+        dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        
+        dispatch_async(backgroundQueue, ^{
+            [self updateSortOrderBackground:updateList];
+        });
+        
+        
+        sortBGInProgress = NO; //does not need to wait sort complete when scheduling
     }
     
     Task *tmp = [taskDict objectForKey:[NSNumber numberWithInt:srcTask.primaryKey]];
@@ -5167,7 +5151,7 @@ TaskManager *_sctmSingleton = nil;
     
     //NSLog(@"begin 2\n");
     
-	if (sortBGInProgress)
+	/*if (sortBGInProgress)
 	{
 		[[BusyController getInstance] setBusy:YES withCode:BUSY_TASK_SORT_ORDER];
 		
@@ -5181,10 +5165,32 @@ TaskManager *_sctmSingleton = nil;
         
         
         sortBGInProgress = NO; //does not need to wait sort complete when scheduling
-	}
+	}*/
     
     //[self initSmartListData];
-    [Common sortList:self.taskList byKey:@"sequenceNo" ascending:YES];
+    if (self.taskTypeFilter != TASK_FILTER_SHORT && self.taskTypeFilter != TASK_FILTER_LONG)
+    {
+        [Common sortList:self.taskList byKey:@"sequenceNo" ascending:YES];
+    }
+    else
+    {
+        // sort mergeSeqNo
+        srcTask.mergedSeqNo = destTask.mergedSeqNo;
+        
+        int mergedSeqNo = destTask.mergedSeqNo + 1;
+        int i = [self.taskList indexOfObject:destTask];
+        for (; i < self.taskList.count; i++) {
+            Task *task = [self.taskList objectAtIndex:i];
+            
+            if (task.primaryKey == srcTask.primaryKey) {
+                break;
+            }
+            
+            task.mergedSeqNo = mergedSeqNo++;
+        }
+        
+        [Common sortList:self.taskList byKey:@"mergedSeqNo" ascending:YES];
+    }
     
     [self scheduleTasks];
 }
