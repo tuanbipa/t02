@@ -4648,6 +4648,84 @@ NSInteger _sdwColor[32] = {
     }
 }
 
+- (void) updateComments:(NSArray *)list
+{
+    // current version: only update status
+    
+    DBManager *dbm = [DBManager getInstance];
+    
+	NSString *urlString=[NSString stringWithFormat:@"%@/api/conversations/updates.json?keyapi=%@",SDWSite,self.sdwSection.key];
+	
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:urlString]];
+	[request setHTTPMethod:@"PUT"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setTimeoutInterval:5*60];
+    
+    NSMutableArray *sdwCommentList = [NSMutableArray arrayWithCapacity:list.count];
+    NSDictionary *commentDict = [CommentManager getCommentDictBySDWID:list];
+    
+    for (Comment *comment in list)
+    {
+        [sdwCommentList addObject:[self toSDWCommentDict:comment]];
+        
+    }
+    
+    NSError *error = nil;
+    NSURLResponse *response;
+    
+    NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:sdwCommentList options:0 error:&error];
+    /*NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    printf("update task body:\n%s\n", [body UTF8String]);
+    [body release];*/
+    
+    [request setHTTPBody:jsonBody];
+	
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            NSString *sdwId = [[dict objectForKey:@"id"] stringValue];
+            NSInteger lastUpdate = [[dict objectForKey:@"last_update"] intValue];
+            
+            if (sdwId != nil)
+            {
+                Comment *comment = [commentDict objectForKey:sdwId];
+                
+                if (comment != nil)
+                {
+                    NSDate *dt = [NSDate dateWithTimeIntervalSince1970:lastUpdate];
+                    
+                    //printf("update task %s - key: %d - with mySD last update: %s\n", [task.name UTF8String], task.primaryKey, [[dt description] UTF8String]);
+                    
+                    comment.updateTime = dt;
+                    [comment enableExternalUpdate];
+                    
+                    [comment modifyUpdateTimeIntoDB:[dbm getDatabase]];
+                }
+            }
+        }
+    }
+}
 
 #pragma mark Auto Sync 1-way
 

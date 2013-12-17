@@ -4390,6 +4390,25 @@ static sqlite3_stmt *_top_task_statement = nil;
     }	
 }
 
+- (void) deleteAllComments
+{
+	const char *sql = "DELETE FROM CommentTable";
+	
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
+		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+	}
+    // Execute the query.
+    int success = sqlite3_step(statement);
+    // Reset the statement for future use.
+    sqlite3_finalize(statement);
+	
+    // Handle errors.
+    if (success != SQLITE_DONE) {
+        NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
+    }
+}
+
 - (void) deleteAllProgresses
 {
 	const char *sql = "DELETE FROM TaskProgressTable";
@@ -4434,6 +4453,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 
 - (void) cleanDB
 {
+    [self deleteAllComments];
     [self deleteAllProgresses];
     [self deleteAllLinks];
     [self deleteAllTasks];
