@@ -2977,6 +2977,8 @@ SmartListViewController *_smartListViewCtrler;
     frm.origin.y = 40;
     frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
     
+    frm.size.height -= [[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]] ? 28 : 0;
+    
     smartListView.frame = frm;
     
     //listTableViewCtrler.view.frame = frm;
