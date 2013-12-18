@@ -4510,6 +4510,12 @@ static sqlite3_stmt *_top_task_statement = nil;
 		[self upgradeDBv5_0];
 	}
     
+    if (_dbUpgrade && [settings.dbVersion isEqualToString:@"5.1"])
+	{
+        // upgrade for SD iPhone/iPad from v2.0.1 -> V2.1.0 (Smart Share)
+		[self upgradeDBv5_1];
+	}
+    
     //_versionUpgrade = NO;
     //_dbUpgrade = NO;
 }
@@ -4914,7 +4920,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_finalize(statement);
 }
     
-- (void)upgradeDBv5_2
+- (void)upgradeDBv5_1
 {
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_AssigneeEmail TEXT;", nil, nil, nil);
 }

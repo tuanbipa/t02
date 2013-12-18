@@ -306,7 +306,7 @@ extern BOOL _scFreeVersion;
 
         BOOL needSaveSetting = NO;
         
-        NSString *newDBVersion = @"5.0";
+        NSString *newDBVersion = @"5.1";
         
         _dbUpgrade = NO;
 
