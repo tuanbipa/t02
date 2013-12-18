@@ -907,7 +907,8 @@ SmartListViewController *_smartListViewCtrler;
             
             if (taskView != nil)
             {
-                taskView.checkEnable = enabled;
+                Task *task = taskView.task;
+                taskView.checkEnable = (enabled && ![task isShared]);
                 [taskView refresh];
             }
         }

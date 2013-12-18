@@ -613,8 +613,8 @@ extern iPadViewController *_iPadViewCtrler;
         if ([view isKindOfClass:[TaskView class]])
         {
             TaskView *tv = (TaskView *) view;
-            
-            tv.checkEnable = enabled;
+            Task *task = tv.task;
+            tv.checkEnable = enabled && ![task isShared];
             [tv refresh];
         }
     }
