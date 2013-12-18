@@ -323,9 +323,15 @@ NSInteger _sdwColor[32] = {
                 {
                     [self syncTaskOrder:(comp == NSOrderedAscending)];
                 }
+                else if (lastSyncMode == SYNC_AUTO_1WAY)
+                {
+                    // sync Task's order from sd -> msd
+                    [self syncTaskOrder:NO];
+                }
             }
         }
     }
+    lastSyncMode = syncMode;
 }
 
 - (void) initSync:(NSInteger)mode

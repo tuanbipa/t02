@@ -21,6 +21,7 @@
     NSDate *lastTaskUpdateTime;
     
     BOOL needResetSection;
+    NSInteger lastSyncMode;
 }
 
 @property NSInteger syncMode;
