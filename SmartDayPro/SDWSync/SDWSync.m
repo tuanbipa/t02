@@ -1625,7 +1625,9 @@ NSInteger _sdwColor[32] = {
     //if (ret.type == TYPE_EVENT || ret.type == TYPE_ADE)
     if (ret.type == TYPE_EVENT)
     {
-        secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:ret.timeZoneId];
+        //secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:ret.timeZoneId];
+        // dst
+        secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [[Settings getTimeZoneByID:ret.timeZoneId] secondsFromGMT];
     }
     
     NSString *catId = [[dict objectForKey:@"category_id"] stringValue];
@@ -1925,7 +1927,10 @@ NSInteger _sdwColor[32] = {
     //if (type == 3)
     if (task.type == TYPE_EVENT)
     {
-        NSInteger secs = [Common getSecondsFromTimeZoneID:task.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
+        //NSInteger secs = [Common getSecondsFromTimeZoneID:task.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
+        
+        // dst
+        NSInteger secs = [[Settings getTimeZoneByID:task.timeZoneId] secondsFromGMT] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
         
         startTime += secs;
         endTime += secs;
