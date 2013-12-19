@@ -69,7 +69,7 @@ extern iPadViewController *_iPadViewCtrler;
     taskView.task = task;
     taskView.listStyle = YES;
     taskView.starEnable = NO;
-    taskView.checkEnable = !_iPadViewCtrler.inSlidingMode;
+    taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
     taskView.showSeparator = YES;
     [taskView enableMove:_isiPad?![task isShared]:NO];
 
