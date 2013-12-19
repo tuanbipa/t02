@@ -379,7 +379,7 @@ extern SmartDayViewController *_sdViewCtrler;
         {
             TaskView *tv = (TaskView *) view;
             
-            tv.checkEnable = enabled;
+            tv.checkEnable = enabled && ![tv.task isShared];
             [tv refresh];
         }
     }
