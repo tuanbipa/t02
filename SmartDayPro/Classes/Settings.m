@@ -162,6 +162,7 @@ extern BOOL _scFreeVersion;
 @synthesize updateTime;
 
 @synthesize dbVersion;
+@synthesize upgradeDBVersion;
 @synthesize appVersion;
 
 @synthesize settingDict;
@@ -306,18 +307,19 @@ extern BOOL _scFreeVersion;
 
         BOOL needSaveSetting = NO;
         
-        NSString *newDBVersion = @"5.1";
+        //NSString *newDBVersion = @"5.1";
+        self.upgradeDBVersion = @"5.1";
         
         _dbUpgrade = NO;
 
-		if (![self.dbVersion isEqualToString:newDBVersion])
+		if (![self.dbVersion isEqualToString:self.upgradeDBVersion])
         {
             if (self.dbVersion != nil)
             {
                 _dbUpgrade = YES;
             }
             
-            self.dbVersion = newDBVersion;
+            //self.dbVersion = upgradeDBVersion;
             
             needSaveSetting = YES;
         }
@@ -403,6 +405,7 @@ extern BOOL _scFreeVersion;
     self.sdwLastSyncTime = nil;
 	
 	self.dbVersion = nil;
+    self.upgradeDBVersion = nil;
 	self.appVersion = nil;
 	
 	self.settingDict = nil;

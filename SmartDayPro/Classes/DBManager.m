@@ -4504,18 +4504,21 @@ static sqlite3_stmt *_top_task_statement = nil;
 		[self upgradeDBv4_0];
 	}*/
     
-	if (_dbUpgrade && [settings.dbVersion isEqualToString:@"5.0"])
+	//if (_dbUpgrade && [settings.dbVersion isEqualToString:@"5.0"])
+    if ([settings.dbVersion floatValue] < 5.0)
 	{
         // upgrade for SD iPhone v1.0.1 to iSD v2.0.0
 		[self upgradeDBv5_0];
 	}
     
-    if (_dbUpgrade && [settings.dbVersion isEqualToString:@"5.1"])
+    //if (_dbUpgrade && [settings.dbVersion isEqualToString:@"5.1"])
+    if ([settings.dbVersion floatValue] < 5.1)
 	{
         // upgrade for SD iPhone/iPad from v2.0.1 -> V2.1.0 (Smart Share)
 		[self upgradeDBv5_1];
 	}
     
+    settings.dbVersion = settings.upgradeDBVersion;
     //_versionUpgrade = NO;
     //_dbUpgrade = NO;
 }

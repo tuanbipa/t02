@@ -118,7 +118,9 @@
     NSInteger mustDoDays;
 	
 	NSString *dbVersion;
-	//NSString *oldAppVersion;	
+	//NSString *oldAppVersion;
+	// for compare DB version when restore and upgrade
+    NSString *upgradeDBVersion;
 	
 	NSMutableDictionary *settingDict;
 	NSMutableDictionary *hintDict;
@@ -248,6 +250,7 @@
 @property (nonatomic, copy) NSDate *updateTime;
 
 @property (nonatomic, copy) NSString *dbVersion;
+@property (nonatomic, copy) NSString *upgradeDBVersion;
 @property (nonatomic, copy) NSString *appVersion;
 
 @property (nonatomic, retain) NSMutableDictionary *settingDict;
@@ -288,7 +291,7 @@
 - (void) modifyUpdateTime;
 - (void) enableExternalUpdate;
 
-- (void) saveEKSync;
+//- (void) saveEKSync;
 - (void) saveSDWSync;
 - (void) resetSDWSync;
 - (void) saveMSDAccount;

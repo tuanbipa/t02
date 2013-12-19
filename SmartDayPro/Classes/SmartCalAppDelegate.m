@@ -959,9 +959,13 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         
         [importUrlData writeToFile:uniquePath atomically:YES];
         
-        if ([dbVersion isEqualToString:@"4.0"] && [settings.dbVersion isEqualToString:@"5.0"])
+        //if ([dbVersion isEqualToString:@"4.0"] && [settings.dbVersion isEqualToString:@"5.0"])
+        if ([dbVersion floatValue] < [settings.dbVersion floatValue])
         {
             _dbUpgrade = YES;
+            Settings *settings = [Settings getInstance];
+            
+            settings.dbVersion = dbVersion;
         }
         
         [DBManager startup];
