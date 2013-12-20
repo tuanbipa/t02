@@ -76,6 +76,7 @@
 -(void) addProject:(Project *)project;
 -(void) copyProject:(Project *)project;
 -(void)deleteProject:(Project *)prj cleanFromDB:(BOOL)cleanFromDB;
+- (void)deleteSharedProjects;
 - (void) resolveTagChange:(Project *)prj tag:(NSString *)tag;
 - (void) changeOrder:(Project *)srcPrj destPrj:(Project *)destPrj;
 -(void)changeProjectType:(Project *)prj type:(NSInteger)type;

@@ -2391,6 +2391,22 @@ extern DetailViewController *_detailViewCtrler;
         {
             [[SDWSync getInstance] resetSyncSection];
         }
+        
+        // remove shared data
+        [pm deleteSharedProjects];
+        
+        [tm initData];
+        
+        MiniMonthView *mmView = [self getMiniMonth];
+        if (mmView != nil)
+        {
+            [mmView initCalendar:tm.today];
+        }
+        
+        [self refreshData];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
 	}
     
 	[settings updateSettings:settingCopy];

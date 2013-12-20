@@ -310,6 +310,17 @@ ProjectManager *_projectManagerSingleton = nil;
 	[self.projectList removeObject:prj];
 }
 
+- (void)deleteSharedProjects
+{
+    NSArray *projects = [NSArray arrayWithArray:self.projectList];
+    for (Project *prj in projects) {
+        
+        if ([prj isShared]) {
+            [self deleteProject:prj cleanFromDB:YES];
+        }
+    }
+}
+
 - (void) changeOrder:(Project *)srcPrj destPrj:(Project *)destPrj
 {
 	DBManager *dbm = [DBManager getInstance];
