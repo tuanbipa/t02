@@ -355,7 +355,22 @@ extern BOOL _isiPad;
     
     Settings *settings = [Settings getInstance];
     
-	cell.textLabel.text = [settings.timeZoneDict objectForKey:key];
+	//cell.textLabel.text = [settings.timeZoneDict objectForKey:key];
+    
+    // replace real gtm
+    NSString *tzName = [settings.timeZoneDict objectForKey:key];
+    if ([key intValue] != 0) {
+        
+        NSInteger seconds = [[Settings getTimeZoneByID:[key intValue]] secondsFromGMT];
+        
+        NSInteger hh = abs(seconds/3600);
+        NSInteger mm = abs((seconds % 3600)/60);
+        
+        NSString *sign= seconds < 0 ? @"-" : @"+";
+        
+        tzName = [NSString stringWithFormat:@"(GMT%@%02d%02d) %@", sign, hh, mm, [tzName substringFromIndex:11]];
+    }
+    cell.textLabel.text = tzName;
     
     if ([self.objectEdit isKindOfClass:[Settings class]])
     {
