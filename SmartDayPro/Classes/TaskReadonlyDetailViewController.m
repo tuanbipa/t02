@@ -287,6 +287,10 @@ extern iPadViewController *_iPadViewCtrler;
     {
         return 50;
     }
+    else if (indexPath.row == 1 && [self.taskCopy isADE])
+    {
+        return 0.0;
+    }
     
 	return 40;
 }
