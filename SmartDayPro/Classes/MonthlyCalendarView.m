@@ -325,7 +325,7 @@ extern CalendarViewController *_sc2ViewCtrler;
     
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0ul);
     
-    dispatch_async(backgroundQueue, ^{
+    dispatch_sync(backgroundQueue, ^{
         TaskManager *tm = [TaskManager getInstance];
         
         NSMutableArray *eventList = [tm getEventListFromDate:fromDate toDate:toDate];
