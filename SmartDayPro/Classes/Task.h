@@ -222,14 +222,16 @@
 - (BOOL)isStar;
 -(BOOL) isMeetingInvited;
 -(BOOL) isShared;
--(BOOL) isAccepted;
+-(BOOL) isAcceptedByAssignee;
+-(BOOL) isAcceptedByMe;
 -(BOOL) isManual;
 
 - (void) setExtraManual:(NSInteger)intValue;
 - (void) setManual:(BOOL)enabled;
 - (void) setMeetingInvited:(BOOL)enabled;
 - (void) setShared:(BOOL)enabled;
-- (void) setAcceptedStatus:(BOOL)enabled;
+- (void) setAcceptedByAssignee:(BOOL)enabled;
+- (void) setAcceptedByMe:(BOOL)enabled;
 
 -(BOOL)checkMustDo;
 

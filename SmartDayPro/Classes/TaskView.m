@@ -441,12 +441,12 @@ extern SmartDayViewController *_sdViewCtrler;
         }*/
         
         NSMutableArray *infoList = [NSMutableArray array];
-        if ([task isShared]) {
+        if ([task isAcceptedByMe]) {
             // get project
             Project *project = [[Project alloc] initWithPrimaryKey:task.project database:[[DBManager getInstance] getDatabase]];
             [infoList addObject:[NSString stringWithFormat:_assignedByText, project.ownerName]];
         }
-        else if ([task isAccepted])
+        else if ([task isAcceptedByAssignee])
         {
             NSArray *assigneeArray = [task.assigneeEmail componentsSeparatedByString:@"@"];
             if (assigneeArray.count > 0) {

@@ -2309,12 +2309,17 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 -(BOOL) isShared
 {
-    return (self.extraStatus & TASK_EXTRA_STATUS_SHARED) != 0;
+    return (self.extraStatus & (TASK_EXTRA_STATUS_SHARED | TASK_EXTRA_STATUS_ACCEPTED_BY_ME)) != 0;
 }
 
--(BOOL) isAccepted
+-(BOOL) isAcceptedByAssignee
 {
-    return (self.extraStatus & TASK_EXTRA_STATUS_ACCEPTED) != 0;
+    return (self.extraStatus & TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE) != 0;
+}
+
+-(BOOL) isAcceptedByMe
+{
+    return (self.extraStatus & TASK_EXTRA_STATUS_ACCEPTED_BY_ME) != 0;
 }
 
 -(BOOL) isManual
@@ -2353,6 +2358,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     if (enabled)
     {
         self.extraStatus |= TASK_EXTRA_STATUS_MEETING_INVITED;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
     }
     else
     {
@@ -2372,15 +2378,29 @@ static sqlite3_stmt *task_delete_statement = nil;
     }
 }
     
-- (void) setAcceptedStatus:(BOOL)enabled
+- (void) setAcceptedByAssignee:(BOOL)enabled
 {
     if (enabled)
     {
-        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED;
+        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
     }
     else
     {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_ACCEPTED;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
+    }
+}
+
+- (void) setAcceptedByMe:(BOOL)enabled
+{
+    // assignee (this is delegated to me) is accepted
+    if (enabled)
+    {
+        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
+    }
+    else
+    {
+        self.extraStatus &= ~TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
     }
 }
 

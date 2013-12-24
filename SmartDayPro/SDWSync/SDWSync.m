@@ -1586,10 +1586,13 @@ NSInteger _sdwColor[32] = {
     
     if (![ret isShared]) {
         // shared = 0 and delegated = 1: it mean this task was accepted by assignee
-        [ret setAcceptedStatus:([[dict objectForKey:@"delegate_status"] intValue] == 1)]; // 1 mean accepted
+        [ret setAcceptedByAssignee:([[dict objectForKey:@"delegate_status"] intValue] == 1)]; // 1 mean accepted
     } else {
         // shared = 1 and meeting_invite_flag = 1: it mean this MI was accepted by this member
         [ret setMeetingInvited:[[dict objectForKey:@"meeting_invite_flag"] intValue]];
+        
+        // shared =1 and delegated_status = 1: it mean this is deletegated task
+        [ret setAcceptedByMe:[[dict objectForKey:@"delegate_status"] intValue]];
     }
     
     ret.assigneeEmail = [self getStringValue:@"assignee_email" dict:dict];
