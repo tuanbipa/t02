@@ -328,10 +328,6 @@ extern SmartDayViewController *_sdViewCtrler;
     
     NSTextAlignment alignment = NSTextAlignmentLeft;
     
-    //UIColor *embossedColor = isList?[UIColor clearColor]:[UIColor colorWithRed:94.0/255 green:120.0/255 blue:112.0/255 alpha:1];
-    
-    //UIColor *embossedColor = [UIColor clearColor];
-    
     //UIColor *textColor = (isList?[UIColor blackColor]:[UIColor whiteColor]);
     UIColor *textColor = [[ProjectManager getInstance] getProjectColor0:task.project];
     
@@ -365,14 +361,6 @@ extern SmartDayViewController *_sdViewCtrler;
             textRec.origin.y += margin;
         }
         
-        /*CGRect embossedRec = CGRectOffset(textRec, 0, -1);
-        
-        [embossedColor set];
-        [task.name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
-        
-        [textColor set];
-        [task.name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];*/
-        
         // replace deprecated
         NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
         /// Set line break mode
@@ -384,22 +372,9 @@ extern SmartDayViewController *_sdViewCtrler;
         
         if (![infoStr isEqualToString:@""])
         {
-            /*
-            textRec = rect;
-            textRec.origin.y += oneCharSize.height;
-            textRec.size.height -= oneCharSize.height;
-            */
             
             textRec.origin.y += textRec.size.height;
             textRec.size.height = rect.size.height - textRec.origin.y - margin;
-            
-            /*embossedRec = CGRectOffset(textRec, 0, -1);
-            
-            [embossedColor set];
-            [infoStr drawInRect:embossedRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
-            
-            [textColor set];
-            [infoStr drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];*/
             
             // replace deprecated
             NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
@@ -413,32 +388,6 @@ extern SmartDayViewController *_sdViewCtrler;
     }
     else
     {
-        
-        /*NSString *repeat = [task getRepeatTypeString];
-        if (![repeat isEqualToString:_noneText]) {
-            if (![infoStr isEqualToString:@""]) {
-                infoStr = [infoStr stringByAppendingString:@", "];
-            }
-            infoStr = [infoStr stringByAppendingFormat:@" %@ %@", _repeatText, repeat];
-        }
-        
-        if ([task isTask]) {
-            if (![infoStr isEqualToString:@""]) {
-                infoStr = [infoStr stringByAppendingString:@", "];
-            }
-            
-            NSString *duration = [Common getDurationString:self.task.duration];
-            infoStr = [infoStr stringByAppendingString: duration];
-        }
-        
-        if ([task isDTask]) {
-            if (![infoStr isEqualToString:@""]) {
-                infoStr = [infoStr stringByAppendingString:@", "];
-            }
-            
-            NSString *due = [self.task getDueString];
-            infoStr = [infoStr stringByAppendingString: due];
-        }*/
         
         NSMutableArray *infoList = [NSMutableArray array];
         if ([task isAcceptedByMe]) {
@@ -482,6 +431,13 @@ extern SmartDayViewController *_sdViewCtrler;
         
         CGRect textRec = rect;
         
+        if (self.task.primaryKey == 11)
+        {
+            NSLog(@"%d rec %f, %f %f %f", self.task.primaryKey, textRec.origin.x, textRec.origin.y, textRec.size.width, textRec.size.height);
+        }
+        
+        NSString *name = self.task.name;
+        
         // margin
         CGFloat margin = 4;
         textRec.size.height -= 2*margin;
@@ -494,6 +450,8 @@ extern SmartDayViewController *_sdViewCtrler;
         if (nameHeight > textRec.size.height) {
             nameHeight = textRec.size.height;
             //nameHeight = nameHeight - fmod(nameHeight, oneCharSize.height);
+            
+            name = [name substringToIndex:lineMaxChars];
         }
         
         if (![infoStr isEqualToString:@""] && lineNumber > 2 && nameHeight >= 3*oneCharSize.height) {
@@ -510,14 +468,6 @@ extern SmartDayViewController *_sdViewCtrler;
             infoStr = @"";
         }
         
-        /*CGRect embossedRec = CGRectOffset(textRec, 0, -1);
-        
-        [embossedColor set];
-        [task.name drawInRect:embossedRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
-        
-        [textColor set];
-        [task.name drawInRect:textRec withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];*/
-        
         // replace deprecated
         NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
         /// Set line break mode
@@ -525,7 +475,7 @@ extern SmartDayViewController *_sdViewCtrler;
         /// Set text alignment
         paragraphStyle.alignment = alignment;
         
-        [task.name drawInRect:textRec withAttributes:@{NSFontAttributeName: font, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: textColor}];
+        [name drawInRect:textRec withAttributes:@{NSFontAttributeName: font, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: textColor}];
         
         if (![infoStr isEqualToString:@""] && rect.size.height - textRec.origin.y - textRec.size.height >= oneCharSize.height)
         {
@@ -533,15 +483,6 @@ extern SmartDayViewController *_sdViewCtrler;
             
             textRec.origin.y += textRec.size.height;
             textRec.size.height = oneCharSize.height;
-            
-            /*embossedRec = CGRectOffset(textRec, 0, -1);
-            
-            [embossedColor set];
-            [UIColor redColor];
-            [infoStr drawInRect:embossedRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];
-            
-            [textColor set];
-            [infoStr drawInRect:textRec withFont:infoFont lineBreakMode:NSLineBreakByTruncatingTail alignment:alignment];*/
             
             // replace deprecated
             NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
