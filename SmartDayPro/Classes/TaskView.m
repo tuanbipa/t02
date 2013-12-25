@@ -431,11 +431,6 @@ extern SmartDayViewController *_sdViewCtrler;
         
         CGRect textRec = rect;
         
-        if (self.task.primaryKey == 11)
-        {
-            NSLog(@"%d rec %f, %f %f %f", self.task.primaryKey, textRec.origin.x, textRec.origin.y, textRec.size.width, textRec.size.height);
-        }
-        
         NSString *name = self.task.name;
         
         // margin
@@ -451,7 +446,10 @@ extern SmartDayViewController *_sdViewCtrler;
             nameHeight = textRec.size.height;
             //nameHeight = nameHeight - fmod(nameHeight, oneCharSize.height);
             
-            name = [name substringToIndex:lineMaxChars];
+            if (name.length > lineMaxChars) {
+                
+                name = [name substringToIndex:lineMaxChars];
+            }
         }
         
         if (![infoStr isEqualToString:@""] && lineNumber > 2 && nameHeight >= 3*oneCharSize.height) {
