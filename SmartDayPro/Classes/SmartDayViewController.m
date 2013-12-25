@@ -3946,7 +3946,29 @@ extern BOOL _detailHintShown;
             [self showNotifBadge];
         });
     }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(),^ {
+            [self checkForHidingNotifBadge:YES];
+        });
+    }
     
+}
+
+- (void)checkForHidingNotifBadge: (BOOL)zeroComment
+{
+    NSInteger count = 0;
+    
+    DBManager *dbm = [DBManager getInstance];
+    if (zeroComment) {
+        count = [dbm countTasksAtCurrentLocation];
+    } else {
+        count = [dbm countUnreadComments];
+    }
+    
+    if (count <= 0) {
+        [self refreshTopBar];
+    }
 }
 
 - (void)refreshGeoTaskLocation:(NSNotification *)notification
@@ -3974,6 +3996,12 @@ extern BOOL _detailHintShown;
             //UILabel *badgeLabel = (UILabel *)[notifButton viewWithTag:10000];
             //badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
             [self showNotifBadge];
+        });
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(),^ {
+            [self checkForHidingNotifBadge:NO];
         });
     }
 }
