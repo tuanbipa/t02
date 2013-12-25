@@ -453,7 +453,13 @@ extern iPadViewController *_iPadViewCtrler;
         UILabel *prjLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 5, 240 - (isDefault?25:0), 30)];
         prjLabel.backgroundColor = [UIColor clearColor];
         prjLabel.font = [UIFont systemFontOfSize:16];
-        prjLabel.text = prj.name;
+        //prjLabel.text = prj.name;
+        NSString *ownerName = @"";
+        if ([prj isShared]) {
+            ownerName = [NSString stringWithFormat:@"[%@] ", prj.ownerName];
+        }
+        prjLabel.text = [NSString stringWithFormat:@"%@%@", ownerName, prj.name];
+        
         prjLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
         prjLabel.tag = 10000;
         
