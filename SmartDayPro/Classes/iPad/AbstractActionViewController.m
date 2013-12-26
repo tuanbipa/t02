@@ -1236,6 +1236,8 @@ extern DetailViewController *_detailViewCtrler;
         
         BOOL convertRE2Task = reEdit && [taskCopy isTask];
         
+        BOOL changeProject = task.project != taskCopy.project;
+        
         if (convertRE2Task)
         {
             self.actionTask = task;
@@ -1285,6 +1287,11 @@ extern DetailViewController *_detailViewCtrler;
                     [event updateByTask:taskCopy];
                 }
             }
+        }
+        
+        if (changeProject) {
+            // delete comments if exist
+            [[DBManager getInstance] deleteAllComments:taskCopy.primaryKey];
         }
     }
     
