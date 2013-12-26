@@ -36,6 +36,8 @@
     UIButton *starButton;
     
     BOOL showAll;
+    
+    BOOL showComments;
 }
 
 @property (nonatomic, retain) 	Task *task;
