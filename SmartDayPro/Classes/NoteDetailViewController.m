@@ -271,6 +271,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     self.previewViewCtrler = [[[PreviewViewController alloc] init] autorelease];
     
+    // show comment
+    showComments = [[DBManager getInstance] countCommentsForItem:self.note.primaryKey];;
+    
     [self refreshData];
     
     [self changeSkin];
@@ -708,11 +711,26 @@ NoteDetailViewController *_noteDetailViewCtrler;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger count = [self.note isShared]?4:(self.note.primaryKey == -1?4:6);
+    //NSInteger count = [self.note isShared]?4:(self.note.primaryKey == -1?4:6);
     
     //printf("rows count: %d\n", count);
     
-	return count;
+	//return count;
+    if (self.note.primaryKey == -1) {
+        return 4;
+    } else if ([self.note isShared]) {
+        if (showComments) {
+            return 4;
+        } else {
+            return 3;
+        }
+    } else {
+        if (showComments) {
+            return 7;
+        } else {
+            return 6;
+        }
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -721,11 +739,17 @@ NoteDetailViewController *_noteDetailViewCtrler;
     {
         return 400;
     }
-    else if (indexPath.row == 3 && ![self.note isShared])
+    else if (indexPath.row == 3 && !showComments)
     {
         return 120;
     }
-    else if (indexPath.row == 5)
+    else if (indexPath.row == 5 && !showComments)
+    {
+        CGFloat h = [self.previewViewCtrler getHeight];
+        
+        return h;
+    }
+    else if (indexPath.row == 6)
     {
         CGFloat h = [self.previewViewCtrler getHeight];
         
@@ -775,7 +799,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
             [self createProjectCell:cell];
             break;
         case 3:
-            if ([self.note isShared])
+            if (showComments)
             {
                 [self createCommentCell:cell];
             }
@@ -786,11 +810,23 @@ NoteDetailViewController *_noteDetailViewCtrler;
             break;
         case 4:
         {
-            cell.textLabel.text = _assetsText;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            if (showComments) {
+                [self createTagCell:cell];
+            } else {
+                cell.textLabel.text = _assetsText;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
         }
             break;
         case 5:
+            if (showComments) {
+                cell.textLabel.text = _assetsText;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            } else {
+                [self createLinkCell:cell];
+            }
+            break;
+        case 6:
             [self createLinkCell:cell];
             break;
     }
@@ -814,7 +850,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
             [self editProject];
             break;
         case 3:
-            if ([self.note isShared])
+            if (showComments)
             {
                 [self editComment];
             }

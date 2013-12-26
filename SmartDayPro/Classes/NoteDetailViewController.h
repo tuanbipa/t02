@@ -24,6 +24,8 @@
     UITextField *tagInputTextField;
     
     UIButton *tagButtons[9];
+    
+    BOOL showComments;
 }
 
 @property (nonatomic, retain) 	Task *note;
