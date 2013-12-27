@@ -2309,7 +2309,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 
 -(BOOL) isShared
 {
-    return (self.extraStatus & (TASK_EXTRA_STATUS_SHARED | TASK_EXTRA_STATUS_ACCEPTED_BY_ME)) != 0;
+    return (self.extraStatus & (TASK_EXTRA_STATUS_SHARED | TASK_EXTRA_STATUS_ACCEPTED_BY_ME | TASK_EXTRA_STATUS_MEETING_INVITED)) != 0;
 }
 
 -(BOOL) isAcceptedByAssignee
