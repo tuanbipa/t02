@@ -182,17 +182,17 @@
 
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
     
-    sqlite3_bind_int(statement, 0, self.status);
-    sqlite3_bind_text(statement, 1, [self.content UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(statement, 2, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(statement, 3, self.itemKey);
-    sqlite3_bind_int(statement, 4, self.isOwner?1:0);
-    sqlite3_bind_int(statement, 5, self.type);
-    sqlite3_bind_text(statement, 6, [self.lastName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(statement, 7, [self.firstName UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_double(statement, 8, createTimeValue);
-    sqlite3_bind_double(statement, 9, updateTimeValue);
-    sqlite3_bind_int(statement, 10, self.primaryKey);
+    sqlite3_bind_int(statement, 1, self.status);
+    sqlite3_bind_text(statement, 2, [self.content UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(statement, 3, [self.sdwId UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(statement, 4, self.itemKey);
+    sqlite3_bind_int(statement, 5, self.isOwner?1:0);
+    sqlite3_bind_int(statement, 6, self.type);
+    sqlite3_bind_text(statement, 7, [self.lastName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(statement, 8, [self.firstName UTF8String], -1, SQLITE_TRANSIENT);
+    sqlite3_bind_double(statement, 9, createTimeValue);
+    sqlite3_bind_double(statement, 10, updateTimeValue);
+    sqlite3_bind_int(statement, 11, self.primaryKey);
     
     if (sqlite3_step(statement) == SQLITE_ERROR)
     {
