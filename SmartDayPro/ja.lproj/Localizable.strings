@@ -479,7 +479,7 @@
 "_backupText" = "バックアップ";
 "_databaseText" = "データベース";
 "_transparentText" = "透過";
-"_transparentHintText" = "タスクを透過カレンダーに重ねて表示できます。これは共用カレンダーに使います。";
+"_transparentHintText" = "タスクを透過プロジェクトに重ねて表示できます。これは共用プロジェクトに使います。";
 "_syncNowTitle" = "今すぐ自動同期しますか？";
 "_syncNowText" = "変更があるとSmartdayが自動的に同期します。";
 "_showHideCategoryText" = "表示/非表示";

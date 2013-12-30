@@ -479,7 +479,7 @@
 "_backupText" = "Backup";
 "_databaseText" = "Database";
 "_transparentText" = "Transparent";
-"_transparentHintText" = "Tasks can overlap transparent calendars. Use these for any shared calendars.";
+"_transparentHintText" = "Tasks can overlap transparent projects. Use these for any shared projects.";
 "_syncNowTitle" = "Begin Auto Sync Now?";
 "_syncNowText" = "SmartDay will sync automatically as you make changes.";
 "_showHideCategoryText" = "Show/Hide";
