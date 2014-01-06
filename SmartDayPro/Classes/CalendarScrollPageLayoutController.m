@@ -244,7 +244,8 @@ extern AbstractSDViewController *_abstractViewCtrler;
     taskView.alpha = 1;
     taskView.transparent = NO;
     taskView.task = task;
-    [taskView enableMove:![task checkMustDo] && ![task isShared]];
+    //[taskView enableMove:![task checkMustDo] && ![task isShared]];
+    [taskView enableMove:![task isShared]];
     taskView.checkEnable = NO;
     
     [taskView refreshCheckImage];
