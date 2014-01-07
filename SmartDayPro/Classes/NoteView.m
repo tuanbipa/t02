@@ -28,11 +28,13 @@ extern iPadViewController *_iPadViewCtrler;
 
 @implementation NoteView
 
+@synthesize noteTextView;
 @synthesize note;
 //@synthesize inCheckMode;
 @synthesize checkDict;
 @synthesize editEnabled;
 @synthesize touchEnabled;
+@synthesize showNoteContentView;
 
 @synthesize checkItem;
 
@@ -46,6 +48,7 @@ extern iPadViewController *_iPadViewCtrler;
         
         self.editEnabled = YES;
         self.touchEnabled = NO;
+        self.showNoteContentView = NO;
         
         noteBgScrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         noteBgScrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG_full.png"]];
@@ -625,7 +628,7 @@ extern iPadViewController *_iPadViewCtrler;
 #pragma mark TextView delegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    if (!self.editEnabled)
+    if (self.showNoteContentView)
     {
         //printf("note tap notification\n");
         
@@ -650,6 +653,10 @@ extern iPadViewController *_iPadViewCtrler;
             [_sdViewCtrler editNoteContent:self.note];
         }
         
+        return NO;
+    }
+    else if (!self.editEnabled)
+    {
         return NO;
     }
     

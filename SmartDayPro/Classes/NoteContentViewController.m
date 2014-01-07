@@ -237,9 +237,10 @@ extern SmartDayViewController *_sdViewCtrler;
     if ([self.note isShared])
     {
         noteView.editEnabled = NO;
-    }
+    } else {
     
-    [noteView startEdit];
+        [noteView startEdit];
+    }
 }
 
 - (void)didReceiveMemoryWarning

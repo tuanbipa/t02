@@ -32,6 +32,7 @@
 
 @property BOOL editEnabled;
 @property BOOL touchEnabled; //allow users to tap or double-tap in Preview pane, disabled in Edit view
+@property BOOL showNoteContentView;
 
 @property (nonatomic, assign) IBOutlet UIBarButtonItem *checkItem;
 - (IBAction) check:(id)sender;
