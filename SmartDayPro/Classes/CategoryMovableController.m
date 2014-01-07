@@ -243,7 +243,9 @@ extern iPadSmartDayViewController *_iPadSDViewCtrler;
                     
                     [super endMove:view];
                     
-                    [_iPadSDViewCtrler changeTask:task toProject:projectKey];
+                    //[_iPadSDViewCtrler changeTask:task toProject:projectKey];
+                    [[AbstractActionViewController getInstance] changeTask:task toProject:projectKey];
+                    
                     [task release];
                     
                     refresh = YES;
