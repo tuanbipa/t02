@@ -794,7 +794,7 @@ ProjectManager *_projectManagerSingleton = nil;
 {
 	for (Project *prj in self.projectList)
 	{
-		if (prj.primaryKey != excludeProject && [[prj.name uppercaseString] isEqualToString:[name uppercaseString]])
+		if (prj.primaryKey != excludeProject && [[prj.name uppercaseString] isEqualToString:[name uppercaseString]] && ![prj isShared])
 		{
 			return YES;
 		}
