@@ -190,7 +190,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
     
-    NSMutableArray *items = [self.task isTask]?[NSMutableArray arrayWithObjects:markDoneItem, nil]:[NSMutableArray arrayWithCapacity:0];
+    NSMutableArray *items = ([self.task isTask] && [self.task isAcceptedByMe])?[NSMutableArray arrayWithObjects:markDoneItem, nil]:[NSMutableArray arrayWithCapacity:0];
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
     {
