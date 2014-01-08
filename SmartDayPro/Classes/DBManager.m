@@ -1752,7 +1752,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	(Task_Deadline >= ? AND Task_Deadline < ?) AND Task_Status <> ? AND Task_Status <> ?";
 	
 	const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_GroupID = -1 AND \
-	(Task_Deadline >= ? AND Task_Deadline < ?) AND Task_Status <> ? AND Task_Status <> ?";
+	(Task_Deadline >= ? AND Task_Deadline < ?) AND Task_Status <> ? AND Task_Status <> ? AND ((Task_ExtraStatus & ?) = 0)";
     
 	sqlite3_stmt *statement;
 	
@@ -1762,6 +1762,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_double(statement, 3, [end timeIntervalSince1970]);
 		sqlite3_bind_int(statement, 4, TASK_STATUS_DONE);
 		sqlite3_bind_int(statement, 5, TASK_STATUS_DELETED);
+        sqlite3_bind_int(statement, 6, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
 		
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
