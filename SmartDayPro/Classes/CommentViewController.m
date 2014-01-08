@@ -191,11 +191,17 @@
 	[listView release];
 }
 
-- (void)viewDidLoad
+//- (void)viewDidLoad
+//{
+//    [super viewDidLoad];
+//	// Do any additional setup after loading the view.
+//    
+//    [self refreshData];
+//}
+
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
+    [super viewWillAppear:animated];
     [self refreshData];
 }
 
