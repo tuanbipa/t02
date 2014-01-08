@@ -182,7 +182,7 @@
             continue;
         }*/
         
-        if ([excludeDict objectForKey:[NSNumber numberWithInteger:task.primaryKey]] != nil)
+        if ([excludeDict objectForKey:[NSNumber numberWithInteger:task.primaryKey]] != nil || [task isShared])
         {
             continue;
         }
