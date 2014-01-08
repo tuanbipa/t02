@@ -591,7 +591,7 @@
 "_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or until its Deadline is edited. '0' will disable.  MustDo tasks are marked with a red strip on the left side.";
 
 //"_deleteAllMySDDataConfirmation" = "All data in SmartDay Online will be deleted and replaced by SmartDay. We recommend that you backup data in SmartDay Online before performing this action. Are you sure to continue?";
-"_deleteAllMySDDataConfirmation" = "All data in SmartDay Online will be deleted and replaced by SmartDay. We recommend that you backup data in SmartDay Online before performing this action. And this will also un-share and delete any projects you are sharing to other users on SmartDay Online. Are you sure to continue?";
+"_deleteAllMySDDataConfirmation" = "All \"Personal\" and \"Shared by me\" projects in SmartDay Online will be delete and replaced by SmartDay. We recommend that you backup data in SmartDay Online before performing this action. Are you sure to continue?";
 
 "_deleteAllSDDataConfirmation" = "All data in SmartDay will be deleted and replaced by SmartDay Online. We recommend that you backup data by email in SmartDay iOS before performing this action. Are you sure to continue?";
 

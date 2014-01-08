@@ -266,10 +266,6 @@ NSInteger _sdwColor[32] = {
 {
     if (self.syncMode == SYNC_MANUAL_1WAY_SD2mSD)
     {
-        // remove shared project before sync (prevent duplicate data)
-        ProjectManager *pm = [ProjectManager getInstance];
-        [pm deleteSharedProjects];
-        
         [self push1way];
     }
     else if (self.syncMode == SYNC_MANUAL_1WAY_mSD2SD)
@@ -4934,6 +4930,21 @@ NSInteger _sdwColor[32] = {
             {
                 NSMutableArray *prjList = [NSMutableArray arrayWithArray: pm.projectList];
                 
+                // remove shared project from list
+                NSMutableArray *deleteList = [NSMutableArray array];
+                
+                for (Project *prj in prjList) {
+                    
+                    if ([prj isShared]) {
+                        [deleteList addObject:prj];
+                    }
+                }
+                
+                if (deleteList.count > 0) {
+                    [prjList removeObjectsInArray:deleteList];
+                }
+                // end
+                
                 if (prjList.count > 0) //push Projects from SC
                 {
                     [self breakSync:prjList command:ADD_CATEGORY];
@@ -4944,6 +4955,20 @@ NSInteger _sdwColor[32] = {
                 [self push1wayTags];
                 
                 NSMutableArray *taskList = [dbm getItems2Sync];
+                
+                // remove shared task from list
+                deleteList = [NSMutableArray array];
+                for (Task *task in taskList) {
+                    
+                    if ([task isShared]) {
+                        [deleteList addObject:task];
+                    }
+                }
+                
+                if (deleteList.count > 0) {
+                    [taskList removeObjectsInArray:deleteList];
+                }
+                // end
                 
                 if (taskList.count > 0) //push Tasks from SC
                 {
