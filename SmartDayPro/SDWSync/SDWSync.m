@@ -266,6 +266,10 @@ NSInteger _sdwColor[32] = {
 {
     if (self.syncMode == SYNC_MANUAL_1WAY_SD2mSD)
     {
+        // remove shared project before sync (prevent duplicate data)
+        ProjectManager *pm = [ProjectManager getInstance];
+        [pm deleteSharedProjects];
+        
         [self push1way];
     }
     else if (self.syncMode == SYNC_MANUAL_1WAY_mSD2SD)
