@@ -867,7 +867,7 @@ DetailViewController *_detailViewCtrler = nil;
     /*
     [detailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];*/
     
-    [Common reloadRowOfTable:detailTableView row:2 section:0];
+    [Common reloadRowOfTable:detailTableView row:([self.taskCopy isTask] ? 2:1) section:0];
 }
 
 - (void) refreshWhen
