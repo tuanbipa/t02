@@ -2061,7 +2061,7 @@ DetailViewController *_detailViewCtrler = nil;
             {
                 [self editAlert];
             }
-            else if ([task isAcceptedByAssignee])
+            else if (showComments)
             {
                 [self editComment];
             }
