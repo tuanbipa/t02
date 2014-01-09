@@ -857,8 +857,10 @@ NoteDetailViewController *_noteDetailViewCtrler;
             break;
         case 4:
             [self editLink:nil];
+            break;
         case 5:
             [self editLink:nil];
+            break;
     }
 }
 
