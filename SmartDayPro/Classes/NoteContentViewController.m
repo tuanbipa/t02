@@ -237,8 +237,10 @@ extern SmartDayViewController *_sdViewCtrler;
     if ([self.note isShared])
     {
         noteView.editEnabled = NO;
+        noteView.touchEnabled = NO;
     } else {
     
+        noteView.touchEnabled = YES;
         [noteView startEdit];
     }
 }

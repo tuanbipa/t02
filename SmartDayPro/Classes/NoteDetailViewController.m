@@ -587,7 +587,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     noteView.editEnabled = ![self.note isShared];
     noteView.showNoteContentView = _isiPad;
-    noteView.touchEnabled = YES;
+    noteView.touchEnabled = ![self.note isShared];
     
     noteView.note = self.noteCopy;
     

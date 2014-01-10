@@ -133,7 +133,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     self.note.note = text;
     
-    if (self.touchEnabled) //in Preview pane
+    /*if (self.touchEnabled) //in Preview pane
     {
         [self.note updateIntoDB:[[DBManager getInstance] getDatabase]];
         
@@ -145,7 +145,7 @@ extern iPadViewController *_iPadViewCtrler;
         {
             [_sdViewCtrler.previewPane markNoteChange];
         }
-    }
+    }*/
     
     //NSLog(@"text: %@", text);
 }
@@ -251,7 +251,9 @@ extern iPadViewController *_iPadViewCtrler;
         
         [checkBtn setImage:[UIImage imageNamed:@"Note_CheckOff.png"] forState:UIControlStateNormal];
         [checkBtn setImage:[UIImage imageNamed:@"Note_CheckOn.png"] forState:UIControlStateSelected];
-        [checkBtn addTarget:self action:@selector(doCheck:) forControlEvents:UIControlEventTouchUpInside];
+        if (self.touchEnabled) {
+            [checkBtn addTarget:self action:@selector(doCheck:) forControlEvents:UIControlEventTouchUpInside];
+        }
         
         [noteTextView addSubview:checkBtn];
         
@@ -389,7 +391,9 @@ extern iPadViewController *_iPadViewCtrler;
                 
                 [checkBtn setImage:[UIImage imageNamed:@"Note_CheckOff.png"] forState:UIControlStateNormal];
                 [checkBtn setImage:[UIImage imageNamed:@"Note_CheckOn.png"] forState:UIControlStateSelected];
-                [checkBtn addTarget:self action:@selector(doCheck:) forControlEvents:UIControlEventTouchUpInside];
+                if (self.touchEnabled) {
+                    [checkBtn addTarget:self action:@selector(doCheck:) forControlEvents:UIControlEventTouchUpInside];
+                }
                 
                 checkBtn.selected = (c == 0x2705);
                 
