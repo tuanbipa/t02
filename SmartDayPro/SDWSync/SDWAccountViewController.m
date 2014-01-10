@@ -316,6 +316,20 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 {
     self.setting.sdwVerified = NO;
     
+    BOOL sdwAccountChange = ![self.setting.sdwEmail isEqualToString:@""] && (![self.setting.sdwEmail isEqualToString:self.userName] || ![self.setting.sdwPassword isEqualToString:self.password]);
+    
+    UIViewController *topCtrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+    
+    if ([topCtrler isKindOfClass:[iPadSyncSettingViewController class]])
+    {
+        if (_iPadSettingViewCtrler != nil)
+        {
+            _iPadSettingViewCtrler.sdwAccountChange = sdwAccountChange;
+            _iPadSettingViewCtrler.settingCopy.sdwVerified = self.setting.sdwVerified;
+            
+            [_iPadSettingViewCtrler refresh];
+        }
+    }
     return YES;
 }
 
