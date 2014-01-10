@@ -514,7 +514,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_bind_int(statement, 1, TYPE_TASK);
 	sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
-    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
 	sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
 	
 	while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -624,7 +624,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_bind_int(statement, 1, TYPE_TASK);
 	sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
-    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
     sqlite3_bind_double(statement, 5, [due timeIntervalSince1970]);
     sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
     
@@ -669,7 +669,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_bind_int(statement, 1, TYPE_TASK);
 	sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
-    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
 	sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
     
 	while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -776,7 +776,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_bind_int(statement, 1, TYPE_TASK);
 	sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
-    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
 	sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
     
 	while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -909,7 +909,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
 		sqlite3_bind_int(statement, 1, TYPE_TASK);
 		sqlite3_bind_int(statement, 2, TASK_STATUS_PINNED);
-        sqlite3_bind_int(statement, 3, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+        sqlite3_bind_int(statement, 3, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
         sqlite3_bind_double(statement, 4, [start timeIntervalSince1970]);
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -1762,7 +1762,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_double(statement, 3, [end timeIntervalSince1970]);
 		sqlite3_bind_int(statement, 4, TASK_STATUS_DONE);
 		sqlite3_bind_int(statement, 5, TASK_STATUS_DELETED);
-        sqlite3_bind_int(statement, 6, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+        sqlite3_bind_int(statement, 6, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
 		
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -2692,7 +2692,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);		
 	sqlite3_bind_int(statement, 4, key);
-    sqlite3_bind_int(statement, 5, (TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+    sqlite3_bind_int(statement, 5, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
     sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
 	// We "step" through the results - once for each row.
 	while (sqlite3_step(statement) == SQLITE_ROW) {

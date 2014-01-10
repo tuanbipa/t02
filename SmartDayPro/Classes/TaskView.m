@@ -395,8 +395,10 @@ extern SmartDayViewController *_sdViewCtrler;
             Project *project = [[Project alloc] initWithPrimaryKey:task.project database:[[DBManager getInstance] getDatabase]];
             [infoList addObject:[NSString stringWithFormat:_assignedByText, project.ownerName]];
         }
-        else if ([task isAcceptedByAssignee])
+        else if ([task isAssignedToAssignee])
         {
+            [infoList addObject:_pendingText];
+        } else if ([task isAcceptByAssignee]) {
             NSArray *assigneeArray = [task.assigneeEmail componentsSeparatedByString:@"@"];
             if (assigneeArray.count > 0) {
                 [infoList addObject:[NSString stringWithFormat:_acceptedByText, assigneeArray[0]]];

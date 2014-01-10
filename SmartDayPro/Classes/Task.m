@@ -2312,7 +2312,12 @@ static sqlite3_stmt *task_delete_statement = nil;
     return (self.extraStatus & (TASK_EXTRA_STATUS_SHARED | TASK_EXTRA_STATUS_ACCEPTED_BY_ME | TASK_EXTRA_STATUS_MEETING_INVITED)) != 0;
 }
 
--(BOOL) isAcceptedByAssignee
+-(BOOL) isAssignedToAssignee
+{
+    return (self.extraStatus & TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE) != 0;
+}
+
+-(BOOL) isAcceptByAssignee
 {
     return (self.extraStatus & TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE) != 0;
 }
@@ -2378,15 +2383,22 @@ static sqlite3_stmt *task_delete_statement = nil;
     }
 }
     
-- (void) setAcceptedByAssignee:(BOOL)enabled
+- (void) setAssignedToAssingnee:(NSInteger)assignStatus
 {
-    if (enabled)
+    /*if (enabled)
     {
-        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
+        self.extraStatus |= TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
     }
     else
     {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
+    }*/
+    if (assignStatus == 0) {
+        self.extraStatus |= TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
+    } else if (assignStatus == 1){
+        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
+    } else {
+        self.extraStatus &= ~(TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE);
     }
 }
 

@@ -804,3 +804,7 @@
 
 "_anytimeText" = "常時";
 
+// # Smart Share
+"_assignedByText" = "Assigned by %@";
+"_acceptedByText" = "Accepted by %@";
+"_pendingText" = "Pending...";

@@ -1582,11 +1582,14 @@ NSInteger _sdwColor[32] = {
     //ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
     [ret setShared:[[dict objectForKey:@"shared"] intValue]];
     
-    //[ret setMeetingInvited:[[dict objectForKey:@"meeting_invite_flag"] intValue]];
+    ret.assigneeEmail = [self getStringValue:@"assignee_email" dict:dict];
     
     if (![ret isShared]) {
-        // shared = 0 and delegated = 1: it mean this task was accepted by assignee
-        [ret setAcceptedByAssignee:([[dict objectForKey:@"delegate_status"] intValue] == 1)]; // 1 mean accepted
+        if (![ret.assigneeEmail isEqualToString:@""]) {
+            
+            // shared = 0 and delegated = 1: it mean this task was accepted by assignee
+            [ret setAssignedToAssingnee:[[dict objectForKey:@"delegate_status"] intValue]]; // 1 mean accepted
+        }
     } else {
         // shared = 1 and meeting_invite_flag = 1: it mean this MI was accepted by this member
         [ret setMeetingInvited:[[dict objectForKey:@"meeting_invite_flag"] intValue]];
@@ -1594,8 +1597,6 @@ NSInteger _sdwColor[32] = {
         // shared =1 and delegated_status = 1: it mean this is deletegated task
         [ret setAcceptedByMe:[[dict objectForKey:@"delegate_status"] intValue]];
     }
-    
-    ret.assigneeEmail = [self getStringValue:@"assignee_email" dict:dict];
     
     // sync Manual Task
     [ret setExtraManual:[[dict objectForKey:@"stask"] intValue]];
