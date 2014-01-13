@@ -118,7 +118,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 
 #pragma mark SmartCal Support
 
-- (NSMutableArray *) searchTitle:(NSString *)text
+- (NSMutableArray *) searchTitle:(NSString *)text excludeShared: (BOOL) excludeShared
 {
 	NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:200];
     
@@ -129,7 +129,11 @@ static sqlite3_stmt *_top_task_statement = nil;
     ////printf("likeOp: %s\n", [likeOp UTF8String]);
 	
 	//const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type IN (0,4,5,8) AND Task_Status <> ? AND Task_Name LIKE ?";
-    NSString *sql = @"SELECT Task_ID FROM TaskTable WHERE Task_Type IN (_TYPE_LIST) AND Task_Status <> ? AND Task_Name LIKE ? AND (Task_ExtraStatus & ?) = 0";
+    NSString *sql = @"SELECT Task_ID FROM TaskTable WHERE Task_Type IN (_TYPE_LIST) AND Task_Status <> ? AND Task_Name LIKE ?";
+    
+    if (excludeShared) {
+        sql = [sql stringByAppendingFormat:@" AND (Task_ExtraStatus & %d) = 0", (TASK_EXTRA_STATUS_SHARED | TASK_EXTRA_STATUS_ACCEPTED_BY_ME)];
+    }
 	
     sql = [sql stringByReplacingOccurrencesOfString:@"_TYPE_LIST" withString:typeStr];
     
@@ -139,7 +143,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_int(statement, 1, TASK_STATUS_DELETED);
         sqlite3_bind_text(statement, 2, [likeOp UTF8String], -1, SQLITE_TRANSIENT);
         // prevent link with shared task
-        sqlite3_bind_int(statement, 3, (TASK_EXTRA_STATUS_SHARED | TASK_EXTRA_STATUS_ACCEPTED_BY_ME));
+        //sqlite3_bind_int(statement, 3, (TASK_EXTRA_STATUS_SHARED | TASK_EXTRA_STATUS_ACCEPTED_BY_ME));
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);

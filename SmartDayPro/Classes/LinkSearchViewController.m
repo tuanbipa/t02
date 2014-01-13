@@ -167,7 +167,7 @@
     selectedRow = -1;
     
     ////printf("search text: %s\n", [searchText UTF8String]);
-    NSMutableArray *result = [[DBManager getInstance] searchTitle:searchText];
+    NSMutableArray *result = [[DBManager getInstance] searchTitle:searchText excludeShared:YES];
     
     self.eventList = [NSMutableArray arrayWithCapacity:10];
     self.taskList = [NSMutableArray arrayWithCapacity:10];

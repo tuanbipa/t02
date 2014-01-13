@@ -72,11 +72,11 @@ extern iPadViewController *_iPadViewCtrler;
     [super dealloc];
 }
 
-- (void) search:(NSString *)title
+- (void) search:(NSString *) text
 {
-    self.title = title;
+    self.title = text;
     
-    NSMutableArray *result = [[DBManager getInstance] searchTitle:title];
+    NSMutableArray *result = [[DBManager getInstance] searchTitle:text excludeShared:NO];
     
     self.eventList = [NSMutableArray arrayWithCapacity:10];
     self.taskList = [NSMutableArray arrayWithCapacity:10];

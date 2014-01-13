@@ -27,7 +27,7 @@
 - (void)createEditableCopyOfDatabaseIfNeeded;
 - (void)initializeDatabase;
 
-- (NSMutableArray *) searchTitle:(NSString *)text;
+- (NSMutableArray *) searchTitle:(NSString *)text excludeShared: (BOOL) excludeShared;
 - (NSMutableArray *) searchLinkSource:(NSInteger)linkId;
 - (NSMutableArray *) getAllNotes;
 - (NSMutableArray *) getTodayNotes;
