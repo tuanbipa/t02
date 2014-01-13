@@ -2363,7 +2363,7 @@ static sqlite3_stmt *task_delete_statement = nil;
     if (enabled)
     {
         self.extraStatus |= TASK_EXTRA_STATUS_MEETING_INVITED;
-        //self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
+        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
     }
     else
     {
