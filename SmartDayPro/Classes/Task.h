@@ -89,6 +89,7 @@
     
     // smart share
     NSString *assigneeEmail;
+    NSDate *assignDate;
 }
 
 @property NSInteger primaryKey; 
@@ -160,6 +161,7 @@
 
 // smart share
 @property (nonatomic, copy) NSString *assigneeEmail;
+@property (nonatomic, copy) NSDate *assignDate;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) initialUpdate;
@@ -224,6 +226,8 @@
 -(BOOL) isShared;
 -(BOOL) isAssignedToAssignee;
 -(BOOL) isAcceptByAssignee;
+- (BOOL)isAssignPending;
+- (BOOL)isPendingByMe;
 -(BOOL) isAcceptedByMe;
 -(BOOL) isManual;
 
@@ -233,6 +237,7 @@
 - (void) setShared:(BOOL)enabled;
 - (void) setAssignedToAssingnee:(NSInteger)assignStatus;
 - (void) setAcceptedByMe:(BOOL)enabled;
+- (void)setDelegateStatus: (NSInteger) assignStatus andMe:(BOOL) assignToMe;
 
 -(BOOL)checkMustDo;
 

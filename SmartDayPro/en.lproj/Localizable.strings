@@ -809,4 +809,6 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 // # Smart Share
 "_assignedByText" = "Assigned by %@";
 "_acceptedByText" = "Accepted by %@";
-"_pendingText" = "Pending...";
+"_pendingDaysText" = "Pending %d day(s)";
+"_acceptText" = "Accept";
+"_rejectText" = "Reject";

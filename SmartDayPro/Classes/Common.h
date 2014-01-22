@@ -224,8 +224,11 @@ typedef enum
     TASK_EXTRA_STATUS_ANCHORED = 2,
     TASK_EXTRA_STATUS_MEETING_INVITED = 4,
     TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE = 8,
-    TASK_EXTRA_STATUS_ACCEPTED_BY_ME = 16,
-    TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE = 32,
+    TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE = 16,
+    TASK_EXTRA_STATUS_ASSIGN_TO_ME = 32,
+    TASK_EXTRA_STATUS_ACCEPTED_BY_ME = 64,
+    TASK_EXTRA_STATUS_ASSIGN_TO_OTHER = 128,
+    TASK_EXTRA_STATUS_ACCEPTED_BY_OTHER = 256,
 } TaskExtraStatus;
 
 typedef enum
@@ -634,6 +637,7 @@ typedef struct
 + (NSString *)md5:(NSString *)str;
 + (NSString *)getFilePath: (NSString *) path;
 + (void) reloadRowOfTable:(UITableView *)tableView row:(NSInteger)row section:(NSInteger)section;
-
++ (NSInteger)excludeSmartShareStatus;
++ (NSInteger)sharedStatus;
 @end
 

@@ -794,4 +794,6 @@
 // Smart Share
 #define _assignedByText NSLocalizedString(@"_assignedByText", "")
 #define _acceptedByText NSLocalizedString(@"_acceptedByText", "")
-#define _pendingText NSLocalizedString(@"_pendingText", "")
+#define _pendingDaysText NSLocalizedString(@"_pendingDaysText", "")
+#define _acceptText NSLocalizedString(@"_acceptText", "")
+#define _rejectText NSLocalizedString(@"_rejectText", "")

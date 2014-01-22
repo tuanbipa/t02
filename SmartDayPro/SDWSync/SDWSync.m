@@ -1595,8 +1595,17 @@ NSInteger _sdwColor[32] = {
         [ret setMeetingInvited:[[dict objectForKey:@"meeting_invite_flag"] intValue]];
         
         // shared =1 and delegated_status = 1: it mean this is deletegated task
-        [ret setAcceptedByMe:[[dict objectForKey:@"delegate_status"] intValue]];
+        //[ret setAcceptedByMe:[[dict objectForKey:@"delegate_status"] intValue]];
+        
+        Settings *setting = [Settings getInstance];
+        NSString *myEmail = setting.sdwEmail;
+        BOOL assignToMe = [myEmail isEqualToString:ret.assigneeEmail];
+        
+        [ret setDelegateStatus:[[dict objectForKey:@"delegate_status"] intValue] andMe:assignToMe];
     }
+    
+    NSTimeInterval assignDateValue = [[dict objectForKey:@"shared_date"] intValue];
+    ret.assignDate = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:assignDateValue]];
     
     // sync Manual Task
     [ret setExtraManual:[[dict objectForKey:@"stask"] intValue]];
@@ -2126,6 +2135,7 @@ NSInteger _sdwColor[32] = {
 	}
     
     task.assigneeEmail = sdwTask.assigneeEmail;
+    task.assignDate = sdwTask.assignDate;
 }
 
 - (BOOL) checkTaskCompletedInRange:(Task *)task
@@ -5455,4 +5465,58 @@ NSInteger _sdwColor[32] = {
 	}	
 }
 
+#pragma mark Accept / Reject
+
+- (void)responseTask:(NSString*)sdwID withStatus:(NSInteger)status
+{
+    [self syncDeletedTasks];
+    NSString *url = [NSString stringWithFormat:@"%@/api/status/updates.json?keyapi=%@&obj_id=%@&stt_type=1&stt=%d",SDWSite,self.sdwSection.key, sdwID, status];
+	
+    //printf("getTasks: %s\n", [url UTF8String]);
+    
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:url]];
+	[request setHTTPMethod:@"PUT"];
+	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+	
+	NSError *error = nil;
+	NSURLResponse *response;
+	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [request release];
+    
+    if (error != nil)
+    {
+        self.errorDescription = error.localizedDescription;
+        
+        return;
+    }
+    
+    if (urlData)
+    {
+        NSArray *result = [self getArrayResult:urlData];
+        
+        if (result == nil)
+        {
+            return;
+        }
+        
+        for (NSDictionary *dict in result)
+        {
+            
+            NSInteger responseStatus = [dict valueForKey:@"status"];
+            
+            if (status == responseStatus) {
+                // sucessful
+                
+                if (status == 1) {
+                    // is accept
+                    
+                } else {
+                    // is reject
+                    
+                }
+            }
+        }
+    }
+}
 @end

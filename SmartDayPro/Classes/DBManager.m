@@ -518,7 +518,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 	sqlite3_bind_int(statement, 1, TYPE_TASK);
 	sqlite3_bind_int(statement, 2, TASK_STATUS_DONE);
 	sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
-    sqlite3_bind_int(statement, 4, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+    sqlite3_bind_int(statement, 4, [Common excludeSmartShareStatus]);
 	sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
 	
 	while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -1612,20 +1612,21 @@ static sqlite3_stmt *_top_task_statement = nil;
 	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
 	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";
 
-	const char *sql = "SELECT Task_ID FROM TaskTable WHERE  ((Task_RepeatData = '' AND Task_GroupID = -1) OR (Task_GroupID <> -1)) AND Task_Type = ? AND \
+	const char *sql = "SELECT Task_ID, (Task_ExtraStatus & ?) AS Shared FROM TaskTable WHERE  ((Task_RepeatData = '' AND Task_GroupID = -1) OR (Task_GroupID <> -1)) AND Task_Type = ? AND \
 	((Task_StartTime >= ? AND Task_StartTime < ?) OR \
-	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ?";
+	(Task_StartTime < ? AND Task_EndTime > ?)) AND Task_Status <> ? AND Task_Status <> ? ORDER BY Shared";
 	
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
-		sqlite3_bind_int(statement, 1, TYPE_ADE);
-		sqlite3_bind_double(statement, 2, [start timeIntervalSince1970]);
-		sqlite3_bind_double(statement, 3, [end timeIntervalSince1970]);
-		sqlite3_bind_double(statement, 4, [start timeIntervalSince1970]);
+        sqlite3_bind_int(statement, 1, [Common sharedStatus]);
+		sqlite3_bind_int(statement, 2, TYPE_ADE);
+		sqlite3_bind_double(statement, 3, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 4, [end timeIntervalSince1970]);
 		sqlite3_bind_double(statement, 5, [start timeIntervalSince1970]);
-		sqlite3_bind_int(statement, 6, TASK_STATUS_DONE);
-		sqlite3_bind_int(statement, 7, TASK_STATUS_DELETED);		
+		sqlite3_bind_double(statement, 6, [start timeIntervalSince1970]);
+		sqlite3_bind_int(statement, 7, TASK_STATUS_DONE);
+		sqlite3_bind_int(statement, 8, TASK_STATUS_DELETED);
 		
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -1755,18 +1756,19 @@ static sqlite3_stmt *_top_task_statement = nil;
 	//const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_RepeatData = '' AND Task_GroupID = -1 AND \
 	(Task_Deadline >= ? AND Task_Deadline < ?) AND Task_Status <> ? AND Task_Status <> ?";
 	
-	const char *sql = "SELECT Task_ID FROM TaskTable WHERE Task_Type = ? AND Task_GroupID = -1 AND \
-	(Task_Deadline >= ? AND Task_Deadline < ?) AND Task_Status <> ? AND Task_Status <> ? AND ((Task_ExtraStatus & ?) = 0)";
+	const char *sql = "SELECT Task_ID, (Task_ExtraStatus & ?) AS Shared FROM TaskTable WHERE Task_Type = ? AND Task_GroupID = -1 AND \
+	(Task_Deadline >= ? AND Task_Deadline < ?) AND Task_Status <> ? AND Task_Status <> ? ORDER BY Shared";//AND ((Task_ExtraStatus & ?) = 0)";
     
 	sqlite3_stmt *statement;
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
-		sqlite3_bind_int(statement, 1, TYPE_TASK);
-		sqlite3_bind_double(statement, 2, [start timeIntervalSince1970]);
-		sqlite3_bind_double(statement, 3, [end timeIntervalSince1970]);
-		sqlite3_bind_int(statement, 4, TASK_STATUS_DONE);
-		sqlite3_bind_int(statement, 5, TASK_STATUS_DELETED);
-        sqlite3_bind_int(statement, 6, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
+        sqlite3_bind_int(statement, 1, [Common sharedStatus]);
+		sqlite3_bind_int(statement, 2, TYPE_TASK);
+		sqlite3_bind_double(statement, 3, [start timeIntervalSince1970]);
+		sqlite3_bind_double(statement, 4, [end timeIntervalSince1970]);
+		sqlite3_bind_int(statement, 5, TASK_STATUS_DONE);
+		sqlite3_bind_int(statement, 6, TASK_STATUS_DELETED);
+        //sqlite3_bind_int(statement, 6, (TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE | TASK_EXTRA_STATUS_SHARED));
 		
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
@@ -4933,6 +4935,7 @@ static sqlite3_stmt *_top_task_statement = nil;
 - (void)upgradeDBv5_1
 {
     sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_AssigneeEmail TEXT;", nil, nil, nil);
+    sqlite3_exec(database, "ALTER TABLE TaskTable ADD COLUMN Task_AssignDate NUMERIC;", nil, nil, nil);
 }
 
 -(void)closeDB

@@ -395,9 +395,9 @@ extern SmartDayViewController *_sdViewCtrler;
             Project *project = [[Project alloc] initWithPrimaryKey:task.project database:[[DBManager getInstance] getDatabase]];
             [infoList addObject:[NSString stringWithFormat:_assignedByText, project.ownerName]];
         }
-        else if ([task isAssignedToAssignee])
+        else if ([task isAssignPending])
         {
-            [infoList addObject:_pendingText];
+            [infoList addObject:[NSString stringWithFormat:_pendingDaysText, [Common daysBetween:[NSDate date] sinceDate:task.assignDate]]];
         } else if ([task isAcceptByAssignee]) {
             NSArray *assigneeArray = [task.assigneeEmail componentsSeparatedByString:@"@"];
             if (assigneeArray.count > 0) {
@@ -1920,7 +1920,7 @@ extern SmartDayViewController *_sdViewCtrler;
     rect.origin.x += frm.size.width + 2*SPACE_PAD;
     rect.size.width -= frm.size.width + 2*SPACE_PAD;
     
-    if (self.starEnable)
+    if (self.starEnable && ![self.task isPendingByMe])
     {
         //rect.size.width -= 20;
         rect.size.width -= starView.frame.size.width;
@@ -2002,21 +2002,21 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.size.width -= realSize.width + SPACE_PAD;
 	}*/
     
-	if (hasAlert)
-	{
-		frm.size.width = ALERT_SIZE;
-		frm.size.height = ALERT_SIZE;
-        
-        frm.origin.x = rect.origin.x + rect.size.width - ALERT_SIZE;
-        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-        
-		//[self drawAlert:frm context:ctx];
-        UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"alert_black.png"];
-        
-        [alertImage drawInRect:frm];
-        
-        rect.size.width -= DUE_SIZE;
-	}
+//	if (hasAlert)
+//	{
+//		frm.size.width = ALERT_SIZE;
+//		frm.size.height = ALERT_SIZE;
+//        
+//        frm.origin.x = rect.origin.x + rect.size.width - ALERT_SIZE;
+//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//        
+//		//[self drawAlert:frm context:ctx];
+//        UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"alert_black.png"];
+//        
+//        [alertImage drawInRect:frm];
+//        
+//        rect.size.width -= DUE_SIZE;
+//	}
     
 //    if (hasLink)
 //    {
@@ -2036,20 +2036,20 @@ extern SmartDayViewController *_sdViewCtrler;
 //        //printf("task %s has no link\n", [task.name UTF8String]);
 //    }
     
-    if ([task isRE])
-    {
-		frm.size.width = REPEAT_SIZE;
-		frm.size.height = REPEAT_SIZE;
-        
-		frm.origin.x = rect.origin.x + rect.size.width - REPEAT_SIZE;
-		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-		
-		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
-        
-        [image drawInRect:frm];
-        
-        rect.size.width -= REPEAT_SIZE;
-    }
+//    if ([task isRE])
+//    {
+//		frm.size.width = REPEAT_SIZE;
+//		frm.size.height = REPEAT_SIZE;
+//        
+//		frm.origin.x = rect.origin.x + rect.size.width - REPEAT_SIZE;
+//		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//		
+//		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
+//        
+//        [image drawInRect:frm];
+//        
+//        rect.size.width -= REPEAT_SIZE;
+//    }
     
 	/*if (self.showFlag && hasFlag)
 	{
@@ -2091,6 +2091,37 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.origin.x += HAND_SIZE + SPACE_PAD/2;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
 	}*/
+    
+    if ([self.task isPendingByMe]) {
+        // add accept button
+        NSInteger width = 120;
+        frm.size.width = width;
+		frm.size.height = 30;
+        
+		frm.origin.x = rect.origin.x + rect.size.width - (width + PAD_WIDTH/2);
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+        UIView *view = [self viewWithTag:10000];
+        if (view != nil) {
+            [view removeFromSuperview];
+        }
+        
+        UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:_acceptText, _rejectText, nil]];
+        acceptRejectSegmented.frame = frm;
+        acceptRejectSegmented.tag = 10000;
+        [acceptRejectSegmented addTarget:self action:@selector(doAcceptReject:) forControlEvents:UIControlEventValueChanged];
+        //acceptRejectSegmented.backgroundColor = [UIColor whiteColor];
+        //[[acceptRejectSegmented.subviews objectAtIndex:1] setForegroundColor:[UIColor redColor]];
+        /*[acceptRejectSegmented setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [UIFont fontWithName:@"Arial" size:16.0],NSFontAttributeName,
+                                              //[UIColor redColor], NSBackgroundColorAttributeName,
+                                              [UIColor blackColor], NSForegroundColorAttributeName,
+                                              //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                              nil] forState:UIControlStateNormal];*/
+        [self addSubview:acceptRejectSegmented];
+        
+        rect.size.width -= width + PAD_WIDTH/2;
+    }
     
     [self drawText:rect context:ctx];
 }
@@ -2757,6 +2788,20 @@ extern SmartDayViewController *_sdViewCtrler;
 {
 	return [super checkMovable:touches];
 }
+
+#pragma mark segmented action
+
+- (void)doAcceptReject:(id)sender
+{
+    UISegmentedControl *seg = (UISegmentedControl*)sender;
+    
+    if (seg.selectedSegmentIndex == 0) {
+        
+    } else {
+        
+    }
+}
+
 
 #pragma mark Notification
 
