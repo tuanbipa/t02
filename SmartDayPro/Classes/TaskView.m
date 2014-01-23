@@ -31,6 +31,7 @@
 #import "SmartDayViewController.h"
 
 #import "Project.h"
+#import "SDWSync.h"
 
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
@@ -2795,11 +2796,8 @@ extern SmartDayViewController *_sdViewCtrler;
 {
     UISegmentedControl *seg = (UISegmentedControl*)sender;
     
-    if (seg.selectedSegmentIndex == 0) {
-        
-    } else {
-        
-    }
+    NSInteger status = seg.selectedSegmentIndex == 0 ? TASK_SHARED_ACCEPT : TASK_SHARED_REJECT;
+    [[SDWSync getInstance] initUpdateSDWSharedTask:self.task withStatus:status];
 }
 
 

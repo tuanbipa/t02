@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum
+{
+	TASK_SHARED_ACCEPT = 1,
+    TASK_SHARED_REJECT = 2
+} TaskSharedResponse;
+
 @class SDWSection;
 
 @class Task;
@@ -56,4 +62,6 @@
 +(id)getInstance;
 +(void)free;
 
+#pragma mark Accept / Reject
+- (void)initUpdateSDWSharedTask:(Task*)task withStatus:(NSInteger)status;
 @end

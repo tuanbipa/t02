@@ -2384,83 +2384,135 @@ static sqlite3_stmt *task_delete_statement = nil;
     }
 }
 
-- (void) setMeetingInvited:(BOOL)enabled
-{
-    if (enabled)
-    {
-        self.extraStatus |= TASK_EXTRA_STATUS_MEETING_INVITED;
-        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
-    }
-    else
-    {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_MEETING_INVITED;
-    }
-}
+//- (void) setMeetingInvited:(BOOL)enabled
+//{
+//    if (enabled)
+//    {
+//        self.extraStatus |= TASK_EXTRA_STATUS_MEETING_INVITED;
+//        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
+//    }
+//    else
+//    {
+//        self.extraStatus &= ~TASK_EXTRA_STATUS_MEETING_INVITED;
+//    }
+//}
+//
+//- (void) setShared:(BOOL)enabled
+//{
+//    if (enabled)
+//    {
+//        self.extraStatus |= TASK_EXTRA_STATUS_SHARED;
+//    }
+//    else
+//    {
+//        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
+//    }
+//}
+//    
+//- (void) setAssignedToAssingnee:(NSInteger)assignStatus
+//{
+//    /*if (enabled)
+//    {
+//        self.extraStatus |= TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
+//    }
+//    else
+//    {
+//        self.extraStatus &= ~TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
+//    }*/
+//    if (assignStatus == 0) {
+//        self.extraStatus |= TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
+//    } else if (assignStatus == 1){
+//        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
+//    } else {
+//        self.extraStatus &= ~(TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE);
+//    }
+//}
+//
+//- (void) setAcceptedByMe:(BOOL)enabled
+//{
+//    // assignee (this is delegated to me) is accepted
+//    if (enabled)
+//    {
+//        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
+//        //self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
+//    }
+//    else
+//    {
+//        self.extraStatus &= ~TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
+//    }
+//}
+//
+//- (void)setDelegateStatus: (NSInteger) assignStatus andMe:(BOOL) assignToMe
+//{
+//    if (assignToMe) {
+//        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
+//        if (assignStatus == 0) {
+//            // pending
+//            self.extraStatus |= TASK_EXTRA_STATUS_ASSIGN_TO_ME;
+//        } else if (assignStatus == 1) {
+//            // accepted
+//            self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
+//        }
+//    } else {
+//        //self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
+//        if (assignStatus == 0) {
+//            // pending
+//            self.extraStatus |= TASK_EXTRA_STATUS_ASSIGN_TO_OTHER;
+//        } else if (assignStatus == 1) {
+//            // accepted
+//            self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_OTHER;
+//        }
+//    }
+//}
 
-- (void) setShared:(BOOL)enabled
+- (void)setSmartShareStatus:(BOOL)shared meetingInvited:(BOOL)meetingInviteFlag delegateStatus:(NSInteger)delegate
 {
-    if (enabled)
-    {
-        self.extraStatus |= TASK_EXTRA_STATUS_SHARED;
-    }
-    else
-    {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
-    }
-}
+    // this method should invoke after this item is set type and assigneeEmail
     
-- (void) setAssignedToAssingnee:(NSInteger)assignStatus
-{
-    /*if (enabled)
-    {
-        self.extraStatus |= TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
-    }
-    else
-    {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
-    }*/
-    if (assignStatus == 0) {
-        self.extraStatus |= TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
-    } else if (assignStatus == 1){
-        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
-    } else {
-        self.extraStatus &= ~(TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE);
-    }
-}
-
-- (void) setAcceptedByMe:(BOOL)enabled
-{
-    // assignee (this is delegated to me) is accepted
-    if (enabled)
-    {
-        self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
-        //self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
-    }
-    else
-    {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
-    }
-}
-
-- (void)setDelegateStatus: (NSInteger) assignStatus andMe:(BOOL) assignToMe
-{
-    if (assignToMe) {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
-        if (assignStatus == 0) {
-            // pending
-            self.extraStatus |= TASK_EXTRA_STATUS_ASSIGN_TO_ME;
-        } else if (assignStatus == 1) {
-            // accepted
-            self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
+    // reset share status
+    self.extraStatus &= ~(TASK_EXTRA_STATUS_SHARED
+                          | TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE
+                          | TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE
+                          | TASK_EXTRA_STATUS_ASSIGN_TO_ME
+                          | TASK_EXTRA_STATUS_ACCEPTED_BY_ME
+                          | TASK_EXTRA_STATUS_ASSIGN_TO_OTHER
+                          | TASK_EXTRA_STATUS_ACCEPTED_BY_OTHER);
+    
+    if (shared) {
+        if (meetingInviteFlag && [self isEvent]) {
+            //[self setMeetingInvited:meetingInviteFlag];
+            self.extraStatus |= TASK_EXTRA_STATUS_MEETING_INVITED;
+            
+        } else if (![self.assigneeEmail isEqualToString:@""] && [self isTask]) {
+            
+            Settings *settings = [Settings getInstance];
+            NSString *myEmail = [settings.sdwEmail lowercaseString];
+            
+            if ([myEmail isEqualToString:[self.assigneeEmail lowercaseString]]) {
+                if (delegate == 0) {
+                    // pending
+                    self.extraStatus |= TASK_EXTRA_STATUS_ASSIGN_TO_ME;
+                } else {
+                    self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ME;
+                }
+            } else {
+                if (delegate == 0) {
+                    // pending
+                    self.extraStatus |= TASK_EXTRA_STATUS_ASSIGN_TO_OTHER;
+                } else {
+                    self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_OTHER;
+                }
+            }
+        } else {
+            self.extraStatus |= TASK_EXTRA_STATUS_SHARED;
         }
     } else {
-        //self.extraStatus &= ~TASK_EXTRA_STATUS_SHARED;
-        if (assignStatus == 0) {
-            // pending
-            self.extraStatus |= TASK_EXTRA_STATUS_ASSIGN_TO_OTHER;
-        } else if (assignStatus == 1) {
-            // accepted
-            self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_OTHER;
+        if (![self.assigneeEmail isEqualToString:@""]) {
+            if (delegate == 0) {
+                self.extraStatus |= TASK_EXTRA_STATUS_ASSIGNED_TO_ASSIGNEE;
+            } else if (delegate == 1){
+                self.extraStatus |= TASK_EXTRA_STATUS_ACCEPTED_BY_ASSIGNEE;
+            }
         }
     }
 }

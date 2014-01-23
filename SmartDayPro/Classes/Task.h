@@ -233,11 +233,12 @@
 
 - (void) setExtraManual:(NSInteger)intValue;
 - (void) setManual:(BOOL)enabled;
-- (void) setMeetingInvited:(BOOL)enabled;
+/*- (void) setMeetingInvited:(BOOL)enabled;
 - (void) setShared:(BOOL)enabled;
 - (void) setAssignedToAssingnee:(NSInteger)assignStatus;
 - (void) setAcceptedByMe:(BOOL)enabled;
-- (void)setDelegateStatus: (NSInteger) assignStatus andMe:(BOOL) assignToMe;
+- (void)setDelegateStatus: (NSInteger) assignStatus andMe:(BOOL) assignToMe;*/
+- (void)setSmartShareStatus:(BOOL)shared meetingInvited:(BOOL)meetingInviteFlag delegateStatus:(NSInteger)delegate;
 
 -(BOOL)checkMustDo;
 

@@ -236,19 +236,7 @@ NSInteger _sdwColor[32] = {
     {
         self.errorDescription = nil;
         
-        if ([self.sdwSection checkTokenExpired])
-        {
-            NSString *token = [self getToken:settings.sdwEmail password:settings.sdwPassword];
-            
-            self.sdwSection.token = token;
-            
-            if (self.sdwSection.token != nil)
-            {
-                self.sdwSection.lastTokenAcquireTime = [NSDate date];
-                
-                [self.sdwSection refreshKey];
-            }
-        }
+        [self refreshToken];
         
         if (self.errorDescription == nil)
         {
@@ -350,19 +338,7 @@ NSInteger _sdwColor[32] = {
     
     BOOL backupSuccess = YES;
     
-    if ([self.sdwSection checkTokenExpired])
-    {
-        NSString *token = [self getToken:settings.sdwEmail password:settings.sdwPassword];
-        
-        self.sdwSection.token = token;
-        
-        if (self.sdwSection.token != nil)
-        {
-            self.sdwSection.lastTokenAcquireTime = [NSDate date];
-        
-            [self.sdwSection refreshKey];
-        }
-    }
+    [self refreshToken];
     
     /*if (self.errorDescription != nil)
     {
@@ -1580,7 +1556,7 @@ NSInteger _sdwColor[32] = {
     ret.note = [self getStringValue:@"content" dict:dict];
     
     //ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
-    [ret setShared:[[dict objectForKey:@"shared"] intValue]];
+    /*[ret setShared:[[dict objectForKey:@"shared"] intValue]];
     
     ret.assigneeEmail = [self getStringValue:@"assignee_email" dict:dict];
     
@@ -1602,10 +1578,7 @@ NSInteger _sdwColor[32] = {
         BOOL assignToMe = [myEmail isEqualToString:ret.assigneeEmail];
         
         [ret setDelegateStatus:[[dict objectForKey:@"delegate_status"] intValue] andMe:assignToMe];
-    }
-    
-    NSTimeInterval assignDateValue = [[dict objectForKey:@"shared_date"] intValue];
-    ret.assignDate = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:assignDateValue]];
+    }*/
     
     // sync Manual Task
     [ret setExtraManual:[[dict objectForKey:@"stask"] intValue]];
@@ -1781,6 +1754,14 @@ NSInteger _sdwColor[32] = {
     
     //printf("sdw task %s - id:%s - duration: %d - type:%d - start:%s - end:%s\n", [ret.name UTF8String], [ret.sdwId UTF8String], ret.duration, type, [[ret.startTime description] UTF8String], [[ret.endTime description] UTF8String]);
         
+    NSTimeInterval assignDateValue = [[dict objectForKey:@"shared_date"] intValue];
+    ret.assignDate = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:assignDateValue]];
+    ret.assigneeEmail = [self getStringValue:@"assignee_email" dict:dict];
+    
+    // set smart share status
+    [ret setSmartShareStatus:[[dict objectForKey:@"shared"] intValue]
+              meetingInvited:[[dict objectForKey:@"meeting_invite_flag"] intValue]
+              delegateStatus:[[dict objectForKey:@"delegate_status"] intValue]];
     
     return ret;
 }
@@ -5355,7 +5336,7 @@ NSInteger _sdwColor[32] = {
     
     if (urlData)
     {
-        NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
+        //NSString* str = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
         //printf("getToken return:\n%s\n", [str UTF8String]);
         
         NSDictionary *result = [self getDictionaryResult:urlData];
@@ -5394,6 +5375,25 @@ NSInteger _sdwColor[32] = {
     }
     
     return nil;
+}
+
+- (void)refreshToken
+{
+    Settings *settings = [Settings getInstance];
+    
+    if ([self.sdwSection checkTokenExpired])
+    {
+        NSString *token = [self getToken:settings.sdwEmail password:settings.sdwPassword];
+        
+        self.sdwSection.token = token;
+        
+        if (self.sdwSection.token != nil)
+        {
+            self.sdwSection.lastTokenAcquireTime = [NSDate date];
+            
+            [self.sdwSection refreshKey];
+        }
+    }
 }
 
 + (BOOL) refreshDeviceUUID
@@ -5467,10 +5467,28 @@ NSInteger _sdwColor[32] = {
 
 #pragma mark Accept / Reject
 
-- (void)responseTask:(NSString*)sdwID withStatus:(NSInteger)status
+- (void)initUpdateSDWSharedTask:(Task*)task withStatus:(NSInteger)status
 {
-    [self syncDeletedTasks];
-    NSString *url = [NSString stringWithFormat:@"%@/api/status/updates.json?keyapi=%@&obj_id=%@&stt_type=1&stt=%d",SDWSite,self.sdwSection.key, sdwID, status];
+    
+    // === init
+    [self refreshToken];
+    
+    if (self.errorDescription == nil)
+    {
+        if (self.sdwSection.key != nil)
+        {
+            // do accept / reject
+            [self updateSDWSharedTask:task withStatus:status];
+        }
+    }
+    // === end init
+    
+    [self syncComplete];
+}
+
+- (void)updateSDWSharedTask:(Task*)task withStatus:(NSInteger)status
+{
+    NSString *url = [NSString stringWithFormat:@"%@/api/status/updates.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
     //printf("getTasks: %s\n", [url UTF8String]);
     
@@ -5478,9 +5496,20 @@ NSInteger _sdwColor[32] = {
 	[request setURL:[NSURL URLWithString:url]];
 	[request setHTTPMethod:@"PUT"];
 	[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-	
-	NSError *error = nil;
+    
+    NSError *error = nil;
 	NSURLResponse *response;
+    
+    // set body
+    NSMutableArray *dataList = [NSMutableArray array];
+    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:status], @"stt", [NSNumber numberWithInt:1], @"stt_type", task.sdwId, @"obj_id", nil];
+    [dataList addObject:dataDict];
+    NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:dataList options:0 error:&error];
+    
+    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    printf("update settings body:\n%s\n", [body UTF8String]);
+	
+    [request setHTTPBody:jsonBody];
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     [request release];
     
@@ -5503,20 +5532,58 @@ NSInteger _sdwColor[32] = {
         for (NSDictionary *dict in result)
         {
             
-            NSInteger responseStatus = [dict valueForKey:@"status"];
+            NSInteger responseStatus = [[dict objectForKey:@"status"] intValue];//[[dict valueForKey:@"status"] intValue];
             
             if (status == responseStatus) {
                 // sucessful
                 
-                if (status == 1) {
+                if (status == TASK_SHARED_ACCEPT) {
                     // is accept
                     
+                    // update share status
+                    [self updateLocalTask:task withDelegateStatus:status];
                 } else {
                     // is reject
                     
+                    NSInteger permission = [[dict objectForKey:@"permission"] intValue];//[dict valueForKey:@"permission"];
+                    if (permission == 0) {
+                        // assignee, delete this task
+                        
+                        [self deleteRejectedTask:task];
+                    } else  {
+                        // permission is 1 or 2: (member or admin)
+                        
+                        // update and refresh
+                        [self updateLocalTask:task withDelegateStatus:status];
+                    }
                 }
             }
         }
     }
+}
+
+- (void)deleteRejectedTask:(Task*)task
+{
+    [[TaskManager getInstance] deleteTask:task];
+}
+
+- (void)updateLocalTask:(Task*)task withDelegateStatus:(NSInteger)status
+{
+    /*Task *copyTask = [task copy];
+    if (delegate == TASK_SHARED_REJECT) {
+        copyTask.assigneeEmail = @"";
+    }
+    [copyTask setSmartShareStatus:YES meetingInvited:NO delegateStatus:delegate];
+    
+    TaskManager *tm = [TaskManager getInstance];
+    [tm updateTask:task withTask:copyTask];*/
+    
+    NSInteger delegate = 1;
+    if (status == TASK_SHARED_REJECT) {
+        task.assigneeEmail = @"";
+        delegate = 0;
+    }
+    [task setSmartShareStatus:YES meetingInvited:NO delegateStatus:delegate];
+    [task externalUpdate];
 }
 @end
