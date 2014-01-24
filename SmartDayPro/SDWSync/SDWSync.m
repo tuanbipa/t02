@@ -5470,6 +5470,8 @@ NSInteger _sdwColor[32] = {
 - (void)initUpdateSDWSharedTask:(Task*)task withStatus:(NSInteger)status
 {
     
+    [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
+    
     // === init
     [self refreshToken];
     
@@ -5483,7 +5485,7 @@ NSInteger _sdwColor[32] = {
     }
     // === end init
     
-    [self syncComplete];
+    [[BusyController getInstance] setBusy:NO withCode:BUSY_SDW_SYNC];
 }
 
 - (void)updateSDWSharedTask:(Task*)task withStatus:(NSInteger)status
@@ -5506,8 +5508,8 @@ NSInteger _sdwColor[32] = {
     [dataList addObject:dataDict];
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:dataList options:0 error:&error];
     
-    NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
-    printf("update settings body:\n%s\n", [body UTF8String]);
+    //NSString* body = [[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding];
+    //printf("update settings body:\n%s\n", [body UTF8String]);
 	
     [request setHTTPBody:jsonBody];
 	NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -5537,53 +5539,9 @@ NSInteger _sdwColor[32] = {
             if (status == responseStatus) {
                 // sucessful
                 
-                if (status == TASK_SHARED_ACCEPT) {
-                    // is accept
-                    
-                    // update share status
-                    [self updateLocalTask:task withDelegateStatus:status];
-                } else {
-                    // is reject
-                    
-                    NSInteger permission = [[dict objectForKey:@"permission"] intValue];//[dict valueForKey:@"permission"];
-                    if (permission == 0) {
-                        // assignee, delete this task
-                        
-                        [self deleteRejectedTask:task];
-                    } else  {
-                        // permission is 1 or 2: (member or admin)
-                        
-                        // update and refresh
-                        [self updateLocalTask:task withDelegateStatus:status];
-                    }
-                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SDWSharedTaskChangeNotification" object:nil userInfo:dict];
             }
         }
     }
-}
-
-- (void)deleteRejectedTask:(Task*)task
-{
-    [[TaskManager getInstance] deleteTask:task];
-}
-
-- (void)updateLocalTask:(Task*)task withDelegateStatus:(NSInteger)status
-{
-    /*Task *copyTask = [task copy];
-    if (delegate == TASK_SHARED_REJECT) {
-        copyTask.assigneeEmail = @"";
-    }
-    [copyTask setSmartShareStatus:YES meetingInvited:NO delegateStatus:delegate];
-    
-    TaskManager *tm = [TaskManager getInstance];
-    [tm updateTask:task withTask:copyTask];*/
-    
-    NSInteger delegate = 1;
-    if (status == TASK_SHARED_REJECT) {
-        task.assigneeEmail = @"";
-        delegate = 0;
-    }
-    [task setSmartShareStatus:YES meetingInvited:NO delegateStatus:delegate];
-    [task externalUpdate];
 }
 @end

@@ -2111,7 +2111,7 @@ extern SmartDayViewController *_sdViewCtrler;
         acceptRejectSegmented.frame = frm;
         acceptRejectSegmented.tag = 10000;
         [acceptRejectSegmented addTarget:self action:@selector(doAcceptReject:) forControlEvents:UIControlEventValueChanged];
-        //acceptRejectSegmented.backgroundColor = [UIColor whiteColor];
+        acceptRejectSegmented.backgroundColor = [UIColor whiteColor];
         //[[acceptRejectSegmented.subviews objectAtIndex:1] setForegroundColor:[UIColor redColor]];
         /*[acceptRejectSegmented setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                               [UIFont fontWithName:@"Arial" size:16.0],NSFontAttributeName,
@@ -2794,6 +2794,8 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void)doAcceptReject:(id)sender
 {
+    [[AbstractActionViewController getInstance] enableActions:YES onView:self];
+    
     UISegmentedControl *seg = (UISegmentedControl*)sender;
     
     NSInteger status = seg.selectedSegmentIndex == 0 ? TASK_SHARED_ACCEPT : TASK_SHARED_REJECT;

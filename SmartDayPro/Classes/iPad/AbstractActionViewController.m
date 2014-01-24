@@ -159,6 +159,10 @@ extern DetailViewController *_detailViewCtrler;
                                                  selector:@selector(reloadAlerts:)
                                                      name:@"AlertPostponeChangeNotification" object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(updateAfterSmartShareStatusChange:)
+                                                     name:@"SDWSharedTaskChangeNotification" object:nil];
+        
     }
     
     return self;
@@ -3261,4 +3265,53 @@ extern DetailViewController *_detailViewCtrler;
     return nil;
 }
 
+#pragma mark SDW reject / accept
+
+- (void)updateAfterSmartShareStatusChange:(NSNotification*)notiication
+{
+    //UpdateSDWSharedTask
+    Task *task = [self getActiveTask];
+    if (task != nil) {
+        
+        NSInteger status = [[notiication.userInfo objectForKey:@"status"] intValue];
+        NSInteger permission = [[notiication.userInfo objectForKey:@"permission"] intValue];
+        
+        if (status == TASK_SHARED_ACCEPT) {
+            // is accept
+            
+            // update share status
+            [self updateLocalTask:task withDelegateStatus:status];
+        } else {
+            // is reject
+            
+            if (permission == 0) {
+                // assignee, delete this task
+                
+                [self doDeleteTask];
+            } else  {
+                // permission is 1 or 2: (member or admin)
+                
+                // update and refresh
+                [self updateLocalTask:task withDelegateStatus:status];
+            }
+        }
+    }
+}
+
+- (void)updateLocalTask:(Task*)task withDelegateStatus:(NSInteger)status
+{
+    Task *copyTask = [[task copy] autorelease];
+    
+    NSInteger delegate = 1;
+    BOOL reSchedule = NO;
+    if (status == TASK_SHARED_REJECT) {
+        copyTask.assigneeEmail = @"";
+        delegate = 0;
+    } else {
+        reSchedule = YES;
+    }
+    [copyTask setSmartShareStatus:YES meetingInvited:NO delegateStatus:delegate];
+    
+    [self updateTask:task withTask:copyTask];
+}
 @end

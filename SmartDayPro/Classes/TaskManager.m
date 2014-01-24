@@ -3370,6 +3370,9 @@ TaskManager *_sctmSingleton = nil;
         
         BOOL timezoneChange = [slTask isEvent] && slTask.timeZoneId != task.timeZoneId;
         
+        // this task just accepted
+        BOOL acceptedTaskByMe = [slTask isTask] && [slTask isAssignPending] && [task isAcceptedByMe];
+        
 //        reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || needSort || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture || starLost;
         reSchedule = reChange || reRuleChange || typeChange || durationChange || dueLost || becomeDue || mustDoLost || becomeMustDo || mustDoChange || transChange || futureLost || becomeFuture || starLost || timezoneChange;
       
@@ -3482,11 +3485,11 @@ TaskManager *_sctmSingleton = nil;
             [[AlertManager getInstance] generateAlertsForTask:slTask];
         }
         
-        reSchedule = reSchedule || isSplitted || ([slTask isEvent] && timeChange) || ([slTask isTask] && (projectChange || typeChange || taskChange));
+        reSchedule = reSchedule || isSplitted || ([slTask isEvent] && timeChange) || ([slTask isTask] && (projectChange || typeChange || taskChange)) || acceptedTaskByMe;
         
         if ([slTask isTask])
         {
-            if (taskChange || projectChange || becomeDue || becomeMustDo || mustDoLost || futureLost)
+            if (taskChange || projectChange || becomeDue || becomeMustDo || mustDoLost || futureLost || acceptedTaskByMe)
             {
                 [self populateTask:slTask];
             }
