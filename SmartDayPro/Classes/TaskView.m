@@ -2121,9 +2121,9 @@ extern SmartDayViewController *_sdViewCtrler;
     
     if ([self.task isPendingByMe]) {
         // add accept button
-        NSInteger width = 120;
+        NSInteger width = 90;
         frm.size.width = width;
-		frm.size.height = 30;
+		frm.size.height = 23;
         
 		frm.origin.x = rect.origin.x + rect.size.width - (width + PAD_WIDTH/2);
         frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
@@ -2133,19 +2133,15 @@ extern SmartDayViewController *_sdViewCtrler;
             [view removeFromSuperview];
         }
         
-        UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:_acceptText, _rejectText, nil]];
+        UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@" ", @" ", nil]];
+        //UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] init];
         acceptRejectSegmented.frame = frm;
         acceptRejectSegmented.tag = 10000;
         [acceptRejectSegmented addTarget:self action:@selector(doAcceptReject:) forControlEvents:UIControlEventValueChanged];
-        acceptRejectSegmented.backgroundColor = [UIColor whiteColor];
-        //[[acceptRejectSegmented.subviews objectAtIndex:1] setForegroundColor:[UIColor redColor]];
-        /*[acceptRejectSegmented setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              [UIFont fontWithName:@"Arial" size:16.0],NSFontAttributeName,
-                                              //[UIColor redColor], NSBackgroundColorAttributeName,
-                                              [UIColor blackColor], NSForegroundColorAttributeName,
-                                              //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
-                                              nil] forState:UIControlStateNormal];*/
+        [acceptRejectSegmented setBackgroundImage:[UIImage imageNamed:@"accept_reject.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        
         [self addSubview:acceptRejectSegmented];
+        [acceptRejectSegmented release];
         
         rect.size.width -= width + PAD_WIDTH/2;
     }

@@ -2765,6 +2765,8 @@
 		A25FE28818926073002BECFC /* focuspane_assignto.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE28418926073002BECFC /* focuspane_assignto.png */; };
 		A25FE28918926073002BECFC /* focuspane_assignby@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE28518926073002BECFC /* focuspane_assignby@2x.png */; };
 		A25FE28A18926073002BECFC /* focuspane_assignby.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE28618926073002BECFC /* focuspane_assignby.png */; };
+		A25FE295189274CB002BECFC /* accept_reject.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE293189274CB002BECFC /* accept_reject.png */; };
+		A25FE296189274CB002BECFC /* accept_reject@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE294189274CB002BECFC /* accept_reject@2x.png */; };
 		A2A8BA6817C370E500EB4C64 /* TagDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A8BA6717C370E500EB4C64 /* TagDetailViewController.m */; };
 		A2A8BA6917C370E600EB4C64 /* TagDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A8BA6717C370E500EB4C64 /* TagDetailViewController.m */; };
 		A2A8BA6B17C3710200EB4C64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A8BA6A17C3710200EB4C64 /* CoreLocation.framework */; };
@@ -3983,6 +3985,8 @@
 		A25FE28418926073002BECFC /* focuspane_assignto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focuspane_assignto.png; sourceTree = "<group>"; };
 		A25FE28518926073002BECFC /* focuspane_assignby@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "focuspane_assignby@2x.png"; sourceTree = "<group>"; };
 		A25FE28618926073002BECFC /* focuspane_assignby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focuspane_assignby.png; sourceTree = "<group>"; };
+		A25FE293189274CB002BECFC /* accept_reject.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accept_reject.png; sourceTree = "<group>"; };
+		A25FE294189274CB002BECFC /* accept_reject@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accept_reject@2x.png"; sourceTree = "<group>"; };
 		A2A8BA6617C370E500EB4C64 /* TagDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagDetailViewController.h; sourceTree = "<group>"; };
 		A2A8BA6717C370E500EB4C64 /* TagDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagDetailViewController.m; sourceTree = "<group>"; };
 		A2A8BA6A17C3710200EB4C64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -4886,6 +4890,8 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A25FE293189274CB002BECFC /* accept_reject.png */,
+				A25FE294189274CB002BECFC /* accept_reject@2x.png */,
 				A25FE28318926073002BECFC /* focuspane_assignto@2x.png */,
 				A25FE28418926073002BECFC /* focuspane_assignto.png */,
 				A25FE28518926073002BECFC /* focuspane_assignby@2x.png */,
@@ -5786,6 +5792,7 @@
 				6748B991180401820043A80E /* CheckOn20.png in Resources */,
 				6748B992180401820043A80E /* CheckOn30.png in Resources */,
 				6748B993180401820043A80E /* CheckOn30@2x.png in Resources */,
+				A25FE295189274CB002BECFC /* accept_reject.png in Resources */,
 				6748B994180401820043A80E /* CheckOn30_blue.png in Resources */,
 				6748B995180401820043A80E /* CheckOn30_blue@2x.png in Resources */,
 				6748B996180401820043A80E /* circle.png in Resources */,
@@ -6320,6 +6327,7 @@
 				6748BB6D180401820043A80E /* DurationInputViewController.xib in Resources */,
 				6748BB6E180401820043A80E /* ProjectInputViewController.xib in Resources */,
 				6748BB6F180401820043A80E /* LocationInputAccessoryView.xib in Resources */,
+				A25FE296189274CB002BECFC /* accept_reject@2x.png in Resources */,
 				A2E2A57318448971003EDEF3 /* detail_hint_de.htm in Resources */,
 				6748BB70180401820043A80E /* noteBG_full.png in Resources */,
 				6748BB71180401820043A80E /* filter_long.png in Resources */,
