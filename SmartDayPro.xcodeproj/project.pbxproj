@@ -2761,6 +2761,10 @@
 		A25C05AB1783D96200FA84FE /* settings_backup.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A81783D96200FA84FE /* settings_backup.png */; };
 		A25C05AC1783D96200FA84FE /* settings_backup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A91783D96200FA84FE /* settings_backup@2x.png */; };
 		A25C05AD1783D96200FA84FE /* settings_backup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A91783D96200FA84FE /* settings_backup@2x.png */; };
+		A25FE28718926073002BECFC /* focuspane_assignto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE28318926073002BECFC /* focuspane_assignto@2x.png */; };
+		A25FE28818926073002BECFC /* focuspane_assignto.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE28418926073002BECFC /* focuspane_assignto.png */; };
+		A25FE28918926073002BECFC /* focuspane_assignby@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE28518926073002BECFC /* focuspane_assignby@2x.png */; };
+		A25FE28A18926073002BECFC /* focuspane_assignby.png in Resources */ = {isa = PBXBuildFile; fileRef = A25FE28618926073002BECFC /* focuspane_assignby.png */; };
 		A2A8BA6817C370E500EB4C64 /* TagDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A8BA6717C370E500EB4C64 /* TagDetailViewController.m */; };
 		A2A8BA6917C370E600EB4C64 /* TagDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A8BA6717C370E500EB4C64 /* TagDetailViewController.m */; };
 		A2A8BA6B17C3710200EB4C64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A8BA6A17C3710200EB4C64 /* CoreLocation.framework */; };
@@ -3975,6 +3979,10 @@
 		A2587D8F17CF4D450097CA51 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A25C05A81783D96200FA84FE /* settings_backup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_backup.png; sourceTree = "<group>"; };
 		A25C05A91783D96200FA84FE /* settings_backup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_backup@2x.png"; sourceTree = "<group>"; };
+		A25FE28318926073002BECFC /* focuspane_assignto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "focuspane_assignto@2x.png"; sourceTree = "<group>"; };
+		A25FE28418926073002BECFC /* focuspane_assignto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focuspane_assignto.png; sourceTree = "<group>"; };
+		A25FE28518926073002BECFC /* focuspane_assignby@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "focuspane_assignby@2x.png"; sourceTree = "<group>"; };
+		A25FE28618926073002BECFC /* focuspane_assignby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focuspane_assignby.png; sourceTree = "<group>"; };
 		A2A8BA6617C370E500EB4C64 /* TagDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagDetailViewController.h; sourceTree = "<group>"; };
 		A2A8BA6717C370E500EB4C64 /* TagDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagDetailViewController.m; sourceTree = "<group>"; };
 		A2A8BA6A17C3710200EB4C64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -4878,6 +4886,10 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A25FE28318926073002BECFC /* focuspane_assignto@2x.png */,
+				A25FE28418926073002BECFC /* focuspane_assignto.png */,
+				A25FE28518926073002BECFC /* focuspane_assignby@2x.png */,
+				A25FE28618926073002BECFC /* focuspane_assignby.png */,
 				67CF2D9B161951B8001FE1AA /* 1-mash-blue.png */,
 				67CF2D9C161951B8001FE1AA /* 1-mash-white.png */,
 				67CF2D9D161951B8001FE1AA /* 2-mash-blue.png */,
@@ -5725,6 +5737,7 @@
 				6748B969180401820043A80E /* alert_black.png in Resources */,
 				6748B96A180401820043A80E /* alert_black@2x.png in Resources */,
 				6748B96B180401820043A80E /* background_button.png in Resources */,
+				A25FE28918926073002BECFC /* focuspane_assignby@2x.png in Resources */,
 				6784CF8F1830B06B0095DDF9 /* slider_2_iphone4_ja.html in Resources */,
 				6784CF6D1830B01C0095DDF9 /* slider_1.jpg in Resources */,
 				6748B96C180401820043A80E /* bell.png in Resources */,
@@ -5967,6 +5980,7 @@
 				6748BA38180401820043A80E /* SC114.png in Resources */,
 				6748BA39180401820043A80E /* SC57.png in Resources */,
 				6748BA3A180401820043A80E /* SC_free_114.png in Resources */,
+				A25FE28A18926073002BECFC /* focuspane_assignby.png in Resources */,
 				6748BA3B180401820043A80E /* SC_free_512.png in Resources */,
 				6748BA3C180401820043A80E /* SC_free_57.png in Resources */,
 				6748BA3D180401820043A80E /* SC_free_72.png in Resources */,
@@ -6108,6 +6122,7 @@
 				6748BABC180401820043A80E /* menu_pastelink_white.png in Resources */,
 				6784CF6A1830B01C0095DDF9 /* slider_5_iphone5.jpg in Resources */,
 				6748BABD180401820043A80E /* MM_next@2x.png in Resources */,
+				A25FE28718926073002BECFC /* focuspane_assignto@2x.png in Resources */,
 				6748BABE180401820043A80E /* MM_prev.png in Resources */,
 				6748BABF180401820043A80E /* MM_prev@2x.png in Resources */,
 				6748BAC0180401820043A80E /* NoteHint.htm in Resources */,
@@ -6183,6 +6198,7 @@
 				6748BB02180401820043A80E /* settings_general@2x.png in Resources */,
 				6748BB03180401820043A80E /* settings_sync.png in Resources */,
 				6748BB04180401820043A80E /* settings_sync@2x.png in Resources */,
+				A25FE28818926073002BECFC /* focuspane_assignto.png in Resources */,
 				6748BB05180401820043A80E /* settings_tasks.png in Resources */,
 				6748BB06180401820043A80E /* settings_tasks@2x.png in Resources */,
 				6748BB07180401820043A80E /* settings_info.png in Resources */,

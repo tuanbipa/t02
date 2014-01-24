@@ -1373,6 +1373,32 @@ extern SmartDayViewController *_sdViewCtrler;
         
         rect.size.width -= frm.size.width + SPACE_PAD;
 	}
+    else if ([task isTask]) {
+        NSLog(@"%@", self.task.name);
+        if ([task isAcceptedByMe]) {
+            UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignto.png"];
+            
+            frm.size = [alertImage size];
+            
+            frm.origin.x = rect.origin.x + rect.size.width - frm.size.width;
+            frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+            
+            [alertImage drawInRect:frm];
+            
+            rect.size.width -= frm.size.width;
+        } else if ([task isAcceptByAssignee]) {
+            UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignby.png"];
+            
+            frm.size = [alertImage size];
+            
+            frm.origin.x = rect.origin.x + rect.size.width - frm.size.width;
+            frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+            
+            [alertImage drawInRect:frm];
+            
+            rect.size.width -= frm.size.width;
+        }
+    }
 	/*else if ([task isTask] && hasHashMark)
 	{
 		frm.size.width = HASHMARK_WIDTH;
@@ -1431,7 +1457,7 @@ extern SmartDayViewController *_sdViewCtrler;
     else
     {
         //printf("task %s has no link\n", [task.name UTF8String]);
-    }*/
+    }
     
     if ([task isRE])
     {
@@ -1448,7 +1474,7 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.size.width -= REPEAT_SIZE;
     }
     
-	/*if (hasFlag)
+	if (hasFlag)
 	{
 		frm.size.width = FLAG_SIZE;
 		frm.size.height = FLAG_SIZE;
