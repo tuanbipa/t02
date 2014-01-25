@@ -450,21 +450,38 @@ extern iPadViewController *_iPadViewCtrler;
         
         BOOL isDefault = [prj checkDefault];
         
-        UILabel *prjLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 5, 240 - (isDefault?25:0), 30)];
+        CGRect frm = CGRectMake(35, 5, 240 - (isDefault?25:0), 26);
+        if ([prj isShared]) {
+            CGRect infoRect = CGRectMake(35, 22, 240 - (isDefault?25:0), cell.frame.size.height - 26);
+            
+            UILabel *infoLable = [[UILabel alloc] initWithFrame:infoRect];
+            infoLable.textColor = [UIColor lightGrayColor];
+            infoLable.font = [UIFont systemFontOfSize:11];
+            infoLable.text = [NSString stringWithFormat:_sharedByText, prj.ownerName];
+            infoLable.tag = 10001;
+            [cell.contentView addSubview:infoLable];
+            [infoLable release];
+            
+            frm.origin.y = 2;
+        }
+        
+        UILabel *prjLabel = [[UILabel alloc] initWithFrame:frm];
         prjLabel.backgroundColor = [UIColor clearColor];
         prjLabel.font = [UIFont systemFontOfSize:16];
-        //prjLabel.text = prj.name;
-        NSString *ownerName = @"";
+        prjLabel.text = prj.name;
+        /*NSString *ownerName = @"";
         if ([prj isShared]) {
             ownerName = [NSString stringWithFormat:@"[%@] ", prj.ownerName];
         }
-        prjLabel.text = [NSString stringWithFormat:@"%@%@", ownerName, prj.name];
+        prjLabel.text = [NSString stringWithFormat:@"%@%@", ownerName, prj.name];*/
         
         prjLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
         prjLabel.tag = 10000;
         
         [cell.contentView addSubview:prjLabel];
         [prjLabel release];
+        
+        
     	
         if (prj.type == TYPE_LIST)
         {
