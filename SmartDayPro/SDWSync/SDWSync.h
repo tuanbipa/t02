@@ -10,9 +10,15 @@
 
 typedef enum
 {
-	TASK_SHARED_ACCEPT = 1,
-    TASK_SHARED_REJECT = 2
+	SHARED_ACCEPT = 1,
+    SHARED_REJECT = 2
 } TaskSharedResponse;
+
+typedef enum
+{
+	SHARED_OBJECT_TASK = 1,
+    SHARED_OBJECT_PROJECT = 2
+} sharedObjectType;
 
 @class SDWSection;
 
@@ -63,5 +69,5 @@ typedef enum
 +(void)free;
 
 #pragma mark Accept / Reject
-- (void)initUpdateSDWSharedTask:(Task*)task withStatus:(NSInteger)status;
+- (void)initUpdateSDWShared:(NSInteger)objectType andId:(NSInteger)sdwID withStatus:(NSInteger)status;
 @end

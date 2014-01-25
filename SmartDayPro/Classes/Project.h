@@ -139,9 +139,11 @@
 - (BOOL) checkTransparent;
 - (BOOL) checkDefault;
 - (BOOL) checkCleanable;
-- (BOOL) isShared;
-- (void) setIsOwner: (BOOL)enabled;
-- (BOOL) isOwner;
+- (BOOL)isPending;
+- (BOOL)isAccepted;
+- (BOOL)isShared;
+- (BOOL)isOwner;
+- (void)setSmartShareStatus:(BOOL)shared sharedStatus:(BOOL)sharedStatus hasShared:(BOOL)hasShared;
 - (void) saveSnapshot;
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)database;
 - (void) insertIntoDB:(sqlite3 *)database;

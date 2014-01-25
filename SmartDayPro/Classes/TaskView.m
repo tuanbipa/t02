@@ -1374,7 +1374,6 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.size.width -= frm.size.width + SPACE_PAD;
 	}
     else if ([task isTask]) {
-        NSLog(@"%@", self.task.name);
         if ([task isAcceptedByMe]) {
             UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignto.png"];
             
@@ -2820,10 +2819,9 @@ extern SmartDayViewController *_sdViewCtrler;
     
     UISegmentedControl *seg = (UISegmentedControl*)sender;
     
-    NSInteger status = seg.selectedSegmentIndex == 0 ? TASK_SHARED_ACCEPT : TASK_SHARED_REJECT;
-    [[SDWSync getInstance] initUpdateSDWSharedTask:self.task withStatus:status];
+    NSInteger status = seg.selectedSegmentIndex == 0 ? SHARED_ACCEPT : SHARED_REJECT;
+    [[SDWSync getInstance] initUpdateSDWShared:SHARED_OBJECT_TASK andId:self.task.sdwId withStatus:status];
 }
-
 
 #pragma mark Notification
 

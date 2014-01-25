@@ -812,3 +812,4 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_pendingDaysText" = "Pending %d day(s)";
 "_acceptText" = "Accept";
 "_rejectText" = "Reject";
+"_sharedByText" = "Shared by %@";

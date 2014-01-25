@@ -21,6 +21,7 @@
 #import "iPadViewController.h"
 
 #import "CategoryViewController.h"
+#import "SDWSync.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
@@ -151,8 +152,8 @@ extern BOOL _isiPad;
     
     //NSString *name = [NSString stringWithFormat:@"%@%@", plan.source == CATEGORY_SOURCE_ICAL?@"[iOS/OSX] ":(plan.source == CATEGORY_SOURCE_SDW?@"[mySmartDay] ":@""), plan.name];
     
-    //NSString *name = plan.name;
-    NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"[%@] ", plan.ownerName]:@"", plan.name];
+    NSString *name = plan.name;
+    //NSString *name = [NSString stringWithFormat:@"%@%@", [plan isShared]?[NSString stringWithFormat:@"[%@] ", plan.ownerName]:@"", plan.name];
 	
 	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
 	
@@ -365,23 +366,62 @@ extern BOOL _isiPad;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
     }*/
     
+    UIView *view = [self viewWithTag:10000];
+    if (view != nil) {
+        [view removeFromSuperview];
+    }
+    if ([plan isPending])
+    {
+        // add accept button
+        NSInteger width = 90;
+        frm.size.width = width;
+		frm.size.height = 23;
+        
+		frm.origin.x = rect.origin.x + rect.size.width - (width + PAD_WIDTH/2);
+        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+        
+        UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@" ", @" ", nil]];
+        //UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] init];
+        acceptRejectSegmented.frame = frm;
+        acceptRejectSegmented.tag = 10000;
+        [acceptRejectSegmented addTarget:self action:@selector(doAcceptReject:) forControlEvents:UIControlEventValueChanged];
+        [acceptRejectSegmented setBackgroundImage:[UIImage imageNamed:@"accept_reject.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        
+        [self addSubview:acceptRejectSegmented];
+        [acceptRejectSegmented release];
+        
+        rect.size.width -= width + PAD_WIDTH/2;
+    }
+    
     CGRect textRect = [self drawText:rect context:ctx];
     
     NSString *infoStr = @"";
     
-    if (self.listType == TYPE_TASK)
-    {
-        PlanInfo info = [plan getInfo];
+    if (![plan isPending]) {
         
-        CGFloat hrs = info.totalDuration*1.0/3600;
-        
-        infoStr = [NSString stringWithFormat:@"%d/%d - %.1f hrs - %.0f%%", info.doneTotal, info.total, hrs, info.progress*100];
+        if (self.listType == TYPE_TASK)
+        {
+            PlanInfo info = [plan getInfo];
+            
+            CGFloat hrs = info.totalDuration*1.0/3600;
+            
+            infoStr = [NSString stringWithFormat:@"%d/%d - %.1f hrs - %.0f%%", info.doneTotal, info.total, hrs, info.progress*100];
+        }
+        else
+        {
+            NSInteger count = [[DBManager getInstance] countItems:self.listType inPlan:plan.primaryKey];
+            
+            infoStr = [NSString stringWithFormat:@"%d", count];
+        }
     }
-    else
-    {
-        NSInteger count = [[DBManager getInstance] countItems:self.listType inPlan:plan.primaryKey];
+    
+    if ([plan isShared]) {
+        NSString *sharedInfo = [NSString stringWithFormat:_sharedByText, plan.ownerName];
         
-        infoStr = [NSString stringWithFormat:@"%d", count];
+        if (![infoStr isEqualToString:@""]) {
+            infoStr = [infoStr stringByAppendingString:@", "];
+        }
+        infoStr = [infoStr stringByAppendingString:sharedInfo];
     }
     
     UIFont *infoFont = [UIFont fontWithName:@"Verdana" size:11];
@@ -501,4 +541,15 @@ extern BOOL _isiPad;
 	[self drawProgress:rec context:ctx];
 }
 
+#pragma mark segmented action
+
+- (void)doAcceptReject:(id)sender
+{
+    [[AbstractActionViewController getInstance] enableCategoryActions:YES onView:self];
+    
+    UISegmentedControl *seg = (UISegmentedControl*)sender;
+    
+    NSInteger status = seg.selectedSegmentIndex == 0 ? SHARED_ACCEPT : SHARED_REJECT;
+    [[SDWSync getInstance] initUpdateSDWShared:SHARED_OBJECT_PROJECT andId:self.project.sdwId withStatus:status];
+}
 @end

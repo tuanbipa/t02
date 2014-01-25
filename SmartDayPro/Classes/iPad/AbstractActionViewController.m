@@ -161,7 +161,7 @@ extern DetailViewController *_detailViewCtrler;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updateAfterSmartShareStatusChange:)
-                                                     name:@"SDWSharedTaskChangeNotification" object:nil];
+                                                     name:@"SDWSharedObjectChangeNotification" object:nil];
         
     }
     
@@ -3269,14 +3269,15 @@ extern DetailViewController *_detailViewCtrler;
 
 - (void)updateAfterSmartShareStatusChange:(NSNotification*)notiication
 {
-    //UpdateSDWSharedTask
+    NSInteger status = [[notiication.userInfo objectForKey:@"status"] intValue];
+    NSInteger permission = [[notiication.userInfo objectForKey:@"permission"] intValue];
+    NSInteger objectType = [[notiication.userInfo objectForKey:@"objectType"] intValue];
+    
     Task *task = [self getActiveTask];
-    if (task != nil) {
-        
-        NSInteger status = [[notiication.userInfo objectForKey:@"status"] intValue];
-        NSInteger permission = [[notiication.userInfo objectForKey:@"permission"] intValue];
-        
-        if (status == TASK_SHARED_ACCEPT) {
+    Project *project = [self getActiveProject];
+    
+    if (objectType == SHARED_OBJECT_TASK && task != nil) {
+        if (status == SHARED_ACCEPT) {
             // is accept
             
             // update share status
@@ -3295,6 +3296,16 @@ extern DetailViewController *_detailViewCtrler;
                 [self updateLocalTask:task withDelegateStatus:status];
             }
         }
+    } else if (objectType == SHARED_OBJECT_PROJECT && project != nil) {
+        // for project
+        if (status == SHARED_ACCEPT) {
+            // is accept
+            
+            [self updateLocalProject:project withDelegateStatus:status];
+        } else {
+            // is reject
+            [self doDeleteCategory:YES];
+        }
     }
 }
 
@@ -3304,7 +3315,7 @@ extern DetailViewController *_detailViewCtrler;
     
     NSInteger delegate = 1;
     BOOL reSchedule = NO;
-    if (status == TASK_SHARED_REJECT) {
+    if (status == SHARED_REJECT) {
         copyTask.assigneeEmail = @"";
         delegate = 0;
     } else {
@@ -3313,5 +3324,13 @@ extern DetailViewController *_detailViewCtrler;
     [copyTask setSmartShareStatus:YES meetingInvited:NO delegateStatus:delegate];
     
     [self updateTask:task withTask:copyTask];
+}
+
+- (void)updateLocalProject:(Project*)project withDelegateStatus:(NSInteger)status
+{
+    [project setSmartShareStatus:YES sharedStatus:(status == SHARED_ACCEPT) hasShared:NO];
+    
+    CategoryViewController *ctrler = [[AbstractActionViewController getInstance] getCategoryViewController];
+    [ctrler setNeedsDisplay];
 }
 @end

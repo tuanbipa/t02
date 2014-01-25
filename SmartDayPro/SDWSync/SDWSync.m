@@ -982,7 +982,8 @@ NSInteger _sdwColor[32] = {
     ret.tag = [self getStringValue:@"tags" dict:dict];
     ret.isTransparent = ([[dict objectForKey:@"is_transparent"] intValue] == 1);
     ret.status = ([[dict objectForKey:@"invisible"] intValue] == 1?PROJECT_STATUS_INVISIBLE:PROJECT_STATUS_NONE);
-    ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
+    //ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
+    [ret setSmartShareStatus:[[dict objectForKey:@"shared"] intValue] sharedStatus:[[dict objectForKey:@"shared_status"] intValue] hasShared:[[dict objectForKey:@"has_shared"] intValue]];
     
     if ([ret isShared])
     {
@@ -1013,10 +1014,10 @@ NSInteger _sdwColor[32] = {
             //printf("project:%s - onwer: %s\n", [ret.name UTF8String], [ret.ownerName UTF8String]);
         }
     }
-    else
+    /*else
     {
         [ret setIsOwner:[[dict objectForKey:@"has_shared"] intValue]];
-    }
+    }*/
     
     NSInteger source = [[dict objectForKey:@"source"] intValue];
     
@@ -5467,7 +5468,7 @@ NSInteger _sdwColor[32] = {
 
 #pragma mark Accept / Reject
 
-- (void)initUpdateSDWSharedTask:(Task*)task withStatus:(NSInteger)status
+- (void)initUpdateSDWShared:(NSInteger)objectType andId:(NSInteger)sdwID withStatus:(NSInteger)status
 {
     
     [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
@@ -5480,7 +5481,7 @@ NSInteger _sdwColor[32] = {
         if (self.sdwSection.key != nil)
         {
             // do accept / reject
-            [self updateSDWSharedTask:task withStatus:status];
+            [self updateSDWShared:objectType andId:sdwID withStatus:status];
         }
     }
     // === end init
@@ -5488,7 +5489,7 @@ NSInteger _sdwColor[32] = {
     [[BusyController getInstance] setBusy:NO withCode:BUSY_SDW_SYNC];
 }
 
-- (void)updateSDWSharedTask:(Task*)task withStatus:(NSInteger)status
+- (void)updateSDWShared:(NSInteger)objectType andId:(NSInteger)sdwID withStatus:(NSInteger)status
 {
     NSString *url = [NSString stringWithFormat:@"%@/api/status/updates.json?keyapi=%@",SDWSite,self.sdwSection.key];
 	
@@ -5504,7 +5505,7 @@ NSInteger _sdwColor[32] = {
     
     // set body
     NSMutableArray *dataList = [NSMutableArray array];
-    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:status], @"stt", [NSNumber numberWithInt:1], @"stt_type", task.sdwId, @"obj_id", nil];
+    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:status], @"stt", [NSNumber numberWithInt:objectType], @"stt_type", sdwID, @"obj_id", nil];
     [dataList addObject:dataDict];
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:dataList options:0 error:&error];
     
@@ -5531,15 +5532,17 @@ NSInteger _sdwColor[32] = {
             return;
         }
         
-        for (NSDictionary *dict in result)
+        if (result.count > 0)
         {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:result.firstObject];
             
             NSInteger responseStatus = [[dict objectForKey:@"status"] intValue];//[[dict valueForKey:@"status"] intValue];
             
             if (status == responseStatus) {
                 // sucessful
+                [dict setValue:[NSNumber numberWithInteger:objectType] forKey:@"objectType"];
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"SDWSharedTaskChangeNotification" object:nil userInfo:dict];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SDWSharedObjectChangeNotification" object:nil userInfo:dict];
             }
         }
     }

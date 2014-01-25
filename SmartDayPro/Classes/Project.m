@@ -504,26 +504,43 @@ static sqlite3_stmt *prj_delete_statement = nil;
         (self.rmdId == nil || [self.rmdId isEqualToString:@""]);
 }
 
-- (BOOL) isShared
+
+- (BOOL)isPending
 {
-    return self.extraStatus == PROJECT_EXTRA_STATUS_SHARED;
+    return (self.extraStatus & PROJECT_EXTRA_STATUS_PENDING) != 0;
 }
 
-- (void) setIsOwner: (BOOL)enabled
+- (BOOL)isAccepted
 {
-    if (enabled)
-    {
-        self.extraStatus |= PROJECT_EXTRA_STATUS_OWNER;
-    }
-    else
-    {
-        self.extraStatus &= ~PROJECT_EXTRA_STATUS_OWNER;
-    }
+    return (self.extraStatus & PROJECT_EXTRA_STATUS_ACCEPTED) != 0;
 }
-    
+
+- (BOOL) isShared
+{
+    return (self.extraStatus & (PROJECT_EXTRA_STATUS_ACCEPTED | PROJECT_EXTRA_STATUS_PENDING)) != 0;
+}
+
 - (BOOL) isOwner
 {
-    return self.extraStatus == PROJECT_EXTRA_STATUS_OWNER;
+    return (self.extraStatus & PROJECT_EXTRA_STATUS_OWNER) != 0;
+}
+
+- (void)setSmartShareStatus:(BOOL)shared sharedStatus:(BOOL)sharedStatus hasShared:(BOOL)hasShared
+{
+    // reset shared status
+    self.extraStatus &= ~(PROJECT_EXTRA_STATUS_ACCEPTED | PROJECT_EXTRA_STATUS_OWNER | PROJECT_EXTRA_STATUS_PENDING);
+    if (shared) {
+        if (sharedStatus) {
+            self.extraStatus |= PROJECT_EXTRA_STATUS_ACCEPTED;
+        } else {
+            // pending
+            self.extraStatus |= PROJECT_EXTRA_STATUS_PENDING;
+        }
+    } else {
+        if (hasShared) {
+            self.extraStatus |= PROJECT_EXTRA_STATUS_OWNER;
+        }
+    }
 }
 
 -(void) saveSnapshot
