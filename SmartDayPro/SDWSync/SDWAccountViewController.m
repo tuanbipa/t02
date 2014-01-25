@@ -144,7 +144,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 {
     [self.setting saveMSDAccount];
 
-	BOOL sdwAccountChange = ![self.setting.sdwEmail isEqualToString:@""] && (![self.setting.sdwEmail isEqualToString:self.userName] || ![self.setting.sdwPassword isEqualToString:self.password]);
+	BOOL sdwAccountChange = (![self.setting.sdwEmail isEqualToString:self.userName] || ![self.setting.sdwPassword isEqualToString:self.password]);
     
     UIViewController *topCtrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-1];
     
