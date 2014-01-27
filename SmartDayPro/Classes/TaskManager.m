@@ -5229,6 +5229,24 @@ TaskManager *_sctmSingleton = nil;
 
 - (void)moveTop: (NSArray*) tasks
 {
+    NSMutableArray *willMoveList = [NSMutableArray arrayWithArray:tasks];
+    
+    // remove mustdo task from List if exist
+    NSMutableArray *removeList = [NSMutableArray array];
+    for (Task *tsk in willMoveList) {
+        if ([tsk checkMustDo]) {
+            [removeList addObject:tsk];
+        }
+    }
+    if (removeList.count > 0) {
+        [willMoveList removeObjectsInArray:removeList];
+    }
+    
+    if (willMoveList.count <= 0) {
+        return;
+    }
+    // end remove
+    
     DBManager *dbm = [DBManager getInstance];
     
     // get current order numbers
@@ -5240,8 +5258,8 @@ TaskManager *_sctmSingleton = nil;
     
     sortBGInProgress = (self.taskList.count > 30);
     
-    for (int i=0; i < tasks.count; i++) {
-        Task *willBeTop = [tasks objectAtIndex:i];
+    for (int i=0; i < willMoveList.count; i++) {
+        Task *willBeTop = [willMoveList objectAtIndex:i];
         NSInteger index = [self.taskList indexOfObject:willBeTop];
         
         [self.taskList removeObjectAtIndex:index];
