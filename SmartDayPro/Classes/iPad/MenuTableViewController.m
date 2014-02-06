@@ -39,6 +39,9 @@ extern iPadViewController *_iPadViewCtrler;
 {
     iPadSettingViewController *ctrler = [[iPadSettingViewController alloc] init];
     
+    // close detail view before going to setting-view
+    [_iPadViewCtrler closeDetail];
+    
     [_iPadViewCtrler.navigationController pushViewController:ctrler animated:YES];
     
     [ctrler release];
