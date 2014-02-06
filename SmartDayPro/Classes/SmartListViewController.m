@@ -3183,4 +3183,17 @@ SmartListViewController *_smartListViewCtrler;
     [ctrl endRefreshing];
 }
 
+#pragma mark Alert delegate
+
+- (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertVw.tag == -10004 && buttonIndex == 1)
+	{
+		[[Settings getInstance] enableStarTabHint:NO];
+	}
+	else if (alertVw.tag == -10005 && buttonIndex == 1)
+	{
+		[[Settings getInstance] enableGTDoTabHint:NO];
+	}
+}
 @end
