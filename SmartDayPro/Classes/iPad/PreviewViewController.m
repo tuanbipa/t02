@@ -590,6 +590,7 @@ PreviewViewController *_previewCtrler;
         //noteView.editEnabled = YES;
         noteView.editEnabled = NO;
         noteView.touchEnabled = YES;
+        noteView.showNoteContentView = YES;
         
         noteView.note = asset;
         
