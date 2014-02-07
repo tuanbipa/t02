@@ -842,4 +842,15 @@ extern iPadViewController *_iPadViewCtrler;
     }*/
 }
 
+#pragma mark Rotation
+
+- (void)refreshContent
+{
+    [self removeAllChecks];
+    
+    if (noteTextView.text != nil)
+    {
+        [self createCheckButtons:noteTextView.text];
+    }
+}
 @end

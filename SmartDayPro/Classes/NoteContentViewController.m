@@ -214,6 +214,8 @@ extern SmartDayViewController *_sdViewCtrler;
     [self changeFrame:frm];
     
     originalNoteFrame = noteView.frame;
+    
+    [noteView refreshContent];
 }
 
 - (void)viewDidLoad

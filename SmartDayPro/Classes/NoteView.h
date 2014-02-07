@@ -49,4 +49,7 @@
 
 - (void) refreshNoteBackground;
 
+#pragma mark Rotation
+
+- (void)refreshContent;
 @end
