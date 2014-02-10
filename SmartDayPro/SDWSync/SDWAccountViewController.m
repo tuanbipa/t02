@@ -46,7 +46,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    //UIViewController *ctrler = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
     //if ([ctrler isKindOfClass:[iPadSyncSettingViewController class]])
     if (_isiPad)
@@ -155,7 +155,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
         ctrler.sdwAccountChange = sdwAccountChange;
         ctrler.settingCopy.sdwVerified = self.setting.sdwVerified;
     }
-    else if ([topCtrler isKindOfClass:[iPadSyncSettingViewController class]])
+    else //if ([topCtrler isKindOfClass:[iPadSyncSettingViewController class]])
     {
         if (_iPadSettingViewCtrler != nil)
         {
@@ -163,6 +163,11 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
             _iPadSettingViewCtrler.settingCopy.sdwVerified = self.setting.sdwVerified;
             
             [_iPadSettingViewCtrler refresh];
+        } else {
+            // reset token, fix: user tap on 'back' button
+            if (sdwAccountChange) {
+                [[SDWSync getInstance] resetSyncSection];
+            }
         }
     }
 }
