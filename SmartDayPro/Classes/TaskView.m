@@ -1375,7 +1375,7 @@ extern SmartDayViewController *_sdViewCtrler;
 	}
     else if ([task isTask]) {
         if ([task isAcceptedByMe]) {
-            UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignto.png"];
+            UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignby.png"];
             
             frm.size = [alertImage size];
             
@@ -1386,7 +1386,7 @@ extern SmartDayViewController *_sdViewCtrler;
             
             rect.size.width -= frm.size.width;
         } else if ([task isAcceptByAssignee]) {
-            UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignby.png"];
+            UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignto.png"];
             
             frm.size = [alertImage size];
             
