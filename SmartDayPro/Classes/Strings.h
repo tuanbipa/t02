@@ -798,3 +798,4 @@
 #define _acceptText NSLocalizedString(@"_acceptText", "")
 #define _rejectText NSLocalizedString(@"_rejectText", "")
 #define _sharedByText NSLocalizedString(@"_sharedByText", "")
+#define _notePush1WayText NSLocalizedString(@"_notePush1WayText", "")

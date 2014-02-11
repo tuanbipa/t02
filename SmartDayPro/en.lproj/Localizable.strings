@@ -813,3 +813,4 @@ Note: If you select a source that is not showing in your iOS Reminder, your remi
 "_acceptText" = "Accept";
 "_rejectText" = "Reject";
 "_sharedByText" = "Shared by %@";
+"_notePush1WayText" = "Note: shared projects are managed by SmartDay Online. After you replace data from SmartDay to SmartDay Online, please perform 2-way sync to make sure shared data are the same throughout the SmartDay system.";

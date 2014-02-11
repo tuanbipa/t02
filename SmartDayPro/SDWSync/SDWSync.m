@@ -4887,7 +4887,7 @@ NSInteger _sdwColor[32] = {
     self.sdwSCMappingDict = [NSMutableDictionary dictionaryWithCapacity:10];
     self.scSDWMappingDict = [NSMutableDictionary dictionaryWithCapacity:10];
     
-    NSString *urlString=[NSString stringWithFormat:@"%@/api/categories/%@.json?keyapi=%@",SDWSite,@"0",self.sdwSection.key];
+    NSString *urlString=[NSString stringWithFormat:@"%@/api/categories/%@.json?keyapi=%@&del_personal_proj=1",SDWSite,@"0",self.sdwSection.key];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
     [request setURL:[NSURL URLWithString:urlString]]; 

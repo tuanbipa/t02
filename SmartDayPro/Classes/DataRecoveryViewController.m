@@ -185,7 +185,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
     frm = contentView.bounds;
     frm.origin.y = 120;
-    frm.size.height -= 120;
+    //frm.size.height -= 120;
+    frm.size.height = 140;
     
     settingTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
 	settingTableView.delegate = self;
@@ -194,6 +195,21 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	
 	[contentView addSubview:settingTableView];
 	[settingTableView release];
+    
+    // note for smart share
+    frm = label.frame;
+    frm.origin.y = settingTableView.frame.size.height + settingTableView.frame.origin.y + 10;
+    
+    UILabel *noteLabel = [[UILabel alloc] initWithFrame:frm];
+    noteLabel.backgroundColor = [UIColor clearColor];
+    noteLabel.numberOfLines = 0;
+    noteLabel.text = _notePush1WayText;
+    noteLabel.textAlignment = NSTextAlignmentLeft;
+    noteLabel.font = [UIFont systemFontOfSize:16];
+    noteLabel.textColor = [Colors darkSteelBlue];
+    
+    [contentView addSubview:noteLabel];
+    [noteLabel release];
 }
 
 - (void)viewDidLoad
