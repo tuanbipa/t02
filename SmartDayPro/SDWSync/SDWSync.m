@@ -1383,8 +1383,12 @@ NSInteger _sdwColor[32] = {
                 
                 //printf("sc time: %s, sdw time: %s\n", [[prj.updateTime description] UTF8String], [[sdwCat.updateTime description] UTF8String]);
                 
-                if (compRes == NSOrderedAscending || [prj isShared]) //update SDW->SC
+                //if (compRes == NSOrderedAscending || [prj isShared]) //update SDW->SC
+                // 20140211 - fix bug [609 - don't sync hide/show project to mSD after hide/show project in iSD]
+                if (compRes == NSOrderedAscending)
                 {
+                    //update SDW->SC
+                    
                     //printf("update SDW->SC for project: %s\n", [prj.name UTF8String]);
                     
                     BOOL colorChange = (prj.colorId != sdwCat.colorId);
