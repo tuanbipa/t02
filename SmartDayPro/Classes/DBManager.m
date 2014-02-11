@@ -1269,7 +1269,7 @@ static sqlite3_stmt *_top_task_statement = nil;
                        :"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> ? AND Task_Status <> ? AND Task_Type = ? AND Task_ProjectID = ? ORDER BY Task_SeqNo ASC");*/
     NSString *string = nil;
     if (eventQuery) {
-        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_ANCHORED] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_ANCHORED];
+        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"(Task_ExtraStatus & %d) = 0", TASK_EXTRA_STATUS_ANCHORED] : [NSString stringWithFormat:@"(Task_ExtraStatus & %d) <> 0", TASK_EXTRA_STATUS_ANCHORED];
         
         string = [NSString stringWithFormat:@"SELECT Count(Task_ID) FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND (Task_Type = %d OR Task_Type = %d) AND Task_ProjectID = %d AND %@ ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, TYPE_EVENT, TYPE_ADE, inPlan, exstraParam];
     } else {
@@ -1314,7 +1314,7 @@ static sqlite3_stmt *_top_task_statement = nil;
     
     NSString *string = nil;
     if (eventQuery) {
-        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"Task_ExtraStatus <> %d", TASK_EXTRA_STATUS_ANCHORED] : [NSString stringWithFormat:@"Task_ExtraStatus = %d", TASK_EXTRA_STATUS_ANCHORED];
+        NSString *exstraParam = (type == TYPE_EVENT)? [NSString stringWithFormat:@"(Task_ExtraStatus & %d) = 0", TASK_EXTRA_STATUS_ANCHORED] : [NSString stringWithFormat:@"(Task_ExtraStatus & %d) <> 0", TASK_EXTRA_STATUS_ANCHORED];
         
         string = [NSString stringWithFormat:@"SELECT Task_ID FROM TaskTable WHERE Task_Status <> %d AND Task_Status <> %d AND (Task_Type = %d OR Task_Type = %d) AND Task_ProjectID = %d AND %@ ORDER BY Task_SeqNo ASC", TASK_STATUS_DONE, TASK_STATUS_DELETED, TYPE_EVENT, TYPE_ADE, inPlan, exstraParam];
     } else {
