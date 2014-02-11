@@ -1528,6 +1528,9 @@ DetailViewController *_detailViewCtrler = nil;
 
 - (void) createRepeatUntilCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
+    if ([self.task isAssignedToAssignee] || [self.task isAcceptByAssignee]) {
+        cell.accessoryType = UITableViewCellSelectionStyleNone;
+    }
 	cell.textLabel.text = _repeatUntilText;
     //cell.textLabel.textColor = [UIColor grayColor];
     //cell.textLabel.font = [UIFont systemFontOfSize:16];
@@ -2049,6 +2052,9 @@ DetailViewController *_detailViewCtrler = nil;
         case 4:
             if (showAll)
             {
+                if ([self.task isAssignedToAssignee] || [self.task isAcceptByAssignee]) {
+                    break;
+                }
                 [self editRepeat];
             }
             else
