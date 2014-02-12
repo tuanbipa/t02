@@ -1374,7 +1374,7 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.size.width -= frm.size.width + SPACE_PAD;
 	}
     else if ([task isTask]) {
-        if ([task isAcceptedByMe]) {
+        if ([task isAcceptedByMe] || [task isPendingByMe]) {
             UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"focuspane_assignby.png"];
             
             frm.size = [alertImage size];
