@@ -198,7 +198,8 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     
     // note for smart share
     frm = label.frame;
-    frm.origin.y = settingTableView.frame.size.height + settingTableView.frame.origin.y + 10;
+    frm.origin.y = settingTableView.frame.size.height + settingTableView.frame.origin.y;
+    frm.size.height += 20;
     
     UILabel *noteLabel = [[UILabel alloc] initWithFrame:frm];
     noteLabel.backgroundColor = [UIColor clearColor];
