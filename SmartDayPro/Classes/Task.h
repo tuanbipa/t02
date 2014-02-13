@@ -254,7 +254,5 @@
 + (void)finalizeStatements;
 
 #pragma mark Properties
-/*- (void)checkHasPinnedCharacterInTitle;
-- (NSString *)titleWithoutAnchor;
-- (void)addAnchorInTitle;*/
+- (void)changeTimeZoneId:(NSInteger)timezoneId;
 @end

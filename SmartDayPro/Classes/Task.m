@@ -2638,33 +2638,13 @@ static sqlite3_stmt *task_delete_statement = nil;
     type = _type;
 }
 
-/*- (void)checkHasPinnedCharacterInTitle{
-    NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
-    if (range.location == NSNotFound) {
-        self.extraStatus &= ~TASK_EXTRA_STATUS_ANCHORED;
-    } else {
-        self.extraStatus |= TASK_EXTRA_STATUS_ANCHORED;
-    }
-}
+- (void)changeTimeZoneId:(NSInteger)timezoneId
+{
 
-- (NSString *)titleWithoutAnchor {
-    if ([self isManual]) {
-        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
-        if (range.location != NSNotFound) {
-            return [self.name substringFromIndex:range.location + range.length];
-        }
-    }
-    return self.name;
+    NSInteger secs = [[Settings getTimeZoneByID:self.timeZoneId] secondsFromGMT] - [[Settings getTimeZoneByID:tzId] secondsFromGMT];
+    
+    self.timeZoneId = timeZoneId;
+    self.startTime = [self.startTime dateByAddingTimeInterval:secs];
+    self.endTime = [self.endTime dateByAddingTimeInterval:secs];
 }
-
-- (void)addAnchorInTitle {
-    if ([self isManual] && [self isEvent]) {
-        NSRange range = [self.name rangeOfString:ANCHOR_CHARACTER];
-        if (range.location == NSNotFound) {
-            self.name = [ANCHOR_CHARACTER stringByAppendingString:self.name];
-        }
-    } else {
-        [self setManual:NO];
-    }
-}*/
 @end
