@@ -1072,7 +1072,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSInteger) getWeeksInMonth:(NSDate *)date mondayAsWeekStart:(BOOL)mondayAsWeekStart
 {
-    NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
+    /*NSCalendar *gregorian = [NSCalendar autoupdatingCurrentCalendar];
     
     NSDate *lastMonthDate = [Common getEndMonthDate:date withMonths:1];
     
@@ -1090,8 +1090,33 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
             weeks++;
         }
     }
-    
+     
     //return comps.weekOfMonth;
+    return weeks;*/
+    
+    // get first day in month
+    NSDate *firstDate = [Common getFirstMonthDate:date];
+    
+    NSInteger dayInWeek = [Common getWeekday:firstDate];
+    if (mondayAsWeekStart) {
+        if (dayInWeek == 1) {
+            // sunday
+            dayInWeek = 7;
+        } else {
+            dayInWeek -= 1;
+        }
+    }
+    
+    NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
+    NSRange days = [calendar rangeOfUnit:NSDayCalendarUnit
+                           inUnit:NSMonthCalendarUnit
+                          forDate:date];
+    NSInteger daysInMonth = days.length;
+    
+    NSInteger indentDay = dayInWeek - 1;
+    
+    NSInteger weeks = ceil((daysInMonth + indentDay)/7.0);
+    
     return weeks;
 }
 
