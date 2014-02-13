@@ -1920,7 +1920,11 @@ DetailViewController *_detailViewCtrler = nil;
             }
             else
             {
-                [self createADECell:cell baseTag:10200];
+                if ([self.task isManual]) {
+                    cell.hidden = YES;
+                } else {
+                    [self createADECell:cell baseTag:10200];
+                }
             }
             break;
         case 3:
@@ -1996,7 +2000,11 @@ DetailViewController *_detailViewCtrler = nil;
             }
             break;
         case 8:
-            [self createTimerHistoryCell:cell baseTag:10800];
+            if ([self.task isEvent]) {
+                cell.hidden = YES;
+            } else {
+                [self createTimerHistoryCell:cell baseTag:10800];
+            }
             break;
         case 9:
             if (showComments)
