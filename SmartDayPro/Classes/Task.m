@@ -2641,7 +2641,7 @@ static sqlite3_stmt *task_delete_statement = nil;
 - (void)changeTimeZoneId:(NSInteger)timezoneId
 {
 
-    NSInteger secs = [[Settings getTimeZoneByID:self.timeZoneId] secondsFromGMT] - [[Settings getTimeZoneByID:tzId] secondsFromGMT];
+    NSInteger secs = [[Settings getTimeZoneByID:self.timeZoneId] secondsFromGMT] - [[Settings getTimeZoneByID:timeZoneId] secondsFromGMT];
     
     self.timeZoneId = timeZoneId;
     self.startTime = [self.startTime dateByAddingTimeInterval:secs];
