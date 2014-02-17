@@ -4548,6 +4548,7 @@ NSInteger _sdwColor[32] = {
             else
             {
                 Comment *comment = [[Comment alloc] init];
+                [comment enableExternalUpdate];
                 
                 [self updateComment:comment withSDWComment:sdwComment];
                 
