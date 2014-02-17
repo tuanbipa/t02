@@ -252,7 +252,4 @@
 #pragma mark Due String
 - (NSString *)getDueString;
 + (void)finalizeStatements;
-
-#pragma mark Properties
-- (void)changeTimeZoneId:(NSInteger)timezoneId;
 @end

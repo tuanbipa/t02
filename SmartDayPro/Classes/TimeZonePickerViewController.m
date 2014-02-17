@@ -423,13 +423,13 @@ extern BOOL _isiPad;
         NSInteger tzId = [key intValue];
         
         Task *item = (Task *)self.objectEdit;
-        /*NSInteger secs = [Common getSecondsFromTimeZoneID:item.timeZoneId]-[Common getSecondsFromTimeZoneID:tzId];
+        //NSInteger secs = [Common getSecondsFromTimeZoneID:item.timeZoneId]-[Common getSecondsFromTimeZoneID:tzId];
+        NSInteger secs = [[Settings getTimeZoneByID:item.timeZoneId] secondsFromGMT] - [[Settings getTimeZoneByID:tzId] secondsFromGMT];
         
         item.startTime = [item.startTime dateByAddingTimeInterval:secs];
         item.endTime = [item.endTime dateByAddingTimeInterval:secs];
         
-        item.timeZoneId = tzId;*/
-        [item changeTimeZoneId:tzId];
+        item.timeZoneId = tzId;
         
     }
 }

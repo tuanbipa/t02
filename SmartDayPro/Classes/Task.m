@@ -2637,14 +2637,4 @@ static sqlite3_stmt *task_delete_statement = nil;
     }
     type = _type;
 }
-
-- (void)changeTimeZoneId:(NSInteger)timezoneId
-{
-
-    NSInteger secs = [[Settings getTimeZoneByID:self.timeZoneId] secondsFromGMT] - [[Settings getTimeZoneByID:timeZoneId] secondsFromGMT];
-    
-    self.timeZoneId = timeZoneId;
-    self.startTime = [self.startTime dateByAddingTimeInterval:secs];
-    self.endTime = [self.endTime dateByAddingTimeInterval:secs];
-}
 @end
