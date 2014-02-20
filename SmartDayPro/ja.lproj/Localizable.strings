@@ -812,3 +812,12 @@
 "_rejectText" = "Reject";
 "_sharedByText" = "Shared by %@";
 "_notePush1WayText" = "Note: shared projects are managed by SmartDay Online. After you replace data from SmartDay to SmartDay Online, please perform 2-way sync to make sure shared data are the same throughout the SmartDay system.";
+
+// what's new 2.1
+"_whatNew21Text" = "The \"Must Do\" feature has been integrated into the \"Sort by Due\" filter.\
+\nView shared Projects\
+View Meeting Events from Shared Projects, in your calendar\
+View Tasks that have been shared to you by others\
+View Tasks that you have shared to others, in your Share Projects\
+View Conversation updates as they come in";
+"_learnMoreText" = "Learn More";

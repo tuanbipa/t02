@@ -201,7 +201,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -251,17 +251,17 @@
             [self createDurationCell:cell baseTag:10000];
         }
             break;
-        case 1:
+        /*case 1:
         {
             [self createMustDoCell:cell baseTag:10010];
         }
-            break;
-        case 2:
+            break;*/
+        case 1:
         {
             [self createEventCombinationCell:cell baseTag:10020];
         }
             break;
-        case 3:
+        case 2:
         {
             [self createHideFutureTasksCell:cell baseTag:10030];
         }

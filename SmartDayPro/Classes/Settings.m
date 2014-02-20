@@ -122,6 +122,7 @@ extern BOOL _scFreeVersion;
 @synthesize msdBackupHint;
 @synthesize guruHint;
 @synthesize detailHint;
+@synthesize whatsNewHint;
 
 @synthesize deleteWarning;
 @synthesize doneWarning;
@@ -261,6 +262,7 @@ extern BOOL _scFreeVersion;
         self.msdBackupHint = YES;
         self.guruHint = YES;
         self.detailHint = YES;
+        self.whatsNewHint = NO;
 		
 		self.deleteWarning = YES;
 		self.doneWarning = YES;
@@ -367,6 +369,11 @@ extern BOOL _scFreeVersion;
         if (_versionUpgrade)
         {
             self.featureHint = YES;
+            
+            // drop mustDo feature in 2.1 version
+            self.mustDoDays = 0;
+            
+            self.whatsNewHint = YES;
         }
         
         [self loadEKSyncDict];

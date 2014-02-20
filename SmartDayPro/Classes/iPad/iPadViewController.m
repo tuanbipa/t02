@@ -1018,6 +1018,11 @@ iPadViewController *_iPadViewCtrler;
     if (settings.guruHint && firstTimeLoad)
     {
         [self showGuru];
+    } else if (settings.whatsNewHint) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_whatNewText message:_whatNew21Text delegate:[AbstractActionViewController getInstance] cancelButtonTitle:_okText otherButtonTitles:_learnMoreText, nil];
+        alertView.tag = 15000;
+        [alertView show];
+        [alertView release];
     }
     
     firstTimeLoad = NO;

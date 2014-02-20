@@ -2260,7 +2260,7 @@ extern SmartCalAppDelegate *_appDelegate;
 		case 1: //General
 			return 9;
 		case 2: //Task
-			return 4;
+			return 3;
 		case 3: //Calendar
 			return self.settingCopy.timeZoneSupport?4:3;
         case 4: // locations
@@ -2429,17 +2429,17 @@ extern SmartCalAppDelegate *_appDelegate;
 					[self createDurationCell:cell baseTag:12000];
 				}
 					break;
-				case 1:
+				/*case 1:
 				{
 					[self createMustDoCell:cell baseTag:12010];
 				}
-					break;
-				case 2:
+					break;*/
+				case 1:
 				{
 					[self createEventCombinationCell:cell baseTag:12020];
 				}
 					break;
-				case 3:
+				case 2:
 				{
 					//[self createNewTaskPlacementCell:cell baseTag:12030];
                     [self createHideFutureTasksCell:cell baseTag:12030];

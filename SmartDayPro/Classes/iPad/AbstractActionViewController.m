@@ -2833,6 +2833,16 @@ extern DetailViewController *_detailViewCtrler;
     {
         [self doMultiDefer:buttonIndex];
     }
+    
+    // 2.1 what's new
+    if (alertVw.tag == 15000) {
+        if (buttonIndex == 1) {
+            // learn more
+            NSURL *url = [NSURL URLWithString:@"http://www.leftcoastlogic.com/smartday/for-ios/whats-new-2-1/"];
+			
+			[[UIApplication sharedApplication] openURL:url];
+        }
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -209,6 +209,7 @@
 @property BOOL msdBackupHint;
 @property BOOL guruHint;
 @property BOOL detailHint;
+@property BOOL whatsNewHint;
 
 @property BOOL deleteWarning;
 @property BOOL doneWarning;
