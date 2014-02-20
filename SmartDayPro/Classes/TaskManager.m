@@ -5312,7 +5312,7 @@ TaskManager *_sctmSingleton = nil;
         
         [slTask updateSeqNoIntoDB:[dbm getDatabase]];
 
-        if (slTask.listSource == SOURCE_SMARTLIST)
+        if (slTask.listSource == SOURCE_SMARTLIST || slTask.listSource == SOURCE_NONE)
         {
             [Common sortList:self.taskList byKey:@"sequenceNo" ascending:YES];
             
