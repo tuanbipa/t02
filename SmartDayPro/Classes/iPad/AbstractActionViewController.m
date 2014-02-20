@@ -3314,14 +3314,13 @@ extern DetailViewController *_detailViewCtrler;
     Task *copyTask = [[task copy] autorelease];
     
     NSInteger delegate = 1;
-    BOOL reSchedule = NO;
     if (status == SHARED_REJECT) {
         copyTask.assigneeEmail = @"";
         delegate = 0;
-    } else {
-        reSchedule = YES;
     }
+    
     [copyTask setSmartShareStatus:YES meetingInvited:NO delegateStatus:delegate];
+    copyTask.sequenceNo = [[DBManager getInstance] getTaskMaxSortSeqNo] + 1;
     
     [self updateTask:task withTask:copyTask];
 }
