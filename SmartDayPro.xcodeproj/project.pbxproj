@@ -2757,6 +2757,12 @@
 		A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 		A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */; };
 		A2587D9017CF4D450097CA51 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2587D8F17CF4D450097CA51 /* MapKit.framework */; };
+		A25B561018BAF05B00110A3C /* slider_0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A25B560A18BAF05B00110A3C /* slider_0.jpg */; };
+		A25B561118BAF05B00110A3C /* slider_0_768_en.html in Resources */ = {isa = PBXBuildFile; fileRef = A25B560B18BAF05B00110A3C /* slider_0_768_en.html */; };
+		A25B561218BAF05B00110A3C /* slider_0_iphone4_en.html in Resources */ = {isa = PBXBuildFile; fileRef = A25B560C18BAF05B00110A3C /* slider_0_iphone4_en.html */; };
+		A25B561318BAF05B00110A3C /* slider_0_iphone4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A25B560D18BAF05B00110A3C /* slider_0_iphone4.jpg */; };
+		A25B561418BAF05B00110A3C /* slider_0_iphone5_en.html in Resources */ = {isa = PBXBuildFile; fileRef = A25B560E18BAF05B00110A3C /* slider_0_iphone5_en.html */; };
+		A25B561518BAF05B00110A3C /* slider_0_iphone5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A25B560F18BAF05B00110A3C /* slider_0_iphone5.jpg */; };
 		A25C05AA1783D96200FA84FE /* settings_backup.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A81783D96200FA84FE /* settings_backup.png */; };
 		A25C05AB1783D96200FA84FE /* settings_backup.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A81783D96200FA84FE /* settings_backup.png */; };
 		A25C05AC1783D96200FA84FE /* settings_backup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A25C05A91783D96200FA84FE /* settings_backup@2x.png */; };
@@ -3979,6 +3985,12 @@
 		A22B5900171693D400CA71D9 /* CalendarPlannerMovableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPlannerMovableController.h; sourceTree = "<group>"; };
 		A22B5901171693D500CA71D9 /* CalendarPlannerMovableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarPlannerMovableController.m; sourceTree = "<group>"; };
 		A2587D8F17CF4D450097CA51 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A25B560A18BAF05B00110A3C /* slider_0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = slider_0.jpg; sourceTree = "<group>"; };
+		A25B560B18BAF05B00110A3C /* slider_0_768_en.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_0_768_en.html; sourceTree = "<group>"; };
+		A25B560C18BAF05B00110A3C /* slider_0_iphone4_en.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_0_iphone4_en.html; sourceTree = "<group>"; };
+		A25B560D18BAF05B00110A3C /* slider_0_iphone4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = slider_0_iphone4.jpg; sourceTree = "<group>"; };
+		A25B560E18BAF05B00110A3C /* slider_0_iphone5_en.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = slider_0_iphone5_en.html; sourceTree = "<group>"; };
+		A25B560F18BAF05B00110A3C /* slider_0_iphone5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = slider_0_iphone5.jpg; sourceTree = "<group>"; };
 		A25C05A81783D96200FA84FE /* settings_backup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_backup.png; sourceTree = "<group>"; };
 		A25C05A91783D96200FA84FE /* settings_backup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_backup@2x.png"; sourceTree = "<group>"; };
 		A25FE28318926073002BECFC /* focuspane_assignto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "focuspane_assignto@2x.png"; sourceTree = "<group>"; };
@@ -4375,6 +4387,7 @@
 		67CF2B2B161950D7001FE1AA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A25B560918BAF05B00110A3C /* WhatsNew */,
 				1053FED31839C7DC00022788 /* SmartDay-Info.plist */,
 				6784CF181830B01C0095DDF9 /* Guru */,
 				67296F78181665AE00CD834A /* SmartCalDB.sql */,
@@ -5569,6 +5582,19 @@
 			path = SmartDayPro/InputView;
 			sourceTree = SOURCE_ROOT;
 		};
+		A25B560918BAF05B00110A3C /* WhatsNew */ = {
+			isa = PBXGroup;
+			children = (
+				A25B560A18BAF05B00110A3C /* slider_0.jpg */,
+				A25B560B18BAF05B00110A3C /* slider_0_768_en.html */,
+				A25B560C18BAF05B00110A3C /* slider_0_iphone4_en.html */,
+				A25B560D18BAF05B00110A3C /* slider_0_iphone4.jpg */,
+				A25B560E18BAF05B00110A3C /* slider_0_iphone5_en.html */,
+				A25B560F18BAF05B00110A3C /* slider_0_iphone5.jpg */,
+			);
+			path = WhatsNew;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -5803,6 +5829,7 @@
 				6748B99B180401820043A80E /* default_cate@2x.png in Resources */,
 				67419EB718279F1F00F9ABED /* detail_hint_en.htm in Resources */,
 				6748B99C180401820043A80E /* delete_btn.png in Resources */,
+				A25B561418BAF05B00110A3C /* slider_0_iphone5_en.html in Resources */,
 				6748B99D180401820043A80E /* delete_button.png in Resources */,
 				6748B99E180401820043A80E /* detail.png in Resources */,
 				6784CFB21830B6250095DDF9 /* slider_3_768_ja.html in Resources */,
@@ -5915,6 +5942,7 @@
 				6748B9F8180401820043A80E /* menu_reset.png in Resources */,
 				6784CF671830B01C0095DDF9 /* slider_4_iphone5.jpg in Resources */,
 				6748B9F9180401820043A80E /* menu_separator.png in Resources */,
+				A25B561518BAF05B00110A3C /* slider_0_iphone5.jpg in Resources */,
 				6748B9FA180401820043A80E /* menu_separator@2x.png in Resources */,
 				6748B9FB180401820043A80E /* menu_setting.png in Resources */,
 				6748B9FC180401820043A80E /* menu_setting@2x.png in Resources */,
@@ -5956,6 +5984,7 @@
 				6748BA1D180401820043A80E /* newNote@2x.png in Resources */,
 				6748BA1E180401820043A80E /* newTask.png in Resources */,
 				6748BA1F180401820043A80E /* newTask@2x.png in Resources */,
+				A25B561218BAF05B00110A3C /* slider_0_iphone4_en.html in Resources */,
 				6748BA20180401820043A80E /* next.png in Resources */,
 				6748BA21180401820043A80E /* no-mash-blue.png in Resources */,
 				6748BA22180401820043A80E /* no-mash-white.png in Resources */,
@@ -6156,6 +6185,7 @@
 				6748BAD5180401820043A80E /* menu_airdrop_idle.png in Resources */,
 				6748BAD6180401820043A80E /* links_white.png in Resources */,
 				6748BAD7180401820043A80E /* links_white@2x.png in Resources */,
+				A25B561318BAF05B00110A3C /* slider_0_iphone4.jpg in Resources */,
 				6748BAD8180401820043A80E /* hints_calendars.png in Resources */,
 				6748BAD9180401820043A80E /* hints_notes.png in Resources */,
 				6748BADA180401820043A80E /* filter_short@2x.png in Resources */,
@@ -6332,6 +6362,7 @@
 				6748BB70180401820043A80E /* noteBG_full.png in Resources */,
 				6748BB71180401820043A80E /* filter_long.png in Resources */,
 				6748BB72180401820043A80E /* noteHeaderBG_full.png in Resources */,
+				A25B561018BAF05B00110A3C /* slider_0.jpg in Resources */,
 				6748BB73180401820043A80E /* menu_copylink.png in Resources */,
 				6748BB74180401820043A80E /* menu_copylink@2x.png in Resources */,
 				67296F7A181665AE00CD834A /* SmartCalDB.sql in Resources */,
@@ -6363,6 +6394,7 @@
 				6748BB8E180401820043A80E /* tab_projects_selected@2x.png in Resources */,
 				6748BB8F180401820043A80E /* tab_projects.png in Resources */,
 				6748BB90180401820043A80E /* tab_projects@2x.png in Resources */,
+				A25B561118BAF05B00110A3C /* slider_0_768_en.html in Resources */,
 				6784CF3A1830B01C0095DDF9 /* slider_1_iphone4.jpg in Resources */,
 				6748BB91180401820043A80E /* tab_tasks_selected.png in Resources */,
 				6748BB92180401820043A80E /* tab_tasks_selected@2x.png in Resources */,

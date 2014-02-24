@@ -768,9 +768,10 @@ iPadViewController *_iPadViewCtrler;
 
 #pragma mark View
 
-- (void) showGuru
+- (void) showGuruIsWhatsNew:(BOOL)whatsNew
 {
     GuruViewController *ctrler = [[GuruViewController alloc] init];
+    ctrler.whatsNew = whatsNew;
     
     [self presentViewController:ctrler animated:YES completion:nil];
     
@@ -1017,12 +1018,10 @@ iPadViewController *_iPadViewCtrler;
     
     if (settings.guruHint && firstTimeLoad)
     {
-        [self showGuru];
+        [self showGuruIsWhatsNew:NO];
     } else if (settings.whatsNewHint) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:_whatNewText message:_whatNew21Text delegate:[AbstractActionViewController getInstance] cancelButtonTitle:_okText otherButtonTitles:_learnMoreText, nil];
-        alertView.tag = 15000;
-        [alertView show];
-        [alertView release];
+        [self showGuruIsWhatsNew:YES];
+        settings.whatsNewHint = NO;
     }
     
     firstTimeLoad = NO;
