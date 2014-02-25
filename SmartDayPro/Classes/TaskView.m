@@ -313,6 +313,21 @@ extern SmartDayViewController *_sdViewCtrler;
 
 #pragma mark Drawing
 
+- (NSString*)getPendingString
+{
+    
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:task.assignDate];
+    
+    float hours = timeInterval / (60.0*60.0);
+    if (hours <= 12.0) {
+        int hh = ceil(hours);
+        return [NSString stringWithFormat:_pendingHoursText, hh];
+    } else {
+        int days = roundf(hours/24.0);
+        return [NSString stringWithFormat:_pendingDaysText, days];
+    }
+}
+
 - (void) drawText:(CGRect)rect context:(CGContextRef) ctx
 {
 	//Task *task = (Task *)self.tag;
@@ -398,7 +413,8 @@ extern SmartDayViewController *_sdViewCtrler;
         }
         else if ([task isAssignPending])
         {
-            [infoList addObject:[NSString stringWithFormat:_pendingDaysText, [Common daysBetween:[NSDate date] sinceDate:task.assignDate]]];
+            //[infoList addObject:[NSString stringWithFormat:_pendingDaysText, [Common daysBetween:[NSDate date] sinceDate:task.assignDate]]];
+            [infoList addObject:[self getPendingString]];
         } else if ([task isAcceptByAssignee]) {
             NSArray *assigneeArray = [task.assigneeEmail componentsSeparatedByString:@"@"];
             if (assigneeArray.count > 0) {

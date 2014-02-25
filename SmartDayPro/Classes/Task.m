@@ -724,7 +724,7 @@ static sqlite3_stmt *task_delete_statement = nil;
             str = (char *)sqlite3_column_text(statement, 31);
 			self.assigneeEmail = (str == NULL? @"":[NSString stringWithUTF8String:str]);
             NSTimeInterval assignDateValue = sqlite3_column_double(statement, 32);
-            self.assignDate = (assignDateValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:assignDateValue]]);
+            self.assignDate = (assignDateValue == -1? nil:[NSDate dateWithTimeIntervalSince1970:assignDateValue]);
             
             if ([self isNormalEvent])
             {
