@@ -57,19 +57,9 @@ extern SmartDayViewController *_sdViewCtrler;
 //- (void)checkValidity:(id)sender
 - (void) go2Page5:(id)sender
 {
-    if (!self.whatsNew) {
-        
-        CGPoint contentOffset = CGPointMake(4*scrollView.bounds.size.width, 0);
-        
-        [scrollView setContentOffset:contentOffset animated:YES];
-    } else {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        
-        // open 2.1 release notes
-        NSURL *url = [NSURL URLWithString:@"http://www.leftcoastlogic.com/smartday/for-ios/whats-new-2-1/"];
-        
-        [[UIApplication sharedApplication] openURL:url];
-    }
+    CGPoint contentOffset = CGPointMake((pageNumber - 1)*scrollView.bounds.size.width, 0);
+    
+    [scrollView setContentOffset:contentOffset animated:YES];
 }
 
 - (void)signin:(id)sender
@@ -271,14 +261,12 @@ extern SmartDayViewController *_sdViewCtrler;
     NSArray *pages;
     if (!self.whatsNew) {
         
-        pageNumber = PAGE_NUM - 1;
         pages = [NSArray arrayWithObjects:_isiPad?@"slider_1_768":(IS_IPHONE_5?@"slider_1_iphone5":@"slider_1_iphone4"),
                  _isiPad?@"slider_2_768":(IS_IPHONE_5?@"slider_2_iphone5":@"slider_2_iphone4"),
                  _isiPad?@"slider_3_768":(IS_IPHONE_5?@"slider_3_iphone5":@"slider_3_iphone4"),
                  _isiPad?@"slider_4_768":(IS_IPHONE_5?@"slider_4_iphone5":@"slider_4_iphone4"),
                  nil];
     } else {
-        pageNumber = 1;
         pages = [NSArray arrayWithObject:_isiPad?@"slider_0_768":(IS_IPHONE_5?@"slider_0_iphone5":@"slider_0_iphone4")];
     }
 
@@ -305,7 +293,7 @@ extern SmartDayViewController *_sdViewCtrler;
         CGRect frm = contentView.bounds;
         frm.origin.x = i*frm.size.width;
         
-        if (!self.whatsNew && i==pageNumber-1)
+        if (i==pageNumber-1)
         {
             //login page
             
@@ -335,6 +323,14 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) loadView
 {
+    // set page number
+    if (self.whatsNew) {
+        pageNumber = 2;
+    } else {
+        pageNumber = PAGE_NUM;
+    }
+    
+    
     CGSize sz = [Common getScreenSize];
     
     sz.height += 44;
