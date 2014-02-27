@@ -1760,7 +1760,7 @@ NSInteger _sdwColor[32] = {
     //printf("sdw task %s - id:%s - duration: %d - type:%d - start:%s - end:%s\n", [ret.name UTF8String], [ret.sdwId UTF8String], ret.duration, type, [[ret.startTime description] UTF8String], [[ret.endTime description] UTF8String]);
         
     NSTimeInterval assignDateValue = [[dict objectForKey:@"shared_date"] intValue];
-    ret.assignDate = [Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:assignDateValue]];
+    ret.assignDate = [NSDate dateWithTimeIntervalSince1970:assignDateValue];
     ret.assigneeEmail = [self getStringValue:@"assignee_email" dict:dict];
     
     // set smart share status
