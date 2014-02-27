@@ -20,8 +20,6 @@
     
     UITextField *emailTextField;
     UITextField *pwdTextField;
-    
-    NSInteger pageNumber;
 }
 @property BOOL whatsNew;
 @end

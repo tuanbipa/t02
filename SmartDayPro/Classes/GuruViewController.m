@@ -25,7 +25,7 @@
 extern iPadViewController *_iPadViewCtrler;
 extern SmartDayViewController *_sdViewCtrler;
 
-#define PAGE_NUM 5
+#define PAGE_NUM 6
 
 @interface GuruViewController ()
 
@@ -47,7 +47,7 @@ extern SmartDayViewController *_sdViewCtrler;
 //- (void)checkValidity:(id)sender
 - (void) go2Page5:(id)sender
 {
-    CGPoint contentOffset = CGPointMake(4*scrollView.bounds.size.width, 0);
+    CGPoint contentOffset = CGPointMake((PAGE_NUM-1)*scrollView.bounds.size.width, 0);
     
     [scrollView setContentOffset:contentOffset animated:YES];
 }
@@ -244,6 +244,7 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void) initPages
 {
     NSString *pages[PAGE_NUM-1] = {
+        _isiPad?@"slider_0_768":(IS_IPHONE_5?@"slider_0_iphone5":@"slider_0_iphone4"),
         _isiPad?@"slider_1_768":(IS_IPHONE_5?@"slider_1_iphone5":@"slider_1_iphone4"),
         _isiPad?@"slider_2_768":(IS_IPHONE_5?@"slider_2_iphone5":@"slider_2_iphone4"),
         _isiPad?@"slider_3_768":(IS_IPHONE_5?@"slider_3_iphone5":@"slider_3_iphone4"),
