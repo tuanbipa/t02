@@ -42,22 +42,12 @@ extern SmartDayViewController *_sdViewCtrler;
     return self;
 }
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        
-        self.whatsNew = NO;
-    }
-    return self;
-}
-
 #pragma mark Actions
 
 //- (void)checkValidity:(id)sender
 - (void) go2Page5:(id)sender
 {
-    CGPoint contentOffset = CGPointMake((pageNumber - 1)*scrollView.bounds.size.width, 0);
+    CGPoint contentOffset = CGPointMake(4*scrollView.bounds.size.width, 0);
     
     [scrollView setContentOffset:contentOffset animated:YES];
 }
@@ -219,11 +209,11 @@ extern SmartDayViewController *_sdViewCtrler;
     
 	UIButton *signupButton=[Common createButton:_signupText
                                      buttonType:UIButtonTypeRoundedRect
-                                          //frame:CGRectMake(marginX + (width - 100)/2, y, 100, 25)
-                                        frame:CGRectMake(marginX, y, sz.width + 20, 25)
+                            //frame:CGRectMake(marginX + (width - 100)/2, y, 100, 25)
+                                          frame:CGRectMake(marginX, y, sz.width + 20, 25)
                                      titleColor:[Colors blueButton]
-                                         target:self 
-                                       selector:@selector(signup:) 
+                                         target:self
+                                       selector:@selector(signup:)
                                normalStateImage:nil
                              selectedStateImage:nil];
     signupButton.titleLabel.font=[UIFont systemFontOfSize:16];
@@ -253,23 +243,12 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) initPages
 {
-    /*NSString *pages[PAGE_NUM-1] = {
+    NSString *pages[PAGE_NUM-1] = {
         _isiPad?@"slider_1_768":(IS_IPHONE_5?@"slider_1_iphone5":@"slider_1_iphone4"),
         _isiPad?@"slider_2_768":(IS_IPHONE_5?@"slider_2_iphone5":@"slider_2_iphone4"),
         _isiPad?@"slider_3_768":(IS_IPHONE_5?@"slider_3_iphone5":@"slider_3_iphone4"),
-        _isiPad?@"slider_4_768":(IS_IPHONE_5?@"slider_4_iphone5":@"slider_4_iphone4")};*/
-    NSArray *pages;
-    if (!self.whatsNew) {
-        
-        pages = [NSArray arrayWithObjects:_isiPad?@"slider_1_768":(IS_IPHONE_5?@"slider_1_iphone5":@"slider_1_iphone4"),
-                 _isiPad?@"slider_2_768":(IS_IPHONE_5?@"slider_2_iphone5":@"slider_2_iphone4"),
-                 _isiPad?@"slider_3_768":(IS_IPHONE_5?@"slider_3_iphone5":@"slider_3_iphone4"),
-                 _isiPad?@"slider_4_768":(IS_IPHONE_5?@"slider_4_iphone5":@"slider_4_iphone4"),
-                 nil];
-    } else {
-        pages = [NSArray arrayWithObject:_isiPad?@"slider_0_768":(IS_IPHONE_5?@"slider_0_iphone5":@"slider_0_iphone4")];
-    }
-
+        _isiPad?@"slider_4_768":(IS_IPHONE_5?@"slider_4_iphone5":@"slider_4_iphone4")};
+    
     NSArray* availableLocalizations = [[NSBundle mainBundle] localizations];
     NSArray* userPrefered = [NSBundle preferredLocalizationsFromArray:availableLocalizations forPreferences:[NSLocale preferredLanguages]];
     
@@ -287,13 +266,13 @@ extern SmartDayViewController *_sdViewCtrler;
     {
         localization = @"en";
     }
-
-    for (int i=0; i<pageNumber; i++)
+    
+    for (int i=0; i<PAGE_NUM; i++)
     {
         CGRect frm = contentView.bounds;
         frm.origin.x = i*frm.size.width;
         
-        if (i==pageNumber-1)
+        if (i==PAGE_NUM-1)
         {
             //login page
             
@@ -323,14 +302,6 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) loadView
 {
-    // set page number
-    if (self.whatsNew) {
-        pageNumber = 2;
-    } else {
-        pageNumber = PAGE_NUM;
-    }
-    
-    
     CGSize sz = [Common getScreenSize];
     
     sz.height += 44;
@@ -350,7 +321,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     scrollView = [[ContentScrollView alloc] initWithFrame:frm];
     scrollView.backgroundColor = [UIColor clearColor];
-    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * pageNumber, scrollView.frame.size.height);
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * PAGE_NUM, scrollView.frame.size.height);
     scrollView.pagingEnabled = YES;
     scrollView.delegate = self;
     
@@ -366,13 +337,13 @@ extern SmartDayViewController *_sdViewCtrler;
     [pageControl release];
     
     UIButton *startButton = [Common createButton:_startText
-                                       buttonType:UIButtonTypeCustom
+                                      buttonType:UIButtonTypeCustom
                                            frame:CGRectMake(10 + (_isiPad?100:0), contentView.bounds.size.height-40, 80, 40)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(startSmartDay:)
-                                 normalStateImage:nil
-                               selectedStateImage:nil];
+                                      titleColor:[UIColor whiteColor]
+                                          target:self
+                                        selector:@selector(startSmartDay:)
+                                normalStateImage:nil
+                              selectedStateImage:nil];
     
     startButton.titleLabel.font = [UIFont systemFontOfSize:18];
     
@@ -383,13 +354,13 @@ extern SmartDayViewController *_sdViewCtrler;
     [contentView addSubview:startButton];
     
     UIButton *sdOnlineButton = [Common createButton:_SmartDayOnline
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(contentView.bounds.size.width-170-(_isiPad?100:0), contentView.bounds.size.height-40, 160, 40)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(go2Page5:)
-                                normalStateImage:nil
-                              selectedStateImage:nil];
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(contentView.bounds.size.width-170-(_isiPad?100:0), contentView.bounds.size.height-40, 160, 40)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(go2Page5:)
+                                   normalStateImage:nil
+                                 selectedStateImage:nil];
     
     sdOnlineButton.titleLabel.font = [UIFont systemFontOfSize:18];
     
@@ -409,14 +380,14 @@ extern SmartDayViewController *_sdViewCtrler;
 	// Do any additional setup after loading the view.
     
     /*
-    if (_iPadViewCtrler != nil)
-    {
-        [_iPadViewCtrler changeOrientation:_iPadViewCtrler.interfaceOrientation];
-    }
-    else if (_sdViewCtrler != nil)
-    {
-        [_sdViewCtrler changeOrientation:_sdViewCtrler.interfaceOrientation];
-    }*/
+     if (_iPadViewCtrler != nil)
+     {
+     [_iPadViewCtrler changeOrientation:_iPadViewCtrler.interfaceOrientation];
+     }
+     else if (_sdViewCtrler != nil)
+     {
+     [_sdViewCtrler changeOrientation:_sdViewCtrler.interfaceOrientation];
+     }*/
 }
 
 
@@ -456,11 +427,11 @@ extern SmartDayViewController *_sdViewCtrler;
     [pwdTextField resignFirstResponder];
     
     /*if (!_isiPad && !IS_IPHONE_5)
-    {
-        UIScrollView *superView = (UIScrollView *)textField.superview;
-        
-        superView.contentOffset = CGPointMake(0, 0);
-    }*/
+     {
+     UIScrollView *superView = (UIScrollView *)textField.superview;
+     
+     superView.contentOffset = CGPointMake(0, 0);
+     }*/
     
 	return YES;
 }
