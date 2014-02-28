@@ -446,7 +446,7 @@ extern SmartDayViewController *_sdViewCtrler;
             [infoList addObject:due];
         }
         
-        NSString *infoStr = [infoList componentsJoinedByString:@", "];
+        NSString *infoStr = [infoList componentsJoinedByString:@" | "];
         
         CGRect textRec = rect;
         
