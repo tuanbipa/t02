@@ -1831,4 +1831,15 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     | TASK_EXTRA_STATUS_ASSIGN_TO_ME | TASK_EXTRA_STATUS_ACCEPTED_BY_ME
     | TASK_EXTRA_STATUS_ASSIGN_TO_OTHER | TASK_EXTRA_STATUS_ACCEPTED_BY_OTHER;
 }
+
++ (NSDate*)convertDate:(NSDate*)date fromTimeZone:(NSTimeZone*)fromTimeZone toTimeZone:(NSTimeZone*)toTimeZone
+{
+    if (date != nil) {
+        
+        NSTimeInterval secs = [toTimeZone secondsFromGMTForDate:date] - [fromTimeZone secondsFromGMTForDate:date];
+        return [NSDate dateWithTimeInterval:secs sinceDate:date];
+    } else {
+        return date;
+    }
+}
 @end
