@@ -502,7 +502,7 @@ extern DetailViewController *_detailViewCtrler;
     
     [tm initData];
     
-    [[self getMiniMonth] initCalendar:[NSDate date]];
+    [[self getMiniMonth] initCalendar:tm.today];
     
     [self refreshData];
     
