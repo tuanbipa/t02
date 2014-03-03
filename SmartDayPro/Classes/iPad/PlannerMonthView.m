@@ -277,10 +277,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
     for (Task *ade in ades) {
         ade.listSource = SOURCE_PLANNER_CALENDAR;
         
-        NSTimeInterval timeInterval = [ade.startTime timeIntervalSinceDate:fromDate];
+        //NSTimeInterval timeInterval = [ade.startTime timeIntervalSinceDate:fromDate];
         NSInteger dayIndex = 0;
         NSInteger endDayIndex = 0;
-        dayIndex = timeInterval/86400;
+        //dayIndex = timeInterval/86400;
+        dayIndex = [Common daysBetween:ade.startTime sinceDate:fromDate];
         if(dayIndex<0)
             dayIndex = 0;
         
@@ -294,8 +295,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
             width = (7 - dayIndex) * lastCell.frame.size.width;
         } else {
             // end day index
-            timeInterval = [ade.endTime timeIntervalSinceDate:fromDate];
-            endDayIndex = timeInterval/86400;
+            //timeInterval = [ade.endTime timeIntervalSinceDate:fromDate];
+            //endDayIndex = timeInterval/86400;
+            endDayIndex = [Common daysBetween:ade.endTime sinceDate:fromDate];
             //endDayIndex = endDayIndex < 0 ? 0 : endDayIndex;
             endDayIndex = endDayIndex > 6 ? 6 : endDayIndex;
             width = (endDayIndex - dayIndex + 1) * lastCell.frame.size.width;
