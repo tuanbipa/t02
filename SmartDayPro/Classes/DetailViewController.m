@@ -1807,6 +1807,10 @@ DetailViewController *_detailViewCtrler = nil;
     }
     */
     
+    if (showComments) {
+        count += 1;
+    }
+    
     
     return count;
 }
