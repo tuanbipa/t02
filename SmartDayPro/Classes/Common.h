@@ -640,5 +640,6 @@ typedef struct
 + (void) reloadRowOfTable:(UITableView *)tableView row:(NSInteger)row section:(NSInteger)section;
 + (NSInteger)excludeSmartShareStatus;
 + (NSInteger)sharedStatus;
++ (NSDate*)convertDate:(NSDate*)date fromTimeZone:(NSTimeZone*)fromTimeZone toTimeZone:(NSTimeZone*)toTimeZone;
 @end
 

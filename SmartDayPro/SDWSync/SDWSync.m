@@ -1611,15 +1611,15 @@ NSInteger _sdwColor[32] = {
         ret.type = TYPE_ADE;
     }
     
-    NSInteger secs = 0;
-    
-    //if (ret.type == TYPE_EVENT || ret.type == TYPE_ADE)
-    if (ret.type == TYPE_EVENT)
-    {
-        //secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:ret.timeZoneId];
-        // dst
-        secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [[Settings getTimeZoneByID:ret.timeZoneId] secondsFromGMT];
-    }
+//    NSInteger secs = 0;
+//    
+//    //if (ret.type == TYPE_EVENT || ret.type == TYPE_ADE)
+//    if (ret.type == TYPE_EVENT)
+//    {
+//        //secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:ret.timeZoneId];
+//        // dst
+//        secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [[Settings getTimeZoneByID:ret.timeZoneId] secondsFromGMT];
+//    }
     
     NSString *catId = [[dict objectForKey:@"category_id"] stringValue];
     
@@ -1636,7 +1636,8 @@ NSInteger _sdwColor[32] = {
     ret.duration = ([[dict objectForKey:@"duration"] intValue])*60;
     
     NSInteger dt = [[dict valueForKey:@"start_time"] intValue];
-    ret.startTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt+secs]]);
+    ret.startTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]]);
+    ret.startTime = [Common convertDate:ret.startTime fromTimeZone:[Settings getTimeZoneByID:ret.timeZoneId] toTimeZone:[NSTimeZone defaultTimeZone]];
     
     dt = [[dict objectForKey:@"end_time"] intValue];
     
@@ -1652,7 +1653,8 @@ NSInteger _sdwColor[32] = {
     
     if (isEvent)
     {
-        ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt+secs]]);
+        ret.endTime = (dt == 0?nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:dt]]);
+        ret.endTime = [Common convertDate:ret.endTime fromTimeZone:[Settings getTimeZoneByID:ret.timeZoneId] toTimeZone:[NSTimeZone defaultTimeZone]];
         
         //printf("Event %s - start: %s - end: %s\n", [ret.name UTF8String], [[ret.startTime description] UTF8String], [[ret.endTime description] UTF8String]);
     }
@@ -1899,6 +1901,11 @@ NSInteger _sdwColor[32] = {
 
 - (NSDictionary *) toSDWTaskDict:(Task *)task
 {
+    if (task.type == TYPE_EVENT) {
+        task.startTime = [Common convertDate:task.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:task.timeZoneId]];
+        task.endTime = [Common convertDate:task.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:task.timeZoneId]];
+    }
+    
     NSInteger startTime = (task.startTime != nil?[[Common toDBDate:task.startTime] timeIntervalSince1970]:0);
     NSInteger endTime = (task.endTime != nil?[[Common toDBDate:task.endTime] timeIntervalSince1970]:0);
     NSInteger dueTime = (task.deadline != nil?[[Common toDBDate:task.deadline] timeIntervalSince1970]:0);
@@ -1923,17 +1930,17 @@ NSInteger _sdwColor[32] = {
             break;
     }
     
-    //if (type == 3)
-    if (task.type == TYPE_EVENT)
-    {
-        //NSInteger secs = [Common getSecondsFromTimeZoneID:task.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
-        
-        // dst
-        NSInteger secs = [[Settings getTimeZoneByID:task.timeZoneId] secondsFromGMT] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
-        
-        startTime += secs;
-        endTime += secs;
-    }
+//    //if (type == 3)
+//    if (task.type == TYPE_EVENT)
+//    {
+//        //NSInteger secs = [Common getSecondsFromTimeZoneID:task.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
+//        
+//        // dst
+//        NSInteger secs = [[Settings getTimeZoneByID:task.timeZoneId] secondsFromGMT] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+//        
+//        startTime += secs;
+//        endTime += secs;
+//    }
     
     NSMutableDictionary *repeatDict = [NSMutableDictionary dictionaryWithCapacity:0];
     

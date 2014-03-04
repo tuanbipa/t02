@@ -424,10 +424,12 @@ extern BOOL _isiPad;
         
         Task *item = (Task *)self.objectEdit;
         //NSInteger secs = [Common getSecondsFromTimeZoneID:item.timeZoneId]-[Common getSecondsFromTimeZoneID:tzId];
-        NSInteger secs = [[Settings getTimeZoneByID:item.timeZoneId] secondsFromGMT] - [[Settings getTimeZoneByID:tzId] secondsFromGMT];
-        
-        item.startTime = [item.startTime dateByAddingTimeInterval:secs];
-        item.endTime = [item.endTime dateByAddingTimeInterval:secs];
+//        NSInteger secs = [[Settings getTimeZoneByID:item.timeZoneId] secondsFromGMT] - [[Settings getTimeZoneByID:tzId] secondsFromGMT];
+//        
+//        item.startTime = [item.startTime dateByAddingTimeInterval:secs];
+//        item.endTime = [item.endTime dateByAddingTimeInterval:secs];
+        item.startTime = [Common convertDate:item.startTime fromTimeZone:[Settings getTimeZoneByID:tzId] toTimeZone:[Settings getTimeZoneByID:item.timeZoneId]];
+        item.endTime = [Common convertDate:item.endTime fromTimeZone:[Settings getTimeZoneByID:tzId] toTimeZone:[Settings getTimeZoneByID:item.timeZoneId]];
         
         item.timeZoneId = tzId;
         
