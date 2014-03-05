@@ -1211,7 +1211,7 @@ extern BOOL _syncMatchHintShown;
 {
     [self reset];
     
-    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:YES];
 }
 
 -(void) proceedSync:(EKSource *) ekSource
