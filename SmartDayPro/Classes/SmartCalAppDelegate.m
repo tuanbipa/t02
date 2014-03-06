@@ -1395,6 +1395,8 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         locationData.inside = LOCATION_LEAVE;
     }*/
     
+    [coorLocationItem release];
+    
     [locationData updateIntoDB:[[DBManager getInstance] getDatabase]];
 }
 
@@ -1792,12 +1794,12 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     if (locationManager == nil || locationTimer == nil || ![locationTimer isValid]) {
         [self initGeoLocation];
         
-        UIApplication *app = [UIApplication sharedApplication];
+        /*UIApplication *app = [UIApplication sharedApplication];
         
         bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
             [app endBackgroundTask:bgTask];
             bgTask = UIBackgroundTaskInvalid;
-        }];
+        }];*/
         
         locationTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                          target:locationManager
