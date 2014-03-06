@@ -726,14 +726,6 @@ static sqlite3_stmt *task_delete_statement = nil;
             NSTimeInterval assignDateValue = sqlite3_column_double(statement, 32);
             self.assignDate = (assignDateValue == -1? nil:[NSDate dateWithTimeIntervalSince1970:assignDateValue]);
             
-//            if ([self isNormalEvent])
-//            {
-//                NSInteger secs = [[NSTimeZone defaultTimeZone] secondsFromGMT] - [Common getSecondsFromTimeZoneID:self.timeZoneId];
-//                
-//                startTimeValue += secs;
-//                endTimeValue += secs;
-//            }
-            
 			self.creationTime = (creationTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:creationTimeValue]]);
             
 			self.startTime = (startTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]]);
@@ -741,10 +733,10 @@ static sqlite3_stmt *task_delete_statement = nil;
 			self.endTime = (endTimeValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:endTimeValue]]);
             
             if ([self isNormalEvent]) {
+                NSTimeZone *taskTz = [Settings getTimeZoneByID:self.timeZoneId];
+                self.startTime = [Common convertDate:self.startTime fromTimeZone:taskTz toTimeZone:[NSTimeZone defaultTimeZone]];
                 
-                self.startTime = [Common convertDate:self.startTime fromTimeZone:[Settings getTimeZoneByID:self.timeZoneId] toTimeZone:[NSTimeZone defaultTimeZone]];
-                
-                self.endTime = [Common convertDate:self.endTime fromTimeZone:[Settings getTimeZoneByID:self.timeZoneId] toTimeZone:[NSTimeZone defaultTimeZone]];
+                self.endTime = [Common convertDate:self.endTime fromTimeZone:taskTz toTimeZone:[NSTimeZone defaultTimeZone]];
             }
             
 			self.deadline = (deadlineValue == -1? nil:[Common fromDBDate:[NSDate dateWithTimeIntervalSince1970:deadlineValue]]);
@@ -857,25 +849,21 @@ static sqlite3_stmt *task_delete_statement = nil;
 	sqlite3_bind_text(statement, 11, [self.location UTF8String], -1, SQLITE_TRANSIENT);
 	sqlite3_bind_text(statement, 12, [self.note UTF8String], -1, SQLITE_TRANSIENT);	
 	sqlite3_bind_double(statement, 13, self.duration);
-    
-    if ([self isNormalEvent]) {
-        self.startTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-        self.endTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-    }
 
 	NSTimeInterval creationTimeValue = (self.creationTime == nil? -1: [[Common toDBDate:self.creationTime] timeIntervalSince1970]);
-	NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common toDBDate:self.startTime] timeIntervalSince1970]);
-	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);
+    
+    NSDate *sTime = [[self.startTime copy] autorelease];
+    NSDate *eTime = [[self.endTime copy] autorelease];
+    if ([self isNormalEvent]) {
+        NSTimeZone *taskTz = [Settings getTimeZoneByID:self.timeZoneId];
+        sTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+        eTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+    }
+	NSTimeInterval startTimeValue = (sTime == nil? -1: [[Common toDBDate:sTime] timeIntervalSince1970]);
+	NSTimeInterval endTimeValue = (eTime == nil? -1: [[Common toDBDate:eTime] timeIntervalSince1970]);
+    
 	NSTimeInterval deadlineValue = (self.deadline == nil? -1: [[Common toDBDate:self.deadline] timeIntervalSince1970]);
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
-    
-//    if ([self isNormalEvent])
-//    {
-//        NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId]-[[NSTimeZone defaultTimeZone] secondsFromGMT];
-//        
-//        startTimeValue += secs;
-//        endTimeValue += secs;
-//    }
 	
 	sqlite3_bind_double(statement, 14, creationTimeValue);
 	sqlite3_bind_double(statement, 15, startTimeValue);
@@ -988,24 +976,21 @@ static sqlite3_stmt *task_delete_statement = nil;
 	}
 	
 	isExternalUpdate = NO;
-    if ([self isNormalEvent]) {
-        self.startTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-        self.endTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-    }
 	
 	NSTimeInterval creationTimeValue = (self.creationTime == nil? -1: [[Common toDBDate:self.creationTime] timeIntervalSince1970]);
-	NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common toDBDate:self.startTime] timeIntervalSince1970]);
-	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);
+    
+	NSDate *sTime = [[self.startTime copy] autorelease];
+    NSDate *eTime = [[self.endTime copy] autorelease];
+    if ([self isNormalEvent]) {
+        NSTimeZone *taskTz = [Settings getTimeZoneByID:self.timeZoneId];
+        sTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+        eTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+    }
+	NSTimeInterval startTimeValue = (sTime == nil? -1: [[Common toDBDate:sTime] timeIntervalSince1970]);
+	NSTimeInterval endTimeValue = (eTime == nil? -1: [[Common toDBDate:eTime] timeIntervalSince1970]);
+    
 	NSTimeInterval deadlineValue = (self.deadline == nil? -1: [[Common toDBDate:self.deadline] timeIntervalSince1970]);
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
-    
-//    if ([self isNormalEvent])
-//    {
-//        NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId]- [[NSTimeZone defaultTimeZone] secondsFromGMT];
-//        
-//        startTimeValue += secs;
-//        endTimeValue += secs;
-//    }
 	
 	sqlite3_bind_double(statement, 14, creationTimeValue);
 	sqlite3_bind_double(statement, 15, startTimeValue);
@@ -1478,22 +1463,16 @@ static sqlite3_stmt *task_delete_statement = nil;
 	}
 	
 	isExternalUpdate = NO;
-        
-    if ([self isEvent]) {
-        self.startTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-    }
 	
 	//NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [[Common toDBDate:self.updateTime] timeIntervalSince1970]);			
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
 	
-	NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common toDBDate:self.startTime] timeIntervalSince1970]);
-        
-//    if ([self isEvent])
-//    {
-//        NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId]- [[NSTimeZone defaultTimeZone] secondsFromGMT];
-//            
-//        startTimeValue += secs;
-//    }
+    NSDate *sTime = [[self.startTime copy] autorelease];
+    if ([self isNormalEvent]) {
+        NSTimeZone *taskTz = [Settings getTimeZoneByID:self.timeZoneId];
+        sTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+    }
+    NSTimeInterval startTimeValue = (sTime == nil? -1: [[Common toDBDate:sTime] timeIntervalSince1970]);
 	
 	sqlite3_bind_double(statement, 1, startTimeValue);
 	sqlite3_bind_double(statement, 2, updateTimeValue);
@@ -1530,20 +1509,15 @@ static sqlite3_stmt *task_delete_statement = nil;
 	}
 	
 	isExternalUpdate = NO;
-        
-    if ([self isEvent]) {
-        self.endTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-    }
 	
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);			
-	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);
-        
-//    if ([self isEvent])
-//    {
-//        NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId]- [[NSTimeZone defaultTimeZone] secondsFromGMT];
-//            
-//        endTimeValue += secs;
-//    }
+    
+    NSDate *eTime = [[self.endTime copy] autorelease];
+    if ([self isNormalEvent]) {
+        NSTimeZone *taskTz = [Settings getTimeZoneByID:self.timeZoneId];
+        eTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+    }
+    NSTimeInterval endTimeValue = (eTime == nil? -1: [[Common toDBDate:eTime] timeIntervalSince1970]);
 	
 	sqlite3_bind_double(statement, 1, endTimeValue);
 	sqlite3_bind_double(statement, 2, updateTimeValue);
@@ -1620,24 +1594,19 @@ static sqlite3_stmt *task_delete_statement = nil;
 	}
 	
 	isExternalUpdate = NO;
-    
-    if ([self isEvent]) {
-        self.startTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-        self.endTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.timeZoneId]];
-    }
 
-	NSTimeInterval startTimeValue = (self.startTime == nil? -1: [[Common toDBDate:self.startTime] timeIntervalSince1970]);
-	NSTimeInterval endTimeValue = (self.endTime == nil? -1: [[Common toDBDate:self.endTime] timeIntervalSince1970]);
+	NSDate *sTime = [[self.startTime copy] autorelease];
+    NSDate *eTime = [[self.endTime copy] autorelease];
+    if ([self isNormalEvent]) {
+        NSTimeZone *taskTz = [Settings getTimeZoneByID:self.timeZoneId];
+        sTime = [Common convertDate:self.startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+        eTime = [Common convertDate:self.endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:taskTz];
+    }
+	NSTimeInterval startTimeValue = (sTime == nil? -1: [[Common toDBDate:sTime] timeIntervalSince1970]);
+	NSTimeInterval endTimeValue = (eTime == nil? -1: [[Common toDBDate:eTime] timeIntervalSince1970]);
+    
 	NSTimeInterval deadlineValue = (self.deadline == nil? -1: [[Common toDBDate:self.deadline] timeIntervalSince1970]);
 	NSTimeInterval updateTimeValue = (self.updateTime == nil? -1: [self.updateTime timeIntervalSince1970]);
-    
-//    if ([self isEvent])
-//    {
-//        NSInteger secs = [Common getSecondsFromTimeZoneID:self.timeZoneId]- [[NSTimeZone defaultTimeZone] secondsFromGMT];
-//        
-//        startTimeValue += secs;
-//        endTimeValue += secs;
-//    }
 	
 	sqlite3_bind_double(statement, 1, startTimeValue);
 	sqlite3_bind_double(statement, 2, endTimeValue);

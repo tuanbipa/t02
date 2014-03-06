@@ -836,7 +836,7 @@ TaskManager *_sctmSingleton = nil;
 	return nil;
 }
 
-- (void) addREInstanceToList:(NSMutableArray *)list original:(Task *)re onDate:(NSDate *)onDate fromDate:(NSDate *)fromDate toDate:(NSDate *) toDate excludeException:(BOOL)excludeException
+- (void) addREInstanceToList:(NSMutableArray *)list original:(Task *)re onDate:(NSDate *)onDate fromDate:(NSDate *)fromDate toDate:(NSDate *) toDate excludeException:(BOOL)excludeException timeZone:(NSTimeZone*)tz
 {
 	////printf("Check RE Instance on date: %s\n", [[onDate description] UTF8String]);
 	//NSDate *reStart = [Common copyTimeFromDate:re.startTime toDate:onDate];
@@ -875,8 +875,15 @@ TaskManager *_sctmSingleton = nil;
 			NSInteger duration = [Common timeIntervalNoDST:re.endTime sinceDate:re.startTime];
 			task.duration = duration;
 			
-            task.reInstanceStartTime = onDate;
-			task.startTime = onDate;
+            // dst shiff
+            NSDate *dt = [[onDate copy] autorelease];
+            if (tz != nil) {
+                NSTimeInterval dstDiff = [[NSTimeZone defaultTimeZone] daylightSavingTimeOffsetForDate:onDate] - [tz daylightSavingTimeOffsetForDate:onDate];
+                dt = [Common dateByAddNumSecond:dstDiff toDate:dt];
+            }
+            
+            task.reInstanceStartTime = dt;
+			task.startTime = dt;
 			task.endTime = [Common dateByAddNumSecond:duration toDate:task.startTime];
 			task.smartTime = task.startTime;
 			
@@ -929,6 +936,14 @@ TaskManager *_sctmSingleton = nil;
         
         NSDateComponents *re_comps = [gregorian components:unitFlags fromDate:reStartTime];
         
+        // shift DST
+        NSTimeZone *taskTz = [Settings getTimeZoneByID:re.timeZoneId];
+        
+        //NSDate *instStartTime = nil;
+        if ([[NSTimeZone defaultTimeZone] isEqualToTimeZone:taskTz]) {
+            taskTz = nil;
+        }
+        
         while ([reStartTime compare:until] == NSOrderedAscending)
         {
             NSDateComponents *comps = [gregorian components:unitFlags fromDate:reStartTime];
@@ -937,7 +952,7 @@ TaskManager *_sctmSingleton = nil;
             {
                 case REPEAT_DAILY:
                 {
-                    [self addREInstanceToList:ret original:re onDate:reStartTime fromDate:fromDate toDate:until excludeException:excludeException];
+                    [self addREInstanceToList:ret original:re onDate:reStartTime fromDate:fromDate toDate:until excludeException:excludeException timeZone:taskTz];
                     
                     reStartTime = [Common dateByAddNumDay:re.repeatData.interval toDate:reStartTime];
                     
@@ -969,7 +984,7 @@ TaskManager *_sctmSingleton = nil;
                                 [wkComps setDay:[comps day]+i+1-wkday]; //this week
                             }
                             
-                            [self addREInstanceToList:ret original:re onDate:[gregorian dateFromComponents:wkComps] fromDate:fromDate toDate:until excludeException:excludeException];
+                            [self addREInstanceToList:ret original:re onDate:[gregorian dateFromComponents:wkComps] fromDate:fromDate toDate:until excludeException:excludeException timeZone:taskTz];
                         }
                     }
                     
@@ -1060,7 +1075,7 @@ TaskManager *_sctmSingleton = nil;
                     
                     if (mthDate != nil)
                     {
-                        [self addREInstanceToList:ret original:re onDate:mthDate fromDate:fromDate toDate:until excludeException:excludeException];
+                        [self addREInstanceToList:ret original:re onDate:mthDate fromDate:fromDate toDate:until excludeException:excludeException timeZone:taskTz];
                     }
                     
                     mthComps.day = (re.repeatData.monthOption == BY_DAY_OF_WEEK?1:comps.day);
@@ -1078,7 +1093,7 @@ TaskManager *_sctmSingleton = nil;
                     
                     if (newDay == re_comps.day)
                     {
-                        [self addREInstanceToList:ret original:re onDate:reStartTime fromDate:fromDate toDate:until excludeException:excludeException];
+                        [self addREInstanceToList:ret original:re onDate:reStartTime fromDate:fromDate toDate:until excludeException:excludeException timeZone:taskTz];
                     }
                     
                     //reStartTime = [Common dateByAddNumYear:re.repeatData.interval toDate:reStartTime];
