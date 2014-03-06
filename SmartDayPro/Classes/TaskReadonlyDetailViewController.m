@@ -353,7 +353,7 @@ extern iPadViewController *_iPadViewCtrler;
             if ([self.taskCopy isEvent])
             {
                 cell.textLabel.text = _startText;
-                cell.detailTextLabel.text = [self.taskCopy getDisplayStartTime];
+                cell.detailTextLabel.text = [self.task getDisplayStartTime];
             }
             else
             {
@@ -367,7 +367,7 @@ extern iPadViewController *_iPadViewCtrler;
             if ([self.taskCopy isEvent])
             {
                 cell.textLabel.text = _endText;
-                cell.detailTextLabel.text = [self.taskCopy getDisplayEndTime];
+                cell.detailTextLabel.text = [self.task getDisplayEndTime];
             }
             else
             {
