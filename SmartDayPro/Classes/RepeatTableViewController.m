@@ -1290,9 +1290,13 @@ RepeatTableViewController *_repeatViewCtrler = nil;
         
         [self selectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];	
         
-        if ([activeTextField.text isEqualToString:@""])
+        if ([activeTextField.text isEqualToString:@""] || ![self checkforNumeric:activeTextField.text] || [activeTextField.text intValue] < 1)
         {
             activeTextField.text = @"1";
+        }
+        
+        if ([activeTextField.text intValue] > 99) {
+            activeTextField.text = @"99";
         }
         
         [self changeInterval:[activeTextField.text intValue]];
@@ -1324,5 +1328,17 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 	activeTextField = textField;
 }
 
+- (BOOL)checkforNumeric:(NSString*) str
+{
+    //NSString *strMatchstring=@"\\b([0-9%_.+\\-]+)\\b";
+    NSString *strMatchstring=@"\\b([0-9]+)\\b";
+    NSPredicate *textpredicate=[NSPredicate predicateWithFormat:@"SELF MATCHES %@", strMatchstring];
+    
+    if(![textpredicate evaluateWithObject:str])
+    {
+        return FALSE;
+    }
+    return TRUE;
+}
 @end
 
