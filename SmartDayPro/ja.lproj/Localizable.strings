@@ -590,7 +590,7 @@
 //"_mustDoHint" = "MustDo range is from 0 to 7 days. Any task with a Deadline that is within the MustDo range, will be moved to the top of the Task List and will persist until marked 'Done' or the Deadline is edited. '0' will disable.  MustDo tasks are marked with a triangle.";
 "_mustDoHint" = "MustDoの範囲は0日～7日です。締切がMustDoの範囲内にあるタスクは、タスクリストの一番上に移動し、タスクに完了チェック又は締切が変更されるまで同じ位置に表示されます。0は無効となります。やるべきことは画面の左側に赤線で表示されます。";
 
-"_deleteAllMySDDataConfirmation" = "SmartDay Onlineのすべてのデータが削除されてSmartDayのデータに置き換えられます。削除する前にSmartDay Onlineのデータをバックアップすることをお薦めします。続行しますか？";
+"_deleteAllMySDDataConfirmation" = "SmartDay OnlineのデータがSmartDayのデータですべて置換された後に、入れ替えられません。また、共有プロジェクトのローカルデータもSmartDay Onlineに同期できないため、共有プロジェクトのデータが同一であることを確保するように再び双方向の同期を実施する必要があります。続行しますか。";
 
 "_deleteAllSDDataConfirmation" = "SmartDayのすべてのデータが削除されてSmartDay Onlineのデータに置き換えられます。削除する前にSmartDay iOSのデータをメール経由でバックアップすることをお薦めします。続行しますか？";
 
@@ -805,11 +805,11 @@
 "_anytimeText" = "常時";
 
 // # Smart Share
-"_assignedByText" = "Assigned by %@";
-"_acceptedByText" = "Accepted by %@";
-"_pendingDaysText" = "Pending acceptance, %d day(s)";
-"_pendingHoursText" = "Pending acceptance, %d hour(s)";
-"_acceptText" = "Accept";
-"_rejectText" = "Reject";
-"_sharedByText" = "Shared by %@";
-"_notePush1WayText" = "Note: shared projects are managed by SmartDay Online. After you replace data from SmartDay to SmartDay Online, please perform 2-way sync to make sure shared data are the same throughout the SmartDay system.";
+"_assignedByText" = "譲受人 %@";
+"_acceptedByText" = "承認者 %@";
+"_pendingDaysText" = "承認待ち、%d 日";
+"_pendingHoursText" = "承認待ち、%d 時間";
+"_acceptText" = "承認";
+"_rejectText" = "却下";
+"_sharedByText" = "共有者 %@";
+"_notePush1WayText" = "注意：共有プジェクトがSmartDay Onlineにより管理されているため、SmartDayのデータがSmartDay Onlineのデータに置換された後に共有したデータが同一であることを確保するように双方向の同期を実施して下さい。";
