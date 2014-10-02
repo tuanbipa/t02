@@ -156,7 +156,7 @@ NSInteger _sdwColor[32] = {
     
     [[BusyController getInstance] setBusy:NO withCode:BUSY_SDW_SYNC];
     
-    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];    
+    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInteger:self.syncMode] waitUntilDone:NO];    
     
     self.syncMode = -1;
         
@@ -411,11 +411,11 @@ NSInteger _sdwColor[32] = {
             
             [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
             
-            //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+            //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInteger:SYNC_MANUAL_2WAY]];
             dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
             
             dispatch_async(backgroundQueue, ^{
-                [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_2WAY]];
+                [self syncBackground:[NSNumber numberWithInteger:SYNC_MANUAL_2WAY]];
             });
         }			
 	}	
@@ -426,11 +426,11 @@ NSInteger _sdwColor[32] = {
 	@synchronized(self)
 	{
         [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-        //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_SD2mSD]];
+        //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInteger:SYNC_MANUAL_1WAY_SD2mSD]];
         dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
         
         dispatch_async(backgroundQueue, ^{
-            [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_SD2mSD]];
+            [self syncBackground:[NSNumber numberWithInteger:SYNC_MANUAL_1WAY_SD2mSD]];
         });
     }
 }
@@ -440,11 +440,11 @@ NSInteger _sdwColor[32] = {
 	@synchronized(self)
 	{
         [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-        //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_mSD2SD]];
+        //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInteger:SYNC_MANUAL_1WAY_mSD2SD]];
         dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
         
         dispatch_async(backgroundQueue, ^{
-            [self syncBackground:[NSNumber numberWithInt:SYNC_MANUAL_1WAY_mSD2SD]];
+            [self syncBackground:[NSNumber numberWithInteger:SYNC_MANUAL_1WAY_mSD2SD]];
         });
     }
 }
@@ -464,11 +464,11 @@ NSInteger _sdwColor[32] = {
             else
             {
                 [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInteger:SYNC_AUTO_1WAY]];
                 dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
                 
                 dispatch_async(backgroundQueue, ^{
-                    [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_1WAY]];
+                    [self syncBackground:[NSNumber numberWithInteger:SYNC_AUTO_1WAY]];
                 });
             }
         }
@@ -490,11 +490,11 @@ NSInteger _sdwColor[32] = {
             else
             {
                 [[BusyController getInstance] setBusy:YES withCode:BUSY_SDW_SYNC];
-                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+                //[self performSelectorInBackground:@selector(syncBackground:) withObject:[NSNumber numberWithInteger:SYNC_AUTO_2WAY]];
                 dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
                 
                 dispatch_async(backgroundQueue, ^{
-                    [self syncBackground:[NSNumber numberWithInt:SYNC_AUTO_2WAY]];
+                    [self syncBackground:[NSNumber numberWithInteger:SYNC_AUTO_2WAY]];
                 });
             }
         }        
@@ -764,16 +764,16 @@ NSInteger _sdwColor[32] = {
 
 - (NSDictionary *) toSDWSettingsDict:(Settings *)settings
 {
-    NSString *sdwId = [self.scSDWMappingDict objectForKey:[NSNumber numberWithInt:settings.taskDefaultProject]];
+    NSString *sdwId = [self.scSDWMappingDict objectForKey:[NSNumber numberWithInteger:settings.taskDefaultProject]];
     
     NSDictionary *catDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithInt:(settings.deleteWarning?1:0)],@"confirm_delete",
+                             [NSNumber numberWithInteger:(settings.deleteWarning?1:0)],@"confirm_delete",
                              sdwId, @"default_category_id",
-                             [NSNumber numberWithInt:settings.taskDuration/60], @"default_task_dur",
-                             [NSNumber numberWithInt:(settings.eventCombination == 0?1:0)], @"show_task",
-                             [NSNumber numberWithInt:settings.hideFutureTasks?1:0], @"hide_future_task",
-                             [NSNumber numberWithInt:(settings.timeZoneSupport?1:0)],@"timezone_support",
-                             [NSNumber numberWithInt:settings.timeZoneID],@"timezone_key",
+                             [NSNumber numberWithInteger:settings.taskDuration/60], @"default_task_dur",
+                             [NSNumber numberWithInteger:(settings.eventCombination == 0?1:0)], @"show_task",
+                             [NSNumber numberWithInteger:settings.hideFutureTasks?1:0], @"hide_future_task",
+                             [NSNumber numberWithInteger:(settings.timeZoneSupport?1:0)],@"timezone_support",
+                             [NSNumber numberWithInteger:settings.timeZoneID],@"timezone_key",
                              nil];
     
     //printf("to SDW - default prj id: %s\n", [sdwId UTF8String]);
@@ -1035,13 +1035,13 @@ NSInteger _sdwColor[32] = {
     NSDictionary *catDict = [NSDictionary dictionaryWithObjectsAndKeys:
                              prj.sdwId,@"id",
                              prj.name, @"name",
-                             [NSNumber numberWithInt:prj.type], @"type",
-                             [NSNumber numberWithInt:_sdwColor[prj.colorId]], @"color",
+                             [NSNumber numberWithInteger:prj.type], @"type",
+                             [NSNumber numberWithInteger:_sdwColor[prj.colorId]], @"color",
                              prj.tag, @"tags",
-                             [NSNumber numberWithInt:prj.isTransparent?1:0], @"is_transparent",
-                             [NSNumber numberWithInt:prj.status == PROJECT_STATUS_INVISIBLE?1:0], @"invisible",
-                             [NSNumber numberWithInt:prj.primaryKey], @"ref",
-                             [NSNumber numberWithInt:(prj.source == CATEGORY_SOURCE_ICAL?1:0)], @"source",
+                             [NSNumber numberWithInteger:prj.isTransparent?1:0], @"is_transparent",
+                             [NSNumber numberWithInteger:prj.status == PROJECT_STATUS_INVISIBLE?1:0], @"invisible",
+                             [NSNumber numberWithInteger:prj.primaryKey], @"ref",
+                             [NSNumber numberWithInteger:(prj.source == CATEGORY_SOURCE_ICAL?1:0)], @"source",
                              nil];
     
     //printf("set Category: %s - source: %s\n", [prj.name UTF8String], (prj.source == CATEGORY_SOURCE_ICAL?"SOURCE ICAL":"SOURCE SmartDay"));
@@ -1121,7 +1121,7 @@ NSInteger _sdwColor[32] = {
             
             if (catId != nil)
             {
-                Project *prj = [prjDict objectForKey:[NSNumber numberWithInt:key]];
+                Project *prj = [prjDict objectForKey:[NSNumber numberWithInteger:key]];
                 
                 if (prj != nil)
                 {
@@ -1132,8 +1132,8 @@ NSInteger _sdwColor[32] = {
                                         
                     [prj updateSDWIDIntoDB:[dbm getDatabase]];
                     
-                    [self.scSDWMappingDict setObject:prj.sdwId forKey:[NSNumber numberWithInt:prj.primaryKey]];
-                    [self.sdwSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:prj.sdwId];                    
+                    [self.scSDWMappingDict setObject:prj.sdwId forKey:[NSNumber numberWithInteger:prj.primaryKey]];
+                    [self.sdwSCMappingDict setObject:[NSNumber numberWithInteger:prj.primaryKey] forKey:prj.sdwId];                    
                 }
             }
         }        
@@ -1413,8 +1413,8 @@ NSInteger _sdwColor[32] = {
                 
                 if (sdwCat.status != PROJECT_STATUS_INVISIBLE)
                 {
-                    [self.scSDWMappingDict setObject:sdwCat.sdwId forKey:[NSNumber numberWithInt:prj.primaryKey]];
-                    [self.sdwSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:sdwCat.sdwId];
+                    [self.scSDWMappingDict setObject:sdwCat.sdwId forKey:[NSNumber numberWithInteger:prj.primaryKey]];
+                    [self.sdwSCMappingDict setObject:[NSNumber numberWithInteger:prj.primaryKey] forKey:sdwCat.sdwId];
                 }
                 
                 [prjList removeObject:prj];
@@ -1460,7 +1460,7 @@ NSInteger _sdwColor[32] = {
                     
                     [prj updateSDWIDIntoDB:[dbm getDatabase]];
                                         
-                    [self.dupCategoryList addObject:[NSNumber numberWithInt:prj.primaryKey]];
+                    [self.dupCategoryList addObject:[NSNumber numberWithInteger:prj.primaryKey]];
                     
                     [prjList removeObject:prj];
                 }
@@ -1482,8 +1482,8 @@ NSInteger _sdwColor[32] = {
                 
                 if (sdwCat.status != PROJECT_STATUS_INVISIBLE)
                 {               
-                    [self.scSDWMappingDict setObject:sdwCat.sdwId forKey:[NSNumber numberWithInt:prj.primaryKey]];
-                    [self.sdwSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:sdwCat.sdwId];
+                    [self.scSDWMappingDict setObject:sdwCat.sdwId forKey:[NSNumber numberWithInteger:prj.primaryKey]];
+                    [self.sdwSCMappingDict setObject:[NSNumber numberWithInteger:prj.primaryKey] forKey:sdwCat.sdwId];
                 }
             }
         }
@@ -1727,7 +1727,7 @@ NSInteger _sdwColor[32] = {
                 
                 dt = [excDate timeIntervalSince1970];
                 
-                [excDict setObject:deletedExc forKey:[NSNumber numberWithInt:dt]];
+                [excDict setObject:deletedExc forKey:[NSNumber numberWithInteger:dt]];
             }
             
             ret.exceptions = excDict;
@@ -1890,9 +1890,9 @@ NSInteger _sdwColor[32] = {
     NSDictionary *repeatDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               repeatTypeStr,@"repeat_type",
                               repeatFlagStr, @"repeat_flag",
-                              [NSNumber numberWithInt:repeatData.interval], @"repeat_interval",
-                              [NSNumber numberWithInt:repeatEnd],  @"repeat_end",
-                              [NSNumber numberWithInt:repeatByDue], @"repeat_by_due",
+                              [NSNumber numberWithInteger:repeatData.interval], @"repeat_interval",
+                              [NSNumber numberWithInteger:repeatEnd],  @"repeat_end",
+                              [NSNumber numberWithInteger:repeatByDue], @"repeat_by_due",
                             nil];
     
     return repeatDict;
@@ -1988,8 +1988,8 @@ NSInteger _sdwColor[32] = {
                 
                 //printf("exception date: %s\n", [dt.description UTF8String]);
                 
-                NSDictionary *excDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[Common toDBDate:dt] timeIntervalSince1970]],@"exception_date", nil];
-                //NSDictionary *excDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[dt timeIntervalSince1970]],@"exception_date", nil];
+                NSDictionary *excDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:[[Common toDBDate:dt] timeIntervalSince1970]],@"exception_date", nil];
+                //NSDictionary *excDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:[dt timeIntervalSince1970]],@"exception_date", nil];
                 
                 [exceptions addObject:excDict];
             }
@@ -2013,7 +2013,7 @@ NSInteger _sdwColor[32] = {
     {
         for (AlertData *alert in task.alerts)
         {
-            NSDictionary *alertDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:-alert.beforeDuration/60],@"minutes", nil];
+            NSDictionary *alertDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:-alert.beforeDuration/60],@"minutes", nil];
             
             [alertList addObject:alertDict];
         }
@@ -2026,21 +2026,21 @@ NSInteger _sdwColor[32] = {
                              task.sdwId,@"id",
                              task.name, @"title",
                               task.note, @"content",
-                             [NSNumber numberWithInt:type], @"task_type",
-                              [NSNumber numberWithInt:stask], @"stask",
-                             [self.scSDWMappingDict objectForKey:[NSNumber numberWithInt:task.project]], @"category_id",
+                             [NSNumber numberWithInteger:type], @"task_type",
+                              [NSNumber numberWithInteger:stask], @"stask",
+                             [self.scSDWMappingDict objectForKey:[NSNumber numberWithInteger:task.project]], @"category_id",
                              task.location, @"location",
                               task.tag, @"tags",
-                             [NSNumber numberWithInt: task.duration/60], @"duration",
-                             [NSNumber numberWithInt: task.timeZoneId], @"timezone_key",
-                             [NSNumber numberWithInt:startTime], @"start_time",
-                              [NSNumber numberWithInt:([task isTask]?dueTime:endTime)], @"end_time",
-                             [NSNumber numberWithInt:doneTime], @"completed_date",
+                             [NSNumber numberWithInteger: task.duration/60], @"duration",
+                             [NSNumber numberWithInteger: task.timeZoneId], @"timezone_key",
+                             [NSNumber numberWithInteger:startTime], @"start_time",
+                              [NSNumber numberWithInteger:([task isTask]?dueTime:endTime)], @"end_time",
+                             [NSNumber numberWithInteger:doneTime], @"completed_date",
                              [NSNumber numberWithBool:(task.type == TYPE_ADE)], @"ade",
                              [NSNumber numberWithBool:(dueTime != 0)], @"due",
                              [NSNumber numberWithBool:(task.status == TASK_STATUS_PINNED)], @"star",
                              [NSNumber numberWithBool:(task.status == TASK_STATUS_DONE)], @"completed",
-                             [NSNumber numberWithInt:task.primaryKey], @"ref",
+                             [NSNumber numberWithInteger:task.primaryKey], @"ref",
                               repeatDict, @"repeat",
                               alertList, @"alerts",
                               groupId, @"group_id", 
@@ -2210,7 +2210,7 @@ NSInteger _sdwColor[32] = {
             
             if (sdwId != nil)
             {
-                Task *task = [taskDict objectForKey:[NSNumber numberWithInt:key]];
+                Task *task = [taskDict objectForKey:[NSNumber numberWithInteger:key]];
                 
                 if (task != nil)
                 {
@@ -2510,7 +2510,7 @@ NSInteger _sdwColor[32] = {
             
             for (Task *task in taskList)
             {
-                NSMutableDictionary *taskNameDict = [dupCategoryDict objectForKey:[NSNumber numberWithInt:task.project]];
+                NSMutableDictionary *taskNameDict = [dupCategoryDict objectForKey:[NSNumber numberWithInteger:task.project]];
                 
                 if (taskNameDict != nil)
                 {
@@ -2663,7 +2663,7 @@ NSInteger _sdwColor[32] = {
                 
                 BOOL taskCreation = YES;
                 
-                NSDictionary *taskNameDict = [dupCategoryDict objectForKey:[NSNumber numberWithInt:sdwTask.project]];
+                NSDictionary *taskNameDict = [dupCategoryDict objectForKey:[NSNumber numberWithInteger:sdwTask.project]];
                 
                 if (taskNameDict != nil)
                 {
@@ -2811,7 +2811,7 @@ NSInteger _sdwColor[32] = {
     
     NSDictionary *taskDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               task.sdwId,@"id",
-                              [NSNumber numberWithInt:task.sequenceNo],fieldName,
+                              [NSNumber numberWithInteger:task.sequenceNo],fieldName,
                               nil];
     
     return taskDict;
@@ -2822,7 +2822,7 @@ NSInteger _sdwColor[32] = {
 {
     NSDictionary *prjDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               project.sdwId,@"id",
-                              [NSNumber numberWithInt:project.sequenceNo],@"order_category",
+                              [NSNumber numberWithInteger:project.sequenceNo],@"order_category",
                               nil];
     
     return prjDict;
@@ -3145,8 +3145,8 @@ NSInteger _sdwColor[32] = {
                               link.sdwId,@"id",
                               rootId, @"root_id",
                               targetId, @"target_id",
-                              [NSNumber numberWithInt:link.destAssetType], @"link_type",
-                              [NSNumber numberWithInt:link.primaryKey], @"ref",                              
+                              [NSNumber numberWithInteger:link.destAssetType], @"link_type",
+                              [NSNumber numberWithInteger:link.primaryKey], @"ref",                              
                               nil];
     
     if (rootId == nil || targetId == nil)
@@ -3245,7 +3245,7 @@ NSInteger _sdwColor[32] = {
             
             if (sdwId != nil)
             {
-                Link *link = [linkDict objectForKey:[NSNumber numberWithInt:key]];
+                Link *link = [linkDict objectForKey:[NSNumber numberWithInteger:key]];
                 
                 if (link != nil)
                 {
@@ -3646,7 +3646,7 @@ NSInteger _sdwColor[32] = {
     NSDictionary *assetDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               asset.sdwId,@"id",
                               asset.urlValue, @"url",
-                              [NSNumber numberWithInt:asset.primaryKey], @"ref", 
+                              [NSNumber numberWithInteger:asset.primaryKey], @"ref", 
                               nil];
         
     return assetDict;
@@ -3728,7 +3728,7 @@ NSInteger _sdwColor[32] = {
             
             if (sdwId != nil)
             {
-                URLAsset *asset = [assetDict objectForKey:[NSNumber numberWithInt:key]];
+                URLAsset *asset = [assetDict objectForKey:[NSNumber numberWithInteger:key]];
                 
                 if (asset != nil)
                 {
@@ -4440,12 +4440,12 @@ NSInteger _sdwColor[32] = {
     NSDictionary *commentDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                comment.sdwId,@"id",
                                comment.content, @"content",
-                                 [NSNumber numberWithInt:comment.isOwner?1:0], @"is_owner",
+                                 [NSNumber numberWithInteger:comment.isOwner?1:0], @"is_owner",
                                  comment.type == COMMENT_TYPE_ITEM?[dbm getSDWId4Key:comment.itemKey]:[dbm getSDWId4ProjectKey:comment.itemKey], @"root_id",
                                  comment.lastName, @"last_name",
                                  comment.firstName, @"first_name",
-                                 [NSNumber numberWithInt:createTime], @"create_time",
-                               [NSNumber numberWithInt:comment.primaryKey], @"ref",
+                                 [NSNumber numberWithInteger:createTime], @"create_time",
+                               [NSNumber numberWithInteger:comment.primaryKey], @"ref",
                                nil];
     
     return commentDict;
@@ -4804,7 +4804,7 @@ NSInteger _sdwColor[32] = {
     
     for (Task *task in itemList)
     {
-        NSString *sdwId = [self.scSDWMappingDict objectForKey:[NSNumber numberWithInt: task.project]];
+        NSString *sdwId = [self.scSDWMappingDict objectForKey:[NSNumber numberWithInteger: task.project]];
         
         if (task.sdwId == nil || [task.sdwId isEqualToString:@""]) //new from SC
         {
@@ -5045,7 +5045,7 @@ NSInteger _sdwColor[32] = {
             
             [prj release];     
             
-            [self.sdwSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:sdwCat.sdwId]; 
+            [self.sdwSCMappingDict setObject:[NSNumber numberWithInteger:prj.primaryKey] forKey:sdwCat.sdwId]; 
         }
         
         [self get1waySetting];
@@ -5517,7 +5517,7 @@ NSInteger _sdwColor[32] = {
     
     // set body
     NSMutableArray *dataList = [NSMutableArray array];
-    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:status], @"stt", [NSNumber numberWithInt:objectType], @"stt_type", sdwID, @"obj_id", nil];
+    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:status], @"stt", [NSNumber numberWithInteger:objectType], @"stt_type", sdwID, @"obj_id", nil];
     [dataList addObject:dataDict];
     NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:dataList options:0 error:&error];
     

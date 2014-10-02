@@ -48,11 +48,11 @@ CommentManager *_cmdManagerSingleton = nil;
         
         if (count == nil)
         {
-            count = [NSNumber numberWithInt:1];
+            count = [NSNumber numberWithInteger:1];
         }
         else
         {
-            count = [NSNumber numberWithInt:([count intValue] + 1)];
+            count = [NSNumber numberWithInteger:([count intValue] + 1)];
         }
         
         [taskCommentDict setObject:count forKey:key];
@@ -78,7 +78,7 @@ CommentManager *_cmdManagerSingleton = nil;
         info = [info stringByAppendingFormat:@"%d new comment(s) on %@ '%@'\n", [count intValue], typeName, name];
     }
     
-    NSNumber *key = [NSNumber numberWithInt:(self.commentNotifDict.count + 1)];
+    NSNumber *key = [NSNumber numberWithInteger:(self.commentNotifDict.count + 1)];
     
 	UILocalNotification *notif = [[UILocalNotification alloc] init];
 	notif.fireDate = nil;
@@ -123,7 +123,7 @@ CommentManager *_cmdManagerSingleton = nil;
 	
 	for (Comment *comment in list)
 	{
-		[mappingList addObject:[NSNumber numberWithInt:comment.primaryKey]];
+		[mappingList addObject:[NSNumber numberWithInteger:comment.primaryKey]];
 	}
 	
 	return [NSDictionary dictionaryWithObjects:list forKeys:mappingList];

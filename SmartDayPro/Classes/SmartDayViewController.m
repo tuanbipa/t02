@@ -1938,8 +1938,6 @@ extern BOOL _detailHintShown;
         
         ctrler.view = hintView;
         
-        [hintView release];
-        
         [self presentViewController:ctrler animated:YES completion:NULL];
     }
 }

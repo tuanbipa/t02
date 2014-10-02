@@ -224,7 +224,7 @@ static sqlite3_stmt *prj_delete_statement = nil;
     NSDictionary *prjDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               self.name, @"name",
                               self.tag, @"tag",
-                              [NSNumber numberWithInt:self.colorId], @"colorId",
+                              [NSNumber numberWithInteger:self.colorId], @"colorId",
                              [NSNumber numberWithBool:isTransparent], @"tranparent",
                               nil
                               ];

@@ -628,7 +628,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	[cell.contentView addSubview:tagLabel];
 	[tagLabel release];
 	
-	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, detailTableView.bounds.size.width - 60, 25)];
+	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, detailTableView.bounds.size.width - 80, 25)];
 
 	tagInputTextField.textAlignment = NSTextAlignmentLeft;
 	tagInputTextField.backgroundColor=[UIColor clearColor];

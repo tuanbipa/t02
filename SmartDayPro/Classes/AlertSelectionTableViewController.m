@@ -62,8 +62,8 @@
 	
 	for (int i=0; i<count; i++)
 	{
-		[alerts addObject:[NSNumber numberWithInt:([self.taskEdit isADE]?adeAlertDurations[i]:alertDurations[i])]];
-		[indices addObject:[NSNumber numberWithInt:i]];
+		[alerts addObject:[NSNumber numberWithInteger:([self.taskEdit isADE]?adeAlertDurations[i]:alertDurations[i])]];
+		[indices addObject:[NSNumber numberWithInteger:i]];
 	}
 	
 	alertDict = [[NSDictionary dictionaryWithObjects:indices forKeys:alerts] retain];	
@@ -158,7 +158,7 @@
 	
 	if (self.alertData.absoluteTime == nil)
 	{
-		NSNumber *val = [alertDict objectForKey:[NSNumber numberWithInt:self.alertData.beforeDuration/60]];
+		NSNumber *val = [alertDict objectForKey:[NSNumber numberWithInteger:self.alertData.beforeDuration/60]];
 		
 		if (val != nil)
 		{

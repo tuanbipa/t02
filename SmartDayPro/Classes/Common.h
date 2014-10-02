@@ -628,6 +628,7 @@ typedef struct
 + (CGRect) getFrame;
 + (CGFloat) getKeyboardHeight;
 + (UIImage *) takeSnapshot:(UIView *)view size:(CGSize) size;
++ (UIImage *) imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 + (void) linkAppStore;
 + (void) sortList:(NSMutableArray *)list byKey:(NSString *)key ascending:(BOOL)ascending;
 + (NSArray *) getSortedList:(NSArray *)list byKey:(NSString *)key ascending:(BOOL)ascending;

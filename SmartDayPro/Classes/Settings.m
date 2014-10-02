@@ -1420,7 +1420,7 @@ extern BOOL _scFreeVersion;
         
         NSString *tzName = [dict objectForKey:@"timezone_name"];
         
-        [idList addObject:[NSNumber numberWithInt:tzID]];
+        [idList addObject:[NSNumber numberWithInteger:tzID]];
         [nameList addObject:tzName];
     }
 
@@ -1429,40 +1429,40 @@ extern BOOL _scFreeVersion;
 
 - (void) saveSettingDict
 {
-	NSNumber *skinSetting = [NSNumber numberWithInt:self.skinStyle];
+	NSNumber *skinSetting = [NSNumber numberWithInteger:self.skinStyle];
 	[settingDict setValue:skinSetting forKey:@"SkinStyle"];
 	
-	NSNumber *weekStartSetting = [NSNumber numberWithInt:self.weekStart];
+	NSNumber *weekStartSetting = [NSNumber numberWithInteger:self.weekStart];
 	[settingDict setValue:weekStartSetting forKey:@"WeekStart"];
     
-	NSNumber *landscapeModeEnableSetting = [NSNumber numberWithInt:(self.landscapeModeEnable?1:0)];
+	NSNumber *landscapeModeEnableSetting = [NSNumber numberWithInteger:(self.landscapeModeEnable?1:0)];
 	[settingDict setValue:landscapeModeEnableSetting forKey:@"LandscapeModeEnable"];
     
 	NSNumber *tabBarAutoHideSetting = [NSNumber numberWithBool:self.tabBarAutoHide];
 	[settingDict setValue:tabBarAutoHideSetting forKey:@"TabBarAutoHide"];
     
-	NSNumber *snoozeDurationSetting = [NSNumber numberWithInt:self.snoozeDuration];
+	NSNumber *snoozeDurationSetting = [NSNumber numberWithInteger:self.snoozeDuration];
 	[settingDict setValue:snoozeDurationSetting forKey:@"SnoozeDuration"];
 	
-	NSNumber *taskDurationSetting = [NSNumber numberWithInt:self.taskDuration];
+	NSNumber *taskDurationSetting = [NSNumber numberWithInteger:self.taskDuration];
 	[settingDict setValue:taskDurationSetting forKey:@"TaskDuration"];
 	
-	NSNumber *taskDefaultProjectSetting = [NSNumber numberWithInt:self.taskDefaultProject];
+	NSNumber *taskDefaultProjectSetting = [NSNumber numberWithInteger:self.taskDefaultProject];
 	[settingDict setValue:taskDefaultProjectSetting forKey:@"TaskDefaultProject"];
 	
-	NSNumber *eventCombinationSetting = [NSNumber numberWithInt:self.eventCombination];
+	NSNumber *eventCombinationSetting = [NSNumber numberWithInteger:self.eventCombination];
 	[settingDict setValue:eventCombinationSetting forKey:@"EventCombination"];
 	
-	NSNumber *movableAsEventSetting = [NSNumber numberWithInt:self.movableAsEvent];
+	NSNumber *movableAsEventSetting = [NSNumber numberWithInteger:self.movableAsEvent];
 	[settingDict setValue:movableAsEventSetting forKey:@"MovableAsEvent"];
     
-	NSNumber *newTaskPlacementSetting = [NSNumber numberWithInt:self.newTaskPlacement];
+	NSNumber *newTaskPlacementSetting = [NSNumber numberWithInteger:self.newTaskPlacement];
 	[settingDict setValue:newTaskPlacementSetting forKey:@"NewTaskPlacement"];
 	
-	NSNumber *minimumSplitSizeSetting = [NSNumber numberWithInt:self.minimumSplitSize];
+	NSNumber *minimumSplitSizeSetting = [NSNumber numberWithInteger:self.minimumSplitSize];
 	[settingDict setValue:minimumSplitSizeSetting forKey:@"MinimumSplitSize"];
     
-	NSNumber *mustDoDaysSetting = [NSNumber numberWithInt:self.mustDoDays];
+	NSNumber *mustDoDaysSetting = [NSNumber numberWithInteger:self.mustDoDays];
 	[settingDict setValue:mustDoDaysSetting forKey:@"MustDoDays"];
     
 	NSNumber *hideFutureTasksSetting = [NSNumber numberWithBool:self.hideFutureTasks];
@@ -1492,35 +1492,35 @@ extern BOOL _scFreeVersion;
 	NSNumber *rmdSyncEnabledSetting = [NSNumber numberWithBool:self.rmdSyncEnabled];
 	[settingDict setValue:rmdSyncEnabledSetting forKey:@"ReminderSyncEnabled"];
 	
-	NSNumber *syncWindowStartSetting = [NSNumber numberWithInt:self.syncWindowStart];
+	NSNumber *syncWindowStartSetting = [NSNumber numberWithInteger:self.syncWindowStart];
 	[settingDict setValue:syncWindowStartSetting forKey:@"SyncWindowStart"];
 	
-	NSNumber *syncWindowEndSetting = [NSNumber numberWithInt:self.syncWindowEnd];
+	NSNumber *syncWindowEndSetting = [NSNumber numberWithInteger:self.syncWindowEnd];
 	[settingDict setValue:syncWindowEndSetting forKey:@"SyncWindowEnd"];
 	
-	NSNumber *syncDirectionSetting = [NSNumber numberWithInt:self.syncDirection];
+	NSNumber *syncDirectionSetting = [NSNumber numberWithInteger:self.syncDirection];
 	[settingDict setValue:syncDirectionSetting forKey:@"SyncDirection"];
     
-	NSNumber *deleteWarningSetting = [NSNumber numberWithInt:(self.deleteWarning?1:0)];
+	NSNumber *deleteWarningSetting = [NSNumber numberWithInteger:(self.deleteWarning?1:0)];
 	[settingDict setValue:deleteWarningSetting forKey:@"DeleteWarning"];
     
-	NSNumber *doneWarningSetting = [NSNumber numberWithInt:(self.doneWarning?1:0)];
+	NSNumber *doneWarningSetting = [NSNumber numberWithInteger:(self.doneWarning?1:0)];
 	[settingDict setValue:doneWarningSetting forKey:@"DoneWarning"];
     
-	NSNumber *hideWarningSetting = [NSNumber numberWithInt:(self.hideWarning?1:0)];
+	NSNumber *hideWarningSetting = [NSNumber numberWithInteger:(self.hideWarning?1:0)];
 	[settingDict setValue:hideWarningSetting forKey:@"HideWarning"];
     
 	NSNumber *timeZoneSupportSetting = [NSNumber numberWithBool:self.timeZoneSupport];
 	[settingDict setValue:timeZoneSupportSetting forKey:@"TimeZoneSupport"];
 
-	NSNumber *timeZoneIDSetting = [NSNumber numberWithInt:self.timeZoneID];
+	NSNumber *timeZoneIDSetting = [NSNumber numberWithInteger:self.timeZoneID];
 	[settingDict setValue:timeZoneIDSetting forKey:@"TimeZoneID"];
     
     // geo fencing
     NSNumber *geoFencingEnableSetting = [NSNumber numberWithBool:self.geoFencingEnable];
 	[settingDict setValue:geoFencingEnableSetting forKey:@"GeoFencingEnable"];
     
-    NSNumber *geoFencingIntervalSetting = [NSNumber numberWithInt:self.geoFencingInterval];
+    NSNumber *geoFencingIntervalSetting = [NSNumber numberWithInteger:self.geoFencingInterval];
 	[settingDict setValue:geoFencingIntervalSetting forKey:@"GeoFencingInterval"];
     
 	if (self.updateTime != nil)
@@ -1559,61 +1559,61 @@ extern BOOL _scFreeVersion;
 
 - (void) saveHintDict
 {
-	NSNumber *eventMapHintSetting = [NSNumber numberWithInt:(self.eventMapHint?1:0)];
+	NSNumber *eventMapHintSetting = [NSNumber numberWithInteger:(self.eventMapHint?1:0)];
 	[self.hintDict setValue:eventMapHintSetting forKey:@"EventMapHint"];
 	
-	NSNumber *smartListHintSetting = [NSNumber numberWithInt:(self.smartListHint?1:0)];
+	NSNumber *smartListHintSetting = [NSNumber numberWithInteger:(self.smartListHint?1:0)];
 	[self.hintDict setValue:smartListHintSetting forKey:@"SmartListHint"];
 
-    NSNumber *noteHintSetting = [NSNumber numberWithInt:(self.noteHint?1:0)];
+    NSNumber *noteHintSetting = [NSNumber numberWithInteger:(self.noteHint?1:0)];
 	[self.hintDict setValue:noteHintSetting forKey:@"NoteHint"];
 		
-	NSNumber *weekViewHintSetting = [NSNumber numberWithInt:(self.weekViewHint?1:0)];
+	NSNumber *weekViewHintSetting = [NSNumber numberWithInteger:(self.weekViewHint?1:0)];
 	[self.hintDict setValue:weekViewHintSetting forKey:@"WeekViewHint"];
     
-	NSNumber *weekDayQuickAddHintSetting = [NSNumber numberWithInt:(self.weekDayQuickAddHint?1:0)];
+	NSNumber *weekDayQuickAddHintSetting = [NSNumber numberWithInteger:(self.weekDayQuickAddHint?1:0)];
 	[self.hintDict setValue:weekDayQuickAddHintSetting forKey:@"WeekDayQuickAddHint"];
 	   
-	NSNumber *calendarHintSetting = [NSNumber numberWithInt:(self.calendarHint?1:0)];
+	NSNumber *calendarHintSetting = [NSNumber numberWithInteger:(self.calendarHint?1:0)];
 	[self.hintDict setValue:calendarHintSetting forKey:@"CalendarHint"];
 	
-	NSNumber *multiSelectHintSetting = [NSNumber numberWithInt:(self.multiSelectHint?1:0)];
+	NSNumber *multiSelectHintSetting = [NSNumber numberWithInteger:(self.multiSelectHint?1:0)];
 	[self.hintDict setValue:multiSelectHintSetting forKey:@"MultiSelectHint"];
 		
-	NSNumber *monthViewHintSetting = [NSNumber numberWithInt:(self.monthViewHint?1:0)];
+	NSNumber *monthViewHintSetting = [NSNumber numberWithInteger:(self.monthViewHint?1:0)];
 	[self.hintDict setValue:monthViewHintSetting forKey:@"MonthViewHint"];
     
-	NSNumber *rtDoneHintSetting = [NSNumber numberWithInt:(self.rtDoneHint?1:0)];
+	NSNumber *rtDoneHintSetting = [NSNumber numberWithInteger:(self.rtDoneHint?1:0)];
 	[self.hintDict setValue:rtDoneHintSetting forKey:@"RTDoneHint"];
 	
-	NSNumber *syncMatchHintSetting = [NSNumber numberWithInt:(self.syncMatchHint?1:0)];
+	NSNumber *syncMatchHintSetting = [NSNumber numberWithInteger:(self.syncMatchHint?1:0)];
 	[self.hintDict setValue:syncMatchHintSetting forKey:@"SyncMatchHint"];
 	
-	NSNumber *projectHintSetting = [NSNumber numberWithInt:(self.projectHint?1:0)];
+	NSNumber *projectHintSetting = [NSNumber numberWithInteger:(self.projectHint?1:0)];
 	[self.hintDict setValue:projectHintSetting forKey:@"ProjectHint"];
 	
-	NSNumber *projectDetailHintSetting = [NSNumber numberWithInt:(self.projectDetailHint?1:0)];
+	NSNumber *projectDetailHintSetting = [NSNumber numberWithInteger:(self.projectDetailHint?1:0)];
 	[self.hintDict setValue:projectDetailHintSetting forKey:@"ProjectDetailHint"];
 	
-	NSNumber *firstTimeEventSyncHintSetting = [NSNumber numberWithInt:(self.firstTimeEventSyncHint?1:0)];
+	NSNumber *firstTimeEventSyncHintSetting = [NSNumber numberWithInteger:(self.firstTimeEventSyncHint?1:0)];
 	[self.hintDict setValue:firstTimeEventSyncHintSetting forKey:@"FirstTimeEventSyncHint"];
 	
-	NSNumber *workingTimeHintSetting = [NSNumber numberWithInt:(self.workingTimeHint?1:0)];
+	NSNumber *workingTimeHintSetting = [NSNumber numberWithInteger:(self.workingTimeHint?1:0)];
 	[self.hintDict setValue:workingTimeHintSetting forKey:@"WorkingTimeHint"];
 	
-	NSNumber *starTabHintSetting = [NSNumber numberWithInt:(self.starTabHint?1:0)];
+	NSNumber *starTabHintSetting = [NSNumber numberWithInteger:(self.starTabHint?1:0)];
 	[self.hintDict setValue:starTabHintSetting forKey:@"StarTabHint"];
 	
-	NSNumber *gtdoTabHintSetting = [NSNumber numberWithInt:(self.gtdoTabHint?1:0)];
+	NSNumber *gtdoTabHintSetting = [NSNumber numberWithInteger:(self.gtdoTabHint?1:0)];
 	[self.hintDict setValue:gtdoTabHintSetting forKey:@"GTDoTabHint"];
 	
-	NSNumber *tagHintSetting = [NSNumber numberWithInt:(self.tagHint?1:0)];
+	NSNumber *tagHintSetting = [NSNumber numberWithInteger:(self.tagHint?1:0)];
 	[self.hintDict setValue:tagHintSetting forKey:@"TagHint"];
     
-	NSNumber *featureHintSetting = [NSNumber numberWithInt:(self.featureHint?1:0)];
+	NSNumber *featureHintSetting = [NSNumber numberWithInteger:(self.featureHint?1:0)];
 	[self.hintDict setValue:featureHintSetting forKey:@"FeatureHint"];
     
-	NSNumber *transparentHintSetting = [NSNumber numberWithInt:(self.transparentHint?1:0)];
+	NSNumber *transparentHintSetting = [NSNumber numberWithInteger:(self.transparentHint?1:0)];
 	[self.hintDict setValue:transparentHintSetting forKey:@"TransparentHint"];
 	
 	NSNumber *msdBackupHintSetting = [NSNumber numberWithBool:self.msdBackupHint];
@@ -1647,7 +1647,7 @@ extern BOOL _scFreeVersion;
 	NSString *encodedPwd = [NSDataBase64 base64Encoding:[self.tdPassword dataUsingEncoding:NSUTF8StringEncoding]];
 	[self.toodledoSyncDict setValue:encodedPwd forKey:@"Pwd"];
 	
-	NSNumber *tdSyncResetSetting = [NSNumber numberWithInt:(self.tdSyncReset?1:0)];
+	NSNumber *tdSyncResetSetting = [NSNumber numberWithInteger:(self.tdSyncReset?1:0)];
 	[self.toodledoSyncDict setValue:tdSyncResetSetting forKey:@"Reset"];
 	
     
@@ -1707,7 +1707,7 @@ extern BOOL _scFreeVersion;
 
 - (void) saveLaunchCount:(int) count
 {
-	NSNumber *launchCount = [NSNumber numberWithInt:count];
+	NSNumber *launchCount = [NSNumber numberWithInteger:count];
 	
 	[settingDict setValue:launchCount forKey:@"LaunchCount"];
 	
@@ -1718,7 +1718,7 @@ extern BOOL _scFreeVersion;
 {
     self.weekPlannerRows = rows;
     
-	NSNumber *val = [NSNumber numberWithInt:rows];
+	NSNumber *val = [NSNumber numberWithInteger:rows];
 	
 	[settingDict setValue:val forKey:@"WeekPlannerRows"];
 	
@@ -2232,7 +2232,7 @@ extern BOOL _scFreeVersion;
 		[self.toodledoSyncDict setValue:tdLastSyncTimeSetting forKey:@"LastSyncTime"];		
 	}
 	
-	NSNumber *tdSyncResetSetting = [NSNumber numberWithInt:(self.tdSyncReset?1:0)];	
+	NSNumber *tdSyncResetSetting = [NSNumber numberWithInteger:(self.tdSyncReset?1:0)];	
 	[self.toodledoSyncDict setValue:tdSyncResetSetting forKey:@"Reset"];
 	
 	[self saveToodledoSyncDict];
@@ -2246,7 +2246,7 @@ extern BOOL _scFreeVersion;
 	self.tdLastDeleteTime = nil;
 	self.tdLastSyncTime = nil;
 
-	NSNumber *tdSyncResetSetting = [NSNumber numberWithInt:(self.tdSyncReset?1:0)];	
+	NSNumber *tdSyncResetSetting = [NSNumber numberWithInteger:(self.tdSyncReset?1:0)];	
 	[self.toodledoSyncDict setValue:tdSyncResetSetting forKey:@"Reset"];
 	
 	[self.toodledoSyncDict removeObjectForKey:@"LastAddEditTime"];
@@ -2373,7 +2373,7 @@ extern BOOL _scFreeVersion;
 {
 	self.filterTab = tab;
 	
-	NSNumber *filterTabSetting = [NSNumber numberWithInt:self.filterTab];	
+	NSNumber *filterTabSetting = [NSNumber numberWithInteger:self.filterTab];	
 	
 	[self.settingDict setValue:filterTabSetting forKey:@"FilterTab"];
 	
@@ -2554,7 +2554,7 @@ extern BOOL _scFreeVersion;
 {
 	self.hideWarning = enabled;
 	
-	NSNumber *hideWarningSetting = [NSNumber numberWithInt:(enabled?1:0)];
+	NSNumber *hideWarningSetting = [NSNumber numberWithInteger:(enabled?1:0)];
 	[self.settingDict setValue:hideWarningSetting forKey:@"HideWarning"];
 	
 	[self saveSettingDict];
@@ -2662,7 +2662,7 @@ extern BOOL _scFreeVersion;
 {
     Settings *settings = [Settings getInstance];
 
-    NSString *name = [settings.timeZoneDict objectForKey:[NSNumber numberWithInt:tzID]];
+    NSString *name = [settings.timeZoneDict objectForKey:[NSNumber numberWithInteger:tzID]];
     
     if (name != nil)
     {
@@ -2692,7 +2692,7 @@ extern BOOL _scFreeVersion;
 {
     Settings *settings = [Settings getInstance];
     
-    NSString *name = [settings.timeZoneDict objectForKey:[NSNumber numberWithInt:tzID]];
+    NSString *name = [settings.timeZoneDict objectForKey:[NSNumber numberWithInteger:tzID]];
         
     return name != nil?name:@"Unknown";
 }

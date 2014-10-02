@@ -218,7 +218,7 @@ static sqlite3_stmt *alert_delete_statement = nil;
 			return taskType == TYPE_TASK?_onDueOfTaskText:_onDateOfEventText;
 		}
 		
-		NSString *alertStr = [textDict objectForKey:[NSNumber numberWithInt:self.beforeDuration/60]];
+		NSString *alertStr = [textDict objectForKey:[NSNumber numberWithInteger:self.beforeDuration/60]];
 		if (alertStr != nil)
 		{
 			return alertStr;
@@ -316,7 +316,7 @@ static sqlite3_stmt *alert_delete_statement = nil;
 	
 	for (int i=0; i<7; i++)
 	{
-		[durations addObject:[NSNumber numberWithInt:alertDurations[i]]];
+		[durations addObject:[NSNumber numberWithInteger:alertDurations[i]]];
 		[texts addObject:alertTexts[i]];
 	}
 	

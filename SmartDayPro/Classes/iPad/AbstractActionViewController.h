@@ -26,7 +26,7 @@
 @class NoteViewController;
 @class CategoryViewController;
 
-@interface AbstractActionViewController : UIViewController
+@interface AbstractActionViewController : UIViewController <UIActionSheetDelegate>
 {
     ContentView *contentView;
     

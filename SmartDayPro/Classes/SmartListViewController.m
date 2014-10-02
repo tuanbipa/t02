@@ -3120,7 +3120,7 @@ SmartListViewController *_smartListViewCtrler;
 		firstLoad = NO;
 	}
     
-    //[self refreshLayout];
+    [self refreshLayout];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

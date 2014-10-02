@@ -2837,7 +2837,7 @@ extern DetailViewController *_detailViewCtrler;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex != 1)
+    if (buttonIndex == actionSheet.destructiveButtonIndex)
     {
         [self doDeleteCategory:NO];
     }

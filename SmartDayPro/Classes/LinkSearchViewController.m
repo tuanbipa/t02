@@ -146,6 +146,8 @@
             [ctrler addLink:task.primaryKey];
         }
     }
+    
+    [searchBar resignFirstResponder];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

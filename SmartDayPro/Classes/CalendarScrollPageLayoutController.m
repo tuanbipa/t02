@@ -254,7 +254,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	
 	if (task.type == TYPE_EVENT)
 	{
-        NSMutableArray *list = [self.overlapDict objectForKey:[NSNumber numberWithInt:slotIdx]];
+        NSMutableArray *list = [self.overlapDict objectForKey:[NSNumber numberWithInteger:slotIdx]];
 
         BOOL overlapping = (list != nil && list.count > 0);
         
@@ -262,7 +262,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         {
             list = [NSMutableArray arrayWithCapacity:3];
             
-            [self.overlapDict setObject:list forKey:[NSNumber numberWithInt:slotIdx]];
+            [self.overlapDict setObject:list forKey:[NSNumber numberWithInteger:slotIdx]];
         }
 
         [list addObject:taskView];
@@ -312,7 +312,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
             if ([task isEvent] && ![task isMeetingInvited])
             {
                 //printf("trans event:%s\n", [task.name UTF8String]);
-                Project *transPrj = [transparentProjectDict objectForKey:[NSNumber numberWithInt:task.project]];
+                Project *transPrj = [transparentProjectDict objectForKey:[NSNumber numberWithInteger:task.project]];
                 
                 tskView.alpha = (transPrj != nil?0.5:1);
                 

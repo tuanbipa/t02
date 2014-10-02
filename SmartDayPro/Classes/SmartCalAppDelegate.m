@@ -742,18 +742,19 @@ BOOL _fromBackground = NO;
         AlertData *dat = [[AlertData alloc] initWithPrimaryKey:[alertKeyNum intValue] database:[dbm getDatabase]];
         
         Task *task = [[Task alloc] initWithPrimaryKey:dat.taskKey database:[dbm getDatabase]];
+        if (task.primaryKey <= 0) return;
         
         UIAlertView *alertView = [task isTask]?
-                                        [[UIAlertView alloc] initWithTitle:_alertText
-                                                            message:notification.alertBody
-                                                           delegate:self
-                                                  cancelButtonTitle:_okText
-                                                                otherButtonTitles:_snooze, _postpone, nil]:
-                                        [[UIAlertView alloc] initWithTitle:_alertText
-                                                                   message:notification.alertBody
-                                                                  delegate:self
-                                                         cancelButtonTitle:_okText
-                                                         otherButtonTitles:_snooze, nil];
+        [[UIAlertView alloc] initWithTitle:_alertText
+                                   message:notification.alertBody
+                                  delegate:self
+                         cancelButtonTitle:_okText
+                         otherButtonTitles:_snooze, _postpone, nil]:
+        [[UIAlertView alloc] initWithTitle:_alertText
+                                   message:notification.alertBody
+                                  delegate:self
+                         cancelButtonTitle:_okText
+                         otherButtonTitles:_snooze, nil];
         alertView.tag = -60000-dat.taskKey;
         
         [self.alertDict setObject:notification forKey:[NSNumber numberWithInt:alertView.tag]];

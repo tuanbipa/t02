@@ -72,7 +72,7 @@
             
             if ([task isEvent])
             {
-                Project *transPrj = [transparentProjectDict objectForKey:[NSNumber numberWithInt:task.project]];
+                Project *transPrj = [transparentProjectDict objectForKey:[NSNumber numberWithInteger:task.project]];
                 
                 tskView.alpha = (transPrj != nil?0.5:1);
                 

@@ -11,7 +11,7 @@
 @class ContentView;
 @class ContentScrollView;
 
-@interface GuruViewController : UIViewController
+@interface GuruViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate>
 {
     ContentView *contentView;
     ContentScrollView *scrollView;

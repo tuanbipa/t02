@@ -502,7 +502,7 @@ DetailViewController *_detailViewCtrler = nil;
         
         if (linkId != -1)
         {
-            [self.taskCopy.links insertObject:[NSNumber numberWithInt:linkId] atIndex:0];
+            [self.taskCopy.links insertObject:[NSNumber numberWithInteger:linkId] atIndex:0];
         }
         
         [self.previewViewCtrler refreshData];

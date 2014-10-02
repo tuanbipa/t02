@@ -260,13 +260,13 @@ extern iPadViewController *_iPadViewCtrler;
         [self.checkDict setObject:checkBtn forKey:[NSNumber numberWithInt:lineIdx]];
         
         unichar checkChar = 0x274E;
-        NSString *checkString = [NSString stringWithFormat:lineIdx == 0?@"%C ":@"\n%C ", checkChar,checkChar];
+        NSString *checkString = [NSString stringWithFormat:(lineIdx == 0 ? @"%C " : @"\n%C "), checkChar];
         
         [text replaceCharactersInRange:range withString:checkString];
         
         noteTextView.text = text;
         
-        cursorRange.location += checkString.length-1;
+        cursorRange.location += checkString.length;
         [noteTextView setSelectedRange:cursorRange];
     }
 }
@@ -402,7 +402,7 @@ extern iPadViewController *_iPadViewCtrler;
                 [self.checkDict setObject:checkBtn forKey:[NSNumber numberWithInt:lineIdx]];
             }
             
-            lineIdx += [self getLines:lineStr];
+            lineIdx += [self getLines:[lineStr stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
             
         }
         else
@@ -806,6 +806,10 @@ extern iPadViewController *_iPadViewCtrler;
     range.length += range.location;
     range.location = 0;
     
+    if (range.length > noteTextView.text.length) {
+        range.length = noteTextView.text.length-1;
+    }
+    
     NSString *subString = [noteTextView.text substringWithRange:range];
     
     range = [subString rangeOfString:@"\n" options:NSBackwardsSearch]; //find the begin line of current text
@@ -822,7 +826,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     //printf("begin line: %d\n", lineIdx);
     
-    UIButton *btn = [self.checkDict objectForKey:[NSNumber numberWithInt:lineIdx]];
+    UIButton *btn = [self.checkDict objectForKey:[NSNumber numberWithInteger:lineIdx]];
     
     //checkButton.selected = (btn != nil);
     checkItem.tag = (btn != nil?1:0);

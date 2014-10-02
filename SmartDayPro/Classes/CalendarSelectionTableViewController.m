@@ -80,9 +80,9 @@ extern iPadViewController *_iPadViewCtrler;
         int c = 0;
         for (Project *project in self.calList)
         {
-            NSObject *found = [catDict objectForKey:[NSString stringWithFormat:@"%d", project.primaryKey]];
+            NSObject *found = [catDict objectForKey:[NSString stringWithFormat:@"%@", @(project.primaryKey)]];
             
-            [selectedCalDict setObject:(found==nil?[NSNumber numberWithInt:0]:[NSNumber numberWithInt:1]) forKey:[NSNumber numberWithInt:c++]];
+            [selectedCalDict setObject:(found==nil?[NSNumber numberWithInteger:0]:[NSNumber numberWithInteger:1]) forKey:[NSNumber numberWithInteger:c++]];
         }             
     }
     else 
@@ -97,7 +97,7 @@ extern iPadViewController *_iPadViewCtrler;
                 defaultProjectIndex = c;
             }
             
-            [selectedCalDict setObject:(project.status == PROJECT_STATUS_INVISIBLE?[NSNumber numberWithInt:0]:[NSNumber numberWithInt:1]) forKey:[NSNumber numberWithInt:c++]];		
+            [selectedCalDict setObject:(project.status == PROJECT_STATUS_INVISIBLE?[NSNumber numberWithInteger:0]:[NSNumber numberWithInteger:1]) forKey:[NSNumber numberWithInteger:c++]];		
         }	
         
     }	
@@ -254,7 +254,7 @@ extern iPadViewController *_iPadViewCtrler;
 {
 	for (int i=0;i<calList.count;i++)
 	{
-		[selectedCalDict setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:i]];
+		[selectedCalDict setObject:[NSNumber numberWithInteger:1] forKey:[NSNumber numberWithInteger:i]];
 	}
 	
 	[calendarTableView reloadData];
@@ -266,7 +266,7 @@ extern iPadViewController *_iPadViewCtrler;
 	{
         if (i != defaultProjectIndex)
         {
-            [selectedCalDict setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:i]];
+            [selectedCalDict setObject:[NSNumber numberWithInteger:0] forKey:[NSNumber numberWithInteger:i]];
         }
 	}
 	
@@ -439,7 +439,7 @@ extern iPadViewController *_iPadViewCtrler;
     }
 	else
     {
-        NSNumber *flag = [selectedCalDict objectForKey:[NSNumber numberWithInt:indexPath.row]];
+        NSNumber *flag = [selectedCalDict objectForKey:[NSNumber numberWithInteger:indexPath.row]];
         
         cell.accessoryType = ([flag intValue] == 1?UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone);
         //cell.backgroundColor = ([flag intValue] == 1?[UIColor whiteColor]:[UIColor lightGrayColor]);
@@ -569,7 +569,7 @@ extern iPadViewController *_iPadViewCtrler;
 		return;
 	}
 	
-	NSNumber *flag = [selectedCalDict objectForKey:[NSNumber numberWithInt:indexPath.row]];
+	NSNumber *flag = [selectedCalDict objectForKey:[NSNumber numberWithInteger:indexPath.row]];
 	
 	int flagVal = [flag intValue];
 
@@ -588,7 +588,7 @@ extern iPadViewController *_iPadViewCtrler;
 		flagVal = 1;
 	}
 	
-	[selectedCalDict setObject:[NSNumber numberWithInt:flagVal] forKey:[NSNumber numberWithInt:indexPath.row]];
+	[selectedCalDict setObject:[NSNumber numberWithInteger:flagVal] forKey:[NSNumber numberWithInteger:indexPath.row]];
     
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 	

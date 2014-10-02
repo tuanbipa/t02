@@ -208,17 +208,17 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     if (hours == 0)
     {
 		//ret = [NSString stringWithFormat:@"%d %@",mins,mins==1?@"min":@"mins"];
-        ret = [NSString stringWithFormat:@"%d %@",mins,mins==1?_minText:_minsText];
+        ret = [NSString stringWithFormat:@"%@ %@",@(mins),mins==1?_minText:_minsText];
 	}
     else if (mins == 0)
     {
         //ret = [NSString stringWithFormat:@"%d %@",hours,hours==1?@"hour":@"hours"];
-        ret = [NSString stringWithFormat:@"%d %@",hours,hours==1?_hourText:_hoursText];
+        ret = [NSString stringWithFormat:@"%@ %@",@(hours),hours==1?_hourText:_hoursText];
     }
     else
     {
         //ret= [NSString stringWithFormat:@"%d %@, %d %@",hours,hours==1?@"hour":@"hours",mins,mins==1?@"min":@"mins"];
-        ret= [NSString stringWithFormat:@"%d %@, %d %@",hours,hours==1?_hourText:_hoursText,mins,mins==1?_minText:_minsText];
+        ret= [NSString stringWithFormat:@"%@ %@, %@ %@",@(hours),hours==1?_hourText:_hoursText,@(mins),mins==1?_minText:_minsText];
     }
 
     
@@ -233,7 +233,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	NSInteger mins = (value - days*3600*24 - hours*3600)/60;
 	NSInteger secs = (value - days*3600*24 - hours*3600 - mins*60);
 	
-	return [NSString stringWithFormat:@"%dd %d:%d:%d", days, hours, mins, secs];
+	return [NSString stringWithFormat:@"%@ %@:%@:%@", @(days), @(hours), @(mins), @(secs)];
 }
 
 + (UIColor *) getColorByID: (int) colorID colorIndex:(int) colorIndex
@@ -1660,6 +1660,22 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return img;
 }
 
++ (UIImage *) imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+        if ([[UIScreen mainScreen] scale] == 2.0) {
+            UIGraphicsBeginImageContextWithOptions(newSize, YES, 2.0);
+        } else {
+            UIGraphicsBeginImageContext(newSize);
+        }
+    } else {
+        UIGraphicsBeginImageContext(newSize);
+    }
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 + (void) linkAppStore
 {
 	NSString *bodyStr = [NSString stringWithFormat:@"http://leftcoastlogic.com/sp/appstore"];
@@ -1698,13 +1714,14 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     //CGSize maximumSize = CGSizeMake(boundWidth-8, 100000);
     CGSize maximumSize = CGSizeMake(boundWidth-10, 100000);
     
-    CGSize expectedSize = [text sizeWithFont:withFont
-                              constrainedToSize:maximumSize
-                                  lineBreakMode:NSLineBreakByWordWrapping];
+    CGRect expectedSize2 = [text boundingRectWithSize:maximumSize
+                                              options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                           attributes:@{NSFontAttributeName:withFont}
+                                              context:nil];
     
     CGFloat lineHeight = [withFont lineHeight];
     
-    NSInteger lines = expectedSize.height/lineHeight;
+    NSInteger lines = (expectedSize2.size.height)/lineHeight;
     
     return lines;
 }

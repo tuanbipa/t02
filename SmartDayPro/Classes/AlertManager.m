@@ -41,7 +41,7 @@ AlertManager *_alarmSingleton = nil;
 
 - (void) cancelAlert:(NSInteger) alertKey
 {
-	UILocalNotification *notif = [self.alertDict objectForKey:[NSNumber numberWithInt:alertKey]];
+	UILocalNotification *notif = [self.alertDict objectForKey:[NSNumber numberWithInteger:alertKey]];
 	
 	if (notif != nil)
 	{
@@ -49,11 +49,11 @@ AlertManager *_alarmSingleton = nil;
 		//{
 			[[UIApplication sharedApplication] cancelLocalNotification:notif];
 			
-			[self.alertDict removeObjectForKey:[NSNumber numberWithInt:alertKey]];
+			[self.alertDict removeObjectForKey:[NSNumber numberWithInteger:alertKey]];
 		//}
 		//else
 		//{
-		//	[self.alertDict removeObjectForKey:[NSNumber numberWithInt:alertKey]];
+		//	[self.alertDict removeObjectForKey:[NSNumber numberWithInteger:alertKey]];
 		//}
 	}
 }
@@ -72,11 +72,11 @@ AlertManager *_alarmSingleton = nil;
 	//notif.alertAction = @"Show me";
 	notif.soundName = UILocalNotificationDefaultSoundName;
 	//notif.applicationIconBadgeNumber = 1;
-    notif.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:alertKey] forKey:@"alertKey"];
+    notif.userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:alertKey] forKey:@"alertKey"];
 	
     [[UIApplication sharedApplication] scheduleLocalNotification:notif];
 	
-	[self.alertDict setObject:notif forKey:[NSNumber numberWithInt:alertKey]];
+	[self.alertDict setObject:notif forKey:[NSNumber numberWithInteger:alertKey]];
 	
 	[notif release];
 }
@@ -216,8 +216,18 @@ AlertManager *_alarmSingleton = nil;
         DBManager *dbm = [DBManager getInstance];
         
         AlertData *dat = [[AlertData alloc] initWithPrimaryKey:[alertKey intValue] database:[dbm getDatabase]];
+        if (dat.primaryKey <= 0) {
+            [dat release];
+            return;
+        }
         
         Task *task = [[Task alloc] initWithPrimaryKey:dat.taskKey database:[dbm getDatabase]];
+        
+        if (task.primaryKey <= 0) {
+            [task release];
+            [dat release];
+            return;
+        }
         
         /*
         NSDate *alertTime = [dat getAlertTime:task];
@@ -262,7 +272,7 @@ AlertManager *_alarmSingleton = nil;
         
         [task updateTimeIntoDB:[dbm getDatabase]];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AlertPostponeChangeNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:task.primaryKey] forKey:@"TaskId"]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AlertPostponeChangeNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:task.primaryKey] forKey:@"TaskId"]];
         
         [task release];
         [dat release];

@@ -134,7 +134,7 @@ EKReminderSync *_ekReminderSyncSingleton;
 {
     [self reset];
     
-    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInt:self.syncMode] waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(notifySyncCompletion:) withObject:[NSNumber numberWithInteger:self.syncMode] waitUntilDone:NO];
 }
 
 - (void) syncDeletedProjects
@@ -215,8 +215,8 @@ EKReminderSync *_ekReminderSyncSingleton;
             
             if (err == nil)
             {
-                [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInt:prj.primaryKey]];
-                [self.ekSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:cal.calendarIdentifier];
+                [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInteger:prj.primaryKey]];
+                [self.ekSCMappingDict setObject:[NSNumber numberWithInteger:prj.primaryKey] forKey:cal.calendarIdentifier];
                 
                 prj.rmdId = cal.calendarIdentifier;
                 [prj updateReminderIDIntoDB:[dbm getDatabase]];
@@ -318,8 +318,8 @@ EKReminderSync *_ekReminderSyncSingleton;
                 }
             }
             
-            [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInt:prj.primaryKey]];
-            [self.ekSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:cal.calendarIdentifier];
+            [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInteger:prj.primaryKey]];
+            [self.ekSCMappingDict setObject:[NSNumber numberWithInteger:prj.primaryKey] forKey:cal.calendarIdentifier];
             
             [prjList removeObject:prj];
         }
@@ -335,7 +335,7 @@ EKReminderSync *_ekReminderSyncSingleton;
                 [prj updateIntoDB:[dbm getDatabase]];
                 
                 //[self.dupCategoryList addObject:prj];
-                [self.dupCategoryList addObject:[NSNumber numberWithInt:prj.primaryKey]];
+                [self.dupCategoryList addObject:[NSNumber numberWithInteger:prj.primaryKey]];
                 
                 [prjList removeObject:prj];
             }
@@ -356,8 +356,8 @@ EKReminderSync *_ekReminderSyncSingleton;
                 printf("create reminder calendar %s in SC\n", [cal.title UTF8String]);
             }
             
-            [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInt:prj.primaryKey]];
-            [self.ekSCMappingDict setObject:[NSNumber numberWithInt:prj.primaryKey] forKey:cal.calendarIdentifier];
+            [self.scEKMappingDict setObject:cal forKey:[NSNumber numberWithInteger:prj.primaryKey]];
+            [self.ekSCMappingDict setObject:[NSNumber numberWithInteger:prj.primaryKey] forKey:cal.calendarIdentifier];
             
         }
         

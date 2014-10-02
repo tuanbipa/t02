@@ -420,8 +420,6 @@ TaskLinkManager *_tlmSingleton = nil;
     
     NSInteger linkedId = (link.srcId == taskId?link.destId:link.srcId);
     
-    [link release];
-    
     if (link.destAssetType == ASSET_URL && linkedId == link.destId)
     {
         ret.linkedType = 0;
@@ -452,6 +450,8 @@ TaskLinkManager *_tlmSingleton = nil;
         
         ret.linkedType = (taskType == TYPE_NOTE?1:0);        
     }
+    
+    [link release];
     
     return [ret autorelease];
     
