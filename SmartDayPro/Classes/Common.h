@@ -557,8 +557,8 @@ typedef struct
 
 + (NSString *)getDurationString:(NSInteger)value;
 + (NSString *)getTimerDurationString:(NSInteger)value;
-+ (UIColor *) getColorByID: (int) colorID colorIndex:(int) colorIndex;
-+ (UIColor *) getGoalColor: (int) goal colorIndex:(int) colorIndex;
++ (UIColor *) getColorByID: (NSInteger) colorID colorIndex:(int) colorIndex;
++ (UIColor *) getGoalColor: (NSInteger) goal colorIndex:(int) colorIndex;
 + (UIColor *) getShadowColor;
 + (UIColor *) getHighlightColor;
 + (NSComparisonResult)compareDate:(NSDate*) date1 withDate:(NSDate*) date2;

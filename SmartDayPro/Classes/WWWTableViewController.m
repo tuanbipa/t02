@@ -588,175 +588,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [peoplePicker dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController*)peoplePicker
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController*)peoplePickers
       shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
-	CFStringRef firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty);
-	CFStringRef lastName = ABRecordCopyValue(person, kABPersonLastNameProperty);
-	CFStringRef company = ABRecordCopyValue(person, kABPersonOrganizationProperty);
-	
-	if (firstName==nil && lastName==nil && company==nil){
-		firstName=(CFStringRef)_nonameText;
-		lastName=(CFStringRef)@" ";
-		company=(CFStringRef)@" ";
-	}else{
-		if(firstName==nil) {
-			firstName=(CFStringRef) @" ";
-		}
-		if(lastName==nil){
-			lastName=(CFStringRef)@" ";
-		}
-		if(company==nil){
-			company=(CFStringRef)@" ";
-		}
-		
-	}
-	
-	NSString *contactName=[NSString stringWithFormat:@"%@ %@",firstName, lastName];
-	contactName=[contactName stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "];//remove new line character;
-	contactName=[contactName stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
-	contactName=[contactName stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
-	
-	NSString *contactComName=[NSString stringWithFormat:@"%@",company];
-	contactComName=[contactComName stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "];//remove new line character;
-	contactComName=[contactComName stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
-	contactComName=[contactComName stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
-	
-	if ([[contactName stringByReplacingOccurrencesOfString:@" " withString:@""] length]==0) {
-		contactName=contactComName;
-	}
-	
-	self.task.contactName=contactName;
-	
-	//get PHONE NUMBER from contact
-	NSString *phoneNumber=@"";
-	ABMutableMultiValueRef phoneEmailValue = ABRecordCopyValue(person, kABPersonPhoneProperty);
-	if(ABMultiValueGetCount(phoneEmailValue)>0){
-		phoneNumber=@"";
-		
-		for(NSInteger i=0;i<ABMultiValueGetCount(phoneEmailValue);i++){
-			CFStringRef phoneNo = ABMultiValueCopyValueAtIndex(phoneEmailValue, i);
-			CFStringRef label=ABMultiValueCopyLabelAtIndex(phoneEmailValue, i);
-			
-			if(label==nil){
-				label=(CFStringRef)@" ";
-			}
-			
-			if(phoneNo==nil){
-				phoneNo=(CFStringRef)@" ";
-			}
-			phoneNumber=[phoneNumber stringByAppendingFormat:@"/%@|%@",label,phoneNo];
-		}
-		
-	}
-	CFRelease(phoneEmailValue);
-	self.task.contactPhone=phoneNumber;
-	
-	NSString *contactAddress=nil;
-	//get first address for this contact
-	ABMutableMultiValueRef multiValue = ABRecordCopyValue(person, kABPersonAddressProperty);
-	
-	if(ABMultiValueGetCount(multiValue)>0){
-		
-		//get all address from the contact
-		CFDictionaryRef dict = ABMultiValueCopyValueAtIndex(multiValue, 0);
-		CFStringRef street = CFDictionaryGetValue(dict, kABPersonAddressStreetKey);
-		CFStringRef city = CFDictionaryGetValue(dict, kABPersonAddressCityKey);
-		CFStringRef country = CFDictionaryGetValue(dict, kABPersonAddressCountryKey);
-		CFStringRef state = CFDictionaryGetValue(dict,kABPersonAddressStateKey);
-		CFStringRef zip = CFDictionaryGetValue(dict,kABPersonAddressZIPKey);
-		
-		CFRelease(dict);
-		
-		if(street!=nil){
-			contactAddress=[NSString stringWithFormat:@"%@",street];
-		}else {
-			contactAddress=@"";
-		}
-		
-		if(city!=nil){
-			if(street!=nil){
-				NSString *cityNameAppend=[NSString stringWithFormat:@", %@",city];
-				contactAddress=[contactAddress stringByAppendingString:cityNameAppend];
-			}else{
-				NSString *cityNameAsLoc=[NSString stringWithFormat:@"%@",city];
-				contactAddress=[contactAddress stringByAppendingString:cityNameAsLoc];
-			}
-		}
-		
-		if(country!=nil){
-			if(![contactAddress isEqualToString:@""]){
-				NSString *countryNameAppend=[NSString stringWithFormat:@", %@",country];
-				contactAddress=[contactAddress stringByAppendingString:countryNameAppend];
-			}else{
-				NSString *countryNameAsLoc=[NSString stringWithFormat:@"%@",country];
-				contactAddress=[contactAddress stringByAppendingString:countryNameAsLoc];
-			}
-		}
-		
-		if(state !=nil){
-			if(![contactAddress isEqualToString:@""]){
-				NSString *countryNameAppend=[NSString stringWithFormat:@", %@",state];
-				contactAddress=[contactAddress stringByAppendingString:countryNameAppend];
-			}else{
-				NSString *countryNameAsLoc=[NSString stringWithFormat:@"%@",state];
-				contactAddress=[contactAddress stringByAppendingString:countryNameAsLoc];
-			}
-		}
-		
-		if(zip !=nil){
-			if(![contactAddress isEqualToString:@""]){
-				NSString *countryNameAppend=[NSString stringWithFormat:@", %@",zip];
-				contactAddress=[contactAddress stringByAppendingString:countryNameAppend];
-			}else{
-				NSString *countryNameAsLoc=[NSString stringWithFormat:@"%@",zip];
-				contactAddress=[contactAddress stringByAppendingString:countryNameAsLoc];
-			}
-		}
-		
-	}else {
-		contactAddress=@"";
-	}
-	
-	contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "];//remove the newline character
-	contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
-	contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
-	
-	CFRelease(multiValue);
-	
-	self.task.location=contactAddress;
-	
-	//get email address from contact
-	NSString *emailAddress=@"";
-	ABMutableMultiValueRef multiEmailValue = ABRecordCopyValue(person, kABPersonEmailProperty);
-	if(ABMultiValueGetCount(multiEmailValue)>0){
-		CFStringRef emailAddr = ABMultiValueCopyValueAtIndex(multiEmailValue, 0);
-		
-		if(emailAddr==nil){
-			emailAddr=(CFStringRef)@" ";
-		}
-		emailAddress=[NSString stringWithFormat:@"%@",emailAddr];
-	}
-	CFRelease(multiEmailValue);
-	self.task.contactEmail=emailAddress;
-	
-	NSString *actionTexts[5] = {_gotoText, _contactText, _getText, _writeToText, _meetText};
-	for (int i=0; i<5; i++)
-	{
-		if ([task.name isEqualToString:actionTexts[i]])
-		{
-			task.name = [task.name stringByAppendingString:[NSString stringWithFormat:@" %@", task.contactName]];
-			
-			break;
-		}
-	}
-	
-	// remove the controller
-	//[self dismissModalViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
-    [wwwTableView reloadData];
-	
+    [self didSelectPerson:person];
     return NO;
 }
 
@@ -764,6 +599,181 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	  shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property
 							  identifier:(ABMultiValueIdentifier)identifier{
 	return NO;
+}
+
+- (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person {
+    [self didSelectPerson:person];
+}
+
+- (void)didSelectPerson:(ABRecordRef)person {
+    CFStringRef firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty);
+    CFStringRef lastName = ABRecordCopyValue(person, kABPersonLastNameProperty);
+    CFStringRef company = ABRecordCopyValue(person, kABPersonOrganizationProperty);
+    
+    if (firstName==nil && lastName==nil && company==nil){
+        firstName=(CFStringRef)_nonameText;
+        lastName=(CFStringRef)@" ";
+        company=(CFStringRef)@" ";
+    }else{
+        if(firstName==nil) {
+            firstName=(CFStringRef) @" ";
+        }
+        if(lastName==nil){
+            lastName=(CFStringRef)@" ";
+        }
+        if(company==nil){
+            company=(CFStringRef)@" ";
+        }
+        
+    }
+    
+    NSString *contactName=[NSString stringWithFormat:@"%@ %@",firstName, lastName];
+    contactName=[contactName stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "];//remove new line character;
+    contactName=[contactName stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
+    contactName=[contactName stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
+    
+    NSString *contactComName=[NSString stringWithFormat:@"%@",company];
+    contactComName=[contactComName stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "];//remove new line character;
+    contactComName=[contactComName stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
+    contactComName=[contactComName stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
+    
+    if ([[contactName stringByReplacingOccurrencesOfString:@" " withString:@""] length]==0) {
+        contactName=contactComName;
+    }
+    
+    self.task.contactName=contactName;
+    
+    //get PHONE NUMBER from contact
+    NSString *phoneNumber=@"";
+    ABMutableMultiValueRef phoneEmailValue = ABRecordCopyValue(person, kABPersonPhoneProperty);
+    if(ABMultiValueGetCount(phoneEmailValue)>0){
+        phoneNumber=@"";
+        
+        for(NSInteger i=0;i<ABMultiValueGetCount(phoneEmailValue);i++){
+            CFStringRef phoneNo = ABMultiValueCopyValueAtIndex(phoneEmailValue, i);
+            CFStringRef label=ABMultiValueCopyLabelAtIndex(phoneEmailValue, i);
+            
+            if(label==nil){
+                label=(CFStringRef)@" ";
+            }
+            
+            if(phoneNo==nil){
+                phoneNo=(CFStringRef)@" ";
+            }
+            phoneNumber=[phoneNumber stringByAppendingFormat:@"/%@|%@",label,phoneNo];
+        }
+        
+    }
+    CFRelease(phoneEmailValue);
+    self.task.contactPhone=phoneNumber;
+    
+    NSString *contactAddress=nil;
+    //get first address for this contact
+    ABMutableMultiValueRef multiValue = ABRecordCopyValue(person, kABPersonAddressProperty);
+    
+    if(ABMultiValueGetCount(multiValue)>0){
+        
+        //get all address from the contact
+        CFDictionaryRef dict = ABMultiValueCopyValueAtIndex(multiValue, 0);
+        CFStringRef street = CFDictionaryGetValue(dict, kABPersonAddressStreetKey);
+        CFStringRef city = CFDictionaryGetValue(dict, kABPersonAddressCityKey);
+        CFStringRef country = CFDictionaryGetValue(dict, kABPersonAddressCountryKey);
+        CFStringRef state = CFDictionaryGetValue(dict,kABPersonAddressStateKey);
+        CFStringRef zip = CFDictionaryGetValue(dict,kABPersonAddressZIPKey);
+        
+        CFRelease(dict);
+        
+        if(street!=nil){
+            contactAddress=[NSString stringWithFormat:@"%@",street];
+        }else {
+            contactAddress=@"";
+        }
+        
+        if(city!=nil){
+            if(street!=nil){
+                NSString *cityNameAppend=[NSString stringWithFormat:@", %@",city];
+                contactAddress=[contactAddress stringByAppendingString:cityNameAppend];
+            }else{
+                NSString *cityNameAsLoc=[NSString stringWithFormat:@"%@",city];
+                contactAddress=[contactAddress stringByAppendingString:cityNameAsLoc];
+            }
+        }
+        
+        if(country!=nil){
+            if(![contactAddress isEqualToString:@""]){
+                NSString *countryNameAppend=[NSString stringWithFormat:@", %@",country];
+                contactAddress=[contactAddress stringByAppendingString:countryNameAppend];
+            }else{
+                NSString *countryNameAsLoc=[NSString stringWithFormat:@"%@",country];
+                contactAddress=[contactAddress stringByAppendingString:countryNameAsLoc];
+            }
+        }
+        
+        if(state !=nil){
+            if(![contactAddress isEqualToString:@""]){
+                NSString *countryNameAppend=[NSString stringWithFormat:@", %@",state];
+                contactAddress=[contactAddress stringByAppendingString:countryNameAppend];
+            }else{
+                NSString *countryNameAsLoc=[NSString stringWithFormat:@"%@",state];
+                contactAddress=[contactAddress stringByAppendingString:countryNameAsLoc];
+            }
+        }
+        
+        if(zip !=nil){
+            if(![contactAddress isEqualToString:@""]){
+                NSString *countryNameAppend=[NSString stringWithFormat:@", %@",zip];
+                contactAddress=[contactAddress stringByAppendingString:countryNameAppend];
+            }else{
+                NSString *countryNameAsLoc=[NSString stringWithFormat:@"%@",zip];
+                contactAddress=[contactAddress stringByAppendingString:countryNameAsLoc];
+            }
+        }
+        
+    }else {
+        contactAddress=@"";
+    }
+    
+    contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "];//remove the newline character
+    contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
+    contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
+    
+    CFRelease(multiValue);
+    
+    self.task.location=contactAddress;
+    
+    //get email address from contact
+    NSString *emailAddress=@"";
+    ABMutableMultiValueRef multiEmailValue = ABRecordCopyValue(person, kABPersonEmailProperty);
+    if(ABMultiValueGetCount(multiEmailValue)>0){
+        CFStringRef emailAddr = ABMultiValueCopyValueAtIndex(multiEmailValue, 0);
+        
+        if(emailAddr==nil){
+            emailAddr=(CFStringRef)@" ";
+        }
+        emailAddress=[NSString stringWithFormat:@"%@",emailAddr];
+    }
+    if (multiEmailValue != nil) {
+        CFRelease(multiEmailValue);
+    }
+    self.task.contactEmail=emailAddress;
+    
+    NSString *actionTexts[5] = {_gotoText, _contactText, _getText, _writeToText, _meetText};
+    for (int i=0; i<5; i++)
+    {
+        if ([task.name isEqualToString:actionTexts[i]])
+        {
+            task.name = [task.name stringByAppendingString:[NSString stringWithFormat:@" %@", task.contactName]];
+            
+            break;
+        }
+    }
+    
+    // remove the controller
+    //[self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    [wwwTableView reloadData];
+
 }
 
 

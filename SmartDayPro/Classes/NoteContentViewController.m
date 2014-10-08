@@ -282,6 +282,10 @@ extern SmartDayViewController *_sdViewCtrler;
     
     CGRect frm = originalNoteFrame;
     
+    if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        kbSize = CGSizeMake(kbSize.height, kbSize.width);
+    }
+    
     frm.size.height -= UIInterfaceOrientationIsLandscape(self.interfaceOrientation)?kbSize.width:kbSize.height;
     
     [noteView changeFrame:frm];

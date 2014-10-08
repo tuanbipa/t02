@@ -20,6 +20,10 @@
 extern DetailViewController *_detailViewCtrler;
 extern NoteDetailViewController *_noteDetailViewCtrler;
 
+@interface ProjectInputViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@end
+
 @implementation ProjectInputViewController
 
 @synthesize projectList;
@@ -62,6 +66,11 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
     [self.listTableView reloadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.projectList = nil;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -87,7 +96,6 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -131,8 +139,6 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
 	
     return cell;
 }
-
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (selectedIndex >= 0)

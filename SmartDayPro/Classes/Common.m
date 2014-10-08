@@ -236,7 +236,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return [NSString stringWithFormat:@"%@ %@:%@:%@", @(days), @(hours), @(mins), @(secs)];
 }
 
-+ (UIColor *) getColorByID: (int) colorID colorIndex:(int) colorIndex
++ (UIColor *) getColorByID: (NSInteger) colorID colorIndex:(int) colorIndex
 {
 	CGFloat r = 0, g = 0, b = 0;
 
@@ -471,7 +471,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return [UIColor colorWithRed:r green:g blue:b alpha:1];
 }
 
-+ (UIColor *) getGoalColor: (int) goal colorIndex:(int) colorIndex
++ (UIColor *) getGoalColor: (NSInteger) goal colorIndex:(int) colorIndex
 {
 	CGFloat r = 0, g = 0, b = 0;
 	
@@ -1609,6 +1609,10 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 + (CGSize) getScreenSize
 {
     CGSize sz = [[UIScreen mainScreen] bounds].size;
+    
+    if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        sz = CGSizeMake(sz.height, sz.width);
+    }
     
     sz.height -= 20 + 44;
     

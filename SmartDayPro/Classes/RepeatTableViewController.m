@@ -217,8 +217,11 @@ RepeatTableViewController *_repeatViewCtrler = nil;
     {
         DetailViewController *ctrler = (DetailViewController *)self.navigationController.topViewController;
         
+       
         [ctrler refreshUntil];
     }
+    
+    _repeatViewCtrler = nil;
 }
 
 - (void) showRepeatFromDueHint
@@ -1042,7 +1045,7 @@ RepeatTableViewController *_repeatViewCtrler = nil;
 	{
 		return 2;
 	}
-*/		
+*/
     return (selectedIndex == 0? 1:2);
 }
 

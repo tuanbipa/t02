@@ -654,7 +654,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) copy:(id)sender
 {
-    Project *prj = [_abstractViewCtrler copyCategory];
+    Project *prj = [[AbstractActionViewController getInstance] copyCategory];
     
     self.project = prj;
     

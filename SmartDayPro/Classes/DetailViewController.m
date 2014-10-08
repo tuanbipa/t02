@@ -936,6 +936,8 @@ DetailViewController *_detailViewCtrler = nil;
 {
     [titleTextView.textView resignFirstResponder];
     
+    [[inputView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     self.inputViewCtrler = ctrler;
     
     ctrler.view.frame = inputView.bounds;

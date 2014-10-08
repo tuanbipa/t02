@@ -62,10 +62,10 @@
 {
     contentView.frame = frm;
     
-    closeButton.frame = CGRectMake(frm.size.width-25, 5, 20, 20);
+    closeButton.frame = CGRectMake(frm.size.width-25, 25, 20, 20);
     
     frm = contentView.bounds;
-    frm.origin.y = 30;
+    frm.origin.y = 50;
     frm.size.height -= 30;
     
     hintView.frame = frm;
@@ -124,11 +124,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self changeOrientation:self.interfaceOrientation];
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
     closeButton = [Common createButton:@""
                             buttonType:UIButtonTypeCustom
                                  frame:CGRectMake(self.view.bounds.size.width-25, 5, 20, 20)
@@ -140,7 +135,14 @@
     
     closeButton.hidden = !self.closeEnabled;
     
-    [self.view addSubview:closeButton];    
+    [self.view addSubview:closeButton];
+    
+    [self changeOrientation:self.interfaceOrientation];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning

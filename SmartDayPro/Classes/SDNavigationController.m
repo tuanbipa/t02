@@ -62,6 +62,10 @@ extern BOOL _isiPad;
     self.navigationBar.translucent = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

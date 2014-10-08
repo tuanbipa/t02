@@ -662,6 +662,9 @@ extern DetailViewController *_detailViewCtrler;
         //[ctrler release];
         
         CGSize sz = [[UIScreen mainScreen] bounds].size;
+        if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+            sz = CGSizeMake(sz.height, sz.width);
+        }
         
         CGFloat x = UIInterfaceOrientationIsLandscape(_iPadViewCtrler.interfaceOrientation)?sz.height/2:sz.width/2;
         
@@ -2220,7 +2223,7 @@ extern DetailViewController *_detailViewCtrler;
 
 - (Project *) copyCategory
 {
-    Task *ret = nil;
+    Project *ret = nil;
     
     Project *plan = [self getActiveProject];
     
