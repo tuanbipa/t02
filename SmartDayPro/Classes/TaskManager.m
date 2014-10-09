@@ -5432,7 +5432,7 @@ TaskManager *_sctmSingleton = nil;
         {
             for (Task *task in tasks) {
                 Task *slTask = [self getTask2Update:task];
-                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:1];
+                NSDate *dt = [Common getEndMonthDate:[NSDate date] withMonths:2];
                 
                 slTask.deadline = [Common copyTimeFromDate:[settings getWorkingEndTimeForDate:dt] toDate:dt];
                 

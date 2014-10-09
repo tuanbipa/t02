@@ -108,6 +108,10 @@
     
     locationManager = [[CLLocationManager alloc] init];
     
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    
     locationManager.delegate = self;
     
     [locationManager startUpdatingLocation];
