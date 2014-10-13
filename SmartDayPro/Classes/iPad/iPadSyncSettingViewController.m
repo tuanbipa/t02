@@ -24,7 +24,7 @@
 
 extern iPadSettingViewController *_iPadSettingViewCtrler;
 
-@interface iPadSyncSettingViewController ()
+@interface iPadSyncSettingViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @end
 
@@ -80,7 +80,7 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
     [contentView release];
     */
     
-    [self presentViewController:ctrler animated:YES completion:NULL];
+    [_iPadSettingViewCtrler presentViewController:ctrler animated:YES completion:NULL];
     
     [ctrler loadURL:URL_SYNC];
 }
@@ -241,9 +241,14 @@ extern iPadSettingViewController *_iPadSettingViewCtrler;
 	[settingTableView release];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[settingTableView reloadData];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+	[settingTableView reloadData];
 }
 
 - (void)viewDidLoad

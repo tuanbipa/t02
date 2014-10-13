@@ -48,7 +48,7 @@ extern SmartDayViewController *_sdViewCtrler;
 //extern AbstractSDViewController *_abstractViewCtrler;
 //extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
-iPadViewController *_iPadViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @implementation MiniMonthMovableController
 

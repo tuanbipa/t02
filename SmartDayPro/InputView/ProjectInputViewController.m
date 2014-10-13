@@ -57,12 +57,20 @@ extern NoteDetailViewController *_noteDetailViewCtrler;
     
     self.doneItem.title = _doneText;
     
-    self.projectList = [[ProjectManager getInstance] getVisibleProjectList];
-    
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.backgroundColor = [UIColor clearColor];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.projectList = [[ProjectManager getInstance] getVisibleProjectList];
     [self.listTableView reloadData];
 }
 

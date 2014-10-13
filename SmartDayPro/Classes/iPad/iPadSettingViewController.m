@@ -60,7 +60,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 iPadSettingViewController *_iPadSettingViewCtrler;
 
-@interface iPadSettingViewController ()
+@interface iPadSettingViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @end
 
@@ -541,9 +541,10 @@ iPadSettingViewController *_iPadSettingViewCtrler;
     
     _iPadSettingViewCtrler = self;
     
-    [self showDetail:0];
+    if (selectedIndex < 0 || selectedIndex > 6) selectedIndex = 0;
+    [self showDetail:selectedIndex];
     
-    [masterTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [masterTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void) viewWillDisappear:(BOOL)animated

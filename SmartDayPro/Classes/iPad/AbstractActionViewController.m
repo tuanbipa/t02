@@ -1688,12 +1688,17 @@ extern DetailViewController *_detailViewCtrler;
         UIActivityViewController *activityController =
         [[UIActivityViewController alloc]
          initWithActivityItems:activityItems applicationActivities:nil];
-        activityController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList];
+        activityController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList,UIActivityTypePostToFlickr,UIActivityTypePostToVimeo,UIActivityTypePostToTencentWeibo];
         
         UIViewController *ctrler = (_isiPad?_iPadViewCtrler:_sdViewCtrler);
         
-        [ctrler presentViewController:activityController
-                           animated:YES completion:nil];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && _isiPad) {
+            activityController.popoverPresentationController.sourceView = ctrler.view;
+            CGRect rect = ctrler.view.bounds;
+            activityController.popoverPresentationController.sourceRect = CGRectMake(rect.size.width/4, rect.size.height, rect.size.width/2, rect.size.height/2);
+        }
+        
+        [ctrler presentViewController:activityController animated:YES completion:nil];
         [self deselect];
     }
     

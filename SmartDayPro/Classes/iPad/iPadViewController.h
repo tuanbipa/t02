@@ -58,5 +58,6 @@
 - (void) slideAndShowDetail;
 
 - (void) changeOrientation:(UIInterfaceOrientation) orientation;
+- (void)setChangedOrientation:(BOOL)value;
 
 @end

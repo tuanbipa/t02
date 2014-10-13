@@ -21,7 +21,7 @@
 
 //extern BOOL _isiPad;
 
-@interface iOSCalSyncViewController ()
+@interface iOSCalSyncViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @end
 

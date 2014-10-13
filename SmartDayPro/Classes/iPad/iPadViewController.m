@@ -1031,7 +1031,7 @@ iPadViewController *_iPadViewCtrler;
 {
     [super viewWillAppear:animated];
     
-    //[self changeOrientation:self.interfaceOrientation];
+//    [self changeOrientation:self.interfaceOrientation];
 }
 
 - (void) viewWillDisappear:(BOOL)animated

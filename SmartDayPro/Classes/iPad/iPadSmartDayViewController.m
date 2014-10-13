@@ -49,7 +49,7 @@
 
 //extern BOOL _isiPad;
 
-iPadViewController *_iPadViewCtrler;
+extern iPadViewController *_iPadViewCtrler;
 
 @interface iPadSmartDayViewController ()
 

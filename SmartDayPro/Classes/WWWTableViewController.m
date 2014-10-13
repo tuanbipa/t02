@@ -23,10 +23,21 @@
 #import "AbstractSDViewController.h"
 
 #import "DetailViewController.h"
+#import "iPadViewController.h"
+#import "SmartDayViewController.h"
 
 //extern BOOL _isiPad;
 
 extern AbstractSDViewController *_abstractViewCtrler;
+
+extern iPadViewController *_iPadViewCtrler;
+extern SmartDayViewController *_sdViewCtrler;
+
+@interface WWWTableViewController () {
+    UIInterfaceOrientation _currentOrientation;
+}
+
+@end
 
 @implementation WWWTableViewController
 
@@ -277,7 +288,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	contactList.peoplePickerDelegate = self;
 	//[self presentModalViewController:contactList animated:YES];
     contactList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self presentViewController:contactList animated:YES completion:NULL];
+    [_isiPad?_iPadViewCtrler:_sdViewCtrler presentViewController:contactList animated:YES completion:nil];
     
 	[contactList release];
 }
@@ -591,7 +602,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController*)peoplePickers
       shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
-    [self didSelectPerson:person];
+    [self didSelectPerson:person fromPicker:peoplePickers];
     return NO;
 }
 
@@ -602,10 +613,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
 }
 
 - (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person {
-    [self didSelectPerson:person];
+    [self didSelectPerson:person fromPicker:peoplePicker];
 }
 
-- (void)didSelectPerson:(ABRecordRef)person {
+- (void)didSelectPerson:(ABRecordRef)person fromPicker:(ABPeoplePickerNavigationController *)peoplePicker {
     CFStringRef firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty);
     CFStringRef lastName = ABRecordCopyValue(person, kABPersonLastNameProperty);
     CFStringRef company = ABRecordCopyValue(person, kABPersonOrganizationProperty);
@@ -664,7 +675,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
         }
         
     }
-    CFRelease(phoneEmailValue);
+    if (phoneEmailValue != NULL) {
+        CFRelease(phoneEmailValue);
+    }
     self.task.contactPhone=phoneNumber;
     
     NSString *contactAddress=nil;
@@ -737,7 +750,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
     contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
     contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
     
-    CFRelease(multiValue);
+    if (multiValue != NULL) {
+        CFRelease(multiValue);
+    }
     
     self.task.location=contactAddress;
     
@@ -770,12 +785,15 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     // remove the controller
     //[self dismissModalViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    if (_isiPad) {
+        [_iPadViewCtrler dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [_sdViewCtrler dismissViewControllerAnimated:YES completion:nil];
+    }
     
     [wwwTableView reloadData];
 
 }
-
 
 #pragma mark TextFieldDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

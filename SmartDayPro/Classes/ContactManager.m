@@ -147,7 +147,9 @@ ContactManager *_contactManagerSingleton = nil;
 			}
 			contact.emailAddress=[NSString stringWithFormat:@"%@",emailAddr];
 		}
-		CFRelease(multiEmailValue);
+        if (multiEmailValue != NULL) {
+            CFRelease(multiEmailValue);
+        }
 		
 		
 		//get PHONE NUMBER from contact
@@ -170,7 +172,9 @@ ContactManager *_contactManagerSingleton = nil;
 			}
 			
 		}
-		CFRelease(phoneEmailValue);
+        if (phoneEmailValue != NULL) {
+            CFRelease(phoneEmailValue);
+        }
 		
 		NSString *contactAddress=nil;
 		//get first address for this contact
@@ -191,7 +195,7 @@ ContactManager *_contactManagerSingleton = nil;
 			if(street!=nil){
 				contactAddress=[NSString stringWithFormat:@"%@",street];
 			}else {
-				contactAddress=[NSString stringWithString: @""];
+				contactAddress=[NSString stringWithFormat: @""];
 			}
 			
 			if(city!=nil){
@@ -235,7 +239,7 @@ ContactManager *_contactManagerSingleton = nil;
 			}
 			
 		}else {
-			contactAddress=[NSString stringWithString: @""];
+			contactAddress=[NSString stringWithFormat: @""];
 		}
 		
 		contact.contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "];//remove the newline character
@@ -247,7 +251,9 @@ ContactManager *_contactManagerSingleton = nil;
 		
 		[contact release];
 		
-		CFRelease(multiValue);
+        if (multiValue != NULL) {
+            CFRelease(multiValue);
+        }
 		
 	}
 	
@@ -323,7 +329,7 @@ ContactManager *_contactManagerSingleton = nil;
 				if(street!=nil){
 					locationName=[NSString stringWithFormat:@"%@",street];
 				}else {
-					locationName=[NSString stringWithString: @""];
+					locationName=[NSString stringWithFormat: @""];
 				}
 				
 				if(city!=nil){
@@ -426,7 +432,10 @@ ContactManager *_contactManagerSingleton = nil;
 				}
 			}
 		}
-		CFRelease(multiValue);
+        
+        if (multiValue != NULL) {
+            CFRelease(multiValue);
+        }
 	}
 	
 	/*
