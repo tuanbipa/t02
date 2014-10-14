@@ -195,11 +195,29 @@ extern SmartDayViewController *_sdViewCtrler;
     UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
     self.navigationItem.leftBarButtonItem = doneItem;
     [doneItem release];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    
+    locationManager.delegate = self;
+    
+    [locationManager startUpdatingLocation];
+    
+    [mapView setShowsUserLocation:YES];
+    [mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    if (locationManager != nil) {
+        [locationManager stopUpdatingLocation];
+        [locationManager release];
+    }
     
     [locationTextField resignFirstResponder];
     
@@ -264,6 +282,9 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void)done: (id)sender
 {
     self.task.location = locationTextField.text;
+    [mapView setUserTrackingMode:MKUserTrackingModeNone];
+    [mapView removeFromSuperview];
+    mapView = nil;
     
     //if([locationTextField isFirstResponder]){
         isDone = YES;
@@ -271,7 +292,7 @@ extern SmartDayViewController *_sdViewCtrler;
     
     if (_isiPad)
     {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [_iPadViewCtrler dismissViewControllerAnimated:YES completion:nil];
     }
     else
     {
@@ -287,7 +308,13 @@ extern SmartDayViewController *_sdViewCtrler;
     UIGraphicsEndImageContext();
     
     UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[viewImage] applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeAddToReadingList];
+    activityViewController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeAddToReadingList,UIActivityTypePostToFlickr,UIActivityTypePostToVimeo,UIActivityTypePostToTencentWeibo];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && _isiPad) {
+        activityViewController.popoverPresentationController.sourceView = self.view;
+        CGRect rect = self.view.bounds;
+        activityViewController.popoverPresentationController.sourceRect = CGRectMake(rect.size.width/4, rect.size.height, rect.size.width/2, rect.size.height/2);
+    }
     
     activityViewController.completionHandler = ^(NSString* activityType, BOOL completed) {
         // do whatever you want to do after the activity view controller is finished
@@ -597,4 +624,11 @@ extern SmartDayViewController *_sdViewCtrler;
     // map view
     mapView.frame = CGRectMake(0, etaLable.frame.origin.y + etaLable.frame.size.height + 10, frm.size.width, frm.size.height - etaLable.frame.origin.y + etaLable.frame.size.height + 10);
 }
+
+#pragma mark - CLLocationManagerDelegate - Location updates
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+}
+
 @end

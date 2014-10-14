@@ -2289,7 +2289,9 @@ DetailViewController *_detailViewCtrler = nil;
         }
         
     }
-    CFRelease(phoneEmailValue);
+    if (phoneEmailValue != NULL) {
+        CFRelease(phoneEmailValue);
+    }
     self.taskCopy.contactPhone=phoneNumber;
     
     NSString *contactAddress=nil;
@@ -2306,7 +2308,9 @@ DetailViewController *_detailViewCtrler = nil;
         CFStringRef state = CFDictionaryGetValue(dict,kABPersonAddressStateKey);
         CFStringRef zip = CFDictionaryGetValue(dict,kABPersonAddressZIPKey);
         
-        CFRelease(dict);
+        if (dict != NULL) {
+            CFRelease(dict);
+        }
         
         if(street!=nil){
             contactAddress=[NSString stringWithFormat:@"%@",street];
@@ -2362,7 +2366,9 @@ DetailViewController *_detailViewCtrler = nil;
     contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\n" withString:@" "];//remove new line character;
     contactAddress=[contactAddress stringByReplacingOccurrencesOfString:@"\r" withString:@" "];//remove new line character;
     
-    CFRelease(multiValue);
+    if (multiValue != NULL) {
+        CFRelease(multiValue);
+    }
     
     self.taskCopy.location=contactAddress;
     
@@ -2377,7 +2383,10 @@ DetailViewController *_detailViewCtrler = nil;
         }
         emailAddress=[NSString stringWithFormat:@"%@",emailAddr];
     }
-    CFRelease(multiEmailValue);
+    
+    if (multiEmailValue != NULL) {
+        CFRelease(multiEmailValue);
+    }
     self.taskCopy.contactEmail=emailAddress;
     
     if ([self.taskCopy.name isEqualToString:@""])

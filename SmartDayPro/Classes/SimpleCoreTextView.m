@@ -147,7 +147,9 @@
         //self.attributes = [[NSDictionary dictionaryWithObject:(id)ctFont forKey:(NSString *)kCTFontAttributeName] retain];
         self.attributes = [NSDictionary dictionaryWithObject:(id)ctFont forKey:(NSString *)kCTFontAttributeName];
         
-        CFRelease(ctFont);
+        if (ctFont != NULL) {
+            CFRelease(ctFont);
+        }
         
         [self textChanged];
         

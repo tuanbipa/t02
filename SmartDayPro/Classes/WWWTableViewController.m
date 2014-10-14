@@ -694,7 +694,9 @@ extern SmartDayViewController *_sdViewCtrler;
         CFStringRef state = CFDictionaryGetValue(dict,kABPersonAddressStateKey);
         CFStringRef zip = CFDictionaryGetValue(dict,kABPersonAddressZIPKey);
         
-        CFRelease(dict);
+        if (dict  != NULL) {
+            CFRelease(dict);
+        }
         
         if(street!=nil){
             contactAddress=[NSString stringWithFormat:@"%@",street];

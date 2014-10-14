@@ -491,6 +491,10 @@ BOOL _fromBackground = NO;
     //[self testSound];
     _isiPad = [self checkiPad];
 	_is24HourFormat = [self check24HourFormat];
+    
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+    }
 
     //[[UINavigationBar appearance] setTintColor:(_isiPad?nil:[UIColor whiteColor])];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
@@ -1746,8 +1750,12 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 {
     [self deactiveLocationManager];
     locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
     
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    
+    locationManager.delegate = self;
     [self deactiveLocationTimer];
     
     //geocodeDispatchGroup = dispatch_group_create();

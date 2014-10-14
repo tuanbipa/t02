@@ -17,7 +17,9 @@
 
 //extern BOOL _isiPad;
 
-@interface RestoreViewController ()
+@interface RestoreViewController () {
+    NSInteger lastSelectedRow;
+}
 
 @end
 
@@ -98,6 +100,8 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = _autoBackup;
+    
+    lastSelectedRow = -1;
 }
 
 - (void)didReceiveMemoryWarning
@@ -296,6 +300,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (lastSelectedRow >= 0 && lastSelectedRow < backupDirectoryContents.count && lastSelectedRow != [indexPath row]) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:lastSelectedRow inSection:0]];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    lastSelectedRow = indexPath.row;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     

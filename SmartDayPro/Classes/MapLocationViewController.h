@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class Task;
 
-@interface MapLocationViewController : UIViewController <UITextFieldDelegate, MKMapViewDelegate>
+@interface MapLocationViewController : UIViewController <UITextFieldDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
 {
     UIView *contentView;
     MKMapView *mapView;
+    CLLocationManager *locationManager;
     
     Task *task;
     

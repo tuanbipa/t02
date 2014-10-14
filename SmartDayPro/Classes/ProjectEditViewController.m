@@ -41,6 +41,12 @@ extern iPadViewController *_iPadViewCtrler;
 
 //extern BOOL _isiPad;
 
+@interface ProjectEditViewController () {
+    CGPoint svos;
+}
+
+@end
+
 @implementation ProjectEditViewController
 
 @synthesize project;
@@ -490,6 +496,9 @@ extern iPadViewController *_iPadViewCtrler;
     {
         self.navigationItem.title = _projectText;
     }*/
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidUnload {
@@ -502,15 +511,10 @@ extern iPadViewController *_iPadViewCtrler;
     self.project = nil;
     self.projectCopy = nil;
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
     [super dealloc];
-}
-
-- (void) scroll
-{
-    if (!_isiPad)
-    {
-        [mainView setContentOffset:CGPointMake(0, 260)];
-    }
 }
 
 - (void) checkTransparent:(id) sender
@@ -890,7 +894,6 @@ extern iPadViewController *_iPadViewCtrler;
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     //saveButton.enabled = YES;
-    
     [textField resignFirstResponder];
 
 	return YES;	
@@ -910,7 +913,15 @@ extern iPadViewController *_iPadViewCtrler;
 		[self performSelector:@selector(scroll) withObject:nil afterDelay:.1]; 
 	}*/
     
-    [self scroll];
+    svos = mainView.contentOffset;
+    CGPoint pt;
+    CGRect rc = [textField bounds];
+    rc = [textField convertRect:rc toView:mainView];
+    pt = rc.origin;
+    pt.x = 0;
+    pt.y -= 90;
+    [mainView setContentOffset:pt animated:YES];
+    
 }
 
 - (void) textFieldDidChange:(id)sender
@@ -928,6 +939,7 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    [mainView setContentOffset:svos animated:YES];
 	NSString *text = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	
 	if (![text isEqualToString:@""] && textField.tag == 0)
@@ -998,6 +1010,29 @@ extern iPadViewController *_iPadViewCtrler;
 	}
 	
 	return YES;
+}
+
+- (void)keyboardWillShow:(NSNotification *)sender
+{
+//    CGSize kbSize = [[[sender userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+//    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+//    
+//    [UIView animateWithDuration:duration animations:^{
+//        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, abs(MIN(kbSize.width, kbSize.height)), 0);
+//        [mainView setContentOffset:edgeInsets];
+//        [mainView setScrollIndicatorInsets:edgeInsets];
+//    }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)sender
+{
+//    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+//    
+//    [UIView animateWithDuration:duration animations:^{
+//        UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
+//        [mainView setContentInset:edgeInsets];
+//        [mainView setScrollIndicatorInsets:edgeInsets];
+//    }];
 }
 
 @end

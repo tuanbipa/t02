@@ -1609,6 +1609,7 @@ NSInteger _sdwColor[32] = {
     if (isADE)
     {
         ret.type = TYPE_ADE;
+        ret.timeZoneId = 0;
     }
     
 //    NSInteger secs = 0;
