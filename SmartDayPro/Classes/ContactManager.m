@@ -43,12 +43,31 @@ ContactManager *_contactManagerSingleton = nil;
 		return self.contactList;
 	}
     
-    CFErrorRef error = nil;
+    CFErrorRef *error = nil;
+    
+    
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+    
+    __block BOOL accessGranted = NO;
+    if (ABAddressBookRequestAccessWithCompletion != NULL) { // we're on iOS 6
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            accessGranted = granted;
+            dispatch_semaphore_signal(sema);
+        });
+        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+        
+    }
+    else { // we're on iOS 5 or older
+        accessGranted = YES;
+    }
+    
+    if (accessGranted) {
+        ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+        self.contactList = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+    }
 	
-	ABAddressBookRef addressBook = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")?ABAddressBookCreateWithOptions(NULL, &error): ABAddressBookCreate();
-	self.contactList = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
-	
-	return self.contactList;	
+	return self.contactList;
 }
 
 - (NSArray *) getContactDisplayList 

@@ -217,6 +217,7 @@ extern SmartDayViewController *_sdViewCtrler;
     if (locationManager != nil) {
         [locationManager stopUpdatingLocation];
         [locationManager release];
+        locationManager = nil;
     }
     
     [locationTextField resignFirstResponder];
