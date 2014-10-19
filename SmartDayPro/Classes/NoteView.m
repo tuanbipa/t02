@@ -63,7 +63,10 @@ extern iPadViewController *_iPadViewCtrler;
         noteTextView = [[CustomTextView alloc] initWithFrame:frm];
 
         noteTextView.delegate = self;
-        noteTextView.text = self.note.note;
+        
+        NSString *tmp = (self.note == nil?@"":self.note.note);
+        tmp = [tmp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        noteTextView.text = tmp;
         
         [self addSubview:noteTextView];
         [noteTextView release];
@@ -105,6 +108,8 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) doCheck:(id) sender
 {
+    _changed = YES;
+    
     UIButton *btn = (UIButton *) sender;
     
     NSInteger idx = btn.tag;
@@ -303,13 +308,18 @@ extern iPadViewController *_iPadViewCtrler;
 {
     note = noteParam;
     
-    noteTextView.text = (self.note == nil?@"":self.note.note);
+    NSString *tmp = (self.note == nil?@"":self.note.note);
+    tmp = [tmp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    
+    noteTextView.text = tmp;
     
     [self removeAllChecks];
     
     if (self.note != nil)
     {
-        [self createCheckButtons:self.note.note];
+        tmp = (self.note == nil?@"":self.note.note);
+        tmp = [tmp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        [self createCheckButtons:tmp];
     }
 }
 
@@ -402,7 +412,9 @@ extern iPadViewController *_iPadViewCtrler;
                 [self.checkDict setObject:checkBtn forKey:[NSNumber numberWithInt:lineIdx]];
             }
             
-            lineIdx += [self getLines:[lineStr stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+            NSString *tmp = [lineStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+//            tmp = [tmp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            lineIdx += [self getLines:tmp];
             
         }
         else

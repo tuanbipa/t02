@@ -4198,6 +4198,7 @@ TaskManager *_sctmSingleton = nil;
             instance.repeatData = nil;
             instance.original = nil;
             instance.primaryKey = -1;
+            instance.links = nil;
             
             ret = instance;
             

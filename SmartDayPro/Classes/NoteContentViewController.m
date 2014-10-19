@@ -235,13 +235,17 @@ extern SmartDayViewController *_sdViewCtrler;
     
     self.noteCopy = self.note;
     noteView.note = self.noteCopy;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     if ([self.note isShared])
     {
         noteView.editEnabled = NO;
         noteView.touchEnabled = NO;
     } else {
-    
+        
         noteView.touchEnabled = YES;
         [noteView startEdit];
     }

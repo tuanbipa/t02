@@ -79,6 +79,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     self.inputViewCtrler = nil;
     self.previewViewCtrler = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 	
     [super dealloc];
 }
@@ -349,6 +352,9 @@ NoteDetailViewController *_noteDetailViewCtrler;
     
     
     [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
 }
 
@@ -929,6 +935,29 @@ NoteDetailViewController *_noteDetailViewCtrler;
 	}
 	
 	return YES;
+}
+
+- (void)keyboardWillShow:(NSNotification *)sender
+{
+    CGSize kbSize = [[[sender userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [UIView animateWithDuration:duration animations:^{
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, abs(MIN(kbSize.width, kbSize.height)), 0);
+        [detailTableView setContentInset:edgeInsets];
+        [detailTableView setScrollIndicatorInsets:edgeInsets];
+    }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)sender
+{
+    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [UIView animateWithDuration:duration animations:^{
+        UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
+        [detailTableView setContentInset:edgeInsets];
+        [detailTableView setScrollIndicatorInsets:edgeInsets];
+    }];
 }
 
 

@@ -1113,4 +1113,13 @@ PreviewViewController *_previewCtrler;
     }
 }
 
+#pragma mark - Finish edit
+
+- (void)finishEdit {
+    if (noteView != nil && noteView.note != nil && [noteView changed]) {
+        [noteView.note updateIntoDB:[[DBManager getInstance] getDatabase]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
+    }
+}
+
 @end

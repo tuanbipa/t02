@@ -45,4 +45,6 @@
 
 - (CGFloat) getHeight;
 
+- (void)finishEdit;
+
 @end

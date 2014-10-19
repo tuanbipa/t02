@@ -2722,6 +2722,9 @@
 		67FBA11717A646CD00EB1BD5 /* URLAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */; };
 		67FBA11A17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
 		67FBA11B17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
+		961F9E2219E6C3B800AEF2C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 961F9E2619E6C3B800AEF2C9 /* InfoPlist.strings */; };
+		961F9E2319E6C3B800AEF2C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 961F9E2619E6C3B800AEF2C9 /* InfoPlist.strings */; };
+		961F9E2419E6C3B800AEF2C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 961F9E2619E6C3B800AEF2C9 /* InfoPlist.strings */; };
 		A202CEF518289064001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
 		A202CEF618289065001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
 		A202CEF718289065001840EE /* TaskLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A202CEF418289064001840EE /* TaskLocationListViewController.m */; };
@@ -3975,6 +3978,9 @@
 		67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAssetManager.m; sourceTree = "<group>"; };
 		67FBA11817A665D200EB1BD5 /* URLAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLAsset.h; sourceTree = "<group>"; };
 		67FBA11917A665D400EB1BD5 /* URLAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAsset.m; sourceTree = "<group>"; };
+		961F9E2519E6C3B800AEF2C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		961F9E2719E6C3BB00AEF2C9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		961F9E2819E6C3BB00AEF2C9 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A202CEF318289064001840EE /* TaskLocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLocationListViewController.h; sourceTree = "<group>"; };
 		A202CEF418289064001840EE /* TaskLocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskLocationListViewController.m; sourceTree = "<group>"; };
 		A202CEF81828FC0D001840EE /* map_iOS7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_iOS7.png; sourceTree = "<group>"; };
@@ -4416,6 +4422,7 @@
 				67CF2B36161950D7001FE1AA /* Default.png */,
 				67CF2B38161950D7001FE1AA /* Default@2x.png */,
 				67CF2B3A161950D7001FE1AA /* Default-568h@2x.png */,
+				961F9E2619E6C3B800AEF2C9 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4556,14 +4563,6 @@
 				67CF2BC516195195001FE1AA /* LinkSearchViewController.m */,
 				67CF2BC616195195001FE1AA /* LinkViewController.h */,
 				67CF2BC716195195001FE1AA /* LinkViewController.m */,
-				A2D34C81181A703E004EB8F1 /* Location.h */,
-				A2D34C82181A703E004EB8F1 /* Location.m */,
-				A2CE6DB9181E395F00FAEF05 /* LocationDetailViewController.h */,
-				A2CE6DBA181E395F00FAEF05 /* LocationDetailViewController.m */,
-				A2D34C7B181A603F004EB8F1 /* LocationListViewController.h */,
-				A2D34C7C181A603F004EB8F1 /* LocationListViewController.m */,
-				A2CE6DB4181E0FAD00FAEF05 /* LocationManager.h */,
-				A2CE6DB5181E0FAD00FAEF05 /* LocationManager.m */,
 				67CF2BD816195195001FE1AA /* LocationViewController.h */,
 				67CF2BD916195195001FE1AA /* LocationViewController.m */,
 				A2C17A6E17E1837700468CC5 /* MapLocationViewController.h */,
@@ -5801,6 +5800,7 @@
 				A2E2A55B18447A77003EDEF3 /* slider_1_768_de.html in Resources */,
 				6748B970180401820043A80E /* blue_button.png in Resources */,
 				6748B971180401820043A80E /* blue_menu.png in Resources */,
+				961F9E2219E6C3B800AEF2C9 /* InfoPlist.strings in Resources */,
 				6748B972180401820043A80E /* bluebg.png in Resources */,
 				6748B973180401820043A80E /* blueButtonSmall.png in Resources */,
 				6784CF461830B01C0095DDF9 /* slider_3_iphone4.jpg in Resources */,
@@ -6994,6 +6994,7 @@
 				67FADC3116D35CF8009D835D /* settings_general.png in Resources */,
 				67FADC3216D35CF8009D835D /* settings_general@2x.png in Resources */,
 				67FADC3316D35CF8009D835D /* settings_sync.png in Resources */,
+				961F9E2319E6C3B800AEF2C9 /* InfoPlist.strings in Resources */,
 				67FADC3416D35CF8009D835D /* settings_sync@2x.png in Resources */,
 				67FADC3516D35CF8009D835D /* settings_tasks.png in Resources */,
 				67FADC3616D35CF8009D835D /* settings_tasks@2x.png in Resources */,
@@ -7720,6 +7721,7 @@
 				67EC0EFC16F8081F00929BFD /* settings_general.png in Resources */,
 				67EC0EFD16F8081F00929BFD /* settings_general@2x.png in Resources */,
 				67EC0EFE16F8081F00929BFD /* settings_sync.png in Resources */,
+				961F9E2419E6C3B800AEF2C9 /* InfoPlist.strings in Resources */,
 				67EC0EFF16F8081F00929BFD /* settings_sync@2x.png in Resources */,
 				67EC0F0016F8081F00929BFD /* settings_tasks.png in Resources */,
 				67EC0F0116F8081F00929BFD /* settings_tasks@2x.png in Resources */,
@@ -8579,6 +8581,16 @@
 				67296F771816647F00CD834A /* ja */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		961F9E2619E6C3B800AEF2C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				961F9E2519E6C3B800AEF2C9 /* en */,
+				961F9E2719E6C3BB00AEF2C9 /* de */,
+				961F9E2819E6C3BB00AEF2C9 /* ja */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

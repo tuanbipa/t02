@@ -1559,6 +1559,7 @@ NSInteger _sdwColor[32] = {
     ret.name = [self getStringValue:@"title" dict:dict];
     //ret.note = [dict objectForKey:@"content"];
     ret.note = [self getStringValue:@"content" dict:dict];
+    ret.note = [ret.note stringByReplacingOccurrencesOfString:@"\r" withString:@""];
     
     //ret.extraStatus = [[dict objectForKey:@"shared"] intValue];
     /*[ret setShared:[[dict objectForKey:@"shared"] intValue]];

@@ -577,6 +577,11 @@ DetailViewController *_detailViewCtrler = nil;
             }
         }
     }
+    
+    if (self.previewViewCtrler != nil) {
+        [self.previewViewCtrler finishEdit];
+        [[AbstractActionViewController getInstance] refreshData];
+    }
 }
 #pragma  mark Actions
 - (void) done:(id) sender

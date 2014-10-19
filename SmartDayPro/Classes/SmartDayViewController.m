@@ -1267,6 +1267,11 @@ extern BOOL _detailHintShown;
 
 - (void) editNoteContent:(Task *)note
 {
+    if ([self.navigationController.topViewController isKindOfClass:[NoteContentViewController class]]) {
+//        NoteContentViewController *ctrler = (NoteContentViewController *)self.navigationController.topViewController;
+//        ctrler.note = note;
+        return;
+    }
     NoteContentViewController *ctrler = [[NoteContentViewController alloc] init];
     ctrler.note = note;
 
