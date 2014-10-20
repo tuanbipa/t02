@@ -232,21 +232,22 @@ extern SmartDayViewController *_sdViewCtrler;
     [doneItem release];
     
     [self changeOrientation:self.interfaceOrientation];
-    
     self.noteCopy = self.note;
-    noteView.note = self.noteCopy;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    
     if ([self.note isShared])
     {
         noteView.editEnabled = NO;
         noteView.touchEnabled = NO;
+        noteView.note = self.noteCopy;
     } else {
         
         noteView.touchEnabled = YES;
+        noteView.note = self.noteCopy;
         [noteView startEdit];
     }
 }

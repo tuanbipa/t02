@@ -536,11 +536,19 @@ NoteDetailViewController *_noteDetailViewCtrler;
 #pragma mark Input Views
 -(void) showInputView:(UIViewController *)ctrler
 {
+    [self.inputViewCtrler willMoveToParentViewController:nil];
+    [[inputView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.inputViewCtrler removeFromParentViewController];
+    
     self.inputViewCtrler = ctrler;
+    
+    [self addChildViewController:self.inputViewCtrler];
     
     ctrler.view.frame = inputView.bounds;
     
     [inputView addSubview:ctrler.view];
+    
+    [ctrler didMoveToParentViewController:self];
     
     inputView.hidden = NO;
     [contentView bringSubviewToFront:inputView];
