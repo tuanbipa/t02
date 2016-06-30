@@ -96,7 +96,6 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 4;
 }

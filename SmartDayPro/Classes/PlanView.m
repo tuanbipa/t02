@@ -228,7 +228,7 @@ extern BOOL _isiPad;
 	NSDecimalNumber *roundedNumber = [hrsNumber decimalNumberByRoundingAccordingToBehavior:roundingStyle];
 	NSString *hrsStr = [roundedNumber descriptionWithLocale:[NSLocale currentLocale]];
 	
-	NSString *str = [NSString stringWithFormat:@"%d/%d           ", info.doneTotal, info.total, hrsStr];
+	NSString *str = [NSString stringWithFormat:@"%ld/%ld           ", (long)info.doneTotal, (long)info.total];
 	
 	[[UIColor whiteColor] set];
 	
@@ -247,7 +247,7 @@ extern BOOL _isiPad;
 
 - (void)drawBadge:(CGRect)rect context:(CGContextRef) ctx doneTotal:(NSInteger)doneTotal total:(NSInteger)total
 {
-	NSString *str = [NSString stringWithFormat:@"%d/%d", doneTotal, total];
+	NSString *str = [NSString stringWithFormat:@"%ld/%ld", (long)doneTotal, (long)total];
 	
 	UIColor *dueColor = [Colors seaGreen];
 	
@@ -405,13 +405,13 @@ extern BOOL _isiPad;
             
             CGFloat hrs = info.totalDuration*1.0/3600;
             
-            infoStr = [NSString stringWithFormat:@"%d/%d - %.1f hrs - %.0f%%", info.doneTotal, info.total, hrs, info.progress*100];
+            infoStr = [NSString stringWithFormat:@"%ld/%ld - %.1f hrs - %.0f%%", (long)info.doneTotal, (long)info.total, hrs, info.progress*100];
         }
         else
         {
             NSInteger count = [[DBManager getInstance] countItems:self.listType inPlan:plan.primaryKey];
             
-            infoStr = [NSString stringWithFormat:@"%d", count];
+            infoStr = [NSString stringWithFormat:@"%ld", (long)count];
         }
     }
     

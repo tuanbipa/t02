@@ -273,7 +273,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     
     NSInteger rows[4] = {self.eventList.count, self.taskList.count, self.noteList.count, self.anchorList.count};
