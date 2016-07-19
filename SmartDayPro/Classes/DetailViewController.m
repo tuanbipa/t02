@@ -1253,12 +1253,12 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:startLabel];
     [startLabel release];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 40, self.taskCopy.startTime == nil?70:(_isiPad?40:30), 30)];
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 40, self.taskCopy.startTime == nil?70:(_isiPad?40:35), 30)];
     dayLabel.backgroundColor = [UIColor clearColor];
     dayLabel.textAlignment = NSTextAlignmentRight;
     dayLabel.text = self.taskCopy.startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.startTime]];
     dayLabel.textColor = [UIColor darkGrayColor];
-    dayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
+    dayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:24];
     
     dayLabel.tag = baseTag+1;
     
@@ -1306,12 +1306,12 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueLabel];
     [dueLabel release];
     
-    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, 40, self.taskCopy.deadline == nil?70:(_isiPad?40:30), 30)];
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, 40, self.taskCopy.deadline == nil?70:(_isiPad?40:35), 30)];
     dueDayLabel.backgroundColor = [UIColor clearColor];
     dueDayLabel.textAlignment = NSTextAlignmentRight;
     dueDayLabel.text = self.taskCopy.deadline == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:self.taskCopy.deadline]];
     dueDayLabel.textColor = [UIColor darkGrayColor];
-    dueDayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
+    dueDayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:24];
     
     dueDayLabel.tag = baseTag+5;
     
@@ -1445,12 +1445,12 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:startLabel];
     [startLabel release];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, yMargin + 40, startTime == nil?70:(_isiPad?40:30), 30)];
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, yMargin + 40, startTime == nil?70:(_isiPad?40:35), 30)];
     dayLabel.backgroundColor = [UIColor clearColor];
     dayLabel.textAlignment = NSTextAlignmentRight;
     dayLabel.text = startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:startTime]];
     dayLabel.textColor = [UIColor darkGrayColor];
-    dayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
+    dayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:24];
     
     dayLabel.tag = baseTag+1;
     
@@ -1507,12 +1507,12 @@ DetailViewController *_detailViewCtrler = nil;
     [dueLabel release];
     
 //    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, yMargin + 40, endTime == nil?70:40, 30)];
-    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, yMargin + 40, endTime == nil?70:(_isiPad?40:30), 30)];
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, yMargin + 40, endTime == nil?70:(_isiPad?40:35), 30)];
     dueDayLabel.backgroundColor = [UIColor clearColor];
     dueDayLabel.textAlignment = NSTextAlignmentRight;
     dueDayLabel.text = endTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:endTime]];
     dueDayLabel.textColor = [UIColor darkGrayColor];
-    dueDayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:26];
+    dueDayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:24];
     
     dueDayLabel.tag = baseTag+5;
     

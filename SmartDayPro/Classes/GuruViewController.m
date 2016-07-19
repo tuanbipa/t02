@@ -80,10 +80,27 @@ extern SmartDayViewController *_sdViewCtrler;
         [settings saveSettingDict];
         [settings saveMSDAccount];
     }
+    //comment to fix: http://123flo.com:8089/view.php?id=10092
+  // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorCode == -1004? _checkValidityText:(errorCode == 0?_verifiedTitleText:_invalidAccountText) message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
+   // [alert show];
+   // [alert release];
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:errorCode == -1004? _checkValidityText:(errorCode == 0?_verifiedTitleText:_invalidAccountText)
+                                  message:msg
+                                  preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorCode == -1004? _checkValidityText:(errorCode == 0?_verifiedTitleText:_invalidAccountText) message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
-    [alert show];
-    [alert release];
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             if (errorCode == 0)
+                                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)signup:(id)sender
@@ -96,16 +113,37 @@ extern SmartDayViewController *_sdViewCtrler;
         
         NSString *msg = (errorMsg == nil?_sdwSignupSuccessText:[NSString stringWithFormat:@"%@ %@", _sdwSignupFailedText, errorMsg]);
         
+        /*comment to fix signin view
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_signupText message:msg delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
         [alert show];
         [alert release];
+         */
+        //add to fix predecate class view
+        
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:_signupText
+                                      message:msg
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                // if (errorMsg == nil) //open this if we want to login to main screen
+                                //     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+                             }];
+        
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
+        //end add
     }
     else
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_signupText message:_emailInvalidText delegate:self cancelButtonTitle:_okText otherButtonTitles:nil];
         [alert show];
         [alert release];
-        
     }
 }
 
