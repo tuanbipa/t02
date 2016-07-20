@@ -1688,6 +1688,7 @@ extern DetailViewController *_detailViewCtrler;
         UIActivityViewController *activityController =
         [[UIActivityViewController alloc]
          initWithActivityItems:activityItems applicationActivities:nil];
+       
         activityController.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypePostToTwitter,UIActivityTypePostToWeibo,UIActivityTypeMessage,UIActivityTypeMail,UIActivityTypePrint,UIActivityTypeCopyToPasteboard,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAddToReadingList,UIActivityTypePostToFlickr,UIActivityTypePostToVimeo,UIActivityTypePostToTencentWeibo];
         
         UIViewController *ctrler = (_isiPad?_iPadViewCtrler:_sdViewCtrler);
@@ -1704,6 +1705,68 @@ extern DetailViewController *_detailViewCtrler;
     
     [self clearActiveItems];
     
+}
+
+- (NSString *) share2AirDropForDetailView
+{
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+    Project *prj = [self getActiveProject];
+    
+    NSMutableArray *tasks = nil;
+    NSString *urlString = @"";
+    
+    if (prj != nil)
+    {
+        DBManager *dbm = [DBManager getInstance];
+        
+        NSArray *prjTasks = [dbm getTasksForProject:prj.primaryKey isInitial:NO groupExcluded:YES];
+        
+        tasks = [NSMutableArray arrayWithCapacity:tasks.count];
+        
+        for (Task *task in prjTasks)
+        {
+            NSDictionary *taskDict = [task tojson];
+            
+            [tasks addObject:taskDict];
+        }
+    }
+    else
+    {
+        Task *task = [self getActiveTask];
+        
+        if (task.original != nil && ![task isREException])
+        {
+            task = task.original;
+        }
+        
+        prj = [pm getProjectByKey:task.project];
+        
+        if (task != nil)
+        {
+            NSDictionary *taskDict = [task tojson];
+            
+            tasks = [NSMutableArray arrayWithObject:taskDict];
+        }
+    }
+    
+    if (tasks != nil && prj != nil)
+    {
+        NSMutableDictionary *prjDict = [NSMutableDictionary dictionaryWithDictionary:[prj tojson]];
+        
+        [prjDict setObject:tasks forKey:@"tasks"];
+        
+        NSError *error = nil;
+        
+        NSData *jsonBody = [NSJSONSerialization dataWithJSONObject:prjDict options:0 error:&error];
+        
+        NSString *dataStr = [[[NSString alloc] initWithData:jsonBody encoding:NSUTF8StringEncoding] autorelease];
+        
+        urlString = [NSString stringWithFormat:@"SmartDay://localhost/shareData?data=%@", [dataStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self deselect];
+    }
+    
+    return urlString;
 }
 
 -(void) createTaskFromNote:(Task *)fromNote

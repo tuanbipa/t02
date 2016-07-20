@@ -113,6 +113,7 @@
 - (void) deleteCategory;
 //- (void) deleteNote:(Task *)note;
 - (void) share2AirDrop;
+- (NSString *) share2AirDropForDetailView;
 
 - (void) showCategory;
 - (void) showUnreadCommentsWithCGRect: (CGRect)rect;
