@@ -112,7 +112,7 @@
 	timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, frm.size.width-20, 20)];
 	timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textColor = [UIColor darkGrayColor];
-	timeLabel.font = [UIFont boldSystemFontOfSize:16];
+	timeLabel.font = [UIFont boldSystemFontOfSize:15];
     timeLabel.textAlignment = NSTextAlignmentCenter;
 	
 	[contentView addSubview:timeLabel];
