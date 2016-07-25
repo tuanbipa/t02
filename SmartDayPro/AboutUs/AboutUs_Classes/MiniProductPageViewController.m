@@ -180,19 +180,19 @@
 	NSString *bodyStr;
 	switch (indexPath.row) {
 		case 1:
-			bodyStr = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/smartlist-w-day-manager-grocery/id365903499?mt=8"];
+			bodyStr = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/smartlist-w-day-manager-grocery/id365903499?mt=8"];
 			
 			break;
 		case 2://SN
-			bodyStr = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/smart-notes-stickynotes-todo/id348837051?mt=8"];
+			bodyStr = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/smart-notes-stickynotes-todo/id348837051?mt=8"];
 			
 			break;
 		case 3://ST
 			//bodyStr = [NSString stringWithFormat:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=295845767&mt=8"];
-			bodyStr = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/smarttime-pro-adaptive-organizer/id295845767?mt=8"];
+			bodyStr = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/smarttime-pro-adaptive-organizer/id295845767?mt=8"];
 			break;
 		case 4://SP
-			bodyStr = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/smart-plans-w-timer-todo-clients/id351222451?mt=8"];
+			bodyStr = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/smart-plans-w-timer-todo-clients/id351222451?mt=8"];
 			
 			break;
 	}

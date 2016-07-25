@@ -52,7 +52,7 @@ This SDK can be run from both the iPhone Simulator and Device and has been teste
 
         section. This will give you access to the SDK across all files.
 
-    2. Get your Team Token which you can find at [http://testflightapp.com/dashboard/team/](http://testflightapp.com/dashboard/team/) select the team you are using from the team selection drop down list on the top of the page and then select Team Info.
+    2. Get your Team Token which you can find at [https://testflightapp.com/dashboard/team/](https://testflightapp.com/dashboard/team/) select the team you are using from the team selection drop down list on the top of the page and then select Team Info.
 
     3. Launch TestFlight with your Team Token
 
