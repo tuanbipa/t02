@@ -770,7 +770,7 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 
 + (NSInteger) createTimeZoneIDByOffset:(NSInteger) offset
 {
-    NSInteger hour = abs(offset)/3600;
+    NSInteger hour = labs(offset)/3600;
     
     NSInteger minute = ((abs(offset)-hour*3600))/60;
     

@@ -195,18 +195,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	[calView refresh];
 }
 
-/*
-- (void) refreshCalendar
-{
-	NSDate *dt = [[[TaskManager getInstance] today] copy];
-	
-	[calView refreshCalendar:dt];
-	
-	[dt release];
-	
-	[headerView setNeedsDisplay];
-}
-*/
 
 - (void) initCalendar:(NSDate *)date
 {
@@ -219,16 +207,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     NSInteger mode = [headerView getMWMode];
     
     NSDate *dt = (mode==1?date:[Common getFirstMonthDate:date]);
-    
-    /*
-    if (mode == 0)
-    {
-        //NSInteger weeks = [Common getWeeksInMonth:date];
-        Settings *st = [Settings getInstance];
-        NSInteger weeks = [Common getWeeksInMonth:date mondayAsWeekStart:st.isMondayAsWeekStart];
-        
-        [self.calView changeWeekPlanner:7 weeks:weeks];        
-    }*/
+
 
     [self updateWeeks:dt];
     
@@ -240,12 +219,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 - (void) highlight:(NSDate *)date
 {
     //use for scrolling in Calendar view
-    
-    //NSDate *firstDate = [self.calView getFirstDate];
-    //NSDate *lastDate = [self.calView getLastDate];
-    
-    //if ([Common compareDateNoTime:firstDate withDate:date] == NSOrderedDescending ||
-    //    [Common compareDateNoTime:lastDate withDate:date] == NSOrderedAscending)
     if (![self.calView checkDateInCalendar:date])
     {
         NSInteger mode = [headerView getMWMode];
@@ -271,8 +244,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
     [self changeFrame:frm];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MiniMonthResizeNotification" object:nil];
-    //[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:) withObject:@"MiniMonthResizeNotification" waitUntilDone:NO];
-}
+ }
 
 - (void) jumpToDate:(NSDate *)date
 {
@@ -290,7 +262,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
     [self initCalendar:calDate];
     
-    //[[_abstractViewCtrler getCalendarViewController] focusNow];
 }
 
 - (void) shiftTime:(NSInteger)mode

@@ -443,7 +443,7 @@
 "_readmeText" = "Read Me";
 "_workingTimeHintText" = "勤務時間を曜日ごとに設定してください。SmartDayがタスクビューのソート順を元に各曜日の空き時間にタスクを割り当てます。";
 "_toodledoSignupText" = "Toodledoにサインアップ";
-"_toodledoSignupHintText" = "Toodledoのアカウントがない場合、ここで無料登録できます。";"_toodledoSignupURLText" = "http://www.toodledo.com/signup.php";
+"_toodledoSignupHintText" = "Toodledoのアカウントがない場合、ここで無料登録できます。";"_toodledoSignupURLText" = "https://www.toodledo.com/signup.php";
 "_landscapeModeEnableText" = "ランドスケープモード";
 
 //"_starTabHintText" = "Pick tasks to focus on by tapping on their Star in any view. Only those will show up here.";

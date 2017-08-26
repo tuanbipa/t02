@@ -107,7 +107,7 @@
 -(void) cancelQuickAdd;
 
 - (void) confirmDeleteTask: (id) sender;
--(void)confirmMarkDone: (id) sender;
+//-(void)confirmMarkDone: (id) sender;
 -(void)refreshView;
 -(void) syncComplete;
 

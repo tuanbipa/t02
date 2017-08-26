@@ -347,13 +347,6 @@ static sqlite3_stmt *_top_task_statement = nil;
 		sqlite3_bind_int(statement, 2, TYPE_SHOPPING_ITEM);
 		sqlite3_bind_int(statement, 3, TASK_STATUS_DELETED);
         
-        /*
-        if (invisibleProjectListStr != nil)
-        {
-            sqlite3_bind_text(statement, 4, [invisibleProjectListStr UTF8String], -1, SQLITE_TRANSIENT);
-        }
-        */
-        
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			int primaryKey = sqlite3_column_int(statement, 0);
 			Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];
@@ -399,13 +392,6 @@ static sqlite3_stmt *_top_task_statement = nil;
             sqlite3_bind_int(statement, 2, TYPE_SHOPPING_ITEM);
 			sqlite3_bind_double(statement, 3, [afterDate timeIntervalSince1970]);
             
-            /*
-            if (invisibleProjectListStr != nil)
-            {
-                sqlite3_bind_text(statement, 4, [invisibleProjectListStr UTF8String], -1, SQLITE_TRANSIENT);
-            }    
-            */
-			
 			while (sqlite3_step(statement) == SQLITE_ROW) {
 				int primaryKey = sqlite3_column_int(statement, 0);
 				Task *task = [[Task alloc] initWithPrimaryKey:primaryKey database:database];

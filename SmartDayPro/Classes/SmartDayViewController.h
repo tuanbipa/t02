@@ -111,7 +111,7 @@
 -(void) deselect;
 - (void) showCalendarView;
 - (void) markDoneTaskInView:(TaskView *)view;
-- (void) starTaskInView:(TaskView *)taskView;
+//- (void) starTaskInView:(TaskView *)taskView;
 
 -(void) editItemDetail:(Task *)item;
 - (void) editProjectDetail:(Project *)project;
@@ -130,7 +130,7 @@
 - (void) expandPreview;
 - (void) setNeedsDisplay;
 - (void) refreshView;
-- (void) popupHint;
+//- (void) popupHint;
 
 - (void) popupDetailHint;
 - (void) changeOrientation:(UIInterfaceOrientation) orientation;

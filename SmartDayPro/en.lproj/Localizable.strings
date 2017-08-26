@@ -443,7 +443,7 @@
 "_workingTimeHintText" = "Set your working times for each day of the week. SmartDay will then use this to schedule tasks into the free spaces of each day, based upon the sort order in the Tasks view.";
 "_toodledoSignupText" = "Toodledo Signup";
 "_toodledoSignupHintText" = "If you do not already have a Toodledo account, you can register for free here:";
-"_toodledoSignupURLText" = "http://www.toodledo.com/signup.php";
+"_toodledoSignupURLText" = "https://www.toodledo.com/signup.php";
 "_landscapeModeEnableText" = "Landscape Mode";
 
 //"_starTabHintText" = "Pick tasks to focus on by tapping on their Star in any view. Only those will show up here.";

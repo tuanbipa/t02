@@ -214,10 +214,6 @@ extern iPadViewController *_iPadViewCtrler;
     [self reconcileLinkCopy];
     
     [self refreshView];
-    
-    //listTableView.contentSize = CGSizeMake(listTableView.bounds.size.width, h + listTableView.bounds.size.height/2);
-    
-    //listView.contentSize = CGSizeMake(listView.bounds.size.width, h + listView.bounds.size.height/2);
 }
 
 -(void)refreshLayout
@@ -633,102 +629,6 @@ extern iPadViewController *_iPadViewCtrler;
     [[AbstractActionViewController getInstance] hideMultiEditBar];
 }
 
-/*
-
-- (void) multiDelete:(id)sender
-{
-	if ([[Settings getInstance] deleteWarning])
-	{
-        BOOL needConfirm = NO;
-        
-        for (UIView *view in listView.subviews)
-        {
-            if ([view isKindOfClass:[TaskView class]])
-            {
-                TaskView *tv = (TaskView *)view;
-                
-                if ([tv isMultiSelected])
-                {
-                    needConfirm = YES;
-                    
-                    break;
-                }
-            }
-        }
-        
-        if (needConfirm)
-        {
-            NSString *msg = _itemDeleteText;
-            NSInteger tag = -10000;
-            
-            UIAlertView *taskDeleteAlertView = [[UIAlertView alloc] initWithTitle:_itemDeleteTitle  message:msg delegate:self cancelButtonTitle:_cancelText otherButtonTitles:nil];
-            
-            taskDeleteAlertView.tag = tag;
-            
-            [taskDeleteAlertView addButtonWithTitle:_okText];
-            [taskDeleteAlertView show];
-            [taskDeleteAlertView release];
-        }
-	}
-	else
-	{
-		[self doMultiDeleteTask];
-	}
-}
-
-- (void) doMultiDeleteTask
-{
-    NSMutableArray *taskList = [NSMutableArray arrayWithCapacity:10];
-    
-    for (UIView *view in listView.subviews)
-    {
-        if ([view isKindOfClass:[TaskView class]] && [((TaskView *)view) isMultiSelected])
-        {
-            [taskList addObject:((TaskView *)view).task];
-        }
-    }
-    
-    if (taskList.count > 0)
-    {
-        [[TaskManager getInstance] deleteTasks:taskList];
-        
-        for (Task *task in taskList)
-        {
-            [self.list removeObject:task];
-        }
-    }
-    
-    [self multiEdit:NO];
-    
-    [self refreshLayout];
-    
-    FocusView *focusView = [_abstractViewCtrler getFocusView];
-    
-    if (focusView != nil && [focusView checkExpanded])
-    {
-        [focusView refreshData];
-    }
-    
-    if (_plannerViewCtrler) {
-        [_plannerViewCtrler cancelEdit];
-    } else {
-        [_abstractViewCtrler cancelEdit];
-    }
-}
-
-- (void) multiEdit:(BOOL)enabled
-{
-    for (UIView *view in listView.subviews)
-    {
-        if ([view isKindOfClass:[MovableView class]])
-        {
-            [(MovableView *) view multiSelect:enabled];
-        }
-    }
-}
-
-*/
-
 #pragma mark Alert delegate
 
 - (void)alertView:(UIAlertView *)alertVw clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -740,24 +640,6 @@ extern iPadViewController *_iPadViewCtrler;
 }
 
 #pragma mark TextFieldDelegate
-/*
-- (void) saveAndMore:(id) sender
-{
-	NSString *text = [quickAddTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-	
-    if (![quickAddTextField isFirstResponder])
-    {
-        [quickAddTextField becomeFirstResponder];
-    }
-	else if (![text isEqualToString:@""])
-	{
-        [[AbstractActionViewController getInstance] quickAddProject:text];
-	}
-    
-    quickAddTextField.text = @"";
-    quickAddTextField.tag = -2;
-}
-*/
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     maskView.hidden = NO;

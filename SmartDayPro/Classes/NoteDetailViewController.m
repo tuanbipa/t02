@@ -951,7 +951,7 @@ NoteDetailViewController *_noteDetailViewCtrler;
     NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     [UIView animateWithDuration:duration animations:^{
-        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, abs(MIN(kbSize.width, kbSize.height)), 0);
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, fabs(MIN(kbSize.width, kbSize.height)), 0);
         [detailTableView setContentInset:edgeInsets];
         [detailTableView setScrollIndicatorInsets:edgeInsets];
     }];

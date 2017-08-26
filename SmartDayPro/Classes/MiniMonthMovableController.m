@@ -8,8 +8,6 @@
 
 #import "MiniMonthMovableController.h"
 
-//#import "ListMovableController.h"
-
 #import "Common.h"
 #import "Settings.h"
 #import "TaskManager.h"
@@ -26,10 +24,6 @@
 #import "NoteViewController.h"
 
 #import "SmartDayViewController.h"
-//#import "iPadSmartDayViewController.h"
-
-//#import "NoteDetailTableViewController.h"
-//#import "TaskDetailTableViewController.h"
 
 #import "ScheduleView.h"
 #import "CalendarViewController.h"
@@ -45,19 +39,11 @@
 #import "TimeSlotView.h"
 
 extern SmartDayViewController *_sdViewCtrler;
-//extern AbstractSDViewController *_abstractViewCtrler;
-//extern iPadSmartDayViewController *_iPadSDViewCtrler;
 
 extern iPadViewController *_iPadViewCtrler;
 
 @implementation MiniMonthMovableController
 
-/*
-- (CGRect) getMovableRect:(UIView *)view
-{
-    return [view.superview convertRect:view.frame toView:_abstractViewCtrler.contentView];
-}
-*/
 - (BOOL)checkSeparate:(TaskView *)view
 {
     //Task *task = (Task *) view.tag;
@@ -68,14 +54,6 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (NSDate*)getDateInMonthAtDrop
 {
-    /*
-    if ([[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]]) {
-        PlannerMonthView *plannerMonthView = (PlannerMonthView*)[[AbstractActionViewController getInstance] getPlannerMonthCalendarView];
-        return [plannerMonthView getSelectedDate];
-    } else {
-        return [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
-    }*/
-    
     if (_sdViewCtrler != nil)
     {
         MiniMonthView *mmView = [_sdViewCtrler getMiniMonth];
@@ -141,7 +119,6 @@ extern iPadViewController *_iPadViewCtrler;
 
     CGPoint touchPoint = [self.activeMovableView getTouchPoint];
     
-    //CGPoint p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
     CGPoint p = [self.activeMovableView.superview convertPoint:touchPoint toView:self.contentView];
 
     if ([self.activeMovableView isKindOfClass:[TaskView class]] && ![((TaskView *)self.activeMovableView).task isShared])
@@ -154,7 +131,7 @@ extern iPadViewController *_iPadViewCtrler;
             //CGPoint touchPoint = [self.activeMovableView getTouchPoint];
             touchPoint = [self.activeMovableView getTouchPoint];
             
-            //p = [self.activeMovableView.superview convertPoint:touchPoint toView:[AbstractActionViewController getInstance].contentView];
+         
             p = [self.activeMovableView.superview convertPoint:touchPoint toView:self.contentView];
             
             moveInPlannerMM = CGRectContainsPoint(mmFrm, p);
@@ -169,24 +146,15 @@ extern iPadViewController *_iPadViewCtrler;
             MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
             FocusView *focusView = [[AbstractActionViewController getInstance] getFocusView];
             
-            //CGRect mmFrm = [self getMovableRect:_abstractViewCtrler.miniMonthView.calView];
-            
             CGRect mmFrm = [self getMovableRect:mmView.calView];
-            
-            //moveInMM = CGRectContainsPoint(mmFrm, p) && !_abstractViewCtrler.miniMonthView.hidden;
             
             moveInMM = CGRectContainsPoint(mmFrm, p) && !mmView.hidden;
             
             moveInFocus = NO;
             
-            //if (_abstractViewCtrler.focusView != nil)
             if (focusView != nil)
             {
-                //CGRect focusFrm = [self getMovableRect:_abstractViewCtrler.focusView];
                 CGRect focusFrm = [self getMovableRect:focusView];
-                
-                //p = [self.activeMovableView.superview convertPoint:touchPoint toView:_abstractViewCtrler.contentView];
-                
                 p = [self.activeMovableView.superview convertPoint:touchPoint toView:self.contentView];
 
                 moveInFocus = CGRectContainsPoint(focusFrm, p);
@@ -266,14 +234,11 @@ extern iPadViewController *_iPadViewCtrler;
 {
     DBManager *dbm = [DBManager getInstance];
     
-    //Task *task = ((TaskView *) self.activeMovableView).task;
-    
     if (task.original != nil && ![task isREException])
     {
         task = task.original;
     }    
     
-    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     NSDate *calDate = [self getDateInMonthAtDrop];
     
     //NSDate *dDate = nil;
@@ -307,14 +272,6 @@ extern iPadViewController *_iPadViewCtrler;
     
     [task updateTimeIntoDB:[dbm getDatabase]];
     
-    /*
-    if (dDate != nil)
-    {
-        [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:dDate];
-    }
-    
-    [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];*/
-    
     [[TaskManager getInstance] initSmartListData]; //refresh Must Do list
     
     //[_abstractViewCtrler reconcileItem:task reSchedule:YES]; //refresh Category module
@@ -323,9 +280,6 @@ extern iPadViewController *_iPadViewCtrler;
 
 - (void) changeEventDate:(Task *)task
 {
-    //Task *task = ((TaskView *) self.activeMovableView).task;
-    
-    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     NSDate *calDate = [self getDateInMonthAtDrop];
     
     [super endMove:self.activeMovableView];
@@ -334,24 +288,11 @@ extern iPadViewController *_iPadViewCtrler;
     
     [[TaskManager getInstance] moveTime:[Common copyTimeFromDate:oldDate toDate:calDate] forEvent:task];
     
-    /*
-    if ([task isADE])
-    {
-        [_abstractViewCtrler.miniMonthView refresh]; 
-    }
-    else 
-    {
-        [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:oldDate];
-        [_abstractViewCtrler.miniMonthView.calView refreshCellByDate:calDate];
-    }*/
-    
-    //[_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
     [[AbstractActionViewController getInstance] reconcileItem:task reSchedule:YES];
 }
 
 - (void) changeNoteDate:(Task *)task
 {
-    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     NSDate *calDate = [self getDateInMonthAtDrop];
     
     [super endMove:self.activeMovableView];
@@ -360,9 +301,6 @@ extern iPadViewController *_iPadViewCtrler;
     
     [task updateStartTimeIntoDB:[[DBManager getInstance] getDatabase]];
 
-    //[[_abstractViewCtrler getNoteViewController] loadAndShowList];
-    
-    //[_abstractViewCtrler reconcileItem:task reSchedule:NO]; //refresh Category module
     [[AbstractActionViewController getInstance] reconcileItem:task reSchedule:NO];
 }
 
@@ -398,11 +336,8 @@ extern iPadViewController *_iPadViewCtrler;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
         
         FocusView *focusView = [[AbstractActionViewController getInstance] getFocusView];
-        
-        //if ([_abstractViewCtrler.focusView checkExpanded])
         if ([focusView checkExpanded])
         {
-            //[_abstractViewCtrler.focusView refreshData];
             [focusView refreshData];
 
             //resize calendar views
@@ -415,7 +350,6 @@ extern iPadViewController *_iPadViewCtrler;
 {
     Settings *settings = [Settings getInstance];
     
-    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
     NSDate *calDate = [self getDateInMonthAtDrop];
     
     Task *task = ((TaskView *) self.activeMovableView).task;
@@ -554,25 +488,10 @@ extern iPadViewController *_iPadViewCtrler;
     
     MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
     
-    //NSDate *calDate = [_abstractViewCtrler.miniMonthView.calView getSelectedDate];
-    //NSDate *calDate = [mmView.calView getSelectedDate];
-    
-    //NSDate *visitDate = nil;
-    
-    //BOOL needEdit = NO;
-
 	if (alertVw.tag == -10000)
 	{
         switch (buttonIndex) 
         {
-            /*
-            case 0: //Edit
-            {
-                [self changeTaskDeadline:task];
-                
-                needEdit = YES;
-            }
-                break;*/
             case 0: //Don't Show
             {
                 settings.move2MMConfirmation = NO;
@@ -590,14 +509,6 @@ extern iPadViewController *_iPadViewCtrler;
 	{
         switch (buttonIndex) 
         {
-                /*
-            case 0: //Edit
-            {
-                [self changeEventDate:task];
-                
-                needEdit = YES;
-            }
-                break;*/
             case 0: //Don't Show
             {
                 settings.move2MMConfirmation = NO;
@@ -614,14 +525,6 @@ extern iPadViewController *_iPadViewCtrler;
 	{
         switch (buttonIndex) 
         {
-                /*
-            case 0: //Edit
-            {
-                [self changeNoteDate:task];
-                
-                needEdit = YES;
-            }
-                break;*/
             case 0: //Don't Show
             {
                 settings.move2MMConfirmation = NO;
@@ -638,7 +541,6 @@ extern iPadViewController *_iPadViewCtrler;
     }
     else if (alertVw.tag == -11001)
     {
-        //CalendarViewController *ctrler = [_abstractViewCtrler getCalendarViewController];
         CalendarViewController *ctrler = [[AbstractActionViewController getInstance] getCalendarViewController];
         
         if (buttonIndex == 1)
@@ -668,39 +570,10 @@ extern iPadViewController *_iPadViewCtrler;
     
     if (moveInMM)
     {
-        //MiniMonthView *mmView = [[AbstractActionViewController getInstance] getMiniMonth];
-        
-        //[_abstractViewCtrler.miniMonthView jumpToDate:(visitDate != nil?visitDate:calDate)];
-        //[mmView jumpToDate:(visitDate != nil?visitDate:calDate)];
-        
         NSDate *calDate = [self getDateInMonthAtDrop];
         
         [mmView jumpToDate:calDate];
-
-        /*
-        if (visitDate != nil)
-        {
-            [_sdViewCtrler showCalendarView];    
-        }
-        */
-        /*
-        if (needEdit)
-        {
-            if (task.original != nil && ![task isREException])
-            {
-                task = task.original;
-            }
-        
-            Task *taskCopy = [[task copy] autorelease];
-            
-            taskCopy.listSource = SOURCE_CATEGORY;//free task -> refresh in all views
-            
-            CGRect frm = [_abstractViewCtrler.miniMonthView.calView getRectOfSelectedCellInView:_abstractViewCtrler.contentView];
-            
-            [_abstractViewCtrler editItem:taskCopy inRect:frm];
-        }
-        else*/
-        {
+     
             if ([task isEvent])
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChangeNotification" object:nil];
@@ -709,7 +582,6 @@ extern iPadViewController *_iPadViewCtrler;
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskChangeNotification" object:nil];
             }
-        }
     }
 }
 

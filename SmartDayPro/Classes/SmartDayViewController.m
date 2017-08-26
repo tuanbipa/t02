@@ -1952,154 +1952,10 @@ extern BOOL _detailHintShown;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-/*
--(UIView *) createHintView
-{
-    CGSize sz = [Common getScreenSize];
-    sz.height += 44;
-    
-    CGRect frm = CGRectZero;
-    frm.size = sz;
-    
-    UIView *hintView = [[UIView alloc] initWithFrame:frm];
-    hintView.backgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:40.0/255 alpha:0.9];
-    
-    UIImageView *hintImageView = [[UIImageView alloc] initWithFrame:frm];
-    hintImageView.tag = 10002;
-    
-    [hintView addSubview:hintImageView];
-    [hintImageView release];
-    
-    UIButton *hintOKButton =[Common createButton:_okText
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(210, frm.size.height - 40, 100, 30)
-                                      titleColor:nil
-                                          target:self
-                                        selector:@selector(hint:)
-                                normalStateImage:@"blue_button.png"
-                              selectedStateImage:nil];
-    [hintOKButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    hintOKButton.tag = 10000;
-    
-    UIButton *hintDontShowButton =[Common createButton:_dontShowText
-                                            buttonType:UIButtonTypeCustom
-                                                 frame:CGRectMake(10, frm.size.height - 40, 100, 30)
-                                            titleColor:nil
-                                                target:self
-                                              selector:@selector(hint:)
-                                      normalStateImage:@"blue_button.png"
-                                    selectedStateImage:nil];
-    [hintDontShowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    hintDontShowButton.tag = 10001;
-    
-    [hintView addSubview:hintOKButton];
-    
-    [hintView addSubview:hintDontShowButton];
-    
-    return [hintView autorelease];
-}
-
-- (void) popupHint
-{
-    
-	Settings *settings = [Settings getInstance];
-    
-	BOOL showHint = (settings.calendarHint && !_calendarHintShown && selectedTabButton.tag == 0) ||
-    (settings.smartListHint && !_smartListHintShown && selectedTabButton.tag == 1) ||
-    (settings.noteHint && !_noteHintShown && selectedTabButton.tag == 2) ||
-    (settings.projectHint && !_projectHintShown && selectedTabButton.tag == 3);
-	
-	if (showHint)
-	{
-        switch (selectedTabButton.tag)
-        {
-            case 0:
-                _calendarHintShown = YES;
-                break;
-            case 1:
-                _smartListHintShown = YES;
-                break;
-            case 2:
-                _noteHintShown = YES;
-                break;
-            case 3:
-                _projectHintShown = YES;
-                break;
-        }
-        
-        HintModalViewController *ctrler = [[HintModalViewController alloc] init];
-        ctrler.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        
-        CGSize sz = [Common getScreenSize];
-        
-        CGRect frm = CGRectZero;
-        frm.size = sz;
-        
-        BOOL isIP5 = (sz.height + 20 + 44 == 568);
-
-        NSString *hintImgNames[4] = {
-            isIP5?@"hints_calendars.png":@"hints_calendar_ip4.png",
-            isIP5?@"hints_tasks.png":@"hints_task_ip4.png",
-            isIP5?@"hints_notes.png":@"hints_note_ip4.png",
-            isIP5?@"hints_projects.png":@"hints_project_ip4.png"};
-                
-        
-        UIView *hintView = [self createHintView];
-        
-        UIImageView *hintImgView = [hintView viewWithTag:10002];// = [[GuideWebView alloc] initWithFrame:frm];
-        hintImgView.image = [UIImage imageNamed:hintImgNames[selectedTabButton.tag]];
-        
-        ctrler.view = hintView;
-        
-        [hintView release];
-        
-        [self presentViewController:ctrler animated:YES completion:NULL];
-        
-    }
-    
-}
-
--(void)popDownHint
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void) hint: (id) sender
-{
-	Settings *settings = [Settings getInstance];
-	
-	if ([sender tag] == 10001) //Don't Show
-	{
-		//[settings enableCalendarHint:NO];
-        
-        switch (selectedTabButton.tag)
-        {
-            case 0:
-                [settings enableCalendarHint:NO];
-                break;
-            case 1:
-                [settings enableSmartListHint:NO];
-                break;
-            case 2:
-                [settings enableNoteHint:NO];
-                break;
-            case 3:
-                [settings enableProjectHint:NO];
-                break;
-        }
-	}
-    
-    
-    
-    //[self dismissViewControllerAnimated:YES completion:NULL];
-    [self popDownHint];
-}
-*/
 #pragma mark Views
 
 - (void)createNavigationView
 {
-    //navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 416-40, 320, 40)];
     
     navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.bounds.size.height-40, contentView.bounds.size.width, 40)];
     
@@ -2108,9 +1964,6 @@ extern BOOL _detailHintShown;
     [contentView addSubview:navigationView];
     [navigationView release];
     
-    //NSString *iconNames[TAB_NUM] = {@"bottom_focus.png", @"bottom_event.png", @"bottom_task.png", @"bottom_note.png", @"bottom_cate.png"};
-    //NSString *tabNames[TAB_NUM] = {_focusText, _calendarText, _tasksText, _notesText, _projectsText};
-
     NSString *iconNames[TAB_NUM] = {@"bottom_event.png", @"bottom_task.png", @"bottom_note.png", @"bottom_cate.png"};
     NSString *tabNames[TAB_NUM] = {_calendarText, _tasksText, _notesText, _projectsText};
     
@@ -3207,57 +3060,6 @@ extern BOOL _detailHintShown;
     doneButton.tag = TASK_FILTER_DONE;
 	[optionView addSubview:doneButton];
     
-/*
-    UIImageView *startImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 165, 20, 20)];
-	startImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_start.png"];
-	[optionView addSubview:startImageView];
-	[startImageView release];
-	
-	UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 162, 120, 25)];
-	startLabel.text = _startText;
-	startLabel.textColor = [UIColor whiteColor];
-	startLabel.backgroundColor = [UIColor clearColor];
-	startLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:startLabel];
-	[startLabel release];
-	
-	UIButton *startButton=[Common createButton:@""
-                                  buttonType:UIButtonTypeCustom
-                                       frame:CGRectMake(0, 162, 160, 30)
-                                  titleColor:nil
-                                      target:self
-                                    selector:@selector(showTaskWithOption:)
-                            normalStateImage:nil
-                          selectedStateImage:nil];
-	startButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    startButton.tag = TASK_FILTER_ACTIVE;
-	[optionView addSubview:startButton];
-    
-    UIImageView *doneImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 200, 20, 20)];
-	doneImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_done.png"];
-	[optionView addSubview:doneImageView];
-	[doneImageView release];
-	
-	UILabel *doneLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 197, 120, 25)];
-	doneLabel.text = _doneText;
-	doneLabel.textColor = [UIColor whiteColor];
-	doneLabel.backgroundColor = [UIColor clearColor];
-	doneLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:doneLabel];
-	[doneLabel release];
-	
-	UIButton *doneButton=[Common createButton:@""
-                                    buttonType:UIButtonTypeCustom
-                                         frame:CGRectMake(0, 197, 160, 30)
-                                    titleColor:nil
-                                        target:self
-                                      selector:@selector(showTaskWithOption:)
-                              normalStateImage:nil
-                            selectedStateImage:nil];
-	doneButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    doneButton.tag = TASK_FILTER_DONE;
-	[optionView addSubview:doneButton];
-*/
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2;
     
@@ -3688,8 +3490,6 @@ extern BOOL _detailHintShown;
 {
     [self hideMiniMonth];
     
-    //[self popDownHint];
-    
     if (filterView.userInteractionEnabled == YES)
 	{
 		[filterView popDownView];
@@ -3700,13 +3500,6 @@ extern BOOL _detailHintShown;
         [self.activeViewCtrler.view removeFromSuperview];
     }
     
-    /*
-	CGSize sz = [Common getScreenSize];
-    sz.height += 44 + 20;
-    sz.width -= 44 + 20;
-    
-    contentView.frame = CGRectMake(0, 0, sz.height, sz.width);
-    moduleView.frame = contentView.bounds;*/
     
     WeekViewController *ctrler = [[WeekViewController alloc] init];
     
@@ -3732,16 +3525,6 @@ extern BOOL _detailHintShown;
 
 - (void) showPortraitView
 {
-    /*
-	CGSize sz = [Common getScreenSize];
-    
-    CGRect frm = CGRectZero;
-    frm.size = sz;
-    
-    contentView.frame = frm;
-    moduleView.frame = contentView.bounds;*/
-    
-    //previewPane.frame = CGRectMake(0, contentView.bounds.size.height - 80, contentView.bounds.size.width, 80);
     
     NSInteger index = selectedTabButton.tag;
     
@@ -3806,22 +3589,6 @@ extern BOOL _detailHintShown;
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    /*
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
-    {
-        Settings *settings = [Settings getInstance];
-        
-        if (settings.landscapeModeEnable)
-        {
-            [self deselect];
-            
-            [self showLandscapeView];
-        }
-    }
-    else if ([self.activeViewCtrler isKindOfClass:[WeekViewController class]])
-    {
-        [self showPortraitView];
-    }*/
     
     [_appDelegate dismissAllAlertViews];
     
@@ -3928,28 +3695,9 @@ extern BOOL _detailHintShown;
     
     NSInteger count = [dbm countUnreadComments];
     
-    //NSLog(@"unread comment count: %d", count);
-/*
-    if (commentButton != nil)
-    {
-        dispatch_async(dispatch_get_main_queue(),^ {
-            commentButton.hidden = (count == 0);
-            commentButton.frame = (commentButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
-            UILabel *badgeLabel = (UILabel *)[commentButton viewWithTag:10000];
-            badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
-        });
-    }
-*/
-    
-    //if (notifButton != nil)
     if (count > 0)
     {
         dispatch_async(dispatch_get_main_queue(),^ {
-            //notifButton.hidden = (count == 0);
-            //notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
-            //UILabel *badgeLabel = (UILabel *)[notifButton viewWithTag:10000];
-            //badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
-            
             [self showNotifBadge];
         });
     }
@@ -3982,26 +3730,9 @@ extern BOOL _detailHintShown;
 {
     DBManager *dbm = [DBManager getInstance];
     NSInteger count = [dbm countTasksAtCurrentLocation];
-    /*
-    if (taskLocationButton != nil) {
-        
-        dispatch_async(dispatch_get_main_queue(),^ {
-            NSLog(@"refresh task location %d", count);
-            
-            taskLocationButton.hidden = (count == 0);
-            taskLocationButton.frame = (taskLocationButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
-            taskLocationLable.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
-        });
-    }*/
-    
-    //if (notifButton != nil)
     if (count > 0)
     {
         dispatch_async(dispatch_get_main_queue(),^ {
-            //notifButton.hidden = (count == 0);
-            //notifButton.frame = (notifButton.hidden?CGRectZero:CGRectMake(0, 0, 40, 40));
-            //UILabel *badgeLabel = (UILabel *)[notifButton viewWithTag:10000];
-            //badgeLabel.text = count > 99? @"...":[NSString stringWithFormat:@"%d", count];
             [self showNotifBadge];
         });
     }
