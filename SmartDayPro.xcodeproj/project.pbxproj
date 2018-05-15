@@ -2722,6 +2722,81 @@
 		67FBA11717A646CD00EB1BD5 /* URLAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */; };
 		67FBA11A17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
 		67FBA11B17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
+		891B300B20A9A47400E0EE92 /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300420A9A47200E0EE92 /* FAImageView.m */; };
+		891B300C20A9A47400E0EE92 /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300420A9A47200E0EE92 /* FAImageView.m */; };
+		891B300D20A9A47400E0EE92 /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300420A9A47200E0EE92 /* FAImageView.m */; };
+		891B300E20A9A47400E0EE92 /* UIFont+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300520A9A47200E0EE92 /* UIFont+FontAwesome.m */; };
+		891B300F20A9A47400E0EE92 /* UIFont+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300520A9A47200E0EE92 /* UIFont+FontAwesome.m */; };
+		891B301020A9A47400E0EE92 /* UIFont+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300520A9A47200E0EE92 /* UIFont+FontAwesome.m */; };
+		891B301120A9A47400E0EE92 /* UIImage+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300720A9A47300E0EE92 /* UIImage+FontAwesome.m */; };
+		891B301220A9A47400E0EE92 /* UIImage+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300720A9A47300E0EE92 /* UIImage+FontAwesome.m */; };
+		891B301320A9A47400E0EE92 /* UIImage+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300720A9A47300E0EE92 /* UIImage+FontAwesome.m */; };
+		891B301420A9A47400E0EE92 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300A20A9A47300E0EE92 /* NSString+FontAwesome.m */; };
+		891B301520A9A47400E0EE92 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300A20A9A47300E0EE92 /* NSString+FontAwesome.m */; };
+		891B301620A9A47400E0EE92 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300A20A9A47300E0EE92 /* NSString+FontAwesome.m */; };
+		891B301920A9A48A00E0EE92 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 891B301820A9A48900E0EE92 /* FontAwesome.ttf */; };
+		891B301A20A9A48A00E0EE92 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 891B301820A9A48900E0EE92 /* FontAwesome.ttf */; };
+		891B301B20A9A48A00E0EE92 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 891B301820A9A48900E0EE92 /* FontAwesome.ttf */; };
+		891B304420A9AB5D00E0EE92 /* FIIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B301E20A9AB5100E0EE92 /* FIIcon.m */; };
+		891B304520A9AB5D00E0EE92 /* FIIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B301E20A9AB5100E0EE92 /* FIIcon.m */; };
+		891B304620A9AB5D00E0EE92 /* FIIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B301E20A9AB5100E0EE92 /* FIIcon.m */; };
+		891B304720A9AB5D00E0EE92 /* FIIcon+FIIconRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302020A9AB5200E0EE92 /* FIIcon+FIIconRenderer.m */; };
+		891B304820A9AB5D00E0EE92 /* FIIcon+FIIconRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302020A9AB5200E0EE92 /* FIIcon+FIIconRenderer.m */; };
+		891B304920A9AB5D00E0EE92 /* FIIcon+FIIconRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302020A9AB5200E0EE92 /* FIIcon+FIIconRenderer.m */; };
+		891B304A20A9AB5D00E0EE92 /* FIIconicIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302120A9AB5300E0EE92 /* FIIconicIcon.m */; };
+		891B304B20A9AB5D00E0EE92 /* FIIconicIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302120A9AB5300E0EE92 /* FIIconicIcon.m */; };
+		891B304C20A9AB5D00E0EE92 /* FIIconicIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302120A9AB5300E0EE92 /* FIIconicIcon.m */; };
+		891B304D20A9AB5D00E0EE92 /* FIFlowasticIconNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302420A9AB5400E0EE92 /* FIFlowasticIconNew.m */; };
+		891B304E20A9AB5D00E0EE92 /* FIFlowasticIconNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302420A9AB5400E0EE92 /* FIFlowasticIconNew.m */; };
+		891B304F20A9AB5D00E0EE92 /* FIFlowasticIconNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302420A9AB5400E0EE92 /* FIFlowasticIconNew.m */; };
+		891B305020A9AB5D00E0EE92 /* FIFont+Deprecation.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302520A9AB5400E0EE92 /* FIFont+Deprecation.m */; };
+		891B305120A9AB5D00E0EE92 /* FIFont+Deprecation.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302520A9AB5400E0EE92 /* FIFont+Deprecation.m */; };
+		891B305220A9AB5D00E0EE92 /* FIFont+Deprecation.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302520A9AB5400E0EE92 /* FIFont+Deprecation.m */; };
+		891B305320A9AB5D00E0EE92 /* FIFontAwesomeIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302620A9AB5400E0EE92 /* FIFontAwesomeIcon.m */; };
+		891B305420A9AB5D00E0EE92 /* FIFontAwesomeIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302620A9AB5400E0EE92 /* FIFontAwesomeIcon.m */; };
+		891B305520A9AB5D00E0EE92 /* FIFontAwesomeIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302620A9AB5400E0EE92 /* FIFontAwesomeIcon.m */; };
+		891B305620A9AB5D00E0EE92 /* FIIcon+Deprecation.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302B20A9AB5600E0EE92 /* FIIcon+Deprecation.m */; };
+		891B305720A9AB5D00E0EE92 /* FIIcon+Deprecation.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302B20A9AB5600E0EE92 /* FIIcon+Deprecation.m */; };
+		891B305820A9AB5D00E0EE92 /* FIIcon+Deprecation.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302B20A9AB5600E0EE92 /* FIIcon+Deprecation.m */; };
+		891B305920A9AB5D00E0EE92 /* FIIcon+Impl.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302C20A9AB5700E0EE92 /* FIIcon+Impl.m */; };
+		891B305A20A9AB5D00E0EE92 /* FIIcon+Impl.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302C20A9AB5700E0EE92 /* FIIcon+Impl.m */; };
+		891B305B20A9AB5D00E0EE92 /* FIIcon+Impl.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B302C20A9AB5700E0EE92 /* FIIcon+Impl.m */; };
+		891B305C20A9AB5D00E0EE92 /* FIIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303120A9AB5800E0EE92 /* FIIconView.m */; };
+		891B305D20A9AB5D00E0EE92 /* FIIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303120A9AB5800E0EE92 /* FIIconView.m */; };
+		891B305E20A9AB5D00E0EE92 /* FIIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303120A9AB5800E0EE92 /* FIIconView.m */; };
+		891B305F20A9AB5D00E0EE92 /* FIIcon+Forwarding.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303320A9AB5900E0EE92 /* FIIcon+Forwarding.m */; };
+		891B306020A9AB5D00E0EE92 /* FIIcon+Forwarding.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303320A9AB5900E0EE92 /* FIIcon+Forwarding.m */; };
+		891B306120A9AB5D00E0EE92 /* FIIcon+Forwarding.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303320A9AB5900E0EE92 /* FIIcon+Forwarding.m */; };
+		891B306220A9AB5D00E0EE92 /* MoodFontIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303520A9AB5900E0EE92 /* MoodFontIcon.m */; };
+		891B306320A9AB5D00E0EE92 /* MoodFontIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303520A9AB5900E0EE92 /* MoodFontIcon.m */; };
+		891B306420A9AB5D00E0EE92 /* MoodFontIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303520A9AB5900E0EE92 /* MoodFontIcon.m */; };
+		891B306520A9AB5D00E0EE92 /* FIEntypoSocialIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303620A9AB5A00E0EE92 /* FIEntypoSocialIcon.m */; };
+		891B306620A9AB5D00E0EE92 /* FIEntypoSocialIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303620A9AB5A00E0EE92 /* FIEntypoSocialIcon.m */; };
+		891B306720A9AB5D00E0EE92 /* FIEntypoSocialIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303620A9AB5A00E0EE92 /* FIEntypoSocialIcon.m */; };
+		891B306820A9AB5D00E0EE92 /* FIFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303A20A9AB5B00E0EE92 /* FIFont.m */; };
+		891B306920A9AB5D00E0EE92 /* FIFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303A20A9AB5B00E0EE92 /* FIFont.m */; };
+		891B306A20A9AB5D00E0EE92 /* FIFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303A20A9AB5B00E0EE92 /* FIFont.m */; };
+		891B306B20A9AB5D00E0EE92 /* FIFlowasticIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303C20A9AB5B00E0EE92 /* FIFlowasticIcon.m */; };
+		891B306C20A9AB5D00E0EE92 /* FIFlowasticIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303C20A9AB5B00E0EE92 /* FIFlowasticIcon.m */; };
+		891B306D20A9AB5D00E0EE92 /* FIFlowasticIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B303C20A9AB5B00E0EE92 /* FIFlowasticIcon.m */; };
+		891B306E20A9AB5D00E0EE92 /* FIIconLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304020A9AB5C00E0EE92 /* FIIconLayer.m */; };
+		891B306F20A9AB5D00E0EE92 /* FIIconLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304020A9AB5C00E0EE92 /* FIIconLayer.m */; };
+		891B307020A9AB5D00E0EE92 /* FIIconLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304020A9AB5C00E0EE92 /* FIIconLayer.m */; };
+		891B307120A9AB5D00E0EE92 /* FIEntypoIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304220A9AB5D00E0EE92 /* FIEntypoIcon.m */; };
+		891B307220A9AB5D00E0EE92 /* FIEntypoIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304220A9AB5D00E0EE92 /* FIEntypoIcon.m */; };
+		891B307320A9AB5D00E0EE92 /* FIEntypoIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304220A9AB5D00E0EE92 /* FIEntypoIcon.m */; };
+		891B307420A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304320A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m */; };
+		891B307520A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304320A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m */; };
+		891B307620A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B304320A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m */; };
+		891B307920A9AB7500E0EE92 /* moodfont.strings in Resources */ = {isa = PBXBuildFile; fileRef = 891B307720A9AB7500E0EE92 /* moodfont.strings */; };
+		891B307A20A9AB7500E0EE92 /* moodfont.strings in Resources */ = {isa = PBXBuildFile; fileRef = 891B307720A9AB7500E0EE92 /* moodfont.strings */; };
+		891B307B20A9AB7500E0EE92 /* moodfont.strings in Resources */ = {isa = PBXBuildFile; fileRef = 891B307720A9AB7500E0EE92 /* moodfont.strings */; };
+		891B307C20A9AB7500E0EE92 /* moodfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 891B307820A9AB7500E0EE92 /* moodfont.ttf */; };
+		891B307D20A9AB7500E0EE92 /* moodfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 891B307820A9AB7500E0EE92 /* moodfont.ttf */; };
+		891B307E20A9AB7500E0EE92 /* moodfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 891B307820A9AB7500E0EE92 /* moodfont.ttf */; };
+		891B308120A9ABFC00E0EE92 /* FontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B308020A9ABFB00E0EE92 /* FontManager.m */; };
+		891B308220A9ABFC00E0EE92 /* FontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B308020A9ABFB00E0EE92 /* FontManager.m */; };
+		891B308320A9ABFC00E0EE92 /* FontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B308020A9ABFB00E0EE92 /* FontManager.m */; };
 		960DC65B19F902F300C69579 /* bar_comments@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65219F902F300C69579 /* bar_comments@3x.png */; };
 		960DC65C19F902F300C69579 /* bar_eye_blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65319F902F300C69579 /* bar_eye_blue@3x.png */; };
 		960DC65D19F902F300C69579 /* bar_eye@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65419F902F300C69579 /* bar_eye@3x.png */; };
@@ -4230,6 +4305,58 @@
 		67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAssetManager.m; sourceTree = "<group>"; };
 		67FBA11817A665D200EB1BD5 /* URLAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLAsset.h; sourceTree = "<group>"; };
 		67FBA11917A665D400EB1BD5 /* URLAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAsset.m; sourceTree = "<group>"; };
+		891B300320A9A47200E0EE92 /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
+		891B300420A9A47200E0EE92 /* FAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImageView.m; sourceTree = "<group>"; };
+		891B300520A9A47200E0EE92 /* UIFont+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontAwesome.m"; sourceTree = "<group>"; };
+		891B300620A9A47200E0EE92 /* UIImage+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FontAwesome.h"; sourceTree = "<group>"; };
+		891B300720A9A47300E0EE92 /* UIImage+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FontAwesome.m"; sourceTree = "<group>"; };
+		891B300820A9A47300E0EE92 /* UIFont+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FontAwesome.h"; sourceTree = "<group>"; };
+		891B300920A9A47300E0EE92 /* FAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImageView.h; sourceTree = "<group>"; };
+		891B300A20A9A47300E0EE92 /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
+		891B301820A9A48900E0EE92 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		891B301D20A9AB5100E0EE92 /* FIFont+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FIFont+Private.h"; sourceTree = "<group>"; };
+		891B301E20A9AB5100E0EE92 /* FIIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIIcon.m; sourceTree = "<group>"; };
+		891B301F20A9AB5200E0EE92 /* FIEntypoSocialIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIEntypoSocialIcon.h; sourceTree = "<group>"; };
+		891B302020A9AB5200E0EE92 /* FIIcon+FIIconRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FIIcon+FIIconRenderer.m"; sourceTree = "<group>"; };
+		891B302120A9AB5300E0EE92 /* FIIconicIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIIconicIcon.m; sourceTree = "<group>"; };
+		891B302220A9AB5300E0EE92 /* FIIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIIconView.h; sourceTree = "<group>"; };
+		891B302320A9AB5300E0EE92 /* FIRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIRenderer.h; sourceTree = "<group>"; };
+		891B302420A9AB5400E0EE92 /* FIFlowasticIconNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFlowasticIconNew.m; sourceTree = "<group>"; };
+		891B302520A9AB5400E0EE92 /* FIFont+Deprecation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FIFont+Deprecation.m"; sourceTree = "<group>"; };
+		891B302620A9AB5400E0EE92 /* FIFontAwesomeIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFontAwesomeIcon.m; sourceTree = "<group>"; };
+		891B302720A9AB5500E0EE92 /* MoodFontIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodFontIcon.h; sourceTree = "<group>"; };
+		891B302820A9AB5500E0EE92 /* FIIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIIcon.h; sourceTree = "<group>"; };
+		891B302920A9AB5500E0EE92 /* FIFont+Deprecation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FIFont+Deprecation.h"; sourceTree = "<group>"; };
+		891B302A20A9AB5600E0EE92 /* FIIcon+Deprecation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FIIcon+Deprecation.h"; sourceTree = "<group>"; };
+		891B302B20A9AB5600E0EE92 /* FIIcon+Deprecation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FIIcon+Deprecation.m"; sourceTree = "<group>"; };
+		891B302C20A9AB5700E0EE92 /* FIIcon+Impl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FIIcon+Impl.m"; sourceTree = "<group>"; };
+		891B302D20A9AB5700E0EE92 /* FIFontAwesomeIcon+Deprecation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FIFontAwesomeIcon+Deprecation.h"; sourceTree = "<group>"; };
+		891B302E20A9AB5800E0EE92 /* FIIcon+Impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FIIcon+Impl.h"; sourceTree = "<group>"; };
+		891B302F20A9AB5800E0EE92 /* FIFontAwesomeIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFontAwesomeIcon.h; sourceTree = "<group>"; };
+		891B303020A9AB5800E0EE92 /* FIIconRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIIconRendering.h; sourceTree = "<group>"; };
+		891B303120A9AB5800E0EE92 /* FIIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIIconView.m; sourceTree = "<group>"; };
+		891B303220A9AB5900E0EE92 /* FIFlowasticIconNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFlowasticIconNew.h; sourceTree = "<group>"; };
+		891B303320A9AB5900E0EE92 /* FIIcon+Forwarding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FIIcon+Forwarding.m"; sourceTree = "<group>"; };
+		891B303420A9AB5900E0EE92 /* FIIconLayer+FIRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FIIconLayer+FIRenderer.h"; sourceTree = "<group>"; };
+		891B303520A9AB5900E0EE92 /* MoodFontIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodFontIcon.m; sourceTree = "<group>"; };
+		891B303620A9AB5A00E0EE92 /* FIEntypoSocialIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIEntypoSocialIcon.m; sourceTree = "<group>"; };
+		891B303720A9AB5A00E0EE92 /* FontasticIcons+Deprecation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FontasticIcons+Deprecation.h"; sourceTree = "<group>"; };
+		891B303820A9AB5A00E0EE92 /* FIFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFont.h; sourceTree = "<group>"; };
+		891B303920A9AB5A00E0EE92 /* FIIconLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIIconLayer.h; sourceTree = "<group>"; };
+		891B303A20A9AB5B00E0EE92 /* FIFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFont.m; sourceTree = "<group>"; };
+		891B303B20A9AB5B00E0EE92 /* FIIcon+FIIconRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FIIcon+FIIconRenderer.h"; sourceTree = "<group>"; };
+		891B303C20A9AB5B00E0EE92 /* FIFlowasticIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIFlowasticIcon.m; sourceTree = "<group>"; };
+		891B303D20A9AB5C00E0EE92 /* FontasticIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontasticIcons.h; sourceTree = "<group>"; };
+		891B303E20A9AB5C00E0EE92 /* FIIconicIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIIconicIcon.h; sourceTree = "<group>"; };
+		891B303F20A9AB5C00E0EE92 /* FIFlowasticIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIFlowasticIcon.h; sourceTree = "<group>"; };
+		891B304020A9AB5C00E0EE92 /* FIIconLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIIconLayer.m; sourceTree = "<group>"; };
+		891B304120A9AB5D00E0EE92 /* FIEntypoIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIEntypoIcon.h; sourceTree = "<group>"; };
+		891B304220A9AB5D00E0EE92 /* FIEntypoIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FIEntypoIcon.m; sourceTree = "<group>"; };
+		891B304320A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FIIconLayer+FIRenderer.m"; sourceTree = "<group>"; };
+		891B307720A9AB7500E0EE92 /* moodfont.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = moodfont.strings; sourceTree = "<group>"; };
+		891B307820A9AB7500E0EE92 /* moodfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = moodfont.ttf; sourceTree = "<group>"; };
+		891B307F20A9ABFB00E0EE92 /* FontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontManager.h; sourceTree = "<group>"; };
+		891B308020A9ABFB00E0EE92 /* FontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontManager.m; sourceTree = "<group>"; };
 		960DC65219F902F300C69579 /* bar_comments@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_comments@3x.png"; sourceTree = "<group>"; };
 		960DC65319F902F300C69579 /* bar_eye_blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_eye_blue@3x.png"; sourceTree = "<group>"; };
 		960DC65419F902F300C69579 /* bar_eye@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_eye@3x.png"; sourceTree = "<group>"; };
@@ -4726,6 +4853,9 @@
 		67CF2B2A161950D7001FE1AA /* SmartDayPro */ = {
 			isa = PBXGroup;
 			children = (
+				891B301C20A9AB4500E0EE92 /* FontasticIcons */,
+				891B301720A9A47D00E0EE92 /* Resources */,
+				891B300220A9A44D00E0EE92 /* FontAwsome */,
 				67C8F0E01638EA5A0098CFEB /* GrowingTextView */,
 				67CF2B5A16195195001FE1AA /* Classes */,
 				67CF2B4A1619517F001FE1AA /* AboutUs_Classes */,
@@ -6025,6 +6155,79 @@
 			path = SmartDayPro/InputView;
 			sourceTree = SOURCE_ROOT;
 		};
+		891B300220A9A44D00E0EE92 /* FontAwsome */ = {
+			isa = PBXGroup;
+			children = (
+				891B300920A9A47300E0EE92 /* FAImageView.h */,
+				891B300420A9A47200E0EE92 /* FAImageView.m */,
+				891B300320A9A47200E0EE92 /* NSString+FontAwesome.h */,
+				891B300A20A9A47300E0EE92 /* NSString+FontAwesome.m */,
+				891B300820A9A47300E0EE92 /* UIFont+FontAwesome.h */,
+				891B300520A9A47200E0EE92 /* UIFont+FontAwesome.m */,
+				891B300620A9A47200E0EE92 /* UIImage+FontAwesome.h */,
+				891B300720A9A47300E0EE92 /* UIImage+FontAwesome.m */,
+			);
+			path = FontAwsome;
+			sourceTree = "<group>";
+		};
+		891B301720A9A47D00E0EE92 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				891B307720A9AB7500E0EE92 /* moodfont.strings */,
+				891B307820A9AB7500E0EE92 /* moodfont.ttf */,
+				891B301820A9A48900E0EE92 /* FontAwesome.ttf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		891B301C20A9AB4500E0EE92 /* FontasticIcons */ = {
+			isa = PBXGroup;
+			children = (
+				891B307F20A9ABFB00E0EE92 /* FontManager.h */,
+				891B308020A9ABFB00E0EE92 /* FontManager.m */,
+				891B304120A9AB5D00E0EE92 /* FIEntypoIcon.h */,
+				891B304220A9AB5D00E0EE92 /* FIEntypoIcon.m */,
+				891B301F20A9AB5200E0EE92 /* FIEntypoSocialIcon.h */,
+				891B303620A9AB5A00E0EE92 /* FIEntypoSocialIcon.m */,
+				891B303F20A9AB5C00E0EE92 /* FIFlowasticIcon.h */,
+				891B303C20A9AB5B00E0EE92 /* FIFlowasticIcon.m */,
+				891B303220A9AB5900E0EE92 /* FIFlowasticIconNew.h */,
+				891B302420A9AB5400E0EE92 /* FIFlowasticIconNew.m */,
+				891B303820A9AB5A00E0EE92 /* FIFont.h */,
+				891B303A20A9AB5B00E0EE92 /* FIFont.m */,
+				891B302920A9AB5500E0EE92 /* FIFont+Deprecation.h */,
+				891B302520A9AB5400E0EE92 /* FIFont+Deprecation.m */,
+				891B301D20A9AB5100E0EE92 /* FIFont+Private.h */,
+				891B302F20A9AB5800E0EE92 /* FIFontAwesomeIcon.h */,
+				891B302620A9AB5400E0EE92 /* FIFontAwesomeIcon.m */,
+				891B302D20A9AB5700E0EE92 /* FIFontAwesomeIcon+Deprecation.h */,
+				891B302820A9AB5500E0EE92 /* FIIcon.h */,
+				891B301E20A9AB5100E0EE92 /* FIIcon.m */,
+				891B302A20A9AB5600E0EE92 /* FIIcon+Deprecation.h */,
+				891B302B20A9AB5600E0EE92 /* FIIcon+Deprecation.m */,
+				891B303B20A9AB5B00E0EE92 /* FIIcon+FIIconRenderer.h */,
+				891B302020A9AB5200E0EE92 /* FIIcon+FIIconRenderer.m */,
+				891B303320A9AB5900E0EE92 /* FIIcon+Forwarding.m */,
+				891B302E20A9AB5800E0EE92 /* FIIcon+Impl.h */,
+				891B302C20A9AB5700E0EE92 /* FIIcon+Impl.m */,
+				891B303E20A9AB5C00E0EE92 /* FIIconicIcon.h */,
+				891B302120A9AB5300E0EE92 /* FIIconicIcon.m */,
+				891B303920A9AB5A00E0EE92 /* FIIconLayer.h */,
+				891B304020A9AB5C00E0EE92 /* FIIconLayer.m */,
+				891B303420A9AB5900E0EE92 /* FIIconLayer+FIRenderer.h */,
+				891B304320A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m */,
+				891B303020A9AB5800E0EE92 /* FIIconRendering.h */,
+				891B302220A9AB5300E0EE92 /* FIIconView.h */,
+				891B303120A9AB5800E0EE92 /* FIIconView.m */,
+				891B302320A9AB5300E0EE92 /* FIRenderer.h */,
+				891B303D20A9AB5C00E0EE92 /* FontasticIcons.h */,
+				891B303720A9AB5A00E0EE92 /* FontasticIcons+Deprecation.h */,
+				891B302720A9AB5500E0EE92 /* MoodFontIcon.h */,
+				891B303520A9AB5900E0EE92 /* MoodFontIcon.m */,
+			);
+			path = FontasticIcons;
+			sourceTree = "<group>";
+		};
 		A25B560918BAF05B00110A3C /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
@@ -6537,6 +6740,7 @@
 				6748BA51180401820043A80E /* star@2x.png in Resources */,
 				6748BA52180401820043A80E /* status_mark.png in Resources */,
 				6748BA53180401820043A80E /* status_pause.png in Resources */,
+				891B307C20A9AB7500E0EE92 /* moodfont.ttf in Resources */,
 				6748BA54180401820043A80E /* status_play.png in Resources */,
 				6748BA55180401820043A80E /* stop_red_green.png in Resources */,
 				96B502D01A078D9100855039 /* menu_done@3x.png in Resources */,
@@ -6840,6 +7044,7 @@
 				6748BB4A180401820043A80E /* timer_item@2x.png in Resources */,
 				6748BB4B180401820043A80E /* assign.png in Resources */,
 				A207350818BDA2AF00B5F1BA /* slider_0_iphone5_ja.html in Resources */,
+				891B301920A9A48A00E0EE92 /* FontAwesome.ttf in Resources */,
 				6748BB4C180401820043A80E /* assign@2x.png in Resources */,
 				6748BB4D180401820043A80E /* planner_currenttime.png in Resources */,
 				6748BB4E180401820043A80E /* planner_currenttime@2x.png in Resources */,
@@ -6971,6 +7176,7 @@
 				6748BBAB180401820043A80E /* tab_projects_left_selected.png in Resources */,
 				6748BBAC180401820043A80E /* tab_projects_left_selected@2x.png in Resources */,
 				96B502F11A078D9100855039 /* tab_notes_landscape_selected@3x.png in Resources */,
+				891B307920A9AB7500E0EE92 /* moodfont.strings in Resources */,
 				6748BBAD180401820043A80E /* tab_projects_left.png in Resources */,
 				6748BBAE180401820043A80E /* tab_projects_left@2x.png in Resources */,
 				6784CF921830B06B0095DDF9 /* slider_3_iphone4_ja.html in Resources */,
@@ -7266,11 +7472,13 @@
 				67CF2F6F161951B8001FE1AA /* menu_showhide@2x.png in Resources */,
 				67CF2F70161951B8001FE1AA /* menu_singleselect.png in Resources */,
 				67CF2F71161951B8001FE1AA /* menu_singleselect@2x.png in Resources */,
+				891B301A20A9A48A00E0EE92 /* FontAwesome.ttf in Resources */,
 				67CF2F72161951B8001FE1AA /* menu_smartapps.png in Resources */,
 				67CF2F73161951B8001FE1AA /* menu_sync.png in Resources */,
 				67CF2F74161951B8001FE1AA /* menu_sync@2x.png in Resources */,
 				67CF2F75161951B8001FE1AA /* menu_today.png in Resources */,
 				6700B2AF17F2874400AD8B3F /* menu_duplicate_white@2x.png in Resources */,
+				891B307A20A9AB7500E0EE92 /* moodfont.strings in Resources */,
 				67CF2F76161951B8001FE1AA /* menu_today@2x.png in Resources */,
 				67CF2F77161951B8001FE1AA /* menu_toDelete.png in Resources */,
 				6746CED517BCBC9D0042E1EF /* menu_airdrop@2x.png in Resources */,
@@ -7743,6 +7951,7 @@
 				67F2A201179D1605004617D1 /* tab_projects_selected.png in Resources */,
 				67F2A203179D1605004617D1 /* tab_projects_selected@2x.png in Resources */,
 				67F2A205179D1605004617D1 /* tab_projects.png in Resources */,
+				891B307D20A9AB7500E0EE92 /* moodfont.ttf in Resources */,
 				67F2A207179D1605004617D1 /* tab_projects@2x.png in Resources */,
 				6784CF3B1830B01C0095DDF9 /* slider_1_iphone4.jpg in Resources */,
 				67F2A209179D1605004617D1 /* tab_tasks_selected.png in Resources */,
@@ -8074,11 +8283,13 @@
 				67EC0E0E16F8081F00929BFD /* menu_showhide@2x.png in Resources */,
 				67EC0E0F16F8081F00929BFD /* menu_singleselect.png in Resources */,
 				67EC0E1016F8081F00929BFD /* menu_singleselect@2x.png in Resources */,
+				891B301B20A9A48A00E0EE92 /* FontAwesome.ttf in Resources */,
 				67EC0E1116F8081F00929BFD /* menu_smartapps.png in Resources */,
 				67EC0E1216F8081F00929BFD /* menu_sync.png in Resources */,
 				67EC0E1316F8081F00929BFD /* menu_sync@2x.png in Resources */,
 				67EC0E1416F8081F00929BFD /* menu_today.png in Resources */,
 				6700B2B017F2874400AD8B3F /* menu_duplicate_white@2x.png in Resources */,
+				891B307B20A9AB7500E0EE92 /* moodfont.strings in Resources */,
 				67EC0E1516F8081F00929BFD /* menu_today@2x.png in Resources */,
 				67EC0E1616F8081F00929BFD /* menu_toDelete.png in Resources */,
 				6746CED617BCBC9D0042E1EF /* menu_airdrop@2x.png in Resources */,
@@ -8551,6 +8762,7 @@
 				67F2A202179D1605004617D1 /* tab_projects_selected.png in Resources */,
 				67F2A204179D1605004617D1 /* tab_projects_selected@2x.png in Resources */,
 				67F2A206179D1605004617D1 /* tab_projects.png in Resources */,
+				891B307E20A9AB7500E0EE92 /* moodfont.ttf in Resources */,
 				67F2A208179D1605004617D1 /* tab_projects@2x.png in Resources */,
 				6784CF3C1830B01C0095DDF9 /* slider_1_iphone4.jpg in Resources */,
 				67F2A20A179D1605004617D1 /* tab_tasks_selected.png in Resources */,
@@ -8619,6 +8831,7 @@
 				6748B849180401820043A80E /* AlertListViewController.m in Sources */,
 				6748B84A180401820043A80E /* AlertManager.m in Sources */,
 				672D8BFC180E72F800624484 /* GuruViewController.m in Sources */,
+				891B300B20A9A47400E0EE92 /* FAImageView.m in Sources */,
 				6748B84B180401820043A80E /* AlertSelectionTableViewController.m in Sources */,
 				6748B84C180401820043A80E /* BusyController.m in Sources */,
 				6748B84D180401820043A80E /* GrowingTextView.m in Sources */,
@@ -8628,6 +8841,7 @@
 				6748B852180401820043A80E /* CalendarSelectionTableViewController.m in Sources */,
 				6748B853180401820043A80E /* CalendarViewController.m in Sources */,
 				6748B854180401820043A80E /* CategoryLayoutController.m in Sources */,
+				891B306B20A9AB5D00E0EE92 /* FIFlowasticIcon.m in Sources */,
 				6748B855180401820043A80E /* CategoryMovableController.m in Sources */,
 				6748B857180401820043A80E /* CategoryViewController.m in Sources */,
 				6748B858180401820043A80E /* CGRectObj.m in Sources */,
@@ -8637,29 +8851,36 @@
 				6748B85C180401820043A80E /* ContactManager.m in Sources */,
 				6748B85D180401820043A80E /* Contacts.m in Sources */,
 				6748B85E180401820043A80E /* ContentScrollView.m in Sources */,
+				891B307120A9AB5D00E0EE92 /* FIEntypoIcon.m in Sources */,
 				6748B85F180401820043A80E /* ContentTableView.m in Sources */,
 				6748B860180401820043A80E /* ContentView.m in Sources */,
 				6748B861180401820043A80E /* CustomTextView.m in Sources */,
 				6748B862180401820043A80E /* DateJumpView.m in Sources */,
 				6748B864180401820043A80E /* DayHeaderView.m in Sources */,
 				6748B865180401820043A80E /* DBManager.m in Sources */,
+				891B305020A9AB5D00E0EE92 /* FIFont+Deprecation.m in Sources */,
 				6748B866180401820043A80E /* DefaultDurationViewController.m in Sources */,
 				6748B867180401820043A80E /* DurationPickerViewController.m in Sources */,
+				891B306820A9AB5D00E0EE92 /* FIFont.m in Sources */,
 				6748B868180401820043A80E /* EKSync.m in Sources */,
 				6748B869180401820043A80E /* FilterData.m in Sources */,
 				6748B86A180401820043A80E /* FilterView.m in Sources */,
 				6748B86B180401820043A80E /* GTMBase64.m in Sources */,
+				891B304A20A9AB5D00E0EE92 /* FIIconicIcon.m in Sources */,
+				891B301420A9A47400E0EE92 /* NSString+FontAwesome.m in Sources */,
 				6748B86C180401820043A80E /* GuideWebView.m in Sources */,
 				6748B86D180401820043A80E /* TagDetailViewController.m in Sources */,
 				6748B86E180401820043A80E /* HighlightView.m in Sources */,
 				6748B86F180401820043A80E /* HourPickerViewController.m in Sources */,
 				6748B870180401820043A80E /* ImageManager.m in Sources */,
 				6748B871180401820043A80E /* LayoutController.m in Sources */,
+				891B306E20A9AB5D00E0EE92 /* FIIconLayer.m in Sources */,
 				6748B872180401820043A80E /* Link.m in Sources */,
 				6748B873180401820043A80E /* LinkSearchViewController.m in Sources */,
 				6748B874180401820043A80E /* LinkViewController.m in Sources */,
 				6748B875180401820043A80E /* LocationViewController.m in Sources */,
 				6748B876180401820043A80E /* MenuMakerView.m in Sources */,
+				891B305F20A9AB5D00E0EE92 /* FIIcon+Forwarding.m in Sources */,
 				6748B877180401820043A80E /* MiniMonthMovableController.m in Sources */,
 				6748B878180401820043A80E /* MiniMonthView.m in Sources */,
 				6748B879180401820043A80E /* MonthlyADEView.m in Sources */,
@@ -8691,11 +8912,13 @@
 				6748B894180401820043A80E /* Settings.m in Sources */,
 				6748B895180401820043A80E /* SettingTableViewController.m in Sources */,
 				6748B896180401820043A80E /* UnreadCommentViewController.m in Sources */,
+				891B304720A9AB5D00E0EE92 /* FIIcon+FIIconRenderer.m in Sources */,
 				6748B897180401820043A80E /* SmartCalAppDelegate.m in Sources */,
 				6748B898180401820043A80E /* SmartDayViewController.m in Sources */,
 				6748B899180401820043A80E /* SmartListLayoutController.m in Sources */,
 				6748B89A180401820043A80E /* SmartListMovableController.m in Sources */,
 				6748B89B180401820043A80E /* SmartListViewController.m in Sources */,
+				891B305320A9AB5D00E0EE92 /* FIFontAwesomeIcon.m in Sources */,
 				6748B89C180401820043A80E /* StartEndPickerViewController.m in Sources */,
 				6748B89D180401820043A80E /* SyncDirectionTableViewController.m in Sources */,
 				6748B89E180401820043A80E /* SyncWindow2TableViewController.m in Sources */,
@@ -8719,6 +8942,7 @@
 				6748B8B1180401820043A80E /* UIViewController+Transitions.m in Sources */,
 				6748B8B2180401820043A80E /* WorkingTime7ViewController.m in Sources */,
 				6748B8B3180401820043A80E /* WWWTableViewController.m in Sources */,
+				891B306220A9AB5D00E0EE92 /* MoodFontIcon.m in Sources */,
 				6748B8B4180401820043A80E /* Reachability.m in Sources */,
 				A202CEF518289064001840EE /* TaskLocationListViewController.m in Sources */,
 				6748B8B5180401820043A80E /* SDWAccountViewController.m in Sources */,
@@ -8727,6 +8951,7 @@
 				6748B8B8180401820043A80E /* SDWSync.m in Sources */,
 				6748B8B9180401820043A80E /* MusicManager.m in Sources */,
 				6748B8BA180401820043A80E /* TDAccount.m in Sources */,
+				891B304D20A9AB5D00E0EE92 /* FIFlowasticIconNew.m in Sources */,
 				6748B8BB180401820043A80E /* TDAccountParser.m in Sources */,
 				6748B8BC180401820043A80E /* MapLocationViewController.m in Sources */,
 				6748B8BD180401820043A80E /* TDClient.m in Sources */,
@@ -8754,6 +8979,7 @@
 				6748B8D2180401820043A80E /* iPadSmartDayViewController.m in Sources */,
 				6748B8D3180401820043A80E /* AbstractSDViewController.m in Sources */,
 				6748B8D4180401820043A80E /* MiniMonthWeekHeaderView.m in Sources */,
+				891B307420A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m in Sources */,
 				6748B8D5180401820043A80E /* FocusView.m in Sources */,
 				6748B8D6180401820043A80E /* PreviewViewController.m in Sources */,
 				6748B8D7180401820043A80E /* PlannerViewController.m in Sources */,
@@ -8765,6 +8991,7 @@
 				6748B8DD180401820043A80E /* iPadTagListViewController.m in Sources */,
 				6748B8DE180401820043A80E /* iPadSettingViewController.m in Sources */,
 				A2D34C83181A703E004EB8F1 /* Location.m in Sources */,
+				891B308120A9ABFC00E0EE92 /* FontManager.m in Sources */,
 				6748B8DF180401820043A80E /* iPadGeneralSettingViewController.m in Sources */,
 				67073C891828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
 				6748B8E0180401820043A80E /* iPadCalendarSettingViewController.m in Sources */,
@@ -8778,20 +9005,25 @@
 				A2D34C7D181A603F004EB8F1 /* LocationListViewController.m in Sources */,
 				6748B8E8180401820043A80E /* TimerHistoryViewController.m in Sources */,
 				6748B8E9180401820043A80E /* DummyMovableController.m in Sources */,
+				891B306520A9AB5D00E0EE92 /* FIEntypoSocialIcon.m in Sources */,
 				6748B8EA180401820043A80E /* NoteLayoutController.m in Sources */,
 				A2CE6DB6181E0FAD00FAEF05 /* LocationManager.m in Sources */,
 				6748B8EB180401820043A80E /* NoteMovableController.m in Sources */,
 				6748B8EC180401820043A80E /* PlannerBottomDayCal.m in Sources */,
 				6748B8ED180401820043A80E /* PlannerHeaderView.m in Sources */,
+				891B304420A9AB5D00E0EE92 /* FIIcon.m in Sources */,
 				6748B8EE180401820043A80E /* PlannerMonthCellView.m in Sources */,
 				6748B8EF180401820043A80E /* PlannerMonthView.m in Sources */,
+				891B300E20A9A47400E0EE92 /* UIFont+FontAwesome.m in Sources */,
 				6748B8F0180401820043A80E /* PlannerView.m in Sources */,
 				6748B8F2180401820043A80E /* SnoozeDurationViewController.m in Sources */,
+				891B305620A9AB5D00E0EE92 /* FIIcon+Deprecation.m in Sources */,
 				6748B8F3180401820043A80E /* EKReminderSync.m in Sources */,
 				6748B8F4180401820043A80E /* TaskSyncViewController.m in Sources */,
 				6748B8F5180401820043A80E /* PlannerCalendarLayoutController.m in Sources */,
 				6748B8F6180401820043A80E /* PlannerScheduleView.m in Sources */,
 				6748B8F8180401820043A80E /* CommentViewController.m in Sources */,
+				891B301120A9A47400E0EE92 /* UIImage+FontAwesome.m in Sources */,
 				6748B8FA180401820043A80E /* AbstractMonthCalendarView.m in Sources */,
 				6748B8FB180401820043A80E /* AbstractActionViewController.m in Sources */,
 				6748B8FC180401820043A80E /* CalendarPlannerMovableController.m in Sources */,
@@ -8799,7 +9031,9 @@
 				6748B8FE180401820043A80E /* MonthInYearView.m in Sources */,
 				6748B8FF180401820043A80E /* YearViewController.m in Sources */,
 				6748B900180401820043A80E /* TimeZonePickerViewController.m in Sources */,
+				891B305920A9AB5D00E0EE92 /* FIIcon+Impl.m in Sources */,
 				6748B901180401820043A80E /* TaskReadonlyDetailViewController.m in Sources */,
+				891B305C20A9AB5D00E0EE92 /* FIIconView.m in Sources */,
 				6748B903180401820043A80E /* TaskLayoutController.m in Sources */,
 				6748B904180401820043A80E /* TaskMovableController.m in Sources */,
 				6748B905180401820043A80E /* RestoreViewController.m in Sources */,
@@ -8833,6 +9067,7 @@
 				67CF2CBC16195196001FE1AA /* AlertListViewController.m in Sources */,
 				67CF2CBD16195196001FE1AA /* AlertManager.m in Sources */,
 				672D8BFD180E72F800624484 /* GuruViewController.m in Sources */,
+				891B300C20A9A47400E0EE92 /* FAImageView.m in Sources */,
 				67CF2CBE16195196001FE1AA /* AlertSelectionTableViewController.m in Sources */,
 				67CF2CBF16195196001FE1AA /* BusyController.m in Sources */,
 				6749348917B381EE00AEA74A /* GrowingTextView.m in Sources */,
@@ -8842,6 +9077,7 @@
 				67CF2CC516195196001FE1AA /* CalendarSelectionTableViewController.m in Sources */,
 				67CF2CC616195196001FE1AA /* CalendarViewController.m in Sources */,
 				67CF2CC816195196001FE1AA /* CategoryLayoutController.m in Sources */,
+				891B306C20A9AB5D00E0EE92 /* FIFlowasticIcon.m in Sources */,
 				67CF2CC916195196001FE1AA /* CategoryMovableController.m in Sources */,
 				67CF2CCB16195196001FE1AA /* CategoryViewController.m in Sources */,
 				67CF2CCC16195196001FE1AA /* CGRectObj.m in Sources */,
@@ -8851,29 +9087,36 @@
 				67CF2CD316195196001FE1AA /* ContactManager.m in Sources */,
 				67CF2CD416195196001FE1AA /* Contacts.m in Sources */,
 				67CF2CD516195196001FE1AA /* ContentScrollView.m in Sources */,
+				891B307220A9AB5D00E0EE92 /* FIEntypoIcon.m in Sources */,
 				67CF2CD616195196001FE1AA /* ContentTableView.m in Sources */,
 				67CF2CD716195196001FE1AA /* ContentView.m in Sources */,
 				67CF2CD816195196001FE1AA /* CustomTextView.m in Sources */,
 				67CF2CD916195196001FE1AA /* DateJumpView.m in Sources */,
 				67CF2CDB16195196001FE1AA /* DayHeaderView.m in Sources */,
 				67CF2CDD16195196001FE1AA /* DBManager.m in Sources */,
+				891B305120A9AB5D00E0EE92 /* FIFont+Deprecation.m in Sources */,
 				67CF2CDE16195196001FE1AA /* DefaultDurationViewController.m in Sources */,
 				67CF2CE016195196001FE1AA /* DurationPickerViewController.m in Sources */,
+				891B306920A9AB5D00E0EE92 /* FIFont.m in Sources */,
 				67CF2CE116195196001FE1AA /* EKSync.m in Sources */,
 				67CF2CE216195196001FE1AA /* FilterData.m in Sources */,
 				67CF2CE316195196001FE1AA /* FilterView.m in Sources */,
 				67CF2CE516195196001FE1AA /* GTMBase64.m in Sources */,
+				891B304B20A9AB5D00E0EE92 /* FIIconicIcon.m in Sources */,
+				891B301520A9A47400E0EE92 /* NSString+FontAwesome.m in Sources */,
 				67CF2CE616195196001FE1AA /* GuideWebView.m in Sources */,
 				A2A8BA6817C370E500EB4C64 /* TagDetailViewController.m in Sources */,
 				67CF2CE716195196001FE1AA /* HighlightView.m in Sources */,
 				67CF2CE916195196001FE1AA /* HourPickerViewController.m in Sources */,
 				67CF2CEA16195196001FE1AA /* ImageManager.m in Sources */,
 				67CF2CEC16195196001FE1AA /* LayoutController.m in Sources */,
+				891B306F20A9AB5D00E0EE92 /* FIIconLayer.m in Sources */,
 				67CF2CED16195196001FE1AA /* Link.m in Sources */,
 				67CF2CEE16195196001FE1AA /* LinkSearchViewController.m in Sources */,
 				67CF2CEF16195196001FE1AA /* LinkViewController.m in Sources */,
 				67CF2CF816195196001FE1AA /* LocationViewController.m in Sources */,
 				67CF2CF916195196001FE1AA /* MenuMakerView.m in Sources */,
+				891B306020A9AB5D00E0EE92 /* FIIcon+Forwarding.m in Sources */,
 				67CF2CFA16195196001FE1AA /* MiniMonthMovableController.m in Sources */,
 				67CF2CFB16195196001FE1AA /* MiniMonthView.m in Sources */,
 				67CF2CFC16195196001FE1AA /* MonthlyADEView.m in Sources */,
@@ -8905,11 +9148,13 @@
 				67CF2D2016195196001FE1AA /* Settings.m in Sources */,
 				67CF2D2116195196001FE1AA /* SettingTableViewController.m in Sources */,
 				672111C417CF453000054FC6 /* UnreadCommentViewController.m in Sources */,
+				891B304820A9AB5D00E0EE92 /* FIIcon+FIIconRenderer.m in Sources */,
 				67CF2D2216195196001FE1AA /* SmartCalAppDelegate.m in Sources */,
 				67CF2D2416195196001FE1AA /* SmartDayViewController.m in Sources */,
 				67CF2D2516195196001FE1AA /* SmartListLayoutController.m in Sources */,
 				67CF2D2616195196001FE1AA /* SmartListMovableController.m in Sources */,
 				67CF2D2716195196001FE1AA /* SmartListViewController.m in Sources */,
+				891B305420A9AB5D00E0EE92 /* FIFontAwesomeIcon.m in Sources */,
 				67CF2D2816195196001FE1AA /* StartEndPickerViewController.m in Sources */,
 				67CF2D2A16195196001FE1AA /* SyncDirectionTableViewController.m in Sources */,
 				67CF2D2B16195196001FE1AA /* SyncWindow2TableViewController.m in Sources */,
@@ -8933,6 +9178,7 @@
 				67CF2D3F16195196001FE1AA /* UIViewController+Transitions.m in Sources */,
 				67CF2D4616195196001FE1AA /* WorkingTime7ViewController.m in Sources */,
 				67CF2D4716195196001FE1AA /* WWWTableViewController.m in Sources */,
+				891B306320A9AB5D00E0EE92 /* MoodFontIcon.m in Sources */,
 				67CF2D5316195196001FE1AA /* Reachability.m in Sources */,
 				A202CEF618289065001840EE /* TaskLocationListViewController.m in Sources */,
 				67CF2D5416195196001FE1AA /* SDWAccountViewController.m in Sources */,
@@ -8941,6 +9187,7 @@
 				67CF2D5716195196001FE1AA /* SDWSync.m in Sources */,
 				67CF2D5E16195196001FE1AA /* MusicManager.m in Sources */,
 				67CF2D5F16195196001FE1AA /* TDAccount.m in Sources */,
+				891B304E20A9AB5D00E0EE92 /* FIFlowasticIconNew.m in Sources */,
 				67CF2D6016195196001FE1AA /* TDAccountParser.m in Sources */,
 				A2C17A7017E1837700468CC5 /* MapLocationViewController.m in Sources */,
 				67CF2D6116195196001FE1AA /* TDClient.m in Sources */,
@@ -8968,6 +9215,7 @@
 				67B41508166C5A5A00AB3B5C /* iPadSmartDayViewController.m in Sources */,
 				67E6E42F166DB86200018988 /* AbstractSDViewController.m in Sources */,
 				67E8362B1671928F0024C02A /* MiniMonthWeekHeaderView.m in Sources */,
+				891B307520A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m in Sources */,
 				67FB71BE16781D9E0033C3A1 /* FocusView.m in Sources */,
 				67EBDB02169676C1006DD864 /* PreviewViewController.m in Sources */,
 				67E6BA3416A920AF00F14E12 /* PlannerViewController.m in Sources */,
@@ -8979,6 +9227,7 @@
 				67EEF94016D21F3800D0A7D0 /* iPadTagListViewController.m in Sources */,
 				67FADC2616D3596A009D835D /* iPadSettingViewController.m in Sources */,
 				A2D34C84181A703E004EB8F1 /* Location.m in Sources */,
+				891B308220A9ABFC00E0EE92 /* FontManager.m in Sources */,
 				67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */,
 				67073C8A1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
 				67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */,
@@ -8992,20 +9241,25 @@
 				A2D34C7E181A603F004EB8F1 /* LocationListViewController.m in Sources */,
 				67EC5BD216E4502B006B22F0 /* TimerHistoryViewController.m in Sources */,
 				6765668916F6F4C1007F23A9 /* DummyMovableController.m in Sources */,
+				891B306620A9AB5D00E0EE92 /* FIEntypoSocialIcon.m in Sources */,
 				67E0D49B16F95C7900F66567 /* NoteLayoutController.m in Sources */,
 				A2CE6DB7181E0FAD00FAEF05 /* LocationManager.m in Sources */,
 				67E18E8B16F98EDE00F1E976 /* NoteMovableController.m in Sources */,
 				67E18E9716F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */,
 				67E18E9916F99BEF00F1E976 /* PlannerHeaderView.m in Sources */,
+				891B304520A9AB5D00E0EE92 /* FIIcon.m in Sources */,
 				67E18E9B16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
 				67E18E9D16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
+				891B300F20A9A47400E0EE92 /* UIFont+FontAwesome.m in Sources */,
 				67E18E9F16F99BEF00F1E976 /* PlannerView.m in Sources */,
 				67DE2148170006FD000545AC /* SnoozeDurationViewController.m in Sources */,
+				891B305720A9AB5D00E0EE92 /* FIIcon+Deprecation.m in Sources */,
 				67DD5640170BE62E006EA347 /* EKReminderSync.m in Sources */,
 				67E57B3A17125B1C00491846 /* TaskSyncViewController.m in Sources */,
 				67E30FD8171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */,
 				67E30FDA171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
 				6749348117B33B0600AEA74A /* CommentViewController.m in Sources */,
+				891B301220A9A47400E0EE92 /* UIImage+FontAwesome.m in Sources */,
 				67E5A9881715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98C17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 				A22B5902171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
@@ -9013,7 +9267,9 @@
 				A2E036BA1724ECA10039A2DF /* MonthInYearView.m in Sources */,
 				A2E036BE1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD817433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
+				891B305A20A9AB5D00E0EE92 /* FIIcon+Impl.m in Sources */,
 				67ECF561177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
+				891B305D20A9AB5D00E0EE92 /* FIIconView.m in Sources */,
 				67C742731782763A00361E30 /* TaskLayoutController.m in Sources */,
 				67C742751782763A00361E30 /* TaskMovableController.m in Sources */,
 				67C742791782768300361E30 /* RestoreViewController.m in Sources */,
@@ -9047,6 +9303,7 @@
 				67EC0C8816F8081F00929BFD /* AlertListViewController.m in Sources */,
 				67EC0C8916F8081F00929BFD /* AlertManager.m in Sources */,
 				672D8BFE180E72F800624484 /* GuruViewController.m in Sources */,
+				891B300D20A9A47400E0EE92 /* FAImageView.m in Sources */,
 				67EC0C8A16F8081F00929BFD /* AlertSelectionTableViewController.m in Sources */,
 				67EC0C8B16F8081F00929BFD /* BusyController.m in Sources */,
 				6749348A17B381EE00AEA74A /* GrowingTextView.m in Sources */,
@@ -9056,6 +9313,7 @@
 				67EC0C9116F8081F00929BFD /* CalendarSelectionTableViewController.m in Sources */,
 				67EC0C9216F8081F00929BFD /* CalendarViewController.m in Sources */,
 				67EC0C9316F8081F00929BFD /* CategoryLayoutController.m in Sources */,
+				891B306D20A9AB5D00E0EE92 /* FIFlowasticIcon.m in Sources */,
 				67EC0C9416F8081F00929BFD /* CategoryMovableController.m in Sources */,
 				67EC0C9616F8081F00929BFD /* CategoryViewController.m in Sources */,
 				67EC0C9716F8081F00929BFD /* CGRectObj.m in Sources */,
@@ -9065,29 +9323,36 @@
 				67EC0C9B16F8081F00929BFD /* ContactManager.m in Sources */,
 				67EC0C9C16F8081F00929BFD /* Contacts.m in Sources */,
 				67EC0C9D16F8081F00929BFD /* ContentScrollView.m in Sources */,
+				891B307320A9AB5D00E0EE92 /* FIEntypoIcon.m in Sources */,
 				67EC0C9E16F8081F00929BFD /* ContentTableView.m in Sources */,
 				67EC0C9F16F8081F00929BFD /* ContentView.m in Sources */,
 				67EC0CA016F8081F00929BFD /* CustomTextView.m in Sources */,
 				67EC0CA116F8081F00929BFD /* DateJumpView.m in Sources */,
 				67EC0CA316F8081F00929BFD /* DayHeaderView.m in Sources */,
 				67EC0CA416F8081F00929BFD /* DBManager.m in Sources */,
+				891B305220A9AB5D00E0EE92 /* FIFont+Deprecation.m in Sources */,
 				67EC0CA516F8081F00929BFD /* DefaultDurationViewController.m in Sources */,
 				67EC0CA616F8081F00929BFD /* DurationPickerViewController.m in Sources */,
+				891B306A20A9AB5D00E0EE92 /* FIFont.m in Sources */,
 				67EC0CA716F8081F00929BFD /* EKSync.m in Sources */,
 				67EC0CA816F8081F00929BFD /* FilterData.m in Sources */,
 				67EC0CA916F8081F00929BFD /* FilterView.m in Sources */,
 				67EC0CAA16F8081F00929BFD /* GTMBase64.m in Sources */,
+				891B304C20A9AB5D00E0EE92 /* FIIconicIcon.m in Sources */,
+				891B301620A9A47400E0EE92 /* NSString+FontAwesome.m in Sources */,
 				67EC0CAB16F8081F00929BFD /* GuideWebView.m in Sources */,
 				A2A8BA6917C370E600EB4C64 /* TagDetailViewController.m in Sources */,
 				67EC0CAC16F8081F00929BFD /* HighlightView.m in Sources */,
 				67EC0CAD16F8081F00929BFD /* HourPickerViewController.m in Sources */,
 				67EC0CAE16F8081F00929BFD /* ImageManager.m in Sources */,
 				67EC0CAF16F8081F00929BFD /* LayoutController.m in Sources */,
+				891B307020A9AB5D00E0EE92 /* FIIconLayer.m in Sources */,
 				67EC0CB016F8081F00929BFD /* Link.m in Sources */,
 				67EC0CB116F8081F00929BFD /* LinkSearchViewController.m in Sources */,
 				67EC0CB216F8081F00929BFD /* LinkViewController.m in Sources */,
 				67EC0CB316F8081F00929BFD /* LocationViewController.m in Sources */,
 				67EC0CB416F8081F00929BFD /* MenuMakerView.m in Sources */,
+				891B306120A9AB5D00E0EE92 /* FIIcon+Forwarding.m in Sources */,
 				67EC0CB516F8081F00929BFD /* MiniMonthMovableController.m in Sources */,
 				67EC0CB616F8081F00929BFD /* MiniMonthView.m in Sources */,
 				67EC0CB716F8081F00929BFD /* MonthlyADEView.m in Sources */,
@@ -9119,11 +9384,13 @@
 				67EC0CD116F8081F00929BFD /* Settings.m in Sources */,
 				67EC0CD216F8081F00929BFD /* SettingTableViewController.m in Sources */,
 				672111C517CF453000054FC6 /* UnreadCommentViewController.m in Sources */,
+				891B304920A9AB5D00E0EE92 /* FIIcon+FIIconRenderer.m in Sources */,
 				67EC0CD316F8081F00929BFD /* SmartCalAppDelegate.m in Sources */,
 				67EC0CD416F8081F00929BFD /* SmartDayViewController.m in Sources */,
 				67EC0CD516F8081F00929BFD /* SmartListLayoutController.m in Sources */,
 				67EC0CD616F8081F00929BFD /* SmartListMovableController.m in Sources */,
 				67EC0CD716F8081F00929BFD /* SmartListViewController.m in Sources */,
+				891B305520A9AB5D00E0EE92 /* FIFontAwesomeIcon.m in Sources */,
 				67EC0CD816F8081F00929BFD /* StartEndPickerViewController.m in Sources */,
 				67EC0CD916F8081F00929BFD /* SyncDirectionTableViewController.m in Sources */,
 				67EC0CDA16F8081F00929BFD /* SyncWindow2TableViewController.m in Sources */,
@@ -9147,6 +9414,7 @@
 				67EC0CED16F8081F00929BFD /* UIViewController+Transitions.m in Sources */,
 				67EC0CEE16F8081F00929BFD /* WorkingTime7ViewController.m in Sources */,
 				67EC0CEF16F8081F00929BFD /* WWWTableViewController.m in Sources */,
+				891B306420A9AB5D00E0EE92 /* MoodFontIcon.m in Sources */,
 				67EC0CFB16F8081F00929BFD /* Reachability.m in Sources */,
 				A202CEF718289065001840EE /* TaskLocationListViewController.m in Sources */,
 				67EC0CFC16F8081F00929BFD /* SDWAccountViewController.m in Sources */,
@@ -9155,6 +9423,7 @@
 				67EC0CFF16F8081F00929BFD /* SDWSync.m in Sources */,
 				67EC0D0016F8081F00929BFD /* MusicManager.m in Sources */,
 				67EC0D0116F8081F00929BFD /* TDAccount.m in Sources */,
+				891B304F20A9AB5D00E0EE92 /* FIFlowasticIconNew.m in Sources */,
 				67EC0D0216F8081F00929BFD /* TDAccountParser.m in Sources */,
 				A2C17A7117E1837700468CC5 /* MapLocationViewController.m in Sources */,
 				67EC0D0316F8081F00929BFD /* TDClient.m in Sources */,
@@ -9182,6 +9451,7 @@
 				67EC0D1916F8081F00929BFD /* iPadSmartDayViewController.m in Sources */,
 				67EC0D1A16F8081F00929BFD /* AbstractSDViewController.m in Sources */,
 				67EC0D1B16F8081F00929BFD /* MiniMonthWeekHeaderView.m in Sources */,
+				891B307620A9AB5D00E0EE92 /* FIIconLayer+FIRenderer.m in Sources */,
 				67EC0D1C16F8081F00929BFD /* FocusView.m in Sources */,
 				67EC0D1D16F8081F00929BFD /* PreviewViewController.m in Sources */,
 				67EC0D1E16F8081F00929BFD /* PlannerViewController.m in Sources */,
@@ -9193,6 +9463,7 @@
 				67EC0D2416F8081F00929BFD /* iPadTagListViewController.m in Sources */,
 				67EC0D2516F8081F00929BFD /* iPadSettingViewController.m in Sources */,
 				A2D34C85181A703E004EB8F1 /* Location.m in Sources */,
+				891B308320A9ABFC00E0EE92 /* FontManager.m in Sources */,
 				67EC0D2616F8081F00929BFD /* iPadGeneralSettingViewController.m in Sources */,
 				67073C8B1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
 				67EC0D2716F8081F00929BFD /* iPadCalendarSettingViewController.m in Sources */,
@@ -9206,20 +9477,25 @@
 				A2D34C7F181A603F004EB8F1 /* LocationListViewController.m in Sources */,
 				67EC0D2F16F8081F00929BFD /* TimerHistoryViewController.m in Sources */,
 				67EC0D3016F8081F00929BFD /* DummyMovableController.m in Sources */,
+				891B306720A9AB5D00E0EE92 /* FIEntypoSocialIcon.m in Sources */,
 				67E0D49C16F95C7900F66567 /* NoteLayoutController.m in Sources */,
 				A2CE6DB8181E0FAD00FAEF05 /* LocationManager.m in Sources */,
 				67E18E8C16F98EDE00F1E976 /* NoteMovableController.m in Sources */,
 				67E18E9816F99BEF00F1E976 /* PlannerBottomDayCal.m in Sources */,
 				67E18E9A16F99BEF00F1E976 /* PlannerHeaderView.m in Sources */,
+				891B304620A9AB5D00E0EE92 /* FIIcon.m in Sources */,
 				67E18E9C16F99BEF00F1E976 /* PlannerMonthCellView.m in Sources */,
 				67E18E9E16F99BEF00F1E976 /* PlannerMonthView.m in Sources */,
+				891B301020A9A47400E0EE92 /* UIFont+FontAwesome.m in Sources */,
 				67E18EA016F99BEF00F1E976 /* PlannerView.m in Sources */,
 				67DE2149170006FD000545AC /* SnoozeDurationViewController.m in Sources */,
+				891B305820A9AB5D00E0EE92 /* FIIcon+Deprecation.m in Sources */,
 				67DD5641170BE62E006EA347 /* EKReminderSync.m in Sources */,
 				67E57B3B17125B1C00491846 /* TaskSyncViewController.m in Sources */,
 				67E30FD9171405CF007AD2DE /* PlannerCalendarLayoutController.m in Sources */,
 				67E30FDB171405CF007AD2DE /* PlannerScheduleView.m in Sources */,
 				6749348217B33B0600AEA74A /* CommentViewController.m in Sources */,
+				891B301320A9A47400E0EE92 /* UIImage+FontAwesome.m in Sources */,
 				67E5A9891715388800EF14D9 /* AbstractMonthCalendarView.m in Sources */,
 				67E5A98D17153A7D00EF14D9 /* AbstractActionViewController.m in Sources */,
 				A22B5903171693D600CA71D9 /* CalendarPlannerMovableController.m in Sources */,
@@ -9227,7 +9503,9 @@
 				A2E036BB1724ECA10039A2DF /* MonthInYearView.m in Sources */,
 				A2E036BF1724F5890039A2DF /* YearViewController.m in Sources */,
 				67D4EFD917433B43002B3483 /* TimeZonePickerViewController.m in Sources */,
+				891B305B20A9AB5D00E0EE92 /* FIIcon+Impl.m in Sources */,
 				67ECF562177BD4200064BE5F /* TaskReadonlyDetailViewController.m in Sources */,
+				891B305E20A9AB5D00E0EE92 /* FIIconView.m in Sources */,
 				67C742741782763A00361E30 /* TaskLayoutController.m in Sources */,
 				67C742761782763A00361E30 /* TaskMovableController.m in Sources */,
 				67C7427A1782768300361E30 /* RestoreViewController.m in Sources */,

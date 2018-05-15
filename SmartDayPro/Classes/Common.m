@@ -17,6 +17,9 @@
 #import "ImageManager.h"
 #import "Reachability.h"
 
+#import "UIImage+FontAwesome.h"
+#import "FontManager.h"
+
 extern BOOL _is24HourFormat;
 
 static CGFloat _shadowColor[3] = {94.0/255, 120.0/255, 112.0/255};
@@ -197,6 +200,47 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	
 	[button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
 	return button;
+}
+
+
++ (UIButton *)createButton1:(NSString *)title
+                buttonType:(UIButtonType)buttonType
+                     frame:(CGRect)frame
+                titleColor:(UIColor *)titleColor
+                    target:(id)target
+                  selector:(SEL)selector
+          normalStateImage:(NSString *)normalStateImage
+        selectedStateImage:(NSString*)selectedStateImage
+{
+    UIButton *button = [UIButton buttonWithType:buttonType];
+    button.frame = frame;
+    [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font=[UIFont boldSystemFontOfSize:14];
+    if(titleColor!=nil){
+        [button setTitleColor:titleColor  forState:UIControlStateNormal];
+    }else {
+        [button setTitleColor:[UIColor brownColor]  forState:UIControlStateNormal];
+    }
+    
+    NSString *str  = @"\ue005";
+    
+    UIImage *icon = [UIImage imageWithIcon:str backgroundColor:[UIColor clearColor] iconColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:255] fontSize:20];
+    
+    UIImage *doneImage = [FontManager imageWithIconName:@"cogwheel" andSize:20 iconColor:[UIColor whiteColor]];
+    
+    button.backgroundColor = [UIColor clearColor];
+    if(normalStateImage !=nil && ![normalStateImage isEqual:@""]){
+        //[button setBackgroundImage:[UIImage imageNamed:normalStateImage] forState:UIControlStateNormal];
+        [button setImage:icon forState:UIControlStateNormal];
+    }
+    
+    if(selectedStateImage !=nil && ![selectedStateImage isEqual:@""]){
+        //[button setBackgroundImage:[UIImage imageNamed:selectedStateImage] forState:UIControlStateSelected];
+        [button setBackgroundImage:icon forState:UIControlStateSelected];
+    }
+    
+    [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    return button;
 }
 
 + (NSString *)getDurationString:(NSInteger)value
