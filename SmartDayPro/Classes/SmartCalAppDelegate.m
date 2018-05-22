@@ -491,7 +491,7 @@ BOOL _fromBackground = NO;
     //[self testSound];
     _isiPad = [self checkiPad];
 	_is24HourFormat = [self check24HourFormat];
-    
+
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
         [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
@@ -504,7 +504,10 @@ BOOL _fromBackground = NO;
 
     [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"top_bg.png"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.05 green:0.31 blue:0.54 alpha:1.00]];
+    [[UINavigationBar appearance] setTranslucent:NO];
+    
+//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"top_bg.png"] forBarMetrics:UIBarMetricsDefault];
 
     [[UITableViewHeaderFooterView appearance] setTintColor:[[Colors slateGray] colorWithAlphaComponent:0.2]];
     
