@@ -12,7 +12,7 @@
 @implementation FIFlowasticIcon
 
 + (FIFont *)font {
-    return [FIFont fontWithResourcePath:@"flowastic.ttf"];
+    return [FIFont fontWithResourcePath:@"smartday.ttf"];
 }
 
 @end

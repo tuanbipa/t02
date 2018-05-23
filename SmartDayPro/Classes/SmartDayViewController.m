@@ -1954,12 +1954,10 @@ extern BOOL _detailHintShown;
 
 #pragma mark Views
 
-- (void)createNavigationView
-{
-    
+- (void)createNavigationView {
     navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.bounds.size.height-40, contentView.bounds.size.width, 40)];
     
-    navigationView.backgroundColor = [UIColor colorWithPatternImage:[[ImageManager getInstance] getImageWithName:@"top_bg.png"]];
+    navigationView.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:76.0/255.0 blue:137.0/255.0 alpha:1.0];
     
     [contentView addSubview:navigationView];
     [navigationView release];

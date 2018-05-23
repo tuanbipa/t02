@@ -54,12 +54,10 @@ extern BOOL _isiPad;
     return UIInterfaceOrientationMaskPortrait;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    self.navigationBar.translucent = NO;
+    [self setBackgroundColorForNavigationBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -70,6 +68,23 @@ extern BOOL _isiPad;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Background for NavigationBar
+- (void)setBackgroundColorForNavigationBar {
+    UIColor *colorBackground = [UIColor colorWithRed:25.0/255.0 green:76.0/255.0 blue:137.0/255.0 alpha:1.0];
+    
+    self.navigationBar.translucent = NO;
+    [self.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+    [self.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationBar setShadowImage:[UIImage new]];
+    [self.navigationBar setBarTintColor:colorBackground];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

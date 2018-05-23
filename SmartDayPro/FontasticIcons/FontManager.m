@@ -46,4 +46,20 @@
     
     return attrs;
 }
+
+#pragma mark - Flowastic for Smartday
++ (NSMutableAttributedString *)flowasticIconAttributeStringWithIconType:(KFlowasticIcon)iconType fontSize:(CGFloat)size color:(UIColor *)color {
+    NSMutableDictionary *attrDict = [self flowasticIconAttributeStringWithFontSize:size foregroundColor:color withFontName:@"smartday"];
+    NSString *title = [NSString stringWithFormat:@"%C", (unichar)iconType];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:title attributes:attrDict];
+    
+    return attrStr;
+}
+
++ (UIImage *)flowasticImageWithIconName:(NSString *)iconName andSize:(CGFloat )size iconColor:(UIColor *)iconColor {
+    FIIcon *icon = [FIFlowasticIcon iconWithName:iconName];
+    UIImage *image = [icon imageWithBounds:CGRectMake(0, 0, size, size) color:iconColor];
+    return image;
+}
+
 @end

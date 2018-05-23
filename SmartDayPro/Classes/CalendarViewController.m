@@ -193,7 +193,7 @@ CalendarViewController *_sc2ViewCtrler;
 
 -(void)changeSkin
 {    
-    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:243.0/255 green:243.0/255 blue:243.0/255 alpha:1];
     
     [todayScheduleView changeSkin];
 }

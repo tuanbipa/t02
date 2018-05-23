@@ -51,6 +51,12 @@ typedef enum {
 
 } KMoodFontIcon;
 
+typedef enum {
+    FlowasticIcon_None = 0x0000,
+    FlowasticIcon_Due = 0xe00f
+    
+} KFlowasticIcon;
+
 
 @interface FontManager : NSObject
 
@@ -59,5 +65,9 @@ typedef enum {
 + (NSMutableAttributedString *)moodIconAttributeStringWithIconType:(KMoodFontIcon)iconType fontSize:(CGFloat)size color:(UIColor *)color;
 + (UIImage *)imageWithIconName:(NSString *)iconName andSize:(CGFloat )size iconColor:(UIColor *)iconColor;
 + (NSMutableDictionary *)flowasticIconAttributeStringWithFontSize:(CGFloat)size foregroundColor:(UIColor *)color withFontName:(NSString *)fontName;
+
+#pragma mark - For FlowasticIcon
++ (NSMutableAttributedString *)flowasticIconAttributeStringWithIconType:(KFlowasticIcon)iconType fontSize:(CGFloat)size color:(UIColor *)color;
++ (UIImage *)flowasticImageWithIconName:(NSString *)iconName andSize:(CGFloat )size iconColor:(UIColor *)iconColor;
 
 @end

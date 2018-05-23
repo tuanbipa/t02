@@ -19,6 +19,33 @@
 		10ECA729183C4F3D0004C97E /* SD_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 10ECA727183C4F3D0004C97E /* SD_76.png */; };
 		10ECA72A183C4F3D0004C97E /* SD_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 10ECA728183C4F3D0004C97E /* SD_120.png */; };
 		10ECA72C183C69170004C97E /* SD_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 10ECA72B183C69170004C97E /* SD_152.png */; };
+		514D392C20B5C67400865DE5 /* smartday.strings in Resources */ = {isa = PBXBuildFile; fileRef = 514D392B20B5C67300865DE5 /* smartday.strings */; };
+		514D392D20B5C67400865DE5 /* smartday.strings in Resources */ = {isa = PBXBuildFile; fileRef = 514D392B20B5C67300865DE5 /* smartday.strings */; };
+		514D392E20B5C67400865DE5 /* smartday.strings in Resources */ = {isa = PBXBuildFile; fileRef = 514D392B20B5C67300865DE5 /* smartday.strings */; };
+		514D393020B5D10C00865DE5 /* bar_setting@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 514D392F20B5D10B00865DE5 /* bar_setting@3x.png */; };
+		514D393120B5D10C00865DE5 /* bar_setting@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 514D392F20B5D10B00865DE5 /* bar_setting@3x.png */; };
+		514D393220B5D10C00865DE5 /* bar_setting@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 514D392F20B5D10B00865DE5 /* bar_setting@3x.png */; };
+		514D393720B5D71200865DE5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 514D393620B5D71100865DE5 /* ViewController.m */; };
+		514D393820B5D71200865DE5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 514D393620B5D71100865DE5 /* ViewController.m */; };
+		514D393920B5D71200865DE5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 514D393620B5D71100865DE5 /* ViewController.m */; };
+		51CD2A6620B5A3A400592981 /* icons-reference.html in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A5F20B5A3A400592981 /* icons-reference.html */; };
+		51CD2A6720B5A3A400592981 /* icons-reference.html in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A5F20B5A3A400592981 /* icons-reference.html */; };
+		51CD2A6820B5A3A400592981 /* icons-reference.html in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A5F20B5A3A400592981 /* icons-reference.html */; };
+		51CD2A6920B5A3A400592981 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6020B5A3A400592981 /* styles.css */; };
+		51CD2A6A20B5A3A400592981 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6020B5A3A400592981 /* styles.css */; };
+		51CD2A6B20B5A3A400592981 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6020B5A3A400592981 /* styles.css */; };
+		51CD2A6C20B5A3A400592981 /* smartday.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6220B5A3A400592981 /* smartday.ttf */; };
+		51CD2A6D20B5A3A400592981 /* smartday.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6220B5A3A400592981 /* smartday.ttf */; };
+		51CD2A6E20B5A3A400592981 /* smartday.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6220B5A3A400592981 /* smartday.ttf */; };
+		51CD2A6F20B5A3A400592981 /* smartday.eot in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6320B5A3A400592981 /* smartday.eot */; };
+		51CD2A7020B5A3A400592981 /* smartday.eot in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6320B5A3A400592981 /* smartday.eot */; };
+		51CD2A7120B5A3A400592981 /* smartday.eot in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6320B5A3A400592981 /* smartday.eot */; };
+		51CD2A7220B5A3A400592981 /* smartday.woff in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6420B5A3A400592981 /* smartday.woff */; };
+		51CD2A7320B5A3A400592981 /* smartday.woff in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6420B5A3A400592981 /* smartday.woff */; };
+		51CD2A7420B5A3A400592981 /* smartday.woff in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6420B5A3A400592981 /* smartday.woff */; };
+		51CD2A7520B5A3A400592981 /* smartday.svg in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6520B5A3A400592981 /* smartday.svg */; };
+		51CD2A7620B5A3A400592981 /* smartday.svg in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6520B5A3A400592981 /* smartday.svg */; };
+		51CD2A7720B5A3A400592981 /* smartday.svg in Resources */ = {isa = PBXBuildFile; fileRef = 51CD2A6520B5A3A400592981 /* smartday.svg */; };
 		6700B29917F2874400AD8B3F /* menu_airdrop_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 6700B28317F2874400AD8B3F /* menu_airdrop_white.png */; };
 		6700B29A17F2874400AD8B3F /* menu_airdrop_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 6700B28317F2874400AD8B3F /* menu_airdrop_white.png */; };
 		6700B29B17F2874400AD8B3F /* menu_airdrop_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6700B28417F2874400AD8B3F /* menu_airdrop_white@2x.png */; };
@@ -163,7 +190,6 @@
 		6746CED617BCBC9D0042E1EF /* menu_airdrop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746CECE17BCBC9D0042E1EF /* menu_airdrop@2x.png */; };
 		6748B840180401820043A80E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B30161950D7001FE1AA /* main.m */; };
 		6748B841180401820043A80E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B34161950D7001FE1AA /* AppDelegate.m */; };
-		6748B842180401820043A80E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B3D161950D7001FE1AA /* ViewController.m */; };
 		6748B843180401820043A80E /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B4C1619517F001FE1AA /* AboutTableViewController.m */; };
 		6748B844180401820043A80E /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B4E1619517F001FE1AA /* AboutUsViewController.m */; };
 		6748B845180401820043A80E /* ByLCLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B501619517F001FE1AA /* ByLCLViewController.m */; };
@@ -1223,7 +1249,6 @@
 		67CF2B37161950D7001FE1AA /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2B36161950D7001FE1AA /* Default.png */; };
 		67CF2B39161950D7001FE1AA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2B38161950D7001FE1AA /* Default@2x.png */; };
 		67CF2B3B161950D7001FE1AA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 67CF2B3A161950D7001FE1AA /* Default-568h@2x.png */; };
-		67CF2B3E161950D7001FE1AA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B3D161950D7001FE1AA /* ViewController.m */; };
 		67CF2B551619517F001FE1AA /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B4C1619517F001FE1AA /* AboutTableViewController.m */; };
 		67CF2B561619517F001FE1AA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B4E1619517F001FE1AA /* AboutUsViewController.m */; };
 		67CF2B571619517F001FE1AA /* ByLCLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B501619517F001FE1AA /* ByLCLViewController.m */; };
@@ -1986,7 +2011,6 @@
 		67EBDB02169676C1006DD864 /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67EBDB01169676C1006DD864 /* PreviewViewController.m */; };
 		67EC0C7F16F8081F00929BFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B30161950D7001FE1AA /* main.m */; };
 		67EC0C8016F8081F00929BFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B34161950D7001FE1AA /* AppDelegate.m */; };
-		67EC0C8116F8081F00929BFD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B3D161950D7001FE1AA /* ViewController.m */; };
 		67EC0C8216F8081F00929BFD /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B4C1619517F001FE1AA /* AboutTableViewController.m */; };
 		67EC0C8316F8081F00929BFD /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B4E1619517F001FE1AA /* AboutUsViewController.m */; };
 		67EC0C8416F8081F00929BFD /* ByLCLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67CF2B501619517F001FE1AA /* ByLCLViewController.m */; };
@@ -2802,7 +2826,6 @@
 		960DC65D19F902F300C69579 /* bar_eye@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65419F902F300C69579 /* bar_eye@3x.png */; };
 		960DC65E19F902F300C69579 /* bar_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65519F902F300C69579 /* bar_location@3x.png */; };
 		960DC65F19F902F300C69579 /* bar_notification_red@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65619F902F300C69579 /* bar_notification_red@3x.png */; };
-		960DC66019F902F300C69579 /* bar_setting@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65719F902F300C69579 /* bar_setting@3x.png */; };
 		960DC66119F902F300C69579 /* bar_tag_blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65819F902F300C69579 /* bar_tag_blue@3x.png */; };
 		960DC66219F902F300C69579 /* bar_tag@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65919F902F300C69579 /* bar_tag@3x.png */; };
 		960DC66319F902F300C69579 /* bar_timer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65A19F902F300C69579 /* bar_timer@3x.png */; };
@@ -3209,6 +3232,16 @@
 		10ECA727183C4F3D0004C97E /* SD_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_76.png; sourceTree = "<group>"; };
 		10ECA728183C4F3D0004C97E /* SD_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_120.png; sourceTree = "<group>"; };
 		10ECA72B183C69170004C97E /* SD_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_152.png; sourceTree = "<group>"; };
+		514D392B20B5C67300865DE5 /* smartday.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = smartday.strings; sourceTree = "<group>"; };
+		514D392F20B5D10B00865DE5 /* bar_setting@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_setting@3x.png"; sourceTree = "<group>"; };
+		514D393520B5D71100865DE5 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		514D393620B5D71100865DE5 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		51CD2A5F20B5A3A400592981 /* icons-reference.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "icons-reference.html"; sourceTree = "<group>"; };
+		51CD2A6020B5A3A400592981 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
+		51CD2A6220B5A3A400592981 /* smartday.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = smartday.ttf; sourceTree = "<group>"; };
+		51CD2A6320B5A3A400592981 /* smartday.eot */ = {isa = PBXFileReference; lastKnownFileType = file; path = smartday.eot; sourceTree = "<group>"; };
+		51CD2A6420B5A3A400592981 /* smartday.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = smartday.woff; sourceTree = "<group>"; };
+		51CD2A6520B5A3A400592981 /* smartday.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = smartday.svg; sourceTree = "<group>"; };
 		6700B28317F2874400AD8B3F /* menu_airdrop_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_airdrop_white.png; sourceTree = "<group>"; };
 		6700B28417F2874400AD8B3F /* menu_airdrop_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_airdrop_white@2x.png"; sourceTree = "<group>"; };
 		6700B28517F2874400AD8B3F /* menu_copylink_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_copylink_white.png; sourceTree = "<group>"; };
@@ -3400,8 +3433,6 @@
 		67CF2B36161950D7001FE1AA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		67CF2B38161950D7001FE1AA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		67CF2B3A161950D7001FE1AA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		67CF2B3C161950D7001FE1AA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		67CF2B3D161950D7001FE1AA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		67CF2B4B1619517F001FE1AA /* AboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableViewController.h; sourceTree = "<group>"; };
 		67CF2B4C1619517F001FE1AA /* AboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableViewController.m; sourceTree = "<group>"; };
 		67CF2B4D1619517F001FE1AA /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
@@ -4362,7 +4393,6 @@
 		960DC65419F902F300C69579 /* bar_eye@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_eye@3x.png"; sourceTree = "<group>"; };
 		960DC65519F902F300C69579 /* bar_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_location@3x.png"; sourceTree = "<group>"; };
 		960DC65619F902F300C69579 /* bar_notification_red@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_notification_red@3x.png"; sourceTree = "<group>"; };
-		960DC65719F902F300C69579 /* bar_setting@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_setting@3x.png"; sourceTree = "<group>"; };
 		960DC65819F902F300C69579 /* bar_tag_blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_tag_blue@3x.png"; sourceTree = "<group>"; };
 		960DC65919F902F300C69579 /* bar_tag@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_tag@3x.png"; sourceTree = "<group>"; };
 		960DC65A19F902F300C69579 /* bar_timer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_timer@3x.png"; sourceTree = "<group>"; };
@@ -4621,6 +4651,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		514D393420B5D68E00865DE5 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				67CF2B33161950D7001FE1AA /* AppDelegate.h */,
+				67CF2B34161950D7001FE1AA /* AppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		51CD2A5E20B5A3A400592981 /* font-smartday-15May */ = {
+			isa = PBXGroup;
+			children = (
+				51CD2A5F20B5A3A400592981 /* icons-reference.html */,
+				51CD2A6020B5A3A400592981 /* styles.css */,
+				51CD2A6120B5A3A400592981 /* fonts */,
+			);
+			path = "font-smartday-15May";
+			sourceTree = "<group>";
+		};
+		51CD2A6120B5A3A400592981 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				51CD2A6220B5A3A400592981 /* smartday.ttf */,
+				51CD2A6320B5A3A400592981 /* smartday.eot */,
+				51CD2A6420B5A3A400592981 /* smartday.woff */,
+				51CD2A6520B5A3A400592981 /* smartday.svg */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		67296F5D1816267900CD834A /* userGuide */ = {
 			isa = PBXGroup;
 			children = (
@@ -4813,6 +4873,8 @@
 			isa = PBXGroup;
 			children = (
 				67CF2B2A161950D7001FE1AA /* SmartDayPro */,
+				514D393520B5D71100865DE5 /* ViewController.h */,
+				514D393620B5D71100865DE5 /* ViewController.m */,
 				67CF2B23161950D7001FE1AA /* Frameworks */,
 				67CF2B21161950D7001FE1AA /* Products */,
 			);
@@ -4853,14 +4915,13 @@
 		67CF2B2A161950D7001FE1AA /* SmartDayPro */ = {
 			isa = PBXGroup;
 			children = (
+				514D393420B5D68E00865DE5 /* AppDelegate */,
+				891B300220A9A44D00E0EE92 /* FontAwsome */,
 				891B301C20A9AB4500E0EE92 /* FontasticIcons */,
 				891B301720A9A47D00E0EE92 /* Resources */,
-				891B300220A9A44D00E0EE92 /* FontAwsome */,
 				67C8F0E01638EA5A0098CFEB /* GrowingTextView */,
 				67CF2B5A16195195001FE1AA /* Classes */,
 				67CF2B4A1619517F001FE1AA /* AboutUs_Classes */,
-				67CF2B33161950D7001FE1AA /* AppDelegate.h */,
-				67CF2B34161950D7001FE1AA /* AppDelegate.m */,
 				67CF2C8C16195196001FE1AA /* Reachability */,
 				67CF2C8F16195196001FE1AA /* SDWSync */,
 				67CF2C9816195196001FE1AA /* Sounds */,
@@ -4868,8 +4929,6 @@
 				67CF2B2B161950D7001FE1AA /* Supporting Files */,
 				67CF2CA316195196001FE1AA /* ToodledoSync */,
 				67D16D191630ED52007C5A03 /* TestFlightSDK1 */,
-				67CF2B3C161950D7001FE1AA /* ViewController.h */,
-				67CF2B3D161950D7001FE1AA /* ViewController.m */,
 			);
 			path = SmartDayPro;
 			sourceTree = "<group>";
@@ -5386,6 +5445,7 @@
 		67CF2D9A161951B8001FE1AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				514D392F20B5D10B00865DE5 /* bar_setting@3x.png */,
 				96B501D11A078D9000855039 /* accept_reject@3x.png */,
 				96B501D21A078D9000855039 /* alert_black@3x.png */,
 				96B501D31A078D9000855039 /* alert@3x.png */,
@@ -5472,7 +5532,6 @@
 				960DC65419F902F300C69579 /* bar_eye@3x.png */,
 				960DC65519F902F300C69579 /* bar_location@3x.png */,
 				960DC65619F902F300C69579 /* bar_notification_red@3x.png */,
-				960DC65719F902F300C69579 /* bar_setting@3x.png */,
 				960DC65819F902F300C69579 /* bar_tag_blue@3x.png */,
 				960DC65919F902F300C69579 /* bar_tag@3x.png */,
 				960DC65A19F902F300C69579 /* bar_timer@3x.png */,
@@ -6173,6 +6232,8 @@
 		891B301720A9A47D00E0EE92 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				51CD2A5E20B5A3A400592981 /* font-smartday-15May */,
+				514D392B20B5C67300865DE5 /* smartday.strings */,
 				891B307720A9AB7500E0EE92 /* moodfont.strings */,
 				891B307820A9AB7500E0EE92 /* moodfont.ttf */,
 				891B301820A9A48900E0EE92 /* FontAwesome.ttf */,
@@ -6377,6 +6438,7 @@
 				6748B93B180401820043A80E /* lockScreen.png in Resources */,
 				6748B93C180401820043A80E /* mapCal.png in Resources */,
 				6748B93D180401820043A80E /* moveCal.png in Resources */,
+				51CD2A7220B5A3A400592981 /* smartday.woff in Resources */,
 				6748B93E180401820043A80E /* projectDetails.png in Resources */,
 				96B502941A078D9100855039 /* flag@3x.png in Resources */,
 				6748B93F180401820043A80E /* projectExpand.png in Resources */,
@@ -6428,6 +6490,7 @@
 				6748B968180401820043A80E /* alert@2x.png in Resources */,
 				6748B969180401820043A80E /* alert_black.png in Resources */,
 				6748B96A180401820043A80E /* alert_black@2x.png in Resources */,
+				514D393020B5D10C00865DE5 /* bar_setting@3x.png in Resources */,
 				A207350B18BDA2AF00B5F1BA /* slider_0_iphone5_de.html in Resources */,
 				96B502A61A078D9100855039 /* links@3x.png in Resources */,
 				6748B96B180401820043A80E /* background_button.png in Resources */,
@@ -6713,6 +6776,7 @@
 				6748BA3C180401820043A80E /* SC_free_57.png in Resources */,
 				6748BA3D180401820043A80E /* SC_free_72.png in Resources */,
 				6748BA3E180401820043A80E /* SD_114.png in Resources */,
+				514D392C20B5C67400865DE5 /* smartday.strings in Resources */,
 				6748BA3F180401820043A80E /* SD_205.png in Resources */,
 				6784CF431830B01C0095DDF9 /* slider_3_iphone4_en.html in Resources */,
 				6748BA40180401820043A80E /* SD_512.png in Resources */,
@@ -6739,6 +6803,7 @@
 				6709743918347CB0005FA5EF /* bar_notification_red.png in Resources */,
 				6748BA51180401820043A80E /* star@2x.png in Resources */,
 				6748BA52180401820043A80E /* status_mark.png in Resources */,
+				51CD2A6F20B5A3A400592981 /* smartday.eot in Resources */,
 				6748BA53180401820043A80E /* status_pause.png in Resources */,
 				891B307C20A9AB7500E0EE92 /* moodfont.ttf in Resources */,
 				6748BA54180401820043A80E /* status_play.png in Resources */,
@@ -6792,6 +6857,7 @@
 				6748BA7C180401820043A80E /* FF_80.png in Resources */,
 				6748BA7D180401820043A80E /* l.png in Resources */,
 				6748BA7E180401820043A80E /* l_640.png in Resources */,
+				51CD2A6620B5A3A400592981 /* icons-reference.html in Resources */,
 				6748BA7F180401820043A80E /* LCL_Products_Page_320.html in Resources */,
 				6748BA80180401820043A80E /* LCL_Products_Page_640.html in Resources */,
 				6748BA81180401820043A80E /* S2Q_205.png in Resources */,
@@ -6828,6 +6894,7 @@
 				6748BA99180401820043A80E /* SN_css_640.css in Resources */,
 				6748BA9A180401820043A80E /* SNHelp_index_640.html in Resources */,
 				6748BA9B180401820043A80E /* SO_205.png in Resources */,
+				51CD2A7520B5A3A400592981 /* smartday.svg in Resources */,
 				6748BA9C180401820043A80E /* SP_205.png in Resources */,
 				6748BA9D180401820043A80E /* SP_80.png in Resources */,
 				6748BA9E180401820043A80E /* ST_205.png in Resources */,
@@ -6862,6 +6929,7 @@
 				6748BAB6180401820043A80E /* week_separator.png in Resources */,
 				6748BAB7180401820043A80E /* MM_month.png in Resources */,
 				6748BAB8180401820043A80E /* MM_month@2x.png in Resources */,
+				51CD2A6C20B5A3A400592981 /* smartday.ttf in Resources */,
 				6748BAB9180401820043A80E /* MM_week.png in Resources */,
 				6748BABA180401820043A80E /* MM_week@2x.png in Resources */,
 				6748BABB180401820043A80E /* MM_next.png in Resources */,
@@ -7040,6 +7108,7 @@
 				6748BB47180401820043A80E /* arrow_left.png in Resources */,
 				96B502F71A078D9100855039 /* tab_notes_left_selected@3x.png in Resources */,
 				6748BB48180401820043A80E /* arrow_left@2x.png in Resources */,
+				51CD2A6920B5A3A400592981 /* styles.css in Resources */,
 				6748BB49180401820043A80E /* timer_item.png in Resources */,
 				6748BB4A180401820043A80E /* timer_item@2x.png in Resources */,
 				6748BB4B180401820043A80E /* assign.png in Resources */,
@@ -7145,7 +7214,6 @@
 				6748BB93180401820043A80E /* tab_tasks.png in Resources */,
 				96B502221A078D9100855039 /* accept_reject@3x.png in Resources */,
 				6748BB94180401820043A80E /* tab_tasks@2x.png in Resources */,
-				960DC66019F902F300C69579 /* bar_setting@3x.png in Resources */,
 				6748BB95180401820043A80E /* MM_month_selected.png in Resources */,
 				6748BB96180401820043A80E /* MM_week_selected.png in Resources */,
 				96B502BE1A078D9100855039 /* menu_copylink_idle@3x.png in Resources */,
@@ -7235,6 +7303,7 @@
 				67CF2EC4161951B8001FE1AA /* switchMonth.png in Resources */,
 				6784CF7D1830B01C0095DDF9 /* slider_3_768_en.html in Resources */,
 				67CF2EC5161951B8001FE1AA /* task_icon.png in Resources */,
+				51CD2A6720B5A3A400592981 /* icons-reference.html in Resources */,
 				67CF2EC6161951B8001FE1AA /* MultiSelectHint.htm in Resources */,
 				67CF2EC7161951B8001FE1AA /* PinHint.htm in Resources */,
 				A2C17A7417E2E9F200468CC5 /* map.png in Resources */,
@@ -7295,6 +7364,7 @@
 				6784CF471830B01C0095DDF9 /* slider_3_iphone4.jpg in Resources */,
 				67CF2EF0161951B8001FE1AA /* blueBuy.png in Resources */,
 				67CF2EF1161951B8001FE1AA /* blueCall.png in Resources */,
+				51CD2A6D20B5A3A400592981 /* smartday.ttf in Resources */,
 				67CF2EF2161951B8001FE1AA /* blueGo.png in Resources */,
 				67CF2EF3161951B8001FE1AA /* blueMail.png in Resources */,
 				67CF2EF4161951B8001FE1AA /* blueMeet.png in Resources */,
@@ -7406,6 +7476,7 @@
 				96B502621A078D9100855039 /* contact_iOS7@3x.png in Resources */,
 				67CF2F3D161951B8001FE1AA /* ListByCate@2x.png in Resources */,
 				67CF2F3E161951B8001FE1AA /* ListByDate.png in Resources */,
+				51CD2A7020B5A3A400592981 /* smartday.eot in Resources */,
 				67CF2F3F161951B8001FE1AA /* ListByDate@2x.png in Resources */,
 				67CF2F40161951B8001FE1AA /* ListByFocus.png in Resources */,
 				67CF2F41161951B8001FE1AA /* ListByFocus@2x.png in Resources */,
@@ -7456,6 +7527,7 @@
 				67CF2F64161951B8001FE1AA /* menu_multiselect@2x.png in Resources */,
 				67CF2F65161951B8001FE1AA /* menu_need.png in Resources */,
 				67CF2F66161951B8001FE1AA /* menu_pinned.png in Resources */,
+				514D393120B5D10C00865DE5 /* bar_setting@3x.png in Resources */,
 				6784CF411830B01C0095DDF9 /* slider_2_iphone4.jpg in Resources */,
 				6700B2C117F2874400AD8B3F /* SD_256.png in Resources */,
 				67CF2F67161951B8001FE1AA /* menu_pinned@2x.png in Resources */,
@@ -7678,7 +7750,9 @@
 				67E4195C162E84AB0026CFDE /* filter_gtd@2x.png in Resources */,
 				67E4195D162E84AB0026CFDE /* filter_star@2x.png in Resources */,
 				67E4195E162E84AB0026CFDE /* filter_start.png in Resources */,
+				514D392D20B5C67400865DE5 /* smartday.strings in Resources */,
 				67E4195F162E84AB0026CFDE /* filter_start@2x.png in Resources */,
+				51CD2A7620B5A3A400592981 /* smartday.svg in Resources */,
 				96B502591A078D9100855039 /* Buy@3x.png in Resources */,
 				67E41962162EADEA0026CFDE /* filter_done.png in Resources */,
 				67E41963162EADEA0026CFDE /* filter_done@2x.png in Resources */,
@@ -7841,6 +7915,7 @@
 				67EC17DC16F8092200929BFD /* SmartDay_iPad-Info.plist in Resources */,
 				670613DD16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A1170184040082F962 /* month_cell_bg.png in Resources */,
+				51CD2A7320B5A3A400592981 /* smartday.woff in Resources */,
 				96B5026B1A078D9100855039 /* event@3x.png in Resources */,
 				67DAE5A3170184040082F962 /* month_cell_shadow_bg.png in Resources */,
 				1053FED51839C7DC00022788 /* SmartDay-Info.plist in Resources */,
@@ -7859,6 +7934,7 @@
 				67EC1B1817169D0200582703 /* settings_recovery@2x.png in Resources */,
 				6784CF961830B06B0095DDF9 /* slider_4_iphone4_ja.html in Resources */,
 				67EC1B1E17169F0900582703 /* filter_day.png in Resources */,
+				51CD2A6A20B5A3A400592981 /* styles.css in Resources */,
 				67EC1B2017169F0900582703 /* filter_day@2x.png in Resources */,
 				67EC1B2217169F0900582703 /* filter_week.png in Resources */,
 				6700B2B717F2874400AD8B3F /* menu_star_white@2x.png in Resources */,
@@ -8046,6 +8122,7 @@
 				67EC0D6316F8081F00929BFD /* switchMonth.png in Resources */,
 				6784CF7E1830B01C0095DDF9 /* slider_3_768_en.html in Resources */,
 				67EC0D6416F8081F00929BFD /* task_icon.png in Resources */,
+				51CD2A6820B5A3A400592981 /* icons-reference.html in Resources */,
 				67EC0D6516F8081F00929BFD /* MultiSelectHint.htm in Resources */,
 				67EC0D6616F8081F00929BFD /* PinHint.htm in Resources */,
 				A2C17A7517E2E9F200468CC5 /* map.png in Resources */,
@@ -8106,6 +8183,7 @@
 				6784CF481830B01C0095DDF9 /* slider_3_iphone4.jpg in Resources */,
 				67EC0D8F16F8081F00929BFD /* blueBuy.png in Resources */,
 				67EC0D9016F8081F00929BFD /* blueCall.png in Resources */,
+				51CD2A6E20B5A3A400592981 /* smartday.ttf in Resources */,
 				67EC0D9116F8081F00929BFD /* blueGo.png in Resources */,
 				67EC0D9216F8081F00929BFD /* blueMail.png in Resources */,
 				67EC0D9316F8081F00929BFD /* blueMeet.png in Resources */,
@@ -8217,6 +8295,7 @@
 				96B502631A078D9100855039 /* contact_iOS7@3x.png in Resources */,
 				67EC0DDC16F8081F00929BFD /* ListByCate@2x.png in Resources */,
 				67EC0DDD16F8081F00929BFD /* ListByDate.png in Resources */,
+				51CD2A7120B5A3A400592981 /* smartday.eot in Resources */,
 				67EC0DDE16F8081F00929BFD /* ListByDate@2x.png in Resources */,
 				67EC0DDF16F8081F00929BFD /* ListByFocus.png in Resources */,
 				67EC0DE016F8081F00929BFD /* ListByFocus@2x.png in Resources */,
@@ -8267,6 +8346,7 @@
 				67EC0E0316F8081F00929BFD /* menu_multiselect@2x.png in Resources */,
 				67EC0E0416F8081F00929BFD /* menu_need.png in Resources */,
 				67EC0E0516F8081F00929BFD /* menu_pinned.png in Resources */,
+				514D393220B5D10C00865DE5 /* bar_setting@3x.png in Resources */,
 				6784CF421830B01C0095DDF9 /* slider_2_iphone4.jpg in Resources */,
 				6700B2C217F2874400AD8B3F /* SD_256.png in Resources */,
 				67EC0E0616F8081F00929BFD /* menu_pinned@2x.png in Resources */,
@@ -8489,7 +8569,9 @@
 				67EC0EAF16F8081F00929BFD /* filter_gtd@2x.png in Resources */,
 				67EC0EB016F8081F00929BFD /* filter_star@2x.png in Resources */,
 				67EC0EB116F8081F00929BFD /* filter_start.png in Resources */,
+				514D392E20B5C67400865DE5 /* smartday.strings in Resources */,
 				67EC0EB216F8081F00929BFD /* filter_start@2x.png in Resources */,
+				51CD2A7720B5A3A400592981 /* smartday.svg in Resources */,
 				96B5025A1A078D9100855039 /* Buy@3x.png in Resources */,
 				67EC0EB316F8081F00929BFD /* filter_done.png in Resources */,
 				67EC0EB416F8081F00929BFD /* filter_done@2x.png in Resources */,
@@ -8652,6 +8734,7 @@
 				67EC17DD16F8092200929BFD /* SmartDay_iPad-Info.plist in Resources */,
 				670613DE16FC0E2B0063EAD5 /* AlarmDrum.wav in Resources */,
 				67DAE5A2170184040082F962 /* month_cell_bg.png in Resources */,
+				51CD2A7420B5A3A400592981 /* smartday.woff in Resources */,
 				96B5026C1A078D9100855039 /* event@3x.png in Resources */,
 				67DAE5A4170184040082F962 /* month_cell_shadow_bg.png in Resources */,
 				1053FED61839C7DC00022788 /* SmartDay-Info.plist in Resources */,
@@ -8670,6 +8753,7 @@
 				67EC1B1917169D0200582703 /* settings_recovery@2x.png in Resources */,
 				6784CF971830B06B0095DDF9 /* slider_4_iphone4_ja.html in Resources */,
 				67EC1B1F17169F0900582703 /* filter_day.png in Resources */,
+				51CD2A6B20B5A3A400592981 /* styles.css in Resources */,
 				67EC1B2117169F0900582703 /* filter_day@2x.png in Resources */,
 				67EC1B2317169F0900582703 /* filter_week.png in Resources */,
 				6700B2B817F2874400AD8B3F /* menu_star_white@2x.png in Resources */,
@@ -8820,7 +8904,6 @@
 			files = (
 				6748B840180401820043A80E /* main.m in Sources */,
 				6748B841180401820043A80E /* AppDelegate.m in Sources */,
-				6748B842180401820043A80E /* ViewController.m in Sources */,
 				6748B843180401820043A80E /* AboutTableViewController.m in Sources */,
 				6722AA1B181FB11100506207 /* ContentPullTableView.m in Sources */,
 				6748B844180401820043A80E /* AboutUsViewController.m in Sources */,
@@ -8994,6 +9077,7 @@
 				891B308120A9ABFC00E0EE92 /* FontManager.m in Sources */,
 				6748B8DF180401820043A80E /* iPadGeneralSettingViewController.m in Sources */,
 				67073C891828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
+				514D393720B5D71200865DE5 /* ViewController.m in Sources */,
 				6748B8E0180401820043A80E /* iPadCalendarSettingViewController.m in Sources */,
 				6748B8E1180401820043A80E /* iPadTaskSettingViewController.m in Sources */,
 				6748B8E2180401820043A80E /* iPadSyncSettingViewController.m in Sources */,
@@ -9056,7 +9140,6 @@
 			files = (
 				67CF2B31161950D7001FE1AA /* main.m in Sources */,
 				67CF2B35161950D7001FE1AA /* AppDelegate.m in Sources */,
-				67CF2B3E161950D7001FE1AA /* ViewController.m in Sources */,
 				67CF2B551619517F001FE1AA /* AboutTableViewController.m in Sources */,
 				6722AA1C181FB11100506207 /* ContentPullTableView.m in Sources */,
 				67CF2B561619517F001FE1AA /* AboutUsViewController.m in Sources */,
@@ -9230,6 +9313,7 @@
 				891B308220A9ABFC00E0EE92 /* FontManager.m in Sources */,
 				67FADC3916D36813009D835D /* iPadGeneralSettingViewController.m in Sources */,
 				67073C8A1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
+				514D393820B5D71200865DE5 /* ViewController.m in Sources */,
 				67E98FF216D47F7D000E0DC6 /* iPadCalendarSettingViewController.m in Sources */,
 				67E98FF516D4BDF5000E0DC6 /* iPadTaskSettingViewController.m in Sources */,
 				67E839D416D5B2DC00155ADE /* iPadSyncSettingViewController.m in Sources */,
@@ -9292,7 +9376,6 @@
 			files = (
 				67EC0C7F16F8081F00929BFD /* main.m in Sources */,
 				67EC0C8016F8081F00929BFD /* AppDelegate.m in Sources */,
-				67EC0C8116F8081F00929BFD /* ViewController.m in Sources */,
 				67EC0C8216F8081F00929BFD /* AboutTableViewController.m in Sources */,
 				6722AA1D181FB11100506207 /* ContentPullTableView.m in Sources */,
 				67EC0C8316F8081F00929BFD /* AboutUsViewController.m in Sources */,
@@ -9466,6 +9549,7 @@
 				891B308320A9ABFC00E0EE92 /* FontManager.m in Sources */,
 				67EC0D2616F8081F00929BFD /* iPadGeneralSettingViewController.m in Sources */,
 				67073C8B1828CB2E004D06E4 /* MustDoEditViewController.m in Sources */,
+				514D393920B5D71200865DE5 /* ViewController.m in Sources */,
 				67EC0D2716F8081F00929BFD /* iPadCalendarSettingViewController.m in Sources */,
 				67EC0D2816F8081F00929BFD /* iPadTaskSettingViewController.m in Sources */,
 				67EC0D2916F8081F00929BFD /* iPadSyncSettingViewController.m in Sources */,
