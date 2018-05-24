@@ -91,19 +91,19 @@ extern BOOL _is24HourFormat;
 		}
 	}
 
-	CGFloat fontSize = 12;
+	CGFloat fontSize = 14;
 
 	//CGRect bounds = self.bounds;
     CGRect bounds = rect;
 	
 	CGSize timePaneSize = [TimeSlotView calculateTimePaneSize];
 	
-	UIFont *font = [UIFont fontWithName:@"Helvetica" size:fontSize-2];
+	UIFont *font = [UIFont fontWithName:@"Helvetica" size:fontSize];
 	CGSize amsize = [@"AM" sizeWithFont:font];
 	
 	CGRect timePaneRec = CGRectZero;
 	timePaneRec.size = timePaneSize;
-	timePaneRec.origin.y = (bounds.size.height - amsize.height)/2;
+    timePaneRec.origin.y = bounds.size.height/2 - amsize.height + 2;//(bounds.size.height - amsize.height)/2;
 	timePaneRec.origin.x = LEFT_MARGIN;
 	
 	CGPoint points[2];
@@ -164,7 +164,7 @@ extern BOOL _is24HourFormat;
 		if (_is24HourFormat)
 		{
 			//[lightColor set];
-			font = [UIFont fontWithName:@"Helvetica-Bold" size:fontSize];
+			font = [UIFont fontWithName:@"Helvetica" size:fontSize];
 			[timestr drawInRect:timePaneRec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];
 		}
 		else
@@ -174,7 +174,7 @@ extern BOOL _is24HourFormat;
 
 			if (hour != 12)
 			{
-				font = [UIFont fontWithName:@"Helvetica" size:fontSize-2];
+				font = [UIFont fontWithName:@"Helvetica" size:fontSize];
 
 				[ampm drawInRect:timePaneRec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];
 				timePaneRec.size.width -= amsize.width;
@@ -189,7 +189,7 @@ extern BOOL _is24HourFormat;
 			timePaneRec.size.width += LEFT_MARGIN;
 			timePaneRec.origin.x = 0;
 		
-			font = [UIFont fontWithName:@"Helvetica-Bold" size:fontSize];
+			font = [UIFont fontWithName:@"Helvetica" size:fontSize];
 			[s drawInRect:timePaneRec withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];
 		}
 		//Trung 08102101*
@@ -296,12 +296,12 @@ extern BOOL _is24HourFormat;
 
 + (CGSize) calculateTimePaneSize
 {
-	CGFloat fontSize = 12;
+	CGFloat fontSize = 14;
 	
-	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:fontSize];
+	UIFont *font = [UIFont fontWithName:@"Helvetica" size:fontSize];
 	CGSize hourSize = [@"12 " sizeWithFont:font];
 	
-	font = [UIFont fontWithName:@"Helvetica" size:fontSize-2];
+	font = [UIFont fontWithName:@"Helvetica" size:fontSize];
 	CGSize amSize = [@"AM" sizeWithFont:font];
 	
 	return CGSizeMake(hourSize.width + amSize.width, hourSize.height);
