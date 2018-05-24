@@ -6,4 +6,82 @@
   Copyright © 2017 LCL Mac Mini 1. All rights reserved.
 */
 
+"airdrop" = "\Ue000";
+
+"alert" = "\Ue001";
+
+"all" = "\Ue002";
+
+"arrow" = "\Ue003";
+
+"arrow-fill" = "\Ue004";
+
+"arrow-right" = "\Ue005";
+
+"calendar-view" = "\Ue006";
+
+"calendar-view-sel" = "\Ue007";
+
+"check" = "\Ue008";
+
+"checklist" = "\Ue009";
+
+"compy" = "\Ue00a";
+
+"contact" = "\Ue00b";
+
+"day" = "\Ue00c";
+
+"delete" = "\Ue00d";
+
+"drag" = "\Ue00e";
+
 "due" = "\Ue00f";
+
+"event" = "\Ue010";
+
+"event-sel" = "\Ue011";
+
+"event-sel-copy" = "\Ue012";
+
+"flag" = "\Ue013";
+
+"hide" = "\Ue014";
+
+"info" = "\Ue015";
+
+"location" = "\Ue016";
+
+"long" = "\Ue017";
+
+"map" = "\Ue018";
+
+"move-top" = "\Ue019";
+
+"mul-select" = "\Ue01a";
+
+"note-view" = "\Ue01b";
+
+"note-view-sel" = "\Ue01c";
+
+"project-sel" = "\Ue01d";
+
+"project-view" = "\Ue01e";
+
+"short" = "\Ue01f";
+
+"star" = "\Ue020";
+
+"stared" = "\Ue021";
+
+"tag" = "\Ue022";
+
+"task-view" = "\Ue023";
+
+"task-view-sel" = "\Ue024";
+
+"view-2-weeks" = "\Ue025";
+
+"view-week" = "\Ue026";
+
+"week" = "\Ue027";

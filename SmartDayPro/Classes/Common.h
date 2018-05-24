@@ -642,5 +642,8 @@ typedef struct
 + (NSInteger)excludeSmartShareStatus;
 + (NSInteger)sharedStatus;
 + (NSDate*)convertDate:(NSDate*)date fromTimeZone:(NSTimeZone*)fromTimeZone toTimeZone:(NSTimeZone*)toTimeZone;
++ (UIButton *)createButtonWith:(NSString *)title buttonType:(UIButtonType)buttonType frame:(CGRect)frame titleColor:(UIColor *)titleColor           target:(id)target selector:(SEL)selector normalStateImage:(UIImage *)normalStateImage selectedStateImage:(UIImage *)selectedStateImage;
++ (NSString *)getCalendarDateString_EEEMMMDD:(NSDate *)argDate;
+
 @end
 

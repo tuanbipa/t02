@@ -63,6 +63,7 @@
 #import "GuruViewController.h"
 
 #import "SmartCalAppDelegate.h"
+#import "FontManager.h"
 
 extern SmartCalAppDelegate *_appDelegate;
 extern BOOL _calendarHintShown;
@@ -324,18 +325,16 @@ extern BOOL _detailHintShown;
         [menuItem release];
         
     }
-    else
-    {
-        UIButton *menuButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              //frame:CGRectMake(0, 10, 35, 30)
-                                frame:CGRectMake(0, 0, 40, 40)
-                                         titleColor:nil
-                                             target:self
-                                           selector:@selector(showMenu:)
-                                   //normalStateImage:@"menu_icon.png"
-                                normalStateImage:@"bar_setting.png"
-                                 selectedStateImage:nil];
+    else {
+        UIImage *leftImageIcon = [FontManager flowasticImageWithIconName:@"airdrop" andSize:20 iconColor:[UIColor whiteColor]];
+        
+        UIButton *menuButton = [Common createButtonWith:@""
+                                             buttonType:UIButtonTypeCustom
+                                                  frame:CGRectMake(0, 0, 40, 40)
+                                             titleColor:nil target:self
+                                               selector:@selector(showMenu:)
+                                       normalStateImage:leftImageIcon
+                                     selectedStateImage:nil];
         
         UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
         
@@ -365,8 +364,8 @@ extern BOOL _detailHintShown;
             case 0:
             {
                 NSDate *today = [[TaskManager getInstance] today];
-                
-                self.navigationItem.title = [Common getCalendarDateString:(today == nil?[NSDate date]:today)];
+            
+                self.navigationItem.title = [Common getCalendarDateString_EEEMMMDD:(today == nil?[NSDate date]:today)];
             }
                 break;
             case 1:
@@ -529,9 +528,11 @@ extern BOOL _detailHintShown;
  
  */
         
+        UIImage *imageLeftBar = [FontManager flowasticImageWithIconName:@"event" andSize:20 iconColor:[UIColor whiteColor]];
+        
         UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
         timerButton.backgroundColor = [UIColor clearColor];
-        [timerButton setImage:[[ImageManager getInstance] getImageWithName:@"bar_timer.png"] forState:UIControlStateNormal];
+        [timerButton setImage:imageLeftBar forState:UIControlStateNormal];
         timerButton.frame = CGRectMake(0, 0, 40, 40);
         [timerButton addTarget:self action:@selector(showTimer:)  forControlEvents:UIControlEventTouchUpInside];
         
@@ -3449,7 +3450,7 @@ extern BOOL _detailHintShown;
     
     arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(155, 30, 10, 10)];
     
-    arrowDownImgView.image = [UIImage imageNamed:@"arrow_down.png"];
+    arrowDownImgView.image = [FontManager flowasticImageWithIconName:@"arrow" andSize:10 iconColor:[UIColor whiteColor]];
     
     [self.navigationController.navigationBar addSubview:arrowDownImgView];
     [arrowDownImgView release];
@@ -3640,13 +3641,10 @@ extern BOOL _detailHintShown;
     }
 }
 
-- (void)calendarDayReady:(NSNotification *)notification
-{
-    if (selectedTabButton.tag == 0)
-    {
+- (void)calendarDayReady:(NSNotification *)notification {
+    if (selectedTabButton.tag == 0) {
         NSDate *today = [[TaskManager getInstance] today];
-        
-        self.navigationItem.title = [Common getCalendarDateString:(today == nil?[NSDate date]:today)];
+        self.navigationItem.title = [Common getCalendarDateString_EEEMMMDD:(today == nil?[NSDate date]:today)];
     }
 }
 

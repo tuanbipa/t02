@@ -202,6 +202,41 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	return button;
 }
 
++ (UIButton *)createButtonWith:(NSString *)title
+                    buttonType:(UIButtonType)buttonType
+                         frame:(CGRect)frame
+                    titleColor:(UIColor *)titleColor
+                        target:(id)target
+                      selector:(SEL)selector
+              normalStateImage:(UIImage *)normalStateImage
+            selectedStateImage:(UIImage *)selectedStateImage {
+    
+    UIButton *button = [UIButton buttonWithType:buttonType];
+    button.frame = frame;
+    [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font=[UIFont boldSystemFontOfSize:14];
+    
+    if(titleColor!=nil) {
+        [button setTitleColor:titleColor  forState:UIControlStateNormal];
+    }
+    else {
+        [button setTitleColor:[UIColor brownColor]  forState:UIControlStateNormal];
+    }
+    
+    button.backgroundColor = [UIColor clearColor];
+    
+    if(normalStateImage) {
+        [button setImage:normalStateImage forState:UIControlStateNormal];
+    }
+    
+    if(selectedStateImage) {
+        [button setImage:normalStateImage forState:UIControlStateSelected];
+    }
+    
+    [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    
+    return button;
+}
 
 + (UIButton *)createButton1:(NSString *)title
                 buttonType:(UIButtonType)buttonType
@@ -1354,7 +1389,19 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
 	[dateFormatter release];
 	
 	return ret;
-	
+}
+
++ (NSString *)getCalendarDateString_EEEMMMDD:(NSDate *)argDate {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateFormat:@"EEE MMM dd"];
+    
+    //return [dateFormatter stringFromDate:argDate];
+    NSString *ret = [dateFormatter stringFromDate:argDate];
+    
+    [dateFormatter release];
+    
+    return ret;
 }
 
 + (NSString *) getFullTimeString:(NSDate *)argDate
