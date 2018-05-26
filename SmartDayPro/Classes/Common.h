@@ -169,6 +169,7 @@ extern BOOL _firstLaunch;
 #define COLOR_BACKGROUND_HEADER_MINI_MONTH hexColor(0xF3F3F3)
 #define COLOR_LINE_MONTH_CELL hexColor(0xD2D2D5)
 #define COLOR_TODAY_MONTH_CELL hexColor(0x003382)
+#define COLOR_ICON_DRAG hexColor(0x919195)
 
 typedef enum
 {

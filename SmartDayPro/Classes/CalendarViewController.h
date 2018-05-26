@@ -35,7 +35,7 @@
 	
     ContentScrollView *calendarView;
     CalendarADEView *adeView;
-    UIImageView *adeSeparatorImgView;
+    UIView *adeSeparatorLineView;
     
     CalendarScrollPageLayoutController *calendarLayoutController;
 

@@ -20,20 +20,21 @@
 #import "SmartDayViewController.h"
 #import "CalendarViewController.h"
 
+#define WIDTH_ALLDAY_LABEL 60
+
 @implementation CalendarADEView
 
 @synthesize adeList;
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) 
-    {
-        // Initialization code
-        UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 60, 20)];
+    if (self) {
+        self.backgroundColor = [UIColor whiteColor];
+        
+        UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, WIDTH_ALLDAY_LABEL, frame.size.height)];
         allDayLabel.backgroundColor = [UIColor clearColor];
-        allDayLabel.textColor = [UIColor blackColor];
-        allDayLabel.textAlignment = NSTextAlignmentLeft;
+        allDayLabel.textColor = hexColor(0x8B8B8B);
+        allDayLabel.textAlignment = NSTextAlignmentCenter;
         allDayLabel.text = _allDayText;
         allDayLabel.font = [UIFont boldSystemFontOfSize:12];
         
@@ -41,8 +42,8 @@
         [allDayLabel release];
         
         self.adeList = nil;
-        
     }
+    
     return self;
 }
 
@@ -67,13 +68,12 @@
     
     int y = 5;
     
-    for (int i=0; i<self.adeList.count; i++)
-    {
+    for (int i=0; i<self.adeList.count; i++) {
         Task *task = [self.adeList objectAtIndex:i];
         
         ////printf("ade %s - start: %s, end: %s\n", [task.name UTF8String], [[task.startTime description] UTF8String], [[task.endTime description] UTF8String]);
         
-        CGRect frm = CGRectMake(60, y, 300-60, 30);
+        CGRect frm = CGRectMake(WIDTH_ALLDAY_LABEL, y, self.frame.size.width - WIDTH_ALLDAY_LABEL, self.frame.size.height);
         
         TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
         //taskView.tag = task;
@@ -95,18 +95,17 @@
     
     if (self.adeList.count == 1)
     {
-        //h = 30;
-        h = 45;
+        h = 40;
     }
     else if (self.adeList.count == 2)
     {
-        //h = 70;
-        h = 80;
+//        h = 80;
+        h = 75;
     }
     else if (self.adeList.count > 2)
     {
         //h = 90;
-        h = 100;
+        h = 110;
     }
     
     CGRect frm = self.frame;

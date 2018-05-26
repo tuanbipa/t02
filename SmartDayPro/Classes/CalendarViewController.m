@@ -272,14 +272,14 @@ CalendarViewController *_sc2ViewCtrler;
     
     adeView.frame = frm;
     
-    frm = adeSeparatorImgView.frame;
-    frm.origin.y = adeH-6;
-    frm.size.height = 6;
+    frm = adeSeparatorLineView.frame;
+    frm.origin.y = adeH - 1;
+    frm.size.height = 1;
     
-    adeSeparatorImgView.frame = frm;
+    adeSeparatorLineView.frame = frm;
     
     adeView.hidden = !adeVisible;
-    adeSeparatorImgView.hidden = !adeVisible;
+    adeSeparatorLineView.hidden = !adeVisible;
     
     [self focusNow];
 }
@@ -1607,8 +1607,8 @@ CalendarViewController *_sc2ViewCtrler;
     calendarView.frame = contentView.bounds;
     
     //adeView.frame = CGRectMake(0, 0, frm.size.width, 40);
-    adeView.frame = CGRectMake(0, 0, frm.size.width, 50);
-    adeSeparatorImgView.frame = CGRectMake(0, 0, frm.size.width, 6);
+    adeView.frame = CGRectMake(0, 0, frm.size.width, 30);
+    adeSeparatorLineView.frame = CGRectMake(0, 0, frm.size.width, 1);
     
     //printf("calendar frame w:%f\n", calendarView.bounds.size.width);
     
@@ -1652,21 +1652,21 @@ CalendarViewController *_sc2ViewCtrler;
 	self.view = contentView;
 	[contentView release];
 
-    //adeView = [[CalendarADEView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 40)];
-    adeView = [[CalendarADEView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 50)];
+    adeView = [[CalendarADEView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 30)];
     adeView.hidden = YES;
     [contentView addSubview:adeView];
     [adeView release];
     
-    adeSeparatorImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ade_separator.png"]];
-    adeSeparatorImgView.frame = CGRectMake(0, 0, frm.size.width, 6);
-    adeSeparatorImgView.hidden = YES;
+    // Create Line separator view
+    adeSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 1)];
+    adeSeparatorLineView.backgroundColor = COLOR_LINE;
+    adeSeparatorLineView.hidden = YES;
     
-    [contentView addSubview:adeSeparatorImgView];
-    [adeSeparatorImgView release];
+    [contentView addSubview:adeSeparatorLineView];
+    [adeSeparatorLineView release];
+    
     
     calendarView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
-    
     calendarView.canCancelContentTouches = NO;
 	calendarView.backgroundColor = [UIColor clearColor];
     calendarView.delegate = calendarLayoutController;

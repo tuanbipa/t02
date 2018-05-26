@@ -14,6 +14,9 @@
 
 #import "iPadViewController.h"
 #import "CalendarViewController.h"
+#import "FontManager.h"
+
+#define PADDING_LEFT 50
 
 extern iPadViewController *_iPadViewCtrler;
 
@@ -82,8 +85,10 @@ extern iPadViewController *_iPadViewCtrler;
         [self addSubview:dayManagerUpView];
         [dayManagerUpView release];
         
-        upHandleImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"focus_handle.png"]];
-        upHandleImgView.frame = CGRectMake(dayManagerUpView.bounds.size.width-30, dayManagerUpView.bounds.size.height-20, 30, 20);
+        UIImage *imageDrag = [FontManager flowasticImageWithIconName:@"drag" andSize:15 iconColor:COLOR_ICON_DRAG];
+        
+        upHandleImgView = [[UIImageView alloc] initWithImage:imageDrag];
+        upHandleImgView.frame = CGRectMake(dayManagerUpView.bounds.size.width-15, dayManagerUpView.bounds.size.height-20, 15, 20);
         
         [dayManagerUpView addSubview:upHandleImgView];
         [upHandleImgView release];
@@ -93,8 +98,8 @@ extern iPadViewController *_iPadViewCtrler;
         [self addSubview:dayManagerDownView];
         [dayManagerDownView release];
         
-        downHandleImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"focus_handle.png"]];
-        downHandleImgView.frame = CGRectMake(dayManagerDownView.bounds.size.width-30, 0, 30, 20);
+        downHandleImgView = [[UIImageView alloc] initWithImage:imageDrag];
+        downHandleImgView.frame = CGRectMake(dayManagerDownView.bounds.size.width-15, 0, 15, 20);
         
         [dayManagerDownView addSubview:downHandleImgView];
         [downHandleImgView release];
@@ -181,7 +186,8 @@ extern iPadViewController *_iPadViewCtrler;
 	
 	CGFloat y = TIME_SLOT_HEIGHT/2 + slotIdx * TIME_SLOT_HEIGHT + minute*TIME_SLOT_HEIGHT/30;
     
-    dayManagerUpView.frame = CGRectMake(40, 0, self.frame.size.width-40, y);
+//    dayManagerUpView.frame = CGRectMake(40, 0, self.frame.size.width-40, y);
+    dayManagerUpView.frame = CGRectMake(PADDING_LEFT, 0, self.frame.size.width - PADDING_LEFT, y);
     
     comps = [gregorian components:unitFlags fromDate:end];
     minute = comps.minute;
@@ -194,7 +200,8 @@ extern iPadViewController *_iPadViewCtrler;
 	
 	y = TIME_SLOT_HEIGHT/2 + slotIdx * TIME_SLOT_HEIGHT + minute*TIME_SLOT_HEIGHT/30;
     
-    CGRect frm = CGRectMake(40, y, self.frame.size.width-40, self.frame.size.height-y);
+//    CGRect frm = CGRectMake(40, y, self.frame.size.width-40, self.frame.size.height-y);
+    CGRect frm = CGRectMake(PADDING_LEFT, y, self.frame.size.width - PADDING_LEFT, self.frame.size.height-y);
     
     dayManagerDownView.frame = frm;
     
