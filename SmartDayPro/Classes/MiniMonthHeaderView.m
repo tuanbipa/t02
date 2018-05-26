@@ -16,6 +16,7 @@
 #import "MiniMonthView.h"
 
 #import "AbstractSDViewController.h"
+#import "FontManager.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 
@@ -23,102 +24,108 @@ extern AbstractSDViewController *_abstractViewCtrler;
 
 @implementation MiniMonthHeaderView
 
-
 - (id)initWithFrame:(CGRect)frame {
-    
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code.
-        
-        self.backgroundColor = [UIColor clearColor];
-        
-        CGFloat yMargin = (_isiPad?50:10);
+        self.backgroundColor = COLOR_BACKGROUND_HEADER_MINI_MONTH;
 
-        CGRect frm = CGRectMake(5, yMargin, 50, 50);
+        // Create PrevButton
+        NSInteger widthPrevNextButton = 30;
+        NSInteger heightPrevNextButton = 43;
+        NSInteger sizeIconPrevNextButton = 15;
         
-        UIButton *prevButton = [Common createButton:@""
+        CGRect frm = CGRectMake(0, 0, widthPrevNextButton, heightPrevNextButton);
+        UIButton *prevButton = [Common createButtonWith:@""
                                         buttonType:UIButtonTypeCustom
-                                //frame:CGRectMake(65, 0, 50, 50)
                                               frame:frm
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(shiftTime:)
-                                  normalStateImage:nil
+                                  normalStateImage:[FontManager flowasticImageWithIconName:@"arrow-right"
+                                                                                   andSize:sizeIconPrevNextButton
+                                                                                 iconColor:COLOR_PREV_NEXT_BUTTON]
                                 selectedStateImage:nil];
-        
         prevButton.tag = 11000;
-        
-        prevButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-        
+        prevButton.backgroundColor = [UIColor clearColor];
         [self addSubview:prevButton];
-        
-        UIImageView *prevImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_prev.png"]];
 
-        prevImgView.frame = CGRectMake(0, 0, 30, 30);
-        
-        [prevButton addSubview:prevImgView];
-        [prevImgView release];
-        
-        frm = CGRectMake(self.bounds.size.width-55, yMargin, 50, 50);
-        
-        UIButton *nextButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                //frame:CGRectMake(self.bounds.size.width-55, 0, 50, 50)
-                                              frame: frm
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(shiftTime:)
-                                   normalStateImage:nil
-                                 selectedStateImage:nil];
-        
+        // Create NextButton
+        frm = CGRectMake(self.bounds.size.width - widthPrevNextButton, 0, widthPrevNextButton, heightPrevNextButton);
+        UIButton *nextButton = [Common createButtonWith:@""
+                                             buttonType:UIButtonTypeCustom
+                                                  frame: frm
+                                             titleColor:[UIColor whiteColor]
+                                                 target:self
+                                               selector:@selector(shiftTime:)
+                                       normalStateImage:[FontManager flowasticImageWithIconName:@"arrow-right"
+                                                                                        andSize:sizeIconPrevNextButton
+                                                                                      iconColor:COLOR_PREV_NEXT_BUTTON]
+                                     selectedStateImage:nil];
         nextButton.tag = 11001;
-        
-        nextButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-        
         [self addSubview:nextButton];
+        nextButton.backgroundColor = [UIColor clearColor];
         
-        // zoom out button
-        UIImageView *nextImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MM_next.png"]];
-        nextImgView.frame = CGRectMake(20, 0, 30, 30);
+        // Create Zoom out button
+        NSInteger widthIconWeek = 30;
+        NSInteger sizeIconWeek = 30;
+        NSInteger paddingBetweenZoomOutIn = 30;
         
-        [nextButton addSubview:nextImgView];
-        [nextImgView release];
-        
-        frm.origin.x = frame.size.width/2 - 50 - PAD_WIDTH;
-        frm.origin.y -= PAD_WIDTH;
-        frm.size = CGSizeMake(50, 50);
-        
-        UIButton *zoomOutButton = [Common createButton:@""
+        frm.origin.x = (frame.size.width - (widthIconWeek * 2) - paddingBetweenZoomOutIn)/2;
+        frm.size = CGSizeMake(widthIconWeek, heightPrevNextButton);
+
+        UIButton *zoomOutButton = [Common createButtonWith:@""
                                             buttonType:UIButtonTypeCustom
                                                  frame:frm
                                             titleColor:nil
                                                 target:self
                                               selector:@selector(switchMWMode:)
-                                      normalStateImage:@"MM_month.png"
-                                    selectedStateImage:@"MM_month_selected.png"];
+                                      normalStateImage:nil
+                                    selectedStateImage:nil];
         zoomOutButton.tag = 12000;
         [self addSubview:zoomOutButton];
         
-        // zoom in button
-        frm.origin.x += 50 + PAD_WIDTH/2;
-        UIButton *zoomInButton = [Common createButton:@""
-                                            buttonType:UIButtonTypeCustom
-                                                 frame:frm
-                                            titleColor:nil
-                                                target:self
-                                              selector:@selector(switchMWMode:)
-                                      normalStateImage:@"MM_week.png"
-                                    selectedStateImage:@"MM_week_selected.png"];
+        UIImage *normalStateImage = [FontManager flowasticImageWithIconName:@"view-2-weeks"
+                                                                    andSize:sizeIconWeek
+                                                                  iconColor:COLOR_PREV_NEXT_BUTTON];
+        
+        UIImage *selectedStateImage = [FontManager flowasticImageWithIconName:@"view-2-weeks"
+                                                                      andSize:sizeIconWeek
+                                                                    iconColor:COLOR_WEEK_BUTTON_SEL];
+        
+        [zoomOutButton setImage:normalStateImage forState:UIControlStateNormal];
+        [zoomOutButton setImage:selectedStateImage forState:UIControlStateSelected];
+        
+        // Create Zoom in button
+        frm.origin.x = zoomOutButton.frame.origin.x + zoomOutButton.frame.size.width + paddingBetweenZoomOutIn;
+        UIButton *zoomInButton = [Common createButtonWith:@""
+                                                buttonType:UIButtonTypeCustom
+                                                     frame:frm
+                                                titleColor:nil
+                                                    target:self
+                                                  selector:@selector(switchMWMode:)
+                                          normalStateImage:nil
+                                        selectedStateImage:nil];
         zoomInButton.tag = 12001;
         [self addSubview:zoomInButton];
         
+        UIImage *normalStateImageWeek = [FontManager flowasticImageWithIconName:@"view-week"
+                                                                    andSize:sizeIconWeek
+                                                                  iconColor:COLOR_PREV_NEXT_BUTTON];
+        
+        UIImage *selectedStateImageWeek = [FontManager flowasticImageWithIconName:@"view-week"
+                                                                      andSize:sizeIconWeek
+                                                                    iconColor:COLOR_WEEK_BUTTON_SEL];
+        
+        [zoomInButton setImage:normalStateImageWeek forState:UIControlStateNormal];
+        [zoomInButton setImage:selectedStateImageWeek forState:UIControlStateSelected];
+        
+        // Set state default
         zoomOutButton.selected = YES;
         zoomOutButton.userInteractionEnabled = NO;
         zoomInButton.selected = NO;
         zoomInButton.userInteractionEnabled = YES;
         
-        if (_isiPad)
-        {
+        if (_isiPad) {
             UIButton *todayButton = [Common createButton:_todayText
                                               buttonType:UIButtonTypeCustom
                                                    frame:CGRectMake(self.bounds.size.width-65, 5, 60, 25)
@@ -220,13 +227,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
 	dayRec.origin.y = rect.size.height - 20 + 3;
 	dayRec.size.width /= 7;
 	
-	UIFont *font = [UIFont boldSystemFontOfSize:12];
+    UIFont *font = [UIFont systemFontOfSize:12];
     
     // set week header background
     CGRect weekRect = dayRec;
     weekRect.size.width = rect.size.width;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    [[UIColor lightGrayColor] set];
+    [COLOR_HEADER_MINI_MONTH set];
     CGContextFillRect(ctx, weekRect);
     
     if (_isiPad)
@@ -251,9 +258,11 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		
 		dayRec.origin.x = wkHeaderWidth + i*dayRec.size.width;
 		
-		[[UIColor grayColor] set];
+		[[UIColor whiteColor] set];
 		
-		[dayName drawInRect:CGRectOffset(dayRec, 0, -1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+//        [dayName drawInRect:CGRectOffset(dayRec, 0, -1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
+        
+        [dayName drawInRect:CGRectOffset(dayRec, 0, 0) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 		
 		[[UIColor whiteColor] set];
 		

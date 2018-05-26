@@ -55,7 +55,9 @@ typedef enum {
 
 typedef enum {
     FlowasticIcon_None = 0x0000,
-    FlowasticIcon_Due = 0xe00f
+    FlowasticIcon_Due = 0xe00f,
+    FlowasticIcon_ArrowLeft = 0xe005,
+    FlowasticIcon_ArrowRight = 0xe005
     
 } KFlowasticIcon;
 

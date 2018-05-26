@@ -163,6 +163,10 @@ extern BOOL _firstLaunch;
 #define COLOR_ICON_TABBAR_SEL hexColor(0x194B89)
 #define COLOR_TEXT_TABBAR hexColor(0x8C8C91)
 #define COLOR_TEXT_TABBAR_SEL hexColor(0x174B89)
+#define COLOR_PREV_NEXT_BUTTON hexColor(0x8B8B8B)
+#define COLOR_WEEK_BUTTON_SEL hexColor(0x2C7CF6)
+#define COLOR_HEADER_MINI_MONTH hexColor(0xD1D1D5)
+#define COLOR_BACKGROUND_HEADER_MINI_MONTH hexColor(0xF3F3F3)
 
 typedef enum
 {
