@@ -326,11 +326,13 @@ extern BOOL _detailHintShown;
         
     }
     else {
-        UIImage *leftImageIcon = [FontManager flowasticImageWithIconName:@"airdrop" andSize:20 iconColor:[UIColor whiteColor]];
+        UIImage *leftImageIcon = [FontManager flowasticImageWithIconName:@"task-view-copy"
+                                                                 andSize:SIZE_ICON_TOPBAR
+                                                               iconColor:[UIColor whiteColor]];
         
         UIButton *menuButton = [Common createButtonWith:@""
                                              buttonType:UIButtonTypeCustom
-                                                  frame:CGRectMake(0, 0, 40, 40)
+                                                  frame:CGRectMake(0, 0, SIZE_ICON_TOPBAR, SIZE_ICON_TOPBAR)
                                              titleColor:nil target:self
                                                selector:@selector(showMenu:)
                                        normalStateImage:leftImageIcon
@@ -528,12 +530,14 @@ extern BOOL _detailHintShown;
  
  */
         
-        UIImage *imageLeftBar = [FontManager flowasticImageWithIconName:@"event" andSize:20 iconColor:[UIColor whiteColor]];
+        UIImage *imageRightBar = [FontManager flowasticImageWithIconName:@"clock"
+                                                                 andSize:SIZE_ICON_TOPBAR
+                                                               iconColor:[UIColor whiteColor]];
         
         UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
         timerButton.backgroundColor = [UIColor clearColor];
-        [timerButton setImage:imageLeftBar forState:UIControlStateNormal];
-        timerButton.frame = CGRectMake(0, 0, 40, 40);
+        [timerButton setImage:imageRightBar forState:UIControlStateNormal];
+        timerButton.frame = CGRectMake(0, 0, SIZE_ICON_TOPBAR, SIZE_ICON_TOPBAR);
         [timerButton addTarget:self action:@selector(showTimer:)  forControlEvents:UIControlEventTouchUpInside];
         
         UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
@@ -1441,6 +1445,8 @@ extern BOOL _detailHintShown;
         selectedTabButton = btn;
         
         selectedTabButton.selected = YES;
+        
+        [self refreshColorForTextTabbarAtIndex:(btn.tag + 1) andIsSelected:selectedTabButton.isSelected];
                 
         if (self.activeViewCtrler != nil)
         {
@@ -1956,49 +1962,56 @@ extern BOOL _detailHintShown;
 #pragma mark Views
 
 - (void)createNavigationView {
-    navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.bounds.size.height-40, contentView.bounds.size.width, 40)];
+    UIView *viewTopLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, 1)];
+    viewTopLine.backgroundColor = COLOR_LINE;
     
-    navigationView.backgroundColor = [UIColor colorWithRed:25.0/255.0 green:76.0/255.0 blue:137.0/255.0 alpha:1.0];
-    
+    navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.bounds.size.height - HEIGHT_TABBAR, contentView.bounds.size.width, HEIGHT_TABBAR)];
+    navigationView.backgroundColor = BACKGROUND_TABBAR;
+    [navigationView addSubview:viewTopLine];
+    [viewTopLine release];
     [contentView addSubview:navigationView];
     [navigationView release];
     
-    NSString *iconNames[TAB_NUM] = {@"bottom_event.png", @"bottom_task.png", @"bottom_note.png", @"bottom_cate.png"};
+    NSString *iconNames[TAB_NUM] = {@"calendar-view-sel", @"task-view", @"note-view", @"project-view"};
     NSString *tabNames[TAB_NUM] = {_calendarText, _tasksText, _notesText, _projectsText};
     
     CGSize sz = [Common getScreenSize];
     CGFloat w = sz.width/TAB_NUM;
     
-    for (int i=0; i<TAB_NUM; i++)
-    {
-        UIButton *button = [Common createButton:@"" 
-                                           buttonType:UIButtonTypeCustom 
-                                                //frame:CGRectMake(i*40, 5, 30, 30)
-                                            frame:CGRectMake(i*w, 0, w, 40)
-                                           titleColor:[UIColor blackColor]
-                                               target:self 
-                                             selector:@selector(tab:) 
-                                     normalStateImage:nil
-                                   selectedStateImage:nil];
+    for (int i=0; i < TAB_NUM; i++) {
+        UIImage *normalStateImage = [FontManager flowasticImageWithIconName:iconNames[i]
+                                                                    andSize:SIZE_ICON_TABBAR
+                                                                  iconColor:COLOR_ICON_TABBAR];
+        
+        UIImage *selectStateImage = [FontManager flowasticImageWithIconName:iconNames[i]
+                                                                    andSize:SIZE_ICON_TABBAR
+                                                                  iconColor:COLOR_ICON_TABBAR_SEL];
+        
+        UIButton *button = [Common createButtonWith:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(i*w, 5, w, SIZE_ICON_TABBAR)
+                                         titleColor:nil target:self
+                                           selector:@selector(tab:)
+                                   normalStateImage:normalStateImage
+                                 selectedStateImage:selectStateImage];
         button.tag = i;
-        
-        UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iconNames[i]]];
-        imgView.frame = CGRectMake(w/2-32, 0, 64, 40);
-        [button addSubview:imgView];
-        [imgView release];
-        
+
         [navigationView addSubview:button];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(i*w, 20, w, 20)];
+        [button setImage:normalStateImage forState:UIControlStateNormal];
+        [button setImage:selectStateImage forState:UIControlStateSelected];
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(i*w, 30, w, 14)];
+        label.tag = i + 1;
         label.backgroundColor = [UIColor clearColor];
         label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:12];
-        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:SIZE_TEXT_TABBAR];
+        label.textColor = COLOR_TEXT_TABBAR;
         label.text = tabNames[i];
-        
+
         [navigationView addSubview:label];
         [label release];
-        
+
         tabButtons[i] = button;
     }
 }
@@ -3737,6 +3750,25 @@ extern BOOL _detailHintShown;
         dispatch_async(dispatch_get_main_queue(),^ {
             [self checkForHidingNotifBadge:NO];
         });
+    }
+}
+
+#pragma mark - Refresh color for Text tabbar
+- (void)refreshColorForTextTabbarAtIndex:(NSInteger)index andIsSelected:(BOOL)isSelected {
+    
+    // Reset text color
+    for (id view in navigationView.subviews) {
+        if (view && [view isKindOfClass:[UILabel class]]) {
+            UILabel *textLabel = (UILabel *)view;
+            textLabel.textColor = COLOR_TEXT_TABBAR;
+        }
+    }
+    
+    // Set color for text at bar button selected
+    id object = [navigationView viewWithTag:index];
+    if (object && [object isKindOfClass:[UILabel class]]) {
+        UILabel *textLabel = (UILabel *)object;
+        textLabel.textColor = isSelected ? COLOR_TEXT_TABBAR_SEL : COLOR_TEXT_TABBAR;
     }
 }
 

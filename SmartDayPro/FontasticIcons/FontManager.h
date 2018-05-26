@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "FontasticIcons.h"
 
+#define KSMARTDAY_FONTNAME @"smartday.ttf"
+
 typedef enum {
     MoodFontIcon_None = 0x0000,
     MoodFontIcon_Cancel = 0x62,
@@ -69,5 +71,6 @@ typedef enum {
 #pragma mark - For FlowasticIcon
 + (NSMutableAttributedString *)flowasticIconAttributeStringWithIconType:(KFlowasticIcon)iconType fontSize:(CGFloat)size color:(UIColor *)color;
 + (UIImage *)flowasticImageWithIconName:(NSString *)iconName andSize:(CGFloat )size iconColor:(UIColor *)iconColor;
++ (NSMutableAttributedString *)attributeStringWithString:(NSString *)str fontSize:(CGFloat)size foregroundColor:(UIColor *)color;
 
 @end

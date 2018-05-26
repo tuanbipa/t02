@@ -152,6 +152,18 @@ extern BOOL _firstLaunch;
 #define URL_ALSOLCL			@"http://www.leftcoastlogic.com/lclproducts/"
 #define URL_SYNC            @"http://www.leftcoastlogic.com/smartday/synchronizing/"
 
+// Color and Constant for SmartDay
+#define HEIGHT_TABBAR 44
+#define SIZE_ICON_TABBAR 25
+#define SIZE_TEXT_TABBAR 12
+#define SIZE_ICON_TOPBAR 20
+#define BACKGROUND_TABBAR hexColor(0xF8F8F8)
+#define COLOR_LINE hexColor(0xC8C7CC)
+#define COLOR_ICON_TABBAR hexColor(0x8C8C8C)
+#define COLOR_ICON_TABBAR_SEL hexColor(0x194B89)
+#define COLOR_TEXT_TABBAR hexColor(0x8C8C91)
+#define COLOR_TEXT_TABBAR_SEL hexColor(0x174B89)
+
 typedef enum
 {
     DO_TODAY = 0,

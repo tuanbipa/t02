@@ -62,4 +62,40 @@
     return image;
 }
 
+//+ (NSMutableDictionary *)flowasticIconAttributeStringWithFontSize:(CGFloat)size foregroundColor:(UIColor *)color withFontName:(NSString *)fontName {
+//    NSMutableDictionary *attrs = [NSMutableDictionary dictionaryWithDictionary:[FontManager flowasticIconAttributeStringWithFontSize:size fontName:fontName color:color]];
+//    
+//    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+//    [style setAlignment:NSTextAlignmentCenter];
+//    
+//    [attrs setObject:style forKey:NSParagraphStyleAttributeName];
+//    
+//    return attrs;
+//}
+
++ (NSMutableDictionary *)flowasticIconAttributeStringWithFontSize:(CGFloat)size fontName:(NSString *)fontName color:(UIColor *)color {
+    UIFont *font = [UIFont fontWithName:fontName size:size];
+    NSMutableDictionary *attrs = [[NSMutableDictionary alloc] init];
+    [attrs setObject:font forKey:NSFontAttributeName];
+    [attrs setObject:color forKey:NSForegroundColorAttributeName];
+    
+    return attrs;
+}
+
++ (NSMutableAttributedString *)attributeStringWithString:(NSString *)str fontSize:(CGFloat)size foregroundColor:(UIColor *)color{
+    UIFont *font = [UIFont systemFontOfSize:size];
+    NSMutableDictionary *attrs = [[NSMutableDictionary alloc] init];
+    [attrs setObject:font forKey:NSFontAttributeName];
+    [attrs setObject:color forKey:NSForegroundColorAttributeName];
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    [style setAlignment:NSTextAlignmentCenter];
+    [style setLineBreakMode:NSLineBreakByTruncatingTail];
+    
+    [attrs setObject:style forKey:NSParagraphStyleAttributeName];
+    NSString *title = str;
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:title attributes:attrs];
+    
+    return attrStr;
+}
+
 @end
