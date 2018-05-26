@@ -94,14 +94,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
 		
         [calView changeWeekPlanner:7 weeks:1];
         
-        separatorImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ade_separator.png"]];
-        separatorImgView.frame = CGRectMake(0, frame.size.height - 6, frame.size.width, 6);
-        
-        [self addSubview:separatorImgView];
-        [separatorImgView release];
-        
-        separatorImgView.hidden = _isiPad;
-        
         //self.layer.borderWidth = 1;
         //self.layer.borderColor = [[UIColor grayColor] CGColor];
         //self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
@@ -141,13 +133,6 @@ extern AbstractSDViewController *_abstractViewCtrler;
     frm.size.height -= headerView.bounds.size.height;
 
     calView.frame = frm;
-    
-    frm = self.bounds;
-    
-    frm.origin.y = frm.size.height - 6;
-    frm.size.height = 6;
-    
-    separatorImgView.frame = frm;
     
     [UIView commitAnimations];    
 }
@@ -239,7 +224,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
 {
     NSInteger weeks = self.calView.nWeeks;
 	
-    CGRect frm = CGRectMake(_isiPad?10:0, _isiPad?10:0, self.frame.size.width, (_isiPad?48:40)*weeks + MINI_MONTH_HEADER_HEIGHT + (_isiPad?0:6));
+//    CGRect frm = CGRectMake(_isiPad?10:0, _isiPad?10:0, self.frame.size.width, (_isiPad?48:40)*weeks + MINI_MONTH_HEADER_HEIGHT + (_isiPad?0:6));
+    
+    CGRect frm = CGRectMake(_isiPad?10:0, _isiPad?10:0, self.frame.size.width, (_isiPad?48:40)*weeks + MINI_MONTH_HEADER_HEIGHT);
     
     [self changeFrame:frm];
     

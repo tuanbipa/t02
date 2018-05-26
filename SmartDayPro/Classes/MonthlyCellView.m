@@ -35,11 +35,9 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        // Initialization code
-        
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
 		
-		dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 40, 20)];
+		dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 4, 40, 20)];
 		dayLabel.font = [UIFont systemFontOfSize:14];
 		dayLabel.backgroundColor = [UIColor clearColor];
 		
@@ -71,7 +69,8 @@
 		if (freeRatio == 0)
 		{
 			//color = [UIColor colorWithRed:196.0/255 green:191.0/255 blue:204.0/255 alpha:1];
-            color = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+//            color = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+            color = [UIColor colorWithWhite:1 alpha:1];
 		}
 		else if (freeRatio < 0.25)
 		{
@@ -272,8 +271,7 @@
 	//if ([[Settings getInstance] skinStyle] == 0)
     if (self.skinStyle == 0)
 	{
-		//darkColor = [UIColor grayColor];
-        darkColor = [UIColor lightGrayColor];
+        darkColor = COLOR_LINE_MONTH_CELL;
 		lightColor = [UIColor whiteColor];
 		dotColor = [UIColor blackColor];
 	}
@@ -282,7 +280,7 @@
 		darkColor = [UIColor darkGrayColor];
 		lightColor = [UIColor lightGrayColor];
 		dotColor = [UIColor whiteColor];
-	}			
+	}
 	
 	[darkColor set];
 	
@@ -301,11 +299,10 @@
 	CGContextAddLineToPoint( ctx, self.bounds.origin.x + self.bounds.size.width - 0.5, self.bounds.origin.y + self.bounds.size.height);
 	CGContextStrokePath(ctx);
 	
-	if (self.isToday)
-	{
-		CGContextSetLineWidth(ctx, 2);
+	if (self.isToday) {
+		CGContextSetLineWidth(ctx, 1);
 		
-		[[UIColor colorWithRed:(CGFloat)90/255 green:(CGFloat)111/255 blue:(CGFloat)140/255 alpha:1] set];
+        [COLOR_TODAY_MONTH_CELL set];
 		
 		CGContextStrokeRect(ctx, CGRectMake(self.bounds.origin.x + 1, self.bounds.origin.y + 1, self.bounds.size.width - 2, self.bounds.size.height - 2));
 	}

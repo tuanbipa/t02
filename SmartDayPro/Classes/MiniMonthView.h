@@ -22,7 +22,6 @@
     
 	MiniMonthHeaderView *headerView;
     MiniMonthWeekHeaderView *weekHeaderView;
-    UIImageView *separatorImgView;
 	
 	CGPoint touchedPoint;
 }
