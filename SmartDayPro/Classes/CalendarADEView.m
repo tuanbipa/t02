@@ -31,7 +31,7 @@
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         
-        UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, WIDTH_ALLDAY_LABEL, frame.size.height)];
+        UILabel *allDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, WIDTH_ALLDAY_LABEL, frame.size.height + 10)];// 10:padding top,bottom
         allDayLabel.backgroundColor = [UIColor clearColor];
         allDayLabel.textColor = hexColor(0x8B8B8B);
         allDayLabel.textAlignment = NSTextAlignmentCenter;
@@ -87,8 +87,7 @@
         [self addSubview:taskView];
         [taskView release]; 
         
-        y += frm.size.height + 5;
-        
+        y += frm.size.height;
     }
     
     CGFloat h = 0;
@@ -112,7 +111,8 @@
     frm.size.height = h;
     self.frame = frm;
     
-    self.contentSize = CGSizeMake(self.bounds.size.width, y + 5);
+//    self.contentSize = CGSizeMake(self.bounds.size.width, y + 5);
+    self.contentSize = CGSizeMake(self.bounds.size.width, y);
     self.contentOffset = CGPointMake(0, 0);
 }
 
