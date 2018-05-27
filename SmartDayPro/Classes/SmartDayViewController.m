@@ -65,6 +65,8 @@
 #import "SmartCalAppDelegate.h"
 #import "FontManager.h"
 
+#define TAG_CURRENTDATE_CALENDAR_TABBAR 9999
+
 extern SmartCalAppDelegate *_appDelegate;
 extern BOOL _calendarHintShown;
 extern BOOL _smartListHintShown;
@@ -1995,6 +1997,20 @@ extern BOOL _detailHintShown;
                                    normalStateImage:normalStateImage
                                  selectedStateImage:selectStateImage];
         button.tag = i;
+        
+        if (i == 0) {
+            UILabel *labelDay = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, w, SIZE_ICON_TABBAR)];
+            labelDay.tag = TAG_CURRENTDATE_CALENDAR_TABBAR;
+            labelDay.userInteractionEnabled = NO;
+            labelDay.backgroundColor = [UIColor clearColor];
+            labelDay.textAlignment = NSTextAlignmentCenter;
+            labelDay.font = [UIFont boldSystemFontOfSize:16];
+            labelDay.textColor = [UIColor whiteColor];
+            labelDay.text = [self getCurrentDayFromDate:[NSDate date]];
+            
+            [button addSubview:labelDay];
+            [labelDay release];
+        }
 
         [navigationView addSubview:button];
         
@@ -3658,6 +3674,7 @@ extern BOOL _detailHintShown;
     if (selectedTabButton.tag == 0) {
         NSDate *today = [[TaskManager getInstance] today];
         self.navigationItem.title = [Common getCalendarDateString_EEEMMMDD:(today == nil?[NSDate date]:today)];
+        [self refreshDayOnCalendarTabbarWithDate:(today == nil ? [NSDate date] : today)];
     }
 }
 
@@ -3771,5 +3788,31 @@ extern BOOL _detailHintShown;
         textLabel.textColor = isSelected ? COLOR_TEXT_TABBAR_SEL : COLOR_TEXT_TABBAR;
     }
 }
+
+- (NSString *)getCurrentDayFromDate:(NSDate *)date {
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date];
+    
+    return [NSString stringWithFormat:@"%ld", components.day];
+}
+
+- (void)refreshDayOnCalendarTabbarWithDate:(NSDate *)date {
+    if (date) {
+        if (navigationView && navigationView.subviews.count > 1) {
+            id calendarButton = [navigationView.subviews objectAtIndex:1];
+            if (calendarButton && [calendarButton isKindOfClass:[UIButton class]]) {
+                UIButton *calendarBtn = (UIButton *)calendarButton;
+                if (calendarBtn && calendarBtn.subviews.count > 0) {
+                    id dayLabel = [calendarBtn viewWithTag:TAG_CURRENTDATE_CALENDAR_TABBAR];
+                    if (dayLabel && [dayLabel isKindOfClass:[UILabel class]]) {
+                        UILabel *dayLabelUpdate = (UILabel *)dayLabel;
+                        dayLabelUpdate.text = [self getCurrentDayFromDate:date];
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 @end
