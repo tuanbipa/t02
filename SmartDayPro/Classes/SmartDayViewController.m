@@ -3479,7 +3479,7 @@ extern BOOL _detailHintShown;
     
     arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(155, 30, 10, 10)];
     
-    arrowDownImgView.image = [FontManager flowasticImageWithIconName:@"arrow" andSize:10 iconColor:[UIColor whiteColor]];
+    arrowDownImgView.image = [FontManager flowasticImageWithIconName:@"arrow-down" andSize:10 iconColor:[UIColor whiteColor]];
     
     [self.navigationController.navigationBar addSubview:arrowDownImgView];
     [arrowDownImgView release];

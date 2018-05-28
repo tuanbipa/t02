@@ -47,14 +47,8 @@
 .icon-all:before {
   content: "\e002";
 }
-.icon-arrow:before {
-  content: "\e003";
-}
 .icon-arrow-fill:before {
   content: "\e004";
-}
-.icon-arrow-right:before {
-  content: "\e005";
 }
 .icon-calendar-view:before {
   content: "\e006";
@@ -178,4 +172,16 @@
 }
 .icon-clock:before {
   content: "\e02e";
+}
+.icon-arrow-up:before {
+  content: "\e003";
+}
+.icon-arrow-right:before {
+  content: "\e005";
+}
+.icon-arrow-left:before {
+  content: "\e02f";
+}
+.icon-arrow-down:before {
+  content: "\e030";
 }

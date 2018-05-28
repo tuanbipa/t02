@@ -41,7 +41,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
                                         titleColor:[UIColor whiteColor]
                                             target:self
                                           selector:@selector(shiftTime:)
-                                  normalStateImage:[FontManager flowasticImageWithIconName:@"arrow-right"
+                                  normalStateImage:[FontManager flowasticImageWithIconName:@"arrow-left"
                                                                                    andSize:sizeIconPrevNextButton
                                                                                  iconColor:COLOR_PREV_NEXT_BUTTON]
                                 selectedStateImage:nil];

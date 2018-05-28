@@ -12,8 +12,6 @@
 
 "all" = "\Ue002";
 
-"arrow" = "\Ue003";
-
 "arrow-fill" = "\Ue004";
 
 "arrow-right" = "\Ue005";
@@ -99,4 +97,13 @@
 "screenshot-send" = "\Ue02d";
 
 "clock" = "\Ue02e";
+
+"arrow-up" = "U\e003";
+
+"arrow-right" = "\Ue005";
+
+"arrow-left" = "\Ue02f";
+
+"arrow-down" = "\Ue030";
+
 
