@@ -1705,7 +1705,8 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
         sz = CGSizeMake(sz.height, sz.width);
     }
     
-    sz.height -= 20 + 44;
+//    sz.height -= 20 + 44;
+    sz.height -= [Common heightNavigationbar] + [Common heightTabbar];
     
     return sz;
 }
@@ -1954,4 +1955,47 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
         return date;
     }
 }
+
++ (DeviceSize)currentDevice {
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        switch ((int)[[UIScreen mainScreen] nativeBounds].size.height) {
+                
+            case 1136:
+                return Screen4inch;
+                
+            case 1334:
+                return Screen4Dot7inch;
+
+            case 1920:
+            case 2208:
+                return Screen5Dot5inch;
+
+            case 2436:
+                return Screen5Dot8inch;
+
+            default:
+                return UnknownSize;
+        }
+    }
+
+    return UnknownSize;
+}
+
++ (CGFloat)heightNavigationbar {
+    return [Common currentDevice] == Screen5Dot8inch ? 88 : 64;
+}
+
++ (CGFloat)heightTabbar {
+    return [Common currentDevice] == Screen5Dot8inch ? (HEIGHT_TABBAR + HEIGHT_Indicator_HOME) : HEIGHT_TABBAR;
+}
+
++ (CGFloat)heightStatusBar {
+    return [Common currentDevice] == Screen5Dot8inch ? 44 : 20;
+}
+
++ (BOOL)isIpX {
+    return ([Common currentDevice] == Screen5Dot8inch);
+}
+
 @end

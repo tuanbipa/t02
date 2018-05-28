@@ -1640,11 +1640,9 @@ CalendarViewController *_sc2ViewCtrler;
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
+- (void)loadView {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
-    frm.size.width = 320;
     
 	contentView = [[ContentView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor clearColor];

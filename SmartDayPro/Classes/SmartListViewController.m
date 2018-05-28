@@ -3004,14 +3004,13 @@ SmartListViewController *_smartListViewCtrler;
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
+- (void)loadView {
     Settings *settings = [Settings getInstance];
 
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     
-    frm.size.width = _isiPad?364:320;
+    frm.size.width = _isiPad ? 364 : frm.size.width;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     //[contentView enableSwipe];

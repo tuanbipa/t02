@@ -157,6 +157,7 @@ extern BOOL _firstLaunch;
 #define SIZE_ICON_TABBAR 25
 #define SIZE_TEXT_TABBAR 12
 #define SIZE_ICON_TOPBAR 20
+#define HEIGHT_Indicator_HOME 34
 #define BACKGROUND_TABBAR hexColor(0xF8F8F8)
 #define COLOR_LINE hexColor(0xC8C7CC)
 #define COLOR_ICON_TABBAR hexColor(0x8C8C8C)
@@ -170,6 +171,15 @@ extern BOOL _firstLaunch;
 #define COLOR_LINE_MONTH_CELL hexColor(0xD2D2D5)
 #define COLOR_TODAY_MONTH_CELL hexColor(0x003382)
 #define COLOR_ICON_DRAG hexColor(0x919195)
+
+typedef NS_ENUM(NSInteger, DeviceSize) {
+    UnknownSize     = 0,
+    Screen3Dot5inch = 1,
+    Screen4inch     = 2,
+    Screen4Dot7inch = 3,
+    Screen5Dot5inch = 4,
+    Screen5Dot8inch = 5
+};
 
 typedef enum
 {
@@ -663,6 +673,10 @@ typedef struct
 + (NSDate*)convertDate:(NSDate*)date fromTimeZone:(NSTimeZone*)fromTimeZone toTimeZone:(NSTimeZone*)toTimeZone;
 + (UIButton *)createButtonWith:(NSString *)title buttonType:(UIButtonType)buttonType frame:(CGRect)frame titleColor:(UIColor *)titleColor           target:(id)target selector:(SEL)selector normalStateImage:(UIImage *)normalStateImage selectedStateImage:(UIImage *)selectedStateImage;
 + (NSString *)getCalendarDateString_EEEMMMDD:(NSDate *)argDate;
++ (CGFloat)heightNavigationbar;
++ (CGFloat)heightTabbar;
++ (CGFloat)heightStatusBar;
++ (BOOL)isIpX;
 
 @end
 

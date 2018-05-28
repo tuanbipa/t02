@@ -729,11 +729,11 @@ extern BOOL _detailHintShown;
 }
 */
 
-- (void) scrollToDate:(NSDate *)date
-{
+- (void) scrollToDate:(NSDate *)date {
     [super scrollToDate:date];
     
-    self.navigationItem.title = [Common getCalendarDateString:date];
+    self.navigationItem.title = [Common getCalendarDateString_EEEMMMDD:date];
+    [self refreshDayOnCalendarTabbarWithDate:date];
 }
 
 - (void) applyFilter
@@ -1967,7 +1967,10 @@ extern BOOL _detailHintShown;
     UIView *viewTopLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, 1)];
     viewTopLine.backgroundColor = COLOR_LINE;
     
-    navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.bounds.size.height - HEIGHT_TABBAR, contentView.bounds.size.width, HEIGHT_TABBAR)];
+    navigationView = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                              contentView.frame.size.height,
+                                                              contentView.bounds.size.width,
+                                                              [Common heightTabbar])];
     navigationView.backgroundColor = BACKGROUND_TABBAR;
     [navigationView addSubview:viewTopLine];
     [viewTopLine release];

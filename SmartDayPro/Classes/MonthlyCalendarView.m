@@ -45,7 +45,8 @@ extern CalendarViewController *_sc2ViewCtrler;
         self.skinStyle = 0;
 		
 		CGFloat width = frame.size.width;
-		CGFloat dayWidth = floor(width/7);
+//        CGFloat dayWidth = floor(width/7);
+        CGFloat dayWidth = width/7;
 		CGFloat cellHeight = floor(frame.size.height/6);
 		
 		CGFloat ymargin = 0;
@@ -105,7 +106,8 @@ extern CalendarViewController *_sc2ViewCtrler;
 	CGFloat yoffset = 0;
 	
 	CGFloat height = _isiPad?48:40;
-	CGFloat width = (nDays == 5? 64:(_isiPad?48:46));
+//    CGFloat width = (nDays == 5? 64:(_isiPad?48:46));
+    CGFloat width = (nDays == 5 ? 64 : (_isiPad ? 48 : self.frame.size.width/nDays));
 	
 	for (int i=0; i<42; i++)
 	{
