@@ -3477,10 +3477,10 @@ extern BOOL _detailHintShown;
     
     [self changeOrientation:self.interfaceOrientation];
     
-    arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(155, 30, 10, 10)];
-    
-    arrowDownImgView.image = [FontManager flowasticImageWithIconName:@"arrow-down" andSize:10 iconColor:[UIColor whiteColor]];
-    
+    NSInteger sizeArrowDownIcon = 5;
+    NSInteger orginX = (contentView.frame.size.width - sizeArrowDownIcon)/2;
+    arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(orginX, 33, sizeArrowDownIcon, sizeArrowDownIcon)];
+    arrowDownImgView.image = [FontManager flowasticImageWithIconName:@"arrow-down" andSize:sizeArrowDownIcon iconColor:[UIColor whiteColor]];
     [self.navigationController.navigationBar addSubview:arrowDownImgView];
     [arrowDownImgView release];
 }
@@ -3674,7 +3674,6 @@ extern BOOL _detailHintShown;
     if (selectedTabButton.tag == 0) {
         NSDate *today = [[TaskManager getInstance] today];
         self.navigationItem.title = [Common getCalendarDateString_EEEMMMDD:(today == nil?[NSDate date]:today)];
-        [self refreshDayOnCalendarTabbarWithDate:(today == nil ? [NSDate date] : today)];
     }
 }
 
