@@ -33,6 +33,8 @@
 #import "Project.h"
 #import "SDWSync.h"
 
+#import "FontManager.h"
+
 extern SmartListViewController *_smartListViewCtrler;
 extern CalendarViewController *_sc2ViewCtrler;
 
@@ -451,29 +453,26 @@ extern SmartDayViewController *_sdViewCtrler;
         CGRect textRec = rect;
         
         NSString *name = self.task.name;
+        if (name.length > lineMaxChars) {
+            name = [name substringToIndex:lineMaxChars];
+        }
         
         // margin
-        CGFloat margin = 4;
-        textRec.size.height -= 2*margin;
-        textRec.origin.y += margin;
+//        CGFloat margin = 4;
+//        textRec.size.height -= 2*margin;
+//        textRec.origin.y += margin;
         
-        // calculate height of text
-        //NSInteger lineNumber = floor(task.name.length / lineMaxChars + 1.0);
+        // Calculate height of text
         NSInteger lineNumber = [Common countLines:task.name boundWidth:rect.size.width withFont:font];
         CGFloat nameHeight = lineNumber * oneCharSize.height;
         if (nameHeight > textRec.size.height) {
             nameHeight = textRec.size.height;
-            //nameHeight = nameHeight - fmod(nameHeight, oneCharSize.height);
-            
-            if (name.length > lineMaxChars) {
-                
-                name = [name substringToIndex:lineMaxChars];
-            }
         }
         
         if (![infoStr isEqualToString:@""] && lineNumber > 2 && nameHeight >= 3*oneCharSize.height) {
             nameHeight -= oneCharSize.height;
         }
+        
         textRec.size.height = nameHeight;
         
         CGFloat inforLine = [infoStr isEqualToString:@""] ? 0 : oneCharSize.height;
@@ -2492,13 +2491,9 @@ extern SmartDayViewController *_sdViewCtrler;
     self.layer.cornerRadius = ([task isTask]?6:0);
     self.layer.borderWidth = 0.25;
     self.layer.borderColor = [prjColor CGColor];
-    
-    //self.layer.backgroundColor = self.transparent?[[UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]] CGColor]: [[prjColor colorWithAlphaComponent:0.4] CGColor];
-    
     self.layer.backgroundColor = [[prjColor colorWithAlphaComponent:0.4] CGColor];
     
-    if (self.transparent)
-    {
+    if (self.transparent) {
         UIColor *color = [UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]];
         
         [color setFill];
@@ -2565,7 +2560,7 @@ extern SmartDayViewController *_sdViewCtrler;
     if ([task isEvent] || [task isNote])
     {
 		//UIImage *image = [[ImageManager getInstance] getImageWithName:@"event.png"];
-        UIImage *image = [task isManual] ? [[ImageManager getInstance] getImageWithName:@"atask_lines.png"] : [[ImageManager getInstance] getImageWithName:@"event.png"];
+//        UIImage *image = [task isManual] ? [[ImageManager getInstance] getImageWithName:@"atask_lines.png"] : [[ImageManager getInstance] getImageWithName:@"event.png"];
         
         //v4.0
 //        if (task.groupKey != -1)
@@ -2585,6 +2580,11 @@ extern SmartDayViewController *_sdViewCtrler;
 //				image = [[ImageManager getInstance] getImageWithName:@"repeat.png"];
 //			}
 //		}
+        
+        UIImage *imageEvent = [FontManager flowasticImageWithIconName:@"event" andSize:REPEAT_SIZE iconColor:prjColor];
+        UIImage *imageToDo = [FontManager flowasticImageWithIconName:@"undone" andSize:REPEAT_SIZE iconColor:prjColor];
+        
+        UIImage *image = [task isManual] ? imageToDo : imageEvent;
 		
 		frm = CGRectOffset(rect, SPACE_PAD, SPACE_PAD);
 		frm.size.width = REPEAT_SIZE;
@@ -2700,6 +2700,19 @@ extern SmartDayViewController *_sdViewCtrler;
         rect.origin.x += HAND_SIZE + SPACE_PAD/2;
         rect.size.width -= HAND_SIZE + SPACE_PAD/2;
 	}*/
+    
+    if ([task isTask]) {
+        UIImage *imageToDo = [FontManager flowasticImageWithIconName:@"undone" andSize:REPEAT_SIZE iconColor:prjColor];
+        
+        frm = CGRectOffset(rect, SPACE_PAD, SPACE_PAD);
+        frm.size.width = REPEAT_SIZE;
+        frm.size.height = REPEAT_SIZE;
+        
+        [imageToDo drawInRect:frm];
+        
+        rect.origin.x += REPEAT_SIZE + SPACE_PAD;
+        rect.size.width -= REPEAT_SIZE + SPACE_PAD;
+    }
     
     rect.origin.x += SPACE_PAD;
     rect.size.width -= SPACE_PAD;

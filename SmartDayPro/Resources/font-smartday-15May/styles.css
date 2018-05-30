@@ -185,3 +185,6 @@
 .icon-arrow-down:before {
   content: "\e030";
 }
+.icon-undone:before {
+  content: "\e031";
+}

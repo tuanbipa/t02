@@ -29,7 +29,8 @@
 {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 		
-	UIColor *color = [Common getColorByID:self.colorId colorIndex:1];
+//    UIColor *color = [Common getColorByID:self.colorId colorIndex:1];
+    UIColor *color = [UIColor redColor];
 	[color setStroke];
 	
 	CGContextSetLineWidth(ctx, 2);
