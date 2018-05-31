@@ -46,6 +46,7 @@
 #import "PlannerViewController.h"
 
 #import "iPadViewController.h"
+#import "FontManager.h"
 
 //extern BOOL _isiPad;
 
@@ -793,8 +794,7 @@ extern iPadViewController *_iPadViewCtrler;
     // customizing appearance
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
-    //filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
-    filterSegmentedControl.tintColor = [Colors blueButton];
+    filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                           [UIColor grayColor], UITextAttributeTextColor,
                                           //[UIColor blackColor], UITextAttributeTextShadowColor,
@@ -837,16 +837,13 @@ extern iPadViewController *_iPadViewCtrler;
     
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
-    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     [UIColor grayColor], UITextAttributeTextColor,
-                                                    //[UIColor blackColor], UITextAttributeTextShadowColor,
-                                                    //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                    
                                                     nil] forState:UIControlStateNormal];
-    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
-    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    selectedColor, UITextAttributeTextColor,
-                                                    nil] forState:UIControlStateSelected];
+    UIColor *selectedColor = [UIColor whiteColor];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: selectedColor, UITextAttributeTextColor, nil]    forState:UIControlStateSelected];
     
     [filterSegmentedControl addTarget:self action:@selector(showNoteWithOption:) forControlEvents:UIControlEventValueChanged];
     
@@ -872,13 +869,13 @@ extern iPadViewController *_iPadViewCtrler;
     
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
-    filterSegmentedControl.tintColor = [UIColor colorWithRed:237.0/250 green:237.0/250 blue:237.0/250 alpha:1];
+    filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     [UIColor grayColor], UITextAttributeTextColor,
                                                     //[UIColor blackColor], UITextAttributeTextShadowColor,
                                                     //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
                                                     nil] forState:UIControlStateNormal];
-    UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    UIColor *selectedColor = [UIColor whiteColor];
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     selectedColor, UITextAttributeTextColor,
                                                     nil] forState:UIControlStateSelected];
@@ -1385,7 +1382,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     //[miniMonthView.headerView changeMWMode:0];
     
-    focusView = [[FocusView alloc] initWithFrame:_isiPad?CGRectMake(10, miniMonthView.bounds.origin.y + miniMonthView.bounds.size.height, w-10, 40):CGRectZero];
+    focusView = [[FocusView alloc] initWithFrame:_isiPad?CGRectMake(15, miniMonthView.bounds.origin.y + miniMonthView.bounds.size.height, w-20, 40):CGRectZero];
     focusView.hidden = !_isiPad;
     
     [contentView addSubview:focusView];
@@ -1394,8 +1391,8 @@ extern iPadViewController *_iPadViewCtrler;
     NSString *titles[3] = {_tasksText, _notesText, _projectsText};
     //NSString *filters[3] = {_allText, _allText, _tasksText};
     
-    NSString *normalImages[3] = {@"tab_tasks.png", @"tab_notes.png", @"tab_projects.png"};
-    NSString *selectedImages[3] = {@"tab_tasks_selected.png", @"tab_notes_selected.png", @"tab_projects_selected.png"};
+    NSString *normalImages[3] = {@"task-view", @"note-view", @"project-view"};
+    NSString *selectedImages[3] = {@"task-view-sel", @"note-view-sel", @"project-sel"};
     
     CGFloat btnWidth = (w-10)/3;
     
@@ -1403,29 +1400,38 @@ extern iPadViewController *_iPadViewCtrler;
     
     UIButton *taskButton = nil;
     CGFloat btnHeight = 78;
-    for (int i=0; i<3; i++)
-    {
-        UIButton *moduleButton = [Common createButton:@""
-                                           buttonType:UIButtonTypeCustom
-                                                frame:CGRectMake(w+20 + i*btnWidth, 10, btnWidth, btnHeight)
-                                           titleColor:[UIColor whiteColor]
-                                               target:self
-                                             selector:@selector(showModule:)
-                                     normalStateImage:normalImages[i]
-                                   selectedStateImage:selectedImages[i]];
-        //moduleButton.backgroundColor = [UIColor grayColor]
-        ;
-        //[moduleButton setTitle:titles[i] forState:UIControlStateNormal];
-        moduleButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    NSInteger sizeIconTab = 30;
+    
+    for (int i=0; i<3; i++) {
+        UIImage *normalStateImage = [FontManager flowasticImageWithIconName:normalImages[i]
+                                                                    andSize:sizeIconTab
+                                                                  iconColor:COLOR_ICON_TABBAR];
+
+        UIImage *selectStateImage = [FontManager flowasticImageWithIconName:selectedImages[i]
+                                                                    andSize:sizeIconTab
+                                                                  iconColor:COLOR_ICON_TABBAR_SEL];
+
+        UIButton *moduleButton = [Common createButtonWith:@""
+                                               buttonType:UIButtonTypeCustom
+                                                    frame:CGRectMake(w+20 + i*btnWidth, 10, btnWidth, btnHeight)
+                                               titleColor:[UIColor whiteColor]
+                                                   target:self
+                                                 selector:@selector(showModule:)
+                                         normalStateImage:normalStateImage
+                                       selectedStateImage:selectStateImage];
+        
         moduleButton.tag = 31000+i;
+        moduleButton.backgroundColor = COLOR_BACKGROUND_FOCUS_IPAD;
         
         [contentView addSubview:moduleButton];
         
-        //UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, 100, 30)];
-        UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, btnWidth, 30)];
+        [moduleButton setImage:normalStateImage forState:UIControlStateNormal];
+        [moduleButton setImage:selectStateImage forState:UIControlStateSelected];
+
+        UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, btnHeight - 30, btnWidth, 30)];
         moduleLabel.backgroundColor = [UIColor clearColor];
-        moduleLabel.textColor = [UIColor blackColor];
-        moduleLabel.font = [UIFont boldSystemFontOfSize:14];
+        moduleLabel.textColor = COLOR_TEXT_TABBAR;
+        moduleLabel.font = [UIFont systemFontOfSize:SIZE_TEXT_TABBAR];
         moduleLabel.textAlignment = NSTextAlignmentCenter;
         moduleLabel.text = titles[i];
         

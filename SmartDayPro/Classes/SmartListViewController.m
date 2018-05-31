@@ -3025,7 +3025,7 @@ SmartListViewController *_smartListViewCtrler;
     //smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
     smartListView = [[ContentPullTableView alloc] initWithFrame:frm];
     //smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
-    smartListView.backgroundColor = [UIColor clearColor];
+    smartListView.backgroundColor = [UIColor whiteColor];
 	//smartListView.delegate = self;
 	//smartListView.scrollsToTop = NO;
 	smartListView.showsVerticalScrollIndicator = YES;

@@ -43,6 +43,10 @@ extern BOOL _isiPad;
 		[self addSubview:arrowImage];
 		[arrowImage release];
         
+        UIView *viewNil = [[UIView alloc] init];
+        self.tableFooterView = viewNil;
+        self.tableHeaderView = viewNil;
+        
         //self.delegate = self;
     }
     return self;

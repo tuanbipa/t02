@@ -48,6 +48,7 @@
 #import "MapLocationViewController.h"
 
 #import "GuruViewController.h"
+#import "FontManager.h"
 
 //extern BOOL _isiPad;
 
@@ -213,40 +214,46 @@ iPadViewController *_iPadViewCtrler;
         //fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?285:155;
         fixedItem.width = UIInterfaceOrientationIsLandscape(orientation)?195:65;
         
-        UIButton *settingButton = [Common createButton:@""
-                                            buttonType:UIButtonTypeCustom
-                                                 frame:CGRectMake(0, 0, 40, 40)
-                                            titleColor:[UIColor whiteColor]
-                                                target:self
-                                              selector:@selector(showMenu:)
-                                      normalStateImage:@"bar_setting.png"
-                                    selectedStateImage:nil];
+        // Setting menu button
+        UIImage *settingImageIcon = [FontManager flowasticImageWithIconName:@"task-view-copy"
+                                                                 andSize:SIZE_ICON_TOPBAR_iPAD
+                                                               iconColor:[UIColor whiteColor]];
         
+        UIButton *settingButton = [Common createButtonWith:@""
+                                             buttonType:UIButtonTypeCustom
+                                                  frame:CGRectMake(0, 0, SIZE_ICON_TOPBAR_iPAD, SIZE_ICON_TOPBAR_iPAD)
+                                             titleColor:nil target:self
+                                               selector:@selector(showMenu:)
+                                       normalStateImage:settingImageIcon
+                                     selectedStateImage:nil];
+
         UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingButton];
         
-        eyeButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 0, 40, 40)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(showCategory:)
-                                  normalStateImage:@"bar_eye.png"
-                                selectedStateImage:nil];
-        
+        // Eye menu button
+        eyeButton = [Common createButtonWith:@""
+                                  buttonType:UIButtonTypeCustom
+                                       frame:CGRectMake(0, 0, SIZE_ICON_TOPBAR_iPAD, SIZE_ICON_TOPBAR_iPAD)
+                                  titleColor:[UIColor whiteColor]
+                                      target:self
+                                    selector:@selector(showCategory:)
+                            normalStateImage:[self eyeImage]
+                          selectedStateImage:nil];
+
         UIBarButtonItem *eyeButtonItem = [[UIBarButtonItem alloc] initWithCustomView:eyeButton];
         
-        tagButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 0, 40, 40)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(showTag:)
-                                  normalStateImage:@"bar_tag.png"
-                                selectedStateImage:nil];
+        // Tag menu button
+        tagButton = [Common createButtonWith:@""
+                                  buttonType:UIButtonTypeCustom
+                                       frame:CGRectMake(0, 0, SIZE_ICON_TOPBAR_iPAD, SIZE_ICON_TOPBAR_iPAD)
+                                  titleColor:[UIColor whiteColor]
+                                      target:self
+                                    selector:@selector(showTag:)
+                            normalStateImage:[self tagImage]
+                          selectedStateImage:nil];
         
         UIBarButtonItem *tagButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tagButton];
         
-        // task location =========================
+        // Task location menu button
         taskLocationButton = [Common createButton:@""
                                        buttonType:UIButtonTypeCustom
                                             frame:CGRectMake(0, 0, 40, 40)
@@ -270,17 +277,8 @@ iPadViewController *_iPadViewCtrler;
         [taskLocationLable release];
         
         UIBarButtonItem *taskLocationButtonItem = [[UIBarButtonItem alloc] initWithCustomView:taskLocationButton];
-        // end task location
         
-        timerButton = [Common createButton:@""
-                                buttonType:UIButtonTypeCustom
-                                     frame:CGRectMake(0, 0, 40, 40)
-                                titleColor:[UIColor whiteColor]
-                                    target:self
-                                  selector:@selector(showTimer:)
-                          normalStateImage:@"bar_timer.png"
-                        selectedStateImage:nil];
-        
+        // Comment menu button
         commentButton = [Common createButton:@""
                                 buttonType:UIButtonTypeCustom
                                      frame:CGRectMake(0, 0, 40, 40)
@@ -308,18 +306,23 @@ iPadViewController *_iPadViewCtrler;
         
         UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
         
-        timerButton = [Common createButton:@""
-                                buttonType:UIButtonTypeCustom
-                                     frame:CGRectMake(0, 0, 40, 40)
-                                titleColor:[UIColor whiteColor]
-                                    target:self
-                                  selector:@selector(showTimer:)
-                          normalStateImage:@"bar_timer.png"
-                        selectedStateImage:nil];
+        // Timer menu button
+        UIImage *clockImage = [FontManager flowasticImageWithIconName:@"clock"
+                                                                 andSize:SIZE_ICON_TOPBAR_iPAD
+                                                               iconColor:[UIColor whiteColor]];
+        
+        timerButton = [Common createButtonWith:@""
+                                    buttonType:UIButtonTypeCustom
+                                         frame:CGRectMake(0, 0, SIZE_ICON_TOPBAR_iPAD, SIZE_ICON_TOPBAR_iPAD)
+                                    titleColor:[UIColor whiteColor]
+                                        target:self
+                                      selector:@selector(showTimer:)
+                              normalStateImage:clockImage
+                            selectedStateImage:nil];
         
         UIBarButtonItem *timerButtonItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
         
-        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 250, 40)];
+        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
         searchBar.placeholder = _seekOrCreate;
         searchBar.translucent = YES;
         searchBar.delegate = self;
@@ -342,8 +345,10 @@ iPadViewController *_iPadViewCtrler;
         [searchBar release];
         
         //NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixed40Item, commentButtonItem, fixedItem, timerButtonItem, flexItem, searchBarItem,nil];
-        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, fixed40Item, taskLocationButtonItem, fixedItem, timerButtonItem, fixed40Item, commentButtonItem, flexItem, searchBarItem,nil];
+//        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, tagButtonItem, fixed40Item, eyeButtonItem, fixed40Item, taskLocationButtonItem, flexItem, timerButtonItem, fixed40Item, commentButtonItem, flexItem, searchBarItem,nil];
         //NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, flexItem, searchBarItem,nil];
+        
+        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, tagButtonItem, fixed40Item, eyeButtonItem, fixed40Item, taskLocationButtonItem, fixed40Item, timerButtonItem, fixed40Item, commentButtonItem,nil];
         
         [flexItem release];
         [fixedItem release];
@@ -352,11 +357,12 @@ iPadViewController *_iPadViewCtrler;
         [settingButtonItem release];
         [eyeButtonItem release];
         [tagButtonItem release];
-        [searchBarItem release];
         [commentButtonItem  release];
         [taskLocationButtonItem release];
         
         self.navigationItem.leftBarButtonItems = items;
+        self.navigationItem.rightBarButtonItem = searchBarItem;
+        [searchBarItem release];
     }
 }
 
@@ -366,7 +372,7 @@ iPadViewController *_iPadViewCtrler;
     {
         TaskManager *tm = [TaskManager getInstance];
         
-        [tagButton setImage:[UIImage imageNamed:@"bar_tag.png"] forState:UIControlStateNormal];
+        [tagButton setImage:[self tagImage] forState:UIControlStateNormal];
         
         if (tm.filterData != nil && ![tm.filterData.tag isEqualToString:@""])
         {
@@ -376,7 +382,7 @@ iPadViewController *_iPadViewCtrler;
 
     if (eyeButton != nil)
     {
-        [eyeButton setImage:[UIImage imageNamed:@"bar_eye.png"] forState:UIControlStateNormal];
+        [eyeButton setImage:[self eyeImage] forState:UIControlStateNormal];
 
         BOOL checkInvisible = [[[ProjectManager getInstance] getInvisibleProjectDict] count] > 0;
         
@@ -976,9 +982,7 @@ iPadViewController *_iPadViewCtrler;
     frm.size = sz;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    
-    //contentView.backgroundColor = [UIColor darkGrayColor];
-    contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pattern_dark.png"]];
+    contentView.backgroundColor = COLOR_BACKGROUND_MAIN_VIEW_IPAD;
     
     self.view = contentView;
     
@@ -1177,5 +1181,19 @@ iPadViewController *_iPadViewCtrler;
     return YES;
 }
 
+#pragma mark - Tag image, Eye image
+- (UIImage *)tagImage {
+    UIImage *tagImageIcon = [FontManager flowasticImageWithIconName:@"tag"
+                                                            andSize:SIZE_ICON_TOPBAR_iPAD
+                                                          iconColor:[UIColor whiteColor]];
+    return tagImageIcon;
+}
+
+- (UIImage *)eyeImage {
+    UIImage *eyeImageIcon = [FontManager flowasticImageWithIconName:@"hide"
+                                                            andSize:SIZE_ICON_TOPBAR_iPAD
+                                                          iconColor:[UIColor whiteColor]];
+    return eyeImageIcon;
+}
 
 @end

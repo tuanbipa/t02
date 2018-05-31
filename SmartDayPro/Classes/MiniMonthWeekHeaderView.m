@@ -25,12 +25,13 @@
     if (self) {
         // Initialization code
         
-        self.skinStyle = _isiPad?0:1;
+        self.skinStyle = _isiPad ? 0 : 1;
         
-        self.backgroundColor = self.skinStyle == 0?[UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1]:[UIColor colorWithRed:100.0/255 green:100.0/255 blue:100.0/255 alpha:1];
+        self.backgroundColor = self.skinStyle == 0 ? [UIColor whiteColor] : [UIColor colorWithRed:100.0/255 green:100.0/255 blue:100.0/255 alpha:1];
         
         self.layer.borderWidth = 1;
-        self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
+//        self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
+        self.layer.borderColor = [COLOR_LINE_MONTH_CELL CGColor];
     }
     
     return self;
@@ -49,10 +50,10 @@
     
     CGFloat h = (_isiPad?48:40);
     
-    UIColor *textColor = (self.skinStyle == 0?[UIColor grayColor]:[UIColor whiteColor]);
+    UIColor *textColor = (self.skinStyle == 0 ? [UIColor blackColor] : [UIColor whiteColor]);
     
     [textColor set];
-    UIFont *font = [UIFont boldSystemFontOfSize:12];
+    UIFont *font = [UIFont systemFontOfSize:14];
     
     for (int i=0; i<6; i++)
     {

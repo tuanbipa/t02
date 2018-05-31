@@ -38,12 +38,11 @@ AbstractSDViewController *_abstractViewCtrler;
     
     if (self)
     {
-        // Initialization code
+        self.backgroundColor = COLOR_BACKGROUND_FOCUS_IPAD;
   
         self.layer.borderWidth = 1;
-
-        self.layer.borderColor = [[UIColor colorWithRed:192.0/255 green:192.0/255 blue:192.0/255 alpha:1] CGColor];
-        //self.backgroundColor = [UIColor colorWithRed:100.0/255 green:108.0/255 blue:127.0/255 alpha:1];
+        self.layer.cornerRadius = 6;
+        self.layer.borderColor = [COLOR_BACKGROUND_BORDER_FOCUS_IPAD CGColor];
         
         CGRect frm = self.bounds;
         
@@ -54,10 +53,8 @@ AbstractSDViewController *_abstractViewCtrler;
         
         titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textColor = [UIColor darkGrayColor];
-        //titleLabel.font = [UIFont systemFontOfSize:20];
+        titleLabel.textColor = hexColor(0x939293);
         titleLabel.font = [UIFont systemFontOfSize:12];
-        //titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.text = _focusText;
         

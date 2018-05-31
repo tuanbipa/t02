@@ -33,8 +33,9 @@ extern AbstractSDViewController *_abstractViewCtrler;
         NSInteger widthPrevNextButton = 30;
         NSInteger heightPrevNextButton = 43;
         NSInteger sizeIconPrevNextButton = 15;
+        NSInteger originY = _isiPad ? frame.size.height - 60 : 0;
         
-        CGRect frm = CGRectMake(0, 0, widthPrevNextButton, heightPrevNextButton);
+        CGRect frm = CGRectMake(0, originY, widthPrevNextButton, heightPrevNextButton);
         UIButton *prevButton = [Common createButtonWith:@""
                                         buttonType:UIButtonTypeCustom
                                               frame:frm
@@ -45,12 +46,13 @@ extern AbstractSDViewController *_abstractViewCtrler;
                                                                                    andSize:sizeIconPrevNextButton
                                                                                  iconColor:COLOR_PREV_NEXT_BUTTON]
                                 selectedStateImage:nil];
+        prevButton.backgroundColor = [UIColor yellowColor];
         prevButton.tag = 11000;
         prevButton.backgroundColor = [UIColor clearColor];
         [self addSubview:prevButton];
 
         // Create NextButton
-        frm = CGRectMake(self.bounds.size.width - widthPrevNextButton, 0, widthPrevNextButton, heightPrevNextButton);
+        frm = CGRectMake(self.bounds.size.width - widthPrevNextButton, originY, widthPrevNextButton, heightPrevNextButton);
         UIButton *nextButton = [Common createButtonWith:@""
                                              buttonType:UIButtonTypeCustom
                                                   frame: frm
@@ -71,6 +73,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         NSInteger paddingBetweenZoomOutIn = 30;
         
         frm.origin.x = (frame.size.width - (widthIconWeek * 2) - paddingBetweenZoomOutIn)/2;
+        frm.origin.y = originY;
         frm.size = CGSizeMake(widthIconWeek, heightPrevNextButton);
 
         UIButton *zoomOutButton = [Common createButtonWith:@""
@@ -97,6 +100,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         
         // Create Zoom in button
         frm.origin.x = zoomOutButton.frame.origin.x + zoomOutButton.frame.size.width + paddingBetweenZoomOutIn;
+        frm.origin.y = originY;
         UIButton *zoomInButton = [Common createButtonWith:@""
                                                 buttonType:UIButtonTypeCustom
                                                      frame:frm
@@ -129,15 +133,16 @@ extern AbstractSDViewController *_abstractViewCtrler;
             UIButton *todayButton = [Common createButton:_todayText
                                               buttonType:UIButtonTypeCustom
                                                    frame:CGRectMake(self.bounds.size.width-65, 5, 60, 25)
-                                              titleColor:[Colors blueButton]
+                                              titleColor:[UIColor whiteColor]
                                                   target:self
                                                 selector:@selector(goToday:)
                                         normalStateImage:nil
                                       selectedStateImage:nil];
             
+            todayButton.backgroundColor = COLOR_BACKGROUND_TODAY_IPAD;
             todayButton.layer.cornerRadius = 4;
             todayButton.layer.borderWidth = 1;
-            todayButton.layer.borderColor = [[Colors blueButton] CGColor];
+            todayButton.layer.borderColor = [COLOR_BACKGROUND_TODAY_IPAD CGColor];
             todayButton.titleLabel.font = [UIFont systemFontOfSize:16];
             
             [self addSubview:todayButton];
@@ -243,7 +248,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGRect r = dayRec;
         r.size.width = MINI_MONTH_WEEK_HEADER_WIDTH;
         
-		[[UIColor grayColor] set];
+		[[UIColor whiteColor] set];
 		
 		[wkHeader drawInRect:CGRectOffset(r, 0, -1) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 		
@@ -279,7 +284,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         CGSize sz = [day sizeWithFont:font];
         CGRect titleRec = CGRectMake(5, 5, 0, 0);
         titleRec.size = sz;
-        [[UIColor grayColor] set];
+        [COLOR_BACKGROUND_TODAY_IPAD set];
         [day drawInRect:titleRec withFont:font];
         
         // full day
@@ -289,7 +294,7 @@ extern AbstractSDViewController *_abstractViewCtrler;
         titleRec.origin.y += 4;
         sz = [fullDay sizeWithFont:font];
         titleRec.size = sz;
-        [[UIColor grayColor] set];
+        [COLOR_TEXT_DATETODAY_IPAD set];
         [fullDay drawInRect:titleRec withFont:font];
     }
 }
