@@ -1375,7 +1375,9 @@ extern iPadViewController *_iPadViewCtrler;
     
 	//miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT + 6)];
     
-	miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(10, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT)];
+//    miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(5, 10, _isiPad?48*7+MINI_MONTH_WEEK_HEADER_WIDTH:46*7, 48 + MINI_MONTH_HEADER_HEIGHT)];
+    
+    miniMonthView = [[MiniMonthView alloc] initWithFrame:CGRectMake(5, 10, _isiPad?w-10:46*7, 48 + MINI_MONTH_HEADER_HEIGHT)];
 	
 	[contentView addSubview:miniMonthView];
 	[miniMonthView release];

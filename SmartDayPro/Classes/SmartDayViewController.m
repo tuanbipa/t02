@@ -1978,6 +1978,7 @@ extern BOOL _detailHintShown;
     [navigationView release];
     
     NSString *iconNames[TAB_NUM] = {@"calendar-view-sel", @"task-view", @"note-view", @"project-view"};
+    NSString *selectedImages[TAB_NUM] = {@"calendar-view-sel", @"task-view-sel", @"note-view-sel", @"project-sel"};
     NSString *tabNames[TAB_NUM] = {_calendarText, _tasksText, _notesText, _projectsText};
     
     CGSize sz = [Common getScreenSize];
@@ -1988,7 +1989,7 @@ extern BOOL _detailHintShown;
                                                                     andSize:SIZE_ICON_TABBAR
                                                                   iconColor:COLOR_ICON_TABBAR];
         
-        UIImage *selectStateImage = [FontManager flowasticImageWithIconName:iconNames[i]
+        UIImage *selectStateImage = [FontManager flowasticImageWithIconName:selectedImages[i]
                                                                     andSize:SIZE_ICON_TABBAR
                                                                   iconColor:COLOR_ICON_TABBAR_SEL];
         

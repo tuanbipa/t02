@@ -69,7 +69,7 @@ extern iPadViewController *_iPadViewCtrler;
 			}
 		}
 
-        todayLine = [[TodayLine alloc] initWithFrame:CGRectMake(0, 0, 320, 17)];
+        todayLine = [[TodayLine alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 17)];
 		todayLine.dashStyle = YES;
 		[self addSubview:todayLine];
 		[todayLine release];

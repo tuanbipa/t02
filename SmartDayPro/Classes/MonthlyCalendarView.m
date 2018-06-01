@@ -107,7 +107,8 @@ extern CalendarViewController *_sc2ViewCtrler;
 	
 	CGFloat height = _isiPad?48:40;
 //    CGFloat width = (nDays == 5? 64:(_isiPad?48:46));
-    CGFloat width = (nDays == 5 ? 64 : (_isiPad ? 48 : self.frame.size.width/nDays));
+//    CGFloat width = (nDays == 5 ? 64 : (_isiPad ? 48 : self.frame.size.width/nDays));
+    CGFloat width = nDays == 5 ? 64 : self.frame.size.width/nDays;
 	
 	for (int i=0; i<42; i++)
 	{
