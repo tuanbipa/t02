@@ -2748,6 +2748,9 @@
 		67FBA11717A646CD00EB1BD5 /* URLAssetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */; };
 		67FBA11A17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
 		67FBA11B17A665D500EB1BD5 /* URLAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FBA11917A665D400EB1BD5 /* URLAsset.m */; };
+		890A449020C146F7005217BC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A448F20C146F7005217BC /* Launch Screen.storyboard */; };
+		890A449120C146F7005217BC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A448F20C146F7005217BC /* Launch Screen.storyboard */; };
+		890A449220C146F7005217BC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A448F20C146F7005217BC /* Launch Screen.storyboard */; };
 		891B300B20A9A47400E0EE92 /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300420A9A47200E0EE92 /* FAImageView.m */; };
 		891B300C20A9A47400E0EE92 /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300420A9A47200E0EE92 /* FAImageView.m */; };
 		891B300D20A9A47400E0EE92 /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B300420A9A47200E0EE92 /* FAImageView.m */; };
@@ -4337,6 +4340,7 @@
 		67FBA11517A646CD00EB1BD5 /* URLAssetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAssetManager.m; sourceTree = "<group>"; };
 		67FBA11817A665D200EB1BD5 /* URLAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLAsset.h; sourceTree = "<group>"; };
 		67FBA11917A665D400EB1BD5 /* URLAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLAsset.m; sourceTree = "<group>"; };
+		890A448F20C146F7005217BC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		891B300320A9A47200E0EE92 /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		891B300420A9A47200E0EE92 /* FAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImageView.m; sourceTree = "<group>"; };
 		891B300520A9A47200E0EE92 /* UIFont+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontAwesome.m"; sourceTree = "<group>"; };
@@ -4929,6 +4933,7 @@
 				67CF2B2B161950D7001FE1AA /* Supporting Files */,
 				67CF2CA316195196001FE1AA /* ToodledoSync */,
 				67D16D191630ED52007C5A03 /* TestFlightSDK1 */,
+				890A448F20C146F7005217BC /* Launch Screen.storyboard */,
 			);
 			path = SmartDayPro;
 			sourceTree = "<group>";
@@ -7129,6 +7134,7 @@
 				6748BB54180401820043A80E /* planner_prev@2x.png in Resources */,
 				6748BB55180401820043A80E /* planner_top_bg.png in Resources */,
 				6748BB56180401820043A80E /* planner_top_bg@2x.png in Resources */,
+				890A449020C146F7005217BC /* Launch Screen.storyboard in Resources */,
 				96B502E81A078D9100855039 /* star@3x.png in Resources */,
 				6748BB57180401820043A80E /* planner_task_top_bg.png in Resources */,
 				6748BB58180401820043A80E /* planner_task_top_bg@2x.png in Resources */,
@@ -7522,6 +7528,7 @@
 				67CF2F60161951B8001FE1AA /* menu_menu.png in Resources */,
 				67CF2F61161951B8001FE1AA /* menu_multi.png in Resources */,
 				67CF2F62161951B8001FE1AA /* menu_multi@2x.png in Resources */,
+				890A449120C146F7005217BC /* Launch Screen.storyboard in Resources */,
 				6784CFA61830B61B0095DDF9 /* slider_4_iphone5_ja.html in Resources */,
 				67CF2F63161951B8001FE1AA /* menu_multiselect.png in Resources */,
 				67CF2F64161951B8001FE1AA /* menu_multiselect@2x.png in Resources */,
@@ -8341,6 +8348,7 @@
 				67EC0DFF16F8081F00929BFD /* menu_menu.png in Resources */,
 				67EC0E0016F8081F00929BFD /* menu_multi.png in Resources */,
 				67EC0E0116F8081F00929BFD /* menu_multi@2x.png in Resources */,
+				890A449220C146F7005217BC /* Launch Screen.storyboard in Resources */,
 				6784CFA71830B61B0095DDF9 /* slider_4_iphone5_ja.html in Resources */,
 				67EC0E0216F8081F00929BFD /* menu_multiselect.png in Resources */,
 				67EC0E0316F8081F00929BFD /* menu_multiselect@2x.png in Resources */,
