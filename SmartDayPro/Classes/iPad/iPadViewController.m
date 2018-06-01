@@ -348,7 +348,7 @@ iPadViewController *_iPadViewCtrler;
 //        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, tagButtonItem, fixed40Item, eyeButtonItem, fixed40Item, taskLocationButtonItem, flexItem, timerButtonItem, fixed40Item, commentButtonItem, flexItem, searchBarItem,nil];
         //NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, eyeButtonItem, fixed40Item, tagButtonItem, flexItem, searchBarItem,nil];
         
-        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, tagButtonItem, fixed40Item, eyeButtonItem, fixed40Item, taskLocationButtonItem, fixed40Item, timerButtonItem, fixed40Item, commentButtonItem,nil];
+        NSArray *items = [NSArray arrayWithObjects:settingButtonItem, fixed40Item, tagButtonItem, fixed40Item, eyeButtonItem, fixed40Item, taskLocationButtonItem, fixed40Item, fixed40Item, timerButtonItem, fixed40Item, commentButtonItem,nil];
         
         [flexItem release];
         [fixedItem release];

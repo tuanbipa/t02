@@ -594,6 +594,7 @@ extern iPadViewController *_iPadViewCtrler;
         //selectedModuleButton.backgroundColor = [UIColor cyanColor];
         
         [self refreshHeaderView];
+        [self refreshTabbarWithButtonTag:selectedModuleButton.tag];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChangeNotification" object:nil]; //refresh Detail view in sliding mode
 
@@ -785,6 +786,7 @@ extern iPadViewController *_iPadViewCtrler;
     NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _longText, _shortText, nil];
     
     filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    filterSegmentedControl.backgroundColor = [UIColor whiteColor];
     CGRect frm = headerView.bounds;
     frm.size.height -= 10;
     frm.origin.y = (headerView.frame.size.height - frm.size.height)/2;
@@ -830,6 +832,7 @@ extern iPadViewController *_iPadViewCtrler;
     filterSegmentedControl.frame = frm;
     
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.backgroundColor = [UIColor whiteColor];
     filterSegmentedControl.selectedSegmentIndex = 0;
     filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -861,6 +864,7 @@ extern iPadViewController *_iPadViewCtrler;
     filterSegmentedControl.frame = frm;
     
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    filterSegmentedControl.backgroundColor = [UIColor whiteColor];
     filterSegmentedControl.selectedSegmentIndex = 0;
     filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -1421,8 +1425,15 @@ extern iPadViewController *_iPadViewCtrler;
         
         [moduleButton setImage:normalStateImage forState:UIControlStateNormal];
         [moduleButton setImage:selectStateImage forState:UIControlStateSelected];
+        
+        UILabel *lineLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, btnWidth, 3)];
+        lineLabel.tag = moduleButton.tag + 33;
+        lineLabel.backgroundColor = [UIColor clearColor];
+        [moduleButton addSubview:lineLabel];
+        [lineLabel release];
 
         UILabel *moduleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, btnHeight - 30, btnWidth, 30)];
+        moduleLabel.tag = moduleButton.tag + 44;
         moduleLabel.backgroundColor = [UIColor clearColor];
         moduleLabel.textColor = COLOR_TEXT_TABBAR;
         moduleLabel.font = [UIFont systemFontOfSize:SIZE_TEXT_TABBAR];
@@ -1432,14 +1443,14 @@ extern iPadViewController *_iPadViewCtrler;
         [moduleButton addSubview:moduleLabel];
         [moduleLabel release];
         
-        if (i != 2)
-        {
-            UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(w+20 + (i+1)*btnWidth - 1, 10, 1, btnHeight)];
-            moduleSeparator.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-        
-            [contentView addSubview:moduleSeparator];
-            [moduleSeparator release];
-        }
+//        if (i != 2)
+//        {
+//            UIView *moduleSeparator = [[UIView alloc] initWithFrame:CGRectMake(w+20 + (i+1)*btnWidth - 1, 10, 1, btnHeight)];
+//            moduleSeparator.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+//
+//            [contentView addSubview:moduleSeparator];
+//            [moduleSeparator release];
+//        }
         
         if (i==0)
         {
@@ -1708,6 +1719,57 @@ extern iPadViewController *_iPadViewCtrler;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Refresh color for Tabbar selected
+- (void)refreshTabbarWithButtonTag:(NSInteger)btnTag {
+    NSInteger firstTag = btnTag + 33;
+    NSInteger secondTag = btnTag + 44;
+    
+    if (btnTag > 0) {
+        // Clear color
+        for (id tabButton in contentView.subviews) {
+            if (tabButton && [tabButton isKindOfClass:[UIButton class]]) {
+                UIButton *button = (UIButton *)tabButton;
+                button.backgroundColor = COLOR_BACKGROUND_FOCUS_IPAD;
+                
+                // Refresh label 1
+                id label1 = [button viewWithTag:button.tag + 33];
+                if (label1 && [label1 isKindOfClass:[UILabel class]]) {
+                    UILabel *lineLabel = (UILabel *)label1;
+                    lineLabel.backgroundColor = [UIColor clearColor];
+                }
+                
+                // Refresh label 2
+                id label2 = [button viewWithTag:button.tag + 44];
+                if (label2 && [label1 isKindOfClass:[UILabel class]]) {
+                    UILabel *lineLabel = (UILabel *)label2;
+                    lineLabel.textColor = COLOR_TEXT_TABBAR;
+                }
+            }
+        }
+        
+        // Refresh color for Button selected
+        id tabButton = [contentView viewWithTag:btnTag];
+        if (tabButton && [tabButton isKindOfClass:[UIButton class]]) {
+            UIButton *button = (UIButton *)tabButton;
+            button.backgroundColor = [UIColor whiteColor];
+            
+            // Refresh label 1
+            id label1 = [button viewWithTag:firstTag];
+            if (label1 && [label1 isKindOfClass:[UILabel class]]) {
+                UILabel *lineLabel = (UILabel *)label1;
+                lineLabel.backgroundColor = COLOR_ICON_TABBAR_SEL;
+            }
+            
+            // Refresh label 2
+            id label2 = [button viewWithTag:secondTag];
+            if (label2 && [label1 isKindOfClass:[UILabel class]]) {
+                UILabel *lineLabel = (UILabel *)label2;
+                lineLabel.textColor = COLOR_TEXT_TABBAR_SEL;
+            }
+        }
+    }
 }
 
 @end
