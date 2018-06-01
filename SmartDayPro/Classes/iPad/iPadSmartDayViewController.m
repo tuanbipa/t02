@@ -779,8 +779,7 @@ extern iPadViewController *_iPadViewCtrler;
 	}
 }
 
-- (void)createTaskOptionFilter
-{
+- (void)createTaskOptionFilter {
     UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     NSArray *itemArray = [NSArray arrayWithObjects: _allText, _starText, _gtdoText, _dueText, _longText, _shortText, nil];
@@ -795,12 +794,8 @@ extern iPadViewController *_iPadViewCtrler;
     filterSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     filterSegmentedControl.selectedSegmentIndex = 0;
     filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
-    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                          [UIColor grayColor], UITextAttributeTextColor,
-                                          //[UIColor blackColor], UITextAttributeTextShadowColor,
-                                          //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
-                                          nil] forState:UIControlStateNormal];
-    //UIColor *selectedColor = [UIColor colorWithRed:5.0/255 green:80.0/255 blue:185.0/255 alpha:1];
+    [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: COLOR_BACKGROUND_SEGMENT_FILTER_IPAD,        UITextAttributeTextColor,nil] forState:UIControlStateNormal];
+    
     UIColor *selectedColor = [UIColor whiteColor];
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     selectedColor, UITextAttributeTextColor,
@@ -822,8 +817,7 @@ extern iPadViewController *_iPadViewCtrler;
     [filterSegmentedControl release];
 }
 
-- (void) createNoteOptionFilter
-{
+- (void) createNoteOptionFilter {
     UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     //NSArray *itemArray = [NSArray arrayWithObjects: _allText, _selectedText, nil];
@@ -839,7 +833,7 @@ extern iPadViewController *_iPadViewCtrler;
     filterSegmentedControl.selectedSegmentIndex = 0;
     filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [UIColor grayColor], UITextAttributeTextColor,
+                                                    COLOR_BACKGROUND_SEGMENT_FILTER_IPAD, UITextAttributeTextColor,
                                                     
                                                     nil] forState:UIControlStateNormal];
     UIColor *selectedColor = [UIColor whiteColor];
@@ -855,8 +849,7 @@ extern iPadViewController *_iPadViewCtrler;
     [filterSegmentedControl release];
 }
 
-- (void)createProjectOptionFilter
-{
+- (void)createProjectOptionFilter {
     UIView *headerView = (UIView *)[contentView viewWithTag:TAG_VIEW_HEADER_VIEW];
     
     NSArray *itemArray = [NSArray arrayWithObjects: _tasksText, _eventsText, _notesText, _anchoredText, nil];
@@ -871,10 +864,9 @@ extern iPadViewController *_iPadViewCtrler;
     filterSegmentedControl.selectedSegmentIndex = 0;
     filterSegmentedControl.tintColor = COLOR_BACKGROUND_SEGMENT_FILTER_IPAD;
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [UIColor grayColor], UITextAttributeTextColor,
-                                                    //[UIColor blackColor], UITextAttributeTextShadowColor,
-                                                    //[NSValue valueWithUIOffset:UIOffsetMake(0, 1)], UITextAttributeTextShadowOffset,
+                                                    COLOR_BACKGROUND_SEGMENT_FILTER_IPAD, UITextAttributeTextColor,
                                                     nil] forState:UIControlStateNormal];
+    
     UIColor *selectedColor = [UIColor whiteColor];
     [filterSegmentedControl setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                     selectedColor, UITextAttributeTextColor,

@@ -159,6 +159,7 @@ extern BOOL _firstLaunch;
 #define SIZE_ICON_TOPBAR 20
 #define HEIGHT_Indicator_HOME 34
 #define SIZE_ICON_TOPBAR_iPAD 25
+#define SIZE_ICON_ON_CELL 20
 #define BACKGROUND_TABBAR hexColor(0xF8F8F8)
 #define COLOR_LINE hexColor(0xC8C7CC)
 #define COLOR_ICON_TABBAR hexColor(0x8C8C8C)
@@ -178,6 +179,8 @@ extern BOOL _firstLaunch;
 #define COLOR_BACKGROUND_BORDER_FOCUS_IPAD hexColor(0xD3D2D5)
 #define COLOR_BACKGROUND_MAIN_VIEW_IPAD hexColor(0xD1D1D6)
 #define COLOR_BACKGROUND_SEGMENT_FILTER_IPAD hexColor(0x2C7CF6)
+#define COLOR_BACKGROUND_HEADER_TABLE hexColor(0xEBEBEB)
+#define COLOR_TEXT_HEADER_TABLE hexColor(0x6B6B6B)
 
 typedef NS_ENUM(NSInteger, DeviceSize) {
     UnknownSize     = 0,

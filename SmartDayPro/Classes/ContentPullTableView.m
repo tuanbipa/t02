@@ -46,6 +46,7 @@ extern BOOL _isiPad;
         UIView *viewNil = [[UIView alloc] init];
         self.tableFooterView = viewNil;
         self.tableHeaderView = viewNil;
+        [viewNil release];
         
         //self.delegate = self;
     }

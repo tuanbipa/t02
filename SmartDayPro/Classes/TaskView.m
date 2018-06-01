@@ -173,17 +173,23 @@ extern SmartDayViewController *_sdViewCtrler;
 
 #pragma mark Support
 
--(void)refreshStarImage
-{
-	if (!self.starEnable)
-	{
+-(void)refreshStarImage {
+    UIImage *starImageIcon = [FontManager flowasticImageWithIconName:@"stared"
+                                                            andSize:SIZE_ICON_ON_CELL
+                                                          iconColor:COLOR_BACKGROUND_SEGMENT_FILTER_IPAD];
+    
+    UIImage *unstarImageIcon = [FontManager flowasticImageWithIconName:@"star"
+                                                             andSize:SIZE_ICON_ON_CELL
+                                                           iconColor:COLOR_ICON_TABBAR];
+    
+	if (!self.starEnable) {
 		starImageView.image = nil;
 	}
-	else
-	{	
+	else {
 		//Task *task = (Task *)self.tag;
 		
-		starImageView.image = [[ImageManager getInstance] getImageWithName:(task.status == TASK_STATUS_PINNED? @"star.png":@"unstar.png")];
+//        starImageView.image = [[ImageManager getInstance] getImageWithName:(task.status == TASK_STATUS_PINNED? @"star.png":@"unstar.png")];
+        starImageView.image = task.status == TASK_STATUS_PINNED ? starImageIcon : unstarImageIcon;
 	}
     
     starView.userInteractionEnabled = self.starCheck;
@@ -206,18 +212,17 @@ extern SmartDayViewController *_sdViewCtrler;
 //    checkView.userInteractionEnabled = self.checkEnable;
 //}
 
--(void)refreshCheckImage
-{
-    if (!self.checkEnable)
-    {
+-(void)refreshCheckImage {
+    if (!self.checkEnable) {
         checkImageView.image = nil;
         checkView.userInteractionEnabled = NO;
         return;
     }
     
     if (self.listStyle) {
-        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+        [self refreshIconToDo];
         checkView.userInteractionEnabled = YES;
+        
     } else {
         //checkButton.selected = [task isDone];
         checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
@@ -1867,7 +1872,8 @@ extern SmartDayViewController *_sdViewCtrler;
     {
         rect = CGRectOffset(rect, TASK_HEIGHT, 0);
         rect.size.width -= TASK_HEIGHT;
-        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+        [self refreshIconToDo];
+//        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
         //checkView.userInteractionEnabled = NO;
     }
     
@@ -2864,6 +2870,21 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void)appNoBusy:(NSNotification *)notification
 {
     self.userInteractionEnabled = YES;
+}
+
+- (void)refreshIconToDo {
+    ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *dimProjectColor = [pm getProjectColor1:task.project];
+    
+    UIImage *doneToDoImageIcon = [FontManager flowasticImageWithIconName:@"task-view-sel"
+                                                                 andSize:SIZE_ICON_ON_CELL
+                                                               iconColor:dimProjectColor];
+    
+    UIImage *undoneToDoImageIcon = [FontManager flowasticImageWithIconName:@"undone"
+                                                                   andSize:SIZE_ICON_ON_CELL
+                                                                 iconColor:dimProjectColor];
+    
+    checkImageView.image = checkButton.selected ? doneToDoImageIcon : undoneToDoImageIcon;
 }
 
 @end

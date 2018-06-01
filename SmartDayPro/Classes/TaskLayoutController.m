@@ -225,13 +225,13 @@ extern iPadViewController *_iPadViewCtrler;
     }
     
     UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)] autorelease];
-    headerView.backgroundColor = [UIColor grayColor];
+    headerView.backgroundColor = COLOR_BACKGROUND_HEADER_TABLE;
     
     UILabel *label = [[[UILabel alloc] init] autorelease];
     label.frame = CGRectMake(5, 0, tableView.bounds.size.width - 10, 20);
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:14];
-    label.textColor = [UIColor whiteColor];
+    label.textColor = COLOR_TEXT_HEADER_TABLE;
     //label.shadowColor = [UIColor grayColor];
     //label.shadowOffset = CGSizeMake(-1.0, 1.0);
     //label.font = [UIFont boldSystemFontOfSize:16];

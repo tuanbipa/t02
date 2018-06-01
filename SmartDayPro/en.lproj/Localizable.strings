@@ -392,7 +392,7 @@
 //"_matchTaskCalendarText" = "Sync was performed for the matched Toodledo folder(s)";
 //"_toMatchEventCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other iPhone calendar to sync more.";
 //"_toMatchTaskCalendarText" = "You can go to SmartDay Settings to create/change any Calendar name to match with any other Toodledo folder to sync more.";
-"_quickAddNewTask" = "Quick Add New Task ...";
+"_quickAddNewTask" = "Quick add new task ...";
 //"_projectDetailHintText" = "Checked tasks in the Projects list will also be shown in the Task List. The top-most task in each Project is always shown in the Task List.";
 //"_projectDetailHintText" = "Tap the icon on the left side of Task to enable/disable showing in the 'Tasks' tab. The top-most active task in each Project (indicated with a Flag) is always shown in the 'Tasks' view.";
 "_cannotDeleteDefaultProjectText" = "This Project is set as default project for Task in settings. You cannot delete it.";
