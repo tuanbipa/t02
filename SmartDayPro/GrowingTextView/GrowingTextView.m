@@ -28,9 +28,10 @@
         textView.delegate = self;
         textView.scrollEnabled = YES;
         textView.font = [UIFont systemFontOfSize:14];
-        textView.contentInset = UIEdgeInsetsMake(-8, 0, 0, 0);
+        textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         textView.showsVerticalScrollIndicator = YES;
         textView.text = @"";
+        textView.textAlignment = NSTextAlignmentLeft;
         
         [self addSubview:textView];
         [textView release];

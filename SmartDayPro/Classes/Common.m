@@ -1998,4 +1998,13 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return ([Common currentDevice] == Screen5Dot8inch);
 }
 
++ (CGSize)sizeWithString:(NSString *)text andFont:(UIFont *)font {
+    CGRect frameOfString = [text boundingRectWithSize:CGSizeMake(300, CGFLOAT_MAX)
+                                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                                             attributes:@{NSFontAttributeName: font}
+                                                                context:nil];
+    
+    return frameOfString.size;
+}
+
 @end

@@ -181,6 +181,9 @@ extern BOOL _firstLaunch;
 #define COLOR_BACKGROUND_SEGMENT_FILTER_IPAD hexColor(0x2C7CF6)
 #define COLOR_BACKGROUND_HEADER_TABLE hexColor(0xEBEBEB)
 #define COLOR_TEXT_HEADER_TABLE hexColor(0x6B6B6B)
+#define COLOR_ICON_OBJECT_DETAIL hexColor(0x8D8D8D)
+#define COLOR_BORDER_TAG_OBJECT_DETAIL hexColor(0x3484F7)
+#define COLOR_TEXT_OBJECT_DETAIL hexColor(0x666666)
 
 typedef NS_ENUM(NSInteger, DeviceSize) {
     UnknownSize     = 0,
@@ -687,6 +690,7 @@ typedef struct
 + (CGFloat)heightTabbar;
 + (CGFloat)heightStatusBar;
 + (BOOL)isIpX;
++ (CGSize)sizeWithString:(NSString *)text andFont:(UIFont *)font;
 
 @end
 

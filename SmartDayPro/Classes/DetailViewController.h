@@ -17,7 +17,7 @@
 @class NoteView;
 @class PreviewViewController;
 
-@interface DetailViewController : UIViewController<UITextFieldDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface DetailViewController : UIViewController<UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, ABPeoplePickerNavigationControllerDelegate>
 {
     ContentView *contentView;
     

@@ -54,6 +54,12 @@
 #import "Location.h"
 #import "TaskLocationListViewController.h"
 
+#import "FontManager.h"
+
+#define HEIGHT_DEFAULT_CELL 40
+#define PADDING_LEFT 15
+#define WIDTH_RIGHT_BUTTON_CELL 40
+
 //#import "NoteDetailTableViewController.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
@@ -158,12 +164,18 @@ DetailViewController *_detailViewCtrler = nil;
 
 }
 
-- (void) refreshToolbar
-{
-    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+- (void) refreshToolbar {
+    UIButton *btnDone = [[UIButton alloc] init];
+    [btnDone setTitle:_doneText forState:UIControlStateNormal];
+    [btnDone setTitle:_doneText forState:UIControlStateSelected];
+    [btnDone setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btnDone setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [btnDone addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithCustomView:btnDone];
+    [btnDone release];
     
     self.navigationItem.leftBarButtonItem = doneItem;
-    
     [doneItem release];
     
     if (self.task == nil || (self.task.primaryKey == -1 && self.task.original == nil))
@@ -172,27 +184,38 @@ DetailViewController *_detailViewCtrler = nil;
         return;
     }
     
-    CGFloat iconSize = _isiPad?30:28;
+//    CGFloat iconSize = _isiPad ? 30 : 28;
+    CGFloat iconSize = SIZE_ICON_TOPBAR;
     
-    UIButton *deleteButton = [Common createButton:@""
+    // Create Delete button
+    UIImage *deleteImageIcon = [FontManager flowasticImageWithIconName:@"delete"
+                                                               andSize:SIZE_ICON_TOPBAR
+                                                             iconColor:[UIColor whiteColor]];
+    
+    UIButton *deleteButton = [Common createButtonWith:@""
                                        buttonType:UIButtonTypeCustom
                                             frame:CGRectMake(0, 0, iconSize, iconSize)
                                        titleColor:[UIColor whiteColor]
                                            target:self
                                          selector:@selector(delete:)
-                                 normalStateImage:@"menu_trash_white.png"
+                                 normalStateImage:deleteImageIcon
                                selectedStateImage:nil];
-    
+
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
     
-    UIButton *copyButton = [Common createButton:@""
-                                     buttonType:UIButtonTypeCustom
-                                          frame:CGRectMake(0, 0, iconSize, iconSize)
-                                     titleColor:[UIColor whiteColor]
-                                         target:self
-                                       selector:@selector(copy:)
-                               normalStateImage:@"menu_duplicate_white.png"
-                             selectedStateImage:nil];
+    // Create Copy button
+    UIImage *copyImageIcon = [FontManager flowasticImageWithIconName:@"compy"
+                                                               andSize:22
+                                                             iconColor:[UIColor whiteColor]];
+    
+    UIButton *copyButton = [Common createButtonWith:@""
+                                         buttonType:UIButtonTypeCustom
+                                              frame:CGRectMake(0, 0, iconSize, iconSize)
+                                         titleColor:[UIColor whiteColor]
+                                             target:self
+                                           selector:@selector(copy:)
+                                   normalStateImage:copyImageIcon
+                                 selectedStateImage:nil];
     
     UIBarButtonItem *copyItem = [[UIBarButtonItem alloc] initWithCustomView:copyButton];
     
@@ -240,21 +263,26 @@ DetailViewController *_detailViewCtrler = nil;
     
     UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
     
-    UIButton *airDropButton = [Common createButton:@""
-                                        buttonType:UIButtonTypeCustom
-                                             frame:CGRectMake(0, 0, iconSize, iconSize)
-                                        titleColor:[UIColor whiteColor]
-                                            target:self
-                                          selector:@selector(share2AirDrop:)
-                                  normalStateImage:@"menu_airdrop_white.png"
-                                selectedStateImage:nil];
+    // Create AirDrop button
+    UIImage *airdropImageIcon = [FontManager flowasticImageWithIconName:@"airdrop"
+                                                                andSize:SIZE_ICON_TOPBAR
+                                                              iconColor:[UIColor whiteColor]];
+    
+    UIButton *airDropButton = [Common createButtonWith:@""
+                                             buttonType:UIButtonTypeCustom
+                                                 frame:CGRectMake(0, 0, iconSize, iconSize)
+                                            titleColor:[UIColor whiteColor]
+                                                target:self
+                                              selector:@selector(share2AirDrop:)
+                                      normalStateImage:airdropImageIcon
+                                    selectedStateImage:nil];
     
     UIBarButtonItem *airDropItem = [[UIBarButtonItem alloc] initWithCustomView:airDropButton];
     
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedItem.width = (_isiPad?10:0);
+    fixedItem.width = _isiPad ? 10 : iconSize;
     
-    NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, copyItem, nil]:([self.task isShared]?[NSMutableArray arrayWithObject:markDoneItem]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil]);
+    NSMutableArray *items = [self.taskCopy isEvent]?[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, nil]:([self.task isShared]?[NSMutableArray arrayWithObject:markDoneItem]:[NSMutableArray arrayWithObjects:deleteItem, fixedItem, copyItem, fixedItem, starItem, fixedItem, deferItem, fixedItem, todayItem, fixedItem, markDoneItem, nil]);
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
     {
@@ -357,7 +385,7 @@ DetailViewController *_detailViewCtrler = nil;
         frm.size.height = frm.size.width - 20;
     }
     
-    frm.size.width = _isiPad?384:320;
+    frm.size.width = _isiPad ? 384 : frm.size.width;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
     contentView.backgroundColor = [UIColor clearColor];
@@ -368,9 +396,10 @@ DetailViewController *_detailViewCtrler = nil;
     frm = CGRectInset(contentView.bounds, 5, 5);
     
     detailTableView = [[UITableView alloc] initWithFrame:frm style:UITableViewStylePlain];
+    detailTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
 	detailTableView.delegate = self;
 	detailTableView.dataSource = self;
-    detailTableView.backgroundColor = [UIColor clearColor];
+    detailTableView.backgroundColor = [UIColor whiteColor];
 	
 	[contentView addSubview:detailTableView];
 	[detailTableView release];
@@ -405,20 +434,18 @@ DetailViewController *_detailViewCtrler = nil;
     [self changeSkin];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    //UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:_closeText style:UIBarButtonItemStyleDone target:self action:@selector(close:)];
-    
-    if (_isiPad)
-    {
+    if (_isiPad) {
         [self changeOrientation:_iPadViewCtrler.interfaceOrientation];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -476,7 +503,7 @@ DetailViewController *_detailViewCtrler = nil;
 	for (NSString *tag in [dict.presetTagDict allKeys])
 	{
 		[tagButtons[j] setTitle:tag forState:UIControlStateNormal];
-		[tagButtons[j] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+		[tagButtons[j] setTitleColor:COLOR_BORDER_TAG_OBJECT_DETAIL forState:UIControlStateNormal];
 		[tagButtons[j] setEnabled:YES];
 		
 		Project *prj = [prjDict objectForKey:tag];
@@ -1080,11 +1107,13 @@ DetailViewController *_detailViewCtrler = nil;
 	//[contactList release];
 }
 
-- (void) changeADE:(id)sender
-{
-	UISegmentedControl *segment = (UISegmentedControl *)sender;
+- (void) changeADE:(id)sender {
+//    UISegmentedControl *segment = (UISegmentedControl *)sender;
+//    self.taskCopy.type = (segment.selectedSegmentIndex == 0? TYPE_ADE: TYPE_EVENT);
     
-	self.taskCopy.type = (segment.selectedSegmentIndex == 0? TYPE_ADE: TYPE_EVENT);
+    UISwitch *switchADE = (UISwitch *)sender;
+    
+    self.taskCopy.type = switchADE.on ? TYPE_ADE : TYPE_EVENT;
 	
     self.taskCopy.timeZoneId = [Settings findTimeZoneID:[NSTimeZone defaultTimeZone]];
     
@@ -1108,38 +1137,60 @@ DetailViewController *_detailViewCtrler = nil;
 }
 
 #pragma mark Task Cell Creation
-- (void) createTitleCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createTitleCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
-	//task title
+
+    // Update OriginX for Title field
+    CGRect frameTitle = titleTextView.frame;
+    frameTitle.origin.x = 12;
+    frameTitle.size.width = detailTableView.frame.size.width - frameTitle.origin.x - WIDTH_RIGHT_BUTTON_CELL;
+    titleTextView.frame = frameTitle;
     titleTextView.tag = baseTag;
-    
     titleTextView.text = self.taskCopy.name;
     [cell.contentView addSubview:titleTextView];
     
-    //CGFloat y = [titleTextView getHeight];
-    CGFloat y = titleTextView.bounds.size.height + 10;
+    // Infor button
+    UIImage *infoImageIcon = [FontManager flowasticImageWithIconName:@"info"
+                                                             andSize:SIZE_ICON_ON_CELL
+                                                           iconColor:COLOR_ICON_OBJECT_DETAIL];
     
-    /*UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    contactButton.frame = CGRectMake(5, y, 25, 25);
-    [contactButton setBackgroundImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"contact.png":@"contact_iOS7.png"] forState:UIControlStateNormal];
-    [contactButton addTarget:self action:@selector(selectContact:) forControlEvents:UIControlEventTouchUpInside];
-    contactButton.tag = baseTag + 1;*/
-    UILabel *atLable = [[UILabel alloc] initWithFrame:CGRectMake(5, y, 25, 25)];
+    CGRect editFrame = CGRectMake(detailTableView.frame.size.width - WIDTH_RIGHT_BUTTON_CELL, 0, WIDTH_RIGHT_BUTTON_CELL, 34);
+    UIButton *editTitleButton = [Common createButtonWith:nil
+                                              buttonType:UIButtonTypeCustom
+                                                   frame:editFrame
+                                              titleColor:nil
+                                                  target:self
+                                                selector:@selector(editTitle:)
+                                        normalStateImage:infoImageIcon
+                                      selectedStateImage:nil];
+    editTitleButton.tag = baseTag + 3;
+    [cell.contentView addSubview:editTitleButton];
+
+    // Separator line
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, titleTextView.bounds.size.height, detailTableView.frame.size.width, 0.5)];
+    lineView.backgroundColor = COLOR_LINE;
+    [cell.contentView addSubview:lineView];
+    [lineView release];
+    
+    CGFloat originY = titleTextView.bounds.size.height + lineView.frame.size.height;
+    
+    // Label @
+    UILabel *atLable = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_LEFT, originY, 25, HEIGHT_DEFAULT_CELL)];
+    atLable.textColor = COLOR_TEXT_OBJECT_DETAIL;
+    atLable.textAlignment = NSTextAlignmentLeft;
     atLable.text = @"@";
-    atLable.textColor = [UIColor grayColor];
-    
     [cell.contentView addSubview:atLable];
     [atLable release];
     
-	//task Location
-	UITextField *taskLocation=[[UITextField alloc] initWithFrame:CGRectMake(35, y, detailTableView.bounds.size.width-140, 26)];
+	// Add Location field
+    NSInteger taskLocationOriginX = PADDING_LEFT + atLable.frame.size.width;
+	UITextField *taskLocation = [[UITextField alloc] initWithFrame:CGRectMake(taskLocationOriginX, originY, detailTableView.frame.size.width - taskLocationOriginX - WIDTH_RIGHT_BUTTON_CELL*3, HEIGHT_DEFAULT_CELL)];
 	taskLocation.font=[UIFont systemFontOfSize:16];
-	taskLocation.textColor=[UIColor grayColor];
+	taskLocation.textColor=[UIColor blackColor];
 	taskLocation.keyboardType=UIKeyboardTypeDefault;
 	taskLocation.returnKeyType = UIReturnKeyDone;
-	taskLocation.placeholder=_addLocationFromText;
+    taskLocation.attributedPlaceholder = [[NSAttributedString alloc] initWithString:_addLocationFromText
+                                                                    attributes:@{NSForegroundColorAttributeName:COLOR_ICON_OBJECT_DETAIL}];
 	taskLocation.textAlignment=NSTextAlignmentLeft;
 	taskLocation.backgroundColor=[UIColor clearColor];
 	taskLocation.clearButtonMode=UITextFieldViewModeWhileEditing;
@@ -1150,59 +1201,70 @@ DetailViewController *_detailViewCtrler = nil;
     
 	[cell.contentView addSubview:taskLocation];
 	[taskLocation release];
-	
-	UIButton *editTitleButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-	//editTitleButton.frame = CGRectMake(detailTableView.bounds.size.width-35, y/2, 30, 30);
-    editTitleButton.frame = CGRectMake(detailTableView.bounds.size.width-35, titleTextView.frame.origin.y, 30, 30);
-	[editTitleButton addTarget:self action:@selector(editTitle:) forControlEvents:UIControlEventTouchUpInside];
-	
-	editTitleButton.tag = baseTag + 3;
-	
-	[cell.contentView addSubview:editTitleButton];
+
+    // Location list button
+    UIImage *locationImageIcon = [FontManager flowasticImageWithIconName:@"location"
+                                                             andSize:SIZE_ICON_ON_CELL
+                                                           iconColor:COLOR_ICON_OBJECT_DETAIL];
     
-    // location list button
-    UIButton *locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    locationButton.frame = CGRectMake(detailTableView.bounds.size.width-35-30-30-10-10, taskLocation.frame.origin.y, 30, 30);
-    [locationButton setBackgroundImage:[UIImage imageNamed:@"settings_location.png"] forState:UIControlStateNormal];
-    [locationButton addTarget:self action:@selector(selectLocation:) forControlEvents:UIControlEventTouchUpInside];
+    CGRect locationFrame = CGRectMake(detailTableView.frame.size.width - 3*WIDTH_RIGHT_BUTTON_CELL, taskLocation.frame.origin.y, WIDTH_RIGHT_BUTTON_CELL, HEIGHT_DEFAULT_CELL);
+    UIButton *locationButton = [Common createButtonWith:nil
+                                            buttonType:UIButtonTypeCustom
+                                                 frame:locationFrame
+                                            titleColor:nil
+                                                target:self
+                                              selector:@selector(selectLocation:)
+                                      normalStateImage:locationImageIcon
+                                    selectedStateImage:nil];
     locationButton.tag = baseTag + 4;
-    
     [cell.contentView addSubview:locationButton];
     
-    // contact button
-    UIButton *contactButton = [UIButton buttonWithType:UIButtonTypeCustom];
-     contactButton.frame = CGRectMake(detailTableView.bounds.size.width-35-30-10, taskLocation.frame.origin.y, 30, 30);
-     //[contactButton setBackgroundImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"contact.png":@"contact_iOS7.png"] forState:UIControlStateNormal];
-    [contactButton setBackgroundImage:[UIImage imageNamed:@"contact_iOS7.png"] forState:UIControlStateNormal];
-     [contactButton addTarget:self action:@selector(selectContact:) forControlEvents:UIControlEventTouchUpInside];
-     contactButton.tag = baseTag + 1;
+    // Contact button
+    UIImage *contactImageIcon = [FontManager flowasticImageWithIconName:@"contact"
+                                                                 andSize:SIZE_ICON_ON_CELL
+                                                               iconColor:COLOR_ICON_OBJECT_DETAIL];
     
+    CGRect contactFrame = CGRectMake(detailTableView.frame.size.width - 2*WIDTH_RIGHT_BUTTON_CELL, taskLocation.frame.origin.y, WIDTH_RIGHT_BUTTON_CELL, HEIGHT_DEFAULT_CELL);
+    UIButton *contactButton = [Common createButtonWith:nil
+                                                 buttonType:UIButtonTypeCustom
+                                                      frame:contactFrame
+                                                 titleColor:nil
+                                                     target:self
+                                                   selector:@selector(selectContact:)
+                                           normalStateImage:contactImageIcon
+                                         selectedStateImage:nil];
+    contactButton.tag = baseTag + 1;
     [cell.contentView addSubview:contactButton];
     
-    // edit location button
-    UIButton *editLocationButton = [Common createButton:nil
-                                             buttonType:UIButtonTypeCustom
-                                                  frame:CGRectMake(detailTableView.bounds.size.width-35, taskLocation.frame.origin.y, 30, 30)
-                                             titleColor:nil
-                                                 target:self
-                                               selector:@selector(editLocation:)
-                                       normalStateImage:@"map.png"
-                                     selectedStateImage:nil];
+    // Map button
+    UIImage *mapImageIcon = [FontManager flowasticImageWithIconName:@"map"
+                                                                andSize:SIZE_ICON_ON_CELL
+                                                              iconColor:COLOR_ICON_OBJECT_DETAIL];
+    
+    CGRect mapFrame = CGRectMake(detailTableView.frame.size.width - WIDTH_RIGHT_BUTTON_CELL, taskLocation.frame.origin.y, WIDTH_RIGHT_BUTTON_CELL, HEIGHT_DEFAULT_CELL);
+    UIButton *editLocationButton = [Common createButtonWith:nil
+                                                 buttonType:UIButtonTypeCustom
+                                                      frame:mapFrame
+                                                 titleColor:nil
+                                                     target:self
+                                                   selector:@selector(editLocation:)
+                                           normalStateImage:mapImageIcon
+                                         selectedStateImage:nil];
 	
 	editLocationButton.tag = baseTag + 5;
-	
 	[cell.contentView addSubview:editLocationButton];
     
-    Location *location = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationID database:[[DBManager getInstance] getDatabase]];
-    if (location.primaryKey > 0 && [self.taskCopy.location isEqualToString:location.address]) {
-        taskLocation.text = location.address;
-        self.taskCopy.location = location.address;
-    } else {
-        
-        self.taskCopy.locationID = 0;
-        self.task.locationID = 0;
-    }
-    [location release];
+    // Infor of location
+//    Location *location = [[Location alloc] initWithPrimaryKey:self.taskCopy.locationID database:[[DBManager getInstance] getDatabase]];
+//    if (location.primaryKey > 0 && [self.taskCopy.location isEqualToString:location.address]) {
+//        taskLocation.text = location.address;
+//        self.taskCopy.location = location.address;
+//    }
+//    else {
+//        self.taskCopy.locationID = 0;
+//        self.task.locationID = 0;
+//    }
+//    [location release];
 }
 
 - (void) createDurationCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1218,56 +1280,39 @@ DetailViewController *_detailViewCtrler = nil;
     //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
-- (void) createProjectCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createProjectCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
 	cell.textLabel.text = _projectText;
-    //cell.textLabel.textColor = [UIColor grayColor];
-    //cell.textLabel.font = [UIFont systemFontOfSize:16];
-	
+    cell.textLabel.textColor = [UIColor blackColor];
+
 	ProjectManager *pm = [ProjectManager getInstance];
-	
 	Project *prj = [pm getProjectByKey:self.taskCopy.project];
     
     cell.detailTextLabel.text = prj.name;
     cell.detailTextLabel.textColor = [Common getColorByID:prj.colorId colorIndex:0];
-    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 }
 
-- (void) createADECell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createADECell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
-    cell.backgroundColor = [UIColor colorWithRed:223.0/255 green:223.0/255 blue:223.0/255 alpha:1];
-    
-    /*
-     UILabel *adeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
-     adeLabel.backgroundColor = [UIColor clearColor];
-     adeLabel.text = _allDayText;
-     adeLabel.textColor = [UIColor grayColor];
-     adeLabel.font = [UIFont systemFontOfSize:16];
-     
-     [cell.contentView addSubview:adeLabel];
-     [adeLabel release];
-    */
-    
+    cell.backgroundColor = COLOR_BACKGROUND_HEADER_MINI_MONTH;
     cell.textLabel.text = _allDayText;
+    cell.textLabel.textColor = [UIColor blackColor];
      
-     NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
-     UISegmentedControl *adeSegmentedCtrl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
-     adeSegmentedCtrl.frame = CGRectMake(detailTableView.bounds.size.width-110, 5, 100, 30);
-     [adeSegmentedCtrl addTarget:self action:@selector(changeADE:) forControlEvents:UIControlEventValueChanged];
-     adeSegmentedCtrl.selectedSegmentIndex = ([self.taskCopy isADE]?0:1);
-     
-     [cell.contentView addSubview:adeSegmentedCtrl];
-     [adeSegmentedCtrl release];
-     
-     UIView *adeSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, detailTableView.bounds.size.width, 1)];
-     adeSeparatorView.backgroundColor = [UIColor lightGrayColor];
-     
-     [cell.contentView addSubview:adeSeparatorView];
-     [adeSeparatorView release];
+//    NSArray *segmentTextContent = [NSArray arrayWithObjects: _onText, _offText, nil];
+//    UISegmentedControl *adeSegmentedCtrl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+//    adeSegmentedCtrl.frame = CGRectMake(detailTableView.bounds.size.width-110, 5, 100, 30);
+//    [adeSegmentedCtrl addTarget:self action:@selector(changeADE:) forControlEvents:UIControlEventValueChanged];
+//    adeSegmentedCtrl.selectedSegmentIndex = ([self.taskCopy isADE]?0:1);
+//
+//    [cell.contentView addSubview:adeSegmentedCtrl];
+//    [adeSegmentedCtrl release];
+    
+    UISwitch *adeSwitch = [[UISwitch alloc] init];
+    [adeSwitch addTarget:self action:@selector(changeADE:) forControlEvents:UIControlEventValueChanged];
+    [adeSwitch setOn:([self.taskCopy isADE] ? YES : NO) animated:YES];
+    
+    cell.accessoryView = adeSwitch;
+    [adeSwitch release];
 }
 
 - (void) createStartDueCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
@@ -1393,237 +1438,245 @@ DetailViewController *_detailViewCtrler = nil;
     [cell.contentView addSubview:dueButton];
 }
 
-- (void) createStartEndCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createStartEndCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     cell.accessoryType = UITableViewCellAccessoryNone;
-    
-    cell.backgroundColor = [UIColor colorWithRed:223.0/255 green:223.0/255 blue:223.0/255 alpha:1];
-    
+    cell.backgroundColor = COLOR_BACKGROUND_HEADER_MINI_MONTH;
     Settings *settings = [Settings getInstance];
-    
     CGFloat yMargin = 0;
-    
     NSDate *startTime = self.taskCopy.startTime;
     NSDate *endTime = self.taskCopy.endTime;
+    NSInteger widthDisclosureIcon = 30;
 
-    if (settings.timeZoneSupport && [self.taskCopy isNormalEvent])
-    {
-        UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 80, 20)];
+    if (settings.timeZoneSupport && [self.taskCopy isNormalEvent]) {
+        
+        // Time Zone label
+        UILabel *tzLabel=[[UILabel alloc] initWithFrame:CGRectMake(PADDING_LEFT, 0, 80, HEIGHT_DEFAULT_CELL)];
         tzLabel.tag = baseTag + 10;
-        tzLabel.text =_timeZone;
+        tzLabel.text = _timeZone;
         tzLabel.backgroundColor = [UIColor clearColor];
         tzLabel.font = [UIFont systemFontOfSize:16];
-        tzLabel.textColor = [UIColor grayColor];
-        
+        tzLabel.textColor = [UIColor blackColor];
         [cell.contentView addSubview:tzLabel];
         [tzLabel release];
         
-        UILabel *tzValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 5, detailTableView.bounds.size.width - 90 - 30, 25)];
+        NSInteger originXTimeZone = tzLabel.frame.origin.x + tzLabel.frame.size.width;
+        CGRect frameTimeZoneValue = CGRectMake(originXTimeZone, 0, detailTableView.frame.size.width - originXTimeZone - widthDisclosureIcon, HEIGHT_DEFAULT_CELL);
+        UILabel *tzValueLabel = [[UILabel alloc] initWithFrame:frameTimeZoneValue];
         tzValueLabel.tag = baseTag + 11;
         tzValueLabel.textAlignment = NSTextAlignmentRight;
-        tzValueLabel.textColor = [UIColor darkGrayColor];
-        tzValueLabel.font = [UIFont boldSystemFontOfSize:16];
+        tzValueLabel.textColor = COLOR_TEXT_OBJECT_DETAIL;
+        tzValueLabel.font = [UIFont systemFontOfSize:16];
         tzValueLabel.backgroundColor = [UIColor clearColor];
-        
         tzValueLabel.text = [Settings getTimeZoneDisplayNameByID: self.taskCopy.timeZoneId];
-        
         [cell.contentView addSubview:tzValueLabel];
         [tzValueLabel release];
         
-        UIView *tzSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(10, 40, detailTableView.bounds.size.width-10, 1)];
-        tzSeparatorView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
+        // Disclosure icon
+        UIImage *imageArrowRight = [FontManager flowasticImageWithIconName:@"arrow-right"
+                                                                   andSize:14
+                                                                 iconColor:hexColor(0xD1D1D6)];
         
-        [cell.contentView addSubview:tzSeparatorView];
-        [tzSeparatorView release];
-        
-        UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:SYSTEM_VERSION_LESS_THAN(@"7.0")?@"detail_disclosure.png":@"detail_disclosure_iOS7.png"]];
+        NSInteger originXDisclosureIcon = detailTableView.frame.size.width - widthDisclosureIcon;
+        CGRect frameDisclosureIcon = CGRectMake(originXDisclosureIcon, 0, widthDisclosureIcon, HEIGHT_DEFAULT_CELL);
+        UIImageView *detailImgView = [[UIImageView alloc] initWithFrame:frameDisclosureIcon];
+        detailImgView.image = imageArrowRight;
+        detailImgView.contentMode = UIViewContentModeCenter;
         detailImgView.tag = baseTag + 12;
-        detailImgView.frame = CGRectMake(detailTableView.bounds.size.width - 30, 8, 20, 20);
         [cell.contentView addSubview:detailImgView];
         [detailImgView release];
         
-        UIButton *tzEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        // Separator Line
+        UIView *tzSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(0, HEIGHT_DEFAULT_CELL, detailTableView.frame.size.width, 0.5)];
+        tzSeparatorView.backgroundColor = COLOR_LINE;
+        [cell.contentView addSubview:tzSeparatorView];
+        [tzSeparatorView release];
         
+        // TimeZone edit button
         CGRect frm = CGRectZero;
-        frm.size.width = detailTableView.bounds.size.width;
-        frm.size.height = 40;
+        frm.size.width = detailTableView.frame.size.width;
+        frm.size.height = HEIGHT_DEFAULT_CELL;
         
+        UIButton *tzEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
         tzEditButton.frame = frm;
         tzEditButton.tag = baseTag + 13;
         [tzEditButton addTarget:self action:@selector(editTimeZone:) forControlEvents:UIControlEventTouchUpInside];
-        
         [cell.contentView addSubview:tzEditButton];
+
         
-        //NSInteger secs = [Common getSecondsFromTimeZoneID:self.taskCopy.timeZoneId] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        startTime = [Common convertDate:startTime
+                           fromTimeZone:[NSTimeZone defaultTimeZone]
+                             toTimeZone:[Settings getTimeZoneByID:self.taskCopy.timeZoneId]];
         
-        // sub DST offset
-        /*NSInteger secs = [[Settings getTimeZoneByID:self.taskCopy.timeZoneId] secondsFromGMT] - [[NSTimeZone defaultTimeZone] secondsFromGMT];
+        endTime = [Common convertDate:endTime
+                         fromTimeZone:[NSTimeZone defaultTimeZone]
+                           toTimeZone:[Settings getTimeZoneByID:self.taskCopy.timeZoneId]];
         
-        startTime = [startTime dateByAddingTimeInterval:secs];
-        endTime = [endTime dateByAddingTimeInterval:secs];*/
-        
-        startTime = [Common convertDate:startTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.taskCopy.timeZoneId]];
-        endTime = [Common convertDate:endTime fromTimeZone:[NSTimeZone defaultTimeZone] toTimeZone:[Settings getTimeZoneByID:self.taskCopy.timeZoneId]];
-        
-        yMargin = 40;
+        yMargin = HEIGHT_DEFAULT_CELL;
     }
     
-    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, yMargin + 10, 100, 20)];
+    NSInteger heightStartEndLabel = 20;
+    NSInteger heightDayNumber = 40;
+    
+    // Start label
+    CGFloat widthStartLabel = detailTableView.frame.size.width/2 - PADDING_LEFT;
+    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_LEFT, yMargin + 10, widthStartLabel, heightStartEndLabel)];
     startLabel.backgroundColor = [UIColor clearColor];
+    startLabel.textAlignment = NSTextAlignmentLeft;
     startLabel.text = _startText;
-    startLabel.textColor = [UIColor grayColor];
+    startLabel.textColor = COLOR_TEXT_OBJECT_DETAIL;
     startLabel.font = [UIFont systemFontOfSize:16];
-    
     startLabel.tag = baseTag;
-    
     [cell.contentView addSubview:startLabel];
     [startLabel release];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, yMargin + 40, startTime == nil?70:(_isiPad?40:35), 30)];
+    // Day number of Start label
+    UIFont *fontDayNumber = [UIFont systemFontOfSize:_isiPad?28:40 weight:UIFontWeightThin];
+    NSString *dayNumberString = startTime == nil? _noneText:[NSString stringWithFormat:@"%ld",[Common getDay:startTime]];
+    CGSize widthDayNumberString = [Common sizeWithString:dayNumberString andFont:fontDayNumber];
+    CGRect frameDayLabel = CGRectMake(PADDING_LEFT, startLabel.frame.origin.y + startLabel.frame.size.height, widthDayNumberString.width, heightDayNumber);
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:frameDayLabel];
     dayLabel.backgroundColor = [UIColor clearColor];
     dayLabel.textAlignment = NSTextAlignmentRight;
-    dayLabel.text = startTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:startTime]];
-    dayLabel.textColor = [UIColor darkGrayColor];
-    dayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:24];
-    
-    dayLabel.tag = baseTag+1;
-    
+    dayLabel.textColor = COLOR_ICON_TABBAR_SEL;
+    dayLabel.font = fontDayNumber;
+    dayLabel.tag = baseTag + 1;
+    dayLabel.text = dayNumberString;
     [cell.contentView addSubview:dayLabel];
     [dayLabel release];
     
+    // Date string of Start
     NSString *dayStr = (startTime == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:startTime]:(_isiPad?[Common getFullWeekdayString:startTime]:[Common getFullDateString4:startTime])));
-    
-    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?50:40, yMargin + 35, 200, 20)];
+
+    CGFloat originXWkdayLabel = _isiPad ? 50 : dayLabel.frame.origin.x + dayLabel.frame.size.width;
+    CGFloat originYWkdayLabel = dayLabel.frame.origin.y + 2;
+    CGFloat widthWkdayLabel = detailTableView.frame.size.width/2 - dayLabel.frame.origin.x - dayLabel.frame.size.width;
+    CGRect frameWkdayLabel = CGRectMake(originXWkdayLabel, originYWkdayLabel, widthWkdayLabel, heightStartEndLabel);
+    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:frameWkdayLabel];
     wkdayLabel.backgroundColor = [UIColor clearColor];
-    //wkdayLabel.text = startTime == nil?@"":[Common getFullWeekdayString:startTime];
     wkdayLabel.text = dayStr;
-    wkdayLabel.textColor = [UIColor darkGrayColor];
-    wkdayLabel.font = [UIFont boldSystemFontOfSize:15];
-    
+    wkdayLabel.textColor = [UIColor blackColor];
+    wkdayLabel.font = [UIFont systemFontOfSize:15];
     wkdayLabel.tag = baseTag+2;
-    
     [cell.contentView addSubview:wkdayLabel];
     [wkdayLabel release];
     
+    // Time string of Start
     NSString *timeStr = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]:[Common getTimeString:startTime]));
     
-    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(_isiPad?50:40, yMargin + 55, 200, 20)];
+    CGFloat originXMonYearLabel = _isiPad ? 50 : dayLabel.frame.origin.x + dayLabel.frame.size.width;
+    CGFloat originYMonYearLabel = wkdayLabel.frame.origin.y + wkdayLabel.frame.size.height - 4;
+    CGFloat widthMonYearLabel = detailTableView.frame.size.width/2 - originXMonYearLabel;
+    
+    CGRect frameMonYearLabel = CGRectMake(originXMonYearLabel, originYMonYearLabel, widthMonYearLabel, heightStartEndLabel);
+    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:frameMonYearLabel];
     monYearLabel.backgroundColor = [UIColor clearColor];
-    //monYearLabel.text = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]);
     monYearLabel.text = timeStr;
-    monYearLabel.textColor = [UIColor darkGrayColor];
-    monYearLabel.font = [UIFont boldSystemFontOfSize:15];
-    
+    monYearLabel.textColor = [UIColor blackColor];
+    monYearLabel.font = [UIFont systemFontOfSize:15];
     monYearLabel.tag = baseTag+3;
-    
     [cell.contentView addSubview:monYearLabel];
     [monYearLabel release];
     
-    CGFloat xMargin = detailTableView.bounds.size.width/2;
-    
-//    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(190, yMargin + 5, 1, 70)];
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(xMargin, yMargin + 5, 1, 70)];
-    separatorView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
-    
+    // Separator Line
+    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(detailTableView.bounds.size.width/2, yMargin, 0.5, 80)];
+    separatorView.backgroundColor = COLOR_LINE;
     [cell.contentView addSubview:separatorView];
     [separatorView release];
     
-//    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(195, yMargin + 10, 100, 20)];
-    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, yMargin + 10, 100, 20)];
+    // End label
+    CGFloat widthDueLabel = detailTableView.frame.size.width/2 - PADDING_LEFT;
+    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(detailTableView.bounds.size.width/2 + PADDING_LEFT, yMargin + 10, widthDueLabel, heightStartEndLabel)];
     dueLabel.backgroundColor = [UIColor clearColor];
     dueLabel.text = _endText;
-    dueLabel.textColor = [UIColor grayColor];
+    dueLabel.textColor = COLOR_TEXT_OBJECT_DETAIL;
     dueLabel.font = [UIFont systemFontOfSize:16];
-    
     dueLabel.tag = baseTag+4;
-    
     [cell.contentView addSubview:dueLabel];
     [dueLabel release];
     
-//    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(190, yMargin + 40, endTime == nil?70:40, 30)];
-    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+5, yMargin + 40, endTime == nil?70:(_isiPad?40:35), 30)];
+    // Due day of End
+    NSString *dueDayNumberString = endTime == nil? _noneText:[NSString stringWithFormat:@"%ld",[Common getDay:endTime]];
+    CGFloat widthDueDayNumberString = endTime == nil ? 70 : (_isiPad ? 40 : [Common sizeWithString:dueDayNumberString andFont:fontDayNumber].width);
+    
+    CGRect frameDueDayLabel = CGRectMake(detailTableView.bounds.size.width/2 + PADDING_LEFT, dueLabel.frame.origin.y + startLabel.frame.size.height, widthDueDayNumberString, heightDayNumber);
+    
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:frameDueDayLabel];
     dueDayLabel.backgroundColor = [UIColor clearColor];
     dueDayLabel.textAlignment = NSTextAlignmentRight;
-    dueDayLabel.text = endTime == nil? _noneText:[NSString stringWithFormat:@"%d",[Common getDay:endTime]];
-    dueDayLabel.textColor = [UIColor darkGrayColor];
-    dueDayLabel.font = [UIFont boldSystemFontOfSize:_isiPad?28:24];
-    
+    dueDayLabel.text = dueDayNumberString;
+    dueDayLabel.textColor = COLOR_ICON_TABBAR_SEL;
+    dueDayLabel.font = fontDayNumber;
     dueDayLabel.tag = baseTag+5;
-    
     [cell.contentView addSubview:dueDayLabel];
     [dueDayLabel release];
     
+    // Date string of End
     dayStr = (endTime == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:endTime]:(_isiPad?[Common getFullWeekdayString:endTime]:[Common getFullDateString4:endTime])));
+    
+    CGFloat originXDueWkdayLabel = _isiPad ? 50 : dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
+    CGFloat originYDueWkdayLabel = dueDayLabel.frame.origin.y + 2;
+    CGFloat widthDueWkdayLabel = detailTableView.frame.size.width - originXDueWkdayLabel;
+    CGRect frameDueWkdayLabel = CGRectMake(originXDueWkdayLabel, originYDueWkdayLabel, widthDueWkdayLabel, heightStartEndLabel);
 
-    
-//    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 35, 100, 20)];
-    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+(_isiPad?50:40), yMargin + 35, 200, 20)];
+    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:frameDueWkdayLabel];
     dueWkdayLabel.backgroundColor = [UIColor clearColor];
-    //dueWkdayLabel.text = endTime == nil?@"":[Common getFullWeekdayString:endTime];
     dueWkdayLabel.text = dayStr;
-    dueWkdayLabel.textColor = [UIColor darkGrayColor];
-    dueWkdayLabel.font = [UIFont boldSystemFontOfSize:15];
-    
+    dueWkdayLabel.textColor = [UIColor blackColor];
+    dueWkdayLabel.font = [UIFont systemFontOfSize:15];
     dueWkdayLabel.tag = baseTag+6;
-    
     [cell.contentView addSubview:dueWkdayLabel];
     [dueWkdayLabel release];
     
+    // Time string of End
     timeStr = endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:endTime]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:endTime], [Common getTimeString:endTime]]:[Common getTimeString:endTime]));
     
-//    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(235, yMargin + 55, 200, 20)];
-    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(xMargin+(_isiPad?50:40), yMargin + 55, 200, 20)];
+    CGFloat originXDueMonYearLabel = _isiPad ? 50 : dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
+    CGFloat originYDueMonYearLabel = dueWkdayLabel.frame.origin.y + dueWkdayLabel.frame.size.height - 4;
+    CGFloat widthDueMonYearLabel = detailTableView.frame.size.width - originXDueMonYearLabel;
+    
+    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(originXDueMonYearLabel, originYDueMonYearLabel, widthDueMonYearLabel, heightStartEndLabel)];
     dueMonYearLabel.backgroundColor = [UIColor clearColor];
-    //dueMonYearLabel.text = endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:endTime]:[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:endTime], [Common getTimeString:endTime]]);
     dueMonYearLabel.text = timeStr;
-    dueMonYearLabel.textColor = [UIColor darkGrayColor];
-    dueMonYearLabel.font = [UIFont boldSystemFontOfSize:15];
-    
+    dueMonYearLabel.textColor = [UIColor blackColor];
+    dueMonYearLabel.font = [UIFont systemFontOfSize:15];
     dueMonYearLabel.tag = baseTag+7;
-    
     [cell.contentView addSubview:dueMonYearLabel];
     [dueMonYearLabel release];
     
+    // Start button tap
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    //startButton.frame = CGRectMake(0, yMargin + 0, 190, 80);
-    startButton.frame = CGRectMake(0, yMargin + 0, xMargin, 80);
+    startButton.frame = CGRectMake(0, yMargin, detailTableView.frame.size.width/2, 80);
     startButton.backgroundColor = [UIColor clearColor];
     startButton.tag = baseTag + 8;
     [startButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.contentView addSubview:startButton];
-    
+
+    // Due button tap
     UIButton *dueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    //dueButton.frame = CGRectMake(190, yMargin + 0, 190, 80);
-    dueButton.frame = CGRectMake(190, yMargin + 0, xMargin, 80);
+    dueButton.frame = CGRectMake(detailTableView.frame.size.width/2 + 0.5, yMargin, detailTableView.frame.size.width/2, 80);
     dueButton.backgroundColor = [UIColor clearColor];
     dueButton.tag = baseTag + 9;
     [dueButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.contentView addSubview:dueButton];
 }
 
-- (void) createRepeatUntilCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createRepeatUntilCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     if ([self.task isAssignedToAssignee] || [self.task isAcceptByAssignee]) {
         cell.accessoryType = UITableViewCellSelectionStyleNone;
     }
+    
 	cell.textLabel.text = _repeatUntilText;
-    //cell.textLabel.textColor = [UIColor grayColor];
-    //cell.textLabel.font = [UIFont systemFontOfSize:16];
-	
+    cell.textLabel.textColor = [UIColor blackColor];
     cell.detailTextLabel.text = [self.taskCopy getRepeatDisplayString];
-    //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.detailTextLabel.textColor = COLOR_ICON_OBJECT_DETAIL;
 }
 
-- (void) createAlertCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createAlertCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     AlertData *alert = ([self.taskCopy isTask] && self.taskCopy.deadline == nil? nil: (self.taskCopy.alerts.count > 0?[self.taskCopy.alerts objectAtIndex:0]:nil));
     
 	cell.textLabel.text = _alertText;
+    cell.textLabel.textColor = [UIColor blackColor];
+    
     //cell.textLabel.textColor = [UIColor grayColor];
     //cell.textLabel.font = [UIFont systemFontOfSize:16];
 	
@@ -1656,9 +1709,16 @@ DetailViewController *_detailViewCtrler = nil;
         
         if (alert != nil) {
             
+            UIImage *infoImageIcon = [FontManager flowasticImageWithIconName:@"alert"
+                                                                     andSize:SIZE_ICON_ON_CELL
+                                                                   iconColor:COLOR_TEXT_OBJECT_DETAIL];
+            
             // show bell icon
-            UIImageView *bellIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bell_yellow.png"]];
+            UIImageView *bellIcon = [[UIImageView alloc] initWithImage:infoImageIcon];
+            bellIcon.contentMode = UIViewContentModeCenter;
             frm.origin.x -= frm.size.width;
+            frm.origin.y = 0;
+            frm.size.height = 40;
             bellIcon.frame = frm;
             
             [cell.contentView addSubview:bellIcon];
@@ -1678,65 +1738,73 @@ DetailViewController *_detailViewCtrler = nil;
     } else {
         
         cell.detailTextLabel.text = _noneText;
+        cell.detailTextLabel.textColor = COLOR_TEXT_OBJECT_DETAIL;
     }
 }
 
-- (void) createDescriptionCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createDescriptionCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
 	cell.textLabel.text = _descriptionText;
-    //cell.textLabel.textColor = [UIColor grayColor];
-    //cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor blackColor];
 	
     cell.detailTextLabel.text = self.taskCopy.note == nil?@"":self.taskCopy.note;
-    //cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    //cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.detailTextLabel.textColor = COLOR_TEXT_OBJECT_DETAIL;
 }
 
-- (void) createTagCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-{
+- (void)createTagCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     cell.accessoryType = UITableViewCellAccessoryNone;
+    NSInteger height = 30;
     
-	UILabel *tagLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 30)];
+    // Tag label
+	UILabel *tagLabel=[[UILabel alloc] initWithFrame:CGRectMake(PADDING_LEFT, 0, WIDTH_RIGHT_BUTTON_CELL, height)];
 	tagLabel.tag = baseTag;
 	tagLabel.text=_tagText;
 	tagLabel.backgroundColor=[UIColor clearColor];
 	tagLabel.font=[UIFont systemFontOfSize:16];
-	tagLabel.textColor=[UIColor grayColor];
-	
+	tagLabel.textColor = [UIColor blackColor];
 	[cell.contentView addSubview:tagLabel];
 	[tagLabel release];
-    
-    /*
-    UIImageView *detailImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detail_disclosure.png"]];
-    detailImgView.frame = CGRectMake(detailTableView.bounds.size.width - 25, 5, 20, 20);
-    [cell.contentView addSubview:detailImgView];
-    [detailImgView release];
-    */
 	
-	tagInputTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, detailTableView.bounds.size.width - 80, 25)];
+    // Tag input field
+    NSInteger originX = PADDING_LEFT + tagLabel.frame.size.width;
+    CGRect frameTagInput = CGRectMake(originX, 0, detailTableView.frame.size.width - originX - WIDTH_RIGHT_BUTTON_CELL, height);
+	tagInputTextField = [[UITextField alloc] initWithFrame:frameTagInput];
 	tagInputTextField.tag = baseTag + 1;
 	tagInputTextField.textAlignment=NSTextAlignmentLeft;
 	tagInputTextField.backgroundColor=[UIColor clearColor];
 	tagInputTextField.textColor = [Colors darkSteelBlue];
 	tagInputTextField.font=[UIFont systemFontOfSize:15];
-
 	tagInputTextField.placeholder=_tagGuideText;
 	tagInputTextField.keyboardType=UIKeyboardTypeDefault;
 	tagInputTextField.returnKeyType = UIReturnKeyDone;
 	tagInputTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
 	tagInputTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    
 	tagInputTextField.delegate = self;
-	
 	[cell.contentView addSubview:tagInputTextField];
 	[tagInputTextField release];
     
+    // Info button
+    UIImage *infoImageIcon = [FontManager flowasticImageWithIconName:@"info"
+                                                             andSize:SIZE_ICON_ON_CELL
+                                                           iconColor:COLOR_ICON_OBJECT_DETAIL];
     
-	UIButton *tagDetailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-	tagDetailButton.frame = CGRectMake(detailTableView.bounds.size.width - 30, 0, 25, 25);
-	tagDetailButton.tag = baseTag + 2;
-	[tagDetailButton addTarget:self action:@selector(editTag:) forControlEvents:UIControlEventTouchUpInside];
-	[cell.contentView addSubview:tagDetailButton];
+    NSInteger originXTagDetailBtn = tagInputTextField.frame.origin.x + tagInputTextField.frame.size.width;
+    CGRect frameTagDetailBtn = CGRectMake(originXTagDetailBtn, 0, WIDTH_RIGHT_BUTTON_CELL, height);
+    UIButton *tagDetailButton = [Common createButtonWith:nil
+                                              buttonType:UIButtonTypeCustom
+                                                   frame:frameTagDetailBtn
+                                              titleColor:nil
+                                                  target:self
+                                                selector:@selector(editTag:)
+                                        normalStateImage:infoImageIcon
+                                      selectedStateImage:nil];
+    tagDetailButton.tag = baseTag + 2;
+    [cell.contentView addSubview:tagDetailButton];
+    
+//    UIButton *tagDetailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//    tagDetailButton.frame = CGRectMake(detailTableView.bounds.size.width - 30, 0, 25, 25);
+//    tagDetailButton.tag = baseTag + 2;
+//    [tagDetailButton addTarget:self action:@selector(editTag:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.contentView addSubview:tagDetailButton];
     
     /*
     UIButton *tagEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1751,9 +1819,7 @@ DetailViewController *_detailViewCtrler = nil;
     */
     
     CGFloat w = (detailTableView.bounds.size.width - 50)/3;
-	
-	for (int i=0; i<9; i++)
-	{
+	for (int i=0; i<9; i++) {
 		int div = i/3;
 		int mod = i%3;
 		
@@ -1763,9 +1829,14 @@ DetailViewController *_detailViewCtrler = nil;
 										titleColor:[UIColor darkGrayColor]
 											target:self
 										  selector:@selector(selectTag:)
-								  normalStateImage:@"sort_button.png"
+								  normalStateImage:nil
 								selectedStateImage:nil];
 		tagButton.tag = baseTag + 3 +i;
+        
+        tagButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        tagButton.layer.borderWidth = 1;
+        tagButton.layer.borderColor = COLOR_BORDER_TAG_OBJECT_DETAIL.CGColor;
+        tagButton.layer.cornerRadius = 6;
 		
 		[cell.contentView addSubview:tagButton];
 		
@@ -1977,7 +2048,7 @@ DetailViewController *_detailViewCtrler = nil;
     cell.textLabel.font = [UIFont systemFontOfSize:16];
 
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:16];
     
     //printf("index row: %d\n", indexPath.row);
 
@@ -2044,6 +2115,7 @@ DetailViewController *_detailViewCtrler = nil;
                 else
                 {
                     cell.textLabel.text = _assetsText;
+                    cell.textLabel.textColor = [UIColor blackColor];
                 }
                 /*else
                 {
@@ -2061,6 +2133,7 @@ DetailViewController *_detailViewCtrler = nil;
                 if (showComments)
                 {
                     cell.textLabel.text = _assetsText;
+                    cell.textLabel.textColor = [UIColor blackColor];
                 }
                 else
                 {
@@ -2098,6 +2171,7 @@ DetailViewController *_detailViewCtrler = nil;
             {
                 //[self createLinkCell:cell baseTag:10900];
                 cell.textLabel.text = _assetsText;
+                cell.textLabel.textColor = [UIColor blackColor];
             }
             break;
         case 10:
@@ -2105,6 +2179,7 @@ DetailViewController *_detailViewCtrler = nil;
             if (showComments)
             {
                 cell.textLabel.text = _assetsText;
+                cell.textLabel.textColor = [UIColor blackColor];
             }
             else
             {
