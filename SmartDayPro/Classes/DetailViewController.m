@@ -1530,7 +1530,7 @@ DetailViewController *_detailViewCtrler = nil;
     [startLabel release];
     
     // Day number of Start label
-    UIFont *fontDayNumber = [UIFont systemFontOfSize:_isiPad?28:40 weight:UIFontWeightThin];
+    UIFont *fontDayNumber = [UIFont systemFontOfSize:40 weight:UIFontWeightThin];
     NSString *dayNumberString = startTime == nil? _noneText:[NSString stringWithFormat:@"%ld",[Common getDay:startTime]];
     CGSize widthDayNumberString = [Common sizeWithString:dayNumberString andFont:fontDayNumber];
     CGRect frameDayLabel = CGRectMake(PADDING_LEFT, startLabel.frame.origin.y + startLabel.frame.size.height, widthDayNumberString.width, heightDayNumber);
@@ -1547,7 +1547,7 @@ DetailViewController *_detailViewCtrler = nil;
     // Date string of Start
     NSString *dayStr = (startTime == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:startTime]:(_isiPad?[Common getFullWeekdayString:startTime]:[Common getFullDateString4:startTime])));
 
-    CGFloat originXWkdayLabel = _isiPad ? 50 : dayLabel.frame.origin.x + dayLabel.frame.size.width;
+    CGFloat originXWkdayLabel = dayLabel.frame.origin.x + dayLabel.frame.size.width;
     CGFloat originYWkdayLabel = dayLabel.frame.origin.y + 2;
     CGFloat widthWkdayLabel = detailTableView.frame.size.width/2 - dayLabel.frame.origin.x - dayLabel.frame.size.width;
     CGRect frameWkdayLabel = CGRectMake(originXWkdayLabel, originYWkdayLabel, widthWkdayLabel, heightStartEndLabel);
@@ -1563,7 +1563,7 @@ DetailViewController *_detailViewCtrler = nil;
     // Time string of Start
     NSString *timeStr = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]:[Common getTimeString:startTime]));
     
-    CGFloat originXMonYearLabel = _isiPad ? 50 : dayLabel.frame.origin.x + dayLabel.frame.size.width;
+    CGFloat originXMonYearLabel = dayLabel.frame.origin.x + dayLabel.frame.size.width;
     CGFloat originYMonYearLabel = wkdayLabel.frame.origin.y + wkdayLabel.frame.size.height - 4;
     CGFloat widthMonYearLabel = detailTableView.frame.size.width/2 - originXMonYearLabel;
     
@@ -1596,7 +1596,7 @@ DetailViewController *_detailViewCtrler = nil;
     
     // Due day of End
     NSString *dueDayNumberString = endTime == nil? _noneText:[NSString stringWithFormat:@"%ld",[Common getDay:endTime]];
-    CGFloat widthDueDayNumberString = endTime == nil ? 70 : (_isiPad ? 40 : [Common sizeWithString:dueDayNumberString andFont:fontDayNumber].width);
+    CGFloat widthDueDayNumberString = endTime == nil ? 70 : [Common sizeWithString:dueDayNumberString andFont:fontDayNumber].width;
     
     CGRect frameDueDayLabel = CGRectMake(detailTableView.bounds.size.width/2 + PADDING_LEFT, dueLabel.frame.origin.y + startLabel.frame.size.height, widthDueDayNumberString, heightDayNumber);
     
@@ -1613,7 +1613,7 @@ DetailViewController *_detailViewCtrler = nil;
     // Date string of End
     dayStr = (endTime == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:endTime]:(_isiPad?[Common getFullWeekdayString:endTime]:[Common getFullDateString4:endTime])));
     
-    CGFloat originXDueWkdayLabel = _isiPad ? 50 : dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
+    CGFloat originXDueWkdayLabel = dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
     CGFloat originYDueWkdayLabel = dueDayLabel.frame.origin.y + 2;
     CGFloat widthDueWkdayLabel = detailTableView.frame.size.width - originXDueWkdayLabel;
     CGRect frameDueWkdayLabel = CGRectMake(originXDueWkdayLabel, originYDueWkdayLabel, widthDueWkdayLabel, heightStartEndLabel);
@@ -1630,7 +1630,7 @@ DetailViewController *_detailViewCtrler = nil;
     // Time string of End
     timeStr = endTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:endTime]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:endTime], [Common getTimeString:endTime]]:[Common getTimeString:endTime]));
     
-    CGFloat originXDueMonYearLabel = _isiPad ? 50 : dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
+    CGFloat originXDueMonYearLabel = dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
     CGFloat originYDueMonYearLabel = dueWkdayLabel.frame.origin.y + dueWkdayLabel.frame.size.height - 4;
     CGFloat widthDueMonYearLabel = detailTableView.frame.size.width - originXDueMonYearLabel;
     
