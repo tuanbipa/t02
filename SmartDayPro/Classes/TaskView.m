@@ -346,6 +346,9 @@ extern SmartDayViewController *_sdViewCtrler;
     //CGSize oneCharSize = [@"a" sizeWithFont:font];
     CGSize oneCharSize = [@"a" sizeWithAttributes:@{NSFontAttributeName:font}];;
     CGFloat lineMaxChars = floor(rect.size.width/oneCharSize.width);
+    if (lineMaxChars < 0) {
+        lineMaxChars = 0;
+    }
     
     //BOOL isList = self.listStyle || self.focusStyle;
     
