@@ -31,11 +31,13 @@
 #import "iPadViewController.h"
 #import "PlannerViewController.h"
 
+#define HEIGHT_QUICK_ADD_VIEW 40
+
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
 
-@interface CategoryViewController ()
+@interface CategoryViewController ()<UITextFieldDelegate, UIScrollViewDelegate>
 
 @end
 
@@ -102,9 +104,8 @@ extern iPadViewController *_iPadViewCtrler;
     }
 }
 
-- (void) changeSkin
-{
-    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+- (void)changeSkin {
+    contentView.backgroundColor = COLOR_BACKGROUND_LIST_VIEW;
 }
 
 -(void)expandProject:(Project *)prj
@@ -400,15 +401,13 @@ extern iPadViewController *_iPadViewCtrler;
     return nil;
 }
 
-- (void) changeFrame:(CGRect)frm
-{
+- (void)changeFrame:(CGRect)frm {
     Settings *settings = [Settings getInstance];
-    
     contentView.frame = frm;
     
     CGRect frame = contentView.bounds;
-    frame.origin.y = 40;
-    frame.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    frame.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frame.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
     
     listView.frame = frame;
     listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
@@ -419,34 +418,31 @@ extern iPadViewController *_iPadViewCtrler;
     
     quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 35);
     
-    quickAddTextField.frame = CGRectMake(5, 5, frm.size.width-45, 30);
+    quickAddTextField.frame = CGRectMake(8, 0, frm.size.width, HEIGHT_QUICK_ADD_VIEW);
     
     UIButton *moreButton = (UIButton *)[quickAddPlaceHolder viewWithTag:10000];
     
     moreButton.frame = CGRectMake(frm.size.width-35, 4, 30, 30);
 }
 
-- (void)loadView
-{
+- (void)loadView {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    frm.size.height += [Common heightTabbar];
     
     Settings *settings = [Settings getInstance];
     
     contentView = [[ContentView alloc] initWithFrame:frm];
 	contentView.backgroundColor = [UIColor clearColor];
-    
-    //[contentView enableSwipe];
-    
     self.view = contentView;
     [contentView release];
-    
+
     frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
     
-    //listView = [[ContentScrollView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height - (settings.tabBarAutoHide?0:40) - 40)];
     listView = [[ContentScrollView alloc] initWithFrame:frm];
+    listView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
     listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
     
     listView.backgroundColor = [UIColor clearColor];
@@ -461,14 +457,13 @@ extern iPadViewController *_iPadViewCtrler;
     maskView.hidden = YES;
     [maskView release];
     
-    UIView *quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)];
+    UIView *quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, HEIGHT_QUICK_ADD_VIEW)];
 	quickAddPlaceHolder.backgroundColor = [[Common getColorByID:0 colorIndex:0] colorWithAlphaComponent:0.2];
     quickAddPlaceHolder.tag = -30000;
 	[contentView addSubview:quickAddPlaceHolder];
 	[quickAddPlaceHolder release];
     
-    //quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-45, 30)];
-    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, frm.size.width-10, 30)];
+    quickAddTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 0, frm.size.width, HEIGHT_QUICK_ADD_VIEW)];
 	quickAddTextField.delegate = self;
     quickAddTextField.tag = -1;
 	quickAddTextField.borderStyle = UITextBorderStyleNone;
@@ -533,13 +528,12 @@ extern iPadViewController *_iPadViewCtrler;
 
 #pragma mark Notification
 
-- (void)tabBarModeChanged:(NSNotification *)notification
-{
+- (void)tabBarModeChanged:(NSNotification *)notification {
     Settings *settings = [Settings getInstance];
     
     CGRect frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
     
     listView.frame = frm;
 }

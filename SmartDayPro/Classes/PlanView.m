@@ -22,6 +22,7 @@
 
 #import "CategoryViewController.h"
 #import "SDWSync.h"
+#import "FontManager.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
@@ -338,7 +339,7 @@ extern BOOL _isiPad;
         frm.origin.x = rect.origin.x + rect.size.width - 20 - SPACE_PAD/2;
         frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;                
         
-        UIImage *img = [UIImage imageNamed:@"default_cate.png"];
+        UIImage *img = [FontManager flowasticImageWithIconName:@"flag" andSize:30 iconColor:COLOR_BACKGROUND_FLAG_DEFAULT_PROJECT];
         
         [img drawInRect:frm];
         

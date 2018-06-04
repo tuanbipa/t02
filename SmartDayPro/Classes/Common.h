@@ -184,6 +184,8 @@ extern BOOL _firstLaunch;
 #define COLOR_ICON_OBJECT_DETAIL hexColor(0x8D8D8D)
 #define COLOR_BORDER_TAG_OBJECT_DETAIL hexColor(0x3484F7)
 #define COLOR_TEXT_OBJECT_DETAIL hexColor(0x666666)
+#define COLOR_BACKGROUND_LIST_VIEW hexColor(0xF3F3F3)
+#define COLOR_BACKGROUND_FLAG_DEFAULT_PROJECT hexColor(0x3E7BE8)
 
 typedef NS_ENUM(NSInteger, DeviceSize) {
     UnknownSize     = 0,
