@@ -693,6 +693,8 @@ typedef struct
 + (CGFloat)heightStatusBar;
 + (BOOL)isIpX;
 + (CGSize)sizeWithString:(NSString *)text andFont:(UIFont *)font;
++ (UIColor *)lighterColorForColor:(UIColor *)c;
++ (UIColor *)darkerColorForColor:(UIColor *)c;
 
 @end
 

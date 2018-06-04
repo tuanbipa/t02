@@ -2497,10 +2497,12 @@ extern SmartDayViewController *_sdViewCtrler;
     
     UIColor *prjColor = [[ProjectManager getInstance] getProjectColor0:task.project];
 
-    self.layer.cornerRadius = ([task isTask]?6:0);
+//    self.layer.cornerRadius = ([task isTask]?6:0);
+    self.layer.cornerRadius = ([task isTask]?3:0);
     self.layer.borderWidth = 0.25;
     self.layer.borderColor = [prjColor CGColor];
-    self.layer.backgroundColor = [[prjColor colorWithAlphaComponent:0.4] CGColor];
+//    self.layer.backgroundColor = [[prjColor colorWithAlphaComponent:0.4] CGColor];
+    self.layer.backgroundColor = [Common lighterColorForColor:prjColor].CGColor;
     
     if (self.transparent) {
         UIColor *color = [UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]];
