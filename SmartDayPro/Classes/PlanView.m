@@ -68,16 +68,17 @@ extern BOOL _isiPad;
     [super dealloc];
 }
 
-- (void) refreshExpandImage
-{
-	//if ([(Project *)self.tag isExpanded])
-    if ([self.project isExpanded])
-	{
-		expandImageView.image = [[ImageManager getInstance] getImageWithName:@"arrow_down.png"];
+- (void) refreshExpandImage {
+    UIImage *imageDown = [FontManager flowasticImageWithIconName:@"arrow-fill"
+                                                         andSize:SIZE_ICON_ON_CELL iconColor:COLOR_ICON_TABBAR];
+    UIImage *imageRight = [FontManager flowasticImageWithIconName:@"arrow-fill-right"
+                                                          andSize:SIZE_ICON_ON_CELL iconColor:COLOR_ICON_TABBAR];
+    
+    if ([self.project isExpanded]) {
+        expandImageView.image = imageDown;
 	}
-	else 
-	{
-		expandImageView.image = [[ImageManager getInstance] getImageWithName:@"arrow_left.png"];
+	else {
+        expandImageView.image = imageRight;
 	}
 }
 

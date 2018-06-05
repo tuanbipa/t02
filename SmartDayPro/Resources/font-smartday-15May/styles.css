@@ -188,3 +188,12 @@
 .icon-undone:before {
   content: "\e031";
 }
+.icon-tag-sel:before {
+  content: "\e032";
+}
+.icon-hide-sel:before {
+  content: "\e033";
+}
+.icon-arrow-fill-right:before {
+  content: "\e034";
+}

@@ -374,9 +374,11 @@ iPadViewController *_iPadViewCtrler;
         
         [tagButton setImage:[self tagImage] forState:UIControlStateNormal];
         
-        if (tm.filterData != nil && ![tm.filterData.tag isEqualToString:@""])
-        {
-            [tagButton setImage:[UIImage imageNamed:@"bar_tag_blue.png"] forState:UIControlStateNormal];            
+        if (tm.filterData != nil && ![tm.filterData.tag isEqualToString:@""]) {
+            UIImage *imageTagSel = [FontManager flowasticImageWithIconName:@"tag-sel"
+                                                                   andSize:SIZE_ICON_TOPBAR_iPAD iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+            
+            [tagButton setImage:imageTagSel forState:UIControlStateNormal];
         }
     }
 
@@ -386,9 +388,11 @@ iPadViewController *_iPadViewCtrler;
 
         BOOL checkInvisible = [[[ProjectManager getInstance] getInvisibleProjectDict] count] > 0;
         
-        if (checkInvisible)
-        {
-            [eyeButton setImage:[UIImage imageNamed:@"bar_eye_blue.png"] forState:UIControlStateNormal];
+        if (checkInvisible) {
+            UIImage *imageEyeSel = [FontManager flowasticImageWithIconName:@"hide-sel"
+                                                                   andSize:SIZE_ICON_TOPBAR_iPAD iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+            
+            [eyeButton setImage:imageEyeSel forState:UIControlStateNormal];
         }
     }
 }

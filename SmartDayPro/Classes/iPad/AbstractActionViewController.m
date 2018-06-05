@@ -65,6 +65,7 @@
 #import "PlannerView.h"
 
 #import "TaskLocationListViewController.h"
+#import "FontManager.h"
 
 //extern BOOL _isiPad;
 
@@ -2791,16 +2792,18 @@ extern DetailViewController *_detailViewCtrler;
     multiCount = 0;
 }
 
-- (void) showMultiEditBar
-{
-    UIButton *deleteButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            frame:CGRectMake(0, 0, 30, 30)
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(multiDelete:)
-                                 normalStateImage:@"menu_trash.png"
-                               selectedStateImage:nil];
+- (void) showMultiEditBar {
+    UIImage *deleteImageIcon = [FontManager flowasticImageWithIconName:@"delete"
+                                                               andSize:SIZE_ICON_TOPBAR
+                                                             iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+    UIButton *deleteButton = [Common createButtonWith:@""
+                                           buttonType:UIButtonTypeCustom
+                                                frame:CGRectMake(0, 0, 30, 30)
+                                           titleColor:nil
+                                               target:self
+                                             selector:@selector(multiDelete:)
+                                     normalStateImage:deleteImageIcon
+                                   selectedStateImage:nil];
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
     

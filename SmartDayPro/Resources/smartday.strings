@@ -14,8 +14,6 @@
 
 "arrow-fill" = "\Ue004";
 
-"arrow-right" = "\Ue005";
-
 "calendar-view" = "\Ue006";
 
 "calendar-view-sel" = "\Ue007";
@@ -98,7 +96,7 @@
 
 "clock" = "\Ue02e";
 
-"arrow-up" = "U\e003";
+"arrow-up" = "\Ue003";
 
 "arrow-right" = "\Ue005";
 
@@ -107,3 +105,10 @@
 "arrow-down" = "\Ue030";
 
 "undone" = "\Ue031";
+
+"tag-sel" = "\Ue032";
+
+"hide-sel" = "\Ue033";
+
+"arrow-fill-right" = "\Ue034";
+
