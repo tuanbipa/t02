@@ -621,6 +621,7 @@ extern iPadViewController *_iPadViewCtrler;
     }
     
     [[AbstractActionViewController getInstance] hideMultiEditBar];
+    [Common refreshNavigationbarForEditMode];
 }
 
 #pragma mark Alert delegate

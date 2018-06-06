@@ -92,6 +92,7 @@ extern iPadViewController *_iPadViewCtrler;
         taskView.starCheck = ![task isShared];
         taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
         [taskView enableMove:![task isShared]];
+        taskView.touchHoldEnable = YES;
         
         [taskView refreshStarImage];
         [taskView refreshCheckImage];

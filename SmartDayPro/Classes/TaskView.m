@@ -198,7 +198,7 @@ extern SmartDayViewController *_sdViewCtrler;
 //-(void)refreshCheckImage_old
 //{
 //    //Task *task = (Task *)self.tag;
-//    
+//
 //    if (self.multiSelectionEnable)
 //    {
 //        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
@@ -206,24 +206,32 @@ extern SmartDayViewController *_sdViewCtrler;
 //    else
 //    {
 //        checkButton.selected = [task isDone];
-//        checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);        
+//        checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
 //    }
-//    
+//
 //    checkView.userInteractionEnabled = self.checkEnable;
 //}
 
 -(void)refreshCheckImage {
-    if (!self.checkEnable) {
+    UIImage *imageEditModeNone = [FontManager flowasticImageWithIconName:@"mul-select"
+                                                                 andSize:30 iconColor:[UIColor whiteColor]];
+    
+    UIImage *imageEditModeSelected = [FontManager flowasticImageWithIconName:@"event-sel-copy"
+                                                                     andSize:30 iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+
+    if (!self.checkEnable)
+    {
         checkImageView.image = nil;
         checkView.userInteractionEnabled = NO;
         return;
     }
     
     if (self.listStyle) {
-        [self refreshIconToDo];
+//        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+        checkImageView.image = checkButton.selected ? imageEditModeSelected : imageEditModeNone;
         checkView.userInteractionEnabled = YES;
-        
-    } else {
+    }
+    else {
         //checkButton.selected = [task isDone];
         checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
         checkView.userInteractionEnabled = NO;
@@ -311,6 +319,8 @@ extern SmartDayViewController *_sdViewCtrler;
     [self refreshCheckImage];
 
     [[AbstractActionViewController getInstance] multiEdit:button.selected];
+    
+    [Common refreshNavigationbarForEditMode];
 }
 
 -(void)star:(id)sender
@@ -686,7 +696,11 @@ extern SmartDayViewController *_sdViewCtrler;
     
     CGRect frm = CGRectMake(rect.origin.x, dy, rect.size.width, sz.height);
     
-    UIColor *color = (self.listStyle || self.focusStyle)?[UIColor blackColor]:[Colors snow2];
+    ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *dimProjectColor = [pm getProjectColor1:self.task.project];
+    
+//    UIColor *color = (self.listStyle || self.focusStyle)?[UIColor blackColor]:[Colors snow2];
+    UIColor *color = (self.listStyle || self.focusStyle) ? dimProjectColor : [Colors snow2];
     
     /*[color set];
 
@@ -1871,13 +1885,10 @@ extern SmartDayViewController *_sdViewCtrler;
     }
     
     //if (self.multiSelectionEnable)
-    if (self.checkEnable)
-    {
+    if (self.checkEnable) {
         rect = CGRectOffset(rect, TASK_HEIGHT, 0);
         rect.size.width -= TASK_HEIGHT;
-        [self refreshIconToDo];
-//        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
-        //checkView.userInteractionEnabled = NO;
+        [self refreshCheckImage];
     }
     
 //    if (task.type == TYPE_ADE)
@@ -2823,8 +2834,7 @@ extern SmartDayViewController *_sdViewCtrler;
     }
 }
 
-- (void) touchAndHold
-{
+- (void)touchAndHold {
     if ([self.task isShared])
     {
         return;
@@ -2843,7 +2853,26 @@ extern SmartDayViewController *_sdViewCtrler;
         
         [_plannerViewCtrler.plannerBottomDayCal beginResize:self];
     }
-    
+    else if (self.task.listSource == SOURCE_CATEGORY) {
+        if (self.task.isMultiEdit) {
+            return;
+        }
+        
+        // Enable expand for All Project
+        ProjectManager *pm = [ProjectManager getInstance];
+        for (Project *prj in pm.projectList) {
+            prj.isExpanded = YES;
+        }
+        
+        // Expand all project in Category view controller
+        CategoryViewController *ctrler = [[AbstractSDViewController getInstance] getCategoryViewController];
+        [ctrler loadAndShowList];
+        
+        self.task.isMultiEdit = YES;
+        
+        [[AbstractActionViewController getInstance] multiEdit:self.task.isMultiEdit];
+        [self refreshCheckImage];
+    }
 }
 
 -(BOOL) checkMovable:(NSSet *)touches
@@ -2875,21 +2904,6 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void)appNoBusy:(NSNotification *)notification
 {
     self.userInteractionEnabled = YES;
-}
-
-- (void)refreshIconToDo {
-    ProjectManager *pm = [ProjectManager getInstance];
-    UIColor *dimProjectColor = [pm getProjectColor1:task.project];
-    
-    UIImage *doneToDoImageIcon = [FontManager flowasticImageWithIconName:@"task-view-sel"
-                                                                 andSize:SIZE_ICON_ON_CELL
-                                                               iconColor:dimProjectColor];
-    
-    UIImage *undoneToDoImageIcon = [FontManager flowasticImageWithIconName:@"undone"
-                                                                   andSize:SIZE_ICON_ON_CELL
-                                                                 iconColor:dimProjectColor];
-    
-    checkImageView.image = checkButton.selected ? doneToDoImageIcon : undoneToDoImageIcon;
 }
 
 @end
