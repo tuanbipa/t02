@@ -697,6 +697,7 @@ typedef struct
 + (UIColor *)lighterColorForColor:(UIColor *)c;
 + (UIColor *)darkerColorForColor:(UIColor *)c;
 + (void)refreshNavigationbarForEditMode;
++ (UIColor *)colorWithProject:(NSInteger)project;
 
 @end
 

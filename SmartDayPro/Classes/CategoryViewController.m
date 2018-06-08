@@ -620,6 +620,7 @@ extern iPadViewController *_iPadViewCtrler;
         }
     }
     
+    [self updateEditModeForAllTaskObject:NO];
     [[AbstractActionViewController getInstance] hideMultiEditBar];
     [Common refreshNavigationbarForEditMode];
 }
@@ -679,6 +680,15 @@ extern iPadViewController *_iPadViewCtrler;
     quickAddTextField.text = @"";
     
     maskView.hidden = YES;
+}
+
+- (void)updateEditModeForAllTaskObject:(BOOL)editmode {
+    for (id task in list) {
+        if ([task isKindOfClass:[Task class]]) {
+            Task *value = (Task *)task;
+            value.isMultiEdit = editmode;
+        }
+    }
 }
 
 @end

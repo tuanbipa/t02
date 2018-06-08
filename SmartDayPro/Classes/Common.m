@@ -21,6 +21,7 @@
 #import "FontManager.h"
 #import "SDNavigationController.h"
 #import "SmartDayViewController.h"
+#import "ProjectManager.h"
 
 extern BOOL _is24HourFormat;
 
@@ -2040,6 +2041,13 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
             [smartDayViewController refreshTopBar];
         }
     }
+}
+
++ (UIColor *)colorWithProject:(NSInteger)project {
+    ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *dimProjectColor = [pm getProjectColor1:project];
+    
+    return dimProjectColor;
 }
 
 @end
