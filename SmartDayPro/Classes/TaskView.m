@@ -2265,8 +2265,13 @@ extern SmartDayViewController *_sdViewCtrler;
         CGContextFillRect(ctx, frm);
     }
     
-
     if (self.checkEnable && ![task isNote]) {
+        rect = CGRectOffset(rect, TASK_HEIGHT, 0);
+        rect.size.width -= TASK_HEIGHT;
+        [self refreshCheckImage];
+    }
+    
+    if (self.checkEnable && [task isNote] && task.isMultiEdit) {
         rect = CGRectOffset(rect, TASK_HEIGHT, 0);
         rect.size.width -= TASK_HEIGHT;
         [self refreshCheckImage];
@@ -2990,18 +2995,14 @@ extern SmartDayViewController *_sdViewCtrler;
     [[AbstractActionViewController getInstance] enableActions:enable onView:self];
 }
 
-- (void) singleTouch
-{
+- (void)singleTouch {
     [[AbstractActionViewController getInstance] hideDropDownMenu];
     [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
-    [self refreshCheckImage];
 
-    if (_isiPad)
-    {
+    if (_isiPad) {
         [[AbstractActionViewController getInstance] editItem:self.task inView:self];
     }
-    else
-    {
+    else {
         [[AbstractActionViewController getInstance] enableActions:!self.isSelected onView:self];
     }
 }
@@ -3079,6 +3080,13 @@ extern SmartDayViewController *_sdViewCtrler;
         [ctrler loadAndShowList];
         [ctrler updateEditModeForAllTaskObject:YES];
 
+        // Show Edit Mode Toolbar
+        [[AbstractActionViewController getInstance] multiEdit:YES];
+    }
+    else if (self.task.listSource == SOURCE_SMARTLIST) {
+        SmartListViewController *ctrler = [[AbstractSDViewController getInstance] getSmartListViewController];
+        [ctrler enableMultiEdit:YES];
+        
         // Show Edit Mode Toolbar
         [[AbstractActionViewController getInstance] multiEdit:YES];
     }

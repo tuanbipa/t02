@@ -689,6 +689,8 @@ extern iPadViewController *_iPadViewCtrler;
             value.isMultiEdit = editmode;
         }
     }
+    
+    [self setNeedsDisplay];
 }
 
 @end

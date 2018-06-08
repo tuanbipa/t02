@@ -278,7 +278,7 @@ extern BOOL _detailHintShown;
     self.navigationItem.titleView = nil;
     self.navigationItem.title = nil;
     
-    NSInteger countListSelectedItems = [self.activeViewCtrler getMultiEditList].count;
+    NSInteger countListSelectedItems = [self countAllObjectSelectedInEditMode];
     if (countListSelectedItems > 0) {// Show navigationbar Edit Mode
         arrowDownImgView.hidden = YES;
         
@@ -3836,6 +3836,16 @@ extern BOOL _detailHintShown;
 #pragma mark - Button Cancel Edit Mode
 - (void)cancelEditMode:(id)sender {
     [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
+}
+
+- (NSInteger)countAllObjectSelectedInEditMode {
+    NSInteger countListSelectedItems = 0;
+    if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]] ||
+        [self.activeViewCtrler isKindOfClass:[SmartListViewController class]]) {
+        countListSelectedItems = [self.activeViewCtrler getMultiEditList].count;
+    }
+    
+    return countListSelectedItems;
 }
 
 @end
