@@ -3841,7 +3841,8 @@ extern BOOL _detailHintShown;
 - (NSInteger)countAllObjectSelectedInEditMode {
     NSInteger countListSelectedItems = 0;
     if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]] ||
-        [self.activeViewCtrler isKindOfClass:[SmartListViewController class]]) {
+        [self.activeViewCtrler isKindOfClass:[SmartListViewController class]] ||
+        [self.activeViewCtrler isKindOfClass:[NoteViewController class]]) {
         countListSelectedItems = [self.activeViewCtrler getMultiEditList].count;
     }
     

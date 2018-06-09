@@ -72,7 +72,7 @@ extern iPadViewController *_iPadViewCtrler;
     taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
     taskView.showSeparator = YES;
     [taskView enableMove:_isiPad?![task isShared]:NO];
-
+    taskView.touchHoldEnable = YES;
     [taskView refreshCheckImage];
     
     [taskView setNeedsDisplay];

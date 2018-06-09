@@ -281,9 +281,8 @@ extern SmartDayViewController *_sdViewCtrler;
     //[listTableView reloadData];
 	for (UIView *view in noteListView.subviews)
 	{
-        if ([view isKindOfClass:[TaskView class]])
-        {
-            [view refresh];
+        if ([view isKindOfClass:[TaskView class]]) {
+            [((TaskView *)view) refresh];
         }
 	}
 }
@@ -368,7 +367,9 @@ extern SmartDayViewController *_sdViewCtrler;
         }
     }
     
+    [self updateEditModeForAllTaskObject:NO];
     [[AbstractActionViewController getInstance] hideMultiEditBar];
+    [Common refreshNavigationbarForEditMode];
 }
 
 - (void) enableMultiEdit:(BOOL)enabled
@@ -378,7 +379,6 @@ extern SmartDayViewController *_sdViewCtrler;
         if ([view isKindOfClass:[TaskView class]])
         {
             TaskView *tv = (TaskView *) view;
-            
             tv.checkEnable = enabled && ![tv.task isShared];
             [tv refresh];
         }
@@ -755,5 +755,18 @@ extern SmartDayViewController *_sdViewCtrler;
         }
     }
 }
+
+#pragma mark - Edit Mode
+- (void)updateEditModeForAllTaskObject:(BOOL)editmode {
+    for (id task in self.noteList) {
+        if ([task isKindOfClass:[Task class]]) {
+            Task *value = (Task *)task;
+            value.isMultiEdit = editmode;
+        }
+    }
+    
+    [self setNeedsDisplay];
+}
+
 
 @end

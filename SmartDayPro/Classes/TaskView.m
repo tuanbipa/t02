@@ -3090,6 +3090,13 @@ extern SmartDayViewController *_sdViewCtrler;
         // Show Edit Mode Toolbar
         [[AbstractActionViewController getInstance] multiEdit:YES];
     }
+    else if (self.task.listSource == SOURCE_NOTE) {
+        NoteViewController *ctrler = [[AbstractSDViewController getInstance] getNoteViewController];
+         [ctrler updateEditModeForAllTaskObject:YES];
+        
+        // Show Edit Mode Toolbar
+        [[AbstractActionViewController getInstance] multiEdit:YES];
+    }
 }
 
 -(BOOL) checkMovable:(NSSet *)touches
