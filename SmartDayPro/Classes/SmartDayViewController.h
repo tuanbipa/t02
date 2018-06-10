@@ -23,6 +23,7 @@
 @class FilterView;
 @class DateJumpView;
 @class LinkPreviewPane;
+@class ViewFilterMenu;
 
 /*
 @class CalendarViewController;
@@ -78,6 +79,8 @@
     BOOL firstTimeLoad;
 
     //Task *task2Link;
+    
+    ViewFilterMenu *viewFilterMenu;
 }
 
 @property (nonatomic, retain) PageAbstractViewController *activeViewCtrler;

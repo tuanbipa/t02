@@ -44,7 +44,7 @@
     
     CGRect rec = rect;
     
-    rec.origin.y += arrow.size.height;
+    rec.origin.y += arrow.size.height-1;
     rec.size.height -= arrow.size.height;
     
     [img drawInRect:rec];

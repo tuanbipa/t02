@@ -203,7 +203,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (void) changeSkin
 {
-    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    contentView.backgroundColor = COLOR_BACKGROUND_LIST_VIEW;
     
     //listTableView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
@@ -561,8 +561,8 @@ extern SmartDayViewController *_sdViewCtrler;
     emptyNoteButton.frame = frm;
     
     frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
 
     noteListView.frame = frm;
 }
@@ -619,43 +619,45 @@ extern SmartDayViewController *_sdViewCtrler;
 	[editToolbar setItems:items animated:NO];
 }
 
-- (void)loadView
-{
+- (void)loadView {
     Settings *settings = [Settings getInstance];
     
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    frm.size.height += [Common heightTabbar];
     
-    //contentView = [[ContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
     contentView = [[ContentView alloc] initWithFrame:frm];
     //[contentView enableSwipe];
     
     self.view = contentView;
-    
     [contentView release];
     
     frm = contentView.bounds;
-    frm.size.height = 35;
+    frm.size.height = HEIGHT_QUICK_ADD_VIEW;
     
 	emptyNoteButton = [Common createButton:_tapToAddNote
                                 buttonType:UIButtonTypeCustom
                                      frame:frm
-                                titleColor:[UIColor lightGrayColor]
+                                titleColor:COLOR_TEXT_PLACEHOLDER
                                     target:self
                                   selector:@selector(quickAddNote:)
                           normalStateImage:nil
                         selectedStateImage:nil];
-    emptyNoteButton.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG_full.png"]];
-    
+
+    emptyNoteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    emptyNoteButton.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
+    emptyNoteButton.titleLabel.font=[UIFont systemFontOfSize:FONT_SIZE_PLACEHOLDER];
+    emptyNoteButton.backgroundColor = [Common colorDefaultProject];
     [contentView addSubview:emptyNoteButton];
     
     frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
-    
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
+
     noteListView = [[ContentScrollView alloc] initWithFrame:frm];
     noteListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
-    
+    noteListView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
+
 	noteListView.scrollEnabled = YES;
 	noteListView.delegate = self;
 	noteListView.scrollsToTop = NO;
@@ -711,14 +713,13 @@ extern SmartDayViewController *_sdViewCtrler;
 
 #pragma mark Notification
 
-- (void)tabBarModeChanged:(NSNotification *)notification
-{
+- (void)tabBarModeChanged:(NSNotification *)notification {
     Settings *settings = [Settings getInstance];
     
     CGRect frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
-    
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
+
     noteListView.frame = frm;
 }
 

@@ -263,20 +263,49 @@ extern iPadViewController *_iPadViewCtrler;
     */
 }
 
-- (NSString *) showNoteWithOption:(id)sender
-{
+//- (NSString *) showNoteWithOption:(id)sender
+//{
+//    [self hideDropDownMenu];
+//
+//    UIButton *button = (UIButton *) sender;
+//
+//    NoteViewController *ctrler = [self getNoteViewController];
+//
+//    [ctrler filter:button.tag];
+//
+//    NSString *title = @"";
+//
+//    switch (button.tag)
+//    {
+//        case NOTE_FILTER_ALL:
+//            title = _allText;
+//            break;
+//        case NOTE_FILTER_CURRENT:
+//            title = _currentText;
+//            break;
+//        case NOTE_FILTER_WEEK:
+//            title = _thisWeekText;
+//            break;
+//    }
+//
+//    return title;
+//
+//    /*
+//    if (!_isiPad)
+//    {
+//        self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
+//    }
+//    */
+//}
+
+- (NSString *)showNoteWithOption:(NSInteger)filterType {
     [self hideDropDownMenu];
     
-    UIButton *button = (UIButton *) sender;
-    
     NoteViewController *ctrler = [self getNoteViewController];
-    
-    [ctrler filter:button.tag];
+    [ctrler filter:filterType];
     
     NSString *title = @"";
-    
-    switch (button.tag)
-    {
+    switch (filterType) {
         case NOTE_FILTER_ALL:
             title = _allText;
             break;
@@ -291,11 +320,11 @@ extern iPadViewController *_iPadViewCtrler;
     return title;
     
     /*
-    if (!_isiPad)
-    {
-        self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
-    }
-    */
+     if (!_isiPad)
+     {
+     self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
+     }
+     */
 }
 
 - (NSString *) showProjectWithOption:(id)sender

@@ -2050,4 +2050,11 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return dimProjectColor;
 }
 
++ (UIColor *)colorDefaultProject {
+    Settings *settings = [Settings getInstance];
+    ProjectManager *pm = [ProjectManager getInstance];
+    
+    return [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.4];
+}
+
 @end

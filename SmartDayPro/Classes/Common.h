@@ -160,6 +160,12 @@ extern BOOL _firstLaunch;
 #define HEIGHT_Indicator_HOME 34
 #define SIZE_ICON_TOPBAR_iPAD 25
 #define SIZE_ICON_ON_CELL 20
+#define HEIGHT_QUICK_ADD_VIEW 40
+#define FONT_SIZE_PLACEHOLDER 14
+#define SIZE_ICON_MENU_FILTER 20
+#define WIDTH_FRAME_ICON_MENU_FILTER 40
+#define PADDING_ICON_MENU_FILTER 8
+#define HEIGHT_ICON_MENU_FILTER 40
 #define BACKGROUND_TABBAR hexColor(0xF8F8F8)
 #define COLOR_LINE hexColor(0xC8C7CC)
 #define COLOR_ICON_TABBAR hexColor(0x8C8C8C)
@@ -187,6 +193,8 @@ extern BOOL _firstLaunch;
 #define COLOR_BACKGROUND_LIST_VIEW hexColor(0xF3F3F3)
 #define COLOR_BACKGROUND_FLAG_DEFAULT_PROJECT hexColor(0x3E7BE8)
 #define COLOR_BACKGROUND_ICON_EDIT_MODE hexColor(0x2C7CF6)
+#define COLOR_TEXT_PLACEHOLDER hexColor(0x666666)
+#define COLOR_BACKGROUND_ICON_FILTER_SEL hexColor(0x2C7CF6)
 
 typedef NS_ENUM(NSInteger, DeviceSize) {
     UnknownSize     = 0,
@@ -698,6 +706,7 @@ typedef struct
 + (UIColor *)darkerColorForColor:(UIColor *)c;
 + (void)refreshNavigationbarForEditMode;
 + (UIColor *)colorWithProject:(NSInteger)project;
++ (UIColor *)colorDefaultProject;
 
 @end
 

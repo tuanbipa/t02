@@ -31,8 +31,6 @@
 #import "iPadViewController.h"
 #import "PlannerViewController.h"
 
-#define HEIGHT_QUICK_ADD_VIEW 40
-
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
@@ -469,8 +467,13 @@ extern iPadViewController *_iPadViewCtrler;
 	quickAddTextField.borderStyle = UITextBorderStyleNone;
 	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;
-	quickAddTextField.font=[UIFont systemFontOfSize:16];
+	quickAddTextField.font=[UIFont systemFontOfSize:FONT_SIZE_PLACEHOLDER];
 	quickAddTextField.placeholder = _quickAddNewProject;
+
+    NSAttributedString *placeholder = [[NSAttributedString alloc] initWithString:_quickAddNewProject
+                                                                      attributes:@{NSForegroundColorAttributeName: COLOR_TEXT_PLACEHOLDER}];
+    quickAddTextField.attributedPlaceholder = placeholder;
+    [placeholder release];
     //[quickAddTextField addTarget:self action:@selector(quickAddDidChange:) forControlEvents:UIControlEventEditingChanged];
 	
 	[quickAddPlaceHolder addSubview:quickAddTextField];

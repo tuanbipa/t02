@@ -64,6 +64,7 @@
 
 #import "SmartCalAppDelegate.h"
 #import "FontManager.h"
+#import "ViewFilterMenu.h"
 
 #define TAG_CURRENTDATE_CALENDAR_TABBAR 9999
 
@@ -76,7 +77,7 @@ extern BOOL _starTabHintShown;
 extern BOOL _gtdoTabHintShown;
 extern BOOL _detailHintShown;
 
-@interface SmartDayViewController ()
+@interface SmartDayViewController () <ViewFilterMenuDelegage>
 
 @end
 
@@ -1603,8 +1604,9 @@ extern BOOL _detailHintShown;
         
 		optionView.hidden = NO;
 		[contentView  bringSubviewToFront:optionView];
-		
-		[Common animateGrowViewFromPoint:CGPointMake(160,0) toPoint:CGPointMake(160, optionView.bounds.size.height/2) forView:optionView];
+        
+        CGFloat originX = contentView.frame.size.width/2;
+        [Common animateGrowViewFromPoint:CGPointMake(originX, 0) toPoint:CGPointMake(originX, optionView.bounds.size.height/2) forView:optionView];
 	}
 }
 
@@ -1698,10 +1700,15 @@ extern BOOL _detailHintShown;
     return title;
 }
 
-- (NSString *) showNoteWithOption:(id)sender
-{
-    NSString *title = [super showNoteWithOption:sender];
-    
+//- (NSString *) showNoteWithOption:(id)sender {
+//    NSString *title = [super showNoteWithOption:sender];
+//    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
+//
+//    return title;
+//}
+
+- (NSString *)showNoteWithOption:(NSInteger)filterType {
+    NSString *title = [super showNoteWithOption:filterType];
     self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
     
     return title;
@@ -3117,117 +3124,231 @@ extern BOOL _detailHintShown;
 }
 
 
--(void) createNoteOptionView
-{
-    NSString *texts[7] = {
-        _allText,
-        _currentText,
-        _thisWeekText
-    };
+//- (void)createNoteOptionView {
+////    NSString *texts[7] = {
+////        _allText,
+////        _currentText,
+////        _thisWeekText
+////    };
+////
+////    CGFloat maxWidth = 0;
+////    for (int i=0; i<7; i++) {
+////        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+////
+////        if (sz.width > maxWidth)
+////        {
+////            maxWidth = sz.width;
+////        }
+////    }
+////
+////    maxWidth += 50;
+//
+//    CGFloat widthFilterView = contentView.frame.size.width - 100;
+//    CGFloat originXFilterView = (contentView.frame.size.width - widthFilterView)/2;
+//    CGFloat heightFilterView = 154;
+//
+//    optionView = [[UIView alloc] initWithFrame:CGRectMake(originXFilterView, 0, widthFilterView, heightFilterView)];
+//    optionView.hidden = YES;
+//    optionView.backgroundColor = [UIColor clearColor];
+//    [contentView addSubview:optionView];
+//    [optionView release];
+//
+//    optionImageView = [[UIImageView alloc] initWithFrame:optionView.bounds];
+//    optionImageView.alpha = 0.9;
+//    [optionView addSubview:optionImageView];
+//    [optionImageView release];
+//
+//    CGFloat widthCheckIcon = WIDTH_FRAME_ICON_MENU_FILTER;
+//    CGFloat originXCheckIcon = optionView.frame.size.width - WIDTH_FRAME_ICON_MENU_FILTER;
+//    CGFloat orginXOfTitleFilter = PADDING_ICON_MENU_FILTER + WIDTH_FRAME_ICON_MENU_FILTER;
+//    CGFloat widthOfTitleFilter = optionView.frame.size.width - orginXOfTitleFilter - widthCheckIcon;
+//    CGFloat originTopAllFilterIcon = 25;
+//    NSInteger tagNumber = 0;
+//
+//    // All filter
+//    UIImageView *allImageView = [[UIImageView alloc] initWithFrame:CGRectMake(PADDING_ICON_MENU_FILTER, originTopAllFilterIcon,
+//                                                                              WIDTH_FRAME_ICON_MENU_FILTER,
+//                                                                              WIDTH_FRAME_ICON_MENU_FILTER)];
+//    allImageView.tag = --tagNumber;
+//    allImageView.contentMode = UIViewContentModeCenter;
+//    allImageView.backgroundColor = [UIColor clearColor];
+//    allImageView.image = [self imageAllFilterWithState:NO];
+//    [optionView addSubview:allImageView];
+//    [allImageView release];
+//
+//    UILabel *allLabel = [[UILabel alloc] initWithFrame:CGRectMake(orginXOfTitleFilter, originTopAllFilterIcon,
+//                                                                  widthOfTitleFilter, WIDTH_FRAME_ICON_MENU_FILTER)];
+//    allLabel.tag = --tagNumber;
+//    allLabel.text = _allText;
+//    allLabel.textColor = [UIColor blackColor];
+//    allLabel.backgroundColor = [UIColor clearColor];
+//    allLabel.font=[UIFont systemFontOfSize:18];
+//    [optionView addSubview:allLabel];
+//    [allLabel release];
+//
+//    UIImageView *checkImageViewAll = [[UIImageView alloc] initWithFrame:CGRectMake(originXCheckIcon,
+//                                                                                originTopAllFilterIcon,
+//                                                                                widthCheckIcon,
+//                                                                                WIDTH_FRAME_ICON_MENU_FILTER)];
+//    checkImageViewAll.tag = --tagNumber;
+//    checkImageViewAll.contentMode = UIViewContentModeCenter;
+//    checkImageViewAll.image = [self imageCheckSelectedFilter];
+//    [optionView addSubview:checkImageViewAll];
+//    [checkImageViewAll release];
+//
+//    UIButton *allButton=[Common createButton:@""
+//                                  buttonType:UIButtonTypeCustom
+//                                       frame:CGRectMake(0, originTopAllFilterIcon, widthFilterView, WIDTH_FRAME_ICON_MENU_FILTER)
+//                                  titleColor:nil
+//                                      target:self
+//                                    selector:@selector(showNoteWithOption:)
+//                            normalStateImage:nil
+//                          selectedStateImage:nil];
+//    allButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    allButton.tag = NOTE_FILTER_ALL;
+//    [optionView addSubview:allButton];
+//
+//    UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(allLabel.frame.origin.x,
+//                                                                allLabel.frame.origin.y + WIDTH_FRAME_ICON_MENU_FILTER,
+//                                                                allLabel.frame.size.width + widthCheckIcon, 0.5)];
+//    viewLine.backgroundColor = COLOR_LINE;
+//    [optionView addSubview:viewLine];
+//    [viewLine release];
+//
+//    // Today filter
+//    CGFloat originYToday = allImageView.frame.origin.y + allImageView.frame.size.height + viewLine.frame.size.height;
+//
+//    UIImageView *todayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(PADDING_ICON_MENU_FILTER,
+//                                                                                originYToday,
+//                                                                                WIDTH_FRAME_ICON_MENU_FILTER,
+//                                                                                WIDTH_FRAME_ICON_MENU_FILTER)];
+//    todayImageView.tag = --tagNumber;
+//    todayImageView.contentMode = UIViewContentModeCenter;
+//    todayImageView.image = [self imageCurrentDayFilterWithState:NO];
+//    [optionView addSubview:todayImageView];
+//    [todayImageView release];
+//
+//    UILabel *todayLabel = [[UILabel alloc] initWithFrame:CGRectMake(orginXOfTitleFilter, originYToday,
+//                                                                    widthOfTitleFilter, WIDTH_FRAME_ICON_MENU_FILTER)];
+//    todayLabel.tag = --tagNumber;
+//    todayLabel.text = _currentText;
+//    todayLabel.textColor = [UIColor blackColor];
+//    todayLabel.backgroundColor = [UIColor clearColor];
+//    todayLabel.font=[UIFont systemFontOfSize:18];
+//    [optionView addSubview:todayLabel];
+//    [todayLabel release];
+//
+//    UIImageView *checkImageViewToday = [[UIImageView alloc] initWithFrame:CGRectMake(originXCheckIcon,
+//                                                                                   originYToday,
+//                                                                                   widthCheckIcon,
+//                                                                                   WIDTH_FRAME_ICON_MENU_FILTER)];
+//    checkImageViewToday.tag = --tagNumber;
+//    checkImageViewToday.contentMode = UIViewContentModeCenter;
+//    checkImageViewToday.image = [self imageCheckSelectedFilter];
+//    [optionView addSubview:checkImageViewToday];
+//    [checkImageViewToday release];
+//
+//    UIButton *todayButton=[Common createButton:@""
+//                                   buttonType:UIButtonTypeCustom
+//                                        frame:CGRectMake(0, originYToday, widthFilterView, WIDTH_FRAME_ICON_MENU_FILTER)
+//                                   titleColor:nil
+//                                       target:self
+//                                     selector:@selector(showNoteWithOption:)
+//                             normalStateImage:nil
+//                           selectedStateImage:nil];
+//    todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    todayButton.tag = NOTE_FILTER_CURRENT;
+//    [optionView addSubview:todayButton];
+//
+//    UIView *viewLine1 = [[UIView alloc] initWithFrame:CGRectMake(todayLabel.frame.origin.x,
+//                                                                todayLabel.frame.origin.y + WIDTH_FRAME_ICON_MENU_FILTER,
+//                                                                todayLabel.frame.size.width + widthCheckIcon, 0.5)];
+//    viewLine1.backgroundColor = COLOR_LINE;
+//    [optionView addSubview:viewLine1];
+//    [viewLine1 release];
+//
+//    // Week filter
+//    CGFloat originYWeek = viewLine1.frame.origin.y + viewLine1.frame.size.height;
+//
+//    UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(PADDING_ICON_MENU_FILTER, originYWeek,
+//                                                                               WIDTH_FRAME_ICON_MENU_FILTER,
+//                                                                               WIDTH_FRAME_ICON_MENU_FILTER)];
+//    weekImageView.tag = --tagNumber;
+//    weekImageView.contentMode = UIViewContentModeCenter;
+//    weekImageView.image = [self imageCurrentWeekFilterWithState:NO];
+//    [optionView addSubview:weekImageView];
+//    [weekImageView release];
+//
+//    UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(orginXOfTitleFilter, originYWeek,
+//                                                                   widthOfTitleFilter, WIDTH_FRAME_ICON_MENU_FILTER)];
+//    weekLabel.tag = --tagNumber;
+//    weekLabel.text = _thisWeekText;
+//    weekLabel.textColor = [UIColor blackColor];
+//    weekLabel.backgroundColor = [UIColor clearColor];
+//    weekLabel.font=[UIFont systemFontOfSize:18];
+//    [optionView addSubview:weekLabel];
+//    [weekLabel release];
+//
+//    UIImageView *checkImageViewWeek = [[UIImageView alloc] initWithFrame:CGRectMake(originXCheckIcon,
+//                                                                                     originYWeek,
+//                                                                                     widthCheckIcon,
+//                                                                                     WIDTH_FRAME_ICON_MENU_FILTER)];
+//    checkImageViewWeek.tag = --tagNumber;
+//    checkImageViewWeek.contentMode = UIViewContentModeCenter;
+//    checkImageViewWeek.image = [self imageCheckSelectedFilter];
+//    [optionView addSubview:checkImageViewWeek];
+//    [checkImageViewWeek release];
+//
+//    UIButton *weekButton=[Common createButton:@""
+//                                    buttonType:UIButtonTypeCustom
+//                                         frame:CGRectMake(0, originYWeek, widthFilterView, WIDTH_FRAME_ICON_MENU_FILTER)
+//                                    titleColor:nil
+//                                        target:self
+//                                      selector:@selector(showNoteWithOption:)
+//                              normalStateImage:nil
+//                            selectedStateImage:nil];
+//    weekButton.titleLabel.font=[UIFont systemFontOfSize:18];
+//    weekButton.tag = NOTE_FILTER_WEEK;
+//    [optionView addSubview:weekButton];
+//
+//    // Background of Filter view
+//    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+//    menu.menuPoint = menu.bounds.size.width/2;
+//
+//    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+//    [menu release];
+//}
+
+- (void)createNoteOptionView {
+    CGFloat widthFilterView = contentView.frame.size.width - 100;
+    CGFloat originXFilterView = (contentView.frame.size.width - widthFilterView)/2;
+    CGFloat originYFilterMenu = 20;
+    NSArray *listFilters = [self createListNoteFilterOptions];
+    CGFloat heightFilterView = listFilters.count*HEIGHT_ICON_MENU_FILTER + originYFilterMenu + 5;
     
-    CGFloat maxWidth = 0;
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(originXFilterView, 0, widthFilterView, heightFilterView)];
+    optionView.hidden = YES;
+    optionView.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:optionView];
+    [optionView release];
     
-    for (int i=0; i<7; i++)
-    {
-        CGSize sz = [texts[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
-        
-        if (sz.width > maxWidth)
-        {
-            maxWidth = sz.width;
-        }
-    }
     
-    maxWidth += 50;
+    viewFilterMenu = [[ViewFilterMenu alloc] initWithFrame:CGRectMake(0, originYFilterMenu,
+                                                                      optionView.frame.size.width,
+                                                                      optionView.frame.size.height - originYFilterMenu)
+                                          andCurrentScreen:SOURCE_NOTE];
+    viewFilterMenu.listFilters = listFilters;
+    viewFilterMenu.viewFilterMenuDelegage = self;
+    [optionView addSubview:viewFilterMenu];
+    [viewFilterMenu release];
     
-	//optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, 140, 140)];
-    optionView = [[UIView alloc] initWithFrame:CGRectMake(160, 0, maxWidth, 140)];
-	optionView.hidden = YES;
-	optionView.backgroundColor = [UIColor clearColor];
-	[contentView addSubview:optionView];
-	[optionView release];
-	
-	//optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 140, 140)];
-    optionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, 140)];
-	optionImageView.alpha = 0.9;
-	[optionView addSubview:optionImageView];
-	[optionImageView release];
+    optionImageView = [[UIImageView alloc] initWithFrame:optionView.bounds];
+    [optionView addSubview:optionImageView];
+    [optionImageView release];
     
-    UIImageView *allImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
-	allImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_all.png"];
-	[optionView addSubview:allImageView];
-	[allImageView release];
-	
-    UILabel *allLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 120, 25)];
-	allLabel.text = _allText;
-	allLabel.textColor = [UIColor whiteColor];
-	allLabel.backgroundColor = [UIColor clearColor];
-	allLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:allLabel];
-	[allLabel release];
-	
-	UIButton *allButton=[Common createButton:@""
-                                  buttonType:UIButtonTypeCustom
-                                       frame:CGRectMake(0, 22, 160, 30)
-                                  titleColor:nil
-                                      target:self
-                                    selector:@selector(showNoteWithOption:)
-                            normalStateImage:nil
-                          selectedStateImage:nil];
-	allButton.titleLabel.font=[UIFont systemFontOfSize:18];
-	allButton.tag = NOTE_FILTER_ALL;
-	[optionView addSubview:allButton];
+    [optionView bringSubviewToFront:viewFilterMenu];
     
-    UIImageView *todayImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 60, 20, 20)];
-	todayImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_today.png"];
-	[optionView addSubview:todayImageView];
-	[todayImageView release];
-	
-    UILabel *todayLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 57, 120, 25)];
-	//todayLabel.text = _todayText;
-    todayLabel.text = _currentText;
-	todayLabel.textColor = [UIColor whiteColor];
-	todayLabel.backgroundColor = [UIColor clearColor];
-	todayLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:todayLabel];
-	[todayLabel release];
-	
-	UIButton *todayButton=[Common createButton:@""
-                                   buttonType:UIButtonTypeCustom
-                                        frame:CGRectMake(0, 57, 160, 30)
-                                   titleColor:nil
-                                       target:self
-                                     selector:@selector(showNoteWithOption:)
-                             normalStateImage:nil
-                           selectedStateImage:nil];
-	todayButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    todayButton.tag = NOTE_FILTER_CURRENT;
-	[optionView addSubview:todayButton];
-    
-    UIImageView *weekImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 95, 20, 20)];
-	weekImageView.image = [[ImageManager getInstance] getImageWithName:@"filter_thisweek.png"];
-	[optionView addSubview:weekImageView];
-	[weekImageView release];
-	
-    UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 92, 120, 25)];
-    weekLabel.text = _thisWeekText;
-	weekLabel.textColor = [UIColor whiteColor];
-	weekLabel.backgroundColor = [UIColor clearColor];
-	weekLabel.font=[UIFont systemFontOfSize:18];
-	[optionView addSubview:weekLabel];
-	[weekLabel release];
-	
-	UIButton *weekButton=[Common createButton:@""
-                                    buttonType:UIButtonTypeCustom
-                                         frame:CGRectMake(0, 92, 160, 30)
-                                    titleColor:nil
-                                        target:self
-                                      selector:@selector(showNoteWithOption:)
-                              normalStateImage:nil
-                            selectedStateImage:nil];
-	weekButton.titleLabel.font=[UIFont systemFontOfSize:18];
-    weekButton.tag = NOTE_FILTER_WEEK;
-	[optionView addSubview:weekButton];
-    
+    // Background of Filter view
     MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
     menu.menuPoint = menu.bounds.size.width/2;
     
@@ -3847,6 +3968,41 @@ extern BOOL _detailHintShown;
     }
     
     return countListSelectedItems;
+}
+
+#pragma mark - Filter Menu
+- (NSArray *)createListNoteFilterOptions {
+    NSMutableArray *listFilters = [NSMutableArray new];
+    NSArray *titles = [NSArray arrayWithObjects:_allText, _currentText, _thisWeekText, nil];
+    NSArray *icons = [NSArray arrayWithObjects:@"all", @"day", @"week", nil];
+    NoteViewController *ctrler = [self getNoteViewController];
+    
+    for (NSInteger i=0; i<titles.count; i++) {
+        FilterObject *filterObject = [FilterObject new];
+        filterObject.title = [titles objectAtIndex:i];
+        filterObject.iconName = [icons objectAtIndex:i];
+        filterObject.isSelected = ctrler.filterType == i ? YES : NO;
+        
+        if (![listFilters containsObject:filterObject]) {
+            [listFilters addObject:filterObject];
+        }
+        
+        [filterObject release];
+    }
+    
+    return listFilters;
+}
+
+#pragma mark - ViewFilterMenuDelegage
+- (void)didSelectFilterWithFilterType:(NSInteger)filterType atScreen:(TaskListSource)screen {
+    switch (screen) {
+        case SOURCE_NOTE:
+            [self showNoteWithOption:filterType];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end
