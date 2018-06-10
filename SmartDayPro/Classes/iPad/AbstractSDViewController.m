@@ -327,7 +327,7 @@ extern iPadViewController *_iPadViewCtrler;
      */
 }
 
-- (NSString *) showProjectWithOption:(id)sender
+- (NSString *) showProjectWithOption_old:(id)sender
 {
     [self hideDropDownMenu];
     
@@ -388,6 +388,63 @@ extern iPadViewController *_iPadViewCtrler;
     }*/
 }
 
+- (NSString *)showProjectWithOption:(NSInteger)filterType {
+    [self hideDropDownMenu];
+    
+    CategoryViewController *ctrler = [self getCategoryViewController];
+    
+    NSString *title = @"";
+    
+    NSInteger type = TYPE_TASK;
+    
+    switch (filterType)
+    {
+        case 0:
+        {
+            type = TYPE_TASK;
+            title = _tasksText;
+        }
+            break;
+        case 1:
+        {
+            type = TYPE_EVENT;
+            title = _eventsText;
+        }
+            break;
+        case 2:
+        {
+            type = TYPE_NOTE;
+            title = _notesText;
+        }
+            break;
+        case 3:
+        {
+            type = TASK_FILTER_PINNED;
+            title = _anchoredText;
+        }
+            break;
+    }
+    
+    BOOL filterChange = (ctrler.filterType != type);
+    
+    ctrler.filterType = type;
+    
+    [ctrler loadAndShowList];
+    
+    if (filterChange)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChangeNotification" object:nil]; //refresh Detail view in sliding mode
+        
+    }
+    
+    return title;
+    
+    /*
+     if (!_isiPad)
+     {
+     self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
+     }*/
+}
 
 #pragma mark View
 

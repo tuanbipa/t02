@@ -1682,10 +1682,17 @@ extern BOOL _detailHintShown;
     [super backup];
 }
 
-- (NSString *) showProjectWithOption:(id)sender
+- (NSString *) showProjectWithOption_old:(id)sender
 {
     NSString *title = [super showProjectWithOption:sender];
     
+    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
+    
+    return title;
+}
+
+- (NSString *)showProjectWithOption:(NSInteger)filterType {
+    NSString *title = [super showProjectWithOption:filterType];
     self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
     
     return title;
@@ -2750,7 +2757,7 @@ extern BOOL _detailHintShown;
     [menu release];
 }
 
--(void) createProjectOptionView
+-(void) createProjectOptionView_old
 {
     NSString *texts[4] = {
         _tasksText,
@@ -2900,6 +2907,41 @@ extern BOOL _detailHintShown;
     [menu release];
 }
 
+-(void)createProjectOptionView {
+    CGFloat widthFilterView = contentView.frame.size.width - 100;
+    CGFloat originXFilterView = (contentView.frame.size.width - widthFilterView)/2;
+    CGFloat originYFilterMenu = 20;
+    NSArray *listFilters = [self createListProjectFilterOptions];
+    CGFloat heightFilterView = listFilters.count*HEIGHT_ICON_MENU_FILTER + originYFilterMenu + 5;
+    
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(originXFilterView, 0, widthFilterView, heightFilterView)];
+    optionView.hidden = YES;
+    optionView.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:optionView];
+    [optionView release];
+    
+    viewFilterMenu = [[ViewFilterMenu alloc] initWithFrame:CGRectMake(0, originYFilterMenu,
+                                                                      optionView.frame.size.width,
+                                                                      optionView.frame.size.height - originYFilterMenu)
+                                          andCurrentScreen:SOURCE_CATEGORY];
+    viewFilterMenu.listFilters = listFilters;
+    viewFilterMenu.viewFilterMenuDelegage = self;
+    [optionView addSubview:viewFilterMenu];
+    [viewFilterMenu release];
+    
+    optionImageView = [[UIImageView alloc] initWithFrame:optionView.bounds];
+    [optionView addSubview:optionImageView];
+    [optionImageView release];
+    
+    [optionView bringSubviewToFront:viewFilterMenu];
+    
+    // Background of Filter view
+    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+    menu.menuPoint = menu.bounds.size.width/2;
+    
+    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+    [menu release];
+}
 
 -(void) createTaskOptionView
 {
@@ -3971,17 +4013,33 @@ extern BOOL _detailHintShown;
 }
 
 #pragma mark - Filter Menu
-- (NSArray *)createListNoteFilterOptions {
-    NSMutableArray *listFilters = [NSMutableArray new];
-    NSArray *titles = [NSArray arrayWithObjects:_allText, _currentText, _thisWeekText, nil];
-    NSArray *icons = [NSArray arrayWithObjects:@"all", @"day", @"week", nil];
-    NoteViewController *ctrler = [self getNoteViewController];
+- (NSArray *)generalListObjectWithTitles:(NSArray *)titles andIconNames:(NSArray *)iconNames andSource:(TaskListSource)screen {
+    NSInteger currentFilter = -1;
+    switch (screen) {
+        case SOURCE_NOTE:
+        {
+            NoteViewController *ctrler = [self getNoteViewController];
+            currentFilter = ctrler.filterType;
+        }
+            break;
+            
+        case SOURCE_CATEGORY:
+        {
+            CategoryViewController *ctrler = [self getCategoryViewController];
+            currentFilter = ctrler.filterType;
+        }
+            break;
+            
+        default:
+            break;
+    }
     
+    NSMutableArray *listFilters = [NSMutableArray new];
     for (NSInteger i=0; i<titles.count; i++) {
         FilterObject *filterObject = [FilterObject new];
         filterObject.title = [titles objectAtIndex:i];
-        filterObject.iconName = [icons objectAtIndex:i];
-        filterObject.isSelected = ctrler.filterType == i ? YES : NO;
+        filterObject.iconName = [iconNames objectAtIndex:i];
+        filterObject.isSelected = currentFilter == i ? YES : NO;
         
         if (![listFilters containsObject:filterObject]) {
             [listFilters addObject:filterObject];
@@ -3993,11 +4051,29 @@ extern BOOL _detailHintShown;
     return listFilters;
 }
 
+- (NSArray *)createListNoteFilterOptions {
+    NSArray *titles = [NSArray arrayWithObjects:_allText, _currentText, _thisWeekText, nil];
+    NSArray *icons = [NSArray arrayWithObjects:@"all", @"day", @"week", nil];
+    
+    return [self generalListObjectWithTitles:titles andIconNames:icons andSource:SOURCE_NOTE];
+}
+
+- (NSArray *)createListProjectFilterOptions {
+    NSArray *titles = [NSArray arrayWithObjects:_tasksText, _eventsText, _notesText, _anchoredText, nil];
+    NSArray *icons = [NSArray arrayWithObjects:@"all", @"day", @"week", @"undone", nil];
+    
+    return [self generalListObjectWithTitles:titles andIconNames:icons andSource:SOURCE_CATEGORY];
+}
+
 #pragma mark - ViewFilterMenuDelegage
 - (void)didSelectFilterWithFilterType:(NSInteger)filterType atScreen:(TaskListSource)screen {
     switch (screen) {
         case SOURCE_NOTE:
             [self showNoteWithOption:filterType];
+            break;
+            
+        case SOURCE_CATEGORY:
+            [self showProjectWithOption:filterType];
             break;
             
         default:

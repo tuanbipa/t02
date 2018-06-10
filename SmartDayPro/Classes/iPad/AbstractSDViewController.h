@@ -56,6 +56,7 @@
 - (NSString *) showTaskWithOption:(id)sender;
 //- (NSString *) showNoteWithOption:(id)sender;
 - (NSString *)showNoteWithOption:(NSInteger)filterType;
-- (NSString *) showProjectWithOption:(id)sender;
+//- (NSString *) showProjectWithOption:(id)sender;
+- (NSString *)showProjectWithOption:(NSInteger)filterType;
 
 @end
