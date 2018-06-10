@@ -2777,6 +2777,7 @@ extern DetailViewController *_detailViewCtrler;
 -(void) createMultiEditBar
 {
     multiEditBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, contentView.bounds.size.width, 40)];
+    multiEditBar.barTintColor = [UIColor whiteColor];
     multiEditBar.hidden = YES;
     
     [contentView addSubview:multiEditBar];

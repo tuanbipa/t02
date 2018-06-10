@@ -2,7 +2,7 @@
 //  FIFlowasticIcon.m
 //  FontasticIcons
 //
-//  Created by Vo Chi Nguyen on 10/8/14.
+//  Created by Tuan Pham on 23/5/18.
 //  Copyright (c) 2014 Alex Denisov. All rights reserved.
 //
 

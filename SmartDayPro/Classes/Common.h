@@ -696,6 +696,8 @@ typedef struct
 + (CGSize)sizeWithString:(NSString *)text andFont:(UIFont *)font;
 + (UIColor *)lighterColorForColor:(UIColor *)c;
 + (UIColor *)darkerColorForColor:(UIColor *)c;
++ (void)refreshNavigationbarForEditMode;
++ (UIColor *)colorWithProject:(NSInteger)project;
 
 @end
 

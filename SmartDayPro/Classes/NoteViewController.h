@@ -43,5 +43,6 @@
 - (void) loadAndShowList;
 - (void) multiEdit:(BOOL)enabled;
 - (void) multiDelete:(id)sender;
+- (void)updateEditModeForAllTaskObject:(BOOL)editmode;
 
 @end

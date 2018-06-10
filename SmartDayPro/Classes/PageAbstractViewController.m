@@ -119,6 +119,10 @@ extern AbstractSDViewController *_abstractViewCtrler;
     
 }
 
+- (void)updateEditModeForAllTaskObject:(BOOL)editmode {
+    
+}
+
 - (MovableView *) getMovableView4Item:(NSObject *)item
 {
     return nil;

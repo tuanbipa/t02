@@ -131,6 +131,7 @@
 - (void) setNeedsDisplay;
 - (void) refreshView;
 //- (void) popupHint;
+- (void) refreshTopBar;
 
 - (void) popupDetailHint;
 - (void) changeOrientation:(UIInterfaceOrientation) orientation;

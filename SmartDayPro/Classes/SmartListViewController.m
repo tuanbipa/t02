@@ -857,7 +857,6 @@ SmartListViewController *_smartListViewCtrler;
 {
     NSMutableArray *list = [NSMutableArray arrayWithCapacity:10];
     
-    /*
     NSInteger sections = smartListView.numberOfSections;
     
     for (int i=0; i<sections; i++)
@@ -876,20 +875,19 @@ SmartListViewController *_smartListViewCtrler;
             }
         }
     }
-    */
     
-    TaskManager *tm = [TaskManager getInstance];
-    
-    NSMutableArray *tasks = [tm getDisplayList];
-    
-    for (Task *task in tasks)
-    {
-        if (task.isMultiEdit)
-        {
-            [list addObject:task];
-        }
-        
-    }
+//    TaskManager *tm = [TaskManager getInstance];
+//
+//    NSMutableArray *tasks = [tm getDisplayList];
+//
+//    for (Task *task in tasks)
+//    {
+//        if (task.isMultiEdit)
+//        {
+//            [list addObject:task];
+//        }
+//
+//    }
     
     return list;
 }
@@ -911,6 +909,7 @@ SmartListViewController *_smartListViewCtrler;
             if (taskView != nil)
             {
                 Task *task = taskView.task;
+                task.isMultiEdit = enabled;
                 taskView.checkEnable = (enabled && ![task isShared]);
                 [taskView refresh];
             }
@@ -947,6 +946,7 @@ SmartListViewController *_smartListViewCtrler;
     }
     
     [[AbstractActionViewController getInstance] hideMultiEditBar];
+    [Common refreshNavigationbarForEditMode];
 }
 
 #pragma mark Sync

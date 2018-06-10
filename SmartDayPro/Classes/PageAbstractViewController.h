@@ -38,6 +38,7 @@
 - (void) loadAndShowList;
 - (void) reloadAlert4Task:(NSInteger)taskId;
 - (void) reconcileItem:(Task *)item;
+- (void)updateEditModeForAllTaskObject:(BOOL)editmode;
 
 - (void) setMovableContentView:(UIView *)contentView;
 

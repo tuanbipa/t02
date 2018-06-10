@@ -39,6 +39,7 @@
 -(void)expandProject:(Project *)prj;
 - (void) loadAndShowList;
 -(void)setNeedsDisplay;
+- (void)updateEditModeForAllTaskObject:(BOOL)editmode;
 
 - (void) markDoneTask:(Task *)task;
 #pragma mark Multi Edit

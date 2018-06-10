@@ -278,282 +278,298 @@ extern BOOL _detailHintShown;
     self.navigationItem.titleView = nil;
     self.navigationItem.title = nil;
     
-    if ([self.activeViewCtrler isKindOfClass:[WeekViewController class]])
-    {
-        NSString *title = @"";
-        switch (tm.taskTypeFilter)
-        {
-            case TASK_FILTER_ALL:
-                title = _allText;
-                break;
-            case TASK_FILTER_STAR:
-                title = _starText;
-                break;
-            case TASK_FILTER_TOP:
-                title = _gtdoText;
-                break;
-            case TASK_FILTER_DUE:
-                title = _dueText;
-                break;
-            /*case TASK_FILTER_ACTIVE:
-                title = _startText;
-                break;*/
-            case TASK_FILTER_LONG:
-                title = _longText;
-                break;
-            case TASK_FILTER_SHORT:
-                title = _shortText;
-                break;
-            case TASK_FILTER_DONE:
-                title = _doneText;
-                break;
-        }
-        //landscape mode
-        self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@", _overviewText, title];
+    NSInteger countListSelectedItems = [self countAllObjectSelectedInEditMode];
+    if (countListSelectedItems > 0) {// Show navigationbar Edit Mode
+        arrowDownImgView.hidden = YES;
         
-        UIButton *exportButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(0, 10, 30, 30)
-                                         titleColor:nil
-                                             target:self
-                                           selector:@selector(export:)
-                                   normalStateImage:@"menu_export.png"
-                                 selectedStateImage:nil];
+        UIBarButtonItem *cancelBarBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                      target:self
+                                                                                      action:@selector(cancelEditMode:)];
+        self.navigationItem.leftBarButtonItem = cancelBarBtn;
+        [cancelBarBtn release];
         
-        UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:exportButton];
-        
-        self.navigationItem.rightBarButtonItem = menuItem;
-        
-        [menuItem release];
-        
+        self.navigationItem.title = [NSString stringWithFormat:@"%ld %@", countListSelectedItems, _selectedText];
     }
     else {
-        UIImage *leftImageIcon = [FontManager flowasticImageWithIconName:@"task-view-copy"
-                                                                 andSize:SIZE_ICON_TOPBAR
-                                                               iconColor:[UIColor whiteColor]];
+        arrowDownImgView.hidden = NO;
         
-        UIButton *menuButton = [Common createButtonWith:@""
-                                             buttonType:UIButtonTypeCustom
-                                                  frame:CGRectMake(0, 0, SIZE_ICON_TOPBAR, SIZE_ICON_TOPBAR)
-                                             titleColor:nil target:self
-                                               selector:@selector(showMenu:)
-                                       normalStateImage:leftImageIcon
-                                     selectedStateImage:nil];
-        
-        UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
-        
-        self.navigationItem.leftBarButtonItem = menuItem;
-        
-        [menuItem release];
-        
-        self.navigationItem.titleView = nil;
-        
-        topButton = [Common createButton:@""
-                              buttonType:UIButtonTypeCustom
-                                   frame:CGRectMake(50, 0, 180, 40)
-                              titleColor:[UIColor whiteColor]
-                                  target:self
-                                selector:selectedTabButton.tag==0?@selector(showMiniMonth:):@selector(showOptionMenu:)
-                        normalStateImage:nil
-                      selectedStateImage:nil];
-        
-        topButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        
-        topButton.tag = selectedTabButton.tag;
-        
-        [self.navigationController.navigationBar addSubview:topButton];
-        
-        switch (selectedTabButton.tag)
+        if ([self.activeViewCtrler isKindOfClass:[WeekViewController class]])
         {
-            case 0:
+            NSString *title = @"";
+            switch (tm.taskTypeFilter)
             {
-                NSDate *today = [[TaskManager getInstance] today];
+                case TASK_FILTER_ALL:
+                    title = _allText;
+                    break;
+                case TASK_FILTER_STAR:
+                    title = _starText;
+                    break;
+                case TASK_FILTER_TOP:
+                    title = _gtdoText;
+                    break;
+                case TASK_FILTER_DUE:
+                    title = _dueText;
+                    break;
+                    /*case TASK_FILTER_ACTIVE:
+                     title = _startText;
+                     break;*/
+                case TASK_FILTER_LONG:
+                    title = _longText;
+                    break;
+                case TASK_FILTER_SHORT:
+                    title = _shortText;
+                    break;
+                case TASK_FILTER_DONE:
+                    title = _doneText;
+                    break;
+            }
+            //landscape mode
+            self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@", _overviewText, title];
             
-                self.navigationItem.title = [Common getCalendarDateString_EEEMMMDD:(today == nil?[NSDate date]:today)];
-            }
-                break;
-            case 1:
-            {
-                NSString *title = @"";
-                switch (tm.taskTypeFilter)
-                {
-                    case TASK_FILTER_ALL:
-                        title = _allText;
-                        break;
-                    case TASK_FILTER_STAR:
-                        title = _starText;
-                        break;
-                    case TASK_FILTER_TOP:
-                        title = _gtdoText;
-                        break;
-                    case TASK_FILTER_DUE:
-                        title = _dueText;
-                        break;
-                    /*
-                    case TASK_FILTER_ACTIVE:
-                        title = _startText;
-                        break;
-                    */
-                    case TASK_FILTER_LONG:
-                        title = _longText;
-                        break;
-                    case TASK_FILTER_SHORT:
-                        title = _shortText;
-                        break;
-                    case TASK_FILTER_DONE:
-                        title = _doneText;
-                        break;
-                }
-                
-                self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_smartTasksText,title];
-                
-                //[self createTaskOptionView];
-            }
-                break;
-            case 2:
-            {
-                NSString *title = @"";
-                
-                NoteViewController *ctrler = [self getNoteViewController];
-                
-                switch (ctrler.filterType)
-                {
-                    case NOTE_FILTER_ALL:
-                        title = _allText;
-                        break;
-                    case NOTE_FILTER_CURRENT:
-                        title = _currentText;
-                        break;
-                    case NOTE_FILTER_WEEK:
-                        title = _thisWeekText;
-                        break;
-                }
-                
-                self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
-                
-                //[self createNoteOptionView];
-            }
-                
-                break;
-            case 3:
-            {
-                NSString *title = @"";
-                
-                CategoryViewController *ctrler = [self getCategoryViewController];
-                
-                switch (ctrler.filterType)
-                {
-                    case TYPE_TASK:
-                        title = _tasksText;
-                        break;
-                    case TYPE_EVENT:
-                        title = _eventsText;
-                        break;
-                    case TYPE_NOTE:
-                        title = _notesText;
-                        break;
-                    case TASK_FILTER_PINNED:
-                        title = _anchoredText;
-                        break;
-                }
-                self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
-                
-                //[self createProjectOptionView];
-            }
-                break;
+            UIButton *exportButton = [Common createButton:@""
+                                               buttonType:UIButtonTypeCustom
+                                                    frame:CGRectMake(0, 10, 30, 30)
+                                               titleColor:nil
+                                                   target:self
+                                                 selector:@selector(export:)
+                                         normalStateImage:@"menu_export.png"
+                                       selectedStateImage:nil];
+            
+            UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:exportButton];
+            
+            self.navigationItem.rightBarButtonItem = menuItem;
+            
+            [menuItem release];
+            
         }
-        
-        /*
-        notifButton = [Common createButton:@""
-                                buttonType:UIButtonTypeCustom
-                       //frame:CGRectMake(0, 0, 40, 40)
-                                     frame:CGRectMake(0, 0, 40, 40)
-                                titleColor:[UIColor whiteColor]
-                                    target:self
-                                  selector:@selector(showNotifMenu:)
-                          normalStateImage:@"bar_notification_red.png"
-                        selectedStateImage:nil];
-        notifButton.hidden = YES;
-        
-        UIBarButtonItem *notifItem = [[UIBarButtonItem alloc] initWithCustomView:notifButton];
-        */
-        
-/*
-        commentButton = [Common createButton:@""
+        else {
+            UIImage *leftImageIcon = [FontManager flowasticImageWithIconName:@"task-view-copy"
+                                                                     andSize:SIZE_ICON_TOPBAR
+                                                                   iconColor:[UIColor whiteColor]];
+            
+            UIButton *menuButton = [Common createButtonWith:@""
+                                                 buttonType:UIButtonTypeCustom
+                                                      frame:CGRectMake(0, 0, SIZE_ICON_TOPBAR, SIZE_ICON_TOPBAR)
+                                                 titleColor:nil target:self
+                                                   selector:@selector(showMenu:)
+                                           normalStateImage:leftImageIcon
+                                         selectedStateImage:nil];
+            
+            UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:menuButton];
+            
+            self.navigationItem.leftBarButtonItem = menuItem;
+            
+            [menuItem release];
+            
+            self.navigationItem.titleView = nil;
+            
+            topButton = [Common createButton:@""
                                   buttonType:UIButtonTypeCustom
-                                       //frame:CGRectMake(0, 0, 40, 40)
-                                    frame:CGRectZero
+                                       frame:CGRectMake(50, 0, 180, 40)
                                   titleColor:[UIColor whiteColor]
                                       target:self
-                                    selector:@selector(showUnreadComments:)
-                            normalStateImage:@"bar_comments.png"
+                                    selector:selectedTabButton.tag==0?@selector(showMiniMonth:):@selector(showOptionMenu:)
+                            normalStateImage:nil
                           selectedStateImage:nil];
-        commentButton.hidden = YES;
-        
-        UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
-        commentBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
-        commentBadgeLabel.textColor = [UIColor whiteColor];
-        commentBadgeLabel.textAlignment = NSTextAlignmentCenter;
-        commentBadgeLabel.tag = 10000;
-        commentBadgeLabel.layer.cornerRadius = 3;
-        commentBadgeLabel.backgroundColor = [Colors redButton];
-        
-        [commentButton addSubview:commentBadgeLabel];
-        [commentBadgeLabel release];
-        
-        UIBarButtonItem *commentItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
-        
-        // task location =========================
-        taskLocationButton = [Common createButton:@""
-                                       buttonType:UIButtonTypeCustom
-                                            //frame:CGRectMake(0, 0, 40, 40)
-                                            frame:CGRectZero
-                                       titleColor:[UIColor whiteColor]
-                                           target:self
-                                         selector:@selector(showGeoTaskLocation:)
-                                 normalStateImage:@"bar_location.png"
-                               selectedStateImage:nil];
-        taskLocationButton.hidden = YES;
-        
-        taskLocationLable = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
-        taskLocationLable.font = [UIFont boldSystemFontOfSize:12];
-        taskLocationLable.textColor = [UIColor whiteColor];
-        taskLocationLable.textAlignment = NSTextAlignmentCenter;
-        //taskLocationLable.tag = 10000;
-        taskLocationLable.text = @"0";
-        taskLocationLable.layer.cornerRadius = 3;
-        taskLocationLable.backgroundColor = [Colors redButton];
-        
-        [taskLocationButton addSubview:taskLocationLable];
-        [taskLocationLable release];
-        
-        UIBarButtonItem *taskLocationButtonItem = [[UIBarButtonItem alloc] initWithCustomView:taskLocationButton];
-        // end task location
- 
- */
-        
-        UIImage *imageRightBar = [FontManager flowasticImageWithIconName:@"clock"
-                                                                 andSize:SIZE_ICON_TOPBAR
-                                                               iconColor:[UIColor whiteColor]];
-        
-        UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        timerButton.backgroundColor = [UIColor clearColor];
-        [timerButton setImage:imageRightBar forState:UIControlStateNormal];
-        timerButton.frame = CGRectMake(0, 0, SIZE_ICON_TOPBAR, SIZE_ICON_TOPBAR);
-        [timerButton addTarget:self action:@selector(showTimer:)  forControlEvents:UIControlEventTouchUpInside];
-        
-        UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
-        
-        self.navigationItem.rightBarButtonItem = timerItem;
-        //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, taskLocationButtonItem, nil];
-        //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, notifItem, nil];
-        
-        [timerItem release];
-        //[commentItem release];
-        //[taskLocationButtonItem release];
-        //[notifItem release];
-        
-        [self.navigationController.navigationBar addSubview:filterIndicator];
+            
+            topButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+            
+            topButton.tag = selectedTabButton.tag;
+            
+            [self.navigationController.navigationBar addSubview:topButton];
+            
+            switch (selectedTabButton.tag)
+            {
+                case 0:
+                {
+                    NSDate *today = [[TaskManager getInstance] today];
+                    
+                    self.navigationItem.title = [Common getCalendarDateString_EEEMMMDD:(today == nil?[NSDate date]:today)];
+                }
+                    break;
+                case 1:
+                {
+                    NSString *title = @"";
+                    switch (tm.taskTypeFilter)
+                    {
+                        case TASK_FILTER_ALL:
+                            title = _allText;
+                            break;
+                        case TASK_FILTER_STAR:
+                            title = _starText;
+                            break;
+                        case TASK_FILTER_TOP:
+                            title = _gtdoText;
+                            break;
+                        case TASK_FILTER_DUE:
+                            title = _dueText;
+                            break;
+                            /*
+                             case TASK_FILTER_ACTIVE:
+                             title = _startText;
+                             break;
+                             */
+                        case TASK_FILTER_LONG:
+                            title = _longText;
+                            break;
+                        case TASK_FILTER_SHORT:
+                            title = _shortText;
+                            break;
+                        case TASK_FILTER_DONE:
+                            title = _doneText;
+                            break;
+                    }
+                    
+                    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_smartTasksText,title];
+                    
+                    //[self createTaskOptionView];
+                }
+                    break;
+                case 2:
+                {
+                    NSString *title = @"";
+                    
+                    NoteViewController *ctrler = [self getNoteViewController];
+                    
+                    switch (ctrler.filterType)
+                    {
+                        case NOTE_FILTER_ALL:
+                            title = _allText;
+                            break;
+                        case NOTE_FILTER_CURRENT:
+                            title = _currentText;
+                            break;
+                        case NOTE_FILTER_WEEK:
+                            title = _thisWeekText;
+                            break;
+                    }
+                    
+                    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_notesText,title];
+                    
+                    //[self createNoteOptionView];
+                }
+                    
+                    break;
+                case 3:
+                {
+                    NSString *title = @"";
+                    
+                    CategoryViewController *ctrler = [self getCategoryViewController];
+                    
+                    switch (ctrler.filterType)
+                    {
+                        case TYPE_TASK:
+                            title = _tasksText;
+                            break;
+                        case TYPE_EVENT:
+                            title = _eventsText;
+                            break;
+                        case TYPE_NOTE:
+                            title = _notesText;
+                            break;
+                        case TASK_FILTER_PINNED:
+                            title = _anchoredText;
+                            break;
+                    }
+                    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_projectsText,title];
+                    
+                    //[self createProjectOptionView];
+                }
+                    break;
+            }
+            
+            /*
+             notifButton = [Common createButton:@""
+             buttonType:UIButtonTypeCustom
+             //frame:CGRectMake(0, 0, 40, 40)
+             frame:CGRectMake(0, 0, 40, 40)
+             titleColor:[UIColor whiteColor]
+             target:self
+             selector:@selector(showNotifMenu:)
+             normalStateImage:@"bar_notification_red.png"
+             selectedStateImage:nil];
+             notifButton.hidden = YES;
+             
+             UIBarButtonItem *notifItem = [[UIBarButtonItem alloc] initWithCustomView:notifButton];
+             */
+            
+            /*
+             commentButton = [Common createButton:@""
+             buttonType:UIButtonTypeCustom
+             //frame:CGRectMake(0, 0, 40, 40)
+             frame:CGRectZero
+             titleColor:[UIColor whiteColor]
+             target:self
+             selector:@selector(showUnreadComments:)
+             normalStateImage:@"bar_comments.png"
+             selectedStateImage:nil];
+             commentButton.hidden = YES;
+             
+             UILabel *commentBadgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
+             commentBadgeLabel.font = [UIFont boldSystemFontOfSize:12];
+             commentBadgeLabel.textColor = [UIColor whiteColor];
+             commentBadgeLabel.textAlignment = NSTextAlignmentCenter;
+             commentBadgeLabel.tag = 10000;
+             commentBadgeLabel.layer.cornerRadius = 3;
+             commentBadgeLabel.backgroundColor = [Colors redButton];
+             
+             [commentButton addSubview:commentBadgeLabel];
+             [commentBadgeLabel release];
+             
+             UIBarButtonItem *commentItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
+             
+             // task location =========================
+             taskLocationButton = [Common createButton:@""
+             buttonType:UIButtonTypeCustom
+             //frame:CGRectMake(0, 0, 40, 40)
+             frame:CGRectZero
+             titleColor:[UIColor whiteColor]
+             target:self
+             selector:@selector(showGeoTaskLocation:)
+             normalStateImage:@"bar_location.png"
+             selectedStateImage:nil];
+             taskLocationButton.hidden = YES;
+             
+             taskLocationLable = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 20, 15)];
+             taskLocationLable.font = [UIFont boldSystemFontOfSize:12];
+             taskLocationLable.textColor = [UIColor whiteColor];
+             taskLocationLable.textAlignment = NSTextAlignmentCenter;
+             //taskLocationLable.tag = 10000;
+             taskLocationLable.text = @"0";
+             taskLocationLable.layer.cornerRadius = 3;
+             taskLocationLable.backgroundColor = [Colors redButton];
+             
+             [taskLocationButton addSubview:taskLocationLable];
+             [taskLocationLable release];
+             
+             UIBarButtonItem *taskLocationButtonItem = [[UIBarButtonItem alloc] initWithCustomView:taskLocationButton];
+             // end task location
+             
+             */
+            
+            UIImage *imageRightBar = [FontManager flowasticImageWithIconName:@"clock"
+                                                                     andSize:SIZE_ICON_TOPBAR
+                                                                   iconColor:[UIColor whiteColor]];
+            
+            UIButton *timerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            timerButton.backgroundColor = [UIColor clearColor];
+            [timerButton setImage:imageRightBar forState:UIControlStateNormal];
+            timerButton.frame = CGRectMake(0, 0, SIZE_ICON_TOPBAR, SIZE_ICON_TOPBAR);
+            [timerButton addTarget:self action:@selector(showTimer:)  forControlEvents:UIControlEventTouchUpInside];
+            
+            UIBarButtonItem *timerItem = [[UIBarButtonItem alloc] initWithCustomView:timerButton];
+            
+            self.navigationItem.rightBarButtonItem = timerItem;
+            //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, commentItem, taskLocationButtonItem, nil];
+            //self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:timerItem, notifItem, nil];
+            
+            [timerItem release];
+            //[commentItem release];
+            //[taskLocationButtonItem release];
+            //[notifItem release];
+            
+            [self.navigationController.navigationBar addSubview:filterIndicator];
+        }
     }
 }
 
@@ -3817,5 +3833,20 @@ extern BOOL _detailHintShown;
     }
 }
 
+#pragma mark - Button Cancel Edit Mode
+- (void)cancelEditMode:(id)sender {
+    [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
+}
+
+- (NSInteger)countAllObjectSelectedInEditMode {
+    NSInteger countListSelectedItems = 0;
+    if ([self.activeViewCtrler isKindOfClass:[CategoryViewController class]] ||
+        [self.activeViewCtrler isKindOfClass:[SmartListViewController class]] ||
+        [self.activeViewCtrler isKindOfClass:[NoteViewController class]]) {
+        countListSelectedItems = [self.activeViewCtrler getMultiEditList].count;
+    }
+    
+    return countListSelectedItems;
+}
 
 @end

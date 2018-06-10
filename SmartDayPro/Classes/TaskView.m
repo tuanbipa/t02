@@ -62,12 +62,9 @@ extern SmartDayViewController *_sdViewCtrler;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        // Initialization code
-        
         self.checkEnable = YES;
         
         checkView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TASK_HEIGHT, TASK_HEIGHT)];
-        
         [self addSubview:checkView];
         [checkView release];
         
@@ -77,7 +74,7 @@ extern SmartDayViewController *_sdViewCtrler;
         
         checkButton = [Common createButton:@""
                                 buttonType:UIButtonTypeCustom
-                                     frame:checkView.bounds//CGRectMake(0, 0, TASK_HEIGHT, frame.size.height)
+                                     frame:checkView.bounds
                                 titleColor:[UIColor whiteColor]
                                     target:self
                                   selector:@selector(check:)
@@ -116,7 +113,7 @@ extern SmartDayViewController *_sdViewCtrler;
         starButton.backgroundColor=[UIColor clearColor];
         [starView addSubview:starButton];
 
-        [self refreshStarImage];
+//        [self refreshStarImage];
         
         self.multiSelectionEnable = NO;
         
@@ -198,7 +195,7 @@ extern SmartDayViewController *_sdViewCtrler;
 //-(void)refreshCheckImage_old
 //{
 //    //Task *task = (Task *)self.tag;
-//    
+//
 //    if (self.multiSelectionEnable)
 //    {
 //        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
@@ -206,27 +203,89 @@ extern SmartDayViewController *_sdViewCtrler;
 //    else
 //    {
 //        checkButton.selected = [task isDone];
-//        checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);        
+//        checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
 //    }
-//    
+//
 //    checkView.userInteractionEnabled = self.checkEnable;
 //}
 
 -(void)refreshCheckImage {
-    if (!self.checkEnable) {
-        checkImageView.image = nil;
-        checkView.userInteractionEnabled = NO;
-        return;
-    }
+//    UIImage *imageEditModeNone = [FontManager flowasticImageWithIconName:@"mul-select"
+//                                                                 andSize:30 iconColor:[UIColor whiteColor]];
+//
+//    UIImage *imageEditModeSelected = [FontManager flowasticImageWithIconName:@"event-sel-copy"
+//                                                                     andSize:30 iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+//
+//    if (!self.checkEnable)
+//    {
+//        checkImageView.image = nil;
+//        checkView.userInteractionEnabled = NO;
+//        return;
+//    }
+//
+//    if (self.listStyle) {
+////        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
+//        checkImageView.image = checkButton.selected ? imageEditModeSelected : imageEditModeNone;
+//        checkView.userInteractionEnabled = YES;
+//    }
+//    else {
+//        //checkButton.selected = [task isDone];
+//        checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
+//        checkView.userInteractionEnabled = NO;
+//    }
     
-    if (self.listStyle) {
-        [self refreshIconToDo];
-        checkView.userInteractionEnabled = YES;
-        
-    } else {
-        //checkButton.selected = [task isDone];
-        checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
-        checkView.userInteractionEnabled = NO;
+    if (task) {
+        if (task.isMultiEdit) {
+            UIImage *imageEditModeNone = [FontManager flowasticImageWithIconName:@"mul-select"
+                                                                         andSize:30 iconColor:[UIColor whiteColor]];
+            
+            UIImage *imageEditModeSelected = [FontManager flowasticImageWithIconName:@"event-sel-copy"
+                                                                             andSize:30 iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+            
+            if (!self.checkEnable) {
+                checkImageView.image = nil;
+                checkView.userInteractionEnabled = NO;
+                return;
+            }
+            
+            if (self.listStyle) {
+                checkImageView.image = checkButton.selected ? imageEditModeSelected : imageEditModeNone;
+                checkView.userInteractionEnabled = YES;
+            }
+            else {
+                checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
+                checkView.userInteractionEnabled = NO;
+            }
+        }
+        else {
+            UIColor *colorProject = [Common colorWithProject:task.project];
+            UIImage *imageObject = nil;
+            
+            if ([task isEvent]) {
+                imageObject = [FontManager flowasticImageWithIconName:@"event" andSize:SIZE_ICON_TOPBAR iconColor:colorProject];
+            }
+            else if ([task isTask]) {
+                imageObject = [FontManager flowasticImageWithIconName:@"undone" andSize:SIZE_ICON_TOPBAR iconColor:colorProject];
+            }
+            else if ([task isNote]) {
+                imageObject = [FontManager flowasticImageWithIconName:@"" andSize:SIZE_ICON_TOPBAR iconColor:colorProject];
+            }
+            
+            if (!self.checkEnable) {
+                checkImageView.image = nil;
+                checkView.userInteractionEnabled = NO;
+                return;
+            }
+            
+            if (self.listStyle) {
+                checkImageView.image = imageObject;
+                checkView.userInteractionEnabled = NO;
+            }
+            else {
+                checkImageView.image = (checkButton.selected?[[ImageManager getInstance] getImageWithName:@"markdone.png"]:nil);
+                checkView.userInteractionEnabled = NO;
+            }
+        }
     }
 }
 
@@ -249,7 +308,6 @@ extern SmartDayViewController *_sdViewCtrler;
     checkButton.selected = enabled;
 
     [self refreshCheckImage];
-
 }
 
 - (void)hideCheckImage
@@ -306,11 +364,13 @@ extern SmartDayViewController *_sdViewCtrler;
     UIButton *button = (UIButton *) sender;
     button.selected = !button.selected;
     
-    self.task.isMultiEdit = button.selected;
-        
+//    self.task.isMultiEdit = button.selected;
+    
     [self refreshCheckImage];
 
     [[AbstractActionViewController getInstance] multiEdit:button.selected];
+    
+    [Common refreshNavigationbarForEditMode];
 }
 
 -(void)star:(id)sender
@@ -686,7 +746,11 @@ extern SmartDayViewController *_sdViewCtrler;
     
     CGRect frm = CGRectMake(rect.origin.x, dy, rect.size.width, sz.height);
     
-    UIColor *color = (self.listStyle || self.focusStyle)?[UIColor blackColor]:[Colors snow2];
+    ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *dimProjectColor = [pm getProjectColor1:self.task.project];
+    
+//    UIColor *color = (self.listStyle || self.focusStyle)?[UIColor blackColor]:[Colors snow2];
+    UIColor *color = (self.listStyle || self.focusStyle) ? dimProjectColor : [Colors snow2];
     
     /*[color set];
 
@@ -1822,86 +1886,398 @@ extern SmartDayViewController *_sdViewCtrler;
 //    [self drawText:rect context:ctx];
 //}
 
-- (void) drawListStyle:(CGRect)rect ctx:(CGContextRef)ctx
-{
+//- (void) drawListStyle:(CGRect)rect ctx:(CGContextRef)ctx
+//{
+//    ProjectManager *pm = [ProjectManager getInstance];
+//
+//    //Task *task = (Task *) self.tag;
+//    //BOOL hasAlert = (task.original != nil && ![task isREException]?task.original.alerts.count > 0:task.alerts.count > 0);
+//    BOOL hasAlert = NO;
+//    BOOL hasDue = [task isDTask];
+//    BOOL hasFlag = [task isTask] && (task.isTop || (task.original != nil && task.original.isTop));
+//    //BOOL hasHashMark = YES;
+//    BOOL hasHashMark = NO;
+//    BOOL hasTime = YES;
+//    BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
+//    //BOOL hasHand = [task isShared];
+//
+//    //printf("task %s link count: %d\n", [task.name UTF8String], task.links.count);
+//
+//    UIColor *dimProjectColor = [pm getProjectColor1:task.project];
+//
+//    [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
+//    CGContextFillRect(ctx, rect);
+//
+//    if (isSelected)
+//    {
+//        CGRect frm = rect;
+//
+//        frm.origin.x += 1;
+//        frm.size.width -= 2;
+//        frm.size.height -= 2;
+//
+//        //[[[UIColor magentaColor] colorWithAlphaComponent:0.2] setFill];
+//        UIColor *highlightColor = [UIColor colorWithRed:149.0/255 green:185.0/255 blue:239.0/255 alpha:1];
+//
+//        [highlightColor setFill];
+//
+//        CGContextFillRect(ctx, frm);
+//    }
+//
+//    if ([task checkMustDo])
+//    {
+//        CGRect frm = rect;
+//        frm.size.width = 4;
+//
+//        [[Colors orangeRed] setFill];
+//
+//        CGContextFillRect(ctx, frm);
+//    }
+//
+//    //if (self.multiSelectionEnable)
+//    if (self.checkEnable) {
+//        rect = CGRectOffset(rect, TASK_HEIGHT, 0);
+//        rect.size.width -= TASK_HEIGHT;
+//        [self refreshCheckImage];
+//    }
+//
+////    if (task.type == TYPE_ADE)
+////    {
+////        /*
+////         CGRect frm = CGRectOffset(rect, SPACE_PAD, 0);
+////
+////         frm.size.height -= 2;
+////         frm.size.width -= 2*SPACE_PAD;
+////         */
+////
+////        rect = CGRectOffset(rect, SPACE_PAD, 0);
+////        rect.size.width -= 2*SPACE_PAD;
+////
+////        CGRect frm = rect;
+////        frm.size.height -= 2;
+////
+////        [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
+////        fillRoundedRect(ctx, frm, 5, 5);
+////    }
+//
+//    if (self.showListBorder)
+//    {
+//        //[[UIColor colorWithRed:113.0/255 green:116.0/255 blue:123.0/255 alpha:1] setFill];
+//        [[UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1] setFill];
+//
+//        CGContextFillRect(ctx, rect);
+//
+//        [[UIColor grayColor] setStroke];
+//
+//        CGContextStrokeRect(ctx, rect);
+//    }
+//
+//    if (self.showSeparator)
+//    {
+//        UIColor *separatorColor = [UIColor colorWithRed:195.0/255 green:195.0/255 blue:195.0/255 alpha:1];
+//        [separatorColor setStroke];
+//
+//        CGContextMoveToPoint(ctx, rect.origin.x, rect.origin.y + rect.size.height);
+//        CGContextAddLineToPoint( ctx, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height);
+//        CGContextStrokePath(ctx);
+//    }
+//
+//    if (rect.size.width <= 120) //no need to draw these in WeekPlanner
+//    {
+//        hasAlert = NO;
+//        hasFlag = NO;
+//        hasHashMark = NO;
+//        hasDue = NO;
+//        hasTime = NO;
+//        hasLink = NO;
+//    }
+//
+////    UIImage *img = nil;
+////
+////    if ([task isEvent] && ![task isManual])
+////    {
+////        img = [pm getEventIcon:task.project];
+////    }
+////    else if ([task isEvent] && [task isManual])
+////    {
+////        img = [pm getAnchoredIcon:task.project];
+////    }
+////    else if ([task isTask])
+////    {
+////        img = [pm getTaskIcon:task.project];
+////    }
+////    else if ([task isNote])
+////    {
+////        img = [pm getNoteIcon:task.project];
+////    }
+//
+//    ////printf("icon w=%f, h=%f\n", img.size.width, img.size.height);
+//
+//    CGRect frm = CGRectZero;
+////    frm.size = img.size;
+////    frm.origin.y = (rect.size.height-frm.size.height)/2;
+////    //frm.origin.y = SPACE_PAD;
+////    frm.origin.x = rect.origin.x + SPACE_PAD;
+////
+////    [img drawInRect:frm];
+////
+////    if (self.multiSelectionEnable && [task isDone])
+////    {
+////        img = [[ImageManager getInstance] getImageWithName:@"checkmark.png"];
+////
+////        [img drawInRect:frm];
+////    }
+//
+//    rect.origin.x += frm.size.width + 2*SPACE_PAD;
+//    rect.size.width -= frm.size.width + 2*SPACE_PAD;
+//
+//    if (self.starEnable && ![self.task isPendingByMe])
+//    {
+//        //rect.size.width -= 20;
+//        rect.size.width -= starView.frame.size.width;
+//    }
+//
+//    if (([task isEvent] || [task isNote]) && hasTime)
+//    {
+//        frm = CGRectMake(0, 0, [task isNote] || [task isADE]?70:90, rect.size.height);
+//
+//        frm.origin.x = rect.origin.x + rect.size.width - frm.size.width - SPACE_PAD;
+//        frm.origin.y = (rect.size.height-frm.size.height)/2;
+//
+//        [self drawDateTime:frm context:ctx];
+//
+//        rect.size.width -= frm.size.width + SPACE_PAD;
+//    } else {
+//        if (self.showDuration) {
+//
+//            frm.size.width = HASHMARK_WIDTH;
+//            frm.size.height = HASHMARK_HEIGHT;
+//
+//            frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+//            frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//
+//            CGSize sz = [self drawHashmark:frm context:ctx];
+//
+//            rect.size.width -= sz.width + SPACE_PAD;
+//        }
+//    }
+////    else if ([task isRT])
+////    {
+////        frm.size.width = HASHMARK_WIDTH/2;
+////        frm.size.height = HASHMARK_HEIGHT;
+////
+////        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+////        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+////
+////        if (hasHashMark)
+////        {
+////            [self drawHashmark:frm context:ctx];
+////
+////            rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
+////        }
+////        else
+////        {
+////            rect.size.width -= HASHMARK_WIDTH/2 + SPACE_PAD;
+////        }
+////
+////        frm = CGRectOffset(frm, HASHMARK_WIDTH/2 + SPACE_PAD/2, 0);
+////        frm.size.height /= 2;
+////
+////        UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
+////
+////        [image drawInRect:frm];
+////    }
+////    else if ([task isTask] && hasHashMark)
+////    {
+////        frm.size.width = HASHMARK_WIDTH;
+////        frm.size.height = HASHMARK_HEIGHT;
+////
+////        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
+////        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+////
+////        [self drawHashmark:frm context:ctx];
+////
+////        rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
+////    }
+//
+//    /*if (self.showDue && hasDue)
+//    {
+//
+//        frm = CGRectMake(0, 0, 90, rect.size.height);
+//
+//        frm.origin.x = rect.origin.x + rect.size.width - frm.size.width - SPACE_PAD;
+//        frm.origin.y = (rect.size.height-frm.size.height)/2;
+//
+//        CGSize realSize = [self drawDue:frm context:ctx];
+//
+//        rect.size.width -= realSize.width + SPACE_PAD;
+//    }*/
+//
+////    if (hasAlert)
+////    {
+////        frm.size.width = ALERT_SIZE;
+////        frm.size.height = ALERT_SIZE;
+////
+////        frm.origin.x = rect.origin.x + rect.size.width - ALERT_SIZE;
+////        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+////
+////        //[self drawAlert:frm context:ctx];
+////        UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"alert_black.png"];
+////
+////        [alertImage drawInRect:frm];
+////
+////        rect.size.width -= DUE_SIZE;
+////    }
+//
+////    if (hasLink)
+////    {
+////        //printf("task %s has link\n", [task.name UTF8String]);
+////        frm.size.width = LINK_SIZE;
+////        frm.size.height = LINK_SIZE;
+////
+////        frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE - SPACE_PAD;
+////        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+////
+////        [self drawLink:frm context:ctx];
+////
+////        rect.size.width -= LINK_SIZE + SPACE_PAD;
+////    }
+////    else
+////    {
+////        //printf("task %s has no link\n", [task.name UTF8String]);
+////    }
+//
+////    if ([task isRE])
+////    {
+////        frm.size.width = REPEAT_SIZE;
+////        frm.size.height = REPEAT_SIZE;
+////
+////        frm.origin.x = rect.origin.x + rect.size.width - REPEAT_SIZE;
+////        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+////
+////        UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
+////
+////        [image drawInRect:frm];
+////
+////        rect.size.width -= REPEAT_SIZE;
+////    }
+//
+//    /*if (self.showFlag && hasFlag)
+//    {
+//        frm.size.width = FLAG_SIZE;
+//        frm.size.height = FLAG_SIZE;
+//
+//        //frm.origin.x = rect.origin.x + SPACE_PAD/2;
+//        //frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//        frm.origin.x = rect.origin.x + rect.size.width - FLAG_SIZE - SPACE_PAD/2;
+//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//
+//        [self drawFlag:frm context:ctx];
+//
+//        //rect.origin.x += FLAG_SIZE + SPACE_PAD/2;
+//        //rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
+//        rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
+//
+////        frm.size.width = DUE_SIZE;
+////        frm.size.height = DUE_SIZE;
+////
+////        frm.origin.x = rect.origin.x + rect.size.width - DUE_SIZE - SPACE_PAD/2;
+////        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+////
+////        [self drawDue:frm context:ctx];
+////
+////        rect.size.width -= DUE_SIZE + SPACE_PAD/2;
+//    }*/
+//
+//    /*if (hasHand)
+//    {
+//        frm.size.width = HAND_SIZE;
+//        frm.size.height = HAND_SIZE;
+//
+//        frm.origin.x = rect.origin.x + SPACE_PAD/2;
+//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//
+//        [self drawHand:frm context:ctx];
+//
+//        rect.origin.x += HAND_SIZE + SPACE_PAD/2;
+//        rect.size.width -= HAND_SIZE + SPACE_PAD/2;
+//    }*/
+//
+//    if ([self.task isPendingByMe]) {
+//        // add accept button
+//        NSInteger width = 90;
+//        frm.size.width = width;
+//        frm.size.height = 23;
+//
+//        frm.origin.x = rect.origin.x + rect.size.width - (width + PAD_WIDTH/2);
+//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
+//
+//        UIView *view = [self viewWithTag:10000];
+//        if (view != nil) {
+//            [view removeFromSuperview];
+//        }
+//
+//        UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@" ", @" ", nil]];
+//        //UISegmentedControl *acceptRejectSegmented = [[UISegmentedControl alloc] init];
+//        acceptRejectSegmented.frame = frm;
+//        acceptRejectSegmented.tag = 10000;
+//        [acceptRejectSegmented addTarget:self action:@selector(doAcceptReject:) forControlEvents:UIControlEventValueChanged];
+//        [acceptRejectSegmented setBackgroundImage:[UIImage imageNamed:@"accept_reject.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//
+//        [self addSubview:acceptRejectSegmented];
+//        [acceptRejectSegmented release];
+//
+//        rect.size.width -= width + PAD_WIDTH/2;
+//    }
+//
+//    [self drawText:rect context:ctx];
+//}
+
+- (void)drawListStyle:(CGRect)rect ctx:(CGContextRef)ctx {
     ProjectManager *pm = [ProjectManager getInstance];
     
-    //Task *task = (Task *) self.tag;
-    //BOOL hasAlert = (task.original != nil && ![task isREException]?task.original.alerts.count > 0:task.alerts.count > 0);
     BOOL hasAlert = NO;
-	BOOL hasDue = [task isDTask];
+    BOOL hasDue = [task isDTask];
     BOOL hasFlag = [task isTask] && (task.isTop || (task.original != nil && task.original.isTop));
-    //BOOL hasHashMark = YES;
     BOOL hasHashMark = NO;
     BOOL hasTime = YES;
     BOOL hasLink = (task.original != nil && ![task isREException]? task.original.links.count > 0: task.links.count > 0);
-    //BOOL hasHand = [task isShared];
-    
-    //printf("task %s link count: %d\n", [task.name UTF8String], task.links.count);
     
     UIColor *dimProjectColor = [pm getProjectColor1:task.project];
-    
     [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
     CGContextFillRect(ctx, rect);
     
-    if (isSelected)
-    {
+    if (isSelected) {
         CGRect frm = rect;
-        
         frm.origin.x += 1;
         frm.size.width -= 2;
         frm.size.height -= 2;
         
-        //[[[UIColor magentaColor] colorWithAlphaComponent:0.2] setFill];
         UIColor *highlightColor = [UIColor colorWithRed:149.0/255 green:185.0/255 blue:239.0/255 alpha:1];
-        
         [highlightColor setFill];
-        
         CGContextFillRect(ctx, frm);
     }
     
-    if ([task checkMustDo])
-    {
+    if ([task checkMustDo]) {
         CGRect frm = rect;
         frm.size.width = 4;
-        
         [[Colors orangeRed] setFill];
-        
         CGContextFillRect(ctx, frm);
     }
     
-    //if (self.multiSelectionEnable)
-    if (self.checkEnable)
-    {
+    if (self.checkEnable && ![task isNote]) {
         rect = CGRectOffset(rect, TASK_HEIGHT, 0);
         rect.size.width -= TASK_HEIGHT;
-        [self refreshIconToDo];
-//        checkImageView.image = [[ImageManager getInstance] getImageWithName:checkButton.selected?@"multiOn.png":@"multiOff.png"];
-        //checkView.userInteractionEnabled = NO;
+        [self refreshCheckImage];
     }
     
-//    if (task.type == TYPE_ADE)
-//    {
-//        /*
-//         CGRect frm = CGRectOffset(rect, SPACE_PAD, 0);
-//         
-//         frm.size.height -= 2;
-//         frm.size.width -= 2*SPACE_PAD;
-//         */
-//        
-//        rect = CGRectOffset(rect, SPACE_PAD, 0);
-//        rect.size.width -= 2*SPACE_PAD;
-//        
-//        CGRect frm = rect;
-//        frm.size.height -= 2;
-//        
-//        [[dimProjectColor colorWithAlphaComponent:0.4] setFill];
-//        fillRoundedRect(ctx, frm, 5, 5);
-//    }
+    if (self.checkEnable && [task isNote] && task.isMultiEdit) {
+        rect = CGRectOffset(rect, TASK_HEIGHT, 0);
+        rect.size.width -= TASK_HEIGHT;
+        [self refreshCheckImage];
+    }
     
-    if (self.showListBorder)
-    {
-        //[[UIColor colorWithRed:113.0/255 green:116.0/255 blue:123.0/255 alpha:1] setFill];
+    if (self.showListBorder) {
         [[UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1] setFill];
         
         CGContextFillRect(ctx, rect);
@@ -1911,8 +2287,7 @@ extern SmartDayViewController *_sdViewCtrler;
         CGContextStrokeRect(ctx, rect);
     }
     
-    if (self.showSeparator)
-    {
+    if (self.showSeparator) {
         UIColor *separatorColor = [UIColor colorWithRed:195.0/255 green:195.0/255 blue:195.0/255 alpha:1];
         [separatorColor setStroke];
         
@@ -1921,63 +2296,57 @@ extern SmartDayViewController *_sdViewCtrler;
         CGContextStrokePath(ctx);
     }
     
-	if (rect.size.width <= 120) //no need to draw these in WeekPlanner
-	{
-		hasAlert = NO;
-		hasFlag = NO;
-		hasHashMark = NO;
+    if (rect.size.width <= 120) {//no need to draw these in WeekPlanner
+        hasAlert = NO;
+        hasFlag = NO;
+        hasHashMark = NO;
         hasDue = NO;
         hasTime = NO;
         hasLink = NO;
-	}
+    }
     
-//    UIImage *img = nil;
-//    
-//    if ([task isEvent] && ![task isManual])
-//    {
-//        img = [pm getEventIcon:task.project];
-//    }
-//    else if ([task isEvent] && [task isManual])
-//    {
-//        img = [pm getAnchoredIcon:task.project];
-//    }
-//    else if ([task isTask])
-//    {
-//        img = [pm getTaskIcon:task.project];
-//    }
-//    else if ([task isNote])
-//    {
-//        img = [pm getNoteIcon:task.project];
-//    }
-    
-    ////printf("icon w=%f, h=%f\n", img.size.width, img.size.height);
+    //    UIImage *img = nil;
+    //
+    //    if ([task isEvent] && ![task isManual])
+    //    {
+    //        img = [pm getEventIcon:task.project];
+    //    }
+    //    else if ([task isEvent] && [task isManual])
+    //    {
+    //        img = [pm getAnchoredIcon:task.project];
+    //    }
+    //    else if ([task isTask])
+    //    {
+    //        img = [pm getTaskIcon:task.project];
+    //    }
+    //    else if ([task isNote])
+    //    {
+    //        img = [pm getNoteIcon:task.project];
+    //    }
     
     CGRect frm = CGRectZero;
-//    frm.size = img.size;
-//    frm.origin.y = (rect.size.height-frm.size.height)/2;
-//    //frm.origin.y = SPACE_PAD;
-//    frm.origin.x = rect.origin.x + SPACE_PAD;
-//    
-//    [img drawInRect:frm];
-//    
-//    if (self.multiSelectionEnable && [task isDone])
-//    {
-//        img = [[ImageManager getInstance] getImageWithName:@"checkmark.png"];
-//        
-//        [img drawInRect:frm];
-//    }
+    //    frm.size = img.size;
+    //    frm.origin.y = (rect.size.height-frm.size.height)/2;
+    //    //frm.origin.y = SPACE_PAD;
+    //    frm.origin.x = rect.origin.x + SPACE_PAD;
+    //
+    //    [img drawInRect:frm];
+    //
+    //    if (self.multiSelectionEnable && [task isDone])
+    //    {
+    //        img = [[ImageManager getInstance] getImageWithName:@"checkmark.png"];
+    //
+    //        [img drawInRect:frm];
+    //    }
     
     rect.origin.x += frm.size.width + 2*SPACE_PAD;
     rect.size.width -= frm.size.width + 2*SPACE_PAD;
     
-    if (self.starEnable && ![self.task isPendingByMe])
-    {
-        //rect.size.width -= 20;
+    if (self.starEnable && ![self.task isPendingByMe]) {
         rect.size.width -= starView.frame.size.width;
     }
     
-    if (([task isEvent] || [task isNote]) && hasTime)
-    {
+    if (([task isEvent] || [task isNote]) && hasTime) {
         frm = CGRectMake(0, 0, [task isNote] || [task isADE]?70:90, rect.size.height);
         
         frm.origin.x = rect.origin.x + rect.size.width - frm.size.width - SPACE_PAD;
@@ -1986,169 +2355,25 @@ extern SmartDayViewController *_sdViewCtrler;
         [self drawDateTime:frm context:ctx];
         
         rect.size.width -= frm.size.width + SPACE_PAD;
-    } else {
-        if (self.showDuration) {
-            
-            frm.size.width = HASHMARK_WIDTH;
-            frm.size.height = HASHMARK_HEIGHT;
-
-            frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
-            frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-
-            CGSize sz = [self drawHashmark:frm context:ctx];
-
-            rect.size.width -= sz.width + SPACE_PAD;
-        }
     }
-//    else if ([task isRT])
-//	{
-//		frm.size.width = HASHMARK_WIDTH/2;
-//		frm.size.height = HASHMARK_HEIGHT;
-//        
-//        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
-//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-//        
-//        if (hasHashMark)
-//        {
-//            [self drawHashmark:frm context:ctx];
-//            
-//            rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
-//		}
-//        else
-//        {
-//            rect.size.width -= HASHMARK_WIDTH/2 + SPACE_PAD;
-//        }
-//        
-//		frm = CGRectOffset(frm, HASHMARK_WIDTH/2 + SPACE_PAD/2, 0);
-//		frm.size.height /= 2;
-//		
-//		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
-//        
-//		[image drawInRect:frm];
-//	}
-//	else if ([task isTask] && hasHashMark)
-//	{
-//		frm.size.width = HASHMARK_WIDTH;
-//		frm.size.height = HASHMARK_HEIGHT;
-//        
-//        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
-//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-//		
-//		[self drawHashmark:frm context:ctx];
-//        
-//        rect.size.width -= HASHMARK_WIDTH + SPACE_PAD;
-//	}
-    
-	/*if (self.showDue && hasDue)
-	{
+    else if (self.showDuration) {
+        frm.size.width = HASHMARK_WIDTH;
+        frm.size.height = HASHMARK_HEIGHT;
         
-        frm = CGRectMake(0, 0, 90, rect.size.height);
-        
-        frm.origin.x = rect.origin.x + rect.size.width - frm.size.width - SPACE_PAD;
-        frm.origin.y = (rect.size.height-frm.size.height)/2;
-        
-        CGSize realSize = [self drawDue:frm context:ctx];
-        
-        rect.size.width -= realSize.width + SPACE_PAD;
-	}*/
-    
-//	if (hasAlert)
-//	{
-//		frm.size.width = ALERT_SIZE;
-//		frm.size.height = ALERT_SIZE;
-//        
-//        frm.origin.x = rect.origin.x + rect.size.width - ALERT_SIZE;
-//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-//        
-//		//[self drawAlert:frm context:ctx];
-//        UIImage *alertImage = [[ImageManager getInstance] getImageWithName:@"alert_black.png"];
-//        
-//        [alertImage drawInRect:frm];
-//        
-//        rect.size.width -= DUE_SIZE;
-//	}
-    
-//    if (hasLink)
-//    {
-//        //printf("task %s has link\n", [task.name UTF8String]);
-//		frm.size.width = LINK_SIZE;
-//		frm.size.height = LINK_SIZE;
-//        
-//		frm.origin.x = rect.origin.x + rect.size.width - LINK_SIZE - SPACE_PAD;
-//		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-//		
-//		[self drawLink:frm context:ctx];
-//        
-//        rect.size.width -= LINK_SIZE + SPACE_PAD;
-//    }
-//    else
-//    {
-//        //printf("task %s has no link\n", [task.name UTF8String]);
-//    }
-    
-//    if ([task isRE])
-//    {
-//		frm.size.width = REPEAT_SIZE;
-//		frm.size.height = REPEAT_SIZE;
-//        
-//		frm.origin.x = rect.origin.x + rect.size.width - REPEAT_SIZE;
-//		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-//		
-//		UIImage *image = [[ImageManager getInstance] getImageWithName:@"repeat_black.png"];
-//        
-//        [image drawInRect:frm];
-//        
-//        rect.size.width -= REPEAT_SIZE;
-//    }
-    
-	/*if (self.showFlag && hasFlag)
-	{
-		frm.size.width = FLAG_SIZE;
-		frm.size.height = FLAG_SIZE;
-        
-		//frm.origin.x = rect.origin.x + SPACE_PAD/2;
-		//frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-        frm.origin.x = rect.origin.x + rect.size.width - FLAG_SIZE - SPACE_PAD/2;
+        frm.origin.x = rect.origin.x + rect.size.width - HASHMARK_WIDTH - SPACE_PAD;
         frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-		
-		[self drawFlag:frm context:ctx];
-		
-        //rect.origin.x += FLAG_SIZE + SPACE_PAD/2;
-        //rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
-        rect.size.width -= FLAG_SIZE + SPACE_PAD/2;
         
-//        frm.size.width = DUE_SIZE;
-//		frm.size.height = DUE_SIZE;
-//        
-//        frm.origin.x = rect.origin.x + rect.size.width - DUE_SIZE - SPACE_PAD/2;
-//        frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-//        
-//		[self drawDue:frm context:ctx];
-//        
-//        rect.size.width -= DUE_SIZE + SPACE_PAD/2;
-	}*/
-    
-	/*if (hasHand)
-	{
-		frm.size.width = HAND_SIZE;
-		frm.size.height = HAND_SIZE;
+        CGSize sz = [self drawHashmark:frm context:ctx];
         
-		frm.origin.x = rect.origin.x + SPACE_PAD/2;
-		frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
-		
-		[self drawHand:frm context:ctx];
-		
-        rect.origin.x += HAND_SIZE + SPACE_PAD/2;
-        rect.size.width -= HAND_SIZE + SPACE_PAD/2;
-	}*/
-    
+        rect.size.width -= sz.width + SPACE_PAD;
+    }
+
     if ([self.task isPendingByMe]) {
-        // add accept button
         NSInteger width = 90;
         frm.size.width = width;
-		frm.size.height = 23;
+        frm.size.height = 23;
         
-		frm.origin.x = rect.origin.x + rect.size.width - (width + PAD_WIDTH/2);
+        frm.origin.x = rect.origin.x + rect.size.width - (width + PAD_WIDTH/2);
         frm.origin.y = rect.origin.y + (rect.size.height-frm.size.height)/2;
         
         UIView *view = [self viewWithTag:10000];
@@ -2770,17 +2995,14 @@ extern SmartDayViewController *_sdViewCtrler;
     [[AbstractActionViewController getInstance] enableActions:enable onView:self];
 }
 
-- (void) singleTouch
-{
+- (void)singleTouch {
     [[AbstractActionViewController getInstance] hideDropDownMenu];
     [[[AbstractActionViewController getInstance] getActiveModule] cancelMultiEdit];
 
-    if (_isiPad)
-    {
+    if (_isiPad) {
         [[AbstractActionViewController getInstance] editItem:self.task inView:self];
     }
-    else
-    {
+    else {
         [[AbstractActionViewController getInstance] enableActions:!self.isSelected onView:self];
     }
 }
@@ -2823,8 +3045,7 @@ extern SmartDayViewController *_sdViewCtrler;
     }
 }
 
-- (void) touchAndHold
-{
+- (void)touchAndHold {
     if ([self.task isShared])
     {
         return;
@@ -2843,7 +3064,39 @@ extern SmartDayViewController *_sdViewCtrler;
         
         [_plannerViewCtrler.plannerBottomDayCal beginResize:self];
     }
-    
+    else if (self.task.listSource == SOURCE_CATEGORY) {
+        if (self.task.isMultiEdit) {
+            return;
+        }
+        
+        // Enable expand for All Project
+        ProjectManager *pm = [ProjectManager getInstance];
+        for (Project *prj in pm.projectList) {
+            prj.isExpanded = YES;
+        }
+        
+        // Expand all project in Category view controller
+        CategoryViewController *ctrler = [[AbstractSDViewController getInstance] getCategoryViewController];
+        [ctrler loadAndShowList];
+        [ctrler updateEditModeForAllTaskObject:YES];
+
+        // Show Edit Mode Toolbar
+        [[AbstractActionViewController getInstance] multiEdit:YES];
+    }
+    else if (self.task.listSource == SOURCE_SMARTLIST) {
+        SmartListViewController *ctrler = [[AbstractSDViewController getInstance] getSmartListViewController];
+        [ctrler enableMultiEdit:YES];
+        
+        // Show Edit Mode Toolbar
+        [[AbstractActionViewController getInstance] multiEdit:YES];
+    }
+    else if (self.task.listSource == SOURCE_NOTE) {
+        NoteViewController *ctrler = [[AbstractSDViewController getInstance] getNoteViewController];
+         [ctrler updateEditModeForAllTaskObject:YES];
+        
+        // Show Edit Mode Toolbar
+        [[AbstractActionViewController getInstance] multiEdit:YES];
+    }
 }
 
 -(BOOL) checkMovable:(NSSet *)touches
@@ -2875,21 +3128,6 @@ extern SmartDayViewController *_sdViewCtrler;
 - (void)appNoBusy:(NSNotification *)notification
 {
     self.userInteractionEnabled = YES;
-}
-
-- (void)refreshIconToDo {
-    ProjectManager *pm = [ProjectManager getInstance];
-    UIColor *dimProjectColor = [pm getProjectColor1:task.project];
-    
-    UIImage *doneToDoImageIcon = [FontManager flowasticImageWithIconName:@"task-view-sel"
-                                                                 andSize:SIZE_ICON_ON_CELL
-                                                               iconColor:dimProjectColor];
-    
-    UIImage *undoneToDoImageIcon = [FontManager flowasticImageWithIconName:@"undone"
-                                                                   andSize:SIZE_ICON_ON_CELL
-                                                                 iconColor:dimProjectColor];
-    
-    checkImageView.image = checkButton.selected ? doneToDoImageIcon : undoneToDoImageIcon;
 }
 
 @end

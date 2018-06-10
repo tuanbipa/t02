@@ -19,6 +19,9 @@
 
 #import "UIImage+FontAwesome.h"
 #import "FontManager.h"
+#import "SDNavigationController.h"
+#import "SmartDayViewController.h"
+#import "ProjectManager.h"
 
 extern BOOL _is24HourFormat;
 
@@ -2026,6 +2029,25 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
                                 blue:MAX(b - 0.2, 0.0)
                                alpha:a];
     return nil;
+}
+
++ (void)refreshNavigationbarForEditMode {
+    id rootController = [[[UIApplication sharedApplication].delegate window] rootViewController];
+    if ([rootController isKindOfClass:[SDNavigationController class]]) {
+        SDNavigationController *navigationController = (SDNavigationController *)rootController;
+        id viewcontroller = navigationController.viewControllers.count == 1 ? [navigationController.viewControllers firstObject] : nil;
+        if (viewcontroller && [viewcontroller isKindOfClass:[SmartDayViewController class]]) {
+            SmartDayViewController *smartDayViewController = (SmartDayViewController *)viewcontroller;
+            [smartDayViewController refreshTopBar];
+        }
+    }
+}
+
++ (UIColor *)colorWithProject:(NSInteger)project {
+    ProjectManager *pm = [ProjectManager getInstance];
+    UIColor *dimProjectColor = [pm getProjectColor1:project];
+    
+    return dimProjectColor;
 }
 
 @end

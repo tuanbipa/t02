@@ -305,7 +305,7 @@ extern iPadViewController *_iPadViewCtrler;
         [taskView refreshCheckImage];
         //[taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
         [taskView enableMove:YES];
-        
+        taskView.touchHoldEnable = YES;
         taskView.movableController = self.movableCtrler;
         
         if (task.isMultiEdit)
