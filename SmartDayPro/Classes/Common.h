@@ -588,6 +588,15 @@ typedef struct
 	NSInteger totalDuration;
 } PlanInfo;
 
+typedef enum
+{
+    SETTING_MENU_CALENDAR = 99,
+    SETTING_MENU_SMARTLIST,
+    SETTING_MENU_NOTE,
+    SETTING_MENU_CATEGORY,
+    SETTING_MENU_COMMON
+} SettingMenu;
+
 @interface Common : NSObject {
 }
 /*

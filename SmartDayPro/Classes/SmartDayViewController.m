@@ -1518,7 +1518,7 @@ extern BOOL _detailHintShown;
 	[ctrler release];	
 }
 
-- (void) showMenu: (id) sender
+- (void) showMenu_old: (id) sender
 {
     BOOL menuVisible = !menuView.hidden;
     
@@ -1535,7 +1535,7 @@ extern BOOL _detailHintShown;
 		}
 		
 		menuView.hidden = NO;
-		[contentView  bringSubviewToFront:menuView];
+//        [contentView  bringSubviewToFront:menuView];
 		
 		[Common animateGrowViewFromPoint:CGPointMake(0,0) toPoint:CGPointMake(menuView.bounds.size.width/2, menuView.bounds.size.height/2) forView:menuView];
 	}
@@ -1543,6 +1543,24 @@ extern BOOL _detailHintShown;
 	{
 		[Common animateShrinkView:menuView toPosition:CGPointMake(0,0) target:self shrinkEnd:@selector(shrinkEnd)];
 	}*/		
+}
+
+- (void)showMenu:(id)sender {
+    BOOL menuVisible = !menuView.hidden;
+    [self deselect];
+    
+    if (!menuVisible) {
+        UILabel *label = (UILabel *)[menuView viewWithTag:10000 + TASK_FILTER_GLOBAL];
+        if (label != nil) {
+            label.textColor = ([[TaskManager getInstance] filterData] == nil?[UIColor whiteColor]:[UIColor yellowColor]);
+        }
+        
+        menuView.hidden = NO;
+        
+        [Common animateGrowViewFromPoint:CGPointMake(0,0)
+                                 toPoint:CGPointMake(menuView.bounds.size.width/2, menuView.bounds.size.height/2)
+                                 forView:menuView];
+    }
 }
 
 - (void) showAddMenu: (id) sender
@@ -2193,7 +2211,7 @@ extern BOOL _detailHintShown;
     
 }
 
-- (void) createCalendarMenuView
+- (void) createCalendarMenuView_old
 {
     NSString *texts[7] = {
         _todayText,
@@ -2408,7 +2426,36 @@ extern BOOL _detailHintShown;
 
 }
 
-- (void) createTasksMenuView
+- (void)createCalendarMenuView {
+    CGFloat widthFilterView = contentView.frame.size.width*0.6;
+    CGFloat originXFilterView = 0;
+    CGFloat originYFilterMenu = 20;
+    NSArray *listFilters = [self createListCalendarMenuFilterOptions];
+    CGFloat heightFilterView = listFilters.count*HEIGHT_ICON_MENU_FILTER + originYFilterMenu + 5;
+    
+    menuView = [[UIView alloc] initWithFrame:CGRectMake(originXFilterView, 0, widthFilterView, heightFilterView)];
+    menuView.hidden = YES;
+    menuView.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:menuView];
+    [menuView release];
+    
+    viewFilterMenu = [[ViewFilterMenu alloc] initWithFrame:CGRectMake(0, originYFilterMenu,
+                                                                      menuView.frame.size.width,
+                                                                      menuView.frame.size.height - originYFilterMenu)
+                                          andCurrentScreen:SETTING_MENU_CALENDAR];
+    viewFilterMenu.listFilters = listFilters;
+    viewFilterMenu.viewFilterMenuDelegage = self;
+    [menuView addSubview:viewFilterMenu];
+    [viewFilterMenu release];
+    
+    menuImageView = [[UIImageView alloc] initWithFrame:menuView.bounds];
+    [menuView addSubview:menuImageView];
+    [menuImageView release];
+    
+    [menuView bringSubviewToFront:viewFilterMenu];
+}
+
+- (void) createTasksMenuView_old
 {
     NSString *texts[5] = {
         _filterText,
@@ -2570,7 +2617,36 @@ extern BOOL _detailHintShown;
     
 }
 
-- (void) createCommonMenuView
+- (void)createCommonMenuView {
+    CGFloat widthFilterView = contentView.frame.size.width*0.6;
+    CGFloat originXFilterView = 0;
+    CGFloat originYFilterMenu = 20;
+    NSArray *listFilters = [self createListCommonMenuFilterOptions];
+    CGFloat heightFilterView = listFilters.count*HEIGHT_ICON_MENU_FILTER + originYFilterMenu + 5;
+    
+    menuView = [[UIView alloc] initWithFrame:CGRectMake(originXFilterView, 0, widthFilterView, heightFilterView)];
+    menuView.hidden = YES;
+    menuView.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:menuView];
+    [menuView release];
+    
+    viewFilterMenu = [[ViewFilterMenu alloc] initWithFrame:CGRectMake(0, originYFilterMenu,
+                                                                      menuView.frame.size.width,
+                                                                      menuView.frame.size.height - originYFilterMenu)
+                                          andCurrentScreen:SETTING_MENU_COMMON];
+    viewFilterMenu.listFilters = listFilters;
+    viewFilterMenu.viewFilterMenuDelegage = self;
+    [menuView addSubview:viewFilterMenu];
+    [viewFilterMenu release];
+    
+    menuImageView = [[UIImageView alloc] initWithFrame:menuView.bounds];
+    [menuView addSubview:menuImageView];
+    [menuImageView release];
+    
+    [menuView bringSubviewToFront:viewFilterMenu];
+}
+
+- (void) createCommonMenuView_old
 {
     NSString *texts[5] = {
         _filterText,
@@ -2730,38 +2806,27 @@ extern BOOL _detailHintShown;
 	[menuView addSubview:backupButton];      
 }
 
-- (void) createMenuView
-{
-    if (menuView.superview != nil)
-    {
+- (void)createMenuView {
+    if (menuView.superview != nil) {
         [menuView removeFromSuperview];
     }
     
-    switch (selectedTabButton.tag) 
-    {
+    switch (selectedTabButton.tag) {
         case 0:
-        {
             [self createCalendarMenuView];
-        }
             break;
+            
         case 1:
         case 2:
-        {
-            [self createTasksMenuView];
-            break;
-        }
         case 3:
-        {
             [self createCommonMenuView];
             break;
-        }
     }
     
-    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:menuImageView.bounds];
+    // Background Setting Menu
+    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:menuView.bounds];
     menu.menuPoint = 20;
-    
     menuImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
-    
     [menu release];
 }
 
@@ -4164,9 +4229,107 @@ extern BOOL _detailHintShown;
     return [self generalListObjectWithTitles:titles andIconNames:icons andSource:SOURCE_SMARTLIST];
 }
 
+#pragma mark - Filter Menu Setting
+- (NSArray *)generalListObjectMenuWithTitles:(NSArray *)titles andIconNames:(NSArray *)iconNames {
+    NSMutableArray *listFilters = [NSMutableArray new];
+    for (NSInteger i=0; i<titles.count; i++) {
+        FilterObject *filterObject = [FilterObject new];
+        filterObject.title = [titles objectAtIndex:i];
+        filterObject.iconName = [iconNames objectAtIndex:i];
+        filterObject.isSelected = NO;
+        
+        if (![listFilters containsObject:filterObject]) {
+            [listFilters addObject:filterObject];
+        }
+        
+        [filterObject release];
+    }
+    
+    return listFilters;
+}
+
+- (NSArray *)createListCalendarMenuFilterOptions {
+    NSArray *titles = [NSArray arrayWithObjects:_todayText, _gotoDateText, _filterText, _syncText, _showHideCategoryText,
+                                                                        _settingTitle, _backupText, nil];
+    NSArray *icons = [NSArray arrayWithObjects:@"day", @"calendar-view", @"flag", @"filter", @"sync", @"hide-sel", @"config",
+                                                                        @"backkup", nil];
+    
+    return [self generalListObjectMenuWithTitles:titles andIconNames:icons];
+}
+
+- (NSArray *)createListCommonMenuFilterOptions {
+    NSArray *titles = [NSArray arrayWithObjects:_filterText, _syncText, _showHideCategoryText, _settingTitle, _backupText, nil];
+    NSArray *icons = [NSArray arrayWithObjects:@"filter", @"sync", @"hide-sel", @"config", @"backkup", nil];
+    
+    return [self generalListObjectMenuWithTitles:titles andIconNames:icons];
+}
+
+#pragma mark - Select Setting Menu
+- (void)selectedItemSettingMenuCalendarAtIndex:(NSInteger)index {
+    switch (index) {
+        case 0:
+            [self showToday:nil];
+            break;
+            
+        case 1:
+            [self showDate:nil];
+            break;
+            
+        case 2:
+            [self showFilterView:nil];
+            break;
+            
+        case 3:
+            [self sync:nil];
+            break;
+            
+        case 4:
+            [self showHideCategory:nil];
+            break;
+            
+        case 5:
+            [self editSetting:nil];
+            break;
+            
+        case 6:
+            [self backup:nil];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)selectedItemSettingMenuCommonAtIndex:(NSInteger)index {
+    switch (index) {
+        case 0:
+            [self showFilterView:nil];
+            break;
+            
+        case 1:
+            [self sync:nil];
+            break;
+            
+        case 2:
+            [self showHideCategory:nil];
+            break;
+            
+        case 3:
+            [self editSetting:nil];
+            break;
+            
+        case 4:
+            [self backup:nil];
+            break;
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark - ViewFilterMenuDelegage
 - (void)didSelectFilterWithFilterType:(NSInteger)filterType atScreen:(TaskListSource)screen {
-    switch (screen) {
+    switch ((NSInteger)screen) {
         case SOURCE_NOTE:
             [self showNoteWithOption:filterType];
             break;
@@ -4210,6 +4373,17 @@ extern BOOL _detailHintShown;
             
             [self showTaskWithOption:convertType];
         }
+            break;
+            
+        case SETTING_MENU_CALENDAR:
+            [self selectedItemSettingMenuCalendarAtIndex:filterType];
+            break;
+            
+        case SETTING_MENU_SMARTLIST:
+        case SETTING_MENU_NOTE:
+        case SETTING_MENU_CATEGORY:
+        case SETTING_MENU_COMMON:
+            [self selectedItemSettingMenuCommonAtIndex:filterType];
             break;
             
         default:

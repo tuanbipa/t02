@@ -92,13 +92,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < self.listFilters.count) {
-        for (NSInteger i=0; i<self.listFilters.count; i++) {
-            FilterObject *object = (FilterObject *)[self.listFilters objectAtIndex:i];
-            if (indexPath.row == i) {
-                object.isSelected = YES;
-            }
-            else {
-                object.isSelected = NO;
+        if (self.currentScreen == SOURCE_SMARTLIST || self.currentScreen == SOURCE_NOTE || self.currentScreen == SOURCE_CATEGORY) {
+            for (NSInteger i=0; i<self.listFilters.count; i++) {
+                FilterObject *object = (FilterObject *)[self.listFilters objectAtIndex:i];
+                if (indexPath.row == i) {
+                    object.isSelected = YES;
+                }
+                else {
+                    object.isSelected = NO;
+                }
             }
         }
         
@@ -106,7 +108,9 @@
             [self.viewFilterMenuDelegage didSelectFilterWithFilterType:indexPath.row atScreen:self.currentScreen];
         }
         
-        [tableView reloadData];
+        if (self.currentScreen == SOURCE_SMARTLIST || self.currentScreen == SOURCE_NOTE || self.currentScreen == SOURCE_CATEGORY) {
+            [tableView reloadData];
+        }
     }
 }
 
