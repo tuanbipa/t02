@@ -60,6 +60,9 @@
 
 #import "TaskLinkManager.h"
 
+
+#define HEIGHT_QUICK_ADD_VIEW 40
+
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
 extern iPadViewController *_iPadViewCtrler;
@@ -281,7 +284,7 @@ SmartListViewController *_smartListViewCtrler;
 -(void)changeSkin
 {
     //contentView.backgroundColor = [UIColor colorWithPatternImage:[[ImageManager getInstance] getImageWithName:@"bg_pattern.png"]];
-    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    contentView.backgroundColor = [UIColor colorWithRed:0.84 green:0.81 blue:0.90 alpha:1.00];
     
     //smartListView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
@@ -2249,9 +2252,12 @@ SmartListViewController *_smartListViewCtrler;
     Settings *settings = [Settings getInstance];
     
     CGRect frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+//    frm.origin.y = 40;
+//    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
     
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
+
     smartListView.frame = frm;
 }
 
@@ -2975,9 +2981,11 @@ SmartListViewController *_smartListViewCtrler;
     //CGPoint offset = smartListView.contentOffset;
     
     frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
-    
+//    frm.origin.y = 40;
+//    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
+
     frm.size.height -= [[AbstractActionViewController getInstance] isKindOfClass:[PlannerViewController class]] ? 28 : 0;
     
     smartListView.frame = frm;
@@ -2994,7 +3002,7 @@ SmartListViewController *_smartListViewCtrler;
     UIToolbar *toolbar = (UIToolbar *) [editBarPlaceHolder viewWithTag:1];
     toolbar.frame = editBarPlaceHolder.bounds;
     
-    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, 35);
+    quickAddPlaceHolder.frame = CGRectMake(0, 0, frm.size.width, HEIGHT_QUICK_ADD_VIEW);
     quickAddTextField.frame = CGRectMake(5, 5, frm.size.width-45, 30);
     
     UIButton *moreButton = (UIButton *) [quickAddPlaceHolder viewWithTag:10000];
@@ -3009,6 +3017,7 @@ SmartListViewController *_smartListViewCtrler;
 
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    frm.size.height += [Common heightTabbar];
     
     frm.size.width = _isiPad ? 364 : frm.size.width;
     
@@ -3019,8 +3028,12 @@ SmartListViewController *_smartListViewCtrler;
 	[contentView release];
     
     frm = contentView.bounds;
-    frm.origin.y = 40;
-    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+//    frm.origin.y = 40;
+//    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
+    
+    frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
+    frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
+
 	
     //smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
     smartListView = [[ContentPullTableView alloc] initWithFrame:frm];
@@ -3040,7 +3053,7 @@ SmartListViewController *_smartListViewCtrler;
     
     //[contentView addSubview:listTableViewCtrler.view];
     
-    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, frm.size.width, frm.size.height-40)];
+    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, HEIGHT_QUICK_ADD_VIEW, frm.size.width, frm.size.height-HEIGHT_QUICK_ADD_VIEW)];
     [contentView addSubview:maskView];
     maskView.backgroundColor = [UIColor clearColor];
     maskView.hidden = YES;
@@ -3048,7 +3061,7 @@ SmartListViewController *_smartListViewCtrler;
 
     layoutController.listTableView = smartListView;
 	
-    quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, 35)];
+    quickAddPlaceHolder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frm.size.width, HEIGHT_QUICK_ADD_VIEW)];
 
     quickAddPlaceHolder.tag = -30000;
     
