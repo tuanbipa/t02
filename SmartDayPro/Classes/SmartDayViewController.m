@@ -1698,10 +1698,18 @@ extern BOOL _detailHintShown;
     return title;
 }
 
-- (NSString *) showTaskWithOption:(id)sender
-{
-    NSString *title = [super showTaskWithOption:sender];
+//- (NSString *) showTaskWithOption:(id)sender
+//{
+//    NSString *title = [super showTaskWithOption:sender];
+//
+//    self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_smartTasksText,title];
+//
+//    return title;
+//}
 
+- (NSString *)showTaskWithOption:(NSInteger)sender {
+    NSString *title = [super showTaskWithOption:sender];
+    
     self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_smartTasksText,title];
     
     return title;
@@ -2943,7 +2951,7 @@ extern BOOL _detailHintShown;
     [menu release];
 }
 
--(void) createTaskOptionView
+-(void) createTaskOptionView_old
 {
     NSString *texts[7] = {
         _allText,
@@ -3165,6 +3173,40 @@ extern BOOL _detailHintShown;
     [menu release];
 }
 
+- (void)createTaskOptionView {
+    CGFloat widthFilterView = contentView.frame.size.width - 100;
+    CGFloat originXFilterView = (contentView.frame.size.width - widthFilterView)/2;
+    CGFloat originYFilterMenu = 20;
+    NSArray *listFilters = [self createListTaskFilterOptions];
+    CGFloat heightFilterView = listFilters.count*HEIGHT_ICON_MENU_FILTER + originYFilterMenu + 5;
+    
+    optionView = [[UIView alloc] initWithFrame:CGRectMake(originXFilterView, 0, widthFilterView, heightFilterView)];
+    optionView.hidden = YES;
+    optionView.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:optionView];
+    [optionView release];
+    
+    viewFilterMenu = [[ViewFilterMenu alloc] initWithFrame:CGRectMake(0, originYFilterMenu,
+                                                                      optionView.frame.size.width,
+                                                                      optionView.frame.size.height - originYFilterMenu)
+                                          andCurrentScreen:SOURCE_SMARTLIST];
+    viewFilterMenu.listFilters = listFilters;
+    viewFilterMenu.viewFilterMenuDelegage = self;
+    [optionView addSubview:viewFilterMenu];
+    [viewFilterMenu release];
+    
+    optionImageView = [[UIImageView alloc] initWithFrame:optionView.bounds];
+    [optionView addSubview:optionImageView];
+    [optionImageView release];
+    
+    [optionView bringSubviewToFront:viewFilterMenu];
+    
+    // Background of Filter
+    MenuMakerView *menu = [[MenuMakerView alloc] initWithFrame:optionView.bounds];
+    menu.menuPoint = menu.bounds.size.width/2;
+    optionImageView.image = [Common takeSnapshot:menu size:menu.bounds.size];
+    [menu release];
+}
 
 //- (void)createNoteOptionView {
 ////    NSString *texts[7] = {
@@ -4026,7 +4068,57 @@ extern BOOL _detailHintShown;
         case SOURCE_CATEGORY:
         {
             CategoryViewController *ctrler = [self getCategoryViewController];
-            currentFilter = ctrler.filterType;
+            switch (ctrler.filterType) {
+                case TYPE_TASK:
+                    currentFilter = 0;
+                    break;
+                    
+                case TYPE_EVENT:
+                    currentFilter = 1;
+                    break;
+                    
+                case TYPE_NOTE:
+                    currentFilter = 2;
+                    break;
+                    
+                case TASK_FILTER_PINNED:
+                    currentFilter = 3;
+                    break;
+            }
+        }
+            break;
+            
+        case SOURCE_SMARTLIST:
+        {
+            switch ([[TaskManager getInstance] taskTypeFilter]) {
+                case TASK_FILTER_ALL:
+                    currentFilter = 0;
+                    break;
+                    
+                case TASK_FILTER_STAR:
+                    currentFilter = 1;
+                    break;
+                    
+                case TASK_FILTER_TOP:
+                    currentFilter = 2;
+                    break;
+                    
+                case TASK_FILTER_DUE:
+                    currentFilter = 3;
+                    break;
+                    
+                case TASK_FILTER_LONG:
+                    currentFilter = 4;
+                    break;
+                    
+                case TASK_FILTER_SHORT:
+                    currentFilter = 5;
+                    break;
+                    
+                case TASK_FILTER_DONE:
+                    currentFilter = 6;
+                    break;
+            }
         }
             break;
             
@@ -4060,9 +4152,16 @@ extern BOOL _detailHintShown;
 
 - (NSArray *)createListProjectFilterOptions {
     NSArray *titles = [NSArray arrayWithObjects:_tasksText, _eventsText, _notesText, _anchoredText, nil];
-    NSArray *icons = [NSArray arrayWithObjects:@"all", @"day", @"week", @"undone", nil];
+    NSArray *icons = [NSArray arrayWithObjects:@"undone", @"event", @"note-view", @"undone", nil];
     
     return [self generalListObjectWithTitles:titles andIconNames:icons andSource:SOURCE_CATEGORY];
+}
+
+- (NSArray *)createListTaskFilterOptions {
+    NSArray *titles = [NSArray arrayWithObjects:_allText, _starText, _gtdoText, _dueText, _longText, _shortText, _doneText, nil];
+    NSArray *icons = [NSArray arrayWithObjects:@"all", @"stared", @"flag", @"due", @"long", @"short", @"task-view-sel", nil];
+    
+    return [self generalListObjectWithTitles:titles andIconNames:icons andSource:SOURCE_SMARTLIST];
 }
 
 #pragma mark - ViewFilterMenuDelegage
@@ -4074,6 +4173,43 @@ extern BOOL _detailHintShown;
             
         case SOURCE_CATEGORY:
             [self showProjectWithOption:filterType];
+            break;
+            
+        case SOURCE_SMARTLIST:
+        {
+            NSInteger convertType = -1;
+            switch (filterType) {
+                case 0:
+                    convertType = TASK_FILTER_ALL;
+                    break;
+                    
+                case 1:
+                    convertType = TASK_FILTER_STAR;
+                    break;
+                    
+                case 2:
+                    convertType = TASK_FILTER_TOP;
+                    break;
+                    
+                case 3:
+                    convertType = TASK_FILTER_DUE;
+                    break;
+                    
+                case 4:
+                    convertType = TASK_FILTER_LONG;
+                    break;
+                    
+                case 5:
+                    convertType = TASK_FILTER_SHORT;
+                    break;
+                    
+                case 6:
+                    convertType = TASK_FILTER_DONE;
+                    break;
+            }
+            
+            [self showTaskWithOption:convertType];
+        }
             break;
             
         default:

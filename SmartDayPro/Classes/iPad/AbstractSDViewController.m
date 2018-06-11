@@ -202,7 +202,7 @@ extern iPadViewController *_iPadViewCtrler;
     return _plannerViewCtrler != nil?[_plannerViewCtrler getPlannerDayCalendarView]:nil;
 }
 
-- (NSString *) showTaskWithOption:(id)sender
+- (NSString *) showTaskWithOption_old:(id)sender
 {
     [self hideDropDownMenu];
     
@@ -261,6 +261,64 @@ extern iPadViewController *_iPadViewCtrler;
         self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_smartTasksText,title];
     }
     */
+}
+
+- (NSString *)showTaskWithOption:(NSInteger)filterType {
+    [self hideDropDownMenu];
+    
+    SmartListViewController *ctrler = [self getSmartListViewController];
+    
+    [ctrler filter:filterType];
+    
+    NSString *title = @"";
+    
+    switch (filterType)
+    {
+        case TASK_FILTER_ALL:
+            title = _allText;
+            break;
+        case TASK_FILTER_STAR:
+            title = _starText;
+            break;
+        case TASK_FILTER_TOP:
+            title = _gtdoText;
+            break;
+        case TASK_FILTER_DUE:
+            title = _dueText;
+            break;
+        case TASK_FILTER_ACTIVE:
+            title = _startText;
+            break;
+        case TASK_FILTER_DONE:
+            title = _doneText;
+            break;
+        case TASK_FILTER_LONG:
+            title = _longText;
+            break;
+        case TASK_FILTER_SHORT:
+            title = _shortText;
+            break;
+    }
+    
+    if ([self checkControllerActive:3] && (filterType == TASK_FILTER_DUE || filterType == TASK_FILTER_ACTIVE))
+    {
+        //fix bug: change Due filter -> task order in project module is not the same
+        CategoryViewController *catCtrler = [self getCategoryViewController];
+        
+        if (catCtrler.filterType == TYPE_TASK)
+        {
+            [catCtrler loadAndShowList];
+        }
+    }
+    
+    return title;
+    
+    /*
+     if (!_isiPad)
+     {
+     self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@",_smartTasksText,title];
+     }
+     */
 }
 
 //- (NSString *) showNoteWithOption:(id)sender

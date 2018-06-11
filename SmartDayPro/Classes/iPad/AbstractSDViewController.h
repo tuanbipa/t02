@@ -53,7 +53,8 @@
 - (void) starTaskInView:(TaskView *)taskView;
 - (void) markDoneTaskInView:(TaskView *)view;
 
-- (NSString *) showTaskWithOption:(id)sender;
+//- (NSString *) showTaskWithOption:(id)sender;
+- (NSString *)showTaskWithOption:(NSInteger)filterType;
 //- (NSString *) showNoteWithOption:(id)sender;
 - (NSString *)showNoteWithOption:(NSInteger)filterType;
 //- (NSString *) showProjectWithOption:(id)sender;
