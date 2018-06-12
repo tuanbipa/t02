@@ -195,6 +195,8 @@ extern BOOL _firstLaunch;
 #define COLOR_BACKGROUND_ICON_EDIT_MODE hexColor(0x2C7CF6)
 #define COLOR_TEXT_PLACEHOLDER hexColor(0x666666)
 #define COLOR_BACKGROUND_ICON_FILTER_SEL hexColor(0x2C7CF6)
+#define COLOR_TEXT_OVERVIEW hexColor(0x8C8C8C)
+#define COLOR_TEXT_OVERVIEW_SEL hexColor(0x194B89)
 
 typedef NS_ENUM(NSInteger, DeviceSize) {
     UnknownSize     = 0,
@@ -716,6 +718,9 @@ typedef enum
 + (void)refreshNavigationbarForEditMode;
 + (UIColor *)colorWithProject:(NSInteger)project;
 + (UIColor *)colorDefaultProject;
++ (UIDeviceOrientation)currentOrientation;
++ (CGFloat)heightNavigationbarAtLandscapeMode;
++ (UIColor *)colorProjectWithProject:(NSInteger)projectNumber;
 
 @end
 

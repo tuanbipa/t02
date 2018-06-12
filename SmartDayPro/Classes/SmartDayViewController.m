@@ -67,6 +67,7 @@
 #import "ViewFilterMenu.h"
 
 #define TAG_CURRENTDATE_CALENDAR_TABBAR 9999
+#define SIZE_ARROW_ICON 5
 
 extern SmartCalAppDelegate *_appDelegate;
 extern BOOL _calendarHintShown;
@@ -292,6 +293,9 @@ extern BOOL _detailHintShown;
         self.navigationItem.title = [NSString stringWithFormat:@"%ld %@", countListSelectedItems, _selectedText];
     }
     else {
+        CGRect frameArrow = arrowDownImgView.frame;
+        frameArrow.origin.x = (contentView.frame.size.width - SIZE_ARROW_ICON)/2;
+        arrowDownImgView.frame = frameArrow;
         arrowDownImgView.hidden = NO;
         
         if ([self.activeViewCtrler isKindOfClass:[WeekViewController class]])
@@ -327,14 +331,18 @@ extern BOOL _detailHintShown;
             //landscape mode
             self.navigationItem.title = [NSString stringWithFormat:@"%@ - %@", _overviewText, title];
             
-            UIButton *exportButton = [Common createButton:@""
-                                               buttonType:UIButtonTypeCustom
-                                                    frame:CGRectMake(0, 10, 30, 30)
-                                               titleColor:nil
-                                                   target:self
-                                                 selector:@selector(export:)
-                                         normalStateImage:@"menu_export.png"
-                                       selectedStateImage:nil];
+            UIImage *exportImageIcon = [FontManager flowasticImageWithIconName:@"screenshot-send"
+                                                                     andSize:SIZE_ICON_TOPBAR
+                                                                   iconColor:[UIColor whiteColor]];
+            
+            UIButton *exportButton = [Common createButtonWith:@""
+                                                   buttonType:UIButtonTypeCustom
+                                                        frame:CGRectMake(0, 10, 30, 30)
+                                                   titleColor:nil
+                                                       target:self
+                                                     selector:@selector(export:)
+                                             normalStateImage:exportImageIcon
+                                           selectedStateImage:nil];
             
             UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithCustomView:exportButton];
             
@@ -3765,12 +3773,11 @@ extern BOOL _detailHintShown;
     
     //[self performSelector:@selector(tab:) withObject:tabButtons[0] afterDelay:0];
     
-    [self changeOrientation:self.interfaceOrientation];
+    [self changeOrientation:[Common currentOrientation]];
     
-    NSInteger sizeArrowDownIcon = 5;
-    NSInteger orginX = (contentView.frame.size.width - sizeArrowDownIcon)/2;
-    arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(orginX, 33, sizeArrowDownIcon, sizeArrowDownIcon)];
-    arrowDownImgView.image = [FontManager flowasticImageWithIconName:@"arrow-down" andSize:sizeArrowDownIcon iconColor:[UIColor whiteColor]];
+    NSInteger orginX = (contentView.frame.size.width - SIZE_ARROW_ICON)/2;
+    arrowDownImgView = [[UIImageView alloc] initWithFrame:CGRectMake(orginX, 33, SIZE_ARROW_ICON, SIZE_ARROW_ICON)];
+    arrowDownImgView.image = [FontManager flowasticImageWithIconName:@"arrow-down" andSize:SIZE_ARROW_ICON iconColor:[UIColor whiteColor]];
     [self.navigationController.navigationBar addSubview:arrowDownImgView];
     [arrowDownImgView release];
 }
@@ -3851,24 +3858,19 @@ extern BOOL _detailHintShown;
     [self tab:tabButtons[index]];
 }
 
-- (void) changeOrientation:(UIInterfaceOrientation) orientation
-{
+- (void)changeOrientation:(UIInterfaceOrientation) orientation {
     CGSize sz = [Common getScreenSize];
-    sz.height += 20 + 44;
-    
     CGRect frm = CGRectZero;
     
-    if (UIInterfaceOrientationIsLandscape(orientation))
-    {
-        frm.size.height = sz.width;
-        frm.size.width = sz.height;
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        if (sz.width < sz.height) {
+            frm.size.width = sz.height + [Common heightTabbar] + [Common heightNavigationbar];
+            frm.size.height = sz.width;
+        }
     }
-    else
-    {
+    else {
         frm.size = sz;
     }
-    
-    frm.size.height -= 20 + 44;
     
     contentView.frame = frm;
     moduleView.frame = contentView.bounds;

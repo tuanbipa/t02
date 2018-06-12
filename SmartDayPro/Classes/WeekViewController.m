@@ -18,10 +18,11 @@
 #import "ProjectManager.h"
 
 #import "SmartDayViewController.h"
+#import "FontManager.h"
 
 extern SmartDayViewController *_sdViewCtrler;
 
-@interface WeekViewController ()
+@interface WeekViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @end
 
@@ -178,32 +179,33 @@ extern SmartDayViewController *_sdViewCtrler;
 
 #pragma mark View
 
-- (void) loadView
-{
+- (void) loadView {
     CGRect frm = CGRectZero;
-    
     CGSize sz = [Common getScreenSize];
     
-    frm.size.width = sz.height + 44 + 20;
-    frm.size.height = sz.width - 44;
+    if (UIInterfaceOrientationIsLandscape([Common currentOrientation])) {
+        if (sz.width < sz.height) {
+            frm.size.width = sz.height + [Common heightTabbar] + [Common heightNavigationbar];
+            frm.size.height = sz.width - [Common heightNavigationbarAtLandscapeMode];
+        }
+    }
+    else {
+        frm.size = sz;
+    }
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
-    
     self.view = contentView;
     [contentView release];
     
     listTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
-    //listTableView.backgroundColor = [UIColor colorWithRed:250.0/255 green:244.0/255 blue:222.0/255 alpha:1];
-    listTableView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    listTableView.backgroundColor = [UIColor whiteColor];
     listTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    //listTableView.separatorColor = [UIColor colorWithRed:229.0/255 green:191.0/255 blue:168.0/255 alpha:1];
-    listTableView.separatorColor = [UIColor colorWithRed:113.0/255 green:131.0/255 blue:175.0/255 alpha:1];
+    listTableView.separatorColor = COLOR_LINE;
+    listTableView.separatorInset = UIEdgeInsetsMake(0, -20, 0, 0);
     listTableView.delegate = self;
     listTableView.dataSource = self;
-    
     [contentView addSubview:listTableView];
     [listTableView release];
-    
 }
 
 - (void)viewDidLoad
@@ -272,57 +274,55 @@ extern SmartDayViewController *_sdViewCtrler;
     CGFloat adeH = adeList.count*25;
     CGFloat h = [self tableView:tableView heightForRowAtIndexPath:indexPath];
     
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(left_w-6, 0, 6, h)];
-    separatorView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"week_separator.png"]];
+//    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(left_w-6, 0, 6, h)];
+//    separatorView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"week_separator.png"]];
+//    [cell.contentView addSubview:separatorView];
+//    [separatorView release];
+    
+    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(left_w, 0, 0.5, h)];
+    separatorView.backgroundColor = COLOR_LINE;
     [cell.contentView addSubview:separatorView];
     [separatorView release];
     
-    UIView *itemSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(left_w + (tableView.bounds.size.width-left_w)/2, adeH, 1, h-adeH)];
-    //itemSeparatorView.backgroundColor = [UIColor colorWithRed:229.0/255 green:191.0/255 blue:168.0/255 alpha:0.5];
-    itemSeparatorView.backgroundColor = [UIColor colorWithRed:113.0/255 green:131.0/255 blue:175.0/255 alpha:0.5];
+    UIView *itemSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(left_w + (tableView.bounds.size.width-left_w)/2, adeH, 0.5, h-adeH)];
+    itemSeparatorView.backgroundColor = COLOR_LINE;
     [cell.contentView addSubview:itemSeparatorView];
     [itemSeparatorView release];
     
-    if (adeH > 0)
-    {
+    if (adeH > 0) {
         UIView *adeSeparatorView = [[UIView alloc] initWithFrame:CGRectMake(left_w, adeH, tableView.bounds.size.width-left_w, 1)];
-        //adeSeparatorView.backgroundColor = [UIColor colorWithRed:229.0/255 green:191.0/255 blue:168.0/255 alpha:0.5];
-        adeSeparatorView.backgroundColor = [UIColor colorWithRed:113.0/255 green:131.0/255 blue:175.0/255 alpha:0.5];
+        adeSeparatorView.backgroundColor = COLOR_LINE;
         [cell.contentView addSubview:adeSeparatorView];
         [adeSeparatorView release];    
     }
     
-    UILabel *weekdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, left_w-6, 20)];
-    //weekdayLabel.backgroundColor = [UIColor colorWithRed:246.0/255 green:232.0/255 blue:187.0/255 alpha:1];
-    weekdayLabel.backgroundColor = [UIColor colorWithRed:197.0/255 green:197.0/255 blue:197.0/255 alpha:1];
-    //weekdayLabel.textColor = [UIColor colorWithRed:188.0/255 green:149.0/255 blue:108.0/255 alpha:1];
-    weekdayLabel.textColor = [UIColor colorWithRed:34.0/255 green:51.0/255 blue:99.0/255 alpha:1];
-    weekdayLabel.font = [UIFont boldSystemFontOfSize:14];
-    weekdayLabel.textAlignment = NSTextAlignmentCenter;
-    weekdayLabel.text = [[Common getWeekdayString:dt] uppercaseString];
+    CGFloat fontSize = 13;
+    CGFloat heightLabel = 20;
     
+    UILabel *weekdayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, left_w-6, heightLabel)];
+    weekdayLabel.backgroundColor = [UIColor clearColor];
+    weekdayLabel.textColor = COLOR_TEXT_OVERVIEW;
+    weekdayLabel.font = [UIFont systemFontOfSize:fontSize weight:UIFontWeightThin];
+    weekdayLabel.textAlignment = NSTextAlignmentRight;
+    weekdayLabel.text = [[Common getWeekdayString:dt] uppercaseString];
     [cell.contentView addSubview:weekdayLabel];
     [weekdayLabel release];
     
-    UILabel *monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, left_w-6, 20)];
+    UILabel *monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, heightLabel-4, left_w-6, heightLabel)];
     monthLabel.backgroundColor = [UIColor clearColor];
-    //monthLabel.textColor = [UIColor colorWithRed:206.0/255 green:156.0/255 blue:133.0/255 alpha:0.7];
-    monthLabel.textColor = [UIColor colorWithRed:34.0/255 green:51.0/255 blue:99.0/255 alpha:1];
-    monthLabel.font = [UIFont systemFontOfSize:16];
-    monthLabel.textAlignment = NSTextAlignmentCenter;
-    monthLabel.text = [Common getMonthString:dt];
-    
+    monthLabel.textColor = COLOR_TEXT_OVERVIEW;
+    monthLabel.font = [UIFont systemFontOfSize:fontSize weight:UIFontWeightThin];
+    monthLabel.textAlignment = NSTextAlignmentRight;
+    monthLabel.text = [[Common getMonthString:dt] uppercaseString];
     [cell.contentView addSubview:monthLabel];
     [monthLabel release];
 
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 38, left_w-6, 20)];
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 38, left_w-6, heightLabel)];
     dayLabel.backgroundColor = [UIColor clearColor];
-    //dayLabel.textColor = [UIColor colorWithRed:206.0/255 green:156.0/255 blue:133.0/255 alpha:1];
-    dayLabel.textColor = [UIColor colorWithRed:34.0/255 green:51.0/255 blue:99.0/255 alpha:1];
+    dayLabel.textColor = COLOR_TEXT_OVERVIEW_SEL;
     dayLabel.font = [UIFont systemFontOfSize:20];
-    dayLabel.textAlignment = NSTextAlignmentCenter;
+    dayLabel.textAlignment = NSTextAlignmentRight;
     dayLabel.text = [Common getDayString:dt];
-    
     [cell.contentView addSubview:dayLabel];
     [dayLabel release];
     
@@ -346,32 +346,43 @@ extern SmartDayViewController *_sdViewCtrler;
         [adeLabel release];        
     }
     
-    for (int i=0; i<eventList.count; i++)
-    {
+    CGFloat sizeIcon = 16;
+    
+    for (int i=0; i<eventList.count; i++) {
         Task *event = [eventList objectAtIndex:i];
         
+        UIImage *eventImageIcon = [FontManager flowasticImageWithIconName:@"event"
+                                                                   andSize:sizeIcon
+                                                                 iconColor:[Common colorWithProject:event.project]];
+        
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(left_w+2, adeH + i*30 + 8, 16, 16)];
-        imgView.image = [pm getEventIcon:event.project];
+        imgView.image = eventImageIcon;
         [cell.contentView addSubview:imgView];
         [imgView release];
 
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(left_w+20, adeH + i*30, (tableView.bounds.size.width-left_w)/2-20, 30)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(left_w+20, adeH + i*30,
+                                                                        (tableView.bounds.size.width-left_w)/2-20, 30)];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.textColor = [UIColor blackColor];
         titleLabel.font = font;
         titleLabel.numberOfLines = 0;
-        titleLabel.text  = [NSString stringWithFormat:@"[%@-%@] %@", [Common getShortTimeString:event.startTime], [Common getShortTimeString:event.endTime], event.name];
-        
+        titleLabel.text  = [NSString stringWithFormat:@"[%@-%@] %@",
+                                                                [Common getShortTimeString:event.startTime],
+                                                                [Common getShortTimeString:event.endTime], event.name];
         [cell.contentView addSubview:titleLabel];
         [titleLabel release];
     }
 
-    for (int i=0; i<taskList.count; i++)
-    {
+    for (int i=0; i<taskList.count; i++) {
         Task *task = [taskList objectAtIndex:i];
         
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(left_w+(tableView.bounds.size.width-left_w)/2+2, adeH + i*30 + 8, 14, 14)];
-        imgView.image = [pm getTaskIcon:task.project];
+        UIImage *taskImageIcon = [FontManager flowasticImageWithIconName:@"undone"
+                                                                  andSize:sizeIcon
+                                                                iconColor:[Common colorWithProject:task.project]];
+        
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(left_w+(tableView.bounds.size.width-left_w)/2+2,
+                                                                             adeH + i*30 + 8, 14, 14)];
+        imgView.image = taskImageIcon;
         [cell.contentView addSubview:imgView];
         [imgView release];
         
@@ -382,13 +393,13 @@ extern SmartDayViewController *_sdViewCtrler;
         [checkImgView release];
         */
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(left_w+(tableView.bounds.size.width-left_w)/2+20, adeH + i*30, (tableView.bounds.size.width-left_w)/2-20, 30)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(left_w+(tableView.bounds.size.width-left_w)/2+20,
+                                                                        adeH + i*30, (tableView.bounds.size.width-left_w)/2-20, 30)];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.textColor = [UIColor blackColor];
         titleLabel.font = font;
         titleLabel.numberOfLines = 0;
-        titleLabel.text  = task.name;
-        
+        titleLabel.text = task.name;
         [cell.contentView addSubview:titleLabel];
         [titleLabel release];
     }

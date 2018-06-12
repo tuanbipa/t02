@@ -2057,4 +2057,17 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return [[pm getProjectColor0:settings.taskDefaultProject] colorWithAlphaComponent:0.4];
 }
 
++ (UIDeviceOrientation)currentOrientation {
+    return [UIDevice currentDevice].orientation;
+}
+
++ (CGFloat)heightNavigationbarAtLandscapeMode {
+    return 32;
+}
+
++ (UIColor *)colorProjectWithProject:(NSInteger)projectNumber {
+    ProjectManager *pm = [ProjectManager getInstance];
+    return [pm getProjectColor0:projectNumber];
+}
+
 @end
