@@ -2797,6 +2797,19 @@ extern DetailViewController *_detailViewCtrler;
     UIImage *deleteImageIcon = [FontManager flowasticImageWithIconName:@"delete"
                                                                andSize:SIZE_ICON_TOPBAR
                                                              iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+    
+    UIImage *dueImageIcon = [FontManager flowasticImageWithIconName:@"due"
+                                                               andSize:SIZE_ICON_TOPBAR
+                                                             iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+    
+    UIImage *todayImageIcon = [FontManager flowasticImageWithIconName:@"move-top"
+                                                            andSize:SIZE_ICON_TOPBAR
+                                                          iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+    
+    UIImage *doneImageIcon = [FontManager flowasticImageWithIconName:@"task-view"
+                                                              andSize:SIZE_ICON_TOPBAR
+                                                            iconColor:COLOR_BACKGROUND_ICON_EDIT_MODE];
+    
     UIButton *deleteButton = [Common createButtonWith:@""
                                            buttonType:UIButtonTypeCustom
                                                 frame:CGRectMake(0, 0, 30, 30)
@@ -2808,36 +2821,36 @@ extern DetailViewController *_detailViewCtrler;
     
     UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
     
-    UIButton *deferButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(0, 0, 30, 30)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(multiDefer:)
-                                normalStateImage:@"menu_defer.png"
-                              selectedStateImage:nil];
+    UIButton *deferButton = [Common createButtonWith:@""
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(0, 0, 30, 30)
+                                          titleColor:[UIColor whiteColor]
+                                              target:self
+                                            selector:@selector(multiDefer:)
+                                    normalStateImage:dueImageIcon
+                                  selectedStateImage:nil];
     
     UIBarButtonItem *deferItem = [[UIBarButtonItem alloc] initWithCustomView:deferButton];
     
-    UIButton *todayButton = [Common createButton:@""
-                                      buttonType:UIButtonTypeCustom
-                                           frame:CGRectMake(0, 0, 30, 30)
-                                      titleColor:[UIColor whiteColor]
-                                          target:self
-                                        selector:@selector(multiDoToday:)
-                                normalStateImage:@"menu_dotoday.png"
-                              selectedStateImage:nil];
+    UIButton *todayButton = [Common createButtonWith:@""
+                                          buttonType:UIButtonTypeCustom
+                                               frame:CGRectMake(0, 0, 30, 30)
+                                          titleColor:[UIColor whiteColor]
+                                              target:self
+                                            selector:@selector(multiDoToday:)
+                                    normalStateImage:todayImageIcon
+                                  selectedStateImage:nil];
     
     UIBarButtonItem *todayItem = [[UIBarButtonItem alloc] initWithCustomView:todayButton];
     
-    UIButton *markDoneButton = [Common createButton:@""
-                                         buttonType:UIButtonTypeCustom
-                                              frame:CGRectMake(0, 0, 30, 30)
-                                         titleColor:[UIColor whiteColor]
-                                             target:self
-                                           selector:@selector(multiMarkDone:)
-                                   normalStateImage:@"menu_done.png"
-                                 selectedStateImage:nil];
+    UIButton *markDoneButton = [Common createButtonWith:@""
+                                             buttonType:UIButtonTypeCustom
+                                                  frame:CGRectMake(0, 0, 30, 30)
+                                             titleColor:[UIColor whiteColor]
+                                                 target:self
+                                               selector:@selector(multiMarkDone:)
+                                       normalStateImage:doneImageIcon
+                                     selectedStateImage:nil];
     
     UIBarButtonItem *markDoneItem = [[UIBarButtonItem alloc] initWithCustomView:markDoneButton];
     
