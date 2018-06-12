@@ -143,8 +143,7 @@ DetailViewController *_detailViewCtrler = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
-- (void) changeFrame:(CGRect)frm
-{
+- (void) changeFrame:(CGRect)frm {
     contentView.frame = frm;
     
     //frm = CGRectInset(contentView.bounds, 5, 5);
@@ -375,10 +374,10 @@ DetailViewController *_detailViewCtrler = nil;
     [self changeFrame:frm];
 }
 
-- (void) loadView
-{
+- (void) loadView {
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
+    frm.size.height += [Common heightTabbar];
     
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
     {
@@ -1315,7 +1314,7 @@ DetailViewController *_detailViewCtrler = nil;
     [adeSwitch release];
 }
 
-- (void) createStartDueCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
+- (void) createStartDueCell_old:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
 {
     cell.accessoryType = UITableViewCellAccessoryNone;
     
@@ -1435,6 +1434,159 @@ DetailViewController *_detailViewCtrler = nil;
     dueButton.tag = baseTag + 9;
     [dueButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
     
+    [cell.contentView addSubview:dueButton];
+}
+
+- (void)createStartDueCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.backgroundColor = COLOR_BACKGROUND_HEADER_MINI_MONTH;
+ 
+    CGFloat yMargin = 0;
+    NSDate *startTime = self.taskCopy.startTime;
+    NSInteger heightStartEndLabel = 20;
+    NSInteger heightDayNumber = 40;
+    
+    // Start label
+    CGFloat widthStartLabel = detailTableView.frame.size.width/2 - PADDING_LEFT;
+    UILabel *startLabel = [[UILabel alloc] initWithFrame:CGRectMake(PADDING_LEFT, yMargin + 10, widthStartLabel, heightStartEndLabel)];
+    startLabel.backgroundColor = [UIColor clearColor];
+    startLabel.textAlignment = NSTextAlignmentLeft;
+    startLabel.text = _startText;
+    startLabel.textColor = COLOR_TEXT_OBJECT_DETAIL;
+    startLabel.font = [UIFont systemFontOfSize:16];
+    startLabel.tag = baseTag;
+    [cell.contentView addSubview:startLabel];
+    [startLabel release];
+    
+    // Day number of Start label
+    UIFont *fontDayNumber = [UIFont systemFontOfSize:40 weight:UIFontWeightThin];
+    NSString *dayNumberString = startTime == nil? _noneText:[NSString stringWithFormat:@"%ld",[Common getDay:startTime]];
+    CGSize widthDayNumberString = [Common sizeWithString:dayNumberString andFont:fontDayNumber];
+    CGRect frameDayLabel = CGRectMake(PADDING_LEFT, startLabel.frame.origin.y + startLabel.frame.size.height, widthDayNumberString.width, heightDayNumber);
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:frameDayLabel];
+    dayLabel.backgroundColor = [UIColor clearColor];
+    dayLabel.textAlignment = NSTextAlignmentRight;
+    dayLabel.textColor = COLOR_ICON_TABBAR_SEL;
+    dayLabel.font = fontDayNumber;
+    dayLabel.tag = baseTag + 1;
+    dayLabel.text = dayNumberString;
+    [cell.contentView addSubview:dayLabel];
+    [dayLabel release];
+    
+    // Date string of Start
+    NSString *dayStr = (startTime == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:startTime]:(_isiPad?[Common getFullWeekdayString:startTime]:[Common getFullDateString4:startTime])));
+    
+    CGFloat originXWkdayLabel = dayLabel.frame.origin.x + dayLabel.frame.size.width;
+    CGFloat originYWkdayLabel = dayLabel.frame.origin.y + 2;
+    CGFloat widthWkdayLabel = detailTableView.frame.size.width/2 - dayLabel.frame.origin.x - dayLabel.frame.size.width;
+    CGRect frameWkdayLabel = CGRectMake(originXWkdayLabel, originYWkdayLabel, widthWkdayLabel, heightStartEndLabel);
+    UILabel *wkdayLabel = [[UILabel alloc] initWithFrame:frameWkdayLabel];
+    wkdayLabel.backgroundColor = [UIColor clearColor];
+    wkdayLabel.text = dayStr;
+    wkdayLabel.textColor = [UIColor blackColor];
+    wkdayLabel.font = [UIFont systemFontOfSize:15];
+    wkdayLabel.tag = baseTag+2;
+    [cell.contentView addSubview:wkdayLabel];
+    [wkdayLabel release];
+    
+    // Time string of Start
+    NSString *timeStr = startTime == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:startTime]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:startTime], [Common getTimeString:startTime]]:[Common getTimeString:startTime]));
+    
+    CGFloat originXMonYearLabel = dayLabel.frame.origin.x + dayLabel.frame.size.width;
+    CGFloat originYMonYearLabel = wkdayLabel.frame.origin.y + wkdayLabel.frame.size.height - 4;
+    CGFloat widthMonYearLabel = detailTableView.frame.size.width/2 - originXMonYearLabel;
+    
+    CGRect frameMonYearLabel = CGRectMake(originXMonYearLabel, originYMonYearLabel, widthMonYearLabel, heightStartEndLabel);
+    UILabel *monYearLabel = [[UILabel alloc] initWithFrame:frameMonYearLabel];
+    monYearLabel.backgroundColor = [UIColor clearColor];
+    monYearLabel.text = timeStr;
+    monYearLabel.textColor = [UIColor blackColor];
+    monYearLabel.font = [UIFont systemFontOfSize:15];
+    monYearLabel.tag = baseTag+3;
+    [cell.contentView addSubview:monYearLabel];
+    [monYearLabel release];
+    
+    // Separator Line
+    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(detailTableView.bounds.size.width/2, yMargin, 0.5, 80)];
+    separatorView.backgroundColor = COLOR_LINE;
+    [cell.contentView addSubview:separatorView];
+    [separatorView release];
+    
+    // End label
+    CGFloat widthDueLabel = detailTableView.frame.size.width/2 - PADDING_LEFT;
+    UILabel *dueLabel = [[UILabel alloc] initWithFrame:CGRectMake(detailTableView.bounds.size.width/2 + PADDING_LEFT, yMargin + 10, widthDueLabel, heightStartEndLabel)];
+    dueLabel.backgroundColor = [UIColor clearColor];
+    dueLabel.text = _dueText;
+    dueLabel.textColor = COLOR_TEXT_OBJECT_DETAIL;
+    dueLabel.font = [UIFont systemFontOfSize:16];
+    dueLabel.tag = baseTag+4;
+    [cell.contentView addSubview:dueLabel];
+    [dueLabel release];
+    
+    // Due day of End
+    NSString *dueDayNumberString = self.taskCopy.deadline == nil? _noneText:[NSString stringWithFormat:@"%ld",
+                                                                             [Common getDay:self.taskCopy.deadline]];
+
+    CGSize widthDueNumberString = [Common sizeWithString:dueDayNumberString andFont:fontDayNumber];
+    CGRect frameDueDayLabel = CGRectMake(detailTableView.bounds.size.width/2 + PADDING_LEFT, dueLabel.frame.origin.y + startLabel.frame.size.height, widthDueNumberString.width, heightDayNumber);
+    
+    UILabel *dueDayLabel = [[UILabel alloc] initWithFrame:frameDueDayLabel];
+    dueDayLabel.backgroundColor = [UIColor clearColor];
+    dueDayLabel.textAlignment = NSTextAlignmentRight;
+    dueDayLabel.text = dueDayNumberString;
+    dueDayLabel.textColor = COLOR_ICON_TABBAR_SEL;
+    dueDayLabel.font = fontDayNumber;
+    dueDayLabel.tag = baseTag+5;
+    [cell.contentView addSubview:dueDayLabel];
+    [dueDayLabel release];
+    
+    // Date string of End
+    dayStr = (self.taskCopy.deadline == nil?@"":([self.taskCopy isADE]?[Common getFullWeekdayString:self.taskCopy.deadline]:(_isiPad?[Common getFullWeekdayString:self.taskCopy.deadline]:[Common getFullDateString4:self.taskCopy.deadline])));
+    
+    CGFloat originXDueWkdayLabel = dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
+    CGFloat originYDueWkdayLabel = dueDayLabel.frame.origin.y + 2;
+    CGFloat widthDueWkdayLabel = detailTableView.frame.size.width - originXDueWkdayLabel;
+    CGRect frameDueWkdayLabel = CGRectMake(originXDueWkdayLabel, originYDueWkdayLabel, widthDueWkdayLabel, heightStartEndLabel);
+    
+    UILabel *dueWkdayLabel = [[UILabel alloc] initWithFrame:frameDueWkdayLabel];
+    dueWkdayLabel.backgroundColor = [UIColor clearColor];
+    dueWkdayLabel.text = dayStr;
+    dueWkdayLabel.textColor = [UIColor blackColor];
+    dueWkdayLabel.font = [UIFont systemFontOfSize:15];
+    dueWkdayLabel.tag = baseTag+6;
+    [cell.contentView addSubview:dueWkdayLabel];
+    [dueWkdayLabel release];
+    
+    // Time string of End
+    timeStr = self.taskCopy.deadline == nil?@"":([self.taskCopy isADE]?[Common getMonthYearString:self.taskCopy.deadline]:(_isiPad?[NSString stringWithFormat:@"%@, %@",[Common getMonthYearString:self.taskCopy.deadline], [Common getTimeString:self.taskCopy.deadline]]:[Common getTimeString:self.taskCopy.deadline]));
+    
+    CGFloat originXDueMonYearLabel = dueDayLabel.frame.origin.x + dueDayLabel.frame.size.width;
+    CGFloat originYDueMonYearLabel = dueWkdayLabel.frame.origin.y + dueWkdayLabel.frame.size.height - 4;
+    CGFloat widthDueMonYearLabel = detailTableView.frame.size.width - originXDueMonYearLabel;
+    
+    UILabel *dueMonYearLabel = [[UILabel alloc] initWithFrame:CGRectMake(originXDueMonYearLabel, originYDueMonYearLabel, widthDueMonYearLabel, heightStartEndLabel)];
+    dueMonYearLabel.backgroundColor = [UIColor clearColor];
+    dueMonYearLabel.text = timeStr;
+    dueMonYearLabel.textColor = [UIColor blackColor];
+    dueMonYearLabel.font = [UIFont systemFontOfSize:15];
+    dueMonYearLabel.tag = baseTag+7;
+    [cell.contentView addSubview:dueMonYearLabel];
+    [dueMonYearLabel release];
+    
+    // Start button tap
+    UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    startButton.frame = CGRectMake(0, yMargin, detailTableView.frame.size.width/2, 80);
+    startButton.backgroundColor = [UIColor clearColor];
+    startButton.tag = baseTag + 8;
+    [startButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.contentView addSubview:startButton];
+    
+    // Due button tap
+    UIButton *dueButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    dueButton.frame = CGRectMake(detailTableView.frame.size.width/2 + 0.5, yMargin, detailTableView.frame.size.width/2, 80);
+    dueButton.backgroundColor = [UIColor clearColor];
+    dueButton.tag = baseTag + 9;
+    [dueButton addTarget:self action:@selector(editWhen:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:dueButton];
 }
 
