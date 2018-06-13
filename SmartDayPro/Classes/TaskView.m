@@ -425,8 +425,10 @@ extern SmartDayViewController *_sdViewCtrler;
         infoStr = [infoStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         CGRect textRec = rect;
-        textRec.origin.x = 16;
-        textRec.size.width -= 16;
+        if (!task.isMultiEdit) {
+            textRec.origin.x = 16;
+            textRec.size.width -= 16;
+        }
         
         // margin
         CGFloat margin = 4;
