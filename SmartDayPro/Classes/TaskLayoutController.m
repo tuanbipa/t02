@@ -131,7 +131,7 @@ extern iPadViewController *_iPadViewCtrler;
     self.listKeys = [self.taskDict.allKeys sortedArrayUsingSelector:@selector(compare:)];
     
     self.movableCtrler.listTableView = self.listTableView;
-    
+
     [self.listTableView reloadData];
 }
 
@@ -241,10 +241,8 @@ extern iPadViewController *_iPadViewCtrler;
     return headerView;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    
     UITableViewCell *cell = nil;
     
     if (cell == nil) {
@@ -257,65 +255,43 @@ extern iPadViewController *_iPadViewCtrler;
 	cell.textLabel.text = @"";
 	cell.textLabel.backgroundColor = [UIColor clearColor];
     
-    /*if (indexPath.section == 0)
+    NSDate *key = [self.listKeys objectAtIndex:indexPath.section];
+    NSArray *list = [self.taskDict objectForKey:key];
+    TaskManager *tm = [TaskManager getInstance];
+    Task *task = [list objectAtIndex:indexPath.row];
+    
+    CGRect frm = CGRectZero;
+    frm.origin.y = HEIGHT_SEPARATOR_CELL;
+    frm.size.width = tableView.bounds.size.width;
+    frm.size.height = TASK_HEIGHT-frm.origin.y;
+    
+    TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
+    taskView.tag = -10000;
+    taskView.listStyle = YES;
+    
+    task.listSource = SOURCE_SMARTLIST;
+    taskView.task = task;
+    taskView.starEnable = (task.status != TASK_STATUS_DONE);
+    taskView.starCheck = ![task isShared];
+    taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
+    taskView.showDue = (tm.taskTypeFilter == TASK_FILTER_DUE);
+    taskView.showFlag = (tm.taskTypeFilter == TASK_FILTER_TOP);
+    taskView.showDuration = (tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT);
+    [taskView refreshStarImage];
+    [taskView refreshCheckImage];
+    //[taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
+    [taskView enableMove:YES];
+    taskView.touchHoldEnable = YES;
+    taskView.movableController = self.movableCtrler;
+    taskView.showSeparator = NO;
+    
+    if (task.isMultiEdit)
     {
-        SmartListViewController *ctrler = [_abstractViewCtrler getSmartListViewController];
-        
-        [cell.contentView addSubview:ctrler.quickAddPlaceHolder];
-        
-        UITextField *quickAddTextField = [ctrler.quickAddPlaceHolder.subviews objectAtIndex:0];
-        
-        if (quickAddTextField.tag == -2)
-        {
-            //quick add more
-            [quickAddTextField becomeFirstResponder];
-        }
+        [taskView multiSelect:YES];
     }
-    else*/
-    {
-        //NSDate *key = [self.listKeys objectAtIndex:indexPath.section-1];
-        NSDate *key = [self.listKeys objectAtIndex:indexPath.section];
-        
-        NSArray *list = [self.taskDict objectForKey:key];
-        
-        TaskManager *tm = [TaskManager getInstance];
-        
-        Task *task = [list objectAtIndex:indexPath.row];
-        
-        CGRect frm = CGRectZero;
-        //frm.origin.y = 0;
-        //frm.origin.x = 0;
-        
-        frm.size.width = tableView.bounds.size.width;
-        frm.size.height = TASK_HEIGHT;
-        
-        TaskView *taskView = [[TaskView alloc] initWithFrame:frm];
-        taskView.tag = -10000;
-        taskView.listStyle = YES;
-        
-        task.listSource = SOURCE_SMARTLIST;
-        taskView.task = task;
-        taskView.starEnable = (task.status != TASK_STATUS_DONE);
-        taskView.starCheck = ![task isShared];
-        taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
-        taskView.showDue = (tm.taskTypeFilter == TASK_FILTER_DUE);
-        taskView.showFlag = (tm.taskTypeFilter == TASK_FILTER_TOP);
-        taskView.showDuration = (tm.taskTypeFilter == TASK_FILTER_LONG || tm.taskTypeFilter == TASK_FILTER_SHORT);
-        [taskView refreshStarImage];
-        [taskView refreshCheckImage];
-        //[taskView enableMove:![task checkMustDo] && tm.taskTypeFilter != TASK_FILTER_DONE];
-        [taskView enableMove:YES];
-        taskView.touchHoldEnable = YES;
-        taskView.movableController = self.movableCtrler;
-        
-        if (task.isMultiEdit)
-        {
-            [taskView multiSelect:YES];
-        }
-        
-        [cell.contentView addSubview:taskView];
-        [taskView release];
-    }
+    
+    [cell.contentView addSubview:taskView];
+    [taskView release];
     
     return cell;
 }

@@ -40,18 +40,16 @@ extern iPadViewController *_iPadViewCtrler;
     return NO;
 }
 
-- (UIView *) layoutObject:(Task *)task reusableView:(UIView *)reusableView
-{
+- (UIView *)layoutObject:(Task *)task reusableView:(UIView *)reusableView {
 	CGRect lastFrame = (lastView == nil? CGRectZero:lastView.frame);
 	
 	CGRect frm = CGRectZero;
-	frm.origin.y = lastFrame.origin.y + lastFrame.size.height + TASK_PAD_HEIGHT;
-	frm.origin.x = 0;
-    
+    frm.origin.x = 0;
+    frm.origin.y = lastFrame.origin.y + lastFrame.size.height + HEIGHT_SEPARATOR_CELL;
     frm.size.width = self.viewContainer.bounds.size.width;
-	frm.size.height = 55;
+	frm.size.height = TASK_HEIGHT;
 	
-	TaskView *taskView = reusableView;
+    TaskView *taskView = (TaskView *)reusableView;
 	
 	if (taskView != nil)
 	{
@@ -70,7 +68,7 @@ extern iPadViewController *_iPadViewCtrler;
     taskView.listStyle = YES;
     taskView.starEnable = NO;
     taskView.checkEnable = !_iPadViewCtrler.inSlidingMode && ![task isShared];
-    taskView.showSeparator = YES;
+    taskView.showSeparator = NO;
     [taskView enableMove:_isiPad?![task isShared]:NO];
     taskView.touchHoldEnable = YES;
     [taskView refreshCheckImage];
@@ -78,7 +76,6 @@ extern iPadViewController *_iPadViewCtrler;
     [taskView setNeedsDisplay];
 	
 	return taskView;
-
 }
 
 - (NSMutableArray *) getObjectList

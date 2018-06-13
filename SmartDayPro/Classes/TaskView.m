@@ -417,19 +417,16 @@ extern SmartDayViewController *_sdViewCtrler;
     //UIColor *textColor = (isList?[UIColor blackColor]:[UIColor whiteColor]);
     UIColor *textColor = [[ProjectManager getInstance] getProjectColor0:task.project];
     
-    if ([task isNote])
-    {
-        //NSString *name = [task.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        
+    if ([task isNote]) {
         NSString *infoStr = [task.note stringByReplacingOccurrencesOfString:task.name withString:@""];
-        
-        ////printf("text after replace: %s, note:%s, name:%s\n", [infoStr UTF8String], [task.note UTF8String], [task.name UTF8String]);
         
         infoStr = [[infoStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%C%C",0x2705,0x274E]]] componentsJoinedByString:@""];
         
         infoStr = [infoStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         CGRect textRec = rect;
+        textRec.origin.x = 16;
+        textRec.size.width -= 16;
         
         // margin
         CGFloat margin = 4;
@@ -727,31 +724,30 @@ extern SmartDayViewController *_sdViewCtrler;
     [timeStr drawInRect:frm withAttributes:@{NSFontAttributeName: font, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: color}];
 }
 
-- (void) drawDateTime:(CGRect)rect context:(CGContextRef) ctx
-{	
-	//Task *task = (Task *) self.tag;
-    
+- (void)drawDateTime:(CGRect)rect context:(CGContextRef)ctx {
     NSString *dateStr1 = [Common getFullDateString:task.startTime];
-    NSString *dateStr2 = [task isADE]? 
-        [Common getFullDateString:task.endTime]:
-        ([task isEvent]?[NSString stringWithFormat:@"%@ - %@", [Common getShortTimeString:task.startTime], [Common getShortTimeString:task.endTime]]:[Common getShortTimeString:task.startTime]);
-    
-    
-    UIFont *font = [UIFont fontWithName:@"Helvetica" size:12];
-    
-    //CGSize sz = [@"A" sizeWithFont:font];
-    CGSize sz = [@"A" sizeWithAttributes:@{NSFontAttributeName:font}];
-    
-    CGFloat dy = (rect.size.height - 2*sz.height)/3;
-    
-    CGRect frm = CGRectMake(rect.origin.x, dy, rect.size.width, sz.height);
-    
+    NSString *dateStr2 = [task isADE] ? [Common getFullDateString:task.endTime] : ([task isEvent] ?
+                                                                                        [NSString stringWithFormat:@"%@ - %@",
+                                                                                        [Common getShortTimeString:task.startTime],
+                                                                                        [Common getShortTimeString:task.endTime]] :
+                                                                                        [Common getShortTimeString:task.startTime]);
     ProjectManager *pm = [ProjectManager getInstance];
     UIColor *dimProjectColor = [pm getProjectColor1:self.task.project];
-    
-//    UIColor *color = (self.listStyle || self.focusStyle)?[UIColor blackColor]:[Colors snow2];
     UIColor *color = (self.listStyle || self.focusStyle) ? dimProjectColor : [Colors snow2];
     
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:12];
+    CGSize sz = [@"A" sizeWithAttributes:@{NSFontAttributeName:font}];
+    CGFloat dy = (rect.size.height - 2*sz.height)/3;
+    CGFloat widthDateString = [Common sizeWithString:dateStr1 andFont:font].width;
+    CGRect frm = CGRectMake(rect.origin.x, dy, widthDateString, sz.height);
+    
+    if ([task isNote]) {
+        color = (self.listStyle || self.focusStyle) ? [UIColor blackColor] : [Colors snow2];
+        font = [UIFont systemFontOfSize:12 weight:UIFontWeightThin];
+        widthDateString = [Common sizeWithString:dateStr1 andFont:font].width;
+        frm = CGRectMake(rect.origin.x, dy, widthDateString, sz.height);
+    }
+
     /*[color set];
 
     [dateStr1 drawInRect:frm withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];*/
@@ -768,7 +764,6 @@ extern SmartDayViewController *_sdViewCtrler;
     
     //[dateStr2 drawInRect:frm withFont:font lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentRight];
     [dateStr2 drawInRect:frm withAttributes:@{NSFontAttributeName: font, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: color}];
-        
 }
 
 - (void) drawTime:(CGRect)rect context:(CGContextRef) ctx
@@ -2347,7 +2342,7 @@ extern SmartDayViewController *_sdViewCtrler;
     }
     
     if (([task isEvent] || [task isNote]) && hasTime) {
-        frm = CGRectMake(0, 0, [task isNote] || [task isADE]?70:90, rect.size.height);
+        frm = CGRectMake(0, 0, [task isNote] || [task isADE] ? 70 : 90, rect.size.height);
         
         frm.origin.x = rect.origin.x + rect.size.width - frm.size.width - SPACE_PAD;
         frm.origin.y = (rect.size.height-frm.size.height)/2;
@@ -2726,8 +2721,7 @@ extern SmartDayViewController *_sdViewCtrler;
     self.layer.cornerRadius = ([task isTask]?3:0);
     self.layer.borderWidth = 0.25;
     self.layer.borderColor = [prjColor CGColor];
-//    self.layer.backgroundColor = [[prjColor colorWithAlphaComponent:0.4] CGColor];
-    self.layer.backgroundColor = [Common lighterColorForColor:prjColor].CGColor;
+    self.layer.backgroundColor = [[prjColor colorWithAlphaComponent:0.4] CGColor];
     
     if (self.transparent) {
         UIColor *color = [UIColor colorWithPatternImage:[UIImage imageNamed:@"transparent_pattern.png"]];

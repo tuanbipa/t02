@@ -181,7 +181,7 @@
     frm = contentView.bounds;
 	
     listView = [[ContentScrollView alloc] initWithFrame:frm];
-    listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    listView.contentSize = CGSizeMake(frm.size.width, frm.size.height);
     listView.backgroundColor = [UIColor clearColor];
 	listView.delegate = self;
 	listView.scrollsToTop = NO;

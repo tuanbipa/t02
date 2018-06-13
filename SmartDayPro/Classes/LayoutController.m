@@ -92,16 +92,17 @@
         
 		CGSize size = scrollView.bounds.size;
         
-        size.height = 1.2*scrollView.bounds.size.height;
+        size.height = scrollView.bounds.size.height;
 
 		if (lastView != nil)
 		{
             CGFloat lastH = lastView.frame.origin.y + lastView.frame.size.height;
-			size.height = lastH + scrollView.bounds.size.height/2;
+//            size.height = lastH + scrollView.bounds.size.height/2;
+            size.height = lastH;
             
             if (size.height < scrollView.bounds.size.height)
             {
-                size.height = 1.2*scrollView.bounds.size.height;
+                size.height = scrollView.bounds.size.height;
             }
 		}
         

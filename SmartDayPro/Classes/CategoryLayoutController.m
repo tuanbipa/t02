@@ -56,8 +56,9 @@ extern iPadViewController *_iPadViewCtrler;
 	CGRect lastFrame = (lastView == nil? CGRectOffset(CGRectZero, 0, TASK_PAD_HEIGHT):lastView.frame);
 	
 	CGRect frm = CGRectZero;
-	frm.origin.y = lastFrame.origin.y + lastFrame.size.height + TASK_PAD_HEIGHT;
     frm.origin.x = 0 + indent;
+    //    frm.origin.y = lastFrame.origin.y + lastFrame.size.height + TASK_PAD_HEIGHT;
+    frm.origin.y = lastFrame.origin.y + lastFrame.size.height + HEIGHT_SEPARATOR_CELL;
     frm.size.width = self.viewContainer.bounds.size.width - indent;
     frm.size.height = TASK_HEIGHT;
     
@@ -67,7 +68,7 @@ extern iPadViewController *_iPadViewCtrler;
         
         PlanView *planView = [[PlanView alloc] initWithFrame:frm];
         //planView.tag = obj;
-        planView.project = obj;
+        planView.project = (Project *)obj;
         planView.listStyle = YES;
         planView.listType = ctrler.filterType;
         

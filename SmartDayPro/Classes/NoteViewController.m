@@ -645,7 +645,7 @@ extern SmartDayViewController *_sdViewCtrler;
                         selectedStateImage:nil];
 
     emptyNoteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    emptyNoteButton.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
+    emptyNoteButton.contentEdgeInsets = UIEdgeInsetsMake(0, 16, 0, 0);
     emptyNoteButton.titleLabel.font=[UIFont systemFontOfSize:FONT_SIZE_PLACEHOLDER];
     emptyNoteButton.backgroundColor = [Common colorDefaultProject];
     [contentView addSubview:emptyNoteButton];
@@ -655,7 +655,7 @@ extern SmartDayViewController *_sdViewCtrler;
     frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
 
     noteListView = [[ContentScrollView alloc] initWithFrame:frm];
-    noteListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    noteListView.contentSize = CGSizeMake(frm.size.width, frm.size.height);
     noteListView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
 
 	noteListView.scrollEnabled = YES;

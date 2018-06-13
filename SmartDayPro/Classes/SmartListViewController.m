@@ -3018,40 +3018,22 @@ SmartListViewController *_smartListViewCtrler;
     CGRect frm = CGRectZero;
     frm.size = [Common getScreenSize];
     frm.size.height += [Common heightTabbar];
-    
     frm.size.width = _isiPad ? 364 : frm.size.width;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    //[contentView enableSwipe];
-	
 	self.view = contentView;
 	[contentView release];
     
     frm = contentView.bounds;
-//    frm.origin.y = 40;
-//    frm.size.height -= 40 + (settings.tabBarAutoHide?0:40);
-    
     frm.origin.y = HEIGHT_QUICK_ADD_VIEW;
     frm.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
 
-	
-    //smartListView = [[ContentScrollView alloc] initWithFrame:contentView.bounds];
     smartListView = [[ContentPullTableView alloc] initWithFrame:frm];
-    //smartListView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    smartListView.separatorStyle = UITableViewCellSelectionStyleNone;
     smartListView.backgroundColor = [UIColor whiteColor];
-	//smartListView.delegate = self;
-	//smartListView.scrollsToTop = NO;
 	smartListView.showsVerticalScrollIndicator = YES;
-	
 	[contentView addSubview:smartListView];
-    //listTableViewCtrler.tableView = smartListView;
 	[smartListView release];
-    
-    //[self enableRefreshControl:YES];
-    
-    //listTableViewCtrler.view.frame = frm;
-    
-    //[contentView addSubview:listTableViewCtrler.view];
     
     maskView = [[UIView alloc] initWithFrame:CGRectMake(0, HEIGHT_QUICK_ADD_VIEW, frm.size.width, frm.size.height-HEIGHT_QUICK_ADD_VIEW)];
     [contentView addSubview:maskView];
@@ -3076,7 +3058,7 @@ SmartListViewController *_smartListViewCtrler;
 	quickAddTextField.borderStyle = UITextBorderStyleNone;
 	quickAddTextField.keyboardType = UIKeyboardTypeDefault;
 	quickAddTextField.returnKeyType = UIReturnKeyDone;
-	quickAddTextField.font=[UIFont systemFontOfSize:16];
+	quickAddTextField.font=[UIFont systemFontOfSize:FONT_SIZE_PLACEHOLDER];
 	quickAddTextField.placeholder = _quickAddNewTask;
     quickAddTextField.backgroundColor = [UIColor clearColor];
     [quickAddPlaceHolder addSubview:quickAddTextField];

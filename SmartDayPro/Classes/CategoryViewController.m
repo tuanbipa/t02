@@ -408,7 +408,7 @@ extern iPadViewController *_iPadViewCtrler;
     frame.size.height -= HEIGHT_QUICK_ADD_VIEW + (settings.tabBarAutoHide ? 0 : [Common heightTabbar]);
     
     listView.frame = frame;
-    listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    listView.contentSize = CGSizeMake(frm.size.width, frm.size.height);
     
     maskView.frame = CGRectMake(0, 40, frm.size.width, frm.size.height-40);
     
@@ -441,7 +441,7 @@ extern iPadViewController *_iPadViewCtrler;
     
     listView = [[ContentScrollView alloc] initWithFrame:frm];
     listView.contentInset = UIEdgeInsetsMake(-4, 0, 0, 0);
-    listView.contentSize = CGSizeMake(frm.size.width, 1.2*frm.size.height);
+    listView.contentSize = CGSizeMake(frm.size.width, frm.size.height);
     
     listView.backgroundColor = [UIColor clearColor];
     listView.delegate = self;
