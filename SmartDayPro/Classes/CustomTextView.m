@@ -26,7 +26,7 @@ AbstractSDViewController *_abstractViewCtrler;
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         //self.font = [UIFont fontWithName:@"marker felt" size:17];
-        self.font = [UIFont fontWithName:@"Helvetica" size:20];
+        self.font = [UIFont fontWithName:@"Helvetica" size:17];
         
     }
     return self;

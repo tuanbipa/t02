@@ -38,6 +38,8 @@
 #import "iPadViewController.h"
 #import "SmartDayViewController.h"
 #import "PlannerView.h"
+#import "Common.h"
+#import "FontManager.h"
 
 extern AbstractSDViewController *_abstractViewCtrler;
 extern PlannerViewController *_plannerViewCtrler;
@@ -50,7 +52,7 @@ extern SmartDayViewController *_sdViewCtrler;
 
 PreviewViewController *_previewCtrler;
 
-@interface PreviewViewController ()
+@interface PreviewViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @end
 
@@ -467,17 +469,14 @@ PreviewViewController *_previewCtrler;
 
 #pragma mark View
 
-- (void) loadView
-{
-    CGRect frm = CGRectMake(0, 0, 320, 416);
+- (void) loadView {
+    CGSize screenSize = [Common getScreenSize];
+    CGRect frm = CGRectZero;
+    frm.size = screenSize;
     
     contentView = [[ContentView alloc] initWithFrame:frm];
-    //contentView.backgroundColor = [UIColor colorWithRed:219.0/255 green:222.0/255 blue:227.0/255 alpha:1];
-    
-    contentView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
-    
+    contentView.backgroundColor = [UIColor whiteColor];
     self.view = contentView;
-    
     [contentView release];
     
     frm = contentView.bounds;
@@ -560,27 +559,26 @@ PreviewViewController *_previewCtrler;
 }
 
 #pragma mark Cell Creation
-- (void) createEmptyNoteCell:(UITableViewCell *)cell expanded:(BOOL)expanded
-{
+- (void) createEmptyNoteCell:(UITableViewCell *)cell expanded:(BOOL)expanded {
     CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 40);
     
 	UIButton *emptyNoteButton = [Common createButton:_tapToAddNote
                                 buttonType:UIButtonTypeCustom
                                      frame:frm
-                                titleColor:[UIColor lightGrayColor]
+                                titleColor:COLOR_TEXT_OBJECT_DETAIL
                                     target:self
                                   selector:@selector(quickAddNote:)
                           normalStateImage:nil
                         selectedStateImage:nil];
-    emptyNoteButton.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG_full.png"]];
-    
+    emptyNoteButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    emptyNoteButton.backgroundColor =  [Common colorDefaultProject];
+    emptyNoteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    emptyNoteButton.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
     [cell.contentView addSubview:emptyNoteButton];
 }
 
-- (void) createNoteCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded
-{
-    if (expanded)
-    {
+- (void)createNoteCell:(UITableViewCell *)cell asset:(Task *)asset expanded:(BOOL)expanded {
+    if (expanded) {
         CGRect frm = CGRectMake(0, 0, linkTableView.bounds.size.width, 0);
         
         frm.size.height = 170;
@@ -609,7 +607,10 @@ PreviewViewController *_previewCtrler;
     
     CGFloat w = linkTableView.bounds.size.width;
     
-    UIImage *img = [pm getNoteIcon:asset.project];
+//    UIImage *img = [pm getNoteIcon:asset.project];
+    UIImage *img = [FontManager flowasticImageWithIconName:@"note-view"
+                                                   andSize:SIZE_ICON_PREVIEW
+                                                 iconColor:[Common colorWithProject:asset.project]];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     imgView.frame = CGRectMake(10, 13, img.size.width, img.size.height);
@@ -649,7 +650,16 @@ PreviewViewController *_previewCtrler;
     
     CGFloat w = linkTableView.bounds.size.width;
     
-    UIImage *img = [asset isManual]?[pm getAnchoredIcon:asset.project]:[pm getEventIcon:asset.project];
+//    UIImage *img = [asset isManual]?[pm getAnchoredIcon:asset.project]:[pm getEventIcon:asset.project];
+    UIImage *imgEvent = [FontManager flowasticImageWithIconName:@"event"
+                                                   andSize:SIZE_ICON_PREVIEW
+                                                 iconColor:[Common colorWithProject:asset.project]];
+    
+    UIImage *imgAnchored = [FontManager flowasticImageWithIconName:@"star"
+                                                        andSize:SIZE_ICON_PREVIEW
+                                                      iconColor:[Common colorWithProject:asset.project]];
+    
+    UIImage *img = [asset isManual] ? imgAnchored : imgEvent;
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     imgView.frame = CGRectMake(10, 13, img.size.width, img.size.height);
@@ -657,7 +667,8 @@ PreviewViewController *_previewCtrler;
     [cell.contentView addSubview:imgView];
     [imgView release];
     
-    CGFloat rightWidth = expanded?0:([asset isADE]?70:90);
+//    CGFloat rightWidth = expanded?0:([asset isADE]?70:90);
+    CGFloat rightWidth = expanded?0:([asset isADE]?80:100);
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, w-30-rightWidth-10, 20)];
     titleLabel.textColor = color;
@@ -836,7 +847,10 @@ PreviewViewController *_previewCtrler;
     
     CGFloat w = linkTableView.bounds.size.width;
     
-    UIImage *img = [pm getTaskIcon:asset.project];
+//    UIImage *img = [pm getTaskIcon:asset.project];
+    UIImage *img = [FontManager flowasticImageWithIconName:@"undone"
+                                                        andSize:SIZE_ICON_PREVIEW
+                                                      iconColor:[Common colorWithProject:asset.project]];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     imgView.frame = CGRectMake(10, 10, img.size.width, img.size.height);
@@ -967,7 +981,7 @@ PreviewViewController *_previewCtrler;
     
     webView.safariEnabled = YES;
     
-    NSString *url = [NSString stringWithFormat:@"<a style='font-size:14px;font-family:Helvetica' href='%@'>%@</a>", asset.urlValue, asset.urlValue];
+    NSString *url = [NSString stringWithFormat:@"<a style='font-size:16px;font-family:Helvetica;color:#2C7CF6;' href='%@'>%@</a>", asset.urlValue, asset.urlValue];
     
     [webView loadHTMLContent:url];
     
@@ -978,18 +992,11 @@ PreviewViewController *_previewCtrler;
 
 #pragma mark UITableView Delegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger count = self.linkList.count;
     
     if (!hasNote && ![self.item isNote]) //don't show 'quick add note' for Note

@@ -2040,9 +2040,7 @@ DetailViewController *_detailViewCtrler = nil;
 	[deleteLabel release];
 }
 
-- (void) createShowMoreCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag
-
-{
+- (void)createShowMoreCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag {
     cell.accessoryType = UITableViewCellAccessoryNone;
     //cell.contentView.backgroundColor = [UIColor blueColor];
     
@@ -2055,13 +2053,12 @@ DetailViewController *_detailViewCtrler = nil;
 	showMoreLabel.tag = baseTag;
 	showMoreLabel.text = _showMoreText;
 	showMoreLabel.backgroundColor = [UIColor clearColor];
-	showMoreLabel.font = [UIFont italicSystemFontOfSize:16];
-	showMoreLabel.textColor = [Colors darkSlateGray];
+	showMoreLabel.font = [UIFont systemFontOfSize:16];
+	showMoreLabel.textColor = COLOR_BACKGROUND_ICON_FILTER_SEL;
     showMoreLabel.textAlignment = NSTextAlignmentCenter;
 	
 	[cell.contentView addSubview:showMoreLabel];
 	[showMoreLabel release];
-
 }
 
 - (void) createCommentCell:(UITableViewCell *)cell baseTag:(NSInteger)baseTag

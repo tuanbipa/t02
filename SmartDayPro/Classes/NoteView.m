@@ -51,7 +51,7 @@ extern iPadViewController *_iPadViewCtrler;
         self.showNoteContentView = NO;
         
         noteBgScrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        noteBgScrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noteBG_full.png"]];
+        noteBgScrollView.backgroundColor = [UIColor whiteColor];
         
         [self addSubview:noteBgScrollView];
         [noteBgScrollView release];
