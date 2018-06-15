@@ -195,9 +195,17 @@ extern SmartDayViewController *_sdViewCtrler;
     
     UIView *contentView = [[UIView alloc] initWithFrame:frm];
     self.view = contentView;
+    self.view.backgroundColor = [UIColor whiteColor];
     [contentView release];
     
-    listTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
+    CGRect frameTable = frm;
+    if ([Common isIpX]) {
+        frameTable.origin.x = [Common heightStatusBar];
+        frameTable.size.width = frm.size.width - frameTable.origin.x - HEIGHT_Indicator_HOME;
+    }
+    
+//    listTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
+    listTableView = [[UITableView alloc] initWithFrame:frameTable style:UITableViewStylePlain];
     listTableView.backgroundColor = [UIColor whiteColor];
     listTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     listTableView.separatorColor = COLOR_LINE;

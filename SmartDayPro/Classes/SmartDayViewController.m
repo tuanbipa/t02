@@ -296,7 +296,7 @@ extern BOOL _detailHintShown;
         CGRect frameArrow = arrowDownImgView.frame;
         frameArrow.origin.x = (contentView.frame.size.width - SIZE_ARROW_ICON)/2;
         arrowDownImgView.frame = frameArrow;
-        arrowDownImgView.hidden = NO;
+        arrowDownImgView.hidden = [Common isScreenLandscape] ? YES : NO;
         
         if ([self.activeViewCtrler isKindOfClass:[WeekViewController class]])
         {

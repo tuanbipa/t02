@@ -2070,4 +2070,8 @@ void fillRoundedRect (CGContextRef context, CGRect rect,
     return [pm getProjectColor0:projectNumber];
 }
 
++ (BOOL)isScreenLandscape {
+    return UIInterfaceOrientationIsLandscape([Common currentOrientation]);
+}
+
 @end
