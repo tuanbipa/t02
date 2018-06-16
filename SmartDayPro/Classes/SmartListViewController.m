@@ -2166,6 +2166,43 @@ SmartListViewController *_smartListViewCtrler;
         self.quickAddOption = 3;
         
         [self refreshQuickAddOption];
+        
+        // Update font size for BarButtonItem on UIToolbar
+        CGFloat fontSize = 0;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            fontSize = 17;
+        }
+        else {
+            switch ([Common currentDevice]) {
+                case Screen4inch:
+                    fontSize = 10;
+                    break;
+                    
+                case Screen4Dot7inch:
+                case Screen5Dot8inch:
+                    fontSize = 12;
+                    break;
+                    
+                case Screen5Dot5inch:
+                    fontSize = 13;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        
+        NSArray *viewSubviews = ((UIView *)[views firstObject]).subviews;
+        UIFont *fontItem = [UIFont systemFontOfSize:fontSize];
+        if (viewSubviews.count > 0) {
+            id toolbar = [viewSubviews firstObject];
+            if ([toolbar isKindOfClass:[UIToolbar class]]) {
+                UIToolbar *toolbarTask = (UIToolbar *)toolbar;
+                for (UIBarButtonItem *item in toolbarTask.items) {
+                    [item setTitleTextAttributes:@{NSFontAttributeName: fontItem} forState:UIControlStateNormal];
+                }
+            }
+        }
     }
     
 	return YES;

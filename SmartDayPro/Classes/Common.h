@@ -724,6 +724,7 @@ typedef enum
 + (CGFloat)heightNavigationbarAtLandscapeMode;
 + (UIColor *)colorProjectWithProject:(NSInteger)projectNumber;
 + (BOOL)isScreenLandscape;
++ (DeviceSize)currentDevice;
 
 @end
 
