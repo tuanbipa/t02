@@ -2832,6 +2832,11 @@
 		891B308120A9ABFC00E0EE92 /* FontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B308020A9ABFB00E0EE92 /* FontManager.m */; };
 		891B308220A9ABFC00E0EE92 /* FontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B308020A9ABFB00E0EE92 /* FontManager.m */; };
 		891B308320A9ABFC00E0EE92 /* FontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 891B308020A9ABFB00E0EE92 /* FontManager.m */; };
+		89C14F4B20D773A100B3D557 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C14F4820D773A000B3D557 /* Fabric.framework */; };
+		89C14F4C20D773A100B3D557 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C14F4920D773A000B3D557 /* Crashlytics.framework */; };
+		89C14F4D20D773A100B3D557 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C14F4A20D773A100B3D557 /* Security.framework */; };
+		89C14F4F20D775C000B3D557 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C14F4E20D775BF00B3D557 /* libc++.tbd */; };
+		89C14F5120D775C700B3D557 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C14F5020D775C700B3D557 /* libz.tbd */; };
 		960DC65B19F902F300C69579 /* bar_comments@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65219F902F300C69579 /* bar_comments@3x.png */; };
 		960DC65C19F902F300C69579 /* bar_eye_blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65319F902F300C69579 /* bar_eye_blue@3x.png */; };
 		960DC65D19F902F300C69579 /* bar_eye@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 960DC65419F902F300C69579 /* bar_eye@3x.png */; };
@@ -4403,6 +4408,11 @@
 		891B307820A9AB7500E0EE92 /* moodfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = moodfont.ttf; sourceTree = "<group>"; };
 		891B307F20A9ABFB00E0EE92 /* FontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontManager.h; sourceTree = "<group>"; };
 		891B308020A9ABFB00E0EE92 /* FontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontManager.m; sourceTree = "<group>"; };
+		89C14F4820D773A000B3D557 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
+		89C14F4920D773A000B3D557 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		89C14F4A20D773A100B3D557 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		89C14F4E20D775BF00B3D557 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		89C14F5020D775C700B3D557 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		960DC65219F902F300C69579 /* bar_comments@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_comments@3x.png"; sourceTree = "<group>"; };
 		960DC65319F902F300C69579 /* bar_eye_blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_eye_blue@3x.png"; sourceTree = "<group>"; };
 		960DC65419F902F300C69579 /* bar_eye@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_eye@3x.png"; sourceTree = "<group>"; };
@@ -4597,6 +4607,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89C14F5120D775C700B3D557 /* libz.tbd in Frameworks */,
+				89C14F4F20D775C000B3D557 /* libc++.tbd in Frameworks */,
+				6748B91C180401820043A80E /* SystemConfiguration.framework in Frameworks */,
+				89C14F4D20D773A100B3D557 /* Security.framework in Frameworks */,
 				6748B911180401820043A80E /* MapKit.framework in Frameworks */,
 				6748B912180401820043A80E /* CoreLocation.framework in Frameworks */,
 				6748B913180401820043A80E /* AudioToolbox.framework in Frameworks */,
@@ -4607,11 +4621,12 @@
 				6748B918180401820043A80E /* AddressBookUI.framework in Frameworks */,
 				6748B919180401820043A80E /* AVFoundation.framework in Frameworks */,
 				6748B91A180401820043A80E /* libsqlite3.0.dylib in Frameworks */,
+				89C14F4C20D773A100B3D557 /* Crashlytics.framework in Frameworks */,
 				6748B91B180401820043A80E /* QuartzCore.framework in Frameworks */,
-				6748B91C180401820043A80E /* SystemConfiguration.framework in Frameworks */,
 				6748B91D180401820043A80E /* Foundation.framework in Frameworks */,
 				6748B91E180401820043A80E /* UIKit.framework in Frameworks */,
 				6748B91F180401820043A80E /* CoreGraphics.framework in Frameworks */,
+				89C14F4B20D773A100B3D557 /* Fabric.framework in Frameworks */,
 				6748B920180401820043A80E /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4926,6 +4941,8 @@
 		67CF2B23161950D7001FE1AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				89C14F5020D775C700B3D557 /* libz.tbd */,
+				89C14F4E20D775BF00B3D557 /* libc++.tbd */,
 				A2587D8F17CF4D450097CA51 /* MapKit.framework */,
 				A2A8BA6A17C3710200EB4C64 /* CoreLocation.framework */,
 				67E506BD16F2BF1E00DCFE06 /* AudioToolbox.framework */,
@@ -6267,6 +6284,9 @@
 		891B301720A9A47D00E0EE92 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				89C14F4920D773A000B3D557 /* Crashlytics.framework */,
+				89C14F4820D773A000B3D557 /* Fabric.framework */,
+				89C14F4A20D773A100B3D557 /* Security.framework */,
 				51CD2A5E20B5A3A400592981 /* font-smartday-15May */,
 				514D392B20B5C67300865DE5 /* smartday.strings */,
 				891B307720A9AB7500E0EE92 /* moodfont.strings */,
@@ -6353,6 +6373,7 @@
 				6748B83F180401820043A80E /* Sources */,
 				6748B910180401820043A80E /* Frameworks */,
 				6748B921180401820043A80E /* Resources */,
+				89C14F4720D7735200B3D557 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -6405,6 +6426,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Left Coast Logic";
+				TargetAttributes = {
+					6748B83E180401820043A80E = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = 67CF2B1A161950D7001FE1AA /* Build configuration list for PBXProject "SmartDayPro" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -8935,6 +8961,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		89C14F4720D7735200B3D557 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 991cea168f1bbe9b3d5af6ddf1e853f02eec487c 7b780b92bb10fdc9fa1069b1a2aa78e973d64392f6c2d6f4b911785da4cf7fcb";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6748B83F180401820043A80E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -9691,6 +9733,12 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDay-Info.plist";
@@ -9701,6 +9749,7 @@
 				);
 				PRODUCT_NAME = SmartDay;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -9711,7 +9760,13 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDay-Info.plist";
@@ -9722,6 +9777,7 @@
 				);
 				PRODUCT_NAME = SmartDay;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -9732,7 +9788,13 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartDayPro/SmartDayPro-Prefix.pch";
 				INFOPLIST_FILE = "SmartDay-Info.plist";
@@ -9747,6 +9809,7 @@
 				);
 				PRODUCT_NAME = SmartDay;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

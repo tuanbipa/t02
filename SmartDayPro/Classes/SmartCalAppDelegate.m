@@ -57,6 +57,9 @@
 #import "TestFlight.h"
 #import "Location.h"
 #import "LocationManager.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 // 1000 * 60 * 5
 //#define GEOCODE_FENCING_TIME 30.0
@@ -488,6 +491,8 @@ BOOL _fromBackground = NO;
 //- (void)applicationDidFinishLaunching:(UIApplication *)application
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Fabric with:@[[Crashlytics class]]];
+
     //[self testSound];
     _isiPad = [self checkiPad];
 	_is24HourFormat = [self check24HourFormat];
